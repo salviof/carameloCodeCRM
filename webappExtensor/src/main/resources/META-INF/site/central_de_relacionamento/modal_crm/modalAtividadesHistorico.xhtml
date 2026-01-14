@@ -1,0 +1,34 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:p="http://primefaces.org/ui">
+
+
+
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+            border: 1px solid #ddd;
+        }
+
+        ul li {
+            padding: 8px 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        ul li:last-child {
+            border-bottom: none
+        }
+
+
+    </style>
+
+
+    <CRM:atividadesEmpresaHistorico   empresa="#{pgModalProspecto.prospectoSelecionado}"/>
+
+
+
+
+</ui:composition>

@@ -1,0 +1,164 @@
+<ui:composition
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <p:tabView  dynamic="true" cache="true"   >
+
+
+        <p:tab title="Dados Básicos"   >
+
+
+            <h:form>
+                <div class="Card ajustesCard" >
+                    #{pgModalProspecto.prospectoSelecionado}
+
+                    <div class="CardTopic">
+                        Edição Rápida de Prospecto
+                        <i class="fa fa-edit Fs30 Fleft MarRight10"></i>
+
+                    </div>
+
+                    <div class="Container50" >
+                        <crm:logoEmpresaEditor item="#{pgModalProspecto.prospectoSelecionado}" somenteLeitura="#{false}" />
+
+                    </div>
+
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('nome')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('site')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('telefonePrincipal')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+
+
+
+
+
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('porte')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('origem')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+                    <div class="Container50" >
+                        <SBInput:input
+                            registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('responsavel')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                            />
+                    </div>
+                </div>
+                <div class="Container50" >
+                    <SBInput:input
+                        registro="#{pgModalProspecto.prospectoSelecionado.getCampoByNomeOuAnotacao('observacap')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+
+                        />
+                </div>
+                <div class="Container100"  >
+                    <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoes()}"
+                                           acao="#{pgModalProspecto.acaoSalvarAlteracoes}"
+                                           tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                           />
+                </div>
+
+
+            </h:form>
+        </p:tab>
+        <p:tab title="Dados de Atividade ">
+            <h:form>
+                <p:fieldset >
+                    <c:forEach items="#{pgModalProspecto.prospectoSelecionado.dadosColetados}" var="dado" >
+
+                        <div class="Container3" >
+                            <c:catch >
+                                <SBInput:input registro="#{dado.campoInstanciado}"
+                                               desabilitarEdicao="false"
+                                               layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                            </c:catch>
+                        </div>
+                    </c:forEach>
+                </p:fieldset>
+                <div class="Container12"  >
+
+
+                    <p:commandButton onmousedown="esconderTooltips();"
+                                     styleClass="btnIconeENome botao"
+                                     icon="#{pgModalProspecto.acaoSalvarDadosDinamicos.iconeAcao}"
+
+                                     update="#{pgUtil.makeCaminhoCompletoID(idUpdate)}"
+                                     value="#{pgModalProspecto.acaoSalvarDadosDinamicos.nomeAcao}"
+                                     oncomplete="#{javaScriptOncomplete}"
+                                     action="#{pgModalProspecto.salvarDAdosColetados()}"
+                                     >
+
+                    </p:commandButton>
+
+
+
+                </div>
+            </h:form>
+        </p:tab>
+
+
+
+
+    </p:tabView>
+
+
+
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

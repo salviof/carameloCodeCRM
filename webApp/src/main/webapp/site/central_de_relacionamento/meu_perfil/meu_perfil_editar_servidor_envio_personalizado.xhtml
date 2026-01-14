@@ -1,0 +1,186 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:form>
+
+        <p:fieldset legend="Configure aqui seu servidor IMAP para envio e recepção"  id="minhasConfiguracoesEmail">
+
+            <p:staticMessage severity="info"
+                             summary ="Você precisa localizar sua senha e o endreço do servidor, para receber e-mail"
+                             detail ="Exemplo para configuração de servidor: mail04-ssl.m9.network"
+                             />
+            <p:panelGrid columns="6" style="width: 100%"  >
+                <h:panelGroup style="width: 10%">
+                    #{pgMeuPerfil.usuario.nome} - #{pgMeuPerfil.usuario.getCampoInstanciadoByNomeOuAnotacao('caixaPostalPrincipal').valor.email}
+                </h:panelGroup>
+                <h:panelGroup style="width: 10%">
+                    <SBInput:input
+                        desabilitarEdicao="true"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioRecepcao')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+                <h:panelGroup style="width: 400px;">
+                    <SBInput:input
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('enderecoServidorRecepcao')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+
+
+
+                <h:panelGroup style="width: 20%">
+                    <p:password
+                        value="#{pgMeuPerfil.usuario.caixaPostalPrincipal.senhaRecepcao}"
+
+                        class=" campoResponsivo  TexAlCenter #{componente.classeCSS}"
+                        autocomplete="off"
+                        redisplay="false"
+                        feedback="false"
+                        disabled="false"
+                        placeholder="Senha caixa de entrada"
+                        onfocus="this.removeAttribute('readonly');"
+                        validatorMessage="O valor informado no campo #{label} não é valido! A senha precisa conter 6 caractéres"
+                        promptLabel="Digite uma senha segura"
+                        inline="true"
+                        required="true"
+                        id="senhaUsuario"
+                        requiredMessage="O campo #{label} não foi informado! "
+                        >
+                        <f:passThroughAttribute name="readonly" value="true" />
+                        <f:validateLength minimum="6" />
+                        <p:ajax
+
+                            process="@this"
+                            event="valueChange"
+                            update="@this"
+                            />
+                    </p:password>
+                    <p:message for="senhaUsuario" />
+
+
+                </h:panelGroup>
+
+
+            </p:panelGrid>
+
+            <p:panelGrid columns="6" style="width: 100%"  >
+
+                <h:panelGroup style="width: 10%">
+                    <SBInput:input
+                        desabilitarEdicao="false"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('nomeRemetente')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+                <h:panelGroup style="width: 10%">
+                    <SBInput:input
+                        desabilitarEdicao="false"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('emailRemetente')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+
+
+
+
+                <h:panelGroup style="width: 10%">
+                    <SBInput:input
+                        desabilitarEdicao="false"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioSMTP')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+
+
+                <h:panelGroup style="width: 400px;">
+                    <SBInput:input
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{pgMeuPerfil.usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('enderecoServidorEnvio')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </h:panelGroup>
+
+                <h:panelGroup style="width: 20%">
+                    <p:password
+                        value="#{pgMeuPerfil.usuario.caixaPostalPrincipal.senhaSMTP}"
+
+                        class=" campoResponsivo  TexAlCenter #{componente.classeCSS}"
+                        autocomplete="off"
+                        redisplay="false"
+                        feedback="false"
+                        disabled="false"
+                        placeholder="Senha smtp"
+                        onfocus="this.removeAttribute('readonly');"
+                        validatorMessage="O valor informado no campo #{label} não é valido! A senha precisa conter 6 caractéres"
+                        promptLabel="Digite uma senha segura"
+                        inline="true"
+                        required="true"
+                        id="senhaUsuarioEnvio"
+                        requiredMessage="O campo #{label} não foi informado! "
+                        >
+                        <f:passThroughAttribute name="readonly" value="true" />
+                        <f:validateLength minimum="6" />
+                        <p:ajax
+
+                            process="@this"
+                            event="valueChange"
+                            update="@this"
+                            />
+                    </p:password>
+                    <p:message for="senhaUsuarioEnvio" />
+
+
+                </h:panelGroup>
+
+
+            </p:panelGrid>
+
+            <h:panelGroup style="width: 10%">
+                <p:fragment>
+                    <SBBotaoAcao:botaoDeAcao metodo="#{pgMeuPerfil.testarServidor()}"
+                                             classeEstilo="botaoLaranja"
+                                             update="minhasConfiguracoesEmail"
+
+                                             acao="#{acoesAdminCrm_ConfiguracoesGeraisMb.configuracoesGeraisCtrTestarConfiguracao}"
+                                             armazenamentoAcaoExecutada="#{pgConfiguracoes.acaoSelecionada}"
+                                             label="Testar conexão"
+                                             tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                             />
+
+                </p:fragment>
+            </h:panelGroup>
+
+            <h:panelGroup style="width: 10%">
+                <p:fragment>
+
+                    <p:commandButton actionListener="#{pgMeuPerfil.salvarConfigurcacaoServidor()}"
+                                     value="Salvar e Receber E-mails"
+                                     onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('minhasConfiguracoesEmail')}')"
+                                     oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('minhasConfiguracoesEmail')}')"
+                                     update="#{pgUtil.gerarCaminhoCompletoID('minhasConfiguracoesEmail')}"
+                                     styleClass="botaoVerde"
+                                     >
+
+                    </p:commandButton>
+
+
+                </p:fragment>
+            </h:panelGroup>
+        </p:fieldset>
+    </h:form>
+</ui:composition>
+

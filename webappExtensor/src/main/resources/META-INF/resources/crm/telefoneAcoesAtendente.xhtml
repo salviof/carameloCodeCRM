@@ -1,0 +1,45 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="telefone"
+                      required="true"/>
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup layout="block" rendered="#{pgUtilTelefone.gerarNumeroInternacional(cc.attrs.telefone)!=null}" >
+            <p:outputLabel value="#{cc.attrs.telefone}" style="width: 200px"  />
+            <p:button icon="fa fa-phone"
+                      style="margin: 5px;"
+                      href="tel://'#{pgUtilTelefone.gerarNumeroInternacional(cc.attrs.telefone)}" />
+            <p:button icon="fa fa-whatsapp"
+                      style="margin: 5px;"
+                      onclick="#{pgUtilTelefone.gerarJavascriptWhatsqpp(cc.attrs.telefone,'Olá, ')}"
+
+                      />
+            <p:button icon="fa fa-copy"
+                      id="copiarTelefone"
+                      style="margin: 5px;"
+                      onclick="alert('#{cc.attrs.telefone} copiado com sucesso')"
+                      href="#" >
+                <pe:clipboard trigger="copiarTelefone" action="copy"
+
+                              text="#{cc.attrs.telefone}"  />
+            </p:button>
+
+
+
+
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{pgUtilTelefone.gerarNumeroInternacional(cc.attrs.telefone)==null}" >
+            Sem telefone
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

@@ -1,0 +1,40 @@
+<Configure id="webAppCtx" class="org.eclipse.jetty.webapp.WebAppContext">
+    <New id="BeanManager" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg>
+            <Ref id="webAppCtx"/>
+        </Arg>
+        <Arg>BeanManager</Arg>
+        <Arg>
+            <New class="javax.naming.Reference">
+                <Arg>javax.enterprise.inject.spi.BeanManager</Arg>
+                <Arg>org.jboss.weld.resources.ManagerObjectFactory</Arg>
+                <Arg/>
+            </New>
+        </Arg>
+    </New>
+    <Set name="serverClasses">
+        <Array type="java.lang.String">
+            <Item>org.eclipse.jetty.servlet.ServletContextHandler.Decorator</Item>
+        </Array>
+    </Set>
+
+    <Call name="prependSystemClass">
+        <Arg>-javax.mail.</Arg>
+    </Call>
+    <Call name="prependServerClass">
+        <Arg>javax.mail.</Arg>
+    </Call>
+
+    <Call name="setAttribute">
+        <Arg>org.eclipse.jetty.server.Request.maxFormContentSize</Arg>
+        <Arg>
+            <Property name="jetty.maxFormContentSize" default="3000000"/>
+        </Arg>
+    </Call>
+    <Set name="maxFormContentSize">
+        <Property name="jetty.maxFormContentSize" default="3000000"/>
+    </Set>
+
+    <Set name="extraClasspath">lib/javax.mail-1.5.2.jar</Set>
+
+</Configure>

@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo" >
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
+            <c:forEach  items="#{pgClienteMeusDocs.categoriasExistentes}" var="categoria">
+
+                <h:panelGroup style="margin: 30px" layout="block" >
+                    <h:form>
+                        <SBCRM:botaoGrande acao="#{acoesClienteContato_DocumentosMbGestao.documentosFrmListarArquivosPasta}" metodo="#{pgClienteMeusDocs.abrirCategoria(categoria)}"
+                                           atualizar="#{pgClienteMeusDocs.idAreaExbicaoAcaoSelecionada}"
+                                           label="#{categoria.nome}"
+                                           icone="#{categoria.icone}"
+                                           />
+
+                    </h:form>
+                </h:panelGroup>
+
+            </c:forEach>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,100 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:panelGroup style="margin-top: 20px; height: 900px; background-color: aliceblue; padding-top: 20px;"  styleClass="Container12" layout="block" >
+
+        <h1 style="text-align: center;color:darkcyan;" class="Fs30"> Edição de assinaturas           </h1>
+
+
+
+
+        <h:form>
+            <p:dataTable var="usuario" value="#{pgConfiguracoes.usuarios}"
+                         reflow="true"
+                         id="listarUsuarios"
+                         rows="20"
+                         paginator="true"
+                         widgetVar="chamados"
+                         selection="#{pgConfiguracoes.usuarioSelecionado}"
+                         selectionMode="single"
+                         rowKey="#{usuario}"
+                         lazy="false"
+                         paginatorPosition="bottom"
+                         >
+                <f:facet name="header">
+                    <p:outputPanel>
+
+
+                    </p:outputPanel>
+                </f:facet>
+                <f:facet name="footer" >
+
+                </f:facet>
+
+                <p:ajax event="rowSelect" listener="#{pgConfiguracoes.editarAssinaturaForm()}"
+
+                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listarUsuarios')}')"
+                        />
+                <p:column
+                    sortBy="#{usuario.id}"
+                    headerText="Código" width="15px;"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}" displayPriority="0"  >
+                    #{usuario.getCampoInstanciadoByNomeOuAnotacao('id').valor}
+                </p:column>
+                <p:column headerText="Avatar" width="35px"  styleClass="Fs20"
+                          style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'} height:100px; position: relative;"
+
+                          displayPriority="1" >
+                    <div style="display: flex;
+                         justify-content: space-around;
+                         display: -webkit-flex; /* Safari */
+                         -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+                         display: flex;
+
+                         flex-wrap: wrap;">
+                        <SBCRM:avatar usuario="#{usuario}" somenteLeitura="true"  altura="92" />
+
+
+                    </div>
+
+
+                </p:column>
+                <p:column
+                    sortBy="#{usuario.nome}"
+                    filterBy="#{usuario.nome}"
+                    headerText="Nome" width="65px;"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}" displayPriority="0"  >
+                    #{usuario.getCampoInstanciadoByNomeOuAnotacao('nome').valor}
+                </p:column>
+
+                <p:column
+                    sortBy="#{usuario.email}"
+                    filterBy="#{usuario.email}"
+
+                    headerText="E-mail" width="65px;"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}" displayPriority="0"  >
+                    #{usuario.getCampoInstanciadoByNomeOuAnotacao('email').valor}
+                </p:column>
+
+
+                <p:column headerText="Tipo" width="35px"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'} "   displayPriority="2" >
+                    #{usuario.grupo.nome}
+                </p:column>
+                <p:column headerText="Ativo?" width="35px"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}"  displayPriority="2" >
+                    #{chamado.ativo}
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainerDireita " style="margin: 100px;" layout="block" >
+
+        </h:panelGroup>
+    </h:panelGroup>
+
+
+</ui:composition>

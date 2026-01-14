@@ -1,0 +1,148 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+    <ui:define name="conteudo" >
+        <div class="CardTopic " style="margin-left: 10px; height: 100px;padding: 10px;">
+            #{pgPastasdeEquipeDoConvidado.entidadeSelecionada.nome}
+            <i class="fa fa-folder-open-o Fs100 Fleft MarRight10"></i>
+            <br/>
+            <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+            <span class="CardSubTopic">
+
+            </span>
+            <h:panelGroup styleClass="Fright" style="position: relative  " layout="block">
+
+            </h:panelGroup>
+        </div>
+        <h:form>
+            <p:remoteCommand name="atualizarVisaoArquivosPessoa" actionListener="#{pgPastasdeEquipeDoConvidado.atualizarEntidadeSelecionada()}"
+                             update="arquivosDaCategoria" action="#{pgPastasdeEquipeDoConvidado.listarDados()}"
+                             >
+            </p:remoteCommand>
+        </h:form>
+        <p:fieldset  style="border: 0px;">
+            <h:form  enctype="multipart/form-data">
+                <p:fileUpload
+                    mode="advanced"  multiple="true"
+
+                    auto="true"
+                    listener="#{pgPastasdeEquipeDoConvidado.enviarArquivosEquipePessoa}"
+                    update="@parent"
+                    styleClass="inputDropArquivo"
+                    sizeLimit="285485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx|zip)$/"
+                    invalidSizeMessage="O tamanho máximo permitido é 100 KB"
+                    invalidFileMessage="Este tipo de arquivo não é permitido, apenas: png|pdf|doc|docx|xml|xmlx são permitidos"
+                    label="Procurar no meu dispositivo local"
+                    oncomplete="atualizarVisaoArquivosPessoa();"
+                    uploadLabel="Atualizar Arquivos da Pessoa"
+                    cancelLabel="Cancelar"
+
+                    >
+                    <f:attribute name="pessoa"  value="#{pgPastasdeEquipeDoConvidado.pessoa}" />
+                    <f:attribute name="categoriaEquipe"  value="#{pgPastasdeEquipeDoConvidado.entidadeSelecionada}" />
+                </p:fileUpload>
+            </h:form>
+
+            <h:panelGroup styleClass="Container12" style="margin-top: -250px; padding-left: 50%;" layout="block" >
+
+                <p:graphicImage  library="img" alt="Arraste arquivos aqui para vincular o arquivo à pessoa." name="upload-illustration.png" />
+                (ou arraste aqui)
+            </h:panelGroup>
+        </p:fieldset>
+        <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
+
+
+
+            <c:forEach  items="#{pgPastasdeEquipeDoConvidado.catSelecionada.arquivoAnexado}" var="arquivo" >
+                <h:form>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                    <p:fieldset  id="arquivos" styleClass="Container3" >
+                        <f:facet name="legend">
+                            <p:growl id="message" showDetail="true"/>
+                            <p:commandButton
+                                partialSubmit="true"
+                                process="@this"
+                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank');"
+                                icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
+                                />
+                            <p:commandButton
+
+                                partialSubmit="true"
+                                process="@this"
+                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}', '_blank');"
+                                icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
+                                />
+                            <p:commandButton
+                                partialSubmit="true"
+                                rendered="false"
+                                actionListener="#{servicosCRM.compartilhar(arquivo)}"
+                                icon="#{iconeIconeFontAwesome.REG_ENVIAR.tagHtml}"
+                                oncomplete="atualizarVisaoArquivosPessoa();"
+
+                                >
+                                <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+
+                            <p:commandButton
+                                partialSubmit="true"
+
+                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
+                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                                oncomplete="atualizarVisaoArquivosPessoa();"
+
+                                >
+                                <p:confirm header="Confirmation" message="Deseja excluir #{arquivo.nome} de forma irreversível?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                            #{arquivo.nomeCurto}
+                        </f:facet>
+
+                        <p:panelGrid columns="3" styleClass=""  style="width: 100%;" >
+                            <h:panelGroup layout="block" >Tipo</h:panelGroup>
+                            <h:panelGroup layout="block" >Criado Por</h:panelGroup>
+                            <h:panelGroup layout="block" >Criado às</h:panelGroup>
+                            <h:panelGroup layout="block" >
+
+
+                                <i class="Fs50 #{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
+
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" >
+
+                                <crm:avatar  id="criado_por" usuario="#{arquivo.usuarioCriou}" somenteLeitura="true" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" >
+
+
+                                <p:outputLabel id="dataHoraCriou" value="#{pgUtil.gerarDataHoraTexto(arquivo.dataHoraCriacao)}" />
+
+                            </h:panelGroup>
+
+
+                        </p:panelGrid>
+
+
+                        <h:panelGroup layout="block" style="width: 100%;" rendered="arquivo.dataHoraAlteracao!=null">
+                            *    Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por:      <crm:avatar usuario="#{arquivo.usuarioAlteracao}" somenteLeitura="true" />
+                        </h:panelGroup>
+
+                    </p:fieldset>
+                </h:form>
+
+            </c:forEach>
+
+        </p:fieldset>
+
+    </ui:define>
+</ui:composition>

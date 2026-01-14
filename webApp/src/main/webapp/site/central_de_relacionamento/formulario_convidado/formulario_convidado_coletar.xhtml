@@ -1,0 +1,88 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+
+    <h:panelGroup  styleClass="Fright" >
+        <div class="alert alert-info" >
+            <strong>Bem Vindo!</strong>
+            Você foi convidado para colaborar com uma Atividade. Por favor, preencha os seguintes dados.
+        </div>
+    </h:panelGroup>
+
+
+    <h:panelGroup  styleClass="Container12" >
+        <p:fieldset rendered="#{pgFormularioExterno.atividade.foiAtividadeFinalizada}" >
+
+            <div class="alert alert-info" >
+                <strong>Estamos agradecidos!</strong>
+                A atividade solicitada foi reagistrada com sucesso!
+            </div>
+
+
+        </p:fieldset>
+
+        <p:fieldset rendered="#{!pgFormularioExterno.atividade.foiAtividadeFinalizada}" >
+
+
+
+
+
+
+
+
+            <p:fieldset legend="Fomulário da atividade "
+                        rendered="#{pgFormularioExterno.atividade.tipoAtividade.geraNovoRelacionamento and !pgFormularioExterno.atividade.permitidoConcluir}"
+                        id="dadosNaoCadastrados"
+                        styleClass="dadosFormulario"
+                        >
+                <h:form>
+                    <p:outputLabel value="Nenhuma informação obrigatória está pendente para proseguir para o pŕoximo relacionamento"
+                                   rendered="#{pgFormularioExterno.atividade.permitidoConcluir}" />
+                    <h:panelGroup   rendered="#{!pgFormularioExterno.atividade.permitidoConcluir}" >
+                        <h:panelGroup styleClass="Container12" >
+
+                            <ui:repeat value="#{pgFormularioExterno.dadosDaAtividade}"  var="dado" varStatus="recNum">
+                                <h:panelGroup  styleClass="Container#{dado.campoInstanciado.componenteVisualPadrao.pesoLargura}">
+                                    <SBInput:input  registro="#{dado.campoInstanciado}" layout="#{layoutsComponenteSB.layoutCampo.superior}" idAtualizarOnChange="@this" />
+                                </h:panelGroup>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        <h:panelGroup  styleClass="Container3 Fright">
+                            <SBBotaoAcao:botaoDeAcao_Pagina_ComTarget
+                                origem="#{acoesAtendimentoCrm_FormularioConvidadoMbConvite.formularioConvidadoCtrConcluir}"
+                                destino="#{pgFormularioExterno.acaoSelecionada}"
+                                acao="#{acoesAtendimentoCrm_FormularioConvidadoMbConvite.formularioConvidadoCtrConcluir}"
+                                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                update="@form"
+                                />
+                        </h:panelGroup>
+
+
+                    </h:panelGroup>
+
+
+                </h:form>
+
+
+            </p:fieldset >
+
+        </p:fieldset>
+        <h:form>
+            <p:poll listener="#{pgFormularioExterno.renovarSessao()}" interval="10" />
+        </h:form>
+    </h:panelGroup>
+
+
+</ui:composition>

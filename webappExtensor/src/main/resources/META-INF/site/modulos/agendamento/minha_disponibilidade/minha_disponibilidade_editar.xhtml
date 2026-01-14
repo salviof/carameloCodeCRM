@@ -1,0 +1,72 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+
+        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Data inicial e final ">
+
+            <SBForm:camposDoGrupo
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[0]}"
+                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+            <div class="quebraBlocoComEspacoVertical10"/>
+        </p:fieldset>
+        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Horário de funcionamento ">
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
+                <h:panelGroup styleClass="Container3" layout="block" >
+                    <p:calendar   converter="conversorTimesql"
+                                  validator="org.super_bits.view.validadores.horario"
+                                  pattern="HH:mm" timeOnly="true"
+                                  value="#{pgMinhasDisponibilidadesPublicas.entidadeSelecionada.horarioInicio}"
+                                  locale="pt_BR"/>
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" layout="block" >
+                    <p:calendar   converter="conversorTimesql"
+                                  validator="org.super_bits.view.validadores.horario"
+
+                                  pattern="HH:mm" timeOnly="true"
+                                  value="#{pgMinhasDisponibilidadesPublicas.entidadeSelecionada.horarioFim}"
+                                  locale="pt_BR"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </p:fieldset>
+        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Dias ta semana">
+
+            <SBForm:camposDoGrupo registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[2]}"
+                                  somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+            <div class="quebraBlocoComEspacoVertical10"/>
+        </p:fieldset>
+
+        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Tipos de Reservas possíveis">
+
+            <SBForm:camposDoGrupo registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[3]}"
+                                  somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+            <div class="quebraBlocoComEspacoVertical10"/>
+        </p:fieldset>
+
+
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+        <SBPaginaAtual:botaoSalvarAlteracoes/>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,362 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa"
+                      required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:form id="formEquipe">
+            <p:card style="width: 100%; " >
+                <f:facet name="title">
+                    <h:panelGroup style="margin-top: 32px">
+                        <i class="pi pi-users" style="margin-right: 8px"></i>
+                        <h:outputText value="Equipe Responsável" style="font-size: 16px"/>
+                    </h:panelGroup>
+                </f:facet>
+
+
+                <!-- Gestor e Representante -->
+                <h:panelGroup
+                        rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('usuarioAtendimento').valor != null}">
+                    <p:panel header="Gestor de Sucesso" style="margin-bottom: 10px; margin-top: 24px;">
+                        <h:panelGroup style="display: flex; align-items: center; justify-content: space-between;">
+                            <h:panelGroup style="display: flex; align-items: center;">
+                                <i class="pi pi-star" style="color: #f39c12; font-size: 1.5rem; margin-right: 15px"></i>
+                                <h:outputText value="#{cc.attrs.pessoa.usuarioAtendimento.nome}"/>
+                            </h:panelGroup>
+                            <crm:avatar usuario="#{pgProspecto.prospecto.usuarioAtendimento}" somenteLeitura="true"/>
+                        </h:panelGroup>
+                    </p:panel>
+                </h:panelGroup>
+
+                <h:panelGroup
+                        rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor != null}">
+                    <p:panel header="Representante Comercial" style="margin-bottom: 10px;">
+                        <h:panelGroup style="display: flex; align-items: center; justify-content: space-between;">
+                            <h:panelGroup style="display: flex; align-items: center;">
+                                <i class="fa fa-handshake-o"
+                                   style="color: #27ae60; font-size: 1.5rem; margin-right: 15px"/>
+                                <h:outputText value="#{cc.attrs.pessoa.usuarioResponsavel.nome}"/>
+                            </h:panelGroup>
+                            <crm:avatar usuario="#{pgProspecto.prospecto.usuarioResponsavel}" somenteLeitura="true"/>
+                        </h:panelGroup>
+                    </p:panel>
+                </h:panelGroup>
+                <h:panelGroup
+                        style="display: flex; justify-content: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6">
+                    <p:commandButton
+                            icon="pi pi-comments"
+                            value="Abrir chat debate interno"
+                            style="background-color: #60a36c; color: white; border: none; margin-right: 4px"
+                            actionListener="#{servicosCRM.abrirPaginaDeProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatEquipe)}"
+                            immediate="true"
+                            ajax="false"/>
+                    <p:commandButton
+                            icon="pi pi-pencil"
+                            value="Editar Equipe"
+                            style="background-color: #60a36c; color: white; border: none;"
+                            rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}"
+                            actionListener="#{servicosCRM.exibirModalProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmCompartilharProspecto)}"
+                            update="@form">
+                        <p:ajax event="click" listener="#{paginaAtual.comoPaginaComModal.onModalProspectoOpen}"/>
+                        <p:ajax event="dialogReturn"
+                                listener="#{paginaAtual.comoPaginaComModal.onModalProspectoClose}"/>
+                    </p:commandButton>
+                </h:panelGroup>
+                <!-- Lista de Usuários Responsáveis -->
+                <p:fieldset legend="Time Responsável (#{cc.attrs.pessoa.usuariosResponsaveis.size()})" toggleable="true"
+                            style="margin-top: 20px;">
+                    <!--                    <p:dataList-->
+                    <!--                            value="#{cc.attrs.pessoa.usuariosResponsaveis}"-->
+                    <!--                            var="usuario"-->
+                    <!--                            style="width: 100%; display: flex; flex-direction: column; margin"-->
+                    <!--                            itemType="none">-->
+
+                    <ui:repeat value="#{cc.attrs.pessoa.usuariosResponsaveis}" var="usuario">
+                        <p:panel>
+                            <h:panelGroup styleClass="card-usuario">
+
+                                <!-- Informações do usuário -->
+                                <h:panelGroup styleClass="info-usuario">
+                                    <crm:avatar usuario="#{usuario}" somenteLeitura="#{true}"/>
+
+                                    <h:panelGroup styleClass="dados-usuario">
+                                        <h:outputText value="#{usuario.nome}"
+                                                      styleClass="texto-ellipsis nome-usuario"/>
+
+                                        <h:outputText value="#{usuario.email}"
+                                                      styleClass="texto-ellipsis"/>
+
+                                        <h:outputText value="#{usuario.telefone}"
+                                                      styleClass="texto-ellipsis"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <!-- Botões de ação -->
+                                <h:panelGroup styleClass="botoes-acao">
+                                    <p:link
+                                            href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaSolicitacaoEquipe,cc.attrs.pessoa,usuario)}"
+                                            style="background-color: #95a5a6; color: white; border: none; width: 35px; height: 35px;
+                                                   display: flex; align-items: center; justify-content: center;
+                                                   text-decoration: none; border-radius: 3px"
+                                            title="Enviar solicitação">
+                                        <i class="pi pi-send" style="font-size: 1rem; color: white !important;"/>
+                                    </p:link>
+                                    <p:commandButton
+                                            icon="pi pi-share-alt"
+                                            title="Passar a bola"
+                                            styleClass="botao-acao"
+                                            rendered="#{sessaoAtualSBWP.usuario.equals(cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor) and !usuario.equals(cc.attrs.pessoa.usuarioResponsavel)}"
+                                            action="#{pgProspecto.passarABola}"
+                                            update="@form">
+
+                                        <p:confirm
+                                                header="Passar a bola para #{usuario.nome}?"
+                                                message="Você perderá o poder de gerir os responsáveis ao fazer esta alteração."
+                                                icon="pi pi-info-circle"/>
+
+                                        <f:setPropertyActionListener
+                                                target="#{cc.attrs.pessoa.usuarioResponsavel}"
+                                                value="#{usuario}"/>
+
+                                    </p:commandButton>
+
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:panel>
+                    </ui:repeat>
+
+                    <!--                        <p:panel style="margin-bottom: 10px;">-->
+                    <!--                            &lt;!&ndash; LINHA PRINCIPAL &ndash;&gt;-->
+                    <!--                            <h:panelGroup styleClass="usuario-linha">-->
+
+                    <!--                                &lt;!&ndash; Avatar + Nome + Telefone &ndash;&gt;-->
+                    <!--                                <h:panelGroup styleClass="usuario-info">-->
+
+                    <!--                                    <h:panelGroup style="margin-right: 15px;">-->
+                    <!--                                        <crm:avatar usuario="#{usuario}" somenteLeitura="#{true}"/>-->
+                    <!--                                    </h:panelGroup>-->
+
+                    <!--                                    <h:panelGroup style="flex: 1;">-->
+                    <!--                                                            <h:outputText value="#{usuario.nome}"-->
+                    <!--                                                                          style="display: block; font-weight: bold;"/>-->
+                    <!--                                        <h:outputText value="#{usuario.email}"-->
+                    <!--                                                      style="display: block; font-size: 0.9rem; color: #6c757d; word-break: break-word;"/>-->
+                    <!--                                        <h:outputText value="#{usuario.telefone}"-->
+                    <!--                                                      style="display: block; font-size: 0.9rem; color: #6c757d"/>-->
+                    <!--                                    </h:panelGroup>-->
+
+                    <!--                                </h:panelGroup>-->
+
+                    <!--                                &lt;!&ndash; ÍCONES (comentários / handshake) &ndash;&gt;-->
+                    <!--                                <h:panelGroup styleClass="usuario-icones">-->
+                    <!--                                    <h:panelGroup rendered="#{usuario eq cc.attrs.pessoa.usuarioAtendimento}">-->
+                    <!--                                        <i class="pi pi-comments"-->
+                    <!--                                           style="color: #3498db; margin-right: 5px; font-size: 1.2rem"/>-->
+                    <!--                                    </h:panelGroup>-->
+                    <!--                                    <h:panelGroup rendered="#{usuario eq cc.attrs.pessoa.usuarioResponsavel}">-->
+                    <!--                                        <i class="fa fa-handshake-o"-->
+                    <!--                                           style="color: #27ae60; margin-right: 5px; font-size: 1.2rem"/>-->
+                    <!--                                    </h:panelGroup>-->
+                    <!--                                </h:panelGroup>-->
+
+                    <!--                                &lt;!&ndash; AÇÕES &ndash;&gt;-->
+                    <!--                                <h:panelGroup styleClass="usuario-acoes">-->
+
+                    <!--                                                        <p:link-->
+                    <!--                                                                href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaSolicitacaoEquipe,cc.attrs.pessoa,usuario)}"-->
+                    <!--                                                                style="background-color: #95a5a6; color: white; border: none; width: 35px; height: 35px;-->
+                    <!--                                                   display: flex; align-items: center; justify-content: center;-->
+                    <!--                                                   text-decoration: none; border-radius: 3px"-->
+                    <!--                                                                title="Enviar solicitação">-->
+                    <!--                                                            <i class="pi pi-send" style="font-size: 1rem; color: white !important;"/>-->
+                    <!--                                                        </p:link>-->
+
+                    <!--                                                        <p:commandButton-->
+                    <!--                                                                icon="pi pi-share-alt"-->
+                    <!--                                                                title="Passar a bola"-->
+                    <!--                                                                style="background-color: #e74c3c; color: white; border: none; width: 35px; height: 35px"-->
+                    <!--                                                                rendered="#{sessaoAtualSBWP.usuario.equals(cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor) and !usuario.equals(cc.attrs.pessoa.usuarioResponsavel)}"-->
+                    <!--                                                                action="#{pgProspecto.passarABola}"-->
+                    <!--                                                                update="@form">-->
+
+                    <!--                                                            <p:confirm-->
+                    <!--                                                                    header="Passar a bola para #{usuario.nome}?"-->
+                    <!--                                                                    message="Você perderá o poder de gerir os responsáveis ao fazer esta alteração."-->
+                    <!--                                                                    icon="pi pi-info-circle"/>-->
+
+                    <!--                                                            <f:setPropertyActionListener-->
+                    <!--                                                                    target="#{cc.attrs.pessoa.usuarioResponsavel}"-->
+                    <!--                                                                    value="#{usuario}"/>-->
+
+                    <!--                                                        </p:commandButton>-->
+
+                    <!--                                </h:panelGroup>-->
+
+                    <!--                            </h:panelGroup>-->
+                    <!--                        </p:panel>-->
+                    <!--                    </p:dataList>-->
+                </p:fieldset>
+
+                <!-- Botão Chat -->
+
+            </p:card>
+        </h:form>
+    </cc:implementation>
+</ui:composition>
+
+        <!--<ui:composition-->
+        <!--xmlns="http://www.w3.org/1999/xhtml"-->
+        <!--xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"-->
+        <!--xmlns:cc="http://java.sun.com/jsf/composite"-->
+        <!--xmlns:ui="http://xmlns.jcp.org/jsf/facelets"-->
+        <!--xmlns:h="http://xmlns.jcp.org/jsf/html"-->
+        <!--xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"-->
+        <!--xmlns:p="http://primefaces.org/ui"-->
+        <!--xmlns:f="http://xmlns.jcp.org/jsf/core">-->
+        <!--&lt;!&ndash; INTERFACE &ndash;&gt;-->
+        <!--<cc:interface>-->
+        <!--    <cc:attribute name="pessoa"-->
+        <!--                  type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>-->
+
+        <!--</cc:interface>-->
+        <!--<cc:implementation>-->
+        <!--    <h:form >-->
+
+
+        <!--        <p:fieldset  id="fieldSetResponsaveis" >-->
+        <!--            <f:facet name="legend"  >-->
+
+        <!--                <h:panelGroup styleClass="Container4 FontAdamantiumBold Fs16 " layout="block"  style="height: 80px;"   >-->
+        <!--                    <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">-->
+        <!--                        <span>       VAI TIME !!</span>-->
+        <!--                    </h:panelGroup>-->
+        <!--                    <h:panelGroup styleClass="Container12" layout="block" style="margin: 10px;" rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}" >-->
+
+
+        <!--                        <p:commandButton actionListener="#{servicosCRM.exibirModalProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmCompartilharProspecto)}"-->
+        <!--                                         icon="fa fa-users"-->
+        <!--                                         value="Editar Equipe"-->
+        <!--                                         rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}"-->
+        <!--                        >-->
+        <!--                            <p:ajax-->
+        <!--                                    event="click" listener="#{paginaAtual.comoPaginaComModal.onModalProspectoOpen}"-->
+        <!--                            />-->
+        <!--                            <p:ajax-->
+        <!--                                    event="dialogReturn" listener="#{paginaAtual.comoPaginaComModal.onModalProspectoClose}"-->
+        <!--                            />-->
+        <!--                            <h:panelGroup layout="block" styleClass="empresaCardInfo-Responsaveis"  >-->
+        <!--                            </h:panelGroup>-->
+
+        <!--                        </p:commandButton>-->
+        <!--                    </h:panelGroup>-->
+        <!--                </h:panelGroup>-->
+
+
+        <!--                <h:panelGroup rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor!=null}" styleClass="FontAdamantiumBold Fs16 Container6" style="height: 80px"   layout="block" >-->
+        <!--                    <h:panelGroup styleClass="OrgnizadorContainer" rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('usuarioAtendimento').valor!=null}"-->
+        <!--                                  layout="block" style="position: relative;height: 30px;" >-->
+        <!--                        <h:panelGroup layout="block" style="width: 10%;position: absolute;left: 0px; height: 30px;" >-->
+        <!--                            <span class="fa fa-star-o  Fs18" style="font-weight: bold;" />-->
+        <!--                        </h:panelGroup>-->
+        <!--                        <h:panelGroup layout="block" style="width: 70%;position: absolute; left: 60px; height: 30px;" styleClass="OrganizadorContainer" >-->
+        <!--                            Gestor de sucesso:-->
+        <!--                        </h:panelGroup>-->
+        <!--                        <h:panelGroup layout="block" style="width: 10%;position: absolute;height: 30px; right: 0px;" >-->
+        <!--                            <crm:avatar usuario="#{pgProspecto.prospecto.usuarioAtendimento}" somenteLeitura="true" />-->
+        <!--                        </h:panelGroup>-->
+
+        <!--                    </h:panelGroup><br/>-->
+        <!--                    <h:panelGroup styleClass="OrgnizadorContainer" rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor!=null}"-->
+        <!--                                  layout="block" style="position: relative;" >-->
+        <!--                        <h:panelGroup layout="block" style="width: 10%;position: absolute;left: 0px; height: 30px;" >-->
+        <!--                            <span class="fa fa-handshake-o  Fs18" style="font-weight: bold;" />-->
+        <!--                        </h:panelGroup>-->
+        <!--                        <h:panelGroup layout="block" style="width: 70%;position: absolute; left: 60px; height: 30px;" styleClass="OrganizadorContainer" >-->
+        <!--                            Rep. Comercial:-->
+        <!--                        </h:panelGroup>-->
+        <!--                        <h:panelGroup layout="block" style="width: 10%;position: absolute;height: 30px; right: 0px;" >-->
+        <!--                            <crm:avatar usuario="#{pgProspecto.prospecto.usuarioResponsavel}" somenteLeitura="true" />-->
+        <!--                        </h:panelGroup>-->
+
+        <!--                    </h:panelGroup>-->
+
+        <!--                </h:panelGroup>-->
+
+        <!--            </f:facet>-->
+
+
+        <!--            <h:panelGroup layout="block" styleClass="OrganizadorContainer"  >-->
+
+        <!--                <ui:repeat value="#{pgProspecto.prospecto.usuariosResponsaveis}" var="usuario" >-->
+
+        <!--                    <h:panelGroup styleClass="avatarCardRespEmpresa" layout="block" id="respDetalhes" >-->
+
+
+        <!--                        <h:panelGroup styleClass="fa fa-comments avatarCardRespEmpresaIcoFuncao" rendered="#{usuario eq pgProspecto.prospecto.usuarioAtendimento}" />-->
+        <!--                        <h:panelGroup styleClass="fa fa-handshake-o avatarCardRespEmpresaIcoFuncao" rendered="#{usuario eq pgProspecto.prospecto.usuarioResponsavel}" />-->
+
+
+        <!--                        <h:panelGrid columns="2" >-->
+        <!--                            <crm:avatar usuario="#{usuario}" somenteLeitura="#{true}" />-->
+
+
+        <!--                        </h:panelGrid>-->
+
+        <!--                        <p:tooltip autoHide="false" position="left" for="respDetalhes" >#{usuario.nome} <br/> #{usuario.telefone} <br/>#{usuario.email}</p:tooltip>-->
+
+        <!--                    </h:panelGroup>-->
+
+
+        <!--                    <h:panelGroup rendered="false" style="#{usuario.equals(pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor)?'font-weight: bolder;':''} width: 30px;"-->
+        <!--                                  layout="block" styleClass="OrganizadorContainerEsquerda"  >-->
+        <!--                        <h:panelGroup layout="block" styleClass="Container3" id="usrTEam" >-->
+
+        <!--                            <crm:avatar usuario="#{usuario}" somenteLeitura="true" />-->
+
+        <!--                            <h:panelGroup styleClass="fa fa-futbol-o" rendered="#{usuario eq pgProspecto.prospecto.usuarioResponsavel}" />-->
+        <!--                            <h:panelGroup styleClass="fa fa-star-o" rendered="#{pgProspecto.prospecto.usuarioAtendimento!=null and usuario eq pgProspecto.prospecto.usuarioAtendimento}" />-->
+
+
+        <!--                        </h:panelGroup>-->
+        <!--                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorEsquerda" rendered="false" >-->
+        <!--                            <p:fragment rendered="#{sessaoAtualSBWP.usuario.equals(pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor)}" >-->
+        <!--                                <p:commandButton value="Passar a bola" icon="fa fa-futbol-o" rendered="#{!usuario.equals(pgProspecto.prospecto.usuarioResponsavel)}"-->
+        <!--                                                 process="@this"-->
+        <!--                                                 update="#{pgUtil.gerarCaminhoCompletoID('fieldSetResponsaveis')}"-->
+        <!--                                                 action="#{pgProspecto.passarABola()}"-->
+        <!--                                >-->
+
+        <!--                                    <p:confirm  header="Deseja passar a bola para #{usuario.nome}?" message="Você perderá o poder de gerir os responsáveis ao fazer as alterações."  icon="pi pi-info-circle" />-->
+        <!--                                    <f:setPropertyActionListener target="#{pgProspecto.prospecto.usuarioResponsavel}" value="#{usuario}" />-->
+        <!--                                </p:commandButton>-->
+        <!--                            </p:fragment>-->
+        <!--                        </h:panelGroup>-->
+
+        <!--                    </h:panelGroup>-->
+        <!--                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaSolicitacaoEquipe,pgProspecto.entidadeSelecionada,usuario)}" >-->
+        <!--                        <h:panelGroup styleClass="fa fa-hand-paper-o Fs40 containerBtnSeletor"  />-->
+        <!--                    </p:link>-->
+        <!--                    <p:separator/>-->
+        <!--                </ui:repeat>-->
+        <!--                <p:commandButton icon="fa fa-weixin" value="ABRIR CHAT DEBATE INTERNO" actionListener="#{servicosCRM.abrirPaginaDeProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatEquipe)}"/>-->
+
+        <!--            </h:panelGroup>-->
+
+
+        <!--        </p:fieldset>-->
+
+        <!--    </h:form>-->
+
+        <!--</cc:implementation>-->
+        <!--</ui:composition>-->

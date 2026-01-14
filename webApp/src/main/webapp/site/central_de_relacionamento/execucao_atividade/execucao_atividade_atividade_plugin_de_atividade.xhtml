@@ -1,0 +1,23 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    ESTE FORMULÁRIO NÃO FAZ MAIS SENTIDO, UMA VEZ QUE O MODELO DE AÇÃO DO PLUBGIN FOI MOVIDO PARA O FORMATO DE TEMPLATE, PARA ENTRAR EM CONFORMIDADE COM O IFRAME
+    #{pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado.comoFormulario.xhtml} <br/>
+
+
+    #{pgExecutarAtividade.xhmlTemplateJSFExcucaoAtividade} <br/>
+
+
+    [#{pgExecutarAtividade.xhtmlAcaoAtual}]<br/>
+
+    [#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('noEstadoInteracaoPlugin').valor}]<br/>
+
+
+</ui:composition>

@@ -1,0 +1,65 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBMatrix="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+
+            <h:panelGroup layout="block" styleClass="Container12" style="" >
+                <p:tabView  >
+
+                    <p:tab title="Chat"   >
+                        <p:fieldset style="height: 80vh;" >
+                            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 20px;">
+
+                                <h:panelGroup styleClass="Container6" layout="block">
+                                    <SBMatrix:salaDebate
+
+                                        canal="#{pgClienteConversa.canalRocketChat}"
+                                        altura="600px"
+                                        rendered="true"
+                                        usuarioResponsavelPorLogin="false"
+                                        textoBotaoNovo="Abrir canal de interação"
+                                        />
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+                        </p:fieldset>
+                    </p:tab>
+                    <p:tab title="Meu Time">
+                        <h:panelGroup layout="block" styleClass="Container12" >
+                            <p:fieldset legend="Minha equipe" styleClass="Container12" style="height: 300px" >
+                                <h:panelGroup styleClass="Container5" layout="block" >
+                                    <p:fieldset legend="Atendimento">
+                                        <p:panelGrid columns="3" contentStyle="" >
+                                            <h:panelGroup layout="block" style="position: relative;height: 60px;width: 60px;" ><SBCRM:avatar usuario="#{pgClienteConversa.entidadeSelecionada.representanteLegal.usuarioAtendimento}" somenteLeitura="true" altura="50" /></h:panelGroup>
+                                            <h:outputLabel value="Gestor de sucesso"/>
+                                            <h:outputLabel value="#{pgClienteConversa.entidadeSelecionada.representanteLegal.usuarioAtendimento.nome}"/>
+
+
+                                            <h:panelGroup layout="block" style="position: relative;height: 60px;width: 60px;" >    <SBCRM:avatar usuario="#{pgClienteConversa.entidadeSelecionada.representanteLegal.usuarioResponsavel}" somenteLeitura="true" altura="50" /></h:panelGroup>
+                                            <h:outputLabel value="Consultor de negócios"/>
+                                            <h:outputLabel value="#{pgClienteConversa.entidadeSelecionada.representanteLegal.usuarioResponsavel.nome}" />
+
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                </h:panelGroup>
+                                <p:fieldset legend="Producao">
+
+                                </p:fieldset>
+                            </p:fieldset>
+
+                        </h:panelGroup>
+                    </p:tab>
+                </p:tabView>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

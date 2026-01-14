@@ -1,0 +1,44 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="modeloEdicaoProspecto.xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo">
+        <p:fieldset >
+            <h:form>
+                <p:fragment>
+                    <p:fragment>
+                        <p:steps activeIndex="1"  styleClass="OrganizadorContainer" activeStepExecutable="false" readonly="false"
+
+                                 >
+                            <p:menuitem value="Informações básicas"  url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEditar,pgProspecto.entidadeSelecionada)}" >
+                                <p:confirm header="Confirmation" message="Deseja excluir #{arquivo.nome} de forma irreversível?" icon="pi pi-exclamation-triangle"/>
+                            </p:menuitem>
+                            <p:menuitem value="Emdereço" disabled="true">
+                            </p:menuitem>
+                        </p:steps>
+                    </p:fragment>
+                </p:fragment>
+            </h:form>
+
+        </p:fieldset>
+        <h:form>
+            <SBFormulario:camposDaAcao
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                />
+            <h:panelGroup layout="block" styleClass="Container3 Fright" style="margin: 100px;" >
+                <SBPaginaAtual:botaoSalvarAlteracoes/>
+
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

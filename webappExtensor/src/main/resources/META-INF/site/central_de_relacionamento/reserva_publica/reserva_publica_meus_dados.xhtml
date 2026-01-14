@@ -1,0 +1,91 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+    <ui:define name="conteudo">
+        <h:outputStylesheet name="reservaPublicaMeusDados.css" library="css"/>
+
+
+        <h:panelGroup styleClass="container-flex " id="etapas">
+            <h:panelGroup styleClass="card-content">
+                <h:form>
+                    <h:panelGroup styleClass="step-content">
+
+
+
+                        <p:steps activeIndex="#{pgReservasPublicas.step}" styleClass="">
+                            <p:menuitem value="Contato" actionListener="#{pgReservasPublicas.goToStep(0)}"/>
+                            <p:menuitem value="Dados Empresa" actionListener="#{pgReservasPublicas.goToStep(1)}"/>
+                            <p:menuitem value="Observação" actionListener="#{pgReservasPublicas.goToStep(2)}"/>
+                            <p:menuitem value="Reservar" actionListener="#{pgReservasPublicas.goToStep(3)}"/>
+                        </p:steps>
+
+
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{pgReservasPublicas.step eq 0}">
+
+                        <p:fieldset legend="Dados para contato:">
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('nomeUsuario')}"
+                                label="Seu nome"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('celular')}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('email')}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+                        </p:fieldset>
+
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{pgReservasPublicas.step eq 1}">
+                        <p:fieldset legend="Dados da empresa">
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('nomeEmpresa')}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('site')}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+                        </p:fieldset>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{pgReservasPublicas.step eq 2}">
+                        <p:fieldset legend="Observação">
+                            <SBInput:input
+                                registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+                        </p:fieldset>
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="step-buttons">
+                        <p:commandLink value="&lt; Voltar"
+
+                                       disabled="#{pgReservasPublicas.step eq 0}"
+                                       actionListener="#{pgReservasPublicas.voltarStep}"
+                                       update="etapas"
+                                       styleClass="btn-nav btn-outline"/>
+
+                        <p:commandLink value="Próximo &gt;"
+                                       disabled="#{pgReservasPublicas.step eq 3}"
+                                       actionListener="#{pgReservasPublicas.proximoStep}"
+                                       update="etapas"
+                                       styleClass="btn-nav btn-primary"/>
+                    </h:panelGroup>
+                </h:form>
+                <h:panelGroup rendered="#{pgReservasPublicas.step eq 3}" styleClass="card-reserva-confirmar">
+                        <crmAgenda:cardReservaHorario reserva="#{pgReservasPublicas.entidadeSelecionada}" acaoListarOutrosHorarios="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaFrmListarHorarios}"
+                                                      acaoSalvarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrReservar}" />
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,5 @@
+OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA: 
+ Você pode encontrar informações mais detalhadas do erro no SystemOut 
+->O ícone  da ação FabAcaoNotificacaoPadraoSB.NOTIFICACAO_FRM_LISTAR com nome [fa-paper-o] não foi encontrado no arquivo css do FontAswome e
+->O ícone  da ação FabAcaoNotificacaoPadraoSB.NOTIFICACAO_MB_GESTAO com nome [fa-paper-o] não foi encontrado no arquivo css do FontAswome e
+

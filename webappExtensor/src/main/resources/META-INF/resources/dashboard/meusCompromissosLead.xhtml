@@ -1,0 +1,81 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="dadosDeLead"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.pesquisaLead.PesquisaLead"
+                      required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:fieldset style="margin: 32px;">
+            <f:facet name="legend">
+                <i class="fa fa-handshake-o" style="margin-right: 8px"></i>Compromissos condução de Lead
+            </f:facet>
+
+            <h:form>
+                <h:panelGroup styleClass="cards-dashboard">
+                    <crmDashBoard:dashBoardIconeValorTituloLink
+                            codigoestilo="4"
+                            rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null}"
+                            url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido, cc.attrs.dadosDeLead.usuario)}"
+                            icone="fa-envelope-o"
+                            titulo="#{cc.attrs.dadosDeLead.usuario.caixaPostalPrincipal.email}"
+                            valor="#{cc.attrs.dadosDeLead.usuario.caixaPostalPrincipal.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoConhecido').valor}"
+                    />
+                    <crmDashBoard:dashBoardIconeValorTituloLink
+                            codigoestilo="4"
+                            icone="fa fa-calendar-o"
+                            url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusCompromissosMb.meusCompromissosFrmHoje, cc.attrs.dadosDeLead.usuario)}"
+                            titulo="Compromissos para hoje"
+                            valor="#{cc.attrs.dadosDeLead.usuario.atividadeParaHoje.size()}"
+                    />
+
+                    <crmDashBoard:dashBoardIconeValorTituloLink
+                            rendered="false"
+                            codigoestilo="3"
+                            icone="fa-exclamation-triangle "
+                            url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarUrgentes, cc.attrs.dadosDeLead.usuario)}"
+                            titulo="Atividades em aberto"
+                            valor="#{cc.attrs.dadosDeLead.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeadsUrgentes').valor}"
+                    />
+
+                    <crmDashBoard:dashBoardIconeValorTituloLink
+                            codigoestilo="3"
+                            icone="fa-exclamation-triangle "
+                            url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarUrgentes, cc.attrs.dadosDeLead.usuario)}"
+                            titulo="Leads demandas urgentes"
+                            valor="#{cc.attrs.dadosDeLead.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeadsUrgentes').valor}"
+                    />
+
+
+                </h:panelGroup>
+            </h:form>
+        </p:fieldset>
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+

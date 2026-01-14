@@ -1,0 +1,38 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>
+
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:panelGroup  styleClass="semBorda" >
+
+            <SBAcaoNav:seletorDeAcoes opcaoSelecionada="#{servicosCRM.tipoAtividadeSelecionada}"
+
+                                      metodo="#{servicosCRM.iniciarAtividadeInicial(cc.attrs.empresa)}"
+                                      opcoes="#{cc.attrs.empresa.atividadesDisponiveis}"
+                                      visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+
+                                      />
+
+
+        </h:panelGroup>
+
+
+    </cc:implementation>
+</ui:composition>

@@ -1,0 +1,66 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:SBAcoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMMail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRMMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <CRM:menuProspecto
+        pessoaJuridica="#{pgEmails.prospectoSelecionado}"
+        rendered="#{pgEmails.entidadeSelecionada.umEmailDeProspecto}"
+        />
+    <h:form>
+        <CRMMail:menuNavegacaoEmailSelecionado
+            email="#{pgEmails.entidadeSelecionada}"
+            />
+    </h:form>
+
+
+
+
+    <h:form styleClass="Container9">
+
+        <p:textEditor value="#{pgEmails.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('conteudoHtmlProcessado').valor}" secure="false"
+                      readonly="true"  toolbarVisible="false"
+                      id="editorEmail" widgetVar="editorEmail"
+                      />
+    </h:form>
+    <p:fieldset rendered="#{pgEmails.entidadeSelecionada.comoEmailRecebido.umEmailDesclassificado}"
+                styleClass="Container3"
+                >
+        <f:facet name="legend" >
+            <p:staticMessage  severity="warn" summary="Classificar e-mail" detail="Por favor, nos ajude a classificar este destinatário" />
+        </f:facet>
+        <h:form>
+            <CRMMail:classificadorDeEmail email="#{pgEmails.entidadeSelecionada}" />
+        </h:form>
+    </p:fieldset>
+
+
+    <CRMMail:anexosDoEmail email="#{pgEmails.entidadeSelecionada}"/>
+    <h:form styleClass="Container3 OrganizadorContainer"  >
+
+        <SBCRMMAIL:botoesDeAcaoDoEmail email="#{pgEmails.entidadeSelecionada}"
+                                       camposProcessados="@this"
+
+                                       />
+
+
+    </h:form>
+
+
+
+
+
+
+
+
+</ui:composition>

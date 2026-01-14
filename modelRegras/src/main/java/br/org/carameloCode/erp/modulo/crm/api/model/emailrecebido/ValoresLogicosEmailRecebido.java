@@ -1,0 +1,9 @@
+package br.org.carameloCode.erp.modulo.crm.api.model.emailrecebido;
+
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.emailRecebido.EmailRecebido;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
+
+@InfoReferenciaEntidade(tipoObjeto = EmailRecebido.class)
+public enum ValoresLogicosEmailRecebido {
+	FOILIDOPORUSUARIODESTINATARIO, FOIIGNORADO, FOILIDOLISTAUSUARIOS, TEXTOCOMURLIMAGEMEMANEXO, TEXTO, UMEMAILRECEBIDO, UMEMAILDEATIVIDADE, UMEMAILMODORASCUNHO, UMEMAILPRIVADO, UMEMAILCOMPARTILHADO, UMEMAILDEPROSPECTO, UMACONVERSAEXTERNA, UMACONVERSAINTERNA, UMEMAILRESPOSTA, UMEMAILPASSIVO, UMEMAILATIVO, ARQUIVOS, CONTEUDOHTMLPROCESSADO, ICONETIPOEMAIL, ICONEALERTA, CORTIPOEMAIL, ACOESDISPONIVEIS
+}

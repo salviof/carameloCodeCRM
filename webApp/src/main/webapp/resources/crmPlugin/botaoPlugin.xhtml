@@ -1,0 +1,34 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+    <cc:interface>
+        <cc:attribute name="acao"
+
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema" required="true"/>
+        <cc:attribute name="javascriptOnComplete" default="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('atividadePlugin')}')"
+                      />
+        <cc:attribute name="metodo" />
+    </cc:interface>
+    <cc:implementation>
+        <sb:parametroMetodo nome="prMetodo" valor="#{cc.attrs.metodo}" />
+        <p:commandButton
+
+            styleClass="btnIconeENome botao #{classeEstilo} botaoVerde"
+            icon="#{cc.attrs.acao.iconeAcao}"
+            action="#{prMetodo}"
+            update="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+            value="#{cc.attrs.acao.nomeAcao}"
+
+            oncomplete="#{javaScriptOncomplete}"
+            onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('atividadePlugin')}')"
+            >
+            <f:setPropertyActionListener target="#{destino}"
+                                         value="#{origem}"  />
+        </p:commandButton>
+    </cc:implementation>
+</ui:composition>
+

@@ -1,0 +1,77 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBChamado="http://xmlns.jcp.org/jsf/composite/chamado"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+        <h:panelGroup styleClass="Container9" layout="block" >
+            <SBChamado:dadosBasicosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}" />
+
+            <p:tabView activeIndex="0" dynamic="true" cache="true" styleClass="Container12">
+                <p:tab title="Descrição do chamado ">
+                    <p:textEditor
+                        value="#{pgMeusChamadosAtd.entidadeSelecionada.descricao}"
+                        secure="false"
+                        toolbarVisible="false"
+                        readonly="true"
+
+                        />
+                </p:tab>
+                <p:tab title="Interação com cliente ">
+                    <p:fieldset  styleClass="Container12" >
+
+                    </p:fieldset>
+
+                </p:tab>
+            </p:tabView>
+
+
+        </h:panelGroup>
+
+
+        <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+            <p:fieldset legend="Definir Responsável" styleClass="Container12" >
+                <h:form>
+                    <h:panelGroup styleClass="Container8" layout="block" >
+                        <p:selectOneListbox id="advanced" value="#{pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel}"
+                                            converter="conversorGenerico"
+                                            var="atendente" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioDisponiveis').valor}"
+                                           var="atendente" itemLabel="#{atendente.nome}" itemValue="#{atendente}"/>
+                            <p:column>
+                                <div style="position: relative;width: 30px; margin: 0px; float: left">
+                                    <CRM:avatar usuario="#{atendente}" somenteLeitura="#{true}" />
+                                </div>
+
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{atendente.nome}"/>
+                            </p:column>
+                        </p:selectOneListbox>
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Container3" layout="block" style="margin-top: 30px;" >
+                        <CRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrDefinirResponsavel}" />
+                    </h:panelGroup>
+                </h:form>
+            </p:fieldset>
+
+
+        </h:panelGroup>
+
+        <p:fieldset legend="Me tornar responsavel " >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 10px;" >
+                <h:form>
+                    <CRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrAssumirChamado}" />
+                </h:form>
+            </h:panelGroup>
+        </p:fieldset>
+
+
+    </ui:define>
+</ui:composition>

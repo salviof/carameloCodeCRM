@@ -1,0 +1,174 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBCRMMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:panelGroup layout="block" styleClass="OrganizadorContainer"  style="" rendered="#{pgEmails.entidadeSelecionada.umEmailDeAtividade}" >
+        <h:form>
+            <SBCRMMAIL:menuNavegacaoEmailSelecionado
+                email="#{pgEmails.entidadeSelecionada}"
+                />
+        </h:form>
+        <h:panelGroup layout="block" styleClass="Container11"  style="" rendered="#{pgEmails.entidadeSelecionada.umEmailDeAtividade}" >
+
+            <p:staticMessage severity="info" summary="Email de Atividade"
+                             detail="Este é-mail é referente a atividade: [#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.tipoAtividade.nomeAtividade}] para: #{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.prospectoEmpresa.nome}"
+                             />
+            <div class="quebraBlocoComEspacoVertical20" ></div>
+
+            <p:fieldset legend="Continue a atividade"  rendered="#{!pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.foiAtividadeFinalizada}">
+
+                <SBCRM:botaoEditarAtividade
+                    atividade="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade}"
+
+                    />
+
+            </p:fieldset>
+            <h:panelGroup rendered="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.foiAtividadeFinalizada}" layout="block"  >
+                <h:form>
+                    <p:fieldset legend="Dados da atividade:" >
+                        <p:staticMessage severity="info" summary="O e-mail não foi enviado"  detail="A atividade foi cancelada" rendered="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.foiAtividadeFinalizada}"/>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Usuário </th>
+                                    <th>Ação</th>
+                                    <th>Status</th>
+                                    <th>Arquivos</th>
+                                    <th>Email</th>
+                                    <th>Comentário    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr scope="row">
+
+                                    <td class="col-md-1">#{pgUtil.gerarDataHoraTexto((pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.dataHoraRealizacao))} </td>
+                                    <td class="col-md-1"><SBCRM:avatar usuario="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.usuarioAtividade}" somenteLeitura="true"/></td>
+                                    <td class="col-md-2"><i class="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.tipoAtividade.icone}" style="color:##{atividade.tipoAtividade.cor} "></i> #{atividade.tipoAtividade.nomeAcao}</td>
+                                    <td class="col-md-1"> #{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.statusAtividade.nome}</td>
+                                    <td class="col-md-1">
+                                        <c:forEach items="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.documentosGerados}" var="documento" >
+                                            <a href="#{documento.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}" ><i class="fa fa-file-pdf-o" aria-hidden="true"></i> </a>
+                                        </c:forEach>
+
+
+                                    </td>
+                                    <td class="col-md-1"><h:panelGroup rendered="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.emailVinculado!=null}" >
+                                            <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmVisualizarEmail,pgEmails.entidadeSelecionada)}">
+                                                #{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.emailVinculado.assunto}
+                                                <p:outputLabel value="Email sem assunto" rendered="#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.emailVinculado.assunto == null}" />
+                                            </a>
+                                        </h:panelGroup></td>
+                                    <td class="col-md-7">#{pgEmails.entidadeSelecionada.comoEmailDeAtividade.atividade.anotacoes}</td>
+
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </p:fieldset>
+                    <p:fieldset legend="Conteúdo">
+                        <p:textEditor
+                            value="#{pgEmails.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('conteudoHtmlProcessado').valor}" secure="false"
+                            readonly="true"  toolbarVisible="false"
+                            id="editorEmail" widgetVar="editorEmail"
+                            />
+                    </p:fieldset>
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </h:panelGroup>
+    <h:panelGroup layout="block" styleClass="Container12"  style="" rendered="#{!pgEmails.entidadeSelecionada.umEmailDeAtividade}" >
+        <h:form  >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="background-image: url(https://source.unsplash.com/random?woman,work);opacity : 0.9;margin-top: -9px;    border-bottom: 3px solid;" >
+                <h:panelGroup id="resumoDestino" styleClass="Container1" layout="block" style="" >
+
+                    <SBCRM:avatarEmailDeUsuario somenteLeitura="true"
+                                                usuario="#{sessaoAtualSBWP.usuario}"
+                                                largura="50" altura="50" />
+                    <SBCRMMAIL:destinatarioAvatar somenteLeitura="true"
+                                                  email="#{pgEmails.entidadeSelecionada}"
+                                                  largura="50" altura="50" />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container10" layout="block" id="campo-anexos" >
+                    <SBCRMMAIL:inputEnvioEmailCampoPara
+                        email="#{pgEmails.entidadeSelecionada}"
+
+                        />
+
+                    <h:panelGroup  styleClass="Container10"
+                                   id="textoAssunto"
+                                   layout="bock"
+                                   >
+                        <SBCRMMAIL:inputEmailAssunto
+                            email="#{pgEmails.entidadeSelecionada}"
+                            autoSave="#{pgEmails.salvarRascunho()}"
+                            />
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup
+                    id="textoEmail"
+                    styleClass="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunas>=17?'Container11':'Container12'} OrganizadorContainerEsquerda"
+                    layout="block" style="opacity: 0.9; margin-top: 10px;"
+                    >
+                    <SBCRMMAIL:inputEmail
+                        email="#{pgEmails.entidadeSelecionada}"
+                        autoSave="#{pgEmails.salvarRascunho()}"
+                        />
+                    <p:poll listener="#{pgEmails.salvarRascunho()}"
+                            intervalType="second"
+                            interval="15"
+                            />
+                    <SBCRMMAIL:inputEnvioEmailCampoAnexo email="#{pgEmails.entidadeSelecionada}" />
+                </h:panelGroup>
+
+                <h:panelGroup
+
+                    styleClass="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunas>=17?'Container1 OrganizadorContainerEsquerda':'Container12 OrganizadorContainerDireita'} "
+                    layout="block" >
+                    <SBCRMMAIL:botoesDeAcaoDoEmail
+                        email="#{pgEmails.entidadeSelecionada}"
+                        camposProcessados="#{pgUtil.gerarCaminhoCompletoID('textoEmail')} @this #{pgUtil.gerarCaminhoCompletoID('textoAssunto')}"
+                        />
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup styleClass="Container12" layout="block">
+
+
+            <h:form>
+
+                <p:fragment >
+                    <p:remoteCommand
+                        actionListener="#{pgEmails.onModalProspectoClose(null)}"
+                        update="#{pgUtil.gerarCaminhoCompletoID('compEmailAnexos')}"
+                        name="atualizaranexos" />
+                </p:fragment>
+
+                <p:fragment >
+                    <p:remoteCommand async="false" process="@parent" update="@parent"
+
+                                     name="atualizarValoresUploadDireto" >
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.entidade}" value="#{pgEmails.entidadeSelecionada.prospecto}" />
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.caminhoCampo}" value="arquivos" />
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.email}" value="#{pgEmails.entidadeSelecionada}" />
+                    </p:remoteCommand>
+                </p:fragment>
+
+            </h:form>
+        </h:panelGroup>
+    </h:panelGroup>
+</ui:composition>

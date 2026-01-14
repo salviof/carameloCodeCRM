@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="fluxo"
+                      type="com.super_bits.Intranet_Marketing_Digital.paginas.crmAtendimento.BfluxoRelacionamento" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet  name="diagrama.css" library="css"  />
+        <h:outputScript      name="jsplumb.js" library="js" />
+
+
+        <c:forEach var="itemNegativo" items="#{cc.attrs.fluxo.itensNegativo}" >
+            <div id="#{itemNegativo.identificador}"
+                 style="left:#{itemnegativo.x}top:#{itemnegativo.y}; position: absolute;"
+                 class="item itemNegativo"
+                 nomeLigacao="#{itemNegativo.acaoGeradora}">
+                #{itemNegativo.conteudo}
+
+            </div>
+        </c:forEach>
+
+        <div id="atual"
+             class="circulo"
+             style="left:30em;top:10em;
+             position: absolute;" >
+            <span >#{cc.attrs.fluxo.itemRelacionamentoAtual.conteudo}</span>
+        </div>
+        <c:forEach var="itemPositivo" items="#{cc.attrs.fluxo.itensPositivo}" >
+            <div id="#{itemPositivo.identificador}"
+                 style="left:#{itemPositivo.x}top:#{itemPositivo.y};
+                 position: absolute;"
+                 nomeLigacao="#{itemPositivo.acaoGeradora}"
+                 class="item itemPositivo" >
+                #{itemPositivo.conteudo}</div>
+        </c:forEach>
+
+        <script>
+            jsPlumb.ready(function () {
+
+                var conectorPositivo = {
+                    connector: ["Straight"],
+                    anchor: ["Bottom", "Left"],
+                    endpoint: "Dot"
+                };
+                var conectorNegativo = {
+                    connector: ["Straight"],
+                    anchor: ["Top", "Right"],
+                    endpoint: "Dot"
+                };
+                $('.itemNegativo').each(function (i, obj) {
+
+                    jsPlumb.connect({
+                        source: "atual",
+                        target: obj.id,
+                        paintStyle: {strokeWidth: 4, stroke: 'rgb(200,200,200)'},
+                        overlays: [["Arrow", {width: 20, length: 20, location: 0.99}], ['Label', {label: $(obj).attr('nomeLigacao'), cssClass: 'flow-label'}]]
+                    },
+                            conectorNegativo);
+                });
+                $('.itemPositivo').each(function (i, obj) {
+
+                    jsPlumb.connect({
+                        source: "atual",
+                        target: obj.id,
+                        paintStyle: {strokeWidth: 4, stroke: 'rgb(200,200,200)'},
+                        overlays: [["Arrow", {width: 20, length: 20, location: 0.99}], ['Label', {label: $(obj).attr('nomeLigacao'), cssClass: 'flow-label'}]]
+                    },
+                            conectorPositivo);
+                });
+
+            });
+
+
+        </script>
+
+    </cc:implementation>
+</html>
+
+
+
+
+
+
+
+
+
+

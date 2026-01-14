@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <style  >
+                .tamanhoIconePequeno{
+                    visibility: hidden;
+                }
+            </style>
+
+        </f:facet>
+        <title>Novo contato</title>
+        <h:outputStylesheet  name="recursos/css/SBlayoutResponsivo.css" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}" library="SBComp"  />
+        <h:outputStylesheet  name="recursos/css/SBlayoutResponsivoModalDesktop.css" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}" library="SBComp"  />
+        <h:outputStylesheet  name="recursos/css/SBAcaoNavegacao.css" library="SBComp"  />
+        <h:outputStylesheet  name="recursos/css/primeAjustes.css" library="SBComp"  />
+        <h:outputScript      name="recursos/js/coreSuperBitsFrameWork.js" library="SBComp" />
+        <h:outputScript      name="recursos/js/enterTabulacao.js" library="SBComp"  target="body"  />
+        <h:outputStylesheet  name="recursos/css/SBInputs.css" library="SBComp" />
+        <h:outputStylesheet  name="css/core-layout.css" library="primefaces-adamantium" />
+        <h:outputStylesheet  name="css/animate.css" library="primefaces-adamantium" />
+        <h:outputStylesheet name="css/adamantium-font.css" library="primefaces-adamantium" />
+        <h:outputStylesheet name="css/ripple-effect.css" library="primefaces-adamantium" />
+        <h:outputStylesheet name="css/perfect-scrollbar.css" library="primefaces-adamantium" />
+        <h:outputStylesheet name="css/adamantium-layout.css" library="primefaces-adamantium" />
+        <h:outputStylesheet  name = "css/bootstrap.css"  library="bootstrap" />
+        <h:outputScript  name = "js/bootstrap.js"  library="bootstrap" />
+        <h:outputStylesheet  name="w3.css" library="w3"  />
+        <h:outputStylesheet  name="layoutAplicacao.css" library="css" />
+
+    </h:head>
+    <h:body style="background-color:white;">
+
+        <h:form>
+            <p:growl class="mensagemGrowl"  widgetVar="#{layoutIdsAreasConhecidas.AREA_MENSAGEM_INTERFACE}" />
+        </h:form>
+        <h:form>
+
+
+            <SBInput:input registro="#{servicoEmail.contatoNovo.getCampoInstanciadoByNomeOuAnotacao('nome')}" layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                           idAtualizarOnChange="@this" />
+
+
+            <p:focus/>
+            <SBInput:input registro="#{servicoEmail.contatoNovo.getCampoInstanciadoByNomeOuAnotacao('email')}"  layout="#{layoutsComponenteSB.layoutCampo.resumido}" />
+            <SBInput:input registro="#{servicoEmail.contatoNovo.getCampoInstanciadoByNomeOuAnotacao('celular')}" layout="#{layoutsComponenteSB.layoutCampo.resumido}" />
+            <SBInput:input registro="#{servicoEmail.contatoNovo.getCampoInstanciadoByNomeOuAnotacao('prospecto')}"
+                           desabilitarEdicao="#{servicoEmail.pessoaFoiDefinida}"
+                           layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                           />
+
+            <p:fieldset >
+                <h:panelGroup styleClass="Fleft" layout="block" >
+
+                    <p:commandButton value="Cancelar" actionListener="#{pgModalEmail.fecharModal()}" process="@this"
+                                     update="@form"
+
+                                     styleClass="botaoVermelho"
+                                     />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Fright" layout="block" >
+
+                    <p:commandButton value="Salvar" actionListener="#{servicoEmail.salvarNovoContato()}" process="@form"
+                                     update="@form"
+                                     styleClass="botaoVerde"
+                                     />
+                </h:panelGroup>
+            </p:fieldset>
+
+        </h:form>
+
+
+    </h:body>
+</html>
+
+
+
+
+
+
+

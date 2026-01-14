@@ -1,0 +1,70 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:form>
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" style="">
+                <ui:repeat value="#{pgReservasCliente.tiposDisponiveis}"
+                           var="tipoDisponivel"
+                           >
+                    <h:panelGroup layout="block" styleClass="Container4 "   >
+                        <p:fieldset legend="" styleClass="Container12 FieldSetLead" style="height: 400px; margin: 10px;" >
+                            <f:facet name="legend" >
+
+                                <h:panelGroup styleClass="FontAdamantiumBold BoldGray Fs24" style="color: white;line-height: 30px;" layout="block">
+                                    #{tipoDisponivel.nome}
+                                </h:panelGroup>
+
+                            </f:facet>
+                            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="height:300px; position: relative;" >
+                                <h:panelGroup layout="block" styleClass="Container8 FontAdamantiumLight Fs24" style=""   >
+
+                                    #{tipoDisponivel.descricao}
+
+                                    <h:panelGroup styleClass="FontAdamantiumBold Fs24 Container12" style="height: 100px;position: absolute;bottom: 3px; left: 3px;" layout="block">
+                                        <h:panelGroup styleClass="Container3 Fright" style="margin-right: 60px; margin-top: 10px;" layout="block">
+                                            <SBCRM:avatar somenteLeitura="true" usuario="#{pgReservasCliente.usrAtendenteSelecionado}" altura="90"  />
+                                        </h:panelGroup>
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" styleClass="Container3 OrganizadorContainerDireita  " style="position: relative; margin-right: 30px;" >
+                                    <h:panelGroup layout="block" styleClass="Container3" style="width: 100px;position: absolute;left: 103px; bottom: 3px;" >
+
+                                        <h:panelGroup
+                                            styleClass="#{tipoDisponivel.nomeCurto} #{tipoDisponivel.umAtendimentoRemoto?'fa fa-video-camera':'fa fa-handshake-o'} Fs30"  style="margin-left: 5px; color: darkgreen" id="tipoEncontro" >
+                                            <p:tooltip   for="@parent"  >
+                                                #{tipoDisponivel.umAtendimentoRemoto?'VÍDEO CONFERÊNCIA':'PRESENCIAL'}
+                                            </p:tooltip>
+                                            <span class="fa fa-question-circle Fs14 Fright" style="margin-left:  4px;"/>
+                                        </h:panelGroup>
+                                        <span class=" Fs30 fa fa-clock-o"  style="margin-top: 15px; margin-left: 5px; margin-right: 2px; color: darkgreen" > #{tipoDisponivel.minutosProgramadosAtendimento}m </span>
+
+
+                                    </h:panelGroup>
+
+                                    <SBCRM:botaoGrande acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                                                       metodo="#{pgReservasCliente.defineTipoDeReserva(tipoDisponivel)}"
+                                                       label="Ver Horários disponíveis"
+                                                       atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
+                                                       />
+
+
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:fieldset>
+                    </h:panelGroup>
+
+                </ui:repeat>
+
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

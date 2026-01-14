@@ -1,0 +1,33 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="modeloEdicaoProspecto.xhtml" >
+    <ui:define name="conteudo">
+
+        <div class="Container12 OrganizadorContainer" style="opacity : 0.9;
+             height: 180vh;
+             background-image: url(#{resource['/img/salaAguardandoReuniao.jpg']});
+             background-size: cover;
+             background-position: center;
+             background-repeat: no-repeat;">
+
+            <h:panelGroup styleClass="Container6" layout="block" >
+
+                <RC:salaDebate
+                    canal="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)}"
+                    altura="600px"
+                    rendered="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)!=nul}"
+                    />
+                <h:panelGroup rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" style="background-color: #000; height: 30px;" styleClass="Container12" >
+                    <h1 style="color: white;">#{servicoChatView.urlSala}
+                        <br/>#{servicoChatView.codigoSala}
+                    </h1>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </div><!-- comment -->
+    </ui:define>
+</ui:composition>

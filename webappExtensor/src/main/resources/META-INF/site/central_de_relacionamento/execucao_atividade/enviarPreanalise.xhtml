@@ -1,0 +1,63 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="/resources/SBComp/template/basico/conteudo.xhtml"  >
+    <ui:define name="parametros">
+        <ui:param name="iconeConteudo" value="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao}" />
+        <h:form class="Fleft">
+        </h:form>
+        <h:form>
+            <div class="Fleft">
+                <p:commandButton
+                    onclick="PF('ficha').show();"
+                    value="Ver Ficha Completa"
+                    actionListener="#{pgExecutarAtividade.atividade.ajustarColeta()}"
+                    />
+            </div>
+        </h:form>
+        <h:form >
+            <div class="Fleft">
+                <p:commandButton
+                    onclick="PF('historico').show();"
+                    value="Ver Histórico" />
+            </div>
+            <div style="clear: both"/>
+        </h:form>
+    </ui:define>
+    <ui:define name="titulo">
+        PROSPECTO:  #{pgExecutarAtividade.atividade.prospectoEmpresa.nome}
+    </ui:define>
+    <ui:define name="subtitulo">
+        ATIVIDADE: #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}
+    </ui:define>
+    <ui:define name="conteudoDireita">
+        Esta atividade irá gerar os seguintes documentos:
+        #{pgExecutarAtividade.atividade.tipoAtividade.modelosDocumentoVinculados}
+    </ui:define>
+    <ui:define name="conteudoCard">
+        <p:dialog dynamic="true" modal="true" widgetVar="ficha" >
+            <h:form>
+                <h:panelGrid  columns="1" >
+                    <CRM:relacionamento tipoRelacionamento="#{pgExecutarAtividade.prospecto.relacionamento}" />
+                    <CRM:empresaDetalhes empresa="#{pgExecutarAtividade.prospecto}" tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.superior}" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog dynamic="true" modal="true" widgetVar="historico" >
+            <p:panelGrid columns="4" >
+                <c:forEach  items="#{pgExecutarAtividade.atividade.prospectoEmpresa.atividadesRealizadas}" var="atividade" >
+
+                    <p:outputLabel value="#{atividade.tipoAtividade.nomeAcao}"  />
+                    <p:outputLabel value="#{atividade.dataHoraRealizacao}"    />
+                    <p:outputLabel value="#{atividade.usuarioAtividade}"    />
+                    <p:outputLabel value="#{atividade.anotacoes}"    />
+                </c:forEach>
+            </p:panelGrid>
+        </p:dialog>
+        <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+    </ui:define>
+</ui:composition>

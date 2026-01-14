@@ -1,0 +1,82 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBObj="http://xmlns.jcp.org/jsf/composite/SBComp/composite/objetos"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:botaoAcao ="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer" style="height: 80vh;" id="matrixChat" >
+        <h:panelGroup
+            style="height:150px; max-width: 600px;" styleClass="Container12" >
+
+            <p:fieldset legend="Sua senha não foi cadastrada em nosso sistema" >
+                <p:staticMessage severity="info"  summary="Redefina sua senha do MatrixCHAT!" detail="Cria uma nova senha "/>
+                <h:form>
+                    <h:panelGroup styleClass="OrganizadorContainer Container12" layout="block" >
+                        <h:panelGroup styleClass="Container6" layout="block" style="margin: 30px;" >
+                            <p:inputText value="#{servicoSessaoChat.usuarioEmail}" disabled="true" readonly="true" required="true" style="width: 100%;" placeholder="Usuário"></p:inputText><br/>
+                        </h:panelGroup>
+                        <p:separator/>
+                        <h:panelGroup styleClass="Container6" layout="block" style="margin: 30px;"  >
+                            <p:password value="#{servicoSessaoChat.usuarioSenha}"  style="width: 100%;" required="true" placeholder="Nova Senha" toggleMask="true" feedback="true"
+
+                                        />
+
+                            <p:password  value="#{servicoSessaoChat.usuarioSenha}"
+                                         match="#{pgUtil.gerarCaminhoCompletoID('senha2')}"
+                                         class=" campoResponsivo  TexAlCenter #{componente.classeCSS}"
+                                         autocomplete="off"
+                                         redisplay="false"
+                                         feedback="true"
+                                         disabled="false"
+                                         placeholder="Digite a nova senha"
+                                         onfocus="this.removeAttribute('readonly');"
+                                         validatorMessage="O valor informado no #{label} não é valido! confirme a senha nos 2 campos, com pelo menos 6 caracteres"
+                                         promptLabel="Digite uma senha segura"
+                                         inline="true"
+                                         toggleMask="true"
+                                         weakLabel="Você pode melhorar esta senha"
+                                         goodLabel="Esta senha é uma boa senha,nós podemos aceita-la, porém você pode melhora-la adcionando numeros, caracteres especiais e letras"
+                                         strongLabel="Parabéns, esta senha é muito difícil de ser quebrada"
+                                         required="true"
+                                         id="senhaUsuario"
+                                         requiredMessage="O campo #{label} não foi informado, corretamento, confirme a senha com o mesmo valor nos dois campos "
+                                         >
+                                <f:passThroughAttribute name="readonly" value="true" />
+                                <f:validateLength minimum="6" />
+                            </p:password>
+                            <p:password id="senha2"
+                                        value="#{servicoSessaoChat.usuarioSenha}"
+                                        placeholder="Confirme a senha aqui"
+                                        toggleMask="true"
+                                        onfocus="this.removeAttribute('readonly');"
+                                        autocomplete="off"
+                                        redisplay="false"
+                                        required="true" class=" campoResponsivo  TexAlCenter" >
+                                <f:passThroughAttribute name="readonly" value="true" />
+                            </p:password>
+
+
+
+
+
+                            <br/>
+                            <br/>
+                        </h:panelGroup>
+                        <p:separator/>
+                        <h:panelGroup styleClass="Container6 Fright" layout="block" style="margin: 30px;"  >
+                            <p:commandButton actionListener="#{servicoSessaoChat.logar()}"
+                                             value="Logar"
+                                             update="#{pgUtil.gerarCaminhoCompletoID('matrixChat')}" icon="fa fa-rocket" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+
+            </p:fieldset>
+        </h:panelGroup>
+    </h:panelGroup>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+        <f:facet name="opcoesCabecalhoAtividade">
+
+            <p:fieldset rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor}"  styleClass="" >
+
+                <div class="alert alert-info Fs20  FontAdamantiumLight" >
+                    <i class="fa fa-exchange fa-2x" style="margin-right: 10px;" />  <strong>Alteração de Relacionamento!</strong> Ao executar a atividade <strong> #{pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividade}</strong>,
+                    O Relacionamento, com [#{pgExecutarAtividade.atividade.prospectoEmpresa.nome}] será alterado de <strong>#{pgExecutarAtividade.prospecto.relacionamento.nome}</strong> para:    <strong>#{pgExecutarAtividade.atividade.tipoAtividade.relacionamentoGerado.nome} </strong> </div>
+                <div class="Container12">
+                    <h:form>
+                        <SBAcaoNav:botaoDeAcao
+                            metodo="#{servicosCRM.exibirModalProspecto(pgExecutarAtividade.atividade.prospectoEmpresa, acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmFluxo)}"
+                            acao="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmFluxo}"
+                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                            />
+                    </h:form>
+                </div>
+            </p:fieldset>
+        </f:facet>
+    </CRM:cabecalhoAtividade>
+
+    <p:fieldset styleClass="Container12 ">
+        <f:facet name="legend" >
+            Alterando relacionamento do #{pgExecutarAtividade.prospecto.nome} para:<strong>  #{pgExecutarAtividade.atividade.tipoAtividade.relacionamentoGerado.nome} </strong>
+        </f:facet>
+        <h:form>
+            <h:panelGroup layout="block" styleClass="Container12" >
+                <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}"
+                                     rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor}" />
+                [#{pgExecutarAtividade.atividade.permitidoConcluir}]
+                <CRM:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}"
+                                     rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}"
+                                     />
+            </h:panelGroup>
+        </h:form>
+    </p:fieldset>
+
+    <h:form>
+
+
+        <p:fieldset legend="Os seguintes dados são nescesssários para o relacionamento: #{pgExecutarAtividade.atividade.tipoAtividade.relacionamentoGerado}"
+                    rendered="#{pgExecutarAtividade.atividade.tipoAtividade.geraNovoRelacionamento
+                                and !pgExecutarAtividade.atividade.permitidoConcluir}"
+                    id="dadosNaoCadastrados"
+                    >
+            <p:outputLabel value="Nenhuma informação obrigatória está pendente para proseguir para o pŕoximo relacionamento"
+                           rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor}" />
+            <h:panelGroup   rendered="#{!pgExecutarAtividade.atividade.permitidoConcluir}" >
+                <h:panelGroup styleClass="Container12" >
+
+                    <ui:repeat value="#{pgExecutarAtividade.atividade.dadosNaoColetados}"  var="dado" varStatus="recNum">
+                        <h:panelGroup  styleClass="Container3">
+                            <SBInput:input  registro="#{dado.campoInstanciado}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                        </h:panelGroup>
+                    </ui:repeat>
+                </h:panelGroup>
+
+
+
+            </h:panelGroup>
+
+            <CRM:opcoesAtividadeDadosDinamicos atividade="#{pgExecutarAtividade.atividade}" rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor}" />
+
+        </p:fieldset >
+
+
+        <p:remoteCommand    autoRun="true" update="@(.ui-fieldset)"/>
+
+
+    </h:form>
+
+</ui:composition>

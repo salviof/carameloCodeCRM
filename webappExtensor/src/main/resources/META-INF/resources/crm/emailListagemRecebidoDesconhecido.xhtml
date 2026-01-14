@@ -1,0 +1,137 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMMail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="lista"
+                      type="java.util.List" required="true"/>
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <p:dataTable var="mail" value="#{pgEmails.listaEmails}"
+                     rows="20"
+                     paginator="true"
+                     widgetVar="listaEmails"
+                     id="listaEmailsDesconhecido"
+                     selection="#{pgEmails.entidadeSelecionada}"
+                     selectionMode="single"
+                     rowKey="#{mail}"
+                     lazy="false"
+                     resizableColumns="true"
+
+                     paginatorPosition="bottom"
+                     >
+            <f:facet name="header">
+                <p:outputPanel>
+
+
+                </p:outputPanel>
+            </f:facet>
+            <f:facet name="footer" >
+                #{sessaoAtualSBWP.usuario.caixaPostalPrincipal.email}
+            </f:facet>
+
+
+            <p:ajax event="rowSelect" listener="#{pgEmails.abrirEmail()}"
+                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listaEmailsDesconhecido')}')"
+                    update="@form"
+
+                    />
+
+            <p:column headerText="Tipo" width="30px;" responsivePriority="4"   >
+                <center> <i class="#{mail.getCampoInstanciadoByNomeOuAnotacao('iconeTipoEmail').valor}" ></i></center>
+            </p:column>
+
+
+
+            <p:column headerText="Alerta" width="30px;" responsivePriority="2"  >
+                <h:panelGroup rendered="#{mail.getCampoInstanciadoByNomeOuAnotacao('iconeAlerta').valor!=null}" >
+
+                    <center><i class="#{mail.getCampoInstanciadoByNomeOuAnotacao('iconeAlerta').valor}" /> </center>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{mail.comoEmailRecebido.consideradoSpan}" >
+                    <center> <i class="fa fa-bug" ></i></center>
+                </h:panelGroup>
+            </p:column>
+
+            <p:column headerText="Data-Hora" width="50px;" sortable="true"
+                      responsivePriority="1"
+                      sortBy="#{mail.dataHoraArmazenamento}">
+
+                <p:outputLabel value="#{pgUtil.gerarDataHoraTextoResumido(mail.getCampoByNomeOuAnotacao('dataHoraRecebimentoServerMail').valor)}"
+
+                               />
+
+            </p:column>
+            <p:column headerText="Enviado por" width="100px;" responsivePriority="3">
+                #{mail.getCampoByNomeOuAnotacao('emailDeMensagemOriginal').valor}
+
+            </p:column>
+
+
+
+
+
+            <p:column headerText="Parceiros em cópia" width="50px;" responsivePriority="5" >
+                <span style="position: relative;right: 1px; float: left">
+                    <ui:repeat value="#{mail.prospecto.usuariosResponsaveis}" var="usuario" >
+                        <div style="position: relative;width: 30px; margin: 0px; float: left">
+                            <CRM:avatar usuario="#{usuario}" somenteLeitura="#{true}" />
+                        </div>
+                    </ui:repeat>
+                    <h:panelGroup rendered="#{mail.prospecto.usuariosResponsaveis.size()>3}" style="position: relative;width: 30px; margin: 0px; float: right;">
+                        ...
+                    </h:panelGroup>
+
+                </span>
+            </p:column>
+            <p:column headerText="Lidor por" width="50px;" responsivePriority="4" >
+                <CRMMail:usuariosLeituraEmailRecebido   email="#{mail}"/>
+
+            </p:column>
+
+            <p:column headerText="Anexos" width="100px;"  responsivePriority="5" >
+                <CRMMail:anexosDoEmail  email="#{mail}"/>
+
+            </p:column>
+
+            <p:column headerText="Assunto"  responsivePriority="1" width="200px;"  >
+                <span class="FontAdamantiumBold">  #{mail.getCampoByNomeOuAnotacao('assunto').valor}</span>
+
+            </p:column>
+            <p:column headerText="Classificação" width="300px;" responsivePriority="4" >
+                <CRMMail:classificadorDeEmail email="#{mail}" />
+            </p:column>
+            <p:column headerText="Ações" width="120px;" styleClass="" responsivePriority="1" >
+
+                <SBAcoes:seletorDeAcoesComItem
+                    destinoItemSelecionado="#{pgEmails.entidadeSelecionada}"
+                    itemSelecionado="#{mail}"
+                    metodo="#{pgEmails.executarAcao(mail)}"
+                    opcoes="#{mail.getCampoInstanciadoByNomeOuAnotacao('acoesDisponiveis').valor}"
+                    opcaoSelecionada="#{pgEmails.acaoSelecionada}"
+                    visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.icone}"
+                    />
+
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+
+    </cc:implementation>
+</ui:composition>

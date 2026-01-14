@@ -1,0 +1,39 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+        <h:panelGroup layout="block" styleClass="Container3 Fright" >
+            <p:fragment >
+                <SBPaginaAtual:botaoAcaoComTarget
+                    acao="#{acoesAdminCrm_CategoriaDocumentoClienteMbGestao.categoriaDocumentoClienteFrmNovoSubDiretorio}"
+                    target="#{pgCategoriaArquivoCliente.categoriaPai}"
+                    valorTarget="#{pgCategoriaArquivoCliente.entidadeSelecionada}"
+                    metodo="#{pgCategoriaArquivoCliente.novaSubPasta()}"
+                    />
+            </p:fragment>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="Container12" >
+
+
+            <SBFormulario:camposDaAcao
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{acoesAdminCrm_CategoriaDocumentoClienteMbGestao.categoriaDocumentoClienteFrmEditar}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                />
+        </h:panelGroup>
+    </ui:define>
+
+    <ui:define name="botoesDeAcao">
+
+        <SBPaginaAtual:botaoSalvarAlteracoes/>
+
+    </ui:define>
+</ui:composition>

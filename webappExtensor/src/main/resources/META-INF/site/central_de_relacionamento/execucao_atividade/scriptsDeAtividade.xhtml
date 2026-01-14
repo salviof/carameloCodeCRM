@@ -1,0 +1,27 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    >
+
+
+    <p:blockUI block="atividadeAtual" widgetVar="blockDisparo">
+        Aguarde enquanto enviamos este e-mail<br />
+        <i class="fa fa-paper-plane-o fa-spin fa-5x fa-fw"></i>
+    </p:blockUI>
+    <h:form>
+
+        <p:poll interval="5" listener="#{pgExecutarAtividade.verificaProcessoDocumento()}"  update="#{pgUtil.gerarCaminhoCompletoID('atividadeAtual')}"
+                autoStart="false"  widgetVar="verificaGeracao"
+                />
+    </h:form>
+    <h:panelGroup layout="block" rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" >
+        [CARREGOU SCRIPT DE ATIVIDADE]
+    </h:panelGroup>
+
+
+</ui:composition>

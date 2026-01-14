@@ -1,0 +1,33 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+        <SBInput:input registro="#{pgMetaRelacionamento.entidadeSelecionada.getCampoByNomeOuAnotacao('nome')}"
+                       label="Atividades disponíveis para" desabilitarEdicao="#{true}"  layout="#{layoutsComponenteSB.layoutCampo.esquerda}"/>
+        <SBForm:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{paginaAtual.infoPagina.acaoSelecionada}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            />
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+        <h:panelGroup class="Container30 Fright">
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{acoesAdminCrm_MetaRelacionamentoMb.metaRelacionamentoCtrMerge}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+
+                />
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>
+

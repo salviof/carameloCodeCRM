@@ -1,0 +1,105 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.EmailCrm" required="true"/>
+        <cc:attribute name="camposProcessados" />
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <script >
+            function salvarEEnviarEmail() {
+                bloquearArea('#{pgUtil.gerarCaminhoCompletoID('idSBLayotAreaAcaoSelecionada')}');
+                var execucaoAutosaveEmail = executarAutosave();
+                execucaoAutosaveEmail.then(function (responseData) {
+                    console.log(responseData);
+                    var execucaoEnvioDeEmail = enviarEmail();
+                    execucaoEnvioDeEmail.then(function (respostaEnvio) {
+                        console.log(respostaEnvio);
+                        desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('idSBLayotAreaAcaoSelecionada')}');
+                    }).catch(function (errorEnvio) {
+                        alert("falhouEnviando");
+                        console.log(errorEnvio);
+
+                    });
+                }).catch(function (errorRascunho) {
+                    console.error("Falhou");
+                    alert("falhou Salvando rascunho");
+                    console.log(errorRascunho);
+                });
+
+            }
+        </script>
+
+
+        <p:remoteCommand
+            name="enviarEmail"
+            actionListener="#{pgEmails.executarAcao(cc.attrs.email)}"
+            />
+
+        <ui:repeat value="#{servicoEmail.getAcoesDoEmail(cc.attrs.email)}" var="opc" varStatus="rec">
+            <h:panelGroup  styleClass="semBorda Fright" layout="block" >
+                <p:commandLink
+                    update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                    action="#{pgEmails.executarAcao(cc.attrs.email)}"
+                    delay="2000"
+                    process="#{cc.attrs.camposProcessados}"
+                    rendered="#{!acoesAtendimentoCrm_EmailsMbGestao.emailsCtrEnviarAgora.nomeUnico.equals(opc.nomeUnico) and !acoesAtendimentoCrm_EmailsMbGestao.emailsCtrEnviarSalvandoRascunho.equals(opc.nomeUnico)}"
+                    >
+                    <div class="" style="margin-top: 5px; margin-left: 2px;">
+                        <div class="botaoGrandeIconeTexto OrganizadorContainer" style="background-color:#{opc.cor};" href="#" role="botaoGrandeIconeTexto">
+                            <span class="FontAdamantiumBold">#{opc.nome} </span>
+                            <div class="icon OrganizadorContainer">
+                                <i class="#{opc.icone}"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <f:setPropertyActionListener
+                        target="#{pgEmails.acaoSelecionada}"
+                        value="#{opc}"  />
+                </p:commandLink>
+
+                <p:commandLink
+
+                    oncomplete="salvarEEnviarEmail();"
+                    actionListener="#{pgUtil.enviaMensagem('Atualizando dados do e-mail')}"
+                    process="#{cc.attrs.camposProcessados}"
+                    rendered="#{acoesAtendimentoCrm_EmailsMbGestao.emailsCtrEnviarAgora.nomeUnico.equals(opc.nomeUnico) or acoesAtendimentoCrm_EmailsMbGestao.emailsCtrEnviarSalvandoRascunho.equals(opc.nomeUnico)}"
+                    >
+                    <div class="" style="margin-top: 5px; margin-left: 2px;">
+                        <div class="botaoGrandeIconeTexto OrganizadorContainer" style="background-color:#{opc.cor};" href="#" role="botaoGrandeIconeTexto">
+                            <span class="FontAdamantiumBold">#{opc.nome} </span>
+                            <div class="icon OrganizadorContainer">
+                                <i class="#{opc.icone}"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <f:setPropertyActionListener
+                        target="#{pgEmails.acaoSelecionada}"
+                        value="#{opc}"  />
+                </p:commandLink>
+            </h:panelGroup>
+        </ui:repeat>
+
+
+
+
+
+
+
+
+    </cc:implementation>
+</ui:composition>

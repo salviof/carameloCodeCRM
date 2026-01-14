@@ -1,0 +1,48 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+        <f:facet name="opcoesCabecalhoAtividade">
+            <h:panelGroup rendered="#{pgExecutarAtividade.atividade.documentosGerados.size()>0}" >
+                <div class="alert alert-warning" >
+                    Os seguintes documentos foram gerados:  <strong>
+                        <c:forEach items="#{pgExecutarAtividade.atividade.documentosGerados}" var="item" >
+
+                            <SBInput:input registro="#{item.getCampoInstanciadoByNomeOuAnotacao('arquivo')}" desabilitarEdicao="#{true}" />
+
+                        </c:forEach></strong>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{pgExecutarAtividade.atividade.tipoAtividade.temDisparoDeEmail}" >
+                <div class="alert alert-warning" >
+                    Os Documentos foram enviados para
+                    foram enviado para: <strong>
+                        <c:forEach items="#{pgExecutarAtividade.atividade.emailVinculado.contatos}" var="item" >
+                            #{item.email}
+                        </c:forEach>
+                    </strong>
+                </div>
+            </h:panelGroup>
+
+        </f:facet>
+    </CRM:cabecalhoAtividade>
+
+    <p:fieldset styleClass="Container12">
+
+        <h:form>
+            <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+            <CRM:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" />
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>
+

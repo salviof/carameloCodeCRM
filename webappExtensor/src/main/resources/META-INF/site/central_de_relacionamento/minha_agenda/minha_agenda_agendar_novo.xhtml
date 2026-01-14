@@ -1,0 +1,43 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block">
+            <p:fieldset legend="Nova agenda com #{pgMinhasReservas.usuario.nome}" >
+                <p:fieldset  legend="Dados do contato">
+
+                    #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoVinculado}
+                    #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.email}<br/>
+                    #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}<br/>
+                    #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}<br/>
+
+                </p:fieldset>
+                <h:form>
+                    <SBInput:input registro="#{pgMinhasReservas.novaReserva.getCampoInstanciadoByNomeOuAnotacao('tipoAgendamento')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                   />
+                    <SBInput:input registro="#{pgMinhasReservas.novaReserva.getCampoInstanciadoByNomeOuAnotacao('inicioReservaAtendente')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                   idAtualizarOnChange="@this"
+                                   />
+
+                    <SBInput:input registro="#{pgMinhasReservas.novaReserva.getCampoInstanciadoByNomeOuAnotacao('finalReservaAtendente')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                   />
+                    <p:separator/>
+                    <SBAcao:botaoDeAcao_Pagina_Entidade acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrAgendar}"
+                                                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                        />
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>

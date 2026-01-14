@@ -1,0 +1,18 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="#{layoutsPaginas.formularioAcaoAtual.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudoDireita" >
+        <h:panelGroup styleClass="Fright" layout="block" style="margin-top: -40px;" >
+            <h:form>
+                <SBCRM:botaoGrande acao="#{acoesAgenda_TipoReservaMb.tipoReservaFrmNovoPresencial}" />
+                <SBCRM:botaoGrande acao="#{acoesAgenda_TipoReservaMb.tipoReservaFrmNovoRemoto}" />
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="conteudo" >
+        <ui:include src="/site/include/listagemGenerica.xhtml" />
+    </ui:define>
+</ui:composition>

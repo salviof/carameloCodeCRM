@@ -1,0 +1,60 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.EmailCrm" required="true"/>
+        <cc:attribute name="autoSave" type="javax.el.MethodExpression"  required="true"
+                      shortDescription="Médodo responsável por salvar o rascunho" />
+        <cc:attribute name="corFundo" default="#fffffffc" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:outputStylesheet library="qlEditorEmail" name="qlEditorEmail.css"  />
+        <h:outputScript library="qlEditorEmail" name="qlEditorEmail.js" target="head" />
+
+
+
+
+        <p:remoteCommand actionListener="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                         name="executarAutosave"
+
+                         />
+
+        <h:panelGroup layout="block" id="formularioEdicaoEmail" style="width: 100%;height: 100%;" >
+
+            <p:inputTextarea id="textoEmail"  style="width: 100%;height: 400px;"
+                             widgetVar="editorAssinatura"
+                             styleClass="invisivel"
+
+                             value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
+                             placeholder="Escreva seu e-mail aqui"
+                             required="true"
+                             >
+                <p:ajax
+                    event="blur"
+                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                    oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                    process="@this"
+                    listener="#{pgUtil.enviaMensagem('Autosave')}"
+                    />
+                <f:passThroughAttribute name="caminhoCampo" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeCompostoIdentificador}" />
+                <f:passThroughAttribute name="dominio" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeClasseOrigemAtributo}" />
+                <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto')}" />
+            </p:inputTextarea>
+            <div id="crm-mail-editor"></div>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

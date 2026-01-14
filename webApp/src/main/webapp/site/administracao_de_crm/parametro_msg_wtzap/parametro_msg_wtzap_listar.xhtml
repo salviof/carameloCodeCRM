@@ -1,0 +1,86 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBListagem="http://xmlns.jcp.org/jsf/composite/SBComp/composite/listagens"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo" >
+
+
+        <p:fieldset legend="Cabeçalho" >
+            <SBListagem:listaComOpcoesMobile
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosCabecalho}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoListarRegistros.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+            <SBListagem:listaComOpcoesDesktop
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosCabecalho}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+        </p:fieldset>
+        <p:fieldset legend="Corpo" >
+            <SBListagem:listaComOpcoesMobile
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosCorpo}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoListarRegistros.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+            <SBListagem:listaComOpcoesDesktop
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosCorpo}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+        </p:fieldset>
+
+        <p:fieldset legend="Botao" >
+            <SBListagem:listaComOpcoesMobile
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosBotoes}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoListarRegistros.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+            <SBListagem:listaComOpcoesDesktop
+                grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                itens="#{pgParametroMsgWhatsapp.parametrosBotoes}"
+                metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}"
+                titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                />
+        </p:fieldset>
+
+
+    </ui:define>
+</ui:composition>

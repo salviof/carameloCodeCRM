@@ -1,0 +1,54 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBcrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <h:form>
+
+
+
+            <div class="Container12 OrganizadorContainer">
+                <div class="ContainerIndent Container6">
+                    <div class="Card TexAlCenter" style="height: 70vh;">
+                        <br/>
+                        <h:panelGroup rendered="#{pgReservasCliente.usrAtendenteSelecionado==null}" layout="block" >
+                            <h2>No momento, não temos agenda livre nesta agenda!</h2>
+                        </h:panelGroup>
+                        <br/>
+                        <h:panelGroup rendered="#{pgReservasCliente.usrGestaoSucesso==null and pgReservasCliente.usrRepComercial==null}" >
+                            <span class="gray">As reuniões de consultoria estão disponíveis apenas para empresas registradas</span><br/>
+                            <p:link href="https://casanovadigital.com.br/contato" value="Clique aqui e entre em contato em nossos canais de venda para ajudarmos a encontrar o melhor consultor de negócios com sua empresa" />
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{pgReservasCliente.usrAtendenteSelecionado!=null}" styleClass="Container12 OrganizadorContainer " style="position: relative;" layout="block" >
+                            <h:panelGroup styleClass="Container10 OrganizadorContainerEsquerda"  layout="block" >
+                                <h:panelGroup styleClass="Container1" layout="block" style="position: relative; " >
+                                    <SBcrm:avatar somenteLeitura="true" usuario="#{pgReservasCliente.usrAtendenteSelecionado}" altura="100" />
+                                </h:panelGroup>
+
+                                <h:panelGroup styleClass="Container6" style="z-index: 999999;  " layout="block" >
+                                    <p:staticMessage severity="warn" summary="Minha agenda está lotada!" detail="Mas nós podemos conversar pelo Chat!" style="margin-left: 90px;" />
+                                </h:panelGroup>
+                                <h:panelGroup styleClass="Container12" style="margin-top: 60px" >
+
+                                    <crmDashBoard:dashBoardIconeValorTituloLink container="Container12"
+                                                                                url="#{infoWebApp.getUrlDaAcao(acoesClienteContato_ConversaMb.conversaFrmChat)}"
+                                                                                icone="fa fa-comments-o"
+                                                                                codigoestilo="2"
+                                                                                titulo="Fale aqui com #{pgReservasCliente.usrAtendenteSelecionado.nome}"
+                                                                                valor="Abrir Chat Atendimento"
+                                                                                />
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <br/><br/>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

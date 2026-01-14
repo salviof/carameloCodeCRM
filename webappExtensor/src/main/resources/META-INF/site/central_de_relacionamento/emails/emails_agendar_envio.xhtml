@@ -1,0 +1,133 @@
+
+<ui:composition template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:form>
+
+
+
+            <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical10" />
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
+                <h:panelGroup layout="block" style="width: 100%;  " styleClass="" >
+
+
+                    <h:panelGroup layout="block" styleClass="Container5" style="" >
+                        <p:calendar value="#{pgEmails.entidadeSelecionada.comoEnvioEmail.dataHoraAgendamentoDisparo}"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    showHour="true"
+                                    showMinute="true"
+                                    showSecond="false"
+                                    converter="conversorDataHora"
+                                    styleClass="calendarioGrandeEmail"
+                                    title="teste"
+                                    locale="pt_BR"
+                                    mode="inline"
+                                    id="calendarioAgenda"
+                                    immediate="true"
+                                    label="teste"
+                                    timeInput="false"
+                                    minHour="00"
+                                    maxHour="24"
+
+                                    >
+                            <p:ajax
+                                event="dateSelect"
+                                partialSubmit="true"
+                                process="@this"
+                                update="#{pgUtil.gerarCaminhoCompletoID('agendaAlertas')}"
+
+
+                                />
+                        </p:calendar>
+
+                    </h:panelGroup>
+                    <div class="quebraBlocoComEspacoVertical5 somenteMobile"/>
+                    <h:panelGroup layout="block" styleClass="Container4"  >
+                        <h:panelGroup styleClass="Container12 OrganizadorContainer"  id="agendaAlertas" layout="block">
+
+
+                            <h:panelGroup  styleClass="semBorda " layout="block" style="margin-top: 80px" >
+                                <p:commandLink
+                                    update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                    action="#{pgEmails.executarAcao(pgEmails.entidadeSelecionada)}"
+
+                                    process="@this"
+
+
+                                    >
+
+                                    <div class="" style="margin-top: 5px; margin-left: 2px;">
+                                        <div class="botaoGrandeIconeTexto OrganizadorContainer" style="background-color:#{opc.cor};" href="#" role="botaoGrandeIconeTexto">
+                                            <span class="FontAdamantiumBold">#{acoesAtendimentoCrm_EmailsMbGestao.emailsCtrAgendarEnvio.nome} </span>
+                                            <div class="icon OrganizadorContainer">
+                                                <i class="#{acoesAtendimentoCrm_EmailsMbGestao.emailsCtrAgendarEnvio.icone}"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <f:setPropertyActionListener
+                                        target="#{pgEmails.acaoSelecionada}"
+                                        value="#{acoesAtendimentoCrm_EmailsMbGestao.emailsCtrAgendarEnvio}"  />
+
+
+                                </p:commandLink>
+                                <p:staticMessage severity="info" summary="Será agendando para:"
+                                                 styleClass="Fs20 FontAdamantiumBold"
+                                                 detail=" #{pgUtil.gerarDataHoraTexto(pgEmails.entidadeSelecionada.comoEnvioEmail.dataHoraAgendamentoDisparo)}"
+                                                 rendered="#{pgEmails.entidadeSelecionada.comoEnvioEmail.dataHoraAgendamentoDisparo.time >0}" />
+
+                                <p:staticMessage severity="warn" summary="Atenção!" detail=" Selecione um dia e Horário válidos para o agendamento"
+                                                 rendered="#{pgEmails.entidadeSelecionada.comoEnvioEmail.dataHoraAgendamentoDisparo eq null }" style="" />
+
+                            </h:panelGroup>
+
+
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+
+
+                    <p:commandLink
+                        update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                        action="#{pgEmails.voltarEdicaoEmailEmAgendamento()}"
+
+                        process="@this"
+
+
+                        >
+
+                        <div class="" style="margin-top: 5px; margin-left: 2px;">
+                            <div class="botaoGrandeIconeTexto OrganizadorContainer" style="background-color:#{opc.cor};" href="#" role="botaoGrandeIconeTexto">
+                                <span class="FontAdamantiumBold">Voltar </span>
+                                <div class="icon OrganizadorContainer">
+                                    <i class="fa fa-undo "></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <f:setPropertyActionListener
+                            target="#{pgEmails.acaoSelecionada}"
+                            value="#{acoesAtendimentoCrm_EmailsMbGestao.emailsCtrAgendarEnvio}"
+                            />
+
+
+                    </p:commandLink>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+            <h:outputScript name="recursos/js/traducaoDatasPrime.js" library="SBComp"  target="body"
+
+                            />
+
+        </h:form>
+    </ui:define>
+</ui:composition>

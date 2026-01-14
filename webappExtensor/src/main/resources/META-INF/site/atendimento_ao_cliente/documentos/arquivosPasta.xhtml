@@ -1,0 +1,104 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBpaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="" style="position: relative">
+        <div class="CardTopic " style="margin-left: 10px; height: 100px;padding: 10px;">
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesClienteContato_DocumentosMbGestao.documentosMbGestao)}"        >
+                #{pgClienteMeusDocs.categoriaSelecionada.nome}
+                <i class="fa fa-folder-open-o Fs30 Fleft MarRight10"></i>
+
+                <br/>
+                <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+                <span class="CardSubTopic">
+                    #{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.descricao}
+                    <span class="fa fa-arrow-left Fs30" />
+                </span>
+            </p:link>
+            <h:panelGroup styleClass="Fright" style="position: relative  " layout="block">
+                <h:form rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoNovoRegistro!=null}">
+                    <SBpaginaAtual:botaoAcaoPersonalizada
+                        acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoNovoRegistro}"
+                        />
+                </h:form>
+            </h:panelGroup>
+        </div>
+        <div class="quebraBlocoComEspacoVertical10"></div>
+        <div class="Container12" >
+            <p:tabView activeIndex="1" >
+                <p:tab title="Enviar novo Arquivo">
+                    <p:fieldset  style="border: 0px;">
+                        <h:form  enctype="multipart/form-data">
+                            <p:fileUpload
+                                mode="advanced"  multiple="true"
+
+                                auto="true"
+                                listener="#{pgClienteMeusDocs.enviarArquivosPessoa}"
+                                update="#{pgUtil.gerarCaminhoCompletoID('arquivosClient')}"
+                                styleClass="#{paginaAtual.sessao.telaUsuario.umMobile?'inputDropArquivoMobile':'inputDropArquivo'} "
+                                sizeLimit="65485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx|zip)$/"
+                                invalidSizeMessage="O tamanho máximo permitido é 100 KB"
+                                invalidFileMessage="Este tipo de arquivo não é permitido, apenas: png|pdf|doc|docx|xml|xmlx são permitidos"
+                                label="Procurar no meu dispositivo local"
+                                uploadLabel="Atualizar Arquivos da Pessoa"
+                                cancelLabel="Cancelar"
+
+                                >
+
+                            </p:fileUpload>
+                        </h:form>
+
+                        <h:panelGroup styleClass="Container12" style="position: absolute; margin-top: -160px;" layout="block" >
+
+                            <p:graphicImage  library="img" alt="Arraste arquivos aqui para vincular o arquivo à pessoa." name="upload-illustration.png" />
+                            (ou arraste aqui)
+                        </h:panelGroup>
+                    </p:fieldset>
+                </p:tab  >
+                <p:tab
+
+
+                    title="Arquivos da pasta #{pgClienteMeusDocs.categoriaSelecionada.nome} (#{ empty pgClienteMeusDocs.entidadesListadas?'0':pgClienteMeusDocs.entidadesListadas.size()})" id="arquivosClient">
+                    <h:panelGroup styleClass="Container12 OrganizadorContainer"  style="height: 100%;background: #ffffff;margin: 0px;" layout="block" >
+                        <c:forEach var="doc" items="#{pgClienteMeusDocs.entidadesListadas}" >
+                            <h:panelGroup style="width: 130px;height: 220px; padding: 6px;  border: 1px solid #262b57;
+                                          border-radius: 10px;
+                                          position: relative;
+
+                                          border-style: dashed;" layout="block" >
+                                <span class="#{doc.icone} Fs100" style="word-break: break-all;" /><br/>
+                                <span class="Fs14" style="word-break: break-all;" >#{doc.nome}</span>
+                                <h:panelGroup  layout="block" style="position: absolute;bottom: 6px;" styleClass="Container12 OrganizadorContainer">
+                                    <h:form>
+                                        <p:commandButton
+                                            partialSubmit="true"
+                                            process="@this"
+                                            onclick="javaScript:window.open('#{doc.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank');"
+                                            icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
+                                            />
+                                        <p:commandButton
+                                            partialSubmit="true"
+                                            process="@this"
+                                            onclick="javaScript:window.open('#{doc.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}', '_blank');"
+                                            icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
+                                            />
+                                    </h:form>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </c:forEach>
+                    </h:panelGroup>
+                </p:tab>
+            </p:tabView>
+        </div>
+    </div>
+
+
+
+
+</ui:composition>

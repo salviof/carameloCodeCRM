@@ -1,0 +1,150 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+
+    <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+        <f:facet name="opcoesCabecalhoAtividade">
+            <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" layout="block" id="opcoesEmail">
+
+
+                <p:fieldset legend="Dados de envio para convite de interação:"
+                            rendered="#{pgExecutarAtividade.atividade.convitePrincipal.conviteFoiEnviado}"
+                            >
+
+                    <div class="alert alert-info" >
+                        <strong>A execução desta ação foi terceirizada!</strong>
+                        Um e-mail foi enviado para #{pgExecutarAtividade.atividade.convitePrincipal.contato.email}, Você pode cancelar esta solicitação, ou aguardar que ela seja concluida por #{pgExecutarAtividade.atividade.convitePrincipal.contato.nome},
+                        ou reenviar o e-mail solicitando a colaboração
+                    </div>
+                    <h:form>
+
+
+                        <p:textEditor
+                            id="textoEmail"
+                            secure="false"
+                            value="#{pgExecutarAtividade.atividade.convitePrincipal.conteudo}"
+                            height="500"
+
+                            style="width: 100%;"
+                            />
+
+
+
+                        <h:panelGrid columns="2">
+                            <SBInput:input
+                                label="Enviar para"
+                                registro="#{pgExecutarAtividade.atividade.convitePrincipal.getCampoInstanciadoByNomeOuAnotacao('contato')}"
+                                />
+                            <p:commandButton
+
+                                icon="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEnviarConvite.icone}"
+                                value="re-enviar convite"
+                                actionListener="#{pgExecutarAtividade.enviarConvite()}"
+
+                                update="@form"
+                                styleClass="Container25"
+                                />
+                        </h:panelGrid>
+
+                        <p:poll  process="@form" listener="#{pgExecutarAtividade.atualizarConvite()}" interval="30" />
+                    </h:form>
+                </p:fieldset>
+
+            </h:panelGroup>
+
+
+        </f:facet>
+    </CRM:cabecalhoAtividade>
+
+
+
+
+    <p:fieldset legend="Dados de envio para convite de interação:" rendered="#{!pgExecutarAtividade.atividade.convitePrincipal.conviteFoiEnviado}" styleClass="Container12" >
+        <h:form>
+
+            <h:panelGroup styleClass="Container6" layout="block" >
+
+                <p:selectOneListbox id="advanced"
+                                    style="width: 100%; background-color: #546e7a3d;"
+                                    value="#{pgExecutarAtividade.atividade.convitePrincipal.getCampoInstanciadoByNomeOuAnotacao('contato').valor}"
+                                    converter="conversorGenerico"
+                                    var="item" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{pgExecutarAtividade.atividade.convitePrincipal.getCampoInstanciadoByNomeOuAnotacao('contato').listaDeOpcoes}"
+                                   var="item" itemLabel="#{item.email}" itemValue="#{item}"/>
+                    <p:column>
+                        <p:avatar label="#{item.nome}"  styleClass="p-ml-3" size="xlarge" style="background-color:#2196F3; color: #ffffff"/>
+
+                    </p:column>
+                    <p:column>
+                        <h:outputText style="margin-left: 50px" value="#{item.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText style="margin-left: 50px" value="#{item.email}"/>
+                    </p:column>
+                </p:selectOneListbox>
+
+
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container6" layout="block" >
+                <SBInput:input registro="#{pgExecutarAtividade.atividade.convitePrincipal.getCampoInstanciadoByNomeOuAnotacao('assunto')}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                <CRM:botaoPersonalizado
+                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEnviarConvite.icone}"
+                    descricao="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEnviarConvite.nome}"
+                    titulo="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEnviarConvite.descricao}"
+                    metodo="#{pgExecutarAtividade.enviarConvite()}"
+                    atualizar="@form"
+                    />
+
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container12" >
+                <p:textEditor
+                    id="textoEmail"
+                    secure="false"
+                    value="#{pgExecutarAtividade.atividade.convitePrincipal.conteudo}"
+                    height="300"
+
+                    style="width: 100%;"
+                    />
+            </h:panelGroup>
+
+            <h:panelGroup styleClass="Container12" >
+
+
+
+                <h:panelGroup styleClass="Container3" >
+
+
+                    <p:poll  process="@form" listener="#{pgExecutarAtividade.atualizarConvite()}" interval="30" />
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+        </h:form>
+    </p:fieldset>
+
+
+    <h:form>
+        <p:remoteCommand
+            autoRun="true" update="@(.ui-fieldset)" />
+    </h:form>
+
+
+    <h:form>
+        <CRM:opcoesAtividadeResumido  atividade="#{pgExecutarAtividade.atividade}"/>
+
+    </h:form>
+
+</ui:composition>
+

@@ -1,0 +1,64 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo" >
+        <h:form>
+            <p:dataGrid
+
+                var="item"
+                value="#{pgClientesDoConvidado.usuarioConvidaddo.leadsCompartilhados}"
+                layout="grid"
+                columns="#{sessaoAtualSBWP.telaUsuario.umMobile?'1':'3'}"
+                paginator="true"
+                widgetVar="leadsDoConvidado"
+                emptyMessage="Nenhum cliente foi compartilhado com você"
+                paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rows="6"
+                rowsPerPageTemplate="6,9,12,15"
+                >
+
+
+
+                <f:facet name="header">
+                    Meus clientes
+
+                    <p:inputText
+
+                        id="globalFilter"
+                        onkeyup="PF('leadsDoConvidado').filter()"
+                        style="width:100%; height: 35px;"
+                        placeholder="Pesquise aqui:"/>
+
+                </f:facet>
+
+                <p:panel>
+
+
+
+                    <h:panelGroup layout="block" styleClass="OrganizadorContainer">
+                        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesConvidado_PastasDoClienteMbGestao.pastasDoClienteMbGestao,item)}" >
+                            <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{item.imgPequena}"
+                                 style="
+                                 min-height: 70px;
+                                 max-width: 70%;
+                                 max-height:  90px;
+                                 position: relative;
+                                 top: 0px;" />
+                            #{item.nome}
+                        </p:link>
+                    </h:panelGroup>
+
+
+
+
+
+                </p:panel>
+
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

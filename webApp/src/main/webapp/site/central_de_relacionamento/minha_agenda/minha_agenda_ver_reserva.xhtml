@@ -1,0 +1,57 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:Scp="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+    <ui:define name="conteudo">
+        <h:form>
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+                <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto)}" >
+                    <h:panelGroup layout="block" styleClass="OrganizadorContainer">
+                        <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto.imgPequena}"
+                             style="
+                             min-height: 170px;
+                             max-width: 70%;
+                             max-height:  90px;
+                             position: relative;
+                             top: 0px;" />
+                    </h:panelGroup>
+                </p:link>
+            </h:panelGroup>
+            <div class="quebraBlocoComEspacoVertical20"/>
+            <h:panelGroup layout="block" styleClass="Container6 OrganizadorContainer" >
+                <div class="data-como-calendario inline-flex size3x">
+                    <span class="weekday">#{pgUtilDataHoraFormato.getDiaDaSemana(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                    <span class="day">#{pgUtilDataHoraFormato.getDiaDoMes(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                    <span class="month">#{pgUtilDataHoraFormato.getMesExtenso(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)} #{pgUtilDataHoraFormato.getAnoResumido(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                    <span class="year">#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}-#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.finalReservaAtendente)}<br/></span>
+
+                </div>
+
+            </h:panelGroup>
+            <p:fieldset  legend="Dados do contato">
+
+                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoVinculado}
+                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.email}<br/>
+                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}<br/>
+                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}<br/>
+
+            </p:fieldset>
+            <p:fieldset  legend="Opções">
+                <p:outputLabel value="#{pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia}"  rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto and pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia != null}"/>
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" >
+                    <h:panelGroup layout="block" styleClass="Container3" >
+                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmDefinirUrlReuniao}" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="Container3" >
+                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrRemover}" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+
+        <h:panelGroup class="Container100" >
+            <c:forEach items="#{pgGrupoGerenciar.permissoesGrupo}" var="quadroPermissao" >
+
+                <p:fieldset styleClass="Container4" rendered="true" >
+                    <f:facet name="legend">
+                        <i class="#{quadroPermissao.icone}" aria-hidden="true"></i>
+                        #{quadroPermissao.nome}
+                    </f:facet>
+                    <p:selectManyMenu id="advanced"
+                                      value="#{quadroPermissao.acoesPermitidas}"
+                                      converter="conversorGenerico"
+
+                                      style="width: 100%;"
+                                      var="t" filter="true" filterMatchMode="contains"
+                                      showCheckbox="true">
+                        <f:selectItems value="#{quadroPermissao.acoesDisponiveis}"
+                                       var="acao"
+                                       itemLabel="#{acao.nome}"
+                                       itemValue="#{acao}" />
+
+                        <p:column>
+                            <h:outputText styleClass="#{t.icone}" />
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="#{t.nome} " />
+                        </p:column>
+                    </p:selectManyMenu>
+                </p:fieldset>
+            </c:forEach>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="quebraBlocoComEspacoVertical10"/>
+        <h:panelGroup styleClass="Container4 Fright">
+
+            <SBPaginaAtual:botaoAcaoPersonalizada acao="#{acoesAdminCrm_GrupoMbGerenciar.grupoCtrSalvarPermissoes}"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

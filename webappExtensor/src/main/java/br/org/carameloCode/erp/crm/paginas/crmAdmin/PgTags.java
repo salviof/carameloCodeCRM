@@ -1,0 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.org.carameloCode.erp.crm.paginas.crmAdmin;
+
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.tagAtendimento.TagAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
+import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
+import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
+/**
+ *
+ * @author salviofurbino
+ * @since 09/09/2019
+ * @version 1.0
+ */
+@InfoPagina(nomeCurto = "TagsAdmin", tags = {"TagsAmin"}, acessoLivre = false)
+@ViewScoped
+@InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TAG_MB)
+@Named
+public class PgTags extends MB_paginaCadastroEntidades<TagAtendimento> {
+
+}

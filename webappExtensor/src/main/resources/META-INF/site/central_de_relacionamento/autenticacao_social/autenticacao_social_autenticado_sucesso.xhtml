@@ -1,0 +1,43 @@
+
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <p:fieldset legend="Você está autenticado">
+        <p:panelGrid columns="2" >
+            <p:outputLabel value="Foto"/> <p:graphicImage url="#{pgAutendicadorSocial.profile.profileImageURL}" />
+            <p:outputLabel value="Nome"/> <p:outputLabel value="#{pgAutendicadorSocial.profile.fullName}"/>
+            <p:outputLabel value="Email"/> <p:outputLabel value="#{pgAutendicadorSocial.profile.email}"/>
+            <p:outputLabel value="Sexo"/> <p:outputLabel value="#{pgAutendicadorSocial.profile.gender}"/>
+            <p:outputLabel value="Data Nascimento"/> <p:outputLabel value="#{pgAutendicadorSocial.profile.validatedId}"/>
+        </p:panelGrid>
+
+        #{sessaoAtualSBWP.usuario.imgPequena}
+
+        <h:form>
+            <SBAcaoNav:botaoDeAcao_Pagina acao="#{acoesAtendimentoCrm_AutenticacaoSocialMb.autenticacaoSocialCtrAtualizarCadastro}"
+                                          tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                          />
+
+
+            <SBAcaoNav:irParaPaginaInicial />
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/resources/SBComp/template/basico/conteudoEmBranco.xhtml"
+    xmlns:SBCrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRM_AGENDA="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="conteudo">
+        <h:outputStylesheet name="reservas.css" library="css"/>
+        <h:panelGroup styleClass="container-principal" id="reservasDisponiveis">
+
+            <!-- Quando não há horários -->
+            <h:panelGroup styleClass="card-sem-horarios"
+                          rendered="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis.size()==0}">
+                <div class="mensagem-sem-horarios">
+                    <p:staticMessage severity="warn" styleClass="fs-30"
+                                     detail=""
+                                     summary="Nenhum horário disponível publicamente no momento, entre em contato via: casanovadigital.com.br"/>
+                </div>
+            </h:panelGroup>
+
+            <!-- Quando há horários disponíveis -->
+
+            <CRM_AGENDA:dataDisponivel
+
+                areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{pgReservasPublicas.agendaDisponivel}"
+                vagasDisponiveis="true"
+
+                />
+
+            <h:panelGroup rendered="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis.size()>0}" layout="block" id="painelHorariosDisponives" >
+
+                <CRM_AGENDA:horariosDisponiveis
+                    horariosDisponiveis="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis}"
+
+                    />
+
+
+
+            </h:panelGroup>
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

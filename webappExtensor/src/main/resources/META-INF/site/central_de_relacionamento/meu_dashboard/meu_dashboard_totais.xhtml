@@ -1,0 +1,28 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+
+        <crmDashBoard:meusCompromissosLead dadosDeLead="#{pgDashBoardAtendimento.pesquisaLead}" />
+
+
+        <crmDashBoard:meusCompromissosAtendimento dadosDeLead="#{pgDashBoardAtendimento.pesquisaLead}" />
+
+        <crmDashBoard:minhasOrigens dadosDeLead="#{pgDashBoardAtendimento.pesquisaLead}" />
+
+        <crmDashBoard:meusLeadsVisaoGeral dadosDeLead="#{pgDashBoardAtendimento.pesquisaLead}" />
+
+
+
+
+
+
+    </ui:define>
+</ui:composition>

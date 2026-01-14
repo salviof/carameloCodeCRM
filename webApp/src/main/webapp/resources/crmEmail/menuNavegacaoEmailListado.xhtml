@@ -1,0 +1,53 @@
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="acao"
+                      type="com.super_bits.modulos.SBAcessosModel.model.acoes.acaoDeEntidade.AcaoFormEntidadeSec" required="true"/>
+        <cc:attribute name="pessoa"  type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <div class="card">
+
+            <p:breadCrumb styleClass="MenuNavegacao"  homeDisplay="text">
+                <p:menuitem value="Meus Emails" url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarUltmosEmails)}"
+                            rendered="#{cc.attrs.pessoa == null}"
+                            />
+
+                <p:menuitem value="Enviados e Recebidos: #{cc.attrs.pessoa.nome}"
+                            rendered="#{(cc.attrs.pessoa!=null)}"
+                            url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmEmailsDoProspecto ,cc.attrs.pessoa)}"
+                            />
+                <p:menuitem value="E-mails Recebidos"
+                            rendered="#{cc.attrs.acao.equals(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido)}"
+                            url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido,cc.attrs.pessoa)}" />
+
+                <p:menuitem value="E-mails Enviados"
+                            rendered="#{cc.attrs.acao.equals(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarEnviados) and cc.attrs.pessoa != null}"
+                            url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido,cc.attrs.pessoa)}" />
+
+
+
+
+            </p:breadCrumb>
+        </div>
+
+
+    </cc:implementation>
+</ui:composition>

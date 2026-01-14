@@ -1,0 +1,78 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBMensagem="http://xmlns.jcp.org/jsf/composite/SBComp/composite/mensagem"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:panelGroup styleClass="Container12 OrganizadorContainer">
+            <p:fieldset legend="Atividade não finalizada detectada" >
+
+                <div class="alert alert-warning" style="margin-top: 50px;">
+                    <strong>Atividade igual em execução!</strong> Você já iniciou uma atividade <strong> #{pgExecutarAtividade.atividade.tipoAtividade.nome}</strong>,
+                    para o prospecto <strong>#{pgExecutarAtividade.prospecto.nome}</strong> em: #{pgUtil.gerarDataHoraTexto(pgExecutarAtividade.atividade.atividadeMesmoTipoAbertaUsuarioLogado.dataHoraInicioAtividade)},
+
+
+                </div>
+
+
+                <div style="
+
+                     display: flex;
+                     flex-wrap: wrap;
+                     justify-content:space-around;">
+
+                    <h:form >
+
+                        <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.sobrescreverPrevalexendoAtividadeAtual()}"
+                                                titulo="Sobrescrever Atividade Anterior"
+                                                icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrCancelarAtividadeAnterior.icone}"
+                                                descricao="Remove a ação anterior e inicia uma nova atividade, (A ação do dia #{pgUtil.gerarDataHoraTexto(pgExecutarAtividade.atividade.atividadeMesmoTipoAbertaUsuarioLogado.dataHoraInicioAtividade)} será removida)"
+                                                cor="f4425c"
+                                                />
+
+
+
+
+
+
+                    </h:form>
+
+                    <h:form >
+                        <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.sobrescreverPrevalecendoAtividadeAnterior()}"
+                                                titulo="Continuar Atividade Anterior"
+                                                icone=" fa-arrow-right "
+                                                descricao="Continuar onde parei em #{pgUtil.gerarDataHoraTexto(pgExecutarAtividade.atividade.atividadeMesmoTipoAbertaUsuarioLogado.dataHoraInicioAtividade)}"
+                                                cor="2BB673"
+                                                atualizar="#{pgExecutarAtividade.idAreaExbicaoAcaoSelecionada}"
+                                                />
+
+
+
+
+
+
+
+
+                    </h:form>
+
+
+
+                </div>
+            </p:fieldset>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+

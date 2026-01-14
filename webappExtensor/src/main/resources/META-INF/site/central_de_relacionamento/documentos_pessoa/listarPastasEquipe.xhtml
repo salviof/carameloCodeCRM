@@ -1,0 +1,10 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo">
+    <ui:define name="conteudo" >
+        <crmArquivo:arquivosEquipe  pessoa="#{pgDocumentoPessoa.pessoa}"/>
+    </ui:define>
+</ui:composition>
+

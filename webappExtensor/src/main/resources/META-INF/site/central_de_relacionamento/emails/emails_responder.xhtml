@@ -1,0 +1,92 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBMensagem="http://xmlns.jcp.org/jsf/composite/SBComp/composite/mensagem"
+    xmlns:SBCRMMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:panelGroup layout="block" styleClass="Container12"  style="">
+        <p:staticMessage severity="info" detail="Em resposta ao e-mail #{pgEmails.entidadeSelecionada.emailSolicitante.assunto}" summary="E-mail de Resposta" />
+        <h:form >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="background-image: url(https://source.unsplash.com/random?woman,work);opacity : 0.7;margin-top: -9px;    border-bottom: 3px solid;" >
+                <h:panelGroup id="resumoDestino" styleClass="Container1" layout="block" style="" >
+
+                    <SBCRM:avatarEmailDeUsuario somenteLeitura="true"
+                                                usuario="#{sessaoAtualSBWP.usuario}"
+                                                largura="50" altura="50" />
+                    <SBCRMMAIL:destinatarioAvatar somenteLeitura="true"
+                                                  email="#{pgEmails.entidadeSelecionada}"
+                                                  largura="50" altura="50" />
+
+
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container10" layout="block" id="campo-anexos" >
+                    <SBCRMMAIL:inputEnvioEmailCampoPara
+                        email="#{pgEmails.entidadeSelecionada}"
+                        />
+                    <SBCRMMAIL:inputEnvioEmailCampoAnexo email="#{pgEmails.entidadeSelecionada}" />
+
+                    <h:panelGroup styleClass="Container10"  id="textoAssunto" layout="bock" >
+                        <SBCRMMAIL:inputEmailAssunto
+
+                            email="#{pgEmails.entidadeSelecionada}" autoSave="#{pgEmails.salvarRascunho()}"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <p:tabView dynamic="true" cache="true" effect="fold" style="width: 95%; background-color: #f5f5f5f2;" activeIndex="1">
+                    <p:tab >
+                        <f:facet name="title" >
+                            <i class="fa fa-id-card-o"/> E-mail Original
+                        </f:facet>
+                        <p:textEditor toolbarVisible="false" readonly="true"
+                                      value="#{pgEmails.entidadeSelecionada.emailSolicitante.comoEmailRecebido.getCampoInstanciadoByNomeOuAnotacao('textoComUrlImagemEmAnexo').valor}"
+                                      secure="false" />
+                    </p:tab>
+
+                    <p:tab >
+                        <f:facet name="title" >
+                            <i class="fa fa-id-card-o"/> Resposta
+                        </f:facet>
+                        <h:panelGroup   id="textoEmail"
+                                        styleClass="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunas>=17?'Container11':'Container12'} OrganizadorContainerEsquerda"
+                                        layout="block" style="opacity: 0.9; margin-top: 10px;"  >
+
+                            <SBCRMMAIL:inputEmail
+                                id="inputmail"
+                                corFundo="#f5f5f51f"
+                                email="#{pgEmails.entidadeSelecionada}" autoSave="#{pgEmails.salvarRascunho()}" />
+
+
+                            <p:poll
+                                listener="#{pgEmails.salvarRascunho()}"
+                                intervalType="second"
+                                interval="15"
+
+                                />
+
+
+
+
+                        </h:panelGroup>
+                        <h:panelGroup  styleClass="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunas>=17?'Container1 OrganizadorContainerEsquerda':'Container12 OrganizadorContainerDireita'} "
+                                       style=""
+                                       layout="block" >
+                            <SBCRMMAIL:botoesDeAcaoDoEmail email="#{pgEmails.entidadeSelecionada}"
+                                                           camposProcessados="#{pgUtil.gerarCaminhoCompletoID('textoEmail')} @this #{pgUtil.gerarCaminhoCompletoID('textoAssunto')}"
+                                                           />
+                        </h:panelGroup>
+
+                    </p:tab>
+                </p:tabView>
+            </h:panelGroup>
+
+        </h:form>
+    </h:panelGroup>
+</ui:composition>

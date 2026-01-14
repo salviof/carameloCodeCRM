@@ -1,0 +1,152 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBChamado="http://xmlns.jcp.org/jsf/composite/chamado"
+
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="conteudo">
+
+
+
+        <h:panelGroup styleClass="Container9" layout="block" id="dadosDoChamado" >
+            <SBChamado:dadosBasicosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}"  />
+
+
+
+            <p:tabView activeIndex="0" dynamic="true" cache="true" styleClass="Container12">
+
+                <p:tab>
+                    <f:facet name="title" >
+                        <b>    Interação via Chat recepção e envio de anexo</b>
+                    </f:facet>
+                    testes
+                    <RC:salaDebate
+                        rendered="#{pgMeusChamadosAtd.canalDoChamado !=null}"
+                        canal="#{pgMeusChamadosAtd.canalDoChamado}" altura="400px"
+                        textoBotaoNovo="Abrir canal de interação"
+                        />
+
+                </p:tab>
+
+
+
+                <p:tab title="Eventos do chamado  ">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Agente </th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <c:forEach items="#{pgMeusChamadosAtd.entidadeSelecionada.eventosDoChamado}" var="chamado" >
+                                <tr scope="row">
+                                    <td class="col-md-2">#{pgUtil.gerarDataHoraTextoResumido(chamado.dataHora)} </td>
+                                    <td class="col-md-1"><SBCRM:avatar usuario="#{chamado.agente}" somenteLeitura="true"/></td>
+                                    <td class="col-md-2">#{chamado.descricao}</td>meus_chamados_chamados_atender
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </p:tab>
+                <p:tab title="Transferencia de chamado">
+                    <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+                        <p:fieldset legend="Definir Responsável" styleClass="Container12" >
+                            <h:form>
+                                <h:panelGroup styleClass="Container8" layout="block" >
+                                    <p:selectOneListbox id="advanced" value="#{pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel}"
+                                                        converter="conversorGenerico"
+                                                        var="atendente" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioDisponiveis').valor}"
+                                                       var="atendente" itemLabel="#{atendente.nome}" itemValue="#{atendente}"/>
+                                        <p:column>
+                                            <div style="position: relative;width: 30px; margin: 0px; float: left">
+                                                <SBCRM:avatar usuario="#{atendente}" somenteLeitura="#{true}" />
+                                            </div>
+
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{atendente.nome}"/>
+                                        </p:column>
+                                    </p:selectOneListbox>
+                                </h:panelGroup>
+                                <h:panelGroup styleClass="Container3" layout="block" style="margin-top: 30px;" >
+                                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrDefinirResponsavel}"
+                                                       atualizar="#{pgUtil.gerarCaminhoCompletoID('opcoesResponsavel')}"
+                                                       />
+                                </h:panelGroup>
+                            </h:form>
+                        </p:fieldset>
+
+
+                    </h:panelGroup>
+
+                    <p:fieldset legend="Me tornar responsavel " styleClass="Container3" >
+                        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 10px;" >
+                            <h:form>
+                                <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrAssumirChamado}"
+                                                   atualizar="#{pgUtil.gerarCaminhoCompletoID('opcoesResponsavel')}"
+                                                   />
+                            </h:form>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </p:tab>
+            </p:tabView>
+
+
+
+        </h:panelGroup>
+
+
+        <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+
+            <SBChamado:dadosAvancadosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}" />
+
+
+            <h:form>
+                <p:dataTable id="products" var="notificacao" value="#{pgMeusChamadosAtd.entidadeSelecionada.notificacoes}"
+                             >
+                    <p:column headerText="Data hora Ultimas notificações" styleClass="Fs30">
+                        <i class="fa fa-bullhorn" /> <h:outputText value="#{pgUtil.gerarDataHoraTexto(notificacao.dataHoraNotificacao)}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+
+            <SBChamado:linkCompartilharChamado
+                chamado="#{pgMeusChamadosAtd.chamado}"
+                />
+        </h:panelGroup>
+
+
+        <script>
+            try {
+                PF('statusDialog').hide();
+            } catch (t) {
+                console.log(t);
+            }
+
+        </script>
+        <h:form>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

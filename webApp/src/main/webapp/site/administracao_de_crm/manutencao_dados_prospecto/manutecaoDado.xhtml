@@ -1,0 +1,51 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo">
+
+        <p:selectBooleanButton offLabel="Visualizacao" onLabel="Ediçao"
+                               value="#{pgDadoManutencao.modoEdicao}"
+                               onchange="#{pgUtil.atualizaTelaPorID('@this')}"
+                               immediate="true"
+
+                               >
+            <p:ajax global="true"
+                    event="valueChange"
+                    update="@form"
+                    process="@this" />
+        </p:selectBooleanButton>
+
+        <h:panelGroup  rendered="#{!pgDadoManutencao.modoEdicao}">
+            #{pgDadoManutencao.dadoCRMAtual.tipoCampo}
+            #{pgDadoManutencao.dadoCRMAtual.nome}
+            #{pgDadoManutencao.dadoCRMAtual.descritivo}
+            <p:button href="#{pgUtilAcoes.getUrlAcao(acoesAdminCrm_OpcaoDadosCrmMbGerenciar.opcaoDadosCrmFrmEditar,pgDadoManutencao.dadoCRMAtual.tipoDadoCRM)}"
+                      target="_blanck"
+                      value="Editar Tipo de dado"/>
+        </h:panelGroup>
+
+
+
+        <SBInput:input rendered="#{pgDadoManutencao.modoEdicao}"  registro="#{pgDadoManutencao.dadoCRMAtual.campoInstanciado}" layout="#{layoutsComponenteSB.layoutCampo.superior}"  />
+
+        <SBAcaoNav:botaoDeAcao_Pagina_Entidade acao="#{acoesAdminCrm_ManutencaoDadosProspectoMb.manutencaoDadosProspectoFrmProximoDado}"
+                                               tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                               />
+        <SBAcaoNav:botaoDeAcao_Pagina_Entidade acao="#{acoesAdminCrm_ManutencaoDadosProspectoMb.manutencaoDadosProspectoFrmDadoAnterior}"
+                                               tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                               />
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+
+
+
+    </ui:define>
+</ui:composition>

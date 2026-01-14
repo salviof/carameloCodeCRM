@@ -1,0 +1,40 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+
+    <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
+        <h:form >
+            <p:focus  context="obs" />
+            <h:panelGroup styleClass="Container12" id="obs" layout="block">
+
+                <SBInput:input
+                    label="Resumo"
+                    registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('obeservacao')}"
+                    layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+            </h:panelGroup>
+
+            <h:panelGroup styleClass="Container12" layout="block">
+                <SBInput:input
+                    label="Descrição da solitação (Se fizer sentido)"
+                    registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('descricaoConfirmacao')}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin: 30px;">
+                <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrSoliciatarArquivoEquipe }" />
+
+
+            </h:panelGroup>
+
+        </h:form>
+    </h:panelGroup>
+
+
+</ui:composition>

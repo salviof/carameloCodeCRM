@@ -1,0 +1,144 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="divConteudo">
+
+        <div id="fb-root"></div>
+        <script async="true" defer="true" crossorigin="anonymous"
+                src="#{pgDashboardCliente.scriptFacebook}"
+                nonce="hGzP8iJf">
+        </script>
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}" styleClass="Container12 OrganizadorContainer" style="background-color: #FFFFFF">
+
+            <h:panelGroup styleClass="Container9 OrganizadorContainer" style="height: 500px" >
+                <h:panelGroup rendered="#{pgDashboardCliente.integracoes.size()>0}" layout="block" style="position: relative;" styleClass="Container12 OrganizadorContainer">
+                    <c:forEach items="#{pgDashboardCliente.integracoes}" var="integracao" >
+                        <SBCRM:integracaoCliente integracao="#{integracao}" tamanhoPixel="60" />
+                    </c:forEach>
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{sessaoAtualSBWP.usuario.representanteLegal.temImagemPequenaAdicionada}" style="" >
+                    <img class=""  src="#{sessaoAtualSBWP.usuario.representanteLegal.imgPequena}"
+                         style="
+                         min-height: 20px;
+                         max-width: 100%;
+                         max-height:  100px;
+                         position: relative;
+                         top: #{sessaoAtualSBWP.telaUsuario.umMobile?'0px;':'240px;'};
+                         background-color: #FFFFFF;
+                         " />
+                </h:panelGroup>
+
+                <div class="quebraBlocoComEspacoVertical2" ></div>
+
+
+                <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
+                                                            url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ChamadoMbGestao.chamadoFrmListar)}"
+                                                            icone="fa fa-life-ring"
+                                                            titulo="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                                                                      .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?'Meus chamados':''}"
+                                                            valor="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                                                                     .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?pgDashboardCliente.usuarioLogado.metadados.chamadosAbertos:'Abrir Chamado'}" codigoestilo="3" />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
+                                                            url="#{pgDashboardCliente.urlAgenda}"
+                                                            icone="fa fa-ticket"
+                                                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':'Próximo evento '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
+                                                            valor="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'Agende uma reunião':pgDashboardCliente.usuarioLogado.metadados.getCampoInstanciadoByNomeOuAnotacao('textoProximaReserva').valor}"
+                                                            />
+
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin-top: 100px;">
+
+
+                    <h:panelGroup style="background-color: #ffffffff; border-style: solid;  "
+                                  styleClass="Container6 FontAdamantiumBold Fs16" id="satisfacaobox" layout="block" >
+                        <span style="text-align: center;
+
+                              position: relative;
+                              float: top;
+                              top: -12px;
+                              #{sessaoAtualSBWP.telaUsuario.umMobile?'left: 5px;':'left: 130px;'}
+                              background-color: #ffffff;" > Como você se sente sobre a qualidade dos nossos serviços?</span>
+                        <h:panelGroup style="" styleClass="Container12 OrganizadorContainer " layout="block" >
+                            <div></div>
+                            <h:form>
+                                <SBCRM:botaoGrandeComConfirmacao acao="#{acoesClienteContato_DashboardMbGestao.dashboardCtrInsatisfeito}"
+                                                                 cor="#{pgDashboardCliente.usuarioInsatisfeito?'#4cb84f':'#4f3e3e'}"
+                                                                 metodo="#{pgDashboardCliente.executarAcaoSelecionada()}"
+                                                                 atualizar="#{pgUtil.gerarCaminhoCompletoID('satisfacaobox')}"
+                                                                 fraseConfirmacao="Sua satisfação ATUAL conosco, será ALTERADA de [#{pgDashboardCliente.usuarioLogado.satisfacao.nome}] para INSATISFEITO, uma série de providencias serão promovidas devido a mudança"
+                                                                 />
+                            </h:form>
+                            <h:form>
+                                <SBCRM:botaoGrandeComConfirmacao acao="#{acoesClienteContato_DashboardMbGestao.dashboardCtrSatisfeito}"
+                                                                 cor="#{pgDashboardCliente.usuarioSatisfeito?'#4cb84f':'#4f3e3e'}"
+                                                                 metodo="#{pgDashboardCliente.executarAcaoSelecionada()}"
+                                                                 atualizar="#{pgUtil.gerarCaminhoCompletoID('satisfacaobox')}"
+                                                                 fraseConfirmacao="Sua satisfação ATUAL conosco, será ALTERADA de [#{pgDashboardCliente.usuarioLogado.satisfacao.nome}] para SATISFEITO"
+                                                                 />
+                            </h:form>
+                            <h:form>
+                                <SBCRM:botaoGrandeComConfirmacao acao="#{acoesClienteContato_DashboardMbGestao.dashboardCtrMuitoSatisfeito}"
+                                                                 metodo="#{pgDashboardCliente.executarAcaoSelecionada()}"
+                                                                 atualizar="#{pgUtil.gerarCaminhoCompletoID('satisfacaobox')}"
+                                                                 cor="#{pgDashboardCliente.usuarioMuitoSatisfeito?'#4cb84f':'#4f3e3e'}"
+                                                                 fraseConfirmacao="Sua satisfação ATUAL conosco, será ALTERADA de [#{pgDashboardCliente.usuarioLogado.satisfacao.nome}] para MUITO SATISFEITO."
+                                                                 />
+
+                            </h:form>
+                            <p:messages />
+                        </h:panelGroup>
+
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin-top: 100px;">
+                        <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
+                                                                    url="#{infoWebApp.getUrlDaAcao(acoesClienteContato_DocumentosMbGestao.documentosMbGestao)}"
+                                                                    icone="fa fa-folder"
+                                                                    codigoestilo="2"
+                                                                    titulo="Meus documentos"
+                                                                    valor="Ver pastas"
+                                                                    />
+
+                        <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
+                                                                    url="#{pgDashboardCliente.urlConversa}"
+                                                                    icone="fa fa-comments-o"
+                                                                    codigoestilo="4"
+                                                                    titulo="Chat de Atendimento"
+                                                                    valor="Conversar"
+                                                                    />
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+
+            <h:panelGroup styleClass="Container3" layout="block" style="#{sessaoAtualSBWP.telaUsuario.umMobile?'margin-top: 800px;':''} " >
+                <p:fieldset  legend="Ultimas notícias" styleClass="Container12" >
+                    <div class="fb-page" data-href="https://www.facebook.com/casanovadigitalmkt"
+                         data-tabs="timeline" data-width="500" data-height="800"
+                         data-small-header="true" data-adapt-container-width="true"
+                         data-hide-cover="true" data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/casanovadigitalmkt" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/casanovadigitalmkt">Utimas notícias do Blog</a></blockquote></div>
+                </p:fieldset>
+            </h:panelGroup>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <h:form>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                </h:form>
+            </p:confirmDialog>
+
+
+        </h:panelGroup>
+        [#{sessaoRocketChat.usuarioRC}]
+    </ui:define>
+</ui:composition>

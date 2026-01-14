@@ -1,0 +1,50 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBPaginaEnt="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo" >
+
+
+        <h:panelGroup styleClass="Container12">
+            <p:fieldset legend="Opções de pesquisa">
+                <h:form>
+                    <h:panelGroup styleClass="Container3" >
+                        <p:outputLabel value="Origem" />
+                        <SBInput:seletorItem
+                            itemSelecionado="#{pgProspecto.origem}"
+                            lista="#{pgProspecto.origens}"
+                            idOnChange="@this" />
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="Container3" >
+                        <p:outputLabel value="Relacionamento" />
+                        <SBInput:seletorItem
+                            itemSelecionado="#{pgProspecto.tipoRelacionamentoSelecionado}"
+                            idOnChange="@this" lista="#{pgProspecto.relacionamentosExistentes}" />
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Fright" >
+                        <div style="align-items: center;    align-items: center;  justify-content: center; display: flex;" >
+                            <SBPaginaEnt:botaoAcaoPersonalizada acao="#{pgProspecto.acaoListarRegistros}" />
+                        </div>
+                        #{pgProspecto.textoPesquisa}
+                    </h:panelGroup>
+
+                </h:form>
+            </p:fieldset>
+
+        </h:panelGroup>
+        <div class="SeparatorFull"></div>
+
+
+        <ui:include src="/site/include/listagemGenerica.xhtml" />
+    </ui:define>
+
+
+</ui:composition>

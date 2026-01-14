@@ -1,0 +1,100 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="atividade"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.AtividadeCRM" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:panelGroup id="opcoesEdicaoAtividade" layout="block" styleClass="Container12" >
+
+            <h:outputText value="#{cc.attrs.atividade.listaBloqueios}" rendered="#{!cc.attrs.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor
+                                   and infoWebApp.emModoDesenvolvimentoHomologacao}" />
+
+            <p:fieldset  styleClass="Container12"  >
+                <f:facet name="legend" >
+                    <i class="#{cc.attrs.atividade.tipoAtividade.iconeAcao} Fs20 Fleft "> #{cc.attrs.atividade.tipoAtividade.nome} para: <strong> #{cc.attrs.atividade.prospectoEmpresa.nome}</strong></i>
+                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar,cc.attrs.atividade.tipoAtividade)}" >
+                        (Clique para editar esse tipo de atividade COD:#{cc.attrs.atividade.tipoAtividade.id})
+                    </p:link>
+                </f:facet>
+
+                <p:progressBar value="#{cc.attrs.atividade.prospectoEmpresa.relacionamento.peso*10}"  labelTemplate="{value}% #{cc.attrs.atividade.prospectoEmpresa.relacionamento.nome}"
+                               displayOnly="true" /> <br/>
+
+                <div class="Container6">
+                    <SBCRM:opcoesAtividadeResumido
+                        atividade="#{cc.attrs.atividade}"
+
+                        />
+
+                </div>
+
+
+                <div class="Container4 Fright">
+                    <div class="Container12 w3-panel ">
+                        <SBCRM:botaoPersonalizado
+                            titulo="#{pgExecutarAtividade.acaoContinuarMaisTarde.nome}"
+                            descricao="#{pgExecutarAtividade.acaoContinuarMaisTarde.descricao}"
+                            icone="#{pgExecutarAtividade.acaoContinuarMaisTarde.icone}"
+                            rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                            atualizar="@form"
+
+
+                            metodo="#{pgExecutarAtividade.salvarMaisTarde()}"
+
+
+                            />
+
+
+                        <SBCRM:botaoPersonalizado
+                            titulo="#{cc.attrs.atividade.tipoAtividade.nomeFimAtividaed}"
+                            descricao="#{pgExecutarAtividade.acaoContinuarMaisTarde.descricao}"
+                            icone="#{cc.attrs.atividade.tipoAtividade.icone}"
+                            rendered="#{!pgExecutarAtividade.vaiAgendar and cc.attrs.atividade.permitidoConcluir}"
+                            atualizar="@form"
+                            styleClasses="botaoVerde"
+                            cor="#{cc.attrs.atividade.tipoAtividade.cor}"
+                            metodo="#{pgExecutarAtividade.concluirAtividade()}"
+
+
+                            />
+
+                    </div>
+
+                </div>
+
+
+
+            </p:fieldset>
+
+        </h:panelGroup>
+
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+

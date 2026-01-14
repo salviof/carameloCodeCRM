@@ -1,0 +1,151 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:SBChamado="http://xmlns.jcp.org/jsf/composite/chamado"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="background-color: aliceblue;width: 100%;">
+
+
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" id="dadosDoChamado" layout="block" style="margin-top: 30px;" >
+            <SBChamado:dadosBasicosChamado
+                chamado="#{pgSuporteCliente.entidadeSelecionada}"
+
+                />
+            <h:panelGroup styleClass="Container6 OrganizadorContainer"  layout="block"  >
+
+                <RC:salaDebate
+                    usuarioResponsavelPorLogin="false"
+                    rendered="#{pgSuporteCliente.canalDoChamado!=null}"
+                    canal="#{pgSuporteCliente.canalDoChamado}" altura="100%"
+                    textoBotaoNovo="Abrir canal de interação"
+
+                    />
+                <h:panelGroup rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" >
+                    #{servicoChatView.urlSala}
+                </h:panelGroup>
+            </h:panelGroup>
+
+
+
+        </h:panelGroup>
+
+
+        <h:panelGroup styleClass="Container4 Fright " rendered="false" layout="block" style="margin-top: 30px;float: right;" >
+            <p:fieldset legend="Opções de notificação" styleClass="Container12" >
+
+                <h:panelGroup styleClass="Container6" layout="block"  >
+                    <h:form >
+                        <SBInput:input registro="#{pgSuporteCliente.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('notificarViaSMS')}"
+                                       label="Me notifique via SMS"
+                                       metodoOnChange="#{pgSuporteCliente.atualizarNotificacaoViaSMS()}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                        <SBInput:input
+                            label="Me notifique via e-mail"
+                            metodoOnChange="#{pgSuporteCliente.atualizarNotificacaoViaEMAIL()}"
+                            registro="#{pgSuporteCliente.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('notificarViaEmail')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                    </h:form>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="Container3" layout="block"  >
+
+                    <h:panelGroup styleClass="Container12" layout="block"  style="margin-left: 30px;" >
+                        <h:form >
+                            <crm:botaoGrande
+                                acao="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrNotificarResonsaveis}"
+                                atualizar="#{pgUtil.gerarCaminhoCompletoID('dadosDoChamado')}"
+                                />
+                        </h:form>
+
+
+
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+
+
+
+            </p:fieldset>
+            <h:panelGroup styleClass="Container12 " layout="block"  style="margin-top: 20px;" rendered="#{!pgSuporteCliente.chamado.chamadoEmEstadoAtendimento}" >
+                <h:form >
+                    <p:fieldset legend="Fechar Chamado" styleClass="Container12 OrganizadorContainer" >
+                        <p:selectOneButton value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('satisfacao').valor}" id="satisfacao" required="true"
+                                           converter="conversorGenerico"
+                                           requiredMessage="Por favor, dê seu veredito em relação ao resultado final, clicando nas opções acima"
+                                           >
+                            <f:passThroughAttribute name="caminhoCampo" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('satisfacao').nomeCompostoIdentificador}" />
+                            <f:passThroughAttribute name="dominio" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('satisfacao').nomeClasseOrigemAtributo}" />
+                            <f:passThroughAttribute name="campoInstanciado" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('satisfacao')}" />
+                            <c:forEach var="satisfacao" items="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('satisfacao').comoCampoSeltorItem.origem}" >
+                                <f:selectItem itemLabel="#{satisfacao.nome}"  itemValue="#{satisfacao}" />
+                            </c:forEach>
+
+
+                        </p:selectOneButton>
+                        <p:message for="satisfacao"
+
+                                   />
+                        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block"   >
+
+                            <p:commandButton
+                                action="#{pgSuporteCliente.executarAcaoSelecionada()}"
+                                icon="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrFinalizar.icone}"
+                                value="Finalizar Chamado"
+                                process="@form"
+                                update="@form"
+                                styleClass="botaoVerde"
+
+                                >
+                                <p:confirm header="Tem certeza?" message="Deseja fechar o Chamado? (O chamado será encerrado)"  icon="pi pi-info-circle" />
+
+                                <f:setPropertyActionListener target="#{pgSuporteCliente.acaoSelecionada}" value="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrFinalizar}" />
+                            </p:commandButton>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container12" layout="block"  style="margin-top: 50px;" >
+            <h:panelGroup styleClass="Container3 Fleft" layout="block"  style="margin-top: 50px;" >
+                <h:form>
+                    <p:commandButton
+                        action="#{pgSuporteCliente.executarAcaoSelecionada()}"
+                        icon="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrCancelar.icone}"
+                        value="Excluir Chamado"
+                        process="@form"
+                        update="@form"
+                        styleClass="botaoVermelho"
+                        rendered="#{pgSuporteCliente.chamado.chamadoEmEstadoAtendimento}"
+                        >
+                        <p:confirm header="Tem certeza?" message="A exclusão é irreversível."  icon="pi pi-info-circle" />
+
+                        <f:setPropertyActionListener target="#{pgSuporteCliente.acaoSelecionada}" value="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrCancelar}" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                    </p:confirmDialog>
+
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:panelGroup>
+
+
+</ui:composition>

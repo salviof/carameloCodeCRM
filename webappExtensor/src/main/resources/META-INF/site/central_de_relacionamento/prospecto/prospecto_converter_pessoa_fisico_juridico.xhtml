@@ -1,0 +1,29 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="modeloEdicaoProspecto.xhtml"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <h:form>
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerEsquerda" style="margin-top: 80px;" >
+
+                <p:outputLabel value="#{pgProspecto.entidadeSelecionada.nome}"  styleClass="FontAdamantiumBold Fs30" />
+                <p:separator/>
+                <p:outputLabel value="Registrado como pessoa Física" rendered="#{pgProspecto.entidadeSelecionada.umaPessoaFisica}" />
+                <p:outputLabel value="Registrado como pessoa Jurídica" rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}" />
+                <p:separator/>
+                <h:panelGroup layout="block" styleClass="Container12"></h:panelGroup>
+                <h:panelGroup layout="block" styleClass="Container3">
+                    <SBPaginaAtual:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrConverterPessoaFisicoJuridico}"
+                                                          label="#{pgProspecto.entidadeSelecionada.umaPessoaFisica?'Converter Para pessoa JURIDICA':'Converter para Pessoa física'}"
+                                                          />
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

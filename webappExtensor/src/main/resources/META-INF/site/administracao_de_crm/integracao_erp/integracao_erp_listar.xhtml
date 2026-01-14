@@ -1,0 +1,25 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo" >
+        <ui:include src="/site/include/listagemGenerica.xhtml" />
+        <p:fieldset >
+            <p:outputLabel value="#{pgIntegracaoERP.sistema.nome}" />
+        </p:fieldset>
+        <p:fieldset >
+            <p:outputLabel value="#{pgIntegracaoERP.sistema.chavePublica}" />
+        </p:fieldset>
+
+        <p:fieldset >
+            <p:outputLabel value="#{pgIntegracaoERP.sistema.urlPublicaEndPoint}" />
+        </p:fieldset>
+
+        <p:fieldset >
+            <p:outputLabel value="#{pgIntegracaoERP.sistema.hashChavePublica}" />
+        </p:fieldset>
+    </ui:define>
+
+
+</ui:composition>

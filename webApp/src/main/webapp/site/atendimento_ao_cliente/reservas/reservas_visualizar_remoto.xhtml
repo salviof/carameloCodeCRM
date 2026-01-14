@@ -1,0 +1,46 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBCRM_AGENDA="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    template="#{layoutsPaginas.formularioPersonalizado.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!--    <ui:define name="titulo">-->
+    <!--        <span>#{pgReservasCliente.entidadeSelecionada.id ne null?'Confirmação da Reseva':'Reserva '},#{pgReservasCliente.entidadeSelecionada.tipoAgendamento.nome} </span>-->
+    <!--        <h:panelGroup styleClass="Container3 Fright" style="width: 200px;" layout="block">-->
+    <!--            <h:form>-->
+    <!--                <SBBotaoAcao:botaoDeAcao_Pagina-->
+    <!--                        classeEstilo="botaoVermelho"-->
+    <!--                        rendered="#{pgReservasCliente.entidadeSelecionada.id ne null}"-->
+    <!--                        label="CANCELAR"-->
+    <!--                        update="infoReserva"-->
+    <!--                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"-->
+    <!--                        acao="#{acoesClienteContato_ReservasMbGestao.reservasCtrCancelar}"-->
+    <!--                />-->
+
+    <!--            </h:form>-->
+    <!--        </h:panelGroup>-->
+    <!--        <SBFormulario:irParaTopoERodape/>-->
+    <!--    </ui:define>-->
+    <ui:define name="conteudo">
+
+        <SBCRM_AGENDA:detalhesReservaHorario reserva="#{pgReservasCliente.entidadeSelecionada}"
+                                             acaoListarOutrosHorarios="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                                             acaoSalvarReserva="#{acoesClienteContato_ReservasMbGestao.reservasCtrReservar}"
+                                             acaoConfirmarReserva="#{acoesClienteContato_ReservasMbGestao.reservasCtrConfirmar}"
+        />
+        <h:panelGroup style="position: fixed;bottom: 5px;right: 5px;" layout="block" styleClass="Fs30">
+            <p:clock mode="server"/>
+        </h:panelGroup>
+        <script>window.scrollTo({top: 0, behavior: 'smooth'});</script>
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+    </ui:define>
+</ui:composition>

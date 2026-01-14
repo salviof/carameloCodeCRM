@@ -1,0 +1,93 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:listaLead="http://xmlns.jcp.org/jsf/composite/listaLead"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <listaLead:dialogoIntervalo  pesquisa="#{pgMeusProspectos.pesquisa}" />
+    <h:panelGroup layout="block" id="atualizacaoCard" >
+        <h:form  >
+            <p:remoteCommand
+                name="atualizarCardAtualizado"
+                actionListener="#{pgUtil.atualizaTelaPorID(servicosCRM.idAreaCardAtualizado==null?'@form':servicosCRM.idAreaCardAtualizado)}"
+                onstart="bloquearArea('#{servicosCRM.idAreaCardAtualizado}')"
+                />
+
+        </h:form>
+    </h:panelGroup>
+    <h:form>
+        <p:commandButton
+            id="abrirModalContatoByIDAjax"
+            actionListener="#{servicosCRM.exibirModalProspectoGestaoContatos()}"
+            update="@form atualizacaoCard"
+            styleClass="invisivel"
+            oncomplete="atualizarCardAtualizado()"
+            >
+            <p:ajax event="dialogReturn"
+                    listener="#{pgMeusProspectos.onModalProspectoClose}"
+                    update="gridListagemMeusProspets"
+                    />
+        </p:commandButton>
+        <h:inputHidden value="#{servicosCRM.idProspectoStr}"
+                       id="inputCodigoProspectoModalContatos" />
+        <h:inputHidden value="#{servicosCRM.idAreaCardAtualizado}"
+                       id="idAreaCardAtualizado" />
+
+
+    </h:form>
+    <script>
+        function abrirModalContatoById(codigoPessoa, idAreaCard) {
+
+            document.getElementById('#{pgUtil.gerarCaminhoCompletoID('inputCodigoProspectoModalContatos')}').value = codigoPessoa;
+            document.getElementById('#{pgUtil.gerarCaminhoCompletoID('idAreaCardAtualizado')}').value = idAreaCard;
+            document.getElementById('#{pgUtil.gerarCaminhoCompletoID('abrirModalContatoByIDAjax')}').click();
+        }
+    </script>
+    <h:panelGroup
+        styleClass="Container12" layout="block" id="menuFiltroLeads"
+        >
+        <h:form>
+            <listaLead:menuMeusProspectos pesquisa="#{pgMeusProspectos.pesquisa}" />
+        </h:form>
+    </h:panelGroup>
+
+    <p:separator/>
+    <h:panelGroup
+        id="gridListagemMeusProspets" layout="block"
+        styleClass="Container12"
+
+        >
+        <p:focus for="#{pgUtil.gerarCaminhoCompletoID('pesquisaLead')}" />
+        <h:form>
+            <p:dataGrid
+                columns="#{paginaAtual.sessao.telaUsuario.umMobile ? 1 : paginaAtual.sessao.telaUsuario.numeroMaximoColunas}"
+                value="#{pgMeusProspectos.pesquisa.getCampoByNomeOuAnotacao('leadsEncontrados').valor}"
+                var="empresa"
+                widgetVar="gridListagemMeusProspets"
+                styleClass="Container12 GridMeusProspectos #{paginaAtual.sessao.telaUsuario.umMobile? 'MobileGridMeusProspectos':''}"
+                id="gridListagemMeusProspets"
+                emptyMessage="Não existe prospectos associados a seu usuário. Você pode listar prospectos existentes clicando em [prospectos->listar prospectos] pesquisar novos clicando no menu:  [prospecots-> Descobertas]"
+                rows="10"
+                paginatorPosition="bottom"
+                paginator="true"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,20,30,40,50,60,70,60"
+                >
+
+                <h:panelGroup id="cardPessoa" layout="block" >
+                    <crm:empresa empresa="#{empresa}"
+                                 tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                 />
+                </h:panelGroup>
+            </p:dataGrid>
+        </h:form>
+    </h:panelGroup>
+
+    <div class="quebraBlocoComEspacoVertical40" />
+
+</ui:composition>

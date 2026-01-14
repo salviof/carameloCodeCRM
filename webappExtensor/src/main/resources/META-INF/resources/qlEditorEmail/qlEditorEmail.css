@@ -1,0 +1,9 @@
+#crm-mail-editor {
+    height: auto;
+    min-height: 300px; /* Altura do editor */
+    border: 1px solid #ccc; /* Borda do editor */
+    margin-bottom: 10px; /* Espaço abaixo do editor */
+    border-radius: 5px; /* Cantos arredondados */
+    padding: 10px; /* Espaçamento interno */
+    background-color: white;
+}

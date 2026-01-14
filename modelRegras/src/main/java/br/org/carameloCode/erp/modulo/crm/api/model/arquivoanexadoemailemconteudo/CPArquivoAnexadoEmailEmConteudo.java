@@ -1,0 +1,11 @@
+package br.org.carameloCode.erp.modulo.crm.api.model.arquivoanexadoemailemconteudo;
+
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoAnexadoEmailEmConteudo.ArquivoAnexadoEmailEmConteudo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
+
+@InfoReferenciaEntidade(tipoObjeto = ArquivoAnexadoEmailEmConteudo.class)
+public enum CPArquivoAnexadoEmailEmConteudo {
+	_CID;
+
+	public static final String cid = "cid";
+}

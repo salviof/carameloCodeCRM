@@ -1,0 +1,34 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/resources/SBComp/template/basico/modeloNotion.xhtml"
+    xmlns:fb="http://ogp.me/ns/fb#"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head"  >
+
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block" >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" style="height: 100%;width: 700px;" layout="block" >
+                <c:forEach items="#{notionWidgetPastaEquipe.pessoa.getCampoInstanciadoByNomeOuAnotacao('docClienteCategorias').valor}" var="cat" >
+
+                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaCliente,notionWidgetPastaEquipe.pessoa,cat.categoria)}" target="cndcrm" >
+                        <h:panelGroup style="max-width:80px;  max-height: 100px; position: relative; margin: 30px;" layout="block" >
+                            <p:badge value="#{cat.quantidade}" styleClass="mr-2" size="large" severity="warning">
+                                <span class="#{cat.icone} Fs50 BlueTextButton"></span><br/>
+                            </p:badge>
+                            <span class="FontAdamantiumBold Fs16" style="">#{cat.nome}</span>
+                        </h:panelGroup>
+                    </p:link>
+                </c:forEach>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{notionWidgetPastaEquipe.pessoa==null}" >
+            <h1>CNPJ não Encontrado</h1>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

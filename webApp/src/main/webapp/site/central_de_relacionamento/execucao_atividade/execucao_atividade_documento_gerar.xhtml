@@ -1,0 +1,84 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+
+    <script>
+        function statusGeracaoDocumento() {
+            PF('blokGerador').show();
+            setTimeout(function () {
+                PF('verificaGeracao').start();
+            }, 3000);
+        }
+    </script>
+
+    <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+        <f:facet name="opcoesCabecalhoAtividade">
+            <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda" >
+                <p:fieldset legend="Olá, esta atividade irá gerar os seguintes documentos" id="formGerador">
+
+
+                    <h:panelGroup styleClass="Container20" >
+                        <c:forEach items="#{pgExecutarAtividade.atividade.tipoAtividade.modelosDocumentoVinculados}" var="doc" >
+                            <h:form>
+                                |<i>(#{doc.nome} - #{doc.descricao})</i>
+                                <p:link
+                                    rendered="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_ModelosDocumentosTipoAtividadeMbGerenciar.modelosDocumentosTipoAtividadeFrmEditar)}"
+                                    href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_ModelosDocumentosTipoAtividadeMbGerenciar.modelosDocumentosTipoAtividadeFrmEditar,doc)}" >
+                                    Codigo do Modelo: #{doc.id}  (Clique para Editar)
+                                </p:link>
+                                |<br/>
+                                <SBInput:input rendered="#{false}" registro="#{doc.getCampoInstanciadoByNomeOuAnotacao('documento')}" desabilitarEdicao="true" />
+                            </h:form>
+                        </c:forEach>
+
+                    </h:panelGroup>
+                    <div class="Container5"  >
+                        <h:form >
+
+                            <CRM:botaoPersonalizadoComTarget metodo="#{pgExecutarAtividade.gerarDocumentos()}"
+                                                             icone="fa fa-magic "
+                                                             onStart="statusGeracaoDocumento();"
+
+                                                             titulo="Gerar pdf"
+                                                             atualizar="@form"
+                                                             target="#{pgExecutarAtividade.acaoSelecionada}"
+                                                             varlorTarget="#{acoesCRM_Execucao_de_Atividades.execucao_atividade_frm_documento_gerar}"
+                                                             />
+
+
+                        </h:form>
+                    </div>
+
+
+                    <p:blockUI block="formGerador" widgetVar="blokGerador" >
+                        <i class="fa fa-magic fa-spin fa-3x fa-fw" ></i> Gerando documento, convertendo em PDF
+
+
+                    </p:blockUI>
+
+
+
+                </p:fieldset>
+            </h:panelGroup>
+        </f:facet>
+    </CRM:cabecalhoAtividade>
+
+
+    <h:panelGroup styleClass="quebraBlocoComEspacoVertical10" />
+    <h:form>
+        <CRM:opcoesAtividadeResumido  atividade="#{pgExecutarAtividade.atividade}"/>
+
+    </h:form>
+
+
+
+
+</ui:composition>

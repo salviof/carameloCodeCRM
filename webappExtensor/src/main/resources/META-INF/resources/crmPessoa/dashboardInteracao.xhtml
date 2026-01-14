@@ -1,0 +1,147 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <cc:interface>
+        <cc:attribute name="pessoa" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <h:outputStylesheet name="prospecto.css" library="css"/>
+
+        <div class="cards-dashboard">
+
+            <!-- Card  -->
+            <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                    style="text-decoration: none;">
+                <div class="card-moderno chamados">
+                    <div class="card-conteudo">
+                        <div class="card-icone chamados">
+                            <i class="fa fa-life-ring "></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Chamado</div>
+                            <div class="card-valor">#{pgProspecto.prospecto.chamadosAbertos.size()}</div>
+                        </div>
+                    </div>
+                </div>
+            </p:link>
+
+            <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa,cc.attrs.pessoa)}"
+                    style="text-decoration: none;">
+                <div class="card-moderno solicitacoes">
+                    <div class="card-conteudo">
+                        <div class="card-icone solicitacoes">
+                            <i class="pi pi-send"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Solicitações</div>
+                            <div class="card-valor">#{pgProspecto.prospecto.solicitacoesAbertas.size()}</div>
+                        </div>
+                    </div>
+                </div>
+            </p:link>
+
+            <p:commandLink process="@this"
+                           update="dlgResumoAtividades"
+                           oncomplete="PF('dlgResumoAtividadesWidget').show()"
+                           style="text-decoration: none;">
+
+                <div class="card-moderno orcamentos">
+                    <div class="card-conteudo">
+                        <div class="card-icone orcamentos">
+                            <i class="pi pi-file"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Continuar atividade</div>
+                            <div class="card-valor">#{pgProspecto.prospecto.atividadesEmAndamento.size()}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </p:commandLink>
+            <p:commandLink process="@this"
+                           update="dlgNovaAtividade"
+                           oncomplete="PF('dlgNovaAtividadeWidget').show()"
+                           style="text-decoration: none;">
+
+                <div class="card-moderno orcamentos">
+                    <div class="card-conteudo">
+                        <div class="card-icone orcamentos">
+                            <i class="pi pi-plus"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Nova atividade</div>
+<!--                            <div class="card-valor">+</div>-->
+                        </div>
+                    </div>
+                </div>
+
+            </p:commandLink>
+
+
+<!--            <p:fieldset styleClass="Container12" legend="Nova Atividade" toggleable="true">-->
+
+<!--                <p:fieldset styleClass="Container12">-->
+<!--                    <crmPessoa:resumoEstagioRelacionamento-->
+<!--                            pessoa="#{pgProspecto.prospecto}"-->
+<!--                    />-->
+<!--                </p:fieldset>-->
+<!--            </p:fieldset>-->
+
+
+
+        </div>
+        <p:dialog id="dlgResumoAtividades"
+                  widgetVar="dlgResumoAtividadesWidget"
+                  header="Atividades em andamento"
+                  modal="true"
+                  width="650"
+                  responsive="true"
+                  closable="true">
+
+            <!-- Quando houver atividades -->
+            <h:panelGroup rendered="#{pgProspecto.prospecto.atividadesEmAndamento.size() > 0}">
+                <crmPessoa:resumoAtividadeEmAndamento
+                        pessoa="#{pgProspecto.entidadeSelecionada}" />
+            </h:panelGroup>
+
+            <!-- Quando NÃO houver atividades -->
+            <h:panelGroup rendered="#{pgProspecto.prospecto.atividadesEmAndamento.size() == 0}">
+                <div class="alert alert-warning Fs14" style="padding:12px;">
+                    Não possui atividades em andamento.
+                </div>
+            </h:panelGroup>
+
+
+        </p:dialog>
+        <p:dialog id="dlgNovaAtividade"
+                  widgetVar="dlgNovaAtividadeWidget"
+                  header="Nova Atividade"
+                  modal="true"
+                  width="650"
+                  responsive="true"
+                  closable="true">
+
+            <!-- Quando houver atividades -->
+            <h:panelGroup>
+                <crmPessoa:menuBotaoEscolherAtividade
+                        pessoa="#{pgProspecto.prospecto}"
+                />
+            </h:panelGroup>
+
+            <!-- Quando NÃO houver atividades -->
+<!--            <h:panelGroup rendered="#{pgProspecto.prospecto.atividadesEmAndamento.size() == 0}">-->
+<!--                <div class="alert alert-warning Fs14" style="padding:12px;">-->
+<!--                    Não possui atividades em andamento.-->
+<!--                </div>-->
+<!--            </h:panelGroup>-->
+
+
+        </p:dialog>
+    </cc:implementation>
+</ui:composition>

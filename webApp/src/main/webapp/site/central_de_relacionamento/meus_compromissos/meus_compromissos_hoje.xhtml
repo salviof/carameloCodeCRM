@@ -1,0 +1,19 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <h:form>
+            <crm:avatar usuario="#{pgMeusCompromissos.usuario}" somenteLeitura="false" />
+            <p:staticMessage severity="info"
+                             detail="Zero comprimissos encontrados para o dia #{pgUtil.gerarDataTexto(pgUtil.dataHora)}"
+                             summary="Nenhuma atividade para hoje" rendered="#{sessaoAtualSBWP.usuario.atividadeParaHoje.isEmpty()}" />
+            <crm:minhaProgramacao usuario="#{pgMeusCompromissos.usuario}" />
+
+        </h:form>
+    </ui:define>
+</ui:composition>

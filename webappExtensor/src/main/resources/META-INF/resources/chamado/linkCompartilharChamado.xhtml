@@ -1,0 +1,65 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="chamado"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.ChamadoCliente" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <p:fieldset styleClass="Container12" legend="Link de acesso direto para o cliente, (usar para compartilhar manualmente)" id="linkAcessoRapido" >
+            <h:form >
+                <h:panelGroup layout="block" styleClass="Container4" >
+                    <SBCRM:botaoGrande
+                        acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrGerarCodigoAcesso}"
+                        atualizar="#{pgUtil.gerarCaminhoCompletoID('linkAcessoRapido')}"
+
+                        />
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken!=null}" styleClass="Container8" >
+                    <p:outputLabel value="#{pgMeusChamadosAtd.urlAcessoDireto}" style="width: 200px"  />
+                    <h:panelGroup layout="block" styleClass="Container12" >
+
+                        <p:button icon="fa fa fa-whatsapp"
+                                  style="margin: 5px;"
+                                  onclick="#{pgUtilTelefone.gerarJavascriptWhatsqpp(pgMeusChamadosAtd.entidadeSelecionada.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.celular,
+                                             pgUtil.saudacao.concat(pgMeusChamadosAtd.entidadeSelecionada.usuarioCliente.nome)
+                                             .concat(', atualizei o seu chamado, utilize este link para interagir:  ').concat(pgMeusChamadosAtd.urlAcessoDireto)
+                                             )}"
+                                  href="#" />
+
+                        <p:button icon="fa fa-copy"
+                                  id="copiarLinkChamado"
+                                  style="margin: 5px;"
+                                  onclick="alert('#{pgMeusChamadosAtd.urlAcessoDireto} copiado com sucesso')"
+                                  href="#" >
+                            <pe:clipboard trigger="copiarLinkChamado" action="copy"
+
+                                          text="#{pgMeusChamadosAtd.urlAcessoDireto}"  />
+                        </p:button>
+
+                        Valido até:#{pgUtil.gerarDataTexto(pgMeusChamadosAtd.ultimoToken.validade)}
+
+                    </h:panelGroup>
+
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken==null}" >
+                    Sem telefone
+
+                </h:panelGroup>
+
+
+            </h:form>
+
+        </p:fieldset>
+
+
+    </cc:implementation>
+</ui:composition>

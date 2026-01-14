@@ -1,0 +1,121 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBLogin="http://xmlns.jcp.org/jsf/composite/SBComp/composite/login"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:panelGroup styleClass="Fright Container1 OrganizadorContainer"  style="position: absolute;right: 30px; top: 95px; " layout="block" >
+            <p:fieldset >
+                <h:form>
+                    <CRM:botaoGrande
+                        acao="#{acoesAtendimentoCrm_MinhasOrigensMbGestao.minhasOrigensFrmNovo}"
+                        metodo="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"
+                        />
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block"  >
+            <h:panelGroup styleClass="Container7 " layout="block" >
+                <p:staticMessage styleClass="Fs30" severity="warn"
+                                 rendered="#{pgDashBoardAtendimento.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('origensPrivadas').valor.size()==0}"
+                                 summary="Nenhuma origem privada foi encontrada "  detail="Crie suas origens para visualizar as metas das origens nessa tela"/>
+                <p:staticMessage
+                    severity="info"
+                    summary="Origens privadas " detail="As origens privadas, são origens criadas por você, os Leads adicionados nesta origem são adicionados como privado automaticamente,
+                    só você pode listar estas origens, e você pode compartilhar as origens com outros usuários para trabalhar em equipe"
+                    rendered="#{pgDashBoardAtendimento.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('origensPrivadas').valor.size()>0}" />
+            </h:panelGroup>
+
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"   layout="block"  >
+            <p:fieldset legend="Origens privadas de #{pgDashBoardAtendimento.usuarioSelecionado.nome}"  styleClass="Container11">
+                <h:form>
+
+
+                    <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block"  >
+
+                        <ui:repeat value="#{pgDashBoardAtendimento.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('origensPrivadas').valor}" var="origem"  >
+
+
+
+                            <h:panelGroup styleClass="Container4 dashboard"  layout="block"  >
+                                <div class="ui-g card colorbox colorbox-2">
+                                    <div class="ui-g-3">
+                                        <h:panelGroup styleClass="Container12 dashboard" style="background-color: white;"  layout="block"  >
+                                            <SBLogin:avatar porcentagemTamanhoFoto="35%" rendered="#{origem.umaOrigemPrivada}" />
+                                            #{origem.nome}
+                                        </h:panelGroup>
+                                        <ui:repeat value="#{origem.getCampoInstanciadoByNomeOuAnotacao('usuariosComAcesso').valor}"
+                                                   var="usuarioCompartilhado" >
+                                            <div style="position: relative;right: 0px;width: 30px; margin: 8px;">
+                                                <CRM:avatar usuario="#{usuarioCompartilhado}" somenteLeitura="#{true}" />
+                                            </div>
+                                        </ui:repeat>
+
+                                        <p:linkButton icon="fa fa-compass"  href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_DescobridorProspectoMbGerenciar.descobridorProspectoFrmListarDescobertas,origem)}"
+                                                      value="Encontrar + Leads "
+                                                      />
+                                        <p:fragment>
+                                            <p:commandButton
+                                                icon="fa fa-share-alt"
+
+                                                update="compartilhamentoOrigem"
+                                                style="margin: 10px;"
+                                                oncomplete="PF('dialogoCompartilhamento').show()"
+                                                >
+                                                <f:setPropertyActionListener target="#{pgDashBoardAtendimento.origemSelecionada}" value="#{origem}" />
+                                            </p:commandButton>
+                                        </p:fragment>
+
+                                    </div>
+                                    <div class="ui-g-9">
+                                        <span class="colorbox-name"></span>
+                                        <h:panelGroup styleClass="colorbox-count" id="quantidadeLeads" >
+
+                                            <p:tooltip  for="@parent" position="right"
+                                                        value="#{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor} em Meus Cartões de #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}" />
+                                        </h:panelGroup>
+                                        <p:staticMessage styleClass="Fs16" severity="info"
+                                                         rendered="#{servicoGraficosLeads.getGraficoDeOrigem(origem).metasDaOrigem.size()==0}"
+                                                         summary="Nenhum cartão encontrado em #{origem.nome} "/>
+                                        <p:pieChart model="#{servicoGraficosLeads.getGraficoDeOrigem(origem).grafico}"
+                                                    rendered="#{servicoGraficosLeads.getGraficoDeOrigem(origem).metas.size()>0}"
+                                                    style="width:100%;height:400px"  >
+                                            <p:ajax event="itemSelect" listener="#{servicoGraficosLeads.getGraficoDeOrigem(origem).itemGraficoMeusAtendentesOrigem}" />
+
+                                        </p:pieChart>
+
+                                        Responsavel por:  #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeMeusLeads').valor}/ de #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                        </ui:repeat>
+                    </h:panelGroup>
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+
+        <p:dialog header="Compartilhar Origem" widgetVar="dialogoCompartilhamento" minHeight="40"
+                  width="600" showEffect="fade" modal="true" closeOnEscape="true">
+            <h:panelGroup layout="block" id="compartilhamentoOrigem" >
+                <h:form>
+                    Compartilhamento de origem: #{pgDashBoardAtendimento.origemSelecionada.nome}
+                    <SBInput:input registro="#{pgDashBoardAtendimento.origemSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuariosComAcesso')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                   />
+                    <p:commandButton icon="fa fa-save" value="Salvar" actionListener="#{pgDashBoardAtendimento.salvarOrigemPrivadaSelecionada()}" onsuccess="PF('dialogoCompartilhamento').close()" />
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,50 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>
+
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+            <p:commandButton value="Próxima Meta"
+                             onclick="PF('acoesProximaMeta').show()"
+                             icon="fa fa-forward"
+                             />
+        </h:form>
+        <p:dialog header="Ações que levam à nova Meta" widgetVar="acoesProximaMeta" minHeight="40" width="350" showEffect="fade" modal="true" closeOnEscape="true"  >
+            <h:panelGroup  styleClass="semBorda Container12 OrganizadorContainer" rendered="#{cc.attrs.empresa.relacionamento.metaRelacionamento.getCampoInstanciadoByNomeOuAnotacao('tiposAtividadeUpGrade').valor.size()>0}" >
+                <h:form>
+
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerDireita" >
+                        <SBAcaoNav:seletorDeAcoes opcaoSelecionada="#{servicosCRM.tipoAtividadeSelecionada}"
+
+                                                  metodo="#{servicosCRM.iniciarAtividadeInicial(cc.attrs.empresa)}"
+                                                  opcoes="#{cc.attrs.empresa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor}"
+                                                  visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+
+                                                  />
+                    </h:panelGroup>
+                </h:form>
+            </h:panelGroup>
+            <p:separator/>
+
+        </p:dialog>
+
+
+    </cc:implementation>
+</ui:composition>

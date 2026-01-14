@@ -1,0 +1,73 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBAcaoDaPagina="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBinput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    template="modeloEdicaoProspecto.xhtml"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="conteudo">
+        <h:form id="formDadosDinamicos">
+            <p:tabView  dynamic="true" cache="true" style="" styleClass="Container12"  >
+                <c:forEach items="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('camposDinamicosAgrupados').valor}" var="grupo" >
+
+                    <p:tab title="#{grupo.nome}">
+                        <c:forEach items="#{grupo.campos}" var="cpinst" >
+                            <h:panelGroup styleClass="Container3" >
+                                <c:catch var ="catchExceptionCPDINAMICO">
+
+                                    <SBInput:input registro="#{cpinst}"  rendered="#{cpinst.valor!=null}" desabilitarEdicao="false" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+                                </c:catch>
+                                <c:if test = "${catchExceptionCPDINAMICO != null}">
+                                    É POSSÍVEL QUE ESTE ERRO POSSA SER CONTORNADO CHAMANDO O nameSpace sb:input Direto
+                                    Ou que este componente esteja em desenvolvimento
+
+                                    <p>Erro reindeizando componente: ${catchException} <br />
+                                        There is an exception: ${catchException.message}</p>
+                                    <br/>
+                                    #{cc.attrs.registro.tipoCampoSTR}
+                                </c:if>
+
+
+                            </h:panelGroup>
+                        </c:forEach>
+                    </p:tab>
+
+                </c:forEach>
+            </p:tabView>
+            <p:fieldset styleClass="Container3 Fright " style="margin: 10px;" >
+                <div class="OrganizadorContainer"  >
+
+
+                    <p:commandButton action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
+                                     value="Salvar dados dinâmicos"
+                                     update="#{pgProspecto.idAreaExbicaoAcaoSelecionada}"
+                                     rendered="#{pgProspecto.podeEditar}"
+                                     icon="Fs16 fa fa-users"
+                                     onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('formDadosDinamicos')}')"
+                                     oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('formDadosDinamicos')}')"
+
+                                     styleClass=""
+                                     alt="Cria uma sala no rocket chat com especialistas para debater sobre os valores e soluções"
+                                     >
+                        <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}" value="#{pgProspecto.acaoSalvarAlteracoes}" />
+                    </p:commandButton>
+
+
+
+
+                </div>
+            </p:fieldset>
+
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

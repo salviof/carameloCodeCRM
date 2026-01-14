@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/resources/SBComp/template/basico/modeloNotion.xhtml"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="head"  >
+    </ui:define>
+    <ui:define name="conteudo">
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin-top: -80px;"  >
+
+            <h:panelGroup rendered="#{notionWidgetPastaEquipe.pessoa.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor.size()>0 and notionWidgetPastaEquipe.pessoa!=null}"
+                          style="position: relative; height: 80px; width: 540px;" styleClass="Container12 OrganizadorContainer">
+                <c:forEach items="#{notionWidgetPastaEquipe.pessoa.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}" var="integracao" >
+
+                    <crm:integracao  integracao="#{integracao}" tamanhoPixel="45" rendered="#{integracao.temUrl and integracao.nome ne 'Notion'}" />
+                </c:forEach>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{notionWidgetPastaEquipe.pessoa==null}" >
+            <h1>CNPJ não Encontrado</h1>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,81 @@
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+
+    template="modeloEdicaoProspecto.xhtml" >
+    <ui:define name="conteudo">
+        <h:panelGroup id="preanalise" >
+
+
+            <h:form id="formPreAnalise" styleClass="Container12 OrganizadorContainer">
+
+                <h:panelGroup styleClass="Container6" layout="block">
+                    <p:commandButton
+                        onstart="PF('blokGerador').show();"
+
+                        oncomplete="PF('verificaGeracao').start(); "
+                        styleClass="btnIconeENome botao"
+                        icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrNovaPreAnalise.icone}"
+                        value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrNovaPreAnalise.nomeAcao}"
+                        action="#{pgProspecto.gerarPreAnalise()}"
+                        >
+
+                    </p:commandButton>
+                </h:panelGroup>
+
+
+                <p:panel header="NOTA: #{pgProspecto.prospecto.preAnalise.notaMobile}" rendered="#{pgProspecto.prospecto.preAnalise!=null}">
+                    <p:panelGrid columns="2">
+                        <img src="#{pgProspecto.prospecto.preAnalise.getCampoInstanciadoByNomeOuAnotacao('fotoMobile').comoArquivoDeEntidade.linkAbrirArquivo}" />
+                        <h:panelGroup >
+                            NOTA MOBILE:   #{pgProspecto.prospecto.preAnalise.notaMobile}
+                        </h:panelGroup>
+                    </p:panelGrid>
+
+
+                </p:panel>
+
+
+            </h:form>
+
+            <p:blockUI block="#{pgUtil.gerarCaminhoCompletoID('formPreAnalise')}" widgetVar="blokGerador">
+
+                <p:graphicImage name="images/preloader.gif" library="primefaces-adamantium"/>
+
+            </p:blockUI>
+        </h:panelGroup>
+
+
+
+
+
+
+
+
+        <h:form>
+            <p:poll interval="3" listener="#{pgProspecto.verificaProcessoPreAnalise}"  update="@(.ui-fieldset)"  autoStart="false"  widgetVar="verificaGeracao" />
+        </h:form>
+
+
+
+        <h:form>
+            <p:remoteCommand    autoRun="false" update="#{pgUtil.gerarCaminhoCompletoID('preanalise')}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:form>
+
+
+
+            <p:dataTable value="#{pgConfiguracoes.usuarios}" var="usuario">
+                <p:column headerText="Usuario" >
+                    #{usuario.nome} - #{usuario.getCampoInstanciadoByNomeOuAnotacao('caixaPostalPrincipal').valor.email}
+                </p:column>
+                <p:column headerText="E-mail da caixa de entrada">
+                    <SBInput:input
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioRecepcao')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </p:column>
+                <p:column headerText="Host caixa de entrada">
+                    <SBInput:input
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        registro="#{usuario.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('enderecoServidor')}"
+                        idAtualizarOnChange="@this"
+                        />
+                </p:column>
+
+                <p:column headerText="Senha caixa de entrada">
+                    <p:password
+                        value="#{usuario.caixaPostalPrincipal.senhaRecepcao}"
+
+                        class=" campoResponsivo  TexAlCenter #{componente.classeCSS}"
+                        autocomplete="off"
+                        redisplay="false"
+                        feedback="false"
+                        disabled="false"
+                        placeholder="Senha caixa de entrada"
+                        onfocus="this.removeAttribute('readonly');"
+                        validatorMessage="O valor informado no campo #{label} não é valido! A senha precisa conter 6 caractéres"
+                        promptLabel="Digite uma senha segura"
+                        inline="true"
+                        required="true"
+                        id="senhaUsuario"
+                        requiredMessage="O campo #{label} não foi informado! "
+                        >
+                        <f:passThroughAttribute name="readonly" value="true" />
+                        <f:validateLength minimum="6" />
+                        <p:ajax
+
+                            process="@this"
+                            event="valueChange"
+                            update="@this"
+                            />
+                    </p:password>
+                    <p:message for="senhaUsuario" />
+
+
+                </p:column>
+
+                <p:column headerText="Testar">
+                    <p:fragment>
+                        <SBBotaoAcao:botaoDeAcao metodo="#{pgConfiguracoes.testarConfiguracao(usuario)}"
+                                                 acao="#{acoesAdminCrm_ConfiguracoesGeraisMb.configuracoesGeraisCtrTestarConfiguracao}"
+                                                 armazenamentoAcaoExecutada="#{pgConfiguracoes.acaoSelecionada}"
+                                                 tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.icone}"
+                                                 />
+                    </p:fragment>
+                </p:column>
+
+                <p:column headerText="Salvar Configuração">
+                    <p:fragment>
+                        <SBBotaoAcao:botaoDeAcao metodo="#{pgConfiguracoes.salvarConfiguracaoMailUsuario(usuario)}" acao="#{acoesAdminCrm_ConfiguracoesGeraisMb.configuracoesGeraisCtrSalvarConfiguracao}"
+                                                 armazenamentoAcaoExecutada="#{pgConfiguracoes.acaoSelecionada}"
+                                                 tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.icone}"
+                                                 update="@form"
+
+                                                 />
+                    </p:fragment>
+                </p:column>
+
+            </p:dataTable>
+            <p:commandButton update="@form" />
+
+        </h:form>
+    </ui:define>
+</ui:composition>

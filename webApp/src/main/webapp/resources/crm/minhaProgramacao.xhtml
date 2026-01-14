@@ -1,0 +1,65 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="usuario"  default="#{sessaoAtualSBWP.usuario}" type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.usuario.UsuarioCRM" />
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <h:outputStylesheet library="css" name="linhaDoTempoVertical.css" />
+        <div class="Container12" style="">
+            <div class="container" style="margin-left: 40px;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="main-timeline">
+
+                            <c:forEach items="#{cc.attrs.usuario.atividadeParaHoje}" var="atividade" >
+
+                                <div class="timeline">
+
+                                    <div  class="timeline-content">
+                                        <div class="timeline-icon">
+                                            #{pgUtil.gerarHoraTextoSimples(atividade.dataHoraPrevisaoExecucao)} <i class="#{atividade.tipoAtividade.icone}"></i>
+                                        </div>
+                                        <h3 class="title">
+                                            <h:outputLink value="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,atividade.prospectoEmpresa)}" >
+                                                <b> #{atividade.prospectoEmpresa.nome} </b>
+                                            </h:outputLink>
+                                        </h3>
+                                        <p class="description">  <p:commandLink actionListener="#{servicosCRM.continuarAtividade(atividade)}" >
+                                                #{atividade.tipoAtividade.nome} - #{atividade.anotacoes}
+                                            </p:commandLink></p>
+                                    </div>
+                                </div>
+                                <div class="quebraBlocoComEspacoVertical5" />
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+

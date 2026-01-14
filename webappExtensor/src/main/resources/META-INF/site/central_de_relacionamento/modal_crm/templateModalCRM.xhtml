@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:SBDev="http://xmlns.jcp.org/jsf/composite/SBComp/composite/devel"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head >
+        <ui:include src="/resources/SBComp/template/basico/folhasDeEstiloBasicas.xhtml" />
+        <title>Prospecto: #{pgModalProspecto.prospectoSelecionado.nome} -> #{paginaAtual.infoPagina.acaoSelecionada.nome}</title>
+        <ui:insert name="head" />
+    </h:head>
+    <h:body>
+
+
+        <h:panelGroup id="#{layoutIdsAreasConhecidas.AREA_MENSAGEM_INTERFACE}">
+            <p:growl class="mensagemGrowl"  widgetVar="#{layoutIdsAreasConhecidas.AREA_MENSAGEM_INTERFACE}" />
+        </h:panelGroup>
+
+        <ui:insert name="conteudo" />
+        <SBDev:infoPagina/>
+    </h:body>
+</html>

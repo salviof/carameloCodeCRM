@@ -1,0 +1,46 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SB="http://xmlns.jcp.org/jsf/composite/SBComp/composite/login"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBObj="http://xmlns.jcp.org/jsf/composite/SBComp/composite/objetos"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+        <SBCRM:avatar somenteLeitura="false" usuario="#{pgCadastroUsuario.entidadeSelecionada}" />
+        <h:panelGroup >
+            <SBForm:camposDaAcao
+                registro="#{pgCadastroUsuario.entidadeSelecionada}"
+                acao="#{pgCadastroUsuario.acaoSelecionada}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                />
+        </h:panelGroup>
+
+
+
+        <p:fragment >
+
+            <SBObj:imagemPequena  item="#{pgCadastroUsuario.entidadeSelecionada}" somenteLeitura="false"/>
+
+
+        </p:fragment>
+    </ui:define>
+
+
+    <ui:define name="botoesDeAcao">
+
+        <h:panelGroup styleClass="Container2 Fright" >
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                update="@form"
+                />
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

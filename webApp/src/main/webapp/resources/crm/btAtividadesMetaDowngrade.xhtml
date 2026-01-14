@@ -1,0 +1,50 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>
+
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:form>
+            <p:commandButton value="Meta Anterior"
+                             icon="fa fa-backward"
+                             onclick="PF('acoesMetaAnterior').show()"
+                             />
+
+        </h:form>
+        <p:dialog header="Ações que levam a metas inferiores" widgetVar="acoesMetaAnterior" minHeight="40" width="350" showEffect="fade" modal="true" closeOnEscape="true"  >
+            <h:panelGroup  styleClass="semBorda Container12 OrganizadorContainer"  style="bottom: 0px;"  >
+
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerEsquerda" >
+                    <h:form>
+                        <SBAcaoNav:seletorDeAcoes opcaoSelecionada="#{servicosCRM.tipoAtividadeSelecionada}"
+
+                                                  metodo="#{servicosCRM.iniciarAtividadeInicial(cc.attrs.empresa)}"
+                                                  opcoes="#{cc.attrs.empresa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor}"
+                                                  visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+
+                                                  />
+                    </h:form>
+                </h:panelGroup>
+                <p:separator/>
+            </h:panelGroup>
+        </p:dialog>
+
+    </cc:implementation>
+</ui:composition>

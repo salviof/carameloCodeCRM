@@ -1,0 +1,159 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="processar" default="@form"/>
+
+        <cc:attribute name="atualizar" default="@form"/>
+        <cc:attribute name="acao"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+        <cc:attribute name="metodo" method-signature="void listener()"
+                      default="#{paginaAtual.infoPagina.executarAcaoSelecionada}"/>
+        <cc:attribute name="cor" default="#60a36c"/>
+        <cc:attribute name="estilo" shortDescription="Classe CSS adicional"/>
+        <cc:attribute name="tipo" default="primario"
+                      shortDescription="Tipos de botao: primario, secundario, danger, sucesso, aviso, informativo"/>
+        <cc:attribute name="label" default="#{cc.attrs.acao.nomeAcao}"/>
+        <cc:attribute name="icone" default="#{cc.attrs.acao.icone}"/>
+        <cc:attribute name="onclick" default="" />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:link
+            href="#{cc.attrs.url}"
+            value="#{cc.attrs.label}"
+
+            styleClass="#{cc.attrs.tipo}"
+            onclick="#{cc.attrs.onclick}"
+
+            >
+
+            <f:setPropertyActionListener
+                target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                value="#{cc.attrs.acao}"/>
+        </p:link>
+
+        <style>
+            .primario {
+                background: #60a36c;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .primario:hover {
+                transform: translateY(1px) !important;
+                background: #406A47FF;
+            }
+
+            .danger {
+                background: #dc3545;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .danger:hover {
+                background: #c82333;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .danger:focus {
+                background: #c82333;
+            }
+
+            .aviso {
+                background: #ffc107;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .aviso:hover {
+                background: #ffca2c;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .aviso:focus {
+                background: #ffca2c;
+
+            }
+            .informativo {
+                background: #009688d9;
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+            }
+            .informativo:hover {
+                background: rgba(2, 181, 164, 0.85);
+                color: white;
+                border: none;
+                border-radius: 8px !important;
+                padding: 10px 20px;
+                font-weight: 600;
+                font-size: 0.9em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                margin-top: 8px;
+
+            }
+        </style>
+    </cc:implementation>
+</ui:composition>

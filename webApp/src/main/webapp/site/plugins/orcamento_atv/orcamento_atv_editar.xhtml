@@ -1,0 +1,68 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPlugin="http://xmlns.jcp.org/jsf/composite/crmPlugin"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <p:staticMessage severity="info" summary="Revise as soluções propostas" detail="Clque em tudo Certo, para porsseguir"/>
+
+
+
+    <h:panelGroup layout="block" styleClass="Container12" >
+
+        <h:panelGroup styleClass="Container3" layout="block" >
+            <h:form>
+                <SBInput:input
+                    label="Orçamento da atividade"
+                    registro="#{pgAtvOrcamento.atividade.getCampoInstanciadoByNomeOuAnotacao('orcamento')}"
+                    layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+
+                    idAtualizarOnChange="orcamentoServicos"
+                    metodoOnChange="#{pgAtvOrcamento.alterarOrcamentoDaAtividade()}"
+                    />
+
+            </h:form>
+
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+            <h:form>
+                <SBAcao:botaoDeAcao
+                    acao="#{acoesPlugin_OrcamentoAtvMbGestao.orcamentoAtvCtrNovo}"
+                    label="CRIAR NOVO ORÇAMENTO"
+                    update="orcamentoServicos"
+                    metodo="#{pgAtvOrcamento.criarNovoOrcamento()}"
+                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                    />
+            </h:form>
+        </h:panelGroup>
+    </h:panelGroup>
+    <h:panelGroup id="atividadePlugin"  layout="block" styleClass="Container12" >
+        <p:fieldset id="orcamentoServicos"  legend="Orçamento No #{pgAtvOrcamento.atividade.orcamento.id}" >
+            <h:form>
+                <SBForm:subFormulario
+                    registro="#{pgAtvOrcamento.atividade.orcamento.getCampoInstanciadoByNomeOuAnotacao('servicoOferecido')}"
+                    grupoCampos="#{pgUtil.gerarGrupoCamposEntidade('ServicoOferecido', 'Produtos', 'nome','tipoServico','valorSetup','valorMensal')}"
+                    tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.resumido}"
+
+                    />
+                <SBInput:input registro="#{pgAtvOrcamento.atividade.orcamento.getCampoInstanciadoByNomeOuAnotacao('valorTotal')}" desabilitarEdicao="true" />
+                <SBInput:input registro="#{pgAtvOrcamento.atividade.orcamento.getCampoInstanciadoByNomeOuAnotacao('valorMensalTotal')}" desabilitarEdicao="true" />
+                <p:commandButton value="Atualizar Totais" update="@form" />
+                <h:panelGroup layout="block" styleClass="Fright Container3" >
+                    <SBPlugin:botaoPlugin
+                        acao="#{acoesPlugin_OrcamentoAtvMbGestao.orcamentoAtvCtrSalvarMerge}"
+
+                        metodo="#{pgAtvOrcamento.salvarOrcamento()}"
+                        />
+
+                </h:panelGroup>
+            </h:form>
+        </p:fieldset>
+    </h:panelGroup>
+
+
+
+</ui:composition>

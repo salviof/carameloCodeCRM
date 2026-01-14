@@ -1,0 +1,107 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMMail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <CRMMail:menuNavegacaoEmailListado
+            pessoa="#{pgEmails.prospectoSelecionado}"
+            acao="#{pgEmails.acaoSelecionada}"
+            />
+    </h:form>
+
+    <CRM:menuProspecto pessoaJuridica="#{pgEmails.prospectoSelecionado}"
+                       rendered="#{pgEmails.prospectoSelecionado!=null}"  />
+    <h:form>
+        <p:remoteCommand
+
+            actionListener="#{pgEmails.filtrar()}"
+            onstart="copiarValoresInput('#{pgUtil.gerarCaminhoCompletoID('globalFilter')}','#{pgUtil.gerarCaminhoCompletoID('pesquisadorMail')}')"
+            update="#{pgUtil.gerarCaminhoCompletoID('gridListagemMails')}"
+            name="pesquisarEmail" />
+        <h:inputHidden id="pesquisadorMail" value="#{pgEmails.termoPesquisa}" />
+    </h:form>
+
+    <h:form>
+        <div class="Container3 " style="position: fixed;
+             top: 80px;
+             right: 100px;
+             z-index: 10000;
+             "  >
+            <p:inputText
+                styleClass="Fs24"
+                onfocus="mesclarOnChangeComDelay(this.id)"
+                id="globalFilter"
+                onchange="pesquisarEmail();"
+                value="#{pgEmails.termoPesquisa}"
+                style="width:800px; height: 60px;opacity: 0.8;"
+
+                placeholder="Pesquise aqui:">
+
+            </p:inputText>
+        </div>
+    </h:form>
+    <h:form  id="gridListagemMails" >
+
+        <h:panelGroup class="quebraBlocoComEspacoVertical110 somenteMobile" layout="block"/>
+        <p:tabView dynamic="true" cache="false"  styleClass="Container12"  effect="fold" activeIndex="#{pgEmails.indiceExibicaoEmailRecebido}" >
+
+
+
+
+
+            <p:ajax event="tabChange" listener="#{pgEmails.tabEmailRecebidoChange}" />
+            <p:tab id="listaConhecidos" >
+                <f:facet name="title" >
+                    <h:panelGroup layout="block" styleClass="Container1 Fleft" rendered="#{pgEmails.prospectoSelecionado==null}" >
+                        <i class="fa fa-id-card-o"/> De contatos conhecidos (#{pgEmails.caixaPostalDoUsuarioLogado.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoConhecido').valor})
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="Container1 Fleft" rendered="#{pgEmails.prospectoSelecionado!=null}" >
+                        <i class="fa fa-id-card-o"/>Recebidos Do prospecto #{pgEmails.prospectoSelecionado.nome}
+                    </h:panelGroup>
+
+                </f:facet>
+
+                <CRM:emailListagemRecebidoConhecido lista="#{pgEmails.listaEmails}" />
+            </p:tab>
+
+            <p:tab id="listaPessoal" rendered="#{pgEmails.prospectoSelecionado == null }" >
+                <f:facet name="title" >
+                    <i class="fa fa-user"/> Pessoal, e Assinaturas (#{pgEmails.caixaPostalDoUsuarioLogado.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoPessoal').valor})
+                </f:facet>
+                <CRM:emailListagemRecebidoPrivado lista="#{pgEmails.listaEmails}" />
+            </p:tab>
+
+            <p:tab id="listaSemCategoria" rendered="#{pgEmails.prospectoSelecionado == null }" >
+                <f:facet name="title" >
+                    <div class="Container3 " style=""  >
+                        <i class="fa fa-trash-o"/> Desconhecidos (#{pgEmails.caixaPostalDoUsuarioLogado.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoDesconhecido').valor})
+                    </div>
+
+                </f:facet>
+
+                <p:staticMessage severity="info" summary="INFO!" detail="Os e-mails desta pasta serão excluídos 30 dias após o recebimento" />
+                <CRM:emailListagemRecebidoDesconhecido lista="#{pgEmails.listaEmails}" />
+            </p:tab>
+        </p:tabView>
+
+    </h:form>
+
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

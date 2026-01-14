@@ -1,0 +1,113 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+        template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:outputStylesheet name="agendeUmaReuniao.css" library="css" />
+
+
+        <!-- Versão Mobile -->
+        <h:panelGroup layout="block" styleClass="container-mobile" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}">
+            <div class="container-cards-mobile">
+                <!-- Card Gestor de Sucesso -->
+                <div class="card-mobile">
+                    <h:form>
+                        <SBCRM:botaoAvatar
+                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
+                                usuario="#{pgReservasCliente.usrGestaoSucesso}"
+                                label="VER AGENDA"
+                                atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
+                        />
+                        <p:staticMessage severity="info"
+                                         summary="Gestor de sucesso"
+                                         detail="Para falar de projetos em andamento" />
+                    </h:form>
+                </div>
+
+                <p:separator />
+
+                <!-- Card Consultor de Negócios -->
+                <div class="card-mobile">
+                    <h:form>
+                        <SBCRM:botaoAvatar
+                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrRepComercial)}"
+                                usuario="#{pgReservasCliente.usrRepComercial}"
+                                label="VER AGENDA"
+                                atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
+                        />
+                        <p:staticMessage severity="info"
+                                         summary="Consultor de negócios"
+                                         detail="Para novos projetos e estratégias de crescimento" />
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+
+        <!-- Versão Desktop -->
+        <h:panelGroup layout="block" styleClass="container-desktop" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}">
+            <div class="conteudo-desktop">
+                <!-- Cabeçalho -->
+                <div class="cabecalho-pagina">
+                    <h1 class="titulo-pagina">Escolha com quem será a reunião</h1>
+                    <p class="subtitulo-pagina">Selecione o profissional mais adequado para sua necessidade</p>
+                </div>
+
+                <!-- Container dos Cards -->
+                <div class="container-cards">
+                    <!-- Card Gestor de Sucesso -->
+                    <div class="card-profissional" rendered="#{pgReservasCliente.usrGestaoSucesso != null}">
+                        <SBCRM:usuarioAtendimentoCard
+                                usuario="#{pgReservasCliente.usrGestaoSucesso}"
+                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
+                                funcaoUsuario="GESTOR DE SUCESSO"
+                        >
+                            <f:facet name="descricao">
+                                <div class="descricao-card">
+                                    <i class="pi pi-check-circle"></i>
+                                    <span>Esclareça dúvidas e defina prazos para
+                                        <strong>projetos em andamento</strong>
+                                    </span>
+                                </div>
+                            </f:facet>
+                        </SBCRM:usuarioAtendimentoCard>
+                    </div>
+
+                    <!-- Card Consultor de Negócios -->
+                    <div class="card-profissional">
+                        <SBCRM:usuarioAtendimentoCard
+                                usuario="#{pgReservasCliente.usrRepComercial}"
+                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrRepComercial)}"
+                                funcaoUsuario="CONSULTOR DE NEGÓCIOS"
+                        >
+                            <f:facet name="descricao">
+                                <div class="descricao-card">
+                                    <i class="pi pi-briefcase"></i>
+                                    <span>Defina a melhor <strong>estratégia digital</strong> para sua comunicação
+                                        e adquira <strong>novos serviços</strong>
+                                    </span>
+                                </div>
+                            </f:facet>
+                        </SBCRM:usuarioAtendimentoCard>
+                    </div>
+                </div>
+
+                <!-- Mensagem informativa -->
+                <p:staticMessage
+                        severity="info"
+                        summary="Você não tem um gestor de sucesso definido para sua conta"
+                        rendered="#{pgReservasCliente.usrGestaoSucesso == null}"
+                        detail="Assine nossa consultoria para ter acesso a este serviço."
+                />
+            </div>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,30 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+        <crm:menuProspecto  pessoaJuridica="#{pgProspecto.entidadeSelecionada}"
+                            rendered="#{pgProspecto.entidadeSelecionada!=null}"
+                            />
+
+
+
+        <c:forEach items="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}" var="item" >
+
+            <p:graphicImage url="#{item.imagem}" style="max-width:100px;"    />
+            <h:form>
+                <SBInput:input registro="#{item.getCampoInstanciadoByNomeOuAnotacao('url')}" layout="#{layoutsComponenteSB.layoutCampo.resumido}"   />
+                <p:commandButton value="Atualizar" update="@form" />
+            </h:form>
+        </c:forEach>
+
+
+
+    </ui:define>
+</ui:composition>

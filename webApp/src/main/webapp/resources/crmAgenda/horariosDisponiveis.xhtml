@@ -1,0 +1,81 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:sb="http://superbitsframework/ui"
+        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+
+
+    <cc:interface>
+        <cc:attribute name="horariosDisponiveis" type="java.util.List" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="agenda.css" library="css"/>
+
+        <h:panelGroup styleClass="horarios-container" id="reservasDisponiveis">
+            <div class="horarios-grid">
+                <ui:repeat value="#{cc.attrs.horariosDisponiveis}" var="horario">
+                    <h:panelGroup styleClass="horario-card">
+
+                        <h:form style="width: 100%; height: 100%;">
+
+                            <!--                            <p:commandLink-->
+                            <!--&lt;!&ndash;                                styleClass="horario-content"&ndash;&gt;-->
+                            <!--&lt;!&ndash;                                onstart="PF('loadingDialog').show();"&ndash;&gt;-->
+                            <!--                                >-->
+
+
+                            <h:panelGroup layout="block" style="text-align: center;" styleClass="horario-content">
+                                <div class="horario-icon">
+                                    <span class="pi pi-clock"></span>
+                                </div>
+
+                                <div class="horario-time">
+                                    #{pgUtil.gerarHoraTextoSimples(horario.dataHoraIicialAtendente)}
+                                </div>
+                                <div class="horario-text">
+                                    Reservar Horário
+                                </div>
+                            </h:panelGroup>
+
+                            <SBCRM:botaoGrandeV2
+                                    acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmVisualizar}"
+                                    metodo="#{servicoCrmReserva.reservarHorario(horario)}"
+                                    label="Reservar"
+                                    atualizar="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                    estilo="outline"
+                            />
+                            <!--                            </p:commandLink>-->
+                        </h:form>
+                    </h:panelGroup>
+                </ui:repeat>
+            </div>
+        </h:panelGroup>
+        <!-- Dialog de loading -->
+        <p:dialog widgetVar="loadingDialog" modal="true" draggable="false"
+                  closable="false" resizable="false" showHeader="false">
+            <div style="text-align: center; padding: 20px;">
+                <p:graphicImage name="loading.gif" library="images"/>
+                <h:outputText value="Processando reserva..." style="display: block; margin-top: 10px;"/>
+            </div>
+        </p:dialog>
+
+
+        <script>
+            // Adiciona efeito de loading aos botões
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('horario-button')) {
+                    e.target.classList.add('loading');
+                    e.target.innerHTML = 'PROCESSANDO...';
+                }
+            });
+        </script>
+    </cc:implementation>
+</ui:composition>

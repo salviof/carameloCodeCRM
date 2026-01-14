@@ -1,0 +1,87 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
+    xmlns:SBLogin="http://xmlns.jcp.org/jsf/composite/SBComp/composite/login"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="divConteudo">
+        <div class="OrganizadorContainer Container12">
+
+
+            <h:panelGroup layout="block" styleClass="Container8 OrganizadorContainer" >
+
+
+                <h:panelGroup layout="block" styleClass="Container3" >
+                    <h:graphicImage name="matrix-logo.png"  style="max-width:  200px;" library="img" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="Container3" >
+                    <h:graphicImage name="logomarca.png"  style="max-width:  200px;" library="img" />
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block" styleClass="Container12" >
+                    <h:form>
+
+
+
+
+                        <div class="TexAlCenter" >
+
+
+
+                            <div class="quebraBlocoComEspacoVertical3"></div>
+                            <div class="Card SoftGrayBack">
+
+                                <p:inputText id="emaillogin" label="E-Mail"
+                                             requiredMessage="O E-Mail é obrigatório"
+                                             validatorMessage="O e-mail não parece ser válido" placeholder="E-mail" required="true"
+                                             value="#{pgAutenticacaoOauth.usuarioLogin}"  styleClass="Wid100 TexAlCenter">
+                                    <f:validateLength minimum="4" />
+                                </p:inputText>
+
+
+                                <p:message for="emaillogin" />
+                                <div class="quebraBlocoComEspacoVertical10"></div>
+                                <p:inputText type="password" id="senha" placeholder="Senha"
+                                             requiredMessage="A Senha é Obrigatória" required="true" value="#{pgAutenticacaoOauth.senhaLogin}" styleClass="Wid100 TexAlCenter"/>
+                                <p:message for="senha" />
+                                <div class="quebraBlocoComEspacoVertical4"></div>
+
+                                <div class="quebraBlocoComEspacoVertical4"></div>
+                                <p:commandButton value="Esqueci minha Senha"
+                                                 id="botaoEsqueciMinhaSenha"
+                                                 process="@this,emaillogin"
+                                                 icon="fa fa-exclamation"
+                                                 styleClass="RedButton"
+                                                 actionListener="#{pgAutenticacaoOauth.esqueciASenha()}"
+                                                 partialSubmit="true"
+                                                 />
+
+                                <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+                                <p:commandButton value="Entrar" icon="fa fa-sign-in"
+                                                 id="botaoEntrarSec"
+                                                 actionListener="#{pgAutenticacaoOauth.logar()}"
+                                                 update="emaillogin" />
+                                <p:defaultCommand target="botaoEntrarSec"  />
+                                <p:captcha language="pt-BR" required="true" requiredMessage="Validação Captcha nescessária"
+                                           rendered="false"
+                                           validatorMessage="Validação Captcha nescessária" />
+                            </div>
+
+                        </div>
+
+
+                    </h:form>
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </div>
+    </ui:define>
+
+
+
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <CRM:cabecalhoAtividade
+        atividade="#{pgExecutarAtividade.atividade}">
+        <f:facet name="opcoesCabecalhoAtividade">
+            <h:form>
+                <h:panelGroup rendered="#{pgExecutarAtividade.atividade.dadosNaoColetados.size()==0}" >
+
+                    <div class="alert alert-info" >
+                        <strong>Faltam dados para #{pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividade}:</strong>
+                        Você precisa adicionar serviços para este prospecto.
+                        <h:form>
+                            <p:button icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmServicos.icone} "
+                                      value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmServicos.nomeAcao}"
+                                      href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmServicos,pgExecutarAtividade.prospecto)}"/>
+
+                        </h:form>
+
+                    </div>
+
+                    <h:form>
+
+                        <CRM:botaoPersonalizado
+                            titulo="Cancelar Atividade"
+                            cor="FF4545"
+                            icone="fa fa-ban"
+
+                            atualizar="@form"
+                            processar="@this"
+                            metodo="#{pgExecutarAtividade.cancelarAtividade()}"
+                            />
+                    </h:form>
+
+                </h:panelGroup>
+
+            </h:form>
+        </f:facet>
+    </CRM:cabecalhoAtividade>
+
+
+
+</ui:composition>

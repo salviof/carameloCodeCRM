@@ -1,0 +1,46 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
+    xmlns:fb="http://ogp.me/ns/fb#"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head"  >
+        <style>
+            .botaoBox {
+
+                margin-top: 3px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="divConteudo">
+
+
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
+            <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
+        </h:panelGroup>
+        <div class="Fright ">
+
+
+            <h:form>
+
+                <SBAcao:botaoDeAcao
+                    metodo="#{pgPaginaInicial.executarAcaoSelecionada()}"
+                    acao="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmRealizarLoginDoCliente}"
+                    armazenamentoAcaoExecutada="#{pgPaginaInicial.acaoSelecionada}"
+                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                    trasformarAcaoEmLink="true"
+                    rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}"
+                    label="Entrar como Cliente"
+                    classeEstilo="botaoVerde"
+                    />
+            </h:form>
+
+        </div>
+    </ui:define>
+
+</ui:composition>

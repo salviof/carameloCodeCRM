@@ -1,0 +1,185 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+        template="#{layoutsPaginas.formularioAcaoAtual.xhtmlVinculado}"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudoCard">
+        <style>
+            .ui-fieldset-legend {
+                background-color: #ffffff;
+                margin: 0px;
+            }
+
+            .ui-fieldset {
+                border: solid 4px #E0E0E0;
+            }
+
+        </style>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" id="prospectosEncontrados">
+
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
+                <p:fieldset styleClass="Container6">
+                    <h:form id="formPesquisa">
+
+                        <!-- CAMPO TERMO -->
+                        <h:panelGrid columns="2" style="margin-bottom: 10px;">
+                            <SBInput:input id="termo"
+                                           registro="#{pgPesquisaProspecto.dadosPesquisa.getCampoByNomeOuAnotacao('termo')}"
+                                           layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                           metodoOnChange="#{pgPesquisaProspecto.resetarPesquisa()}"
+                                           />
+                        </h:panelGrid>
+
+                        <!-- CAMPO LOCAL -->
+                        <h:panelGrid  style="margin-bottom: 15px;">
+                            <SBInput:input id="local"
+                                           registro="#{pgPesquisaProspecto.dadosPesquisa.getCampoByNomeOuAnotacao('local')}"
+                                           layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                           metodoOnChange="#{pgPesquisaProspecto.resetarPesquisa()}"/>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" style="margin-bottom: 15px;">
+                            <p:outputLabel value="Ao salvar salvar nesta origem:"/>
+
+                            <crm:origemSeletor idAtualizacao="#{pgUtil.gerarCaminhoCompletoID('leadsEncontrados')}"
+                                               listaSelecao="#{pgPesquisaProspecto.origens}"
+                                               origemSelecionada="#{pgPesquisaProspecto.origemSelecionada}"
+
+                            />
+
+                        </h:panelGrid>
+
+
+                        <!-- VALIDAÇÃO -->
+
+                        <!-- BOTÕES DE AÇÃO -->
+                        <div class="botoes-acao">
+
+                            <!-- BOTÃO PESQUISAR/CARREGAR MAIS - SEMPRE VISÍVEL -->
+                            <p:commandButton id="btnPesquisar"
+                                             value="#{pgPesquisaProspecto.dadosPesquisa.temPageToken ?
+                   'Carregar mais empresas' : 'Pesquisar'}"
+                                             actionListener="#{pgPesquisaProspecto.pesquisar()}"
+                                             icon="fa fa-search"
+                                             update="prospectosEncontrados formPesquisa"
+                                             onstart="bloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                             oncomplete="desbloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                             process="@this termo local"
+                                             styleClass="ui-priority-primary" />
+
+
+                            <!-- BOTÃO LIMPAR (só limpa termo, mantém local) -->
+                            <p:commandButton id="btnLimpar"
+                                             value="Limpar busca"
+                                             actionListener="#{pgPesquisaProspecto.limparBusca()}"
+                                             icon="fa fa-eraser"
+                                             update="prospectosEncontrados formPesquisa"
+                                             immediate="true"
+                                             styleClass="ui-button-warning" />
+
+                            <!-- BOTÃO VOLTAR -->
+                            <p:commandButton id="btnVoltar"
+                                             value="Busca anterior"
+                                             actionListener="#{pgPesquisaProspecto.voltarPesquisaAnterior()}"
+                                             icon="fa fa-arrow-left"
+                                             update="prospectosEncontrados formPesquisa"
+                                             rendered="#{pgPesquisaProspecto.exibirBotaoVoltar}"
+                                             onstart="bloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                             oncomplete="desbloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                             styleClass="ui-button-info" />
+
+                        </div>
+
+                    </h:form>
+                </p:fieldset>
+
+            </h:panelGroup>
+
+
+            <h:panelGroup styleClass="Container12" layout="block">
+
+                <h:panelGroup layout="block" id="leadsEncontrados">
+                    <p:fragment>
+                        <p:dataGrid columns="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunasAteCinco}"
+                                    value="#{pgPesquisaProspecto.dadosPesquisa.dadosEncontrados}"
+                                    var="empresaEncontrada"
+                                    emptyMessage="Nenhum Empresa encontrada"
+                                    paginator="true"
+                                    rowIndexVar="indice"
+                        >
+
+
+                            <h:panelGroup class=" "
+                                          layout="block"
+                                          id="empresa#{indice}"
+                                          style="min-height:100%!important;
+                                          position: relative!important;">
+
+                                <p:fieldset>
+                                    <f:facet name="legend">
+                                        <i class="fa fa-address-card-o Fs24" style="background-color: #70bf82"/>
+                                    </f:facet>
+                                    <crm:prospectoEncontrado empresa="#{empresaEncontrada.gerarProspecto()}"
+                                                             tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}"/>
+                                    <h:form>
+                                        <p:fieldset style="height: 220px;width: 280px; ">
+
+                                            <f:facet name="legend">
+                                                <h:panelGroup styleClass="FontAdamantium" style="    margin-top: 5px;
+                                                              position: absolute;
+                                                              width: 200px;" layout="block">
+                                                    <span class=""
+                                                          style="color:#000;">Salvar pré cadastro em: <i>#{pgPesquisaProspecto.origemSelecionada.nome}</i>  </span>
+                                                </h:panelGroup>
+
+                                                <h:panelGroup styleClass="Container2 Fright" layout="block" style="">
+                                                    <p:commandButton
+                                                            actionListener="#{pgPesquisaProspecto.salvarProsPecto(empresaEncontrada.gerarProspecto())}"
+                                                            icon="#{acoesAtendimentoCrm_DescobridorProspectoMbGerenciar.descobridorProspectoCtrSalvarResultado.icone}"
+                                                            onstart="bloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                                            oncomplete="desbloquearArea('#{pgUtil.makeCaminhoCompletoID('prospectosEncontrados')}')"
+                                                            process="@form"
+                                                            update="@form"
+
+                                                    />
+                                                </h:panelGroup>
+                                            </f:facet>
+
+                                            <SBInput:input
+                                                    registro="#{empresaEncontrada.prospecto.getCampoByNomeOuAnotacao('porte')}"
+
+                                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                                    desabilitarEdicao="#{false}"
+                                            />
+
+                                            <SBInput:input
+                                                    registro="#{empresaEncontrada.prospecto.getCampoByNomeOuAnotacao('tipoEmpresa')}"
+                                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                                    desabilitarEdicao="#{false}"
+                                            />
+                                            <h:panelGroup styleClass="Container12" layout="block">
+
+                                            </h:panelGroup>
+
+                                        </p:fieldset>
+                                    </h:form>
+                                </p:fieldset>
+                            </h:panelGroup>
+
+                        </p:dataGrid>
+                    </p:fragment>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+
+    </ui:define>
+
+
+</ui:composition>

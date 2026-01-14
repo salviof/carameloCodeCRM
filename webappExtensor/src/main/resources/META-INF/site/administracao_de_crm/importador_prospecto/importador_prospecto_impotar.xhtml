@@ -1,0 +1,46 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInfo="http://xmlns.jcp.org/jsf/composite/SBComp/composite/mensagem"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    >
+
+
+
+    <p:fieldset legend="Importe em arquivos de Excel"  >
+        <h:form >
+
+            <p:outputLabel value="Origem *" />
+            <SBInput:seletorItem itemSelecionado="#{pgImportarProspectos.origem}" lista="#{pgImportarProspectos.origens}" obrigatorio="true" />
+
+
+            <SBInfo:informacoes
+                descricao="A planilha deve seguir o seguinte formato: Primeira coluna: nome da empresa, segunda coluna: telefone, terceira coluna:email,quarta coluna: site" />
+            <p:fileUpload
+
+                label="Selecione um arquivo, (Excel versão 97\2003)"
+
+                listener="#{pgImportarProspectos.enviarArquivo}"
+
+                />
+
+            <h:panelGroup layout="block" styleClass="Container3 Fright" >
+                <SBBotaoDeAcao:botaoDeAcao metodo="#{pgImportarProspectos.executarAcaoSelecionada()}"
+                                           armazenamentoAcaoExecutada="#{pgImportarProspectos.acaoSelecionada}"
+                                           update="@form"
+                                           tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                           acao="#{acoesAdminCrm_ImportadorProspectoMb.importadorProspectoCtrImportar}"
+                                           />
+
+            </h:panelGroup>
+        </h:form>
+
+    </p:fieldset>
+
+
+
+</ui:composition>

@@ -1,0 +1,97 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:SBNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    >
+    <ui:define name="conteudo">
+
+
+        <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+            <f:facet name="opcoesCabecalhoAtividade">
+
+                <p:fieldset legend="Arquivo Gerado" toggleable="true" collapsed="false" >
+                    <h:form>
+                        <c:forEach items="#{pgExecutarAtividade.atividade.documentosGerados}" var="doc">
+                            <div class="Container10 Responsive100">
+                                <SBInput:input registro="#{doc.getCampoByNomeOuAnotacao('arquivo')}"
+                                               layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                               desabilitarEdicao="true"
+                                               />
+                            </div>
+                        </c:forEach>
+                    </h:form>
+                </p:fieldset>
+
+
+            </f:facet>
+        </CRM:cabecalhoAtividade>
+
+
+
+
+
+        <h:panelGroup styleClass="Container12" >
+            <h:form>
+                <h:panelGroup styleClass="Container12">
+                    <CRM:emailProspecto email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                                        empresa="#{pgExecutarAtividade.atividade.prospectoEmpresa}"
+                                        mostarContato="false"
+
+                                        />
+                    <p:poll async="true" process="@form"
+                            listener="#{servicosCRM.salvarHistoricoEdicaoEmail(pgExecutarAtividade.atividade.emailVinculado)}"
+                            interval="15" autoStart="true" />
+                </h:panelGroup>
+
+
+
+                <CRM:opcoesAtividadeExtra atividade="#{pgExecutarAtividade.atividade}" >
+
+
+
+                    <f:facet name="extra">
+
+
+
+
+                        <div class="Container4" >
+                            <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                                                    titulo="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarRascunho.nomeAcao}"
+                                                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarRascunho.icone}"
+                                                    />
+
+                        </div>
+
+                        <div class="Container4" >
+                            <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.emailSalvarVersaoOficial()}"
+                                                    titulo="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarFormatado.nomeAcao}"
+                                                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarFormatado.icone}"
+                                                    />
+
+                        </div>
+
+
+
+
+                    </f:facet>
+
+                </CRM:opcoesAtividadeExtra>
+            </h:form>
+        </h:panelGroup>
+
+
+
+
+    </ui:define>
+</ui:composition>

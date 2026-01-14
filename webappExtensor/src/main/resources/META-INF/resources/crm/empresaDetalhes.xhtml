@@ -1,0 +1,49 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica" required="true"/>
+
+        <cc:attribute name="tipoVisualizacaoCampo" required="true" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panelGrid columns="1" >
+
+            <SBInput:input id="nome_" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('nome')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="telPrincipal" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('telefonePrincipal')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="email" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('email')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="outrosT" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('outrosTelefones')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="end" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('endereco')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="cep" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('CEP')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="comp" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('complemento')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="site" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('site')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+
+            <SBInput:input id="port" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('porte')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="obs" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('observacao')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+            <SBInput:input id="tpEmpresa" registro="#{pgCRM.prospectoDaAtividade.getCampoByNomeOuAnotacao('tipoEmpresa')}" layout="#{cc.attrs.tipoVisualizacaoCampo}" desabilitarEdicao="true"/>
+        </p:panelGrid>
+
+
+
+
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+

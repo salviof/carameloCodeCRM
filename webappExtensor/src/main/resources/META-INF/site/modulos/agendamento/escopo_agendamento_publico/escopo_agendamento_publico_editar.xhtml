@@ -1,0 +1,55 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <SBFormulario:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+            />
+        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Horário de funcionamento ">
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
+                <h:panelGroup styleClass="Container3" layout="block" >
+                    <p:calendar   converter="conversorTimesql"
+                                  validator="org.super_bits.view.validadores.horario"
+                                  pattern="HH:mm" timeOnly="true"
+                                  value="#{pgEscopoAgendaPublica.entidadeSelecionada.horarioinicio}"
+                                  locale="pt_BR"/>
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" layout="block" >
+                    <p:calendar   converter="conversorTimesql"
+                                  validator="org.super_bits.view.validadores.horario"
+
+                                  pattern="HH:mm" timeOnly="true"
+                                  value="#{pgEscopoAgendaPublica.entidadeSelecionada.horarioFinal}"
+                                  locale="pt_BR"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </p:fieldset>
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="Fright Container4" layout="block.,,
+                      ]" >
+            <SBPaginaAtual:botaoSalvarAlteracoes/>
+            #{acoesAgenda_EscopoAgendamentoPublicadoMb.escopoAgendamentoPublicadoCtrAtivar.icone}
+            #{acoesAgenda_EscopoAgendamentoPublicadoMb.escopoAgendamentoPublicadoCtrAtivar.nome}
+            <SBPaginaAtual:botaoAcaoPersonalizada
+                label="#{!pgEscopoAgendaPublica.entidadeSelecionada.publicado?'Ativar':'re-Ativar'}"
+
+                acao="#{acoesAgenda_EscopoAgendamentoPublicoMb.escopoAgendamentoPublicoCtrAtivar}"
+                />
+            <SBPaginaAtual:botaoAcaoPersonalizada
+
+                rendered="#{pgEscopoAgendaPublica.entidadeSelecionada.publicado}"
+                acao="#{acoesAgenda_EscopoAgendamentoPublicoMb.escopoAgendamentoPublicoCtrDesativar}"
+                />
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,153 @@
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBpaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+    template="#{layoutsPaginas.formularioAcaoAtual.xhtmlVinculado}" >
+
+
+    <ui:define name="conteudoDireita">
+        <p:fragment >
+
+            <SBAcaoNav:seletorDeAcoes
+                metodo="#{pgTipoAtividade.executarAcaoSelecionada()}"
+                opcoes="#{pgUtil.getAcoesEntidade(pgTipoAtividade.entidadeSelecionada, pgTipoAtividade.acoesRegistros)}"
+                visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                opcaoSelecionada="#{pgTipoAtividade.acaoSelecionada}"
+                update="@this"
+                />
+        </p:fragment>
+        <h:form>
+            <SBpaginaAtual:botaoAcaoPersonalizada
+                acao="#{acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmListar}"
+                />
+
+
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="conteudoCard">
+
+        <script src="#{infoWebApp.urlPagina}/libUrlPadrao/ckeditor/ckeditor.js"></script>
+
+
+
+
+
+        <h:panelGroup rendered="#{pgTipoAtividade.entidadeSelecionada.modeloEmail ==null}" >
+            <h:panelGroup styleClass="OrganizadorContainer" style="margin-top: 150px;" layout="block" >
+                <h:panelGroup styleClass="Container6 "  layout="block">
+                    <p:staticMessage severity="info" summary="Nenhum modelo de e-mail foi criado para a atividade" detail="" />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3 Fright" >
+                    <h:form>
+
+                        <p:commandButton onmousedown="esconderTooltips();"
+                                         styleClass="btnIconeENome botao botaoVerde"
+
+
+                                         icon="#{acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeCtrVincularEmail.iconeAcao}"
+                                         action="#{pgTipoAtividade.executarAcao(pgTipoAtividade.entidadeSelecionada)}"
+                                         value="CRIAR MODELO"
+                                         onsuccess="atualizarEntidade();"
+
+                                         >
+                            <f:setPropertyActionListener target="#{pgTipoAtividade.acaoSelecionada}"
+                                                         value="#{acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeCtrVincularEmail}"  />
+                        </p:commandButton>
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+
+
+        <h:panelGroup rendered="#{pgTipoAtividade.entidadeSelecionada.modeloEmail!=null}" >
+
+            <h:form>
+                <SBpaginaAtual:botaoAcaoPersonalizada  acao="#{acoesAdministracao_de_CRM_Tipos_de_Atividade.tipo_atividade_ctr_desvincular_email}"/>
+
+            </h:form>
+
+            <p:fieldset styleClass="Container100 Responsive" style="height: 300px; ">
+                <h:form>
+
+
+                    <p:fieldset legend="Modelo de e-mail gerado: " >
+                        <SBInput:input  idAtualizarOnChange="@this" registro="#{pgTipoAtividade.entidadeSelecionada.modeloEmail.getCampoByNomeOuAnotacao('assunto')}" />
+                        <h:inputTextarea
+                            id="textoOficial"
+                            title="teste"
+                            value="#{pgTipoAtividade.entidadeSelecionada.modeloEmail.textoModelo}"
+                            >
+                            <f:passThroughAttribute name="palavras_placeholder" value="#{registro.comoTemplate.opcoesPalavaChaveJson}" />
+                        </h:inputTextarea>
+                        <h:inputHidden
+                            id="textoInvisivel"
+                            value="#{pgTipoAtividade.entidadeSelecionada.modeloEmail.textoModelo}"   />
+
+                    </p:fieldset>
+                    <p:fieldset legend="Agendamento de Atividade ao Ler Email" >
+                        <SBInput:input  idAtualizarOnChange="@this" registro="#{pgTipoAtividade.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('atividadeAgendadaAposLeituraEmail')}" />
+                        <SBInput:input  idAtualizarOnChange="@this" registro="#{pgTipoAtividade.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('diasAgendamentoAposLeitura')}" />
+                    </p:fieldset>
+
+
+
+                    <h:panelGroup styleClass="Container30" >
+
+                        <SBpaginaAtual:botaoSalvarAlteracoes />
+                    </h:panelGroup>
+                </h:form>
+            </p:fieldset>
+
+
+
+
+        </h:panelGroup>
+        <p:fieldset  rendered="#{pgTipoAtividade.entidadeSelecionada.modeloEmail!=null}">
+
+            <script type="text/javascript">
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                function recarregarCK() {
+                    console.log(window.carregou);
+                    if (window.carregou === true) {
+                        if (typeof CKEDITOR !== 'undefined') {
+                            for (var instanceName in CKEDITOR.instances) {
+                                if (typeof CKEDITOR.instances[instanceName] !== 'undefined') {
+                                    CKEDITOR.instances[instanceName].destroy();
+                                }
+                            }
+                        }
+                    }
+                    window.carregou = new Boolean(true);
+                    try {
+                        CKEDITOR.replace('#{pgUtil.gerarCaminhoCompletoIDParaJavaScript('textoOficial')}', {
+                            extraPlugins: 'placeholderSeletor'
+                        });
+                        CKEDITOR.instances['#{pgUtil.gerarCaminhoCompletoIDParaJavaScript('textoOficial')}'].on('change', function () {
+                            copiarValoresCKEditor('#{pgUtil.gerarCaminhoCompletoIDParaJavaScript('textoOficial')}', '#{pgUtil.gerarCaminhoCompletoIDParaJavaScript('textoInvisivel')}');
+                        });
+                    } catch (exception_var_1) {
+
+                    }
+
+
+
+                }
+                recarregarCK();
+            </script>
+
+        </p:fieldset>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,244 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+    xmlns:paginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+    <ui:define name="conteudo" >
+        <p:link
+            rendered="#{pgDocumentoPessoa.categoriaArquivoEquipe.pastaPai!=null}"
+            href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,pgDocumentoPessoa.pessoa,pgDocumentoPessoa.categoriaArquivoEquipe.pastaPai)}">
+            <div style="z-index: 991001;margin-left: 60px;padding-top: 50px;  position: absolute;"> <span class="fa fa-long-arrow-left  Fs40"/></div>
+        </p:link>
+        <div class="CardTopic " style="margin-left: 10px; height: 120px;padding: 10px; position: relative;">
+
+
+            <div class="" style="position: absolute;top: 9px;left: 90px;" >
+                #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}
+            </div>
+            <span class="CardSubTopic">
+                
+                <h:panelGroup style="margin-top: 20px;" styleClass="fa fa-unlock " rendered="#{pgDocumentoPessoa.categoriaArquivoEquipe.compartilharComConvidados}"  >
+                Esta pasta está compartilhada com a equipe de desenvolvimento
+                </h:panelGroup>
+            </span>
+            <div class="OrganizadorContainerEsquerda" style="position: absolute;top: 32px;left: 42px;" >
+
+                <crmArquivo:listaDiretorios
+                    pastas="#{pgDocumentoPessoa.categoriasEquipe}"
+                    pessoa="#{pgDocumentoPessoa.pessoa}"
+                    tipoOrganizacao="OrganizadorContainerEsquerda"
+                    pstCliente="false"
+                    estiloTamanho="Fs30"
+                    tamanhoContator="pequeno"
+
+                    />
+            </div>
+
+            <p:link  href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
+                             pgDocumentoPessoa.pessoa,
+                             pgDocumentoPessoa.categoriaArquivoEquipe)}" >
+                <i class="#{pgDocumentoPessoa.categoriaArquivoEquipe.icone} Fs40 Fleft MarRight10"></i>
+            </p:link>
+            <br/>
+            <div class="quebraBlocoComEspacoVertical50 somenteMobile"/>
+
+
+            <h:panelGroup styleClass="Container12" layout="block" >
+
+                <span class="CardSubTopic" style="z-index: 99910000;">
+                    <h:panelGroup styleClass="Container3 Fright" layout="block" style="height: 100px;" >
+                        <h:panelGroup >
+                            <p:link
+                                rendered="#{pgDocumentoPessoa.subPastaEquipe==null}"
+                                href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SubpastaMbGestao.subpastaFrmNovoPastaEquipe,
+                                        pgDocumentoPessoa.pessoa,
+                                        pgDocumentoPessoa.categoriaArquivoEquipe)}">
+                                <p:graphicImage name="/img/novaPasta.jpg" height="60" />
+                            </p:link>
+                            <h:form>
+
+                                <p:breadCrumb
+                                    rendered="#{pgDocumentoPessoa.subPastaEquipe!=null}"
+                                    styleClass="Fs20"
+                                    homeIcon="#{pgDocumentoPessoa.categoriaArquivoEquipe.icone}">
+                                    <p:menuitem value="#{pgDocumentoPessoa.categoriaArquivoEquipe.nome}"
+                                                url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
+                                                       pgDocumentoPessoa.categoriaArquivoEquipe,subPasta,pgDocumentoPessoa.pessoa)}"/>
+                                    <c:forEach items="#{pgDocumentoPessoa.subPastaEquipe.getCampoInstanciadoByNomeOuAnotacao('migalhasDePao').valor}"
+                                               var="item"
+                                               >
+                                        <p:menuitem value="#{item.nome}"
+                                                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
+                                                           pgDocumentoPessoa.categoriaArquivoEquipe,subPasta,pgDocumentoPessoa.pessoa)}"/>
+                                    </c:forEach>
+                                    <p:menuitem value="#{pgDocumentoPessoa.subPastaEquipe.nome}"
+                                                url="#" icon="fa fa-folder-open-o"/>
+                                </p:breadCrumb>
+                            </h:form>
+                        </h:panelGroup>
+                        <p:link
+                            rendered="#{pgDocumentoPessoa.subPastaEquipe!=null}"
+                            href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SubpastaMbGestao.subpastaFrmNovoPastaEquipe,
+                                    pgDocumentoPessoa.pessoa,
+                                    pgDocumentoPessoa.subPastaEquipe)}">
+                            <p:graphicImage name="/img/novaPasta.jpg" height="60" />
+                        </p:link>
+
+                        <c:forEach items="#{pgDocumentoPessoa.subPastasEquipe}" var="subPasta"  >
+
+                            <p:link
+                                href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
+                                        pgDocumentoPessoa.categoriaArquivoEquipe,subPasta,pgDocumentoPessoa.pessoa)}">
+                                <h:panelGroup layout="block" styleClass="PastaDoDiretorio  fa fa-folder-o" style="margin: 6px;" >
+                                    #{subPasta.nome}
+                                </h:panelGroup>
+                            </p:link>
+                        </c:forEach>
+                    </h:panelGroup>
+
+                </span>
+            </h:panelGroup>
+            <h:panelGroup styleClass="Fright" style="position: relative  " layout="block">
+
+            </h:panelGroup>
+        </div>
+        <h:panelGroup layout="block" styleClass="Container12" >
+
+
+
+
+        </h:panelGroup>
+        <h:form>
+            <p:remoteCommand name="atualizarVisaoArquivosPessoa" actionListener="#{pgDocumentoPessoa.atualizarEntidadeSelecionada()}"
+                             update="arquivosDaCategoria" action="#{pgDocumentoPessoa.listarDados()}"
+                             >
+            </p:remoteCommand>
+        </h:form>
+        <p:fieldset  style="border: 0px;">
+            <h:form  enctype="multipart/form-data">
+                <p:fileUpload
+                    mode="advanced"  multiple="true"
+
+                    auto="true"
+                    listener="#{servicosCRM.enviarArquivosEquipePessoa}"
+                    update="@parent"
+                    styleClass="inputDropArquivo"
+                    sizeLimit="285485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx|zip|mp3|mp4)$/"
+                    invalidSizeMessage="O tamanho máximo permitido é 100 KB"
+                    invalidFileMessage="Este tipo de arquivo não é permitido, apenas: png|pdf|doc|docx|xml|xmlx são permitidos"
+                    label="Procurar no meu dispositivo local para: #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}."
+                    oncomplete="atualizarVisaoArquivosPessoa();"
+                    uploadLabel="Atualizar Arquivos da Pessoa"
+                    cancelLabel="Cancelar"
+                    >
+                    <f:attribute name="pessoa"  value="#{pgDocumentoPessoa.pessoa}" />
+                    <f:attribute name="categoriaEquipe"  value="#{pgDocumentoPessoa.categoriaArquivoEquipe}" />
+                    <f:attribute name="subPasta"  value="#{pgDocumentoPessoa.subPastaEquipe}" />
+
+                </p:fileUpload>
+            </h:form>
+
+            <h:panelGroup styleClass="Container12" style="margin-top: -250px; padding-left: 50%;" layout="block" >
+
+                <p:graphicImage  library="img" alt="Arraste arquivos aqui para salvar este arquivo em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}." name="upload-illustration.png" />
+                Arraste arquivos aqui para salvar este arquivo em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}.
+            </h:panelGroup>
+        </p:fieldset>
+        <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
+
+
+
+            <c:forEach  items="#{pgDocumentoPessoa.entidadesListadas}" var="arquivo" >
+                <h:form>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                    <p:fieldset  id="arquivos" styleClass="Container3 PainelDetalhesArquivo" style="" >
+
+                        <h:panelGroup layout="block" styleClass="OrganizadorContainerDireita">
+                            <p:commandButton
+                                partialSubmit="true"
+                                process="@this"
+                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank');"
+                                icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
+                                />
+                            <p:commandButton
+
+                                partialSubmit="true"
+                                process="@this"
+                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}', '_blank');"
+                                icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
+                                />
+                            <p:commandButton
+                                partialSubmit="true"
+                                rendered="false"
+                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
+                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                                oncomplete="atualizarVisaoArquivosPessoa();"
+
+                                >
+                                <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+
+                            <p:commandButton
+                                partialSubmit="true"
+
+                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
+                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                                oncomplete="atualizarVisaoArquivosPessoa();"
+
+                                >
+                                <p:confirm header="Confirmation" message="Deseja excluir #{arquivo.nome} de forma irreversível?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="Fleft Container12">
+                            <p:outputLabel  styleClass="PainelDetalhesArquivoNome FontAdamantiumBold" value="#{arquivo.arquivo}" style=""/>
+                        </h:panelGroup>
+                        <p:panelGrid columns="3" styleClass=""  style="width: 100%;" >
+
+                            <h:panelGroup layout="block" >
+
+
+                                <i class="Fs50 #{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
+
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" >
+                                #{arquivo.usuarioCriou.nome}
+                                <crm:avatar  id="criado_por" usuario="#{arquivo.usuarioCriou}" somenteLeitura="true" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" >
+
+
+                                <p:outputLabel id="dataHoraCriou" value="#{pgUtil.gerarDataHoraTexto(arquivo.dataHoraCriacao)}" />
+
+                            </h:panelGroup>
+
+
+                        </p:panelGrid>
+
+
+                        <h:panelGroup layout="block" style="width: 100%;" rendered="arquivo.dataHoraAlteracao!=null">
+                            *    Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por:      <crm:avatar usuario="#{arquivo.usuarioAlteracao}" somenteLeitura="true" />
+                        </h:panelGroup>
+
+                    </p:fieldset>
+                </h:form>
+
+            </c:forEach>
+
+        </p:fieldset>
+
+        <crm:menuProspecto  pessoaJuridica="#{pgDocumentoPessoa.pessoa}"
+                            rendered="#{pgDocumentoPessoa.pessoa!=null}"
+                            />
+    </ui:define>
+</ui:composition>

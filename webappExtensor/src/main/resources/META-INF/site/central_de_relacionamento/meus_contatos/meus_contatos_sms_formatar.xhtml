@@ -1,0 +1,33 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <h:form>
+
+            <p:fieldset style="margin-top: 100px;" legend="Envio SMS para #{pgMeusContatos.entidadeSelecionada.nome} - #{pgMeusContatos.entidadeSelecionada.celular}" >
+                <h:panelGroup layout="block" styleClass="OrganizadorContainer container12">
+                    <h:panelGroup layout="block" styleClass="Container6">
+                        <p:inputTextarea value="#{pgMeusContatos.mensagemSMS.texto}" style="width: 100%;" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="Container3">
+                        <SBBotaoDeAcao:botaoDeAcao
+                            metodo="#{servicoCRMContato.enviarMensagemSMS(pgMeusContatos.mensagemSMS)}"
+                            armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                            acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrSmsEnviar}"
+                            update="@form"
+                            />
+                    </h:panelGroup>
+                </h:panelGroup>
+
+            </p:fieldset>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

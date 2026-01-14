@@ -1,0 +1,142 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoaJuridica"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa"
+                      required="true"/>
+
+        <cc:attribute name="acoes" type="java.util.List" />
+        <cc:attribute name="indice"  default="-1" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:form rendered="#{cc.attrs.pessoaJuridica!=null}">
+
+            <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
+            <h:panelGroup layout="block"  styleClass="botaoLateralMenuPessoaJuridica" style="border-radius: 30px;">
+                <p:commandLink  type="button" onclick="PF('sidebar2').show();" styleClass="p-mr-2" >
+                    <h:panelGroup layout="span" rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
+                                  styleClass="Fs16" style="color:#ffffff; " >
+                        #{cc.attrs.pessoaJuridica.nomeCurto}
+                        <p:avatar label="#{cc.attrs.pessoaJuridica.nome}" styleClass="p-ml-2"   style="background-color:#4caf4f; color: #ffffff"
+                                  rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
+                                  />
+                    </h:panelGroup>
+
+
+
+
+                    <p:avatar styleClass="p-ml-3" dynamicColor="true" size="xlarge"
+                              label=""
+                              style="background-color: #ffffff00;"
+                              shape="square"
+                              rendered="#{cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}">
+                        <span class="Fs16" style="color:#ffffff;"> #{cc.attrs.pessoaJuridica.nomeCurto} </span>
+                        <p:graphicImage  style="margin-bottom: 30px;height: auto;"  url="#{cc.attrs.pessoaJuridica.imgPequena}"  />
+                    </p:avatar>
+                </p:commandLink>
+
+            </h:panelGroup>
+        </h:form>
+        <p:sidebar widgetVar="sidebar2" dynamic="false" position="right"
+                   rendered="#{cc.attrs.pessoaJuridica!=null}"
+                   showCloseIcon="true" style="background-color: #ffffff; width: 300px;" baseZIndex="999999999">
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" >
+                <h3>
+                    <p:avatar label="#{cc.attrs.pessoaJuridica.nome}" styleClass="p-ml-2"   style="background-color:#4caf4f; color: #ffffff"
+                              rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
+                              />
+
+                    <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.pessoaJuridica.imgPequena}"
+                         style="
+                         min-height: 70px;
+                         max-width: 70%;
+                         max-height:  90px;
+                         position: relative;
+                         top: 0px;" />
+                    
+
+                    #{cc.attrs.pessoaJuridica.nome}
+                </h3>
+            </p:link>
+            <p:tabView >
+            <p:tab title="Manutenção" >
+                    <crmPessoa:menuPessoaAcoesDisponiveis pessoa="#{cc.attrs.pessoaJuridica}" />
+            </p:tab>
+            <p:tab title="Atividades" >
+                <h:form rendered="#{!cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}" >
+                <h:panelGroup layout="block" style="width: 100%;" >
+                    <p:selectOneListbox id="selecaoAtividadePessoa" value="#{servicosCRM.tipoAtividadeSelecionada}" converter="conversorGenerico"
+                                        var="atividade" filter="true" filterMatchMode="contains" style="width: 100%;"
+
+
+                                        >
+                        <f:selectItems value="#{cc.attrs.pessoaJuridica.atividadesDisponiveis}" var="atividade" itemLabel="#{atividade.nome}" itemValue="#{atividade}"/>
+
+                        <p:column width="30px" >
+                            <i class="#{atividade.iconeAcao}" style="color:##{atividade.cor}}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{atividade.nome}"/>
+                        </p:column>
+                        <p:ajax event="change" listener="#{servicosCRM.iniciarAtividadeInicial(cc.attrs.pessoaJuridica)}"
+                                onstart="PF('sidebar2').hide();"
+                                />
+
+                    </p:selectOneListbox>
+                   </h:panelGroup>
+                </h:form>
+
+                <h:panelGroup styleClass="Container12 " rendered="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}">
+
+                <crm:botaoEditarAtividade  atividade="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor}"/>
+            </h:panelGroup>
+            </p:tab>
+
+            </p:tabView>
+
+            <h:panelGroup styleClass="Container12 " rendered="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}">
+                <crm:botaoEditarAtividade  atividade="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor}"/>
+            </h:panelGroup>
+
+            <p:fieldset style="margint-top:10px;" >
+
+                <div class="OrganizadorContainer" style="m">
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-id-card-o"></span> <br/>Detalhes</a>
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px; " ><span class="fa fa-comments"></span> <br/>Chat</a>
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-files-o"></span> <br/>Arquivos</a>
+
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-money"></span> <br/>Negócios</a>
+
+                </div>
+
+
+            </p:fieldset>
+            <h:form>
+                <crm:opcoesProspectoQuantidades
+                    empresa="#{cc.attrs.pessoaJuridica}"
+                    javascriptOnclick="PF('sidebar2').hide();"
+                    rendered="false"
+                    />
+            </h:form>
+            <p:blockUI block="@parent"
+                       widgetVar="empresablkcmd#{cc.attrs.pessoaJuridica.id}"
+                       >
+                <i class=" fa fa-spinner fa-spin fa-5x fa-fw"></i>
+            </p:blockUI>
+        </p:sidebar>
+    </cc:implementation>
+</ui:composition>

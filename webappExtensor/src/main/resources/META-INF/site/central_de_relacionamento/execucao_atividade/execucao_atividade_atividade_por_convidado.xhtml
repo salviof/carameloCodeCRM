@@ -1,0 +1,111 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    template="/resources/SBComp/template/basico/conteudo.xhtml"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="parametros">
+        <ui:param name="iconeConteudo" value="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao}" />
+    </ui:define>
+    <ui:define name="titulo">
+        #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}
+    </ui:define>
+    <ui:define name="subtitulo">
+        <CRM:empresaBasico empresa="#{pgExecutarAtividade.prospecto}" />
+
+    </ui:define>
+    <ui:define name="conteudoDireita">
+
+        <h:panelGroup rendered="#{!pgExecutarAtividade.atividade.foiAtividadeFinalizada}" >
+            <div class="alert alert-info" >
+                <strong>Bem Vindo!</strong>
+                Você foi convidado para colaborar com uma Atividade. Por favor, preencha os seguintes dados, em seguida em uma segunda tela, você poderá fazer comentários livres.
+            </div>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="conteudoCard">
+
+        <p:fieldset rendered="#{pgExecutarAtividade.atividade.foiAtividadeFinalizada}" >
+
+            <div class="alert alert-info" >
+                <strong>Estamos agradecidos!</strong>
+                A atividade solicitada foi reagistrada com sucesso!
+            </div>
+
+
+        </p:fieldset>
+
+        <p:fieldset rendered="#{!pgExecutarAtividade.atividade.foiAtividadeFinalizada}" >
+
+            <p:fieldset  rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}" legend="Observacoes">
+                <h:form>
+                    <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+                    <h:panelGroup styleClass="Container50" >
+                        <p:commandButton
+                            disabled="#{pgExecutarAtividade.vaiAgendar}"
+                            icon="#{pgExecutarAtividade.acaoContinuarMaisTarde.icone}"
+                            actionListener="#{pgExecutarAtividade.salvarMaisTarde()}"
+                            value="#{pgExecutarAtividade.acaoContinuarMaisTarde.nome}"
+                            update="#{pgUtil.gerarCaminhoCompletoID(pgExecutarAtividade.idAreaExbicaoAcaoSelecionada)}"
+                            styleClass="Container25 "
+                            />
+                        <p:commandButton
+                            disabled="#{pgExecutarAtividade.vaiAgendar}"
+                            icon="#{pgExecutarAtividade.atividade.tipoAtividade.icone}"
+                            actionListener="#{pgExecutarAtividade.concluirAtividade()}"
+                            value="#{pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividaed}"
+                            styleClass="Container25 "
+                            rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}"
+                            update="#{pgUtil.gerarCaminhoCompletoID(pgExecutarAtividade.idAreaExbicaoAcaoSelecionada)}" />
+
+
+                    </h:panelGroup>
+                </h:form>
+
+            </p:fieldset>
+            <p:fieldset legend="Fomulário da atividade "
+                        rendered="#{pgExecutarAtividade.atividade.tipoAtividade.geraNovoRelacionamento and !pgExecutarAtividade.atividade.permitidoConcluir}"
+                        id="dadosNaoCadastrados"
+                        >
+                <h:form>
+                    <p:outputLabel value="Nenhuma informação obrigatória está pendente para proseguir para o pŕoximo relacionamento"
+                                   rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}" />
+                    <h:panelGroup   rendered="#{!pgExecutarAtividade.atividade.permitidoConcluir}" >
+                        <h:panelGroup styleClass="Container100" >
+
+                            <ui:repeat value="#{pgExecutarAtividade.atividade.dadosNaoColetados}"  var="dado" varStatus="recNum">
+                                <h:panelGroup  styleClass="Container30">
+                                    <SBInput:input  registro="#{dado.campoInstanciado}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                                </h:panelGroup>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        <p:commandButton id="ajustar" value="Salvar dados" update="#{pgUtil.gerarCaminhoCompletoID(pgExecutarAtividade.idAreaExbicaoAcaoSelecionada)}"
+                                         actionListener="#{pgExecutarAtividade.salvarDadosDinamicos()}"
+
+                                         />
+                    </h:panelGroup>
+                </h:form>
+            </p:fieldset >
+
+        </p:fieldset>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+

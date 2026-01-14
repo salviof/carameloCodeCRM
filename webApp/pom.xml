@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>br.org.carameloCode.erp.crm</groupId>
+    <artifactId>webApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>CRM Caramelo Code Web</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <projetoSB.nomeBanco>CRMCarameloCode</projetoSB.nomeBanco>
+        <projetoSB.cliente>carameloCode</projetoSB.cliente>
+        <projetoSB.grupoProjeto>carameloCodeCRM</projetoSB.grupoProjeto>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>br.org.carameloCode.erp.crm</groupId>
+            <artifactId>modelRegras</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>gestaoArquivosProtocoloS3</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>
+            <artifactId>openid</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.chat</groupId>
+            <artifactId>SbErpChatMatrixOrg</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.cepBR</groupId>
+            <artifactId>SbErpCodigoPostalBRApiFreeRedundante</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+
+        <!--Provided para Injets e outros -->
+
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBWebPaginas</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.brickred</groupId>
+            <artifactId>socialauth</artifactId>
+            <version>4.15</version>
+        </dependency>
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBTestesWebApp</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>apiComunicacaoPadrao</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
+
+        <!--Provided para Injets e outros -->
+        <dependency>
+            <groupId>com.restfb</groupId>
+            <artifactId>restfb</artifactId>
+            <version>2.0.0-rc.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <type>jar</type>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+
+
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.7.v20180619</version>
+                <configuration>
+                    <reload>manual</reload>
+                    <jvmArgs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=4000</jvmArgs>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                        <webInfIncludeJarPattern>.*openid.*\.jar$|.*/SBWebPaginas[^/]*\.jar$|.*/webApp.jar|.*/classes/.*</webInfIncludeJarPattern>
+                    </webAppConfig>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0</version>
+            </extension>
+        </extensions>
+    </build>
+
+
+</project>

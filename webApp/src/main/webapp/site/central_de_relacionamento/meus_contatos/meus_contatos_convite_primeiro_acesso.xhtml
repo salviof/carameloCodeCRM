@@ -1,0 +1,73 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+
+
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer" style="height: 800px;display: flex;align-items: center;justify-content: center;"  >
+
+            <p:fieldset legend="Convite Manual" styleClass="OrganizadorContainer" >
+                <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="max-width: 600px;" >
+                    <h:panelGroup layout="block" styleClass="OrganizadorContainer" >
+                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"  >
+                            <p:outputLabel value="#{pgUtilDataHoraFormato.getDataHoraSimplificado(pgMeusContatos.tokenAcesso.validade)}"  /><br/>
+                        </h:panelGroup>
+                        <pe:qrCode id="qrCodeElem"
+                                   renderMethod="canvas"
+                                   renderMode="4"
+                                   text="#{pgMeusContatos.urlAcessoDireto}"
+                                   label="#{pgMeusContatos.entidadeSelecionada.prospecto.nomeCurto}"
+                                   size="300"
+                                   fillColor="#000000"
+                                   fontName="Ubuntu"
+                                   fontColor="#01A9DB"
+                                   ecLevel="H"
+                                   radius="0.5"/> <br/>
+
+                        <p:outputLabel value="#{pgMeusContatos.urlAcessoDireto}"  id="codigoAcesso" />
+                    </h:panelGroup>
+                    <h:form>
+                        <p:commandButton id="btnAjaxCopy" value="Copiar" icon="pi pi-copy" onclick="return false;"/>
+
+                        <pe:clipboard id="clipCopy" trigger="btnAjaxCopy" action="copy" target="codigoAcesso">
+                            <p:ajax event="success" listener="#{pgUtil.mensagemInfo('Código copiado com sucesso')}"/>
+                        </pe:clipboard>
+                    </h:form>
+                </h:panelGroup>
+            </p:fieldset>
+            <h:panelGroup styleClass="Container12"  layout="block" style="height: 10px;"/>
+
+            <p:fieldset legend="Convite Reunião agenda" styleClass="Container3 OrganizadorContainer" style="height: 300px; " >
+                <h:form >
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmConviteReserva}"
+                                       rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}"
+                                       />
+                </h:form>
+            </p:fieldset>
+            <p:fieldset legend="Convite via #{pgMeusContatos.entidadeSelecionada.email}" styleClass="OrganizadorContainer" style="height: 300px;" >
+                <h:panelGroup styleClass="Container12 OrganizadorContainer" >
+                    <h:panelGroup styleClass="Container3" layout="block"  >
+                        <h:form>
+                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorEmail}" rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail}" />
+                        </h:form>
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Container3" layout="block"  >
+                        <h:form>
+                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorWhatsapp}" rendered="#{pgMeusContatos.entidadeSelecionada.possuiTelefone}"   />
+                        </h:form>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:fieldset>
+
+
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

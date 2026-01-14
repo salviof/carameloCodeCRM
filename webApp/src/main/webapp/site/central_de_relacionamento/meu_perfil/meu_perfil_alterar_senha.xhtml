@@ -1,0 +1,63 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:botaoAcao ="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:fieldset legend="Senha">
+        <h:form >
+            <p:password  value="#{pgMeuPerfil.usuario.getCampoInstanciadoByNomeOuAnotacao('senha').valor}"
+                         match="#{pgUtil.gerarCaminhoCompletoID('senha2')}"
+                         class=" campoResponsivo  TexAlCenter #{componente.classeCSS}"
+                         autocomplete="off"
+                         redisplay="false"
+                         feedback="true"
+                         disabled="false"
+                         placeholder="Digite a nova senha"
+                         onfocus="this.removeAttribute('readonly');"
+                         validatorMessage="O valor informado no #{label} não é valido! confirme a senha nos 2 campos, com pelo menos 6 caracteres"
+                         promptLabel="Digite uma senha segura"
+                         inline="true"
+                         toggleMask="true"
+                         weakLabel="Você pode melhorar esta senha"
+                         goodLabel="Esta senha é uma boa senha,nós podemos aceita-la, porém você pode melhora-la adcionando numeros, caracteres especiais e letras"
+                         strongLabel="Parabéns, esta senha é muito difícil de ser quebrada"
+                         required="true"
+                         id="senhaUsuario"
+                         requiredMessage="O campo #{label} não foi informado, corretamento, confirme a senha com o mesmo valor nos dois campos "
+                         >
+                <f:passThroughAttribute name="readonly" value="true" />
+                <f:validateLength minimum="6" />
+            </p:password>
+            <p:password id="senha2"
+                        value="#{pgMeuPerfil.usuario.getCampoInstanciadoByNomeOuAnotacao('senha').valor}"
+                        placeholder="Confirme a senha aqui"
+                        toggleMask="true"
+                        onfocus="this.removeAttribute('readonly');"
+                        autocomplete="off"
+                        redisplay="false"
+                        required="true" class=" campoResponsivo  TexAlCenter" >
+                <f:passThroughAttribute name="readonly" value="true" />
+            </p:password>
+            <p:message for="senhaUsuario" />
+            <h:panelGroup layout="block" styleClass="Fright">
+
+                <h:panelGroup layout="block" style="width: 250px;">
+                    <botaoAcao:botaoDeAcao metodo="#{pgMeuPerfil.salvarAlteracoes()}"
+                                           update="@form"
+                                           label="Alterar Senha"
+                                           armazenamentoAcaoExecutada="#{pgMeuPerfil.acaoSelecionada}"
+                                           acao="#{acoesAtendimentoCrm_MeuPerfilMb.meuPerfilCtrSalvarMerge}"
+                                           tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                           />
+                    <p:button href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_AutenticacaoSocialMb.autenticacaoSocialMb).urlDeAcesso}" value="Vincular com Rede social"
+                              disabled="true"
+                              />
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>

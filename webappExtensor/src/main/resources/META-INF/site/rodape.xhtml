@@ -1,0 +1,61 @@
+<ui:composition
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    xmlns:SBDev="http://xmlns.jcp.org/jsf/composite/SBComp/composite/devel"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <p:sidebar widgetVar="menuPessoal" dynamic="true" position="left"
+               rendered="#{ sessaoAtualSBWP.identificado and !sessaoAtualSBWP.telaUsuario.umMobile
+                            and !sessaoAtualSBWP.usuario.umUsuarioDoCliente
+                            and !infoWebAppCrmColetivoJava.apenasWebMail
+                            and !paginaAtual.infoPagina.comoPaginaDeGestao.acaoVinculada.equals(acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeMb)}"
+               showCloseIcon="true" style="background-color: #ffffff; width: 300px;" baseZIndex="999999999"
+
+               >
+
+        <ul>
+            <li>
+                <a  href="https://chat.casanovadigital.com.br"  target="chatCasanova" >
+                    <span class="span-element-on-click">Abrir Chat</span>
+
+                    <!-- Use any element to open the sidenav -->
+                    <label class="spmouseovermenufw" onclick="openNavspfw()">
+                        <img src="#{resource['img/iosIcones/iconerocketChat.png']}" class="img-element-on-click" style="width: 30px"/>
+                        <div class="contatorBotaoMenuRapido" > #{paginaAtual.usuarioCrmLogado.getCampoInstanciadoByNomeOuAnotacao('areatrabalhoPadrao').valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('naoLidaMensagemQtd').valor}
+                        </div>
+                    </label>
+                </a>
+            </li>
+
+            <li>
+                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido)}"  rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null}" >
+                    <li>
+                        <span class="span-element-on-click">Caixa de Entrada #{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.estatisticas.quantidadeNaoLidoConhecido} importantes não lidos</span>
+                        <label class="bsmouseovermenufw" onclick="openNavbsfw()">
+                            <img src="#{resource['img/iosIcones/iconemailinbox.png']}" class="img-element-on-click" style="width: 30px"/>
+                            <div class="contatorBotaoMenuRapido" > #{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.estatisticas.quantidadeNaoLidoConhecido}</div>
+                        </label>
+                    </li>
+                </p:link>
+            </li>
+
+
+        </ul>
+    </p:sidebar>
+
+    <h:panelGroup
+        layout="block" styleClass="quebraBlocoComEspacoVertical10"
+        />
+
+
+
+    <div class="quebraBlocoComEspacoVertical10" />
+    <div class="Fright" style="margin: 20px;">
+    </div>
+    <SBDev:infoPagina/>
+
+
+</ui:composition>

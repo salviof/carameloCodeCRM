@@ -1,0 +1,57 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:p="http://primefaces.org/ui">
+
+
+    <p:staticMessage severity="info" summary="Este contato não possui usuário cadastrado" detail="" rendered="#{pgMeusContatos.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor==null}" />
+    <h:form >
+        <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmConvitePrimeiroAcesso}"
+                           rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado==null}"
+                           />
+    </h:form>
+
+    <p:fieldset legend="Convidar para acesso Rápido" rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}" >
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer" style="height: 200px;display: flex;align-items: center;justify-content: center;"
+                      rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}" >
+
+            <p:fieldset legend="Link de acesso rápido via #{pgMeusContatos.entidadeSelecionada.email}" styleClass="Container3 OrganizadorContainer" style="height: 200px;" rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail}" >
+                <h:form>
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarAcessoPorEmail}" />
+                </h:form>
+            </p:fieldset>
+
+            <p:fieldset legend="Link de acesso rápido via #{pgMeusContatos.entidadeSelecionada.celular}" styleClass="Container3 OrganizadorContainer" style="height: 200px;" rendered="#{pgMeusContatos.entidadeSelecionada.possuiTelefone}" >
+                <h:form>
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarAcessoPorWhatsapp}"  />
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+    </p:fieldset>
+
+
+    <p:fieldset legend="Convidar para Agendar Reunião"  rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}">
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer" style="height: 200px;display: flex;align-items: center;justify-content: center;"
+                      rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}" >
+
+            <p:fieldset legend="Envie sua agenda via #{pgMeusContatos.entidadeSelecionada.email}" styleClass="Container3 OrganizadorContainer" style="height: 200px;" rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail}" >
+                <h:form>
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarAgendaPorEmail}" />
+                </h:form>
+            </p:fieldset>
+
+            <p:fieldset legend="Envia sua agenda via #{pgMeusContatos.entidadeSelecionada.celular}" styleClass="Container3 OrganizadorContainer" style="height: 200px;" rendered="#{pgMeusContatos.entidadeSelecionada.possuiTelefone}" >
+                <h:form>
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarAgendaPorWhatsapp}"  />
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+    </p:fieldset>
+
+
+
+</ui:composition>

@@ -1,0 +1,39 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeralAnonimo.xhtmlVinculado}">
+    <ui:define name="head">
+        <style type="text/css">
+            ::-webkit-scrollbar {
+                -webkit-appearance: none;
+            }
+            ::-webkit-scrollbar {
+                width: 20px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #ffb400;
+                border:1px solid #ccc;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #69a94d;
+                border:1px solid #eee;
+                height:100px;
+                border-radius:5px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: blue;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="divConteudo">
+
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
+
+            <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

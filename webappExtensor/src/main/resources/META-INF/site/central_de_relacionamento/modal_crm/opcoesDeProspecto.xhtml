@@ -1,0 +1,50 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBAcoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+
+
+    <p:fieldset legend="Opções de prospecto"  >
+
+
+        <c:forEach items="#{acoesCRM_Gerenciar_de_Prospecto.prospecto_mb_gerenciar.comoGestaoEntidade.acoesVinculadasExcetoListarEnovo}" var="acao" >
+            <h:panelGroup class="Container20" rendered="#{acao.umaAcaoFormulario}" style="margin: 30px;" >
+
+
+
+                <p:button href="#{infoWebApp.getUrlDaAcao(acao,pgModalProspecto.prospectoSelecionado)}"
+                          styleClass="btnIconeENome botao"
+
+                          icon="#{acao.iconeAcao}"
+                          value="#{acao.nomeAcao}"
+                          target="_parent"
+                          />
+
+            </h:panelGroup>
+        </c:forEach>
+
+
+
+    </p:fieldset>
+
+
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

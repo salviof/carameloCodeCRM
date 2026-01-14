@@ -1,0 +1,47 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.EmailCrm" required="true"/>
+        <cc:attribute name="autoSave" type="javax.el.MethodExpression"
+                      shortDescription="Médodo responsável por salvar o rascunho" />
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <sb:parametroMetodo nome="prMetodo" valor="#{cc.attrs.autoSave}" rendered="#{pgUtil.isAtributoPreenchidoComExpressao(cc,'autoSave')}" />
+        <p:inputText
+
+
+            styleClass="campoResponsivo  TexAlCenter #{componente.classeCSS}"
+            required="false"
+            value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto').valor}"
+
+            requiredMessage="O campo #{label} não foi informado! "
+
+            >
+            <f:passThroughAttribute name="caminhoCampo" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto').nomeCompostoIdentificador}" />
+            <f:passThroughAttribute name="dominio" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto').nomeClasseOrigemAtributo}" />
+            <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto')}" />
+            <p:clientValidator />
+            <f:validator  validatorId="org.super_bits.view.validadores.generico"/>
+            <p:ajax
+                listener="#{prMetodo}"
+                event="valueChange"
+                process="@this"
+                update="#{pgUtil.gerarCaminhoCompletoID('messagemValidacaoAssunto')}"
+                />
+            <p:watermark value="Assunto (Máximo em 10 palavras)" for="@parent" />
+            <p:message  id="messagemValidacaoAssunto" for="@parent" />
+        </p:inputText>
+
+
+    </cc:implementation>
+</ui:composition>

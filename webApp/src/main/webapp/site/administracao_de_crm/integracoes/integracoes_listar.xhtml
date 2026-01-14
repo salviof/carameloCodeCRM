@@ -1,0 +1,82 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo" >
+
+
+        <table class="w3-table w3-striped w3-border w3-bordered	 w3-centered	" style="">
+            <tr>
+                <th>Nome</th>
+                <th>Sistema foi Integrado?</th>
+                <th>Usuário autorizado?</th>
+                <th>status</th>
+            </tr>
+
+            <c:forEach items="#{pgIntegracoes.statusDisponiveis}" var="integracao" >
+                <tr>
+                    <td>
+                        <SBInput:input
+                            registro="#{integracao.getCampoInstanciadoByNomeOuAnotacao('nomeIntegracao')}"
+                            desabilitarEdicao="true"
+                            layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                            />
+                        <p:commandButton value="Detalhes" type="button" icon="pi pi-external-link" onclick="PF('detalhes#{integracao.id}').show()"/>
+                        <p:dialog header="Detalhes" widgetVar="detalhes#{integracao.id}" minHeight="600" width="90%" showEffect="fade" modal="true">
+                            <p class="m-0">
+                                <p:outputLabel value="#{integracao.caminhoArquivoConfig}"/>
+                                <p:panelGrid columns="6" >
+                                    <c:forEach   items="#{integracao.propriedasdes}" var="prop" >
+                                        <p:outputLabel value="#{prop.envname}" />
+                                        <p:outputLabel value="#{prop.nomeProp}" />
+                                        <p:outputLabel value="#{prop.valorPadrao}" />
+                                        <p:outputLabel value="#{prop.tipoPropOrigem}" />
+                                        <p:outputLabel value="#{prop.parteValor}" />
+                                        <p:outputLabel value="" />
+                                    </c:forEach>
+
+                                </p:panelGrid>
+                            </p>
+                        </p:dialog>
+                    </td>
+                    <td class="OrganizadorContainer">
+
+                        <SBInput:input
+                            registro="#{integracao.getCampoInstanciadoByNomeOuAnotacao('sistemaFoiIntegrado')}"
+                            desabilitarEdicao="true"
+                            layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                            />
+
+
+                    </td>
+                    <td class="OrganizadorContainer">
+                        <SBInput:input registro="#{integracao.getCampoInstanciadoByNomeOuAnotacao('usuarioFoiIntegrado')}"
+                                       desabilitarEdicao="true"
+                                       layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                       />
+
+                    </td>
+                    <td>
+                        <h:panelGroup layout="block" id="diagnostico#{integracao.id}" >
+                            <SBInput:input registro="#{integracao.getCampoInstanciadoByNomeOuAnotacao('diagnostico')}"
+                                           desabilitarEdicao="true"
+                                           layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                           />
+                            <p:tooltip for="diagnostico#{integracao.id}" rendered="#{!integracao.sistemaFoiIntegrado}" value="As chaves de acesso são de responsabilidade da equipe de infra-estrutura"/>
+                        </h:panelGroup>
+                    </td>
+
+                </tr>
+            </c:forEach>
+
+        </table>
+
+    </ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,24 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa"
+                      required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:panelGroup class="Container12 OrganizadorContainer" style="margin-bottom: 32px;">
+            <h:form>
+                <crm:botaoGrandeV2 tipo="informativo" icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade.icone}" label="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade.nomeAcao}" acao="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}" />
+            </h:form>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

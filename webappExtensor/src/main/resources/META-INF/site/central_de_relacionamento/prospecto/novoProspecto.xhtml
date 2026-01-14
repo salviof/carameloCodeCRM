@@ -1,0 +1,59 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    template="/resources/SBComp/template/basico/conteudo.xhtml"  >
+    <ui:define name="parametros">
+        <ui:param name="iconeConteudo" value="fa fa-archive" />
+    </ui:define>
+    <ui:define name="titulo">
+        Cadastro de novo Prospecto
+    </ui:define>
+    <ui:define name="subtitulo">
+        <br/>
+        <span class="CardSubTopic">Os cadastros realizados aqui terão prioridade na realização de pré analizes</span>
+        <br/>
+        <span class="CardSubTopic">Caso queira você pode ganhar tempo executando você mesmo  esta análise </span>
+    </ui:define>
+    <ui:define name="conteudoDireita">
+
+
+
+
+
+    </ui:define>
+    <ui:define name="conteudoCard">
+        <h:form>
+
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+                <SBForm:camposDaAcao acao="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmNovoCadastroRapido}"
+                                     registro="#{pgProspecto.entidadeSelecionada}"
+                                     />
+            </h:panelGroup>
+
+            <div class="Fright">
+                <div class="Container12" style="margin-bottom: 8px">
+                    <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoSalvarAlteracoes}"
+                                                  tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                  update="@form"
+                                                  label="Salvar e Criar Novo"
+                                                  />
+                </div>
+                <div class="Container12">
+                    <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoNovoProspectoListarOpcoes}"
+                                                  tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                  update="@form"
+                                                  />
+                </div>
+            </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

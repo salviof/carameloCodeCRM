@@ -1,0 +1,202 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMEMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBCop/composite/acoesENavegacao"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:panelGroup styleClass="Container12 " layout="block" >
+
+        <h:panelGroup styleClass="Container12 " layout="block">
+            <h:panelGroup styleClass="Container12 " layout="block" style="width: 110%;">
+                <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+                    <f:facet name="opcoesCabecalhoAtividade">
+
+
+                    </f:facet>
+                </CRM:cabecalhoAtividade>
+            </h:panelGroup>
+
+            <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" layout="block" id="opcoesEmail"  >
+
+
+
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="Container12 " layout="block">
+            <h:panelGroup rendered="#{pgExecutarAtividade.atividade.emailVinculado.foiEnviado}">
+                <div class="alert alert-info" >
+                    <strong>Um Email para: #{pgExecutarAtividade.atividade.emailVinculado.contatos} </strong>
+                    para concluir esta atividade, digite abaixo um breve relatório
+                </div>
+
+                <div class="Container12">
+                    <h:form>
+                        <CRM:editarAtividade
+                            atividade="#{pgExecutarAtividade.atividade}"
+                            rendered="#{pgExecutarAtividade.atividade.emailVinculado.foiEnviado}"
+                            />
+                    </h:form>
+
+
+                </div>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </h:panelGroup>
+
+
+
+
+    <h:panelGroup styleClass="Container12" layout="block">
+        <p:tabView activeIndex="0" style="min-height: 800px" >
+            <p:tab title="Destinatários">
+                <CRM:emailProspectoDestinatarios
+                    metodoAposAtualizarEmail="#{pgUtil.atualizaTelaPorID('contatosRapidoAdd')}"
+                    rendered="#{!pgExecutarAtividade.atividade.emailVinculado.foiEnviado}"
+                    email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                    empresa="#{pgExecutarAtividade.atividade.emailVinculado.prospecto}"
+                    />
+            </p:tab>
+
+            <p:tab title="Anexos">
+                <CRM:emailProspectoAnexos
+                    metodoAposAtualizarEmail="#{pgUtil.atualizaTelaPorID('contatosRapidoAdd')}"
+                    rendered="#{!pgExecutarAtividade.atividade.emailVinculado.foiEnviado}"
+                    email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                    empresa="#{pgExecutarAtividade.atividade.emailVinculado.prospecto}"
+                    />
+            </p:tab>
+            <p:tab title="Editar E-mail">
+                <h:form  styleClass="">
+                    <p:poll
+                        autoStart="true"
+
+                        interval="60"
+                        listener="#{pgExecutarAtividade.manterConexaoMail()}"
+                        />
+
+
+                </h:form>
+                <h:panelGroup layout="block" styleClass="Container12"  style="height: auto;">
+                    <h:panelGroup layout="block" styleClass="Container12" >
+                        <p:fieldset id="conteudoEmail" styleClass="Container12 conteudoEmail " rendered="#{pgExecutarAtividade.atividade.emailVinculado!=null}" style="height: 600px;" >
+                            <h:form style="height: 100%;">
+
+                                <SBInput:input
+                                    registro="#{pgExecutarAtividade.atividade.emailVinculado.getCampoInstanciadoByNomeOuAnotacao('assunto')}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                    />
+
+                                <CRMEMAIL:inputEmail
+                                    email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                                    autoSave="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                                    />
+                                <p:fragment >
+
+                                    <p:poll listener="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                                            widgetVar="salvarRascunhoPoll"
+                                            intervalType="second"
+
+                                            async="false"
+                                            interval="15"
+                                            process="@form"
+                                            />
+
+                                </p:fragment>
+                            </h:form>
+                        </p:fieldset>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:tab>
+            <p:tab title="Ações do email">
+                <h:panelGroup layout="block" styleClass="Container12" >
+                    <p:fieldset styleClass="Container12" style="height: 255px;"   >
+                        <h:form>
+                            <CRM:opcoesAtividadeExtra atividade="#{pgExecutarAtividade.atividade}">
+                                <f:facet name="extra">
+
+                                    <h:panelGroup  styleClass="Container6" rendered="#{!(pgExecutarAtividade.atividade.emailVinculado.foiEnviado)}">
+                                        <h:panelGroup styleClass="btnSeletor-small btnSeletor-Bkg w3-border w3-btn"
+                                                      rendered="" >
+
+                                            <p:commandLink actionListener="#{pgExecutarAtividade.emailEnviar()}"
+
+
+                                                           update="@this"
+                                                           onstart="PF('blockDisparo').show();"
+                                                           oncomplete="PF('blockDisparo').hide();"
+                                                           disabled="#{pgExecutarAtividade.vaiAgendar}"
+                                                           >
+
+                                                <div class=" TexAlCenter " style="color: orange!important">
+                                                    <i class="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.icone} Fs20 DispBlock MarBot20"></i>
+                                                    <span class="FontAdamantiumBold Fs14 DispBlock">#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.nomeAcao} com Relatório</span>
+                                                </div>
+                                            </p:commandLink>
+
+                                        </h:panelGroup>
+
+                                        <script >
+                                            function salvarEEnviarEmail() {
+                                                PF('blockDisparo').show();
+                                                var execucaoAutosaveEmail = executarAutosave();
+                                                execucaoAutosaveEmail.then(function (responseData) {
+                                                    console.log(responseData);
+                                                    var execucaoEnvioDeEmail = enviarEmail();
+                                                    execucaoEnvioDeEmail.then(function (respostaEnvio) {
+                                                        console.log(respostaEnvio);
+                                                        PF('blockDisparo').hide();
+                                                    }).catch(function (errorEnvio) {
+                                                        alert("falhouEnviando");
+                                                        console.log(errorEnvio);
+
+                                                    });
+                                                }).catch(function (errorRascunho) {
+                                                    console.error("Falhou");
+                                                    alert("falhou Salvando rascunho");
+                                                    console.log(errorRascunho);
+                                                });
+
+                                            }
+                                        </script>
+
+
+                                        <p:remoteCommand
+                                            name="enviarEmail"
+                                            actionListener="#{pgExecutarAtividade.emailEnviarEConcluir()}"
+                                            />
+
+                                        <CRM:botaoPersonalizado
+                                            titulo="Enviar e Concluir Atividade"
+                                            cor="color: #008000"
+                                            icone="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.icone}"
+                                            rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                                            processar="@this"
+                                            metodo="#{pgUtil.enviaMensagem('')}"
+                                            onStart="salvarEEnviarEmail();"
+                                            />
+
+
+
+                                    </h:panelGroup>
+                                </f:facet>
+                            </CRM:opcoesAtividadeExtra>
+                        </h:form>
+                    </p:fieldset>
+                </h:panelGroup>
+            </p:tab>
+        </p:tabView>
+    </h:panelGroup>
+
+</ui:composition>
+
+
+

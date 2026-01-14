@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:SBAcoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
+        <ui:define name="conteudo">
+
+            <h:panelGroup styleClass="quebraBlocoComEspacoVertical110" layout="block" >
+
+            </h:panelGroup>
+
+            <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer"
+                          rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal==null or !paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.ativo}"
+                          >
+                <h1> Caixa de entrada não foi configurada </h1>
+                <br/>
+                <h:panelGroup styleClass="quebraBlocoComEspacoVertical110" layout="block" />
+                <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditarServidorEnvioPersonalizado).urlDeAcesso} ">
+                    <i class="fa fa-paper-plane-o  Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold">Configurar Servidor de e-mail </span>
+                </a>
+
+            </h:panelGroup>
+
+
+            <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer"
+                          rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null and paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.ativo}"
+                          >
+
+
+                <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer"
+                              rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null or paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.ativo}"
+                              >
+                    <h:panelGroup layout="block"  styleClass="Container6 OrganizadorContainer">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Caixa de entrada do usuário"/><h:outputText value="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.email}"/>
+                            <h:outputText value="Ativo?"/><h:outputText value="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.getCampoInstanciadoByNomeOuAnotacao('ativo').valorTextoFormatado}"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="Container3" layout="block" >
+
+                    <h:form>
+                        <SBAcoes:botaoDeAcao_Pagina
+                            acao="#{acoesAdminCrm_ConfiguracoesGeraisMb.configuracoesGeraisCtrReceberEmail}"
+                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                            />
+                    </h:form>
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+

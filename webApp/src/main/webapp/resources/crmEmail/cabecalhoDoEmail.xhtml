@@ -1,0 +1,128 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.EmailCrm" required="true"/>
+        <cc:attribute name="autoSave" type="javax.el.MethodExpression"
+                      shortDescription="Médodo responsável por salvar o rascunho" />
+        <cc:attribute name="corFundo" default="#fffffffc" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <sb:parametroMetodo nome="prMetodo" valor="#{cc.attrs.autoSave}" rendered="#{pgUtil.isAtributoPreenchidoComExpressao(cc,'autoSave')}" />
+
+        <p:textEditor
+            id="textoEmail"
+            secure="false"
+            value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
+            height="500"
+
+            style="width: 100%;background-color:#{cc.attrs.corFundo};"
+            >
+            <f:facet name="toolbar">
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                    <button class="ql-clean"></button>
+
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-font"></select>
+                    <select class="ql-size"></select>
+                    <button class="ql-color"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-image"></button>
+                    <button class="ql-link"></button>
+
+                </span>
+                <span class="ql-formats">
+
+                    <button class="ql-list" value="ordered"/>
+                    <button class="ql-list" value="ordered"/>
+                    <button class="ql-ordered"></button>
+                    <button class="ql-bullet"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-align" value=""></button>
+                    <button class="ql-align" value="center"></button>
+                    <button class="ql-align" value="right"></button>
+                    <button class="ql-align" value="justify"></button>
+                </span>
+
+            </f:facet>
+            <f:passThroughAttribute name="caminhoCampo" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeCompostoIdentificador}" />
+            <f:passThroughAttribute name="dominio" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeClasseOrigemAtributo}" />
+            <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto')}" />
+            <f:passThroughAttribute name="tabindex" value="2" />
+            <p:ajax
+                rendered="#{pgUtil.isAtributoPreenchidoComExpressao(cc,'autoSave')}"
+                event="blur"
+                onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                process="@this"
+                listener="#{prMetodo}"
+                />
+        </p:textEditor>
+        <script>
+            // configure Quill to use inline styles so the email's format properly
+            var DirectionAttribute = Quill.import('attributors/attribute/direction');
+            Quill.register(DirectionAttribute, true);
+
+            var AlignClass = Quill.import('attributors/class/align');
+            Quill.register(AlignClass, true);
+
+            var BackgroundClass = Quill.import('attributors/class/background');
+            Quill.register(BackgroundClass, true);
+
+            var ColorClass = Quill.import('attributors/class/color');
+            Quill.register(ColorClass, true);
+
+            var DirectionClass = Quill.import('attributors/class/direction');
+            Quill.register(DirectionClass, true);
+
+            var FontClass = Quill.import('attributors/class/font');
+            Quill.register(FontClass, true);
+
+            var SizeClass = Quill.import('attributors/class/size');
+            Quill.register(SizeClass, true);
+
+            var AlignStyle = Quill.import('attributors/style/align');
+            Quill.register(AlignStyle, true);
+
+            var BackgroundStyle = Quill.import('attributors/style/background');
+            Quill.register(BackgroundStyle, true);
+
+            var ColorStyle = Quill.import('attributors/style/color');
+            Quill.register(ColorStyle, true);
+
+            var DirectionStyle = Quill.import('attributors/style/direction');
+            Quill.register(DirectionStyle, true);
+
+            var FontStyle = Quill.import('attributors/style/font');
+            Quill.register(FontStyle, true);
+
+            var SizeStyle = Quill.import('attributors/style/size');
+            Quill.register(SizeStyle, true);
+
+        </script>
+
+    </cc:implementation>
+</ui:composition>

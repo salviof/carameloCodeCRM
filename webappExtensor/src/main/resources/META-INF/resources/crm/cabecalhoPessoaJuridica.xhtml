@@ -1,0 +1,79 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoaJuridica"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica" required="true"/>
+
+        <cc:attribute name="acoes" type="java.util.List" />
+        <cc:attribute name="indice"  default="-1" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:panelGroup id="cardEmpresa" styleClass=" " style="width: 100%" layout="block">
+            <h:panelGroup styleClass="Container8  " style=""  layout="block" rendered="#{cc.attrs.pessoaJuridica.id!=0}" >
+                <h:form>
+                    <crm:subMenus empresa="#{cc.attrs.pessoaJuridica}" indice="#{cc.attrs.indice}" acoes="#{cc.attrs.acoes}"   />
+                </h:form>
+
+            </h:panelGroup>
+            <h:panelGroup layout="block" style="position:relative;left:   0px; margin-left: 5px; bottom: 0px; top: 50px;" styleClass="Fs12" id="cardEmpresaBasico" rendered="#{cc.attrs.pessoaJuridica.id!=0}" >
+                <h:panelGroup styleClass="Container2 Fright" style="margin-top: -60px;" rendered="#{cc.attrs.pessoaJuridica.possuiAtividadesEmAndamento}">
+                    <div class="alert alert-info">
+                        <strong>Continuar Atividade</strong>
+
+                    </div>
+
+                    <crm:botaoEditarAtividade  atividade="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor}"/>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container3" layout="block">
+                <h:form>
+                    <p:card style="width: 25rem; margin-bottom: 2em">
+                        <f:facet name="title">
+                            <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle">
+                                <p:graphicImage  url="#{cc.attrs.pessoaJuridica.imgPequena}"/>
+                            </p:avatar>
+                            <p:outputLabel value="#{cc.attrs.pessoaJuridica.nome}"  />
+                        </f:facet>
+                        <f:facet name="subtitle">
+                            <h:panelGroup style="position: relative;margin-top: 100px" layout="block" >
+                                <crm:opcoesProspectoQuantidades  empresa="#{cc.attrs.pessoaJuridica}"/>
+                            </h:panelGroup>
+                        </f:facet>
+
+
+
+
+
+
+                    </p:card>
+                </h:form>
+
+
+
+
+
+            </h:panelGroup>
+
+
+
+
+
+        </h:panelGroup>
+
+
+        <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+
+
+    </cc:implementation>
+</ui:composition>

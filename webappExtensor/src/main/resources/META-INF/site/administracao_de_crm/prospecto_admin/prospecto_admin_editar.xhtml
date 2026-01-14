@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+      xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+      xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- template conteúdo com formulario-->
+    <ui:composition template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+        <ui:define name="conteudo">
+
+
+            <SBForm:camposDaAcao
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                />
+
+
+
+        </ui:define>
+        <ui:define name="botoesDeAcao">
+
+
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{pgAdminProspecto.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                />
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

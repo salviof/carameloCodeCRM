@@ -1,0 +1,41 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="/resources/SBComp/template/basico/conteudo.xhtml"  >
+    <ui:define name="parametros">
+
+
+        <ui:param name="iconeConteudo" value="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao}" />
+
+
+
+
+
+    </ui:define>
+
+    <ui:define name="titulo">
+        #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}
+
+    </ui:define>
+    <ui:define name="subtitulo">
+        <h:form>
+            <CRM:empresaBasico empresa="#{pgExecutarAtividade.prospecto}" />
+        </h:form>
+    </ui:define>
+    <ui:define name="conteudoDireita">
+
+    </ui:define>
+    <ui:define name="conteudoCard">
+        <h:form>
+            #{pgExecutarAtividade.atividade.prospectoEmpresa.preAnalise.jsonMobile}
+            [EXMPLO ATIVIDADE PERSONALIZADA]
+            <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+            <CRM:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+
+

@@ -1,0 +1,140 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcoesNAv="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <script>
+
+        function  atualizarHorario() {
+            horariotexto = $('.ui_tpicker_time_input').get(0).value;
+            (document.getElementById('#{pgUtil.gerarCaminhoCompletoIDParaJavaScript('horarioTextoAgendamento')}')).value = horariotexto;
+            atualizarAgenda();
+        }
+
+    </script>
+    <h:form>
+        <p:remoteCommand actionListener="#{pgUtil.atualizaTelaPorID('opcoesEdicaoAtividade')}"
+                         name="atualizarAgenda"
+                         update="#{pgUtil.gerarCaminhoCompletoID('agendabtn')} #{pgUtil.gerarCaminhoCompletoID('agendaAlertas')}"
+                         >
+            <p:inputText style="visibility: hidden;"
+                         id="horarioTextoAgendamento"
+                         value="#{pgExecutarAtividade.horarioTexto}" />
+
+        </p:remoteCommand>
+
+    </h:form>
+
+    <h:panelGroup  id="agendamentoDeAtividade" class=" OrganizadorContainer" layout="block">
+        <div class="CardAtividade Container2" style="color: #{pgExecutarAtividade.atividade.tipoAtividade.cor};margin-left:  30px; ">
+            <span class="FontAdamantiumBold Fs30" style=""> Agendamento de #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}</span>
+            <i class="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao} Fs30 Fleft MarRight10"></i>
+
+
+            <br/>
+            <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+            <span class="CardSubTopic Container12 OrganizadorContainer">
+                <h:form style="">
+                    <CRM:empresaBasico empresa="#{pgExecutarAtividade.prospecto}" />
+                </h:form>
+
+            </span>
+
+
+        </div>
+
+
+
+
+
+        <h:panelGroup  id="formularioAgenda" class="Container8" layout="block">
+
+            <h:form>
+
+                <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical10" />
+                <h:panelGroup layout="block" style="width: 100%;  " styleClass="OrganizadorContainer" >
+
+
+                    <h:panelGroup layout="block" styleClass="Container8" style="" >
+                        <p:calendar value="#{pgExecutarAtividade.diaAgendamento}"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    showHour="true"
+                                    showMinute="true"
+                                    showSecond="true"
+                                    converter="conversorDataHora"
+                                    styleClass="calendarioGrande"
+                                    title="teste"
+                                    locale="pt_BR"
+                                    mode="inline"
+                                    id="calendarioAgenda"
+                                    immediate="true"
+                                    label="teste"
+                                    timeInput="false"
+
+
+                                    >
+                            <p:ajax
+                                event="dateSelect"
+                                partialSubmit="true"
+                                process="@this"
+                                onsuccess="atualizarHorario();"
+
+
+                                />
+                        </p:calendar>
+
+                    </h:panelGroup>
+                    <div class="quebraBlocoComEspacoVertical5 somenteMobile"/>
+                    <h:panelGroup layout="block" styleClass="Container3" style="" >
+                        <div class=" " style="position: relative;width: 30%;z-index: 100;">
+                            <CRM:botaoPersonalizado
+                                icone="fa fa-ban"
+                                metodo="#{pgExecutarAtividade.cancelarAgendamento()}"
+                                cor="f4425c"
+                                titulo="Voltar"
+                                />
+                        </div>
+
+                        <div class=" " style="position: relative;width: 60%">
+                            <h:panelGroup id="agendabtn"   layout="block" >
+                                <h:panelGroup rendered="#{pgExecutarAtividade.atividade.dataHoraPrevisaoExecucao!=null}" layout="block">
+                                    <CRM:botaoPersonalizado
+                                        icone="#{pgExecutarAtividade.acaoAgendar.icone}"
+                                        metodo="#{pgExecutarAtividade.agendar()}"
+                                        cor="2BB673"
+                                        titulo="Agendar"
+
+                                        />
+
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Container12"  id="agendaAlertas" layout="block">
+                        <p:staticMessage severity="info" summary="INFO!" detail="    Será  agendado para #{pgUtil.gerarDataHoraTexto(pgExecutarAtividade.atividade.dataHoraPrevisaoExecucao)}" rendered="#{pgExecutarAtividade.atividade.dataHoraPrevisaoExecucao.time >0}" />
+
+                        <p:staticMessage severity="warn" summary="Atenção!" detail="    Selecione um dia e Horário válidos para o agendamento"   rendered="#{pgExecutarAtividade.atividade.dataHoraPrevisaoExecucao eq null }" style="width: 50%" />
+
+
+
+
+
+                    </h:panelGroup>
+                    <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+
+
+
+                </h:panelGroup>
+            </h:form>
+        </h:panelGroup>
+    </h:panelGroup>
+
+</ui:composition>
+

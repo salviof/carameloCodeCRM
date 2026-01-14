@@ -1,0 +1,160 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+
+            }
+
+            .ui-datatable table thead tr th, .ui-datatable table tfoot tr td, .ui-datatable table thead tr th{
+                font-size: 13px!important;
+
+            }
+            /* desabilitando o icone  shortColuna das tabelas*/
+            .ui-sortable-column-icon.ui-icon.ui-icon-carat-2-n-s{
+                display: inline;
+            }
+
+            .ui-stack .openStack li span{
+                height: 20px!important;
+            }
+
+
+
+
+            .botaoGrandeIconeTexto {
+                position: relative;
+                display: block;
+                background-color: #5485afe0;
+                width: 150px;
+                height: 150px;
+                line-height: 30px;
+                margin: auto;
+                color: #fff;
+
+                cursor: pointer;
+                overflow: hidden;
+                border-radius: 5px;
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+                -webkit-transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+                transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+            }
+            .botaoGrandeIconeTexto span,
+            .botaoGrandeIconeTexto .icon {
+                display: block;
+                height: 100%;
+                text-align: center;
+                position: absolute;
+                top: 0;
+                display: inline-flex;
+                align-items: center;
+            }
+            .botaoGrandeIconeTexto span {
+                width: 72%;
+                line-height: inherit;
+
+                text-transform: uppercase;
+                left: 0;
+                -webkit-transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+                transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+            }
+            .botaoGrandeIconeTexto span:after {
+                content: '';
+                background-color: #ffffff;
+                width: 2px;
+                height: 70%;
+                position: absolute;
+                top: 15%;
+                right: -1px;
+            }
+            .botaoGrandeIconeTexto .icon {
+                width: 28%;
+                right: 0;
+                -webkit-transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+                transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+            }
+            .botaoGrandeIconeTexto .icon .fa {
+                font-size: 30px;
+                vertical-align: middle;
+                -webkit-transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4), height 0.25s ease;
+                transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4), height 0.25s ease;
+            }
+            .botaoGrandeIconeTexto .icon .fa-remove {
+                height: 36px;
+            }
+            .botaoGrandeIconeTexto .icon .fa-check {
+                display: none;
+            }
+            .botaoGrandeIconeTexto.success span, .botaoGrandeIconeTexto:hover span {
+                left: -72%;
+                opacity: 0;
+            }
+            .botaoGrandeIconeTexto.success .icon, .botaoGrandeIconeTexto:hover .icon {
+                width: 100%;
+            }
+            .botaoGrandeIconeTexto.success .icon .fa, .botaoGrandeIconeTexto:hover .icon .fa {
+                font-size: 65px;
+            }
+            .botaoGrandeIconeTexto.success {
+                background-color: #27ae60;
+            }
+            .botaoGrandeIconeTexto.success .icon .fa-remove {
+                display: none;
+            }
+            .botaoGrandeIconeTexto.success .icon .fa-check {
+                display: inline-block;
+            }
+            .botaoGrandeIconeTexto:hover {
+                opacity: .9;
+            }
+            .botaoGrandeIconeTexto:hover .icon .fa-remove {
+                height: 46px;
+            }
+            .botaoGrandeIconeTexto:active {
+                opacity: 1;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </style>
+    </ui:define>
+
+    <ui:define name="divConteudo">
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}" layout="block" >
+            <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
+        </h:panelGroup>
+
+        <h:form style="z-index:99999999;" >
+            <p:stack icon="#{resource['img/mailIcons/cesta.png']}"   expanded="false" widgetVar="botoesMail"  >
+
+                <p:menuitem value="Rascunho" icon="#{resource['img/mailIcons/emaileditar1.svg']}" url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRascunhos)}"/>
+                <p:menuitem value="Novo" icon="#{resource['img/mailIcons/novaCarta.svg']}" url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmNovo)}"/>
+                <p:menuitem value="Enviados" icon="#{resource['img/mailIcons/enviados.svg']}" url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarEnviados)}"/>
+                <p:menuitem value="Recebidos" icon="#{resource['img/mailIcons/novoEmailRecebido.svg']}" url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido)}"/>
+
+            </p:stack>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

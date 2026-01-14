@@ -1,0 +1,46 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    >
+
+    <ui:define name="divConteudo">
+
+        <h:panelGroup id="divSBAreaAcaoSelecionada" styleClass="Container12" style="" layout="block" >
+
+            <h:panelGroup >
+                <p:fieldset legend="Usuário" style="margin: 32px;"  >
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <h:panelGroup layout="block" styleClass="Container12" style="position: relative; min-width: 40px; padding-bottom: 20px;" >
+                                <crm:avatar somenteLeitura="true" usuario="#{pgAdministrativo.pesquisaLead.usuario}" />
+                            </h:panelGroup>
+
+                            <SBInput:input registro="#{pgAdministrativo.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('usuario')}"
+                                           layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                           idAtualizarOnChange="divSBAreaAcaoSelecionada"
+                                           />
+                        </p:panelGrid>
+                    </h:form>
+
+
+                    <crmDashBoard:meusCompromissosAtendimento dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+
+                    <crmDashBoard:meusCompromissosLead dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+
+                    <crmDashBoard:minhasOrigens dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+                    <crmDashBoard:meusLeadsVisaoGeral dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+                </p:fieldset>
+            </h:panelGroup>
+
+        </h:panelGroup>
+        <h:panelGroup styleClass="Fright" layout="block" >
+            <p:clock mode="server"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

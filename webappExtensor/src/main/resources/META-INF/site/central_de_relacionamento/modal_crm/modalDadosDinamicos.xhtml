@@ -1,0 +1,66 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+
+
+
+    <p:tabView  dynamic="true" cache="true"  >
+
+        <c:forEach items="#{pgModalProspecto.prospectoSelecionado.relacionamentosPossiveisEvolucao}"
+                   var="relacionamento"
+
+                   >
+            <p:tab title="Dados da Etapa: #{relacionamento.nome}"  >
+                <div class="Card ajustesCard" >
+                    <h:form>
+
+                        <p:commandLink
+                            actionListener="#{pgModalProspecto.gerarDadosCRM(pgModalProspecto.prospectoSelecionado, relacionamento)}"
+                            update="@form"
+                            >
+                            <p:panelGrid
+                                style="height: 200px;"
+                                rendered="#{pgModalProspecto.dadosDinamicos.size()==0}" >
+                                <div class="Container12  w3-btn w3-border botaoCard">
+
+                                    <span>Clique para Cadastrar agora os dados para #{relacionamento.nome}:</span> <br/>
+                                    <c:forEach items="#{relacionamento.dadosNescessarios}" var="item">
+                                        #{item.nome},
+                                    </c:forEach>
+                                    <span></span><br/>
+                                </div>
+                            </p:panelGrid>
+                        </p:commandLink>
+
+                        <h:panelGroup rendered="#{pgModalProspecto.dadosDinamicos.size()>0}">
+                            <c:forEach var="dado" items="#{pgModalProspecto.dadosDinamicos}" >
+                                <SBInput:input registro="#{dado.campoInstanciado}" />
+
+                            </c:forEach>
+                            <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarDAdosDinamicos()}"
+                                                   acao="#{pgModalProspecto.acaoSalvarDadosDinamicos}"
+                                                   tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                   />
+                        </h:panelGroup>
+                    </h:form>
+                </div>
+            </p:tab>
+
+
+
+        </c:forEach>
+
+
+
+
+    </p:tabView>
+
+</ui:composition>

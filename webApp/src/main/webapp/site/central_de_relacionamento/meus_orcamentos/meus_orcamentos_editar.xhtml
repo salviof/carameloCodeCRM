@@ -1,0 +1,58 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+        <crm:menuProspecto  pessoaJuridica="#{pgMeusOrcamentos.entidadeSelecionada.pessoa}"
+                            rendered="#{pgMeusOrcamentos.entidadeSelecionada.pessoa!=null}"
+                            />
+        <p:fieldset style="margin: 2%" styleClass="" legend="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.comoFormulario.gruposDeCampos[0].nomeGrupo}">
+
+            <SBForm:camposDoGrupo registro="#{pgMeusOrcamentos.entidadeSelecionada}"
+                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.comoFormulario.gruposDeCampos[0]}"
+                                  somenteLeitura="#{pgMeusOrcamentos.pessoaSelecionada!=null}"
+                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+            <div class="quebraBlocoComEspacoVertical10"/>
+        </p:fieldset>
+
+        <p:fieldset style="margin: 2%" styleClass="" legend="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.comoFormulario.gruposDeCampos[1].nomeGrupo}">
+
+            <SBForm:camposDoGrupo registro="#{pgMeusOrcamentos.entidadeSelecionada}"
+                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.comoFormulario.gruposDeCampos[1]}"
+                                  somenteLeitura="false"
+
+                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
+            <div class="quebraBlocoComEspacoVertical10"/>
+        </p:fieldset>
+
+
+
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="Container3 Fright"  layout="block"  style="margin: 3px;">
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                />
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container3 Fright"  layout="block" style="margin: 3px;">
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                classeEstilo="botaoVerde"
+                acao="#{acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosCtrEnviarParaFaturamento}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                />
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

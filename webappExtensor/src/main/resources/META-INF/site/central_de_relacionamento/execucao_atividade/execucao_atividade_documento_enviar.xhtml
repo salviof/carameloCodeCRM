@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+                xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+                xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+                xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:panelGroup style="width: 100%;"
+                  styleClass="Container100 Responsive">
+
+
+        <h:form>
+            <p:panel header="Disparar e-mail"  id="formDisparoEmail" >
+
+
+                <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+
+                    <f:facet name="opcoesCabecalhoAtividade">
+                        <p:fieldset legend="Documentos gerados" toggleable="true" collapsed="false" >
+                            <c:forEach items="#{pgExecutarAtividade.atividade.documentosGerados}" var="doc">
+                                <div class="Container10 Responsive100">
+
+                                    <SBInput:input registro="#{doc.getCampoByNomeOuAnotacao('arquivo')}"
+                                                   layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                                   desabilitarEdicao="true"
+                                                   />
+                                </div>
+                            </c:forEach>
+                        </p:fieldset>
+                        <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" layout="block" id="opcoesEmail">
+
+                            <CRM:emailProspectoOpcoesDeEmail
+                                rendered="#{!pgExecutarAtividade.atividade.emailVinculado.foiEnviado}"
+
+                                email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                                empresa="#{pgExecutarAtividade.atividade.prospectoEmpresa}"
+                                />
+
+                        </h:panelGroup>
+                        <h:form  styleClass="">
+                            <p:poll
+                                autoStart="true"
+                                async="true"
+                                interval="60"
+                                listener="#{pgExecutarAtividade.manterConexaoMail()}"
+                                />
+
+
+                        </h:form>
+
+                    </f:facet>
+                </CRM:cabecalhoAtividade>
+                <p:fieldset >
+
+                    <crm:opcoesAtividadeExtra atividade="#{pgExecutarAtividade.atividade}" >
+
+
+                        <f:facet name="extra">
+
+
+
+                            <div class="Container45 w3-btn w3-border botaoCardSimples w3-round-small" style=" ">
+                                <p:commandLink actionListener="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                                               >
+
+                                    <div class=" TexAlCenter " style="">
+                                        <i class="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarFormatado.iconeAcao}   Fs20 DispBlock MarBot20"></i>
+                                        <span class="FontAdamantiumBold Fs14 DispBlock">Revisar E-mail</span>
+                                    </div>
+                                </p:commandLink>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="Container45 w3-btn w3-border botaoCardSimples w3-round-small" style=" ">
+                                <p:commandLink actionListener="#{pgExecutarAtividade.emailEnviar()}"
+                                               onstart="PF('blokGerador').show();"
+                                               oncomplete="PF('blokGerador').hide();"
+
+                                               >
+
+                                    <div class=" TexAlCenter " style="">
+                                        <i class="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailEnviar.icone}   Fs20 DispBlock MarBot20"></i>
+                                        <span class="FontAdamantiumBold Fs14 DispBlock">#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailEnviar.nome} agora</span>
+                                    </div>
+                                </p:commandLink>
+
+
+
+
+                            </div>
+
+
+                        </f:facet>
+
+                    </crm:opcoesAtividadeExtra>
+
+
+                    <p:blockUI block="formDisparoEmail" widgetVar="blokGerador">
+                        Enviando documento<br />
+                        <i class="fa fa-paper-plane-o fa-spin fa-5x fa-fw"></i>
+                    </p:blockUI>
+                </p:fieldset>
+            </p:panel>
+        </h:form>
+    </h:panelGroup>
+
+</ui:composition>

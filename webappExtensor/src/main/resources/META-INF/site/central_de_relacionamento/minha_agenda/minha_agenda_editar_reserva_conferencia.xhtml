@@ -1,0 +1,81 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBReserva="http://xmlns.jcp.org/jsf/composite/reserva"
+    xmlns:SBBotoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBCrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
+    <div class="">
+        <div class="CardTopic" style="height: 170px;">
+            #{paginaAtual.infoPagina.acaoSelecionada.nomeAcao}
+            <i class="#{paginaAtual.infoPagina.acaoSelecionada.iconeAcao} Fs30 Fleft MarRight10"></i>
+            <br/>
+            <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+
+            <span class="CardSubTopic">
+                #{paginaAtual.infoPagina.acaoSelecionada.descricao}
+
+            </span>
+
+            <h:panelGroup styleClass="Fright">
+                <h:panelGroup styleClass="Container12 dashboard "  layout="block"  style="margin: 10px;" >
+                    <div class="ui-g card colorbox colorbox-4">
+                        <div class="ui-g-4">
+                            <div class="Fright Fs18" style="color: #ffffff" >
+                                <SBCrm:avatar altura="200"   somenteLeitura="true"
+                                              usuario="#{pgMinhasReservas.horarioDisponivelSelecionado.usuarioResponsavel}" />
+                                #{pgMinhasReservas.horarioDisponivelSelecionado.usuarioResponsavel.nome}
+                            </div>
+                            <i>
+
+                            </i>
+                        </div>
+                        <div class="ui-g-8">
+                            <span class="colorbox-name">
+                                #{pgMinhasReservas.horarioDisponivelSelecionado.tipoAgendamento.nome} <br/>
+                                <b>#{pgUtil.gerarDataTextoExtenso(horario.dataHoraIicialAtendente)} </b> <br/>
+                            </span>
+                            <span class="colorbox-count"> #{pgUtil.gerarHoraTextoSimples(pgMinhasReservas.horarioDisponivelSelecionado.dataHoraIicialAtendente)}-#{pgUtil.gerarHoraTextoSimples(pgMinhasReservas.horarioDisponivelSelecionado.datahoraFinalAtendente)}</span>
+                        </div>
+
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </div>
+
+
+
+        <div class="ContainerIndent">
+
+            <h:form>
+                <SBReserva:reservaConferencia reserva="#{pgMinhasReservas.entidadeSelecionada}" />
+
+
+                <p:fieldset  styleClass="Container3 Fright">
+                    <h:panelGroup class="Container12" layout="block" >
+                        <SBBotoes:botaoDeAcao metodo="${pgMinhasReservas.executarAcaoSelecionada()}" acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrSalvarReservaMerge}"
+                                              armazenamentoAcaoExecutada="#{pgMinhasReservas.acaoSelecionada}"
+                                              classeEstilo="botaoVerde"
+                                              tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                              />
+
+                    </h:panelGroup>
+                </p:fieldset>
+            </h:form>
+
+
+        </div>
+    </div>
+
+
+
+
+</ui:composition>

@@ -1,0 +1,80 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+        <div class="Container12 OrganizadorContainer">
+            <div class="Container12 MarAuto Wid80 Hei20"
+                 style="" >
+                <div class="Card " >
+
+                    <div class="Container12">
+                        <div class="quebraBlocoComEspacoVertical20"/>
+
+                        <div class="TexAlCenter somenteDesktop" style="margin-bottom:-80px">
+                            <p:graphicImage url="#{resource['img/crachaEmBranco.jpg']}" />
+                        </div>
+
+                        <div class="TexAlCenter somenteMobile" style=" margin-bottom:-80px">
+                            <p:graphicImage url="#{resource['img/crachaEmBranco.jpg']}" />
+
+                        </div>
+
+                    </div>
+
+                    <div class="Container12 OrganizadorContainer"
+                         style="height: 400px;"
+                         >
+                        <h:form>
+
+                            <h:panelGroup styleClass="Container12 OrganizadorContainer" >
+                                <h:panelGroup
+                                    styleClass="Container8"
+                                    style="margin-top: 130px;"
+                                    >
+                                    <p:inputText placeholder="SEU E-MAIL OU TELEFONE"
+
+                                                 value="#{pgPaginaInicial.emailOuTelefone}"
+                                                 style="width: 100%; text-align: center;" class="Fs24"/>
+                                </h:panelGroup>
+                                <h:panelGroup styleClass="Container12 OrganizadorContainer"  >
+                                    <h:panelGroup styleClass="Container5" >
+                                        <SBBotaoAcao:botaoDeAcao
+                                            acao="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmClienteCadastrarSenhaPrimeiroAcesso}"
+                                            update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                            metodo="#{pgPaginaInicial.encontrarUsuario()}"
+                                            armazenamentoAcaoExecutada="#{pgPaginaInicial.acaoSelecionada}"
+                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                            />
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </h:form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="Fright">
+            <h:form>
+                <SBBotaoAcao:botaoDeAcao metodo="#{pgPaginaInicial.executarAcaoSelecionada()}"
+                                         acao="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmRealizarLoginDoCliente}"
+                                         armazenamentoAcaoExecutada="#{pgPaginaInicial.acaoSelecionada}"
+                                         tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                         label="Já tenho senha"
+                                         classeEstilo="botaoVerde"
+                                         />
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

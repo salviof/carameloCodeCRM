@@ -1,0 +1,46 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo">
+
+        <p:fragment >
+
+            <SBAcaoNav:seletorDeAcoes
+                metodo="#{pgTipoRelacionamento.executarAcaoSelecionada()}"
+                opcoes="#{pgUtil.getAcoesEntidade(pgTipoRelacionamento.entidadeSelecionada, pgTipoRelacionamento.acoesRegistros)}"
+                visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                opcaoSelecionada="#{pgTipoRelacionamento.acaoSelecionada}"
+                update="@this"
+                />
+        </p:fragment>
+
+
+        <SBInput:input registro="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuariosResponsaveis')}"
+                       layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                       />
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+
+
+
+        <h:panelGroup class="Container3 Fright">
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+
+                />
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>
+

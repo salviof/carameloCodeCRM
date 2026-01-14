@@ -1,0 +1,49 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <SBInput:input registro="#{pgModalProspecto.prospectoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuariosResponsaveis')}"
+                       layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                       desabilitarEdicao="#{!pgModalProspecto.prospectoSelecionado.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}"
+                       />
+        <h:panelGroup styleClass="Fright">
+            <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoes()}"
+                                   acao="#{pgModalProspecto.acaoCompartilhar}"
+                                   label="Atualizar responsáveis"
+                                   tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                   rendered="#{pgModalProspecto.prospectoSelecionado.atendenteLogadoResponsavelPrincipal}"
+                                   />
+        </h:panelGroup>
+    </h:form>
+
+    <h:form>
+        <h:panelGroup layout="block" styleClass="Fleft" rendered="#{!pgModalProspecto.prospectoSelecionado.atendenteLogadoResponsavelPrincipal}">
+            <p:commandButton
+
+                styleClass="btnIconeENome botao botaoVermelho"
+                icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAbandonarProspecto.icone}"
+                value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAbandonarProspecto.nome}"
+                actionListener="#{pgModalProspecto.abandonarProspecto()}"  >
+
+
+            </p:commandButton>
+        </h:panelGroup>
+
+    </h:form>
+
+</ui:composition>
+
+
+
+
+
+
+
+

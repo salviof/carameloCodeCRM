@@ -1,0 +1,91 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBLogin="http://xmlns.jcp.org/jsf/composite/SBComp/composite/login"
+    xmlns:SBCrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
+        <p:fieldset legend="Escopo da pesquisa " >
+            <span>
+                <h:form>
+                    <h:panelGroup styleClass="Container2" layout="block" >
+                        <SBInput:input registro="#{pgMinhasReservas.escopoPesquisa.getCampoInstanciadoByNomeOuAnotacao('tipoAgendamento')}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Container2"  layout="block" >
+                        <SBInput:input registro="#{pgMinhasReservas.escopoPesquisa.getCampoInstanciadoByNomeOuAnotacao('dataInicial')}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                       />
+                    </h:panelGroup>
+                    <h:panelGroup styleClass="Container2 OrganizadorContainer"  style="padding-top: 30px;" layout="block" >
+                        <p:commandButton icon="fa fa-search"
+                                         action="#{pgMinhasReservas.atualizarListaHorariosDisponiveis()}"
+                                         update="reservasDisponiveis"
+                                         value="Pesquisar"/>
+                    </h:panelGroup>
+                </h:form>
+            </span>
+        </p:fieldset>
+
+        <h:panelGroup styleClass="OrganizadorContainer" id="reservasDisponiveis"
+                      style="background-image: url('#{resource['img/agendaFundoCrmCasaNovaDigital.jpg']}');
+                      opacity : 0.8;
+                      height: 800px;
+
+                      background-size: cover;
+                      background-position: center;
+                      background-repeat: no-repeat;"
+                      layout="block"
+                      >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer"
+                          rendered="#{pgMinhasReservas.horariosDisponiveisAtendimentoPublico.size()==0}"
+                          style="height: 400px; display: flex;align-items: center;justify-content: center;"
+                          layout="block" >
+                <h:panelGroup styleClass="Container3" layout="block" style="height: 100px;" >
+                    <p:staticMessage severity="warn" styleClass="Fs30" detail="" summary="Nenhum horário disponível publicamente na sua agenda." />
+                </h:panelGroup>
+                <h:form>
+                    <SBCrm:botaoGrande acao="#{acoesAgenda_MinhaDisponibilidadeMbGestao.minhaDisponibilidadeFrmNovo}" />
+                </h:form>
+            </h:panelGroup>
+            <c:forEach items="#{pgMinhasReservas.horariosDisponiveisAtendimentoPublico}" var="horario" >
+                <h:panelGroup styleClass="Container3 dashboard "  layout="block"  style="margin: 10px;" >
+                    <div class="ui-g card colorbox colorbox-4">
+                        <div class="ui-g-4">
+                            <div class="Fright Fs18" style="color: #ffffff" >
+                                <SBCrm:avatar altura="200"   somenteLeitura="true"
+                                              usuario="#{horario.usuarioResponsavel}" />
+                                #{horario.usuarioResponsavel.nome}
+                            </div>
+                            <i>
+                                <h:form>
+                                    <p:commandButton
+                                        styleClass="botaoReservar"
+                                        icon="Fs24 fa fa-ticket"
+                                        action="#{servicoCrmReserva.reservarHorario(horario)}"
+                                        update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                        value="RESERVAR"/>
+                                </h:form>
+                            </i>
+                        </div>
+                        <div class="ui-g-8">
+                            <span class="colorbox-name">
+                                #{horario.tipoAgendamento.nome} <br/>
+                                <b>#{pgUtil.gerarDataTextoExtenso(horario.dataHoraIicialAtendente)} </b> <br/>
+                            </span>
+                            <span class="colorbox-count"> #{pgUtil.gerarHoraTextoSimples(horario.dataHoraIicialAtendente)}-#{pgUtil.gerarHoraTextoSimples(horario.datahoraFinalAtendente)}</span>
+                        </div>
+
+                    </div>
+                </h:panelGroup>
+            </c:forEach>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>

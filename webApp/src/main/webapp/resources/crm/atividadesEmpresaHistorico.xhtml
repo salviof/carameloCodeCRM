@@ -1,0 +1,28 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades,cc.attrs.empresa)}" > <i class="fa fa-search-plus"/> ABRIR ATIVIDADES </p:link>>
+
+        <CRM:atividadesHistorico atividadesRealizadas="#{cc.attrs.empresa.atividadesRealizadas}" />
+    </cc:implementation>
+</ui:composition>

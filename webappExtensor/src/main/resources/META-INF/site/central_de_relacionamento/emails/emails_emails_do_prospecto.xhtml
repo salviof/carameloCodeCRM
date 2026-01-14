@@ -1,0 +1,24 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+    xmlns:CRMMail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRMemail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:p="http://primefaces.org/ui">
+
+
+    <CRM:menuProspecto pessoaJuridica="#{pgEmails.prospectoSelecionado}" />
+    <h:form>
+        <CRMMail:menuNavegacaoEmailListado
+            pessoa="#{pgEmails.prospectoSelecionado}"
+            acao="#{pgEmails.acaoSelecionada}"
+            />
+    </h:form>
+
+    <h:form>
+        <CRM:emailListagem lista="#{pgEmails.listaEmails}" />
+    </h:form>
+
+</ui:composition>

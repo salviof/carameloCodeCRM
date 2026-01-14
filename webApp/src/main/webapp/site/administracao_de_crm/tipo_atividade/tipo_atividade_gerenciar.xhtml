@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}">
+
+        <ui:define name="divConteudo">
+
+            <script>
+                var carregou = new Boolean(false);
+
+            </script>
+            <h:form >
+                <p:remoteCommand    autoRun="false"  name="atualizarEntidade" update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"/>
+            </h:form>
+            <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
+                <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
+
+
+                <h:form>
+                    <p:remoteCommand   rendered="#{!pgTipoAtividade.acaoSelecionada.equals(acoesAdministracao_de_CRM_Tipos_de_Atividade.tipo_atividade_frm_formatar_email_vinculado)}"
+                                       autoRun="true" update="@(.ui-fieldset)" />
+                </h:form>
+
+            </h:panelGroup>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+        <h:panelGroup class="Container30">
+
+            <p:fileUpload fileLimit="15" sizeLimit="500000000000"
+                          label="Apresentações"
+                          listener="#{pgDocApresentacoes.receberDocumentos}"
+                          multiple="true"
+                          allowTypes="/(\.|\/)(gif|jpe?g|png|ppt|gif|pdf|pptx|ppt|pptm|ppam|ppsx|ppsm|sldx)$/"
+
+                          >
+
+            </p:fileUpload>
+
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

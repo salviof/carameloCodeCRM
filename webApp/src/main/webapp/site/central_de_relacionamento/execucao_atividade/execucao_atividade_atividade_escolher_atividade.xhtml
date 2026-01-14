@@ -1,0 +1,122 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:panelGroup layout="block" style="margin-top: 2%;" styleClass="Container12 OrganizadorContainer"  >
+
+        <h:panelGroup styleClass="Container3 Fright"  layout="block">
+            <crmPessoa:resumoAtividadeEmAndamento
+                pessoa="#{pgExecutarAtividade.prospecto}"
+                />
+
+        </h:panelGroup>
+    </h:panelGroup>
+
+    <h:panelGroup layout="block" style="margin-top: 0.5%;" styleClass="Container12 OrganizadorContainer"  >
+
+        <h:panelGroup layout="block" style="max-width: 1200px; " styleClass="Container12 OrganizadorContainer"  >
+
+            <p:fieldset styleClass="Container12" style="width: 100%;" >
+                <h:panelGroup styleClass="OrganizadorContainerEsquerda Container3" style="margin: 10px;" layout="block">
+                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgExecutarAtividade.prospecto)}" >
+                        <h3 style="color: #546e7a" class="Fs24">
+
+                            <p:avatar label="#{pgExecutarAtividade.prospecto.nome}"
+
+                                      styleClass="p-ml-2"  style="background-color:#4caf4f; color: #546e7a"
+                                      rendered="#{!pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}"
+                                      size="xlarge"
+                                      />
+
+                            <p:graphicImage rendered="#{pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}"  height="80px"   url="#{pgExecutarAtividade.prospecto.imgPequena}"   />
+                            <br/>
+                            <p:outputLabel value="#{pgExecutarAtividade.prospecto.nome}" style="margin-top: 5px;" />
+
+                        </h3>
+                    </p:link>
+                </h:panelGroup>
+
+                <h:panelGroup  styleClass="Container12" layout="block" style="position: relative;height: 800px; " >
+
+
+                    <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="    top: 150px;">
+                        <h:panelGroup style="margin-left: 20px;" styleClass="Container12 OrganizadorContainerEsquerda"  >Grupos de ações da meta: #{pgExecutarAtividade.prospecto.meta.nome} </h:panelGroup>
+                        <CRM:btAtividadesMetaGrupo
+
+                            empresa="#{pgExecutarAtividade.prospecto}"
+                            />
+
+
+
+                        <h:panelGroup layout="block" styleClass="OrganizadorContainerDireita Container12" style="margin:  10px;border-style: outset;" >
+                            <h:form>
+
+                                <CRM:btAtividadesInicioEmpresaGigante
+                                    empresa="#{pgExecutarAtividade.prospecto}"
+                                    />
+                            </h:form>
+
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="Container12"  layout="block" style="" >
+                            <p:fieldset id="statusRelacionamento" >
+                                <h:panelGroup styleClass="Container12 OrganizadorContainer" >
+                                    <h:panelGroup styleClass="Container3 OrganizadorContainer" >
+
+
+                                        <CRM:btAtividadesMetaDowngrade
+                                            empresa="#{pgExecutarAtividade.prospecto}"
+                                            rendered="#{pgExecutarAtividade.prospecto.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor.size()>0}"
+                                            />
+
+
+
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="Container5" >
+                                        <p:link href="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar)?infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar,pgExecutarAtividade.prospecto.relacionamento):'#'}" >
+
+                                            <crm:relacionamento tipoRelacionamento="#{pgExecutarAtividade.prospecto.relacionamento}" />
+                                            <p:tooltip
+                                                trackMouse="true"
+                                                for="statusRelacionamento" rendered="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar)}"
+                                                >
+                                                EDITAR TIPO DE RELACIONAMENTO
+                                            </p:tooltip>
+
+                                        </p:link>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="Container3 OrganizadorContainer" >
+
+                                        <CRM:btAtividadesMetaUpgrade
+                                            empresa="#{pgExecutarAtividade.prospecto}"
+                                            rendered="#{pgExecutarAtividade.prospecto.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor.size()>0}"
+
+                                            />
+
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </p:fieldset>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="OrganizadorContainerEsquerda Container12"  style="margin-top: 48px;">
+
+
+
+
+
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+            </p:fieldset>
+        </h:panelGroup>
+    </h:panelGroup>
+</ui:composition>

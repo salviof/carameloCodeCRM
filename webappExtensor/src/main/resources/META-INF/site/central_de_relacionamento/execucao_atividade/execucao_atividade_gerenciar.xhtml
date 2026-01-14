@@ -1,0 +1,25 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="#{pgExecutarAtividade.xhmlTemplateJSFExcucaoAtividade}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="divConteudo">
+
+        <ui:include src="scriptsDeAtividade.xhtml" />
+
+        <CRM:menuProspecto
+            pessoaJuridica="#{pgExecutarAtividade.prospecto}"
+            rendered="#{pgExecutarAtividade.prospecto!=null}"
+            />
+        <h:panelGroup  styleClass="OrganizadorContainerExpandido" id="atividadeAtual">
+            <ui:include src="#{pgExecutarAtividade.xhtmlAcaoAtual}" />
+        </h:panelGroup>
+
+
+
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,504 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.container-cards-cliente {
+    font-family: "Roboto", sans-serif;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 48px;
+    gap: 32px;
+}
+
+/* Layout principal do card */
+.card-cliente {
+    width: 100%;
+    padding: 32px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Cabeçalho do card - título e imagem lado a lado */
+.card-cliente-title-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.card-cliente-title-content h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex: 1;
+}
+
+.container-imagem-edicao {
+    position: relative;
+    display: inline-block;
+}
+.botao-editar-imagem-link {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.container-imagem-edicao:hover .botao-editar-imagem-link {
+    opacity: 1;
+}
+.container-imagem-edicao:hover .botao-editar-imagem {
+    opacity: 1;
+}
+
+.container-imagem-edicao:hover .img-prospecto {
+    opacity: 0.9;
+}
+
+/* Efeito de hover na imagem */
+.container-imagem-edicao {
+    cursor: pointer;
+}
+.img-prospecto {
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    object-fit: contain;     /* mantém proporção e recorta se necessário */
+    object-position: center; /* centraliza o recorte */
+}
+
+/* Conteúdo principal - informações e tags */
+.card-conteudo {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Lado esquerdo - informações */
+.card-cliente-infos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.text-informacao {
+    color: #2c3e50;
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 8px 0;
+}
+
+/* Lado direito - tags */
+.card-lado-direito {
+    width: 300px;
+    min-width: 250px;
+}
+
+/* Painel de observação */
+.panel-observacao {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px !important;
+    border: 1px solid #e9ecef !important;
+    margin-top: 24px;
+}
+
+/* Header do painel com nova cor */
+.ui-panel .ui-panel-titlebar {
+    background-color: #60a36c !important; /* Azul em vez de verde */
+    color: white !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 12px 16px !important;
+}
+
+.header-observacao {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* Texto da observação */
+.texto-observacao {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    word-wrap: break-word; /* Quebra palavras muito longas */
+    word-break: break-word; /* Quebra palavras */
+    white-space: pre-wrap; /* Mantém quebras de linha mas quebra se necessário */
+    overflow-wrap: break-word; /* Quebra palavras longas */
+    display: block;
+    width: 100%;
+}
+
+.texto-vazio {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Área do botão */
+.area-botao {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 16px;
+}
+
+/* Botão editar */
+.btn-editar {
+    background-color: #60a36c !important; /* Azul combinando com o header */
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600 !important;
+    border: none !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: #406a47 !important;
+}
+
+/* Switch de privacidade */
+.ui-toggleswitch {
+    margin-left: 8px;
+}
+
+
+/* Links */
+.ui-link {
+    color: #70bf82 !important;
+    text-decoration: none !important;
+}
+
+.ui-link:hover {
+    text-decoration: underline !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container-cards-cliente {
+        padding: 24px;
+        gap: 24px;
+        flex-direction: column;
+    }
+
+    .card-cliente {
+        padding: 24px;
+    }
+
+    .card-cliente-title-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .img-prospecto {
+        width: 100px;
+        height: 100px;
+    }
+
+    .card-conteudo {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .card-lado-direito {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .panel-observacao {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-cards-cliente {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .card-cliente {
+        padding: 16px;
+    }
+
+    .card-cliente-title-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .img-prospecto {
+        width: 80px;
+        height: 80px;
+    }
+
+    .text-informacao {
+        font-size: 0.9rem;
+    }
+}
+
+/* Cards de Dashboard Modernos */
+.cards-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.card-moderno {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-moderno::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.card-moderno:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: #3498db;
+}
+
+.card-moderno.historico::before {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.card-moderno.arquivos::before {
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.card-moderno.orcamentos::before {
+    background: linear-gradient(90deg, #27ae60, #229954);
+}
+
+.card-moderno.email::before {
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+}
+
+.card-moderno.solicitacoes::before {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+}
+.card-moderno.chamados::before {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.card-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-icone {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.card-icone.historico {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.card-icone.arquivos {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.card-icone.orcamentos {
+    background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.card-icone.email {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.card-icone.solicitacoes {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+.card-icone.chamados {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-valor {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1;
+}
+
+.card-descricao {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .cards-dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 15px 0;
+    }
+
+    .card-moderno {
+        padding: 15px;
+    }
+
+    .card-icone {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .card-valor {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-dashboard {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+
+.card-usuario {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.info-usuario {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.dados-usuario {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.texto-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nome-usuario {
+    font-weight: bold;
+}
+
+.botoes-acao {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.botao-acao {
+    width: 35px;
+    height: 35px;
+    white-space: nowrap;
+}
+
+/* Responsivo para mobile */
+@media (max-width: 768px) {
+    .card-usuario {
+        flex-direction: column;
+        align-items: start;
+        gap: 12px;
+    }
+
+    .botoes-acao {
+        align-items: center;
+    }
+
+    .texto-ellipsis {
+        max-width: 100%;
+    }
+}
+.card-contatos-titulo {
+    display: flex;
+    width: 100%;
+    margin-bottom: 32px;
+    justify-content: space-between;
+    align-items: center;
+}
+.botoes-container {
+    display: flex;
+    justify-content: end;
+    flex-direction: column; /* coloca um abaixo do outro */
+    gap: 10px;              /* espaçamento entre eles */
+
+}
+
+.botoes-container .badge-wrapper {
+    display: block;
+}
+.botoes-container .ui-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listagem-container-content {
+    width: 100%;
+}

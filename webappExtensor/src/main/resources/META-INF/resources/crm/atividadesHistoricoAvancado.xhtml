@@ -1,0 +1,147 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm">
+
+    <cc:interface>
+        <cc:attribute name="atividadesRealizadas" type="java.util.List" required="true"/>
+        <cc:attribute name="mostrarEmpresa" default="false" />
+    </cc:interface>
+
+    <cc:implementation>
+
+        <style>
+            .rel-tag {
+                padding: 6px 10px;
+                border-radius: 6px;
+                font-weight: bold;
+                display: inline-block;
+            }
+        </style>
+
+        <p:dataTable value="#{cc.attrs.atividadesRealizadas}"
+                     var="atividade"
+                     stripedRows="true"
+                     rowHover="true"
+                     style="width:100%; border-radius:8px;"
+                     emptyMessage="Nenhuma atividade encontrada">
+
+            <!-- Data -->
+            <p:column headerText="Data Finalização" style="width:140px">
+                #{pgUtil.gerarDataHoraTextoResumido(atividade.dataHoraRealizacao)}
+            </p:column>
+
+            <!-- Usuário -->
+            <p:column headerText="Usuário" style="width:120px; text-align:center">
+                <CRM:avatar usuario="#{atividade.usuarioAtividade}" somenteLeitura="true"/>
+            </p:column>
+
+            <!-- Empresa Condicional -->
+            <c:if test="#{cc.attrs.mostrarEmpresa}">
+                <p:column headerText="Empresa" style="width:140px; text-align:center">
+                    <p:graphicImage
+                            url="#{atividade.prospectoEmpresa.imgPequena}"
+                            style="width:80px; border-radius:6px"/>
+                </p:column>
+            </c:if>
+
+            <!-- Ação -->
+            <p:column headerText="Ação" style="width:180px">
+                <h:panelGroup rendered="#{atividade.tipoAtividade.nomeAcao ne null}">
+                    <i class="#{atividade.tipoAtividade.icone}"
+                       style="background-color:##{atividade.tipoAtividade.cor}90;
+                          padding:4px; border-radius:4px;"></i>
+                    #{atividade.tipoAtividade.nomeAcao}
+                </h:panelGroup>
+                <h:panelGroup rendered="#{atividade.tipoAtividade.nomeAcao eq null}">
+                    N/D
+                </h:panelGroup>
+
+            </p:column>
+
+            <!-- Arquivos -->
+            <p:column headerText="Arquivos" style="width:150px">
+                <ui:repeat value="#{atividade.documentosGerados}" var="arquivo">
+
+                    <h:panelGroup id="anexoFile" rendered="#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo ne null}">
+
+                        <a href="#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}">
+                            <i class="fa fa-download Fs16"></i>
+                        </a>
+
+                        <a href="#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}"
+                           target="_blank">
+                            <i class="fa fa-eye Fs16"></i>
+                        </a>
+                    </h:panelGroup>
+
+                    <h:panelGroup  rendered="#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo eq null}">
+                        N/D
+                    </h:panelGroup>
+
+                    <p:tooltip for="anexoFile" value="#{arquivo.nome}"/>
+
+                </ui:repeat>
+            </p:column>
+
+            <!-- Email -->
+            <p:column headerText="E-mail" style="width:200px">
+
+                <!-- usamos o id do item para não gerar conflito -->
+                <h:panelGroup id="emailPanel_#{atividade.id}"
+                              rendered="#{atividade.emailVinculado != null}">
+
+                    <!-- DIALOG -->
+                    <p:dialog
+                            widgetVar="dlgEmail#{atividade.id}"
+                            header="E-mail: #{atividade.emailVinculado.assunto}"
+                            modal="true"
+                            resizable="false"
+                            draggable="true"
+                            width="70%"
+                            closable="true"
+                            closeOnEscape="true"
+                            style="max-height:80vh; overflow:auto;">
+
+                        <p:textEditor
+                                value="#{atividade.emailVinculado.texto}"
+                                readonly="true"
+                                secure="false"
+                                toolbarVisible="false"
+                                style="height:300px"/>
+
+                    </p:dialog>
+
+                    <!-- LINK / BOTÃO QUE ABRE O DIALOG -->
+                    <p:commandLink
+                            value="#{atividade.emailVinculado.assunto}"
+                            style="color:#333; font-weight:500"
+                            onclick="PF('dlgEmail#{atividade.id}').show(); return false;" />
+
+                </h:panelGroup>
+
+            </p:column>
+
+            <!-- Relacionamento -->
+            <p:column headerText="Relacionamento" style="width:160px">
+                <h:panelGroup rendered="#{atividade.relacionamentoGerado != null}">
+                    <span class="rel-tag"
+                          style="background-color: #{atividade.relacionamentoGerado.cor};">
+                        #{atividade.relacionamentoGerado.nome}
+                    </span>
+                </h:panelGroup>
+            </p:column>
+
+            <!-- Comentário -->
+            <p:column headerText="Comentário" style="width:300px">
+                #{atividade.anotacoes}
+            </p:column>
+
+        </p:dataTable>
+
+    </cc:implementation>
+</ui:composition>

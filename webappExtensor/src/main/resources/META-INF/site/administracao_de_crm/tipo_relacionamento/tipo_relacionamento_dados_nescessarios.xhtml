@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+      xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{layoutsPaginas.formularioEditarGenerico.xhtmlVinculado}" >
+        <ui:define name="conteudo">
+            <h:form>
+
+                <p:fragment >
+
+                    <SBAcaoNav:seletorDeAcoes
+                        metodo="#{pgTipoRelacionamento.executarAcaoSelecionada()}"
+                        opcoes="#{pgUtil.getAcoesEntidade(pgTipoRelacionamento.entidadeSelecionada, pgTipoRelacionamento.acoesRegistros)}"
+                        visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                        opcaoSelecionada="#{pgTipoRelacionamento.acaoSelecionada}"
+                        update="@this"
+                        />
+                </p:fragment>
+                <h:panelGroup layout="block"  styleClass="OrganizadorContainer Container12">
+
+
+                    <p:dataTable id="checkboxDT" var="item"
+                                 value="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dadosNescessarios').comoSeltorItens.origem}"
+                                 selection="#{pgTipoRelacionamento.entidadeSelecionada.dadosNescessarios}" rowKey="#{item.id}"
+                                 widgetVar="tabelaDadosAtividade"
+                                 globalFilterOnly="true"
+                                 globalFilter=""
+                                 style="margin-bottom:0" paginator="true" rows="25" selectionPageOnly="false" >
+
+                        <f:facet name="header" >
+                            <div  class="container-fluid">
+                                <div class="row" >
+                                    <div class="col-md-4 col-md-offset-4 " style="margin-top: 10px;margin-right: 0px " >
+                                        Tarefas do Serviço
+                                    </div>
+                                    <div class="col-md-4 " style="margin-top: 5px; margin-bottom: 5px; " >
+                                        <p:inputText id="globalFilter"
+                                                     styleClass="inputGrande"
+                                                     onkeyup="PF('tabelaDadosAtividade').filter()" style="width:100%"
+                                                     placeholder="pesquise aqui" />
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column selectionMode="multiple" exportable="false"  width="50px"  style="width:50px;text-align:center;"
+                                  sortable="true"   />
+
+                        <p:column headerText="Nome" filterBy="#{item.nome}">
+                            <h:outputText value="#{item.nome}" />
+                        </p:column>
+
+                        <p:column headerText="Título" filterBy="#{item.label}">
+                            <h:outputText value="#{item.label}" />
+                        </p:column>
+
+                        <p:column headerText="Descrição" filterBy="#{item.descricao}">
+                            <h:outputText value="#{item.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="Category">
+                            <h:outputText value="#{item.fabricaTipoAtributo}" />
+                        </p:column>
+                        <p:column headerText="Editar dados">
+                            <p:link  href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_OpcaoDadosCrmMbGerenciar.opcaoDadosCrmFrmEditar,item)}" >
+                                EDITAR
+                            </p:link>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                    <SBInput:input
+                        registro="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dadosNescessarios')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                        />
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block"  styleClass="Container3 Fright">
+                    <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgTipoRelacionamento.acaoSalvarAlteracoes}" tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}" />
+                </h:panelGroup>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+

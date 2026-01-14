@@ -1,0 +1,142 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+    <div class="Container12 OrganizadorContainer">
+        <div class="Container12 MarAuto Wid80 Hei20"
+             style="" >
+            <div class="Card " style="background-image: url('#{resource['img/cadastroSenhaUsuarioConhecido.png']}');
+                 opacity : 0.8;
+                 height: 500px;
+                 background-size: cover;
+                 background-position: center;
+                 background-repeat: no-repeat;" >
+
+                <div class="Container12">
+                    <div class="quebraBlocoComEspacoVertical20"/>
+
+                    <div class="TexAlCenter somenteDesktop" style="margin-bottom:-80px">
+                        <h:graphicImage name="logomarca.png" id="logo" style="width: 200px;" library="img" />
+                    </div>
+
+                    <div class="TexAlCenter somenteMobile" style=" margin-bottom:-80px">
+                        <h:graphicImage name="logomarca.png"  style="width: 200px;" id="logomobile" library="img" />
+                    </div>
+
+                </div>
+                <div class="Container12 OrganizadorContainer">
+
+                    <h:panelGroup styleClass="Container6" style="margin-top: 200px;" layout="block"
+
+
+                                  >
+                        <h:form>
+                            <p:fieldset rendered="#{pgPaginaInicial.usuarioemLogin.nome==null or pgPaginaInicial.usuarioemLogin.email==null or pgPaginaInicial.usuarioemLogin.telefone==null}" >
+                                <p:staticMessage severity="info" detail="Ajude nossos consultores a manter os seus dados atualizados" summary="Alguns dados complementáres estão incompletos" />
+                                <SBInput:input
+                                    registro="#{pgPaginaInicial.usuarioemLogin.getCampoInstanciadoByNomeOuAnotacao('nome')}"
+                                    rendered="#{pgPaginaInicial.usuarioemLogin.nome==null}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                    />
+
+                                <SBInput:input
+
+                                    registro="#{pgPaginaInicial.usuarioemLogin.getCampoInstanciadoByNomeOuAnotacao('email')}"
+                                    rendered="#{pgPaginaInicial.usuarioemLogin.email==null}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                    />
+
+                                <SBInput:input registro="#{pgPaginaInicial.usuarioemLogin.getCampoInstanciadoByNomeOuAnotacao('telefone')}"
+                                               rendered="#{pgPaginaInicial.usuarioemLogin.telefone==null}"
+                                               layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                               />
+                            </p:fieldset>
+                            <h:panelGroup style="margin: 10px; opacity: 0.9; "  layout="block">
+                                <p:password  value="#{pgPaginaInicial.usuarioemLogin.getCampoInstanciadoByNomeOuAnotacao('senha').valor}"
+                                             match="#{pgUtil.gerarCaminhoCompletoID('senha2')}"
+                                             class=" campoResponsivo  TexAlCenter #{componente.classeCSS} Fs24"
+                                             autocomplete="off"
+                                             redisplay="false"
+
+                                             feedback="true"
+                                             disabled="false"
+                                             placeholder="Digite a nova senha"
+                                             onfocus="this.removeAttribute('readonly');"
+                                             validatorMessage="O valor informado no #{label} não é valido! confirme a senha nos 2 campos, com pelo menos 6 caracteres"
+                                             promptLabel="Digite uma senha segura"
+                                             inline="true"
+                                             toggleMask="true"
+                                             weakLabel="Você pode melhorar esta senha"
+                                             goodLabel="Esta senha é uma boa senha,nós podemos aceita-la, porém você pode melhora-la adcionando numeros, caracteres especiais e letras"
+                                             strongLabel="Parabéns, esta senha é muito difícil de ser quebrada"
+                                             required="true"
+                                             id="senhaUsuario"
+                                             requiredMessage="O campo #{label} não foi informado, corretamento, confirme a senha com o mesmo valor nos dois campos "
+                                             >
+                                    <f:passThroughAttribute name="readonly" value="true" />
+                                    <f:validateLength minimum="6" />
+                                </p:password>
+                            </h:panelGroup>
+                            <h:panelGroup style="margin: 10px; opacity: 0.9" layout="block">
+                                <p:password id="senha2"
+                                            value="#{pgPaginaInicial.usuarioemLogin.getCampoInstanciadoByNomeOuAnotacao('senha').valor}"
+                                            placeholder="Confirme a senha aqui"
+                                            toggleMask="true"
+                                            onfocus="this.removeAttribute('readonly');"
+                                            autocomplete="off"
+                                            redisplay="false"
+                                            required="true" class=" campoResponsivo  TexAlCenter Fs24" >
+                                    <f:passThroughAttribute name="readonly" value="true" />
+                                </p:password>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="Container3 Fright" layout="block" >
+
+                                <p:commandButton value="Cadastrar acesso"
+                                                 process="@form"
+                                                 actionListener="#{pgPaginaInicial.cadastrarnovasenha()}"
+                                                 icon="#{acoesAtendimentoCrm_LoginMbGerenciar.loginCtrClienteCadastrarSenhaPrimeiroAcesso.icone}"
+                                                 iconPos="right"
+                                                 />
+
+                            </h:panelGroup>
+                        </h:form>
+                    </h:panelGroup>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="Fright">
+        <h:form>
+            <SBBotaoAcao:botaoDeAcao metodo="#{pgPaginaInicial.executarAcaoSelecionada()}"
+                                     acao="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmRealizarLoginDoCliente}"
+                                     armazenamentoAcaoExecutada="#{pgPaginaInicial.acaoSelecionada}"
+                                     tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+
+                                     label="Já tenho senha"
+                                     classeEstilo="botaoVerde"
+                                     />
+        </h:form>
+    </div>
+
+</ui:composition>

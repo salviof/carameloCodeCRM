@@ -1,0 +1,48 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="conteudo">
+        <p:fieldset legend="Os seguintes orçamento serão afetados com a remoção" rendered="#{pgServicoDisponivel.orcametosDoServico.size()>0}" >
+            <c:forEach items="#{pgServicoDisponivel.orcametosDoServico}" var="orcamento" >
+                <p:fieldset styleClass="Container3" >
+                    <p:outputLabel value="#{orcamento.getCampoInstanciadoByNomeOuAnotacao('descricao').valor}" /> <br/>
+                    <p:outputLabel value="#{orcamento.pessoa.nome}" /> <br/>
+                    <c:forEach items="#{orcamento.servicoOferecido}" var="item" >
+                        #{item.tipoServico.nome} - #{item.valorSetup}-  #{item.valorMensal} |
+                    </c:forEach>
+
+                </p:fieldset>
+            </c:forEach>
+
+        </p:fieldset>
+
+        <p:fieldset legend="As seguintes apresentações serão desvinculadas ao servico" >
+            <c:forEach items="#{pgServicoDisponivel.apresentacoesDoServico}" var="apresentacao" >
+                <p:outputLabel value="#{apresentacao.nome}" /> <br/>
+            </c:forEach>
+        </p:fieldset>
+
+
+        <h:panelGroup id="exclusaoEmpresa" class="Container12 OrganizadorContainer" style="margin-top: 200px;" >
+
+            <p:fieldset >
+                <h:form  styleClass="OrganizadorContainer" >
+
+                    <p:commandButton action="#{pgServicoDisponivel.executarAcao(pgServicoDisponivel.entidadeSelecionada)}"
+                                     value="EXLUIR [#{pgServicoDisponivel.entidadeSelecionada.nome}] DEFINITIVAMENTE"
+                                     update="@form"
+                                     >
+                        <f:setPropertyActionListener target="#{pgServicoDisponivel.acaoSelecionada}" value="#{acoesAdminCrm_ServicoDiponivelMbGestao.servicoDiponivelCtrRemover}" />
+                        <p:ajax event="dialogReturn" listener="#{pgServicoDisponivel.fecharExluirServico}"  />
+                    </p:commandButton>
+                </h:form>
+            </p:fieldset>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

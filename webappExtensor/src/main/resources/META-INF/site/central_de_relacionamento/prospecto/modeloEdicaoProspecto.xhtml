@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+                xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+                xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/resources/SBComp"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+
+    <crm:menuProspecto  pessoaJuridica="#{pgProspecto.entidadeSelecionada}"
+                        rendered="#{pgProspecto.entidadeSelecionada.id>0 and pgProspecto.entidadeSelecionada.usuarioLogadoPermitido}"
+                        />
+
+
+    <div class="Container12">
+
+        <ui:insert name="conteudo" />
+
+
+
+    </div>
+
+    <a href="#" id="voltarAoTopo" style="display: none;"><span></span></a>
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('#voltarAoTopo').fadeIn();
+                } else {
+                    $('#voltarAoTopo').fadeOut();
+                }
+            });
+            $('#voltarAoTopo').click(function () {
+                $("html, body").animate({scrollTop: 0}, 600);
+                return false;
+            });
+        });
+    </script>
+
+</ui:composition>

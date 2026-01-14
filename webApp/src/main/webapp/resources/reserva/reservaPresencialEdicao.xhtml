@@ -1,0 +1,108 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="reserva"
+                      type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraPresencial" required="true"/>
+        <cc:attribute name="bloquearEdicaoCliente" type="java.lang.Boolean" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:fieldset legend="Dados da reserva"  id="dadosReserva" styleClass="Container12">
+            <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda"  layout="block" id="atendidos">
+                <h:panelGroup styleClass="Container3"  layout="block">
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('pessoaRelacionada')}"
+                                   label="Cliente"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   idAtualizarOnChange="atendidos"
+                                   desabilitarEdicao="#{cc.attrs.bloquearEdicaoCliente}"
+                                   />
+
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container6 " id="contatosConvidados"  layout="block" rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('pessoaRelacionada').valor!=null}">
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('contatosAtendidos')}"
+                                   label="Contatos Convidados"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   idAtualizarOnChange="contatosConvidados"
+                                   />
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container3"  layout="block">
+                <p:selectBooleanButton
+
+                    class="campoResponsivo  TexAlCenter "
+                    offLabel="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide').comoCampoVerdadeiroOuFalso.textoNegativo}"
+                    onLabel="O Consultor irá até o local"
+                    offIcon="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide').comoCampoVerdadeiroOuFalso.iconePositivo}"
+                    onIcon="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide').comoCampoVerdadeiroOuFalso.iconeNegativo}"
+                    value="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide').valor}" disabled="false">
+                    <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide')}" />
+                    <f:validator  validatorId="org.super_bits.view.validadores.genericoBoolean"/>
+                    <p:ajax
+
+                        event="valueChange"
+                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosReserva')}')"
+                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosReserva')}')"
+
+                        update="@this #{pgUtil.gerarCaminhoCompletoID('dadosReserva')}"/>
+                </p:selectBooleanButton>
+            </h:panelGroup>
+            <p:fieldset  styleClass="Container6" rendered="#{!cc.attrs.reserva.comoReservaPresencial.atendimentoOutSide}" >
+                <f:facet name="legend" >
+                    <i class="Fs24 fa fa-building"> </i>
+                    - Endereço da sede:
+                </f:facet>
+                #{cc.attrs.reserva.comoReservaPresencial.textoLocalizacao}
+            </p:fieldset>
+            <p:fieldset  rendered="#{pgMinhasReservas.entidadeSelecionada.comoReservaPresencial.atendimentoOutSide}" >
+                <f:facet name="legend" >
+                    <i class="Fs24 fa fa-briefcase"> </i>
+                    - Local do Encontro  teste #{pgMinhasReservas.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('atendimentoOutSide').comoCampoVerdadeiroOuFalso.iconePositivo}
+                </f:facet>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.cep')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.bairro.cidade.unidadeFederativa')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.bairro.cidade')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.bairro')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.logradouro')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                   />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container3" >
+                    <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('localizacao.complemento')}"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}"
+
+                                   />
+                </h:panelGroup>
+
+            </p:fieldset>
+
+        </p:fieldset>
+
+
+    </cc:implementation>
+</ui:composition>

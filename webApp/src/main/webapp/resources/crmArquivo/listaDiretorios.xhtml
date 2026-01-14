@@ -1,0 +1,42 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui">
+    <cc:interface>
+
+        <cc:attribute name="pastas"
+                      type="java.util.List" required="true"/>
+        <cc:attribute name="pessoa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>
+        <cc:attribute name="pstCliente"
+                      default="true" required="true"/>
+        <cc:attribute name="estiloTamanho" default="Fs50" />
+        <cc:attribute name="tipoOrganizacao" default="OrganizadorContainerEsquerda" />
+        <cc:attribute name="tamanhoContator" default="large" shortDescription="large x large ou em branco" />
+    </cc:interface>
+
+
+
+    <cc:implementation>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block" >
+            <h:panelGroup styleClass="Container8 #{cc.attrs.tipoOrganizacao}" style="height: 100%;" layout="block" >
+                <c:forEach items="#{cc.attrs.pastas}" var="cat" >
+                 
+                    <p:link href="#{cc.attrs.pstCliente?infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaCliente,cc.attrs.pessoa,cat.categoria):infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,cc.attrs.pessoa,cat.categoria)}" target="cndcrm" >
+                        <h:panelGroup styleClass="OrganizadorContainer" style=" max-width:80px;  max-height: 100px; position: relative; margin: 30px;" layout="block" >
+                            <p:badge value="#{cat.quantidade}" styleClass="mr-2" size="#{cc.attrs.tamanhoContator}" severity="warning">
+                                <span style="" class="#{cat.icone} #{cc.attrs.estiloTamanho} BlueTextButton"></span><br/>
+                            </p:badge>
+                            <span class="FontAdamantiumBold Fs16" style="">#{cat.nome}</span>
+                            <h:panelGroup style="position: absolute; left: -10px; top: -10px;" styleClass="fa fa-unlock" rendered="#{cat.categoria.compartilharComConvidados}"  />
+                        </h:panelGroup>
+                    </p:link>
+                </c:forEach>
+            </h:panelGroup>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

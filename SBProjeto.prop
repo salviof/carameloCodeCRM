@@ -1,0 +1,11 @@
+VERSAO=1.0-SNAPSHOT
+NOME_PROJETO=webApp
+NOME_SOCIAL="CRM Caramelo Code Web"
+TIPO_PROJETO=war
+NOME_CLIENTE=carameloCode
+GRUPO_PROJETO=carameloCodeCRM
+NOME_BANCO=CRMCarameloCode
+DIRETORIO_BASE=
+ENDERECO_WEB=meucrm.caramelocode.com.br
+GROUP_ID_MAVEN=br.org.carameloCode.erp.crm
+ENDERECO_WEB_REQUISITO=requisito.caramelocode.com.br

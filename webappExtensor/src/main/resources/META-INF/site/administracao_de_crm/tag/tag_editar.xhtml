@@ -1,0 +1,36 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:p="http://primefaces.org/ui"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+        <SBForm:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{paginaAtual.infoPagina.acaoSelecionada}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            somenteLeitura="false"
+            />
+
+
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+        <p:panel class="Fright" >
+
+            <SBAcaoNav:botaoDeAcao_Pagina_Entidade
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                />
+
+        </p:panel>
+
+
+
+    </ui:define>
+</ui:composition>

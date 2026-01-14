@@ -1,0 +1,101 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo">
+
+        <crm:menuProspecto  pessoaJuridica="#{pgMeusChamadosAtd.pessoaSelecionada}"
+                            rendered="#{pgMeusChamadosAtd.pessoaSelecionada!=null}"
+                            />
+
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer Container12" id="Chamado" >
+
+            <p:fieldset legend="Tipo de chamado" styleClass="Container6" rendered="#{pgMeusChamadosAtd.entidadeSelecionada!=null}" >
+                <p:selectOneButton value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado').valor}" id="tipoChamado" required="true"
+                                   converter="conversorGenerico"
+                                   requiredMessage="Por favor, clique  no tipo de chamado"
+                                   >
+                    <f:passThroughAttribute name="caminhoCampo" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado').nomeCompostoIdentificador}" />
+                    <f:passThroughAttribute name="dominio" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado').nomeClasseOrigemAtributo}" />
+                    <f:passThroughAttribute name="campoInstanciado" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado')}" />
+                    <c:forEach var="tipoChamado" items="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado').comoCampoSeltorItem.origem}" >
+                        <f:selectItem itemLabel="#{tipoChamado.nome}" itemValue="#{tipoChamado}"/>
+                    </c:forEach>
+
+                    <p:ajax
+                        event="change"
+                        update="tipoChamado"
+                        process="@this"
+                        listener="#{pgMeusChamadosAtd.salvarDescritivoTemporario()}"
+                        />
+                </p:selectOneButton>
+                <p:message for="tipoChamado"
+
+                           />
+            </p:fieldset>
+
+        </h:panelGroup>
+
+
+
+        <h:panelGroup style="width: 100%;padding: 10px;" styleClass="Container8 Responsive" id="relatorioAtividade">
+            <SBInput:input registro="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoByNomeOuAnotacao('usuarioCliente')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+            <p:fragment >
+                <p:textEditor widgetVar="editor2"
+
+                              value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao').valor}"
+                              height="300" placeholder="Descreva sua dor ou desejo aqui."
+                              validator="org.super_bits.view.validadores.generico"
+                              id="descritivoChamados"
+                              secure="false"
+                              >
+                    <f:passThroughAttribute name="caminhoCampo" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao').nomeCompostoIdentificador}" />
+                    <f:passThroughAttribute name="dominio" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao').nomeClasseOrigemAtributo}" />
+                    <f:passThroughAttribute name="campoInstanciado" value="#{pgMeusChamadosAtd.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao')}" />
+                    <p:ajax
+                        event="blur"
+                        onstart="bloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
+                        oncomplete="desbloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
+
+
+                        listener="#{pgMeusChamadosAtd.salvarDescritivoTemporario()}"
+                        />
+                    <f:facet name="toolbar">
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-font"></select>
+                            <select class="ql-size"></select>
+                        </span>
+                    </f:facet>
+                </p:textEditor>
+                <p:message for="descritivoChamados"
+
+                           />
+
+                <p:poll interval="10" listener="#{pgMeusChamadosAtd.salvarDescritivoTemporario()}" />
+            </p:fragment>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+            <SBPaginaAtual:botaoAcaoPersonalizada
+
+                classeEstilo="botaoVerde"
+                acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrCriarChamado}"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,33 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo">
+        <SBFormulario:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+            />
+
+
+        <h:panelGroup style="width: 100%;" styleClass="Container8 Responsive" id="relatorioAtividade" rendered="#{pgSuporteCliente.entidadeSelecionada.chamadoEmEstadoAtendimento}">
+            <SBInput:input registro="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao')}"
+                           layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                           label="Descrição do chamado"
+                           metodoOnChange="#{pgSuporteCliente.salvarDescritivoTemporario()}"
+                           />
+
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+
+        <SBPaginaAtual:botaoSalvarAlteracoes/>
+
+    </ui:define>
+</ui:composition>

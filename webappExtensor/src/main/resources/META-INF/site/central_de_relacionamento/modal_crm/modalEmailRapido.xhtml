@@ -1,0 +1,65 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form>
+        <p:remoteCommand actionListener="#{pgModalProspecto.atualizarProspecto()}" name="atualizarProsp"
+                         update="#{pgUtil.gerarCaminhoCompletoID('formEnvioRapido')}"
+                         oncomplete=" PF('contatoAdd').toggle();"
+                         autoRun="false" >
+        </p:remoteCommand>
+    </h:form>
+
+    <p:panel header="Envio de email rápido" style="height:1000px;" id="formEnvioRapido" >
+        <h:form>
+            <p:fieldset legend="Adicionar Contato rápido" toggleable="true" collapsed="true" widgetVar="contatoAdd" >
+                <SBInput:input registro="#{servicoCRMContato.novoContato.getCampoInstanciadoByNomeOuAnotacao('nome')}" />
+                <SBInput:input registro="#{servicoCRMContato.novoContato.getCampoInstanciadoByNomeOuAnotacao('email')}" />
+                <SBInput:input registro="#{servicoCRMContato.novoContato.getCampoInstanciadoByNomeOuAnotacao('celular')}" />
+                <p:commandButton value="Adicionar"
+                                 action="#{servicoCRMContato.cadastroEmailRapido(pgModalProspecto.prospectoSelecionado)}"
+                                 oncomplete="atualizarProsp();"
+                                 update="@form"
+
+                                 />
+            </p:fieldset>
+        </h:form>
+        <h:form id="formDisparo" >
+
+            <CRM:emailProspecto empresa="#{pgModalProspecto.prospectoSelecionado}"
+                                email="#{pgModalProspecto.envioEmail}"/>
+            <p:commandButton onmousedown="esconderTooltips();"
+                             styleClass="btnIconeENome botao"
+                             icon="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.iconeAcao}"
+                             action="#{pgModalProspecto.executarAcaoSelecionada()}"
+                             update="@form"
+                             value="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.nomeAcao}"
+                             onstart="PF('blockDisparo').show();"
+                             oncomplete="PF('blockDisparo').hide();"
+
+                             >
+                <f:setPropertyActionListener target="#{pgModalProspecto.acaoSelecionada}"
+                                             value="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail}"  />
+            </p:commandButton>
+        </h:form>
+    </p:panel>
+
+    <p:blockUI block="formDisparo" widgetVar="blockDisparo">
+        Aguarde enquanto enviamos este e-mail<br />
+        <i class="fa fa-paper-plane-o fa-spin fa-5x fa-fw"></i>
+
+
+    </p:blockUI>
+
+
+
+
+
+</ui:composition>

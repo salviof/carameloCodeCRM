@@ -1,0 +1,47 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="/resources/SBComp/template/basico/conteudo.xhtml"  >
+    <ui:define name="parametros">
+
+
+        <ui:param name="iconeConteudo" value="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao}" />
+
+
+
+
+
+    </ui:define>
+
+    <ui:define name="titulo">
+        #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}
+
+    </ui:define>
+    <ui:define name="subtitulo">
+        <h4> <b>#{pgExecutarAtividade.atividade.prospectoEmpresa.nome} </b> </h4>|
+        <b><a href="tel:+55#{pgExecutarAtividade.atividade.prospectoEmpresa.telefonePrincipal}">
+                #{pgExecutarAtividade.atividade.prospectoEmpresa.telefonePrincipal} </a></b> |
+        <b>
+            <a href="http://#{pgExecutarAtividade.atividade.prospectoEmpresa.site}"
+               target="siteCliente"
+               >
+                #{pgExecutarAtividade.atividade.prospectoEmpresa.site}"
+            </a> </b> |
+        <div class="quebraBlocoComEspacoVertical5 somenteMobile">
+        </div>
+    </ui:define>
+    <ui:define name="conteudoDireita">
+
+    </ui:define>
+    <ui:define name="conteudoCard">
+        <h:form>
+            <CRM:emailProspecto  email="#{pgExecutarAtividade.atividade.emailVinculado}"  empresa="#{pgExecutarAtividade.atividade.prospectoEmpresa}"/>
+            <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" rendered="#{pgExecutarAtividade.atividade.emailVinculado.foiEnviado}" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+
+

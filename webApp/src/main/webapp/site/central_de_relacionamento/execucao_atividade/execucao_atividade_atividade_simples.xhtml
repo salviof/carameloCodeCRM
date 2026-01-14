@@ -1,0 +1,31 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:panelGroup styleClass="Container12 OrganizadorContainer" style="margin-top: 3%;" >
+        <h:panelGroup styleClass="Container11" >
+            <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}" >
+                <f:facet name="opcoesCabecalhoAtividade" >
+                    <h:form>
+                        <p:focus/>
+                        <h:panelGroup layout="block" style="margin-top: 30px;" >
+                            <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+
+                            <CRM:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" />
+                        </h:panelGroup>
+                    </h:form>
+                </f:facet>
+
+            </CRM:cabecalhoAtividade>
+        </h:panelGroup>
+    </h:panelGroup>
+    <h:form>
+        <p:remoteCommand    autoRun="true" update="@(.ui-fieldset)"/>
+    </h:form>
+
+</ui:composition>

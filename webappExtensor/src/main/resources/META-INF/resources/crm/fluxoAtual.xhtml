@@ -1,0 +1,103 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="atividade"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.AtividadeCRM" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:panelGroup id="opcoesEdicaoAtividade" >
+            <p:fieldset  >
+                #{cc.attrs.atividade.tipoAtividade.nome} para: #{cc.attrs.atividade.prospectoEmpresa.nome}
+                <p:progressBar value="#{cc.attrs.atividade.prospectoEmpresa.relacionamento.peso*10}"  labelTemplate="{value}% #{cc.attrs.atividade.prospectoEmpresa.relacionamento.nome}"    displayOnly="true" /> <br/>
+                <div class="Container60">
+                    <p:commandButton value="Notificar Responsaveis"
+                                     actionListener="#{servicosCRM.notificarResponsaveis(cc.attrs.atividade)}"
+                                     icon="fa fa-bullhorn"
+                                     styleClass="Container30 "
+                                     />
+
+                    <p:commandButton
+                        disabled="#{pgExecutarAtividade.vaiAgendar}"
+                        icon="#{pgExecutarAtividade.acaoContinuarMaisTarde.icone}"
+                        actionListener="#{pgExecutarAtividade.salvarMaisTarde()}"
+                        value="#{pgExecutarAtividade.acaoContinuarMaisTarde.nome}"
+                        update="@form"
+                        styleClass="Container30 "
+                        />
+
+                    <c:if test="#{cc.attrs.atividade.permitidoConcluir}" >
+                        <p:commandButton
+                            disabled="#{pgExecutarAtividade.vaiAgendar}"
+                            icon="#{cc.attrs.atividade.tipoAtividade.icone}"
+                            actionListener="#{pgExecutarAtividade.concluirAtividade()}"
+                            value="#{cc.attrs.atividade.tipoAtividade.nomeFimAtividaed}"
+                            styleClass="Container30 "
+
+                            update="@form" />
+                    </c:if>
+
+                </div>
+
+
+                <div class="Container40  ">
+
+                    <div class="Container60 ">
+                        <SBInput:input registro="#{cc.attrs.atividade.getCampoByNomeOuAnotacao('dataHoraPrevisaoExecucao')}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+
+                                       metodoOnChange="#{pgUtil.atualizaTelaPorID('opcoesEdicaoAtividade')}"
+
+                                       />
+                    </div>
+                    <div class="Container40 ">
+
+                        <p:commandButton
+                            disabled="#{!pgExecutarAtividade.vaiAgendar}"
+                            icon="#{pgExecutarAtividade.acaoAgendar.icone}"
+                            actionListener="#{pgExecutarAtividade.agendar()}"
+                            styleClass="Container10"
+                            update="@form" />
+                        <p:commandButton
+                            disabled="#{!pgExecutarAtividade.vaiAgendar}"
+                            icon="fa fa-back"
+                            actionListener="#{pgExecutarAtividade.limparAgendar()}"
+                            styleClass="Container10"
+                            update="@form" />
+
+                    </div>
+
+                </div>
+
+
+
+            </p:fieldset>
+
+        </h:panelGroup>
+
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+

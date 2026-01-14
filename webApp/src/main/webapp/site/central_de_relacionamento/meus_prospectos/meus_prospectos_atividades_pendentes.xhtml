@@ -1,0 +1,60 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBMensagem="http://xmlns.jcp.org/jsf/composite/SBComp/composite/mensagem"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup styleClass="Container4">
+        <p:graphicImage library="img" name="atividadesPendentes.png" width="100%" />
+    </h:panelGroup>
+    <h:panelGroup styleClass="Container6" id="areaAcoesRapidas">
+        <div class="alert alert-warning" >
+            <strong>Existem Atividades não finalizadas</strong> Você precisa informar sobre o andamento delas
+        </div>
+        <p:dataScroller value="#{pgMeusProspectos.usuarioLogado.atividadeNaoFinalizada}"
+                        var="atividade" scrollHeight="800px"  mode="inline" >
+            <div class="alert alert-info">
+                Atividade incabada para: <strong> <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,atividade.prospectoEmpresa)}"
+                                                          >#{atividade.prospectoEmpresa.nome} </p:link></strong>
+                <div class="Fright" style="margin-top: 60px;" >
+                    <h:form>
+                        <crm:botaoPersonalizado titulo="Me Lembre em 30 minutos" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                                                metodo="#{pgMeusProspectos.agendarEmMeiaHora(atividade)}"
+                                                icone="fa fa-clock-o"
+                                                onStart="PF('blockAcaoRapida').show()"
+                                                onComplete="PF('blockAcaoRapida').hide()"
+                                                />
+
+                        <crm:botaoPersonalizado titulo="Me Lembre em 2 Horas" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                                                metodo="#{pgMeusProspectos.agendarEm2Horas(atividade)}"
+                                                icone="fa fa-clock-o fa-2x"
+                                                onStart="PF('blockAcaoRapida').show()"
+                                                onComplete="PF('blockAcaoRapida').hide()"
+                                                />
+                        <crm:botaoPersonalizado titulo="Me Lembre Amanhã" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                                                metodo="#{pgMeusProspectos.agendarParaAmanha(atividade)}"
+                                                icone="fa fa-calendar-check-o"
+                                                onStart="PF('blockAcaoRapida').show()"
+                                                onComplete="PF('blockAcaoRapida').hide()"
+                                                />
+                        <crm:botaoPersonalizado titulo="Cancelar" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                                                metodo="#{pgMeusProspectos.cancelarRapido(atividade)}"
+                                                icone="fa fa-ban text-danger "
+                                                onStart="PF('blockAcaoRapida').show()"
+                                                onComplete="PF('blockAcaoRapida').hide()"
+                                                />
+                    </h:form>
+                </div>
+            </div>
+            <crm:botaoEditarAtividade atividade="#{atividade}" />
+        </p:dataScroller>
+        <p:blockUI block="#{pgUtil.gerarCaminhoCompletoID('areaAcoesRapidas')}"  widgetVar="blockAcaoRapida">
+            Aguarde enquanto <br />
+            <i class=" fa fa-spinner fa-spin fa-5x fa-fw"></i>
+        </p:blockUI>
+    </h:panelGroup>
+</ui:composition>

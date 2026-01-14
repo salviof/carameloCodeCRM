@@ -1,0 +1,522 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa"
+                      required="true"/>
+        <cc:attribute name="tipoVisualizacaoCampo" required="true"/>
+        <cc:attribute name="idCard" default="#{('cardEmpresa'.concat(cc.attrs.empresa.id))}"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <style type="text/css">
+            .empresa-card {
+                display: flex;
+                flex-direction: column;
+                width: 300px;
+                height: 450px;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+                transition: all 0.25s ease;
+                position: relative;
+                background: white;
+                border: 1px solid #e9ecef;
+            }
+
+            .empresa-card:hover {
+                transform: translateY(-3px);
+                cursor: pointer;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+                border-color: #dee2e6;
+            }
+
+            .empresa-card.restricted {
+                opacity: 0.75;
+            }
+
+            .empresa-card.restricted:hover {
+                opacity: 0.85;
+            }
+
+            .card-header {
+                height: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 15px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card-logo {
+                max-width: 200px;
+                max-height: 70px;
+                object-fit: contain;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 6px;
+                border-radius: 6px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            }
+
+            .card-content {
+                flex: 1;
+                padding: 15px;
+                min-height: 170px;
+
+            }
+
+            .empresa-nome {
+                font-size: 18px;
+                font-weight: 600;
+                color: #2c3e50;
+                text-align: center;
+                margin-bottom: 12px;
+                line-height: 1.3;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            .info-row {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 4px;
+                min-height: 24px;
+            }
+
+            .info-icon {
+                width: 24px;
+                height: 24px;
+                min-width: 24px;
+                border-radius: 50%;
+                background: #f8f9fa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+                color: #6c757d;
+                font-size: 12px;
+            }
+
+            .info-text {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .info-label {
+                font-size: 12px;
+                color: #868e96;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-bottom: 1px;
+            }
+
+            .info-value {
+                font-size: 14px;
+                color: #495057;
+                font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .info-value.whatsapp {
+                color: #25D366;
+                font-weight: 600;
+            }
+
+            .card-footer {
+                padding: 10px 15px;
+                background: #f8f9fa;
+                border-top: 1px solid #e9ecef;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 50px;
+            }
+
+            .responsaveis-container {
+                display: flex;
+                gap: 6px;
+                /*max-width: 140px;*/
+            }
+
+            .responsavel-item {
+                position: relative;
+                width: 32px;
+                height: 32px;
+            }
+
+            .responsavel-avatar {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 2px solid white;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            .responsavel-badge {
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #007bff;
+                color: white;
+                font-size: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid white;
+            }
+
+            .badge-atendimento {
+                background: #28a745;
+            }
+
+            .badge-responsavel {
+                background: #17a2b8;
+            }
+
+            .tags-container {
+                display: flex;
+                gap: 6px;
+                min-height: 28px; /* mantém layout mesmo sem tags */
+                align-items: center;
+                justify-content: start;
+            }
+
+            .tag-item {
+
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                font-size: 0;
+                display: inline-flex;
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.2s ease;
+                cursor: help; /* cursor indicando que tem tooltip */
+                border: 2px solid white; /* borda branca para contraste */
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            .tag-icon {
+                margin-right: 3px;
+                font-size: 9px;
+            }
+
+            .restricted-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 5;
+                border-radius: 10px;
+            }
+
+            .overlay-content {
+                text-align: center;
+                padding: 15px;
+            }
+
+            .overlay-icon {
+                font-size: 24px;
+                color: #6c757d;
+                margin-bottom: 8px;
+            }
+
+            .overlay-text {
+                font-size: 12px;
+                color: #495057;
+                margin-bottom: 10px;
+                line-height: 1.4;
+            }
+
+            .action-button {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: white;
+                border: 1px solid #dee2e6;
+                color: #6c757d;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .action-button:hover {
+                background: #f8f9fa;
+                color: #495057;
+                border-color: #adb5bd;
+            }
+
+            .relacionamento-container {
+                margin-bottom: 12px;
+            }
+
+            .whatsapp-link {
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+            .whatsapp-link:hover {
+                opacity: 0.8;
+            }
+
+            /* Responsividade */
+            @media (max-width: 280px) {
+                .empresa-card {
+                    width: 100%;
+                }
+            }
+
+            @media (min-width: 281px) and (max-width: 768px) {
+                .empresa-card {
+                    width: 100%;
+
+                }
+
+                .cards-container {
+                    display: flex;
+                    flex-direction: column; /* cards empilhados */
+                    gap: 15px;
+                }
+
+            }
+        </style>
+
+        <h:panelGroup
+                id="empresaCardContainer"
+                styleClass="empresa-card #{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('estiloVisualizacao').valor.estiloCSS} #{!cc.attrs.empresa.usuarioLogadoPermitido ? 'restricted' : ''}"
+                layout="block"
+                style="position: relative;">
+
+            <f:passThroughAttribute name="onclick"
+                                    value="abrirURLComLoad(this.id,'#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.empresa)}');"
+            />
+            <f:passThroughAttribute
+                    name="onmouseup"
+                    value="bloquearAreaOitoSegundos(this.id);"/>
+            <f:passThroughAttribute
+                    name="idToBackAct"
+                    value="empresaCardContainer#{cc.attrs.empresa.id}"/>
+
+            <!-- Overlay para acesso restrito -->
+            <h:panelGroup
+                    styleClass="restricted-overlay"
+                    layout="block"
+                    rendered="#{!cc.attrs.empresa.usuarioLogadoPermitido}">
+                <div class="overlay-content">
+                    <i class="fa fa-lock overlay-icon"></i>
+                    <div class="overlay-text">
+                        Informações restritas
+                    </div>
+                    <p:commandButton
+                            actionListener="#{servicosCRM.solicitarPermissao(cc.attrs.empresa)}"
+                            value="Acesso"
+                            icon="fa fa-key"
+                            styleClass="ui-button-secondary ui-button-small"
+                            oncomplete="PF('empresablkcmd#{cc.attrs.empresa.id}').hide();"/>
+                </div>
+            </h:panelGroup>
+
+            <!-- Cabeçalho com logo -->
+            <div class="card-header">
+                <img
+                        class="card-logo"
+                        src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.empresa.imgPequena}"
+                        alt="#{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('nome').valor}"/>
+            </div>
+
+            <!-- Conteúdo principal -->
+            <div class="card-content">
+                <!-- Nome da empresa -->
+                <div class="empresa-nome">
+                    #{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('nome').valor}
+                </div>
+
+                <!-- Relacionamento -->
+                <!--                <div class="relacionamento-container">-->
+                <!--                    <CRM:relacionamento tipoRelacionamento="#{cc.attrs.empresa.relacionamento}" />-->
+                <!--                </div>-->
+
+                <!-- Informações (apenas se tiver permissão) -->
+                <h:panelGroup layout="block" rendered="#{cc.attrs.empresa.usuarioLogadoPermitido}">
+
+                    <!-- Contato Principal -->
+                    <h:panelGroup rendered="#{!pgUtil.isNuloOuEmbranco(cc.attrs.empresa.responsavel)}">
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="info-text">
+                                <div class="info-label">Contato</div>
+                                <div class="info-value">
+                                    #{cc.attrs.empresa.contatoPrincipal.primeiroNome}
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <!-- Telefone -->
+                    <h:panelGroup>
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="info-text">
+                                <div class="info-label">Telefone</div>
+                                <h:panelGroup class="info-value"
+                                              rendered="#{!pgUtil.isNuloOuEmbranco(cc.attrs.empresa.telefone)}">
+                                    #{cc.attrs.empresa.telefone}
+                                </h:panelGroup>
+                                <h:panelGroup class="info-value"
+                                              rendered="#{pgUtil.isNuloOuEmbranco(cc.attrs.empresa.telefone)}">
+                                    N/D
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <!-- WhatsApp -->
+                    <h:panelGroup
+                            rendered="#{cc.attrs.empresa.contatoInicialPreechido and !pgUtil.isNuloOuEmbranco(cc.attrs.empresa.contatoPrincipal.celular)}">
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fa fa-whatsapp" style="color: #25D366;"></i>
+                            </div>
+                            <div class="info-text">
+                                <div class="info-label">WhatsApp</div>
+                                <div class="info-value whatsapp">
+                                    <a href="https://api.whatsapp.com/send?phone=55#{pgUtilFormatar.gerarTextoApenasNumero(cc.attrs.empresa.contatoPrincipal.celular)}"
+                                       target="_blank"
+                                       class="whatsapp-link">
+                                        #{cc.attrs.empresa.contatoPrincipal.celular}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fa fa-battery-3"></i>
+                            </div>
+                            <div class="info-text">
+                                <div class="info-label">Relacionamento</div>
+                                <div class="info-value">
+                                    <!--                                    <CRM:relacionamento tipoRelacionamento="#{cc.attrs.empresa.relacionamento}" />-->
+                                    #{cc.attrs.empresa.relacionamento.peso * 10}% - #{cc.attrs.empresa.relacionamento.metaRelacionamento.nome}
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <!--                     Tags-->
+                    <!-- Tags como bolinhas coloridas -->
+                    <h:panelGroup layout="block" styleClass="tags-container"
+                                  rendered="#{!empty cc.attrs.empresa.tagsAtendimento and cc.attrs.empresa.usuarioLogadoPermitido}">
+
+                        <ui:repeat value="#{cc.attrs.empresa.tagsAtendimento}" var="tag">
+                            <span class="tag-item" style="background-color: ##{tag.cor};" title="#{tag.nome}">
+                            </span>
+                        </ui:repeat>
+                    </h:panelGroup>
+
+                    <!-- placeholder invisível -->
+                    <h:panelGroup rendered="#{empty cc.attrs.empresa.tagsAtendimento}">
+                        <span style="visibility: hidden;">placeholder</span>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+                <!-- Mensagem de sem permissão -->
+                <h:panelGroup rendered="#{!cc.attrs.empresa.usuarioLogadoPermitido}">
+                    <div class="info-row">
+                        <div class="info-icon">
+                            <i class="fa fa-eye-slash"></i>
+                        </div>
+                        <div class="info-text">
+                            <div class="info-value" style="color: #6c757d;">
+                                Clique para solicitar acesso
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </div>
+
+            <!-- Rodapé com responsáveis e ações -->
+            <div class="card-footer">
+                <!-- Responsáveis -->
+                <h:panelGroup
+                        rendered="#{!empty cc.attrs.empresa.usuariosResponsaveis and cc.attrs.empresa.usuarioLogadoPermitido}">
+                    <p:commandLink
+                            onclick="abrirModalContatoById('#{cc.attrs.empresa.id}', '#{pgUtil.getNomeIdHPanelPai(component)}');"
+                            style="text-decoration: none;">
+                        <div class="responsaveis-container">
+                            <ui:repeat value="#{cc.attrs.empresa.usuariosResponsaveis}" var="usuario">
+                                <div class="responsavel-item">
+                                    <CRM:avatar usuario="#{usuario}" somenteLeitura="#{true}"
+                                    />
+                                    <h:panelGroup rendered="#{usuario eq cc.attrs.empresa.usuarioAtendimento}">
+                                        <span class="responsavel-badge badge-atendimento" title="Atendimento">
+                                            <i class="fa fa-comments"></i>
+                                        </span>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{usuario eq cc.attrs.empresa.usuarioResponsavel}">
+                                        <span class="responsavel-badge badge-responsavel" title="Responsável">
+                                            <i class="fa fa-handshake-o"></i>
+                                        </span>
+                                    </h:panelGroup>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </p:commandLink>
+                </h:panelGroup>
+
+                <!-- Botão de ações -->
+                <!--                <div class="action-button"-->
+                <!--                     onclick="abrirURLComLoad(this.id,'#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.empresa)}');">-->
+                <!--                    <i class="fa fa-ellipsis-v"></i>-->
+                <!--                </div>-->
+            </div>
+
+            <!-- BlockUI para loading -->
+            <p:blockUI block="@parent" widgetVar="empresablkcmd#{cc.attrs.empresa.id}">
+                <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 10px;">
+                    <i class="fa fa-spinner fa-spin" style="color: #6a82fb; font-size: 24px;"></i>
+                </div>
+            </p:blockUI>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

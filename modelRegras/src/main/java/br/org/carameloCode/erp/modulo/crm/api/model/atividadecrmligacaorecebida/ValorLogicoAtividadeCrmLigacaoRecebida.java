@@ -1,0 +1,19 @@
+package br.org.carameloCode.erp.modulo.crm.api.model.atividadecrmligacaorecebida;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrmligacaorecebida.ValoresLogicosAtividadeCrmLigacaoRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.tiposEspeciais.AtividadeCrmLigacaoRecebida;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@InfoReferenciaEntidade(tipoObjeto = AtividadeCrmLigacaoRecebida.class)
+public @interface ValorLogicoAtividadeCrmLigacaoRecebida {
+
+	ValoresLogicosAtividadeCrmLigacaoRecebida calculo();
+}

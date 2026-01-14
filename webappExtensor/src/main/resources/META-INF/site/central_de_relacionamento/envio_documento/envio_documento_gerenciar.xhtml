@@ -1,0 +1,13 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="#{layoutsPaginas.modeloGeralAnonimo.xhtmlVinculado}">
+
+    <ui:define name="divConteudo">
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
+            #{pgModalSBJSF.paginaVinculada.beanSelecionado}
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

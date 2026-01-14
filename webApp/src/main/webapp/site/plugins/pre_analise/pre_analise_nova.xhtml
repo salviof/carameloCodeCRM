@@ -1,0 +1,111 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <script type="text/javascript">
+            //<![CDATA[
+
+            function bloqueioAutomatico() {
+                PF('blokGerador').show();
+                setTimeout(function () {
+
+                    PF('blokGerador').hide();
+                }, 1000);
+            }
+
+            function desbloqueioemDezSegundos() {
+
+                setTimeout(function () {
+
+                    PF('blokGerador').hide();
+                }, 10000);
+            }
+
+
+
+            function iniciarBarraDeProgresso() {
+                setTimeout(function () {
+                    PF('blokGerador').show();
+                }, 1000);
+
+                PF('progressoPreAnalise').setValue(20);
+                window['progress'] = setInterval(function () {
+                    var pbClient = PF('progressoPreAnalise'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 0.5;
+
+                    pbClient.setValue(newValue);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 500);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+
+            //]]>
+        </script>
+        <h:panelGroup styleClass="Container12" id="formPreAnalise" layout="block" style="padding: 20px;" >
+            <h:form >
+
+                <p:staticMessage severity="info" summary="Coletar nota de leigibilidade do google" />
+                <h:panelGroup styleClass="Container12 OrganizadorContainer" style="height: 200px; width: 100%;" layout="block" >
+
+                    <h:panelGroup styleClass="Container8" id="campoSite" layout="block">
+                        <SBInput:input registro="#{pgAtvPreAnalise.prospecto.getCampoInstanciadoByNomeOuAnotacao('site')}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                       atualizarFormOnChange="true"
+                                       />
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="Container8"  layout="block">
+                        <p:commandButton
+                            onstart="bloqueioAutomatico();"
+                            styleClass="btnIconeENome botao"
+                            update="#{pgUtil.gerarCaminhoCompletoID('campoSite')}"
+                            icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrNovaPreAnalise.icone}"
+                            value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrNovaPreAnalise.nomeAcao}"
+                            action="#{pgAtvPreAnalise.gerarPreAnalise()}"
+                            >
+                        </p:commandButton>
+                    </h:panelGroup>
+
+
+
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" style="margin: 10px;" layout="block">
+            <h:panelGroup styleClass="Container5" style="margin: 10px;"  layout="block">
+                <p:progressBar id="progressBarClient" widgetVar="progressoPreAnalise" style="width:100%;height: 100px;" styleClass="p-mt-3"/>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:form>
+            <p:poll interval="3" listener="#{pgAtvPreAnalise.verificaProcessoPreAnalise}"
+
+                    update="@(.ui-fieldset)"
+                    autoStart="false"  widgetVar="verificaGeracao"
+                    />
+        </h:form>
+
+        <p:blockUI block="#{pgUtil.gerarCaminhoCompletoID('formPreAnalise')}" widgetVar="blokGerador">
+
+            <p:graphicImage name="images/preloader.gif" library="primefaces-adamantium"/>
+
+        </p:blockUI>
+    </ui:define>
+</ui:composition>

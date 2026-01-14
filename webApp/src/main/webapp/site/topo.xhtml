@@ -1,0 +1,52 @@
+<ui:composition
+
+    xmlns="http://www.w3.org/1999/xhtml"
+
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:outputStylesheet  name="recursos/css/SBAcaoNavegacao.css" library="SBComp"  />
+    <h:outputStylesheet  name="primeflex.css"   library="css" />
+
+    <SBAcaoNav:menuPadrao
+        menuBasico="#{sessaoAtualSBWP.menusDaSessao.menuPrincipal}"
+
+        rendered="#{sessaoAtualSBWP.identificado and !(sessaoAtualSBWP.usuario.id == 3)}"
+        />
+    <div style="position: fixed;left: 100px;top: 0px;z-index: 999999"> </div>
+    <h:panelGroup layout="block"
+                  rendered="#{sessaoAtualSBWP.identificado and sessaoAtualSBWP.usuario.umUsuarioDoCliente and
+                              paginaAtual.infoPagina.comoFormularioWeb.acaoVinculada ne null and
+                              paginaAtual.infoPagina.comoFormularioWeb.acaoVinculada.enumAcaoDoSistema.name() ne 'DASHBOARD_MB_GESTAO'
+                              and sessaoAtualSBWP.usuario.representanteLegal.temImagemPequenaAdicionada}"  >
+        <a href="#{sessaoAtualSBWP.urlHostDaSessao}">
+            <img class=""
+                 src="#{sessaoAtualSBWP.usuario.representanteLegal.imgPequena}"
+                 style="min-height: 20px;
+                 max-width: 200px;
+                 max-height:  54px;
+                 position: absolute;
+                 margin-left: 100px;
+                 left: -30px;
+                 z-index: 1000;" />
+            <div style="z-index: 991001;margin-left: 60px;padding-top: 50px;  position: absolute;"> <span class="fa fa-long-arrow-left  Fs40"/></div>
+        </a>
+    </h:panelGroup>
+    <p:separator/>
+
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+

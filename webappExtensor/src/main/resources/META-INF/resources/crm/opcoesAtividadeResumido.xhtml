@@ -1,0 +1,118 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="atividade"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.AtividadeCRM" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <h:panelGroup id="opcoesEdicaoAtividade"  styleClass="Container12" >
+
+
+
+            <div class="Container12 w3-panel ">
+
+                <SBCRM:botaoPersonalizado
+                    titulo="Cancelar Atividade"
+                    cor="FF4545"
+                    icone="fa fa-ban"
+                    rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                    atualizar="@form #{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                    processar="@this"
+                    metodo="#{pgExecutarAtividade.cancelarAtividade()}"
+
+
+                    />
+
+
+
+
+
+
+                <SBCRM:botaoPersonalizado
+                    titulo="Notificar Responsaveis"
+                    icone="fa fa-bullhorn"
+                    rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                    atualizar="@form #{layoutIdsAreasConhecidas.AREA_TOPO_ITERNFACES}"
+                    processar="@this"
+                    metodo="#{servicosCRM.notificarResponsaveis(cc.attrs.atividade)}"
+
+
+                    />
+
+                <SBCRM:botaoPersonalizado
+                    rendered="#{false and !pgExecutarAtividade.vaiAgendar and !pgExecutarAtividade.atividade.temCodigoRemoto}"
+                    titulo="Convidar Colaborador "
+                    descricao="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeConvite.descricao}"
+                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeConvite.icone}"
+
+                    atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                    processar="@this"
+                    metodo="#{pgExecutarAtividade.enviarConvite()}"
+
+
+                    />
+
+
+
+
+
+                <SBCRM:botaoPersonalizado
+                    titulo="Agendar Atividade"
+                    icone="fa fa-calendar"
+                    rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                    processar="@this"
+                    atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                    metodo="#{pgExecutarAtividade.alterarHorarioAgendamento()}"
+                    />
+
+
+                <SBCRM:botaoPersonalizado
+                    titulo="Revisar Dados Atividade"
+                    icone="fa fa-keyboard-o"
+                    rendered="#{!pgExecutarAtividade.vaiEditarDados and !pgExecutarAtividade.emModoColetarDAdos and pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('posssuiColetaDado').valorComoBoolean}"
+                    processar="@this"
+                    atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                    metodo="#{pgExecutarAtividade.alterarDadosAtividade()}"
+                    />
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </h:panelGroup>
+
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+

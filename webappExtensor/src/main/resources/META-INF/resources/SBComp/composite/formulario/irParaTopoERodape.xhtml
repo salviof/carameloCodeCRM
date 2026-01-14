@@ -1,0 +1,36 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="corFundo" default="#65b765f2" />
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet  name="recursos/css/btnScrollToTopoRodape.css" library="SBComp"  />
+        <h:outputScript name="recursos/js/toporodape.js" library="SBComp"  target="body"/>
+        <div id="btnScrollToTop" style="background-color: #{cc.attrs.corFundo};z-index: 9999;"><span style="z-index: 9999999;" class="fa fa-hand-o-up Fs40  FontAdamantiumBold"></span></div>
+        <div id="btnScrollToBottom"  style="background-color: #{cc.attrs.corFundo};z-index: 9999;"><span style="z-index: 9999999;" class="fa fa-hand-o-down Fs40 FontAdamantiumBold"></span></div>
+        <script>
+            ativarBotaoTopoRodape();
+        </script>
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

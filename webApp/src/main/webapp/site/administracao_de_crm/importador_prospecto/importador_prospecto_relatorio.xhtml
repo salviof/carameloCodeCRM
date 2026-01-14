@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+      xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
+        <ui:define name="conteudo">
+            <h:form>
+
+                <p:fieldset legend="Prospectos importados" >
+
+                    <div class="ContainerIndent" >
+                        <p:dataGrid columns="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunasAteCinco}"
+                                    value="#{pgImportarProspectos.prospectosImportado}"
+                                    var="empresa"
+                                    >
+
+
+                            <h:panelGroup class=" "
+                                          style="">
+                                <h:form>
+
+                                    <crm:empresa empresa="#{empresa}"
+                                                 tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}" />
+                                </h:form>
+                            </h:panelGroup>
+                        </p:dataGrid>
+
+                    </div>
+                </p:fieldset>
+
+                <SBBotaoDeAcao:botaoDeAcao metodo="#{pgImportarProspectos.executarAcaoSelecionada()}"
+                                           armazenamentoAcaoExecutada="#{pgImportarProspectos.acaoSelecionada}"
+                                           update="@form"
+                                           tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                           acao="#{acoesAdministracao_de_CRM_Importador_Prospecto.importador_prospecto_ctr_importar}"
+                                           />
+
+
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+

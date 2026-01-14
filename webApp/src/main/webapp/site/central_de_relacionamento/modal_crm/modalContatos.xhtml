@@ -1,0 +1,130 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBContato="http://xmlns.jcp.org/jsf/composite/crmContato"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+
+    <h:form>
+        <p:focus for="@form"/>
+
+        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+
+
+
+            <p:commandButton
+                icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatoNovo.icone}"
+                value="* NOVO CONTATO"
+                actionListener="#{pgModalProspecto.novoContatoFormulario()}"
+                update="@form"
+                styleClass="botaoVerde"
+                >
+            </p:commandButton>
+
+
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="Container12">
+            <p:fieldset  rendered="#{pgModalProspecto.contatoSelecionado!=null}" styleClass="Container12" >
+
+                <f:facet name="legend">
+                    Editando #{pgModalProspecto.contatoSelecionado.nome} <h:panelGroup styleClass="fa fa-star Fs20" style="margin-right: 20px;"
+                                                                                       rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}" />
+                </f:facet>
+                <p:fragment>
+
+                    <SBInput:input
+                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('nome')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        />
+                    <p:separator/>
+                    <SBInput:input
+                        idAtualizarOnChange="@this"
+                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('email')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        />
+                    <p:separator/>
+
+
+
+                    <SBContato:numeroWhatsapp contato="#{pgModalProspecto.contatoSelecionado}"/>
+
+
+
+                    <p:separator/>
+                    <h:panelGroup styleClass="Container6 Fright">
+                        <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoes()}"
+                                               acao="#{pgModalProspecto.acaoSalvarAlteracoes}"
+                                               label="Salvar contatos"
+                                               classeEstilo="botaoVerde"
+                                               update="@form"
+                                               tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                               />
+                    </h:panelGroup>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="100%">
+                        <p:commandButton value="Não" label="Sim" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Sim"  label="Não" type="button" styleClass="ui-confirmdialog-yes" />
+                    </p:confirmDialog>
+                </p:fragment>
+            </p:fieldset>
+        </h:panelGroup>
+        <p:separator/>
+        <p:fragment >
+            <p:commandButton
+                rendered="#{pgModalProspecto.contatoSelecionado!=null}"
+                value="Excluir #{pgModalProspecto.contatoSelecionado.nome}"
+                actionListener="#{pgModalProspecto.excluirContato()}"
+                update="@form"
+                styleClass="botaoVermelho"
+                >
+                <p:confirm header="Confirma a exclusão?" message="Confirma a exclusão do contato #{pgModalProspecto.contatoSelecionado.nome} "  icon="pi pi-info-circle" />
+            </p:commandButton>
+        </p:fragment>
+        <p:dataTable id="products" var="contato" styleClass="TabelaModalContatos" value="#{pgModalProspecto.prospectoSelecionado.contatosProspecto}"
+
+                     rowKey="#{contato.id}" paginatorPosition="top"
+                     selection="#{pgModalProspecto.contatoSelecionado}" selectionMode="single" rows="#{sessaoAtualSBWP.telaUsuario.umMobile?1:5}" paginator="true" >
+
+            <p:column headerText=""
+                      styleClass="FontAdamantiumBold Fs14 " style="text-align: center;" width="90" >
+
+                <h:outputText value="#{contato.id}" styleClass="FontAdamantiumBold" />
+            </p:column>
+            <p:column headerText="(#{pgModalProspecto.prospectoSelecionado.contatosProspecto.size()}) contatos econtrados Clique abaixo para editar"
+                      styleClass="FontAdamantiumBold Fs14 " style="height: 40px;">
+
+                <h:outputText value="#{contato.nome}" styleClass="FontAdamantiumBold" />
+            </p:column>
+            <p:ajax event="rowSelect" update="@form" />
+
+        </p:dataTable>
+
+
+        <p:fragment>
+            <p:commandButton update="@form" value="Atualizar" rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" />
+        </p:fragment>
+    </h:form>
+
+
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

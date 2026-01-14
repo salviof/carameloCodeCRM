@@ -1,0 +1,55 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBcrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <p:fieldset legend="Empresas no relacionamento #{pgTipoRelacionamento.entidadeSelecionada.nome}" rendered="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('qtdEmpresasNesteTipoRelacionamento').valor>0}" >
+            <c:forEach end="30" items="#{pgTipoRelacionamento.pessoasComEsteRelacionamento}"  var="tipoRelacionamento" >
+                <h:panelGroup styleClass="Container3" layout="block" style="height: 100px;" >
+                    <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{tipoRelacionamento.imgPequena}"
+                         style="
+                         min-height: 70px;
+                         max-width: 70%;
+                         max-height:  90px;
+                         position: relative;
+                         top: 0px;" />
+                </h:panelGroup>
+            </c:forEach>
+            <p:fieldset legend="" styleClass="Container12"  >
+                <p:staticMessage severity="info"
+                                 summary="E mais + #{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('qtdEmpresasNesteTipoRelacionamento').valor-30} empresas"
+                                 rendered="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('qtdEmpresasNesteTipoRelacionamento').valor>30}"
+                                 />
+                <h:form >
+                    <SBInput:input registro="#{pgTipoRelacionamento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoRelacionamentoDestino')}" layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                   idAtualizarOnChange="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                   />
+                    <SBcrm:botaoComModal
+                        acao="#{acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoCtrMoverleads}"
+                        idSlugAreaAtualizacao="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                        />
+
+                </h:form>
+
+            </p:fieldset>
+        </p:fieldset>
+
+        <p:fieldset legend="Exluir de forma irreversível #{pgTipoRelacionamento.entidadeSelecionada.qtdEmpresasNesteTipoRelacionamento}" styleClass="Container12" >
+            <h:form >
+                <SBcrm:botaoComModal
+                    acao="#{acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoCtrRemover}"
+                    rendered="#{pgTipoRelacionamento.entidadeSelecionada.qtdEmpresasNesteTipoRelacionamento lt 1}"
+                    estiloBotao="botaoVermelho"
+                    idSlugAreaAtualizacao="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                    />
+
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+</ui:composition>

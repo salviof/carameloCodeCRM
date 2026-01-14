@@ -1,0 +1,183 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="conteudo">
+
+        <style>
+            .container-center {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .linha {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+            }
+
+            .col-8 { flex: 1 1 65%; min-width: 300px; }
+            .col-4 { flex: 1 1 30%; min-width: 280px; }
+
+            .centralizar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .mt20 { margin-top: 20px; }
+            .mb20 { margin-bottom: 20px; }
+        </style>
+
+        <h:form>
+
+            <div class="container-center">
+
+                <!-- =======================================
+                     LADO ESQUERDO (FORM PRINCIPAL)
+                ========================================-->
+                <div class="linha">
+
+                    <div class="col-8">
+
+                        <p:fieldset legend="Envio MSG Marketing para #{pgMeusContatos.entidadeSelecionada.nome}
+                            - #{pgMeusContatos.entidadeSelecionada.celular}
+                            DE: #{pgMeusContatos.entidadeSelecionada.prospecto.nome}" >
+
+                            <!-- CONTATO -->
+                            <div class="mt20 mb20">
+                                <SBInput:input
+                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('contato')}"
+                                        desabilitarEdicao="true"
+                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                />
+                            </div>
+
+                            <!-- LISTA DE TIPOS -->
+                            <div class="mt20 mb20">
+
+                                <p:selectOneListbox
+                                        value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
+                                        converter="conversorGenerico"
+                                        filter="true"
+                                        var="tipoMsgem"
+                                        filterMatchMode="contains"
+                                        style="width: 100%;"
+                                        immediate="true">
+
+                                    <f:facet name="header">
+                                        <h:outputText value="Selecione o tipo da mensagem" />
+                                    </f:facet>
+
+                                    <f:selectItems value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
+                                                   var="tipoMsgem"
+                                                   itemLabel="#{tipoMsgem.nome}"
+                                                   itemValue="#{tipoMsgem}" />
+
+                                    <p:column>
+                                        <h:outputText value="#{tipoMsgem.nome}" />
+                                    </p:column>
+
+                                    <p:column headerText="Envio único?">
+                                        <SBInput:input
+                                                registro="#{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico')}"
+                                                layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                                desabilitarEdicao="true"/>
+                                    </p:column>
+
+                                    <p:ajax event="valueChange" update="@form" />
+                                </p:selectOneListbox>
+
+                            </div>
+
+                            <!-- LINK PREVIEW -->
+                            <div class="mt20 mb20 centralizar">
+
+                                <p:link
+                                        href="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
+                                        value="VER NO WHATSAPP"
+                                        rendered="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor!=null}"
+                                        target="cndcrmWtwapPreview" />
+                            </div>
+
+                        </p:fieldset>
+
+                        <!-- PARAMETROS EXTRAS -->
+                        <p:fieldset rendered="#{pgMeusContatos.mensagemWhatsapp.tipo!=null and pgMeusContatos.mensagemWhatsapp.tipo.parametros.size()>0}">
+                            <c:forEach items="#{pgMeusContatos.mensagemWhatsapp.tipo.parametros}" var="pr">
+                                <SBInput:input
+                                        registro="#{pgMeusContatos.getDado(pr.tipoDado).campoInstanciado}"
+                                        desabilitarEdicao="true"
+                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}" />
+                                <br/>
+                            </c:forEach>
+                        </p:fieldset>
+
+                        <!-- BOTÕES — exibidos SOMENTE QUANDO houver tipo selecionado -->
+                        <p:outputPanel rendered="#{pgMeusContatos.mensagemWhatsapp.tipo != null}" class="mt20">
+
+                            <p:fieldset legend="Enviar mensagens">
+
+                                <div class="centralizar">
+                                    <SBBotaoDeAcao:botaoDeAcao
+                                            metodo="#{servicoCRMContato.enviarMensagemWtzap(pgMeusContatos.mensagemWhatsapp)}"
+                                            armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                            acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmEnviarMktWtzap}"
+                                            update="@form" />
+                                </div>
+
+                                <div class="centralizar mt20">
+                                    <SBBotaoDeAcao:botaoDeAcao
+                                            metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(pgMeusContatos.mensagemWhatsapp)}"
+                                            armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                            label="Enviar para todos os contatos de #{pgMeusContatos.mensagemWhatsapp.pessoa.nome}"
+                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                            acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
+                                            update="@form" />
+                                </div>
+
+                            </p:fieldset>
+
+                        </p:outputPanel>
+
+                    </div>
+
+                    <!-- =======================================
+                         LADO DIREITO (HISTÓRICO)
+                    ========================================-->
+                    <div class="col-4">
+
+                        <p:fieldset legend="Mensagens enviadas">
+
+                            <c:forEach items="#{pgMeusContatos.mensagemSMS.contato.mensagens}" var="msg">
+                                #{pgUtilDataHoraFormato.getDataHoraSimplificado(msg.dataHora)}
+                                - #{msg.tipo.nome}
+                                <br/>
+                            </c:forEach>
+
+                        </p:fieldset>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

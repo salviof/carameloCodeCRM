@@ -1,0 +1,75 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:SBCHAMADO="http://xmlns.jcp.org/jsf/composite/chamado"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+        <SBCHAMADO:cabecalhoListaChamado/>
+
+        <h:form>
+
+            <div class="quebraBlocoComEspacoVertical150" />
+            <p:dataTable var="chamado" value="#{pgMeusChamadosAtd.entidadesListadas}"
+                         reflow="true"
+                         rows="20"
+                         paginator="true"
+                         widgetVar="chamados"
+                         selection="#{pgMeusChamadosAtd.entidadeSelecionada}"
+                         selectionMode="single"
+                         rowKey="#{chamado}"
+                         lazy="false"
+                         paginatorPosition="bottom"
+                         >
+                <f:facet name="header">
+                    <p:outputPanel>
+
+
+                    </p:outputPanel>
+                </f:facet>
+                <f:facet name="footer" >
+
+                </f:facet>
+
+                <p:ajax event="rowSelect" listener="#{pgMeusChamadosAtd.abrirChamado()}"
+                        update="@form"
+
+                        />
+
+                <p:column headerText="Código" width="15px;"  styleClass="Fs20" style="text-align: center;"  >
+                    #{chamado.getCampoInstanciadoByNomeOuAnotacao('id').valor}
+                </p:column>
+                <p:column headerText="Data-Hora Criação" width="15px" sortable="true" sortBy="#{chamado.dataHoraCriacao}" styleClass="Fs20" style="text-align: center;"  >
+                    #{pgUtil.gerarDataHoraTexto(chamado.getCampoByNomeOuAnotacao('dataHoraCriacao').valor)}
+                </p:column>
+                <p:column headerText="Tipo" width="35px"  styleClass="Fs20" style="text-align: center;"   >
+                    #{chamado.tipoChamado.nome}
+                </p:column>
+                <p:column headerText="Status" width="35px"  styleClass="Fs20" style="text-align: center;"   >
+                    #{chamado.status.nome}
+                </p:column>
+
+
+                <p:column headerText="Origem do chamado" width="35px"  styleClass="Fs20" style="text-align: center;"  >
+                    <img class=""  src="#{chamado.usuarioCliente.representanteLegal.imgPequena}"
+                         style="
+                         min-height: 20px;
+                         max-width: 70%;
+                         max-height:  30px;
+                         position: relative;
+                         top: 0px;
+                         " />
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

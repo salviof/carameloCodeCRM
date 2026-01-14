@@ -1,0 +1,76 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form>
+
+        <p:fieldset  rendered="#{pgModalProspecto.contatoSelecionado!=null}" styleClass="Container12" >
+
+            <f:facet name="legend">
+                Editando #{pgModalProspecto.contatoSelecionado.nome} <h:panelGroup styleClass="fa fa-star Fs20" style="margin-right: 20px;"
+                                                                                   rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}" />
+            </f:facet>
+            <p:fragment>
+                <p:fragment >
+                    <SBInput:input
+                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('nome')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        idAtualizarOnChange="@this"
+                        />
+                </p:fragment>
+                <p:separator/>
+                <SBInput:input
+                    registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('email')}"
+                    layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                    idAtualizarOnChange="@this"
+                    />
+                <p:separator/>
+                <SBInput:input
+                    registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('celular')}"
+                    layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                    idAtualizarOnChange="@this"
+                    />
+                <p:separator/>
+                <h:panelGroup styleClass="Container6 Fright" layout="block">
+                    <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoesContato()}"
+                                           acao="#{pgModalProspecto.acaoSalvarAlteracoes}"
+                                           label="Salvar contatos"
+                                           classeEstilo="botaoVerde"
+                                           update="@form"
+                                           tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                           />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container6 Fleft" layout="block">
+                    <p:fragment>
+                        <p:commandButton
+
+                            value="Cancelar "
+                            actionListener="#{pgModalProspecto.listarContatos()}"
+                            update="@form"
+                            styleClass="botaoVermelho"
+                            >
+                            <p:confirm header="Confirma o Cancelamento?" message="Deseja cancelar a inclusão do usuário? (Os dados serão perdidos) "  icon="pi pi-info-circle" />
+                        </p:commandButton>
+                    </p:fragment>
+                </h:panelGroup>
+
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="100%">
+                    <p:commandButton value="Não" label="Sim" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Sim"  label="Não" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </p:fragment>
+        </p:fieldset>
+
+
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,150 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBcrm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="modeloEdicaoProspecto.xhtml" >
+    <ui:define name="conteudo">
+
+        <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" style="margin-top: 30px;">
+            <p:fieldset legend="Uma Logo já foi definida para #{pgProspecto.entidadeSelecionada.nome}"
+                        styleClass="Container3"
+                        rendered="#{pgProspecto.entidadeSelecionada.temImagemPequenaAdicionada}" >
+                <h:panelGroup styleClass="Container12">
+                    <h:graphicImage url="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgProspecto.entidadeSelecionada.imgPequena}?#{pgUtil.dataHoraLong}"  width="200px" />
+                </h:panelGroup>
+            </p:fieldset>
+            <h:panelGroup layout="bock" styleClass="Container9">
+                <h:panelGroup layout="bock" styleClass="Container12">
+                    <h:form>
+
+                        <p:fieldset legend="Encontrar Logo para #{pgProspecto.entidadeSelecionada.nome}" styleClass="Container12">
+                            <p:steps  activeIndex="#{assistenteLogoEmpresa.index}">
+                                <p:menuitem value="Método: pesquisa do robô"/>
+                                <p:menuitem value="Método: pesquisa google imagem"/>
+                                <p:menuitem value="Método: imagem do meu dispositivo"/>
+
+
+                            </p:steps>
+                            <p:fieldset styleClass="Container12" >
+                                <p:commandButton
+                                    actionListener="#{assistenteLogoEmpresa.anterior()}"
+                                    value="Método Anterior"
+                                    update="@form"
+                                    process="@this"
+                                    rendered="#{assistenteLogoEmpresa.index>0}"
+                                    />
+                                <p:commandButton
+                                    process="@this"
+                                    actionListener="#{assistenteLogoEmpresa.proximo()}"
+                                    value="Próximo método"
+                                    update="@form"
+                                    />
+
+
+
+                            </p:fieldset>
+                            <p:fieldset rendered="#{assistenteLogoEmpresa.index==1}" >
+
+                                <p:staticMessage
+                                    severity="info"
+                                    detail="Siga os 3 passos abaixo"
+                                    summary="Como ver a [URL DA IMAGEM]  na pesquisa de imagens do google?"
+                                    rendered="#{pgUtil.isNuloOuEmbranco(pgProspecto.entidadeSelecionada.site)}"
+                                    />
+                                <ul class="list-group">
+
+                                    <li class="list-group-item list-group-item-info">
+                                        1-> Faça a pesquisa por imagens no site, utlizando a busca de imágens do google  <a href="#{pgProspecto.caminhoPesquisaImagem}" target="_Blank" > [-CLIQUE AQUI-] para Pesquisar imagens da empresa no google </a>)</li>
+                                    <li class="list-group-item list-group-item-info">2-> clique na imagem (para ver a imagem em detalhe)</li>
+                                    <li class="list-group-item list-group-item-info">3-> Clique com o botão direito na imagem em seguida em  "copiar endereço da imagem"
+                                        <h:graphicImage url="#{resource['/img/exemploCopiarLink.png']}" />
+                                    </li>
+                                    <li class="list-group-item list-group-item-info"><p:staticMessage severity="info"
+                                                                                                      detail="Cole abaixo a url da imagem e clique em ['Atualizar imagem']"
+                                                                                                      summary="4->" /></li>
+
+
+                                </ul>
+
+                                <a href="#{pgProspecto.caminhoPesquisaImagem}" target="_Blank" >[-CLIQUE AQUI-] para Pesquisar imagens da empresa no google </a>
+
+
+
+                                <p:inputText value="#{pgProspecto.logomarcaSelecionada}" style="width: 100%" placeholder="Cole aqui a [URL DA IMAGEM], e clique em atualizar imagem ex: http://sitedaempresa.com.br/logo.png" required="true" />
+                                <p:commandButton
+                                    value="ATUALIZAR IMAGEM"
+                                    action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
+                                    oncomplete="acoesPosAjax();"
+                                    update="#{pgUtil.gerarCaminhoCompletoID(pgProspecto.idAreaExbicaoAcaoSelecionada)}"
+
+                                    >
+
+                                    <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}" value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrSalvarLogoMarcaEncontrada}"/>
+                                </p:commandButton>
+
+                            </p:fieldset>
+
+
+                            <p:fieldset rendered="#{assistenteLogoEmpresa.index==2}" >
+                                <SBcrm:logoEmpresaEditor
+                                    item="#{pgProspecto.prospecto}"
+                                    somenteLeitura="false"
+                                    scriptOnComplete="alert('ok');"
+                                    areaAtualizacao="@this"
+                                    rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada.id>0}"
+                                    />
+
+
+                            </p:fieldset>
+
+                            <p:fieldset  rendered="#{assistenteLogoEmpresa.index==0}" >
+                                <p:staticMessage
+                                    severity="warn" detail="defina o site da empresa, para usar o robô de pesquisa de imágens"  summary="Site não definido"
+                                    rendered="#{pgUtil.isNuloOuEmbranco(pgProspecto.entidadeSelecionada.site)}"/>
+                                <p:staticMessage
+                                    severity="info" detail="As imagens a serguir foram buscadas em: #{pgProspecto.entidadeSelecionada.site}, clique na imagem para definir como logo da empresa"
+                                    summary="Busca realizada"
+                                    rendered="#{!pgUtil.isNuloOuEmbranco(pgProspecto.entidadeSelecionada.site)}"
+                                    />
+
+
+
+
+
+                                <div class="quebraBlocoComEspacoVertical10" />
+
+
+
+                                <c:forEach var="urlImagem" items="#{assistenteLogoEmpresa.buscaImagens.imagens}" >
+                                    <h:panelGroup styleClass="Container6" style=" border-width: thick; border: dotted;" layout="block" >
+                                        <p:commandLink action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
+                                                       update="#{pgUtil.gerarCaminhoCompletoID(pgProspecto.idAreaExbicaoAcaoSelecionada)}"
+                                                       oncomplete="acoesPosAjax();"
+                                                       process="@parent"
+                                                       >
+                                            <h:graphicImage url="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{urlImagem}" height="300px;" />
+                                            <f:setPropertyActionListener target="#{pgProspecto.logomarcaSelecionada}" value="#{urlImagem}"/>
+                                            <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}" value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrSalvarLogoMarcaEncontrada}"/>
+                                        </p:commandLink>
+                                    </h:panelGroup>
+                                </c:forEach>
+                                <div class="quebraBlocoComEspacoVertical10"></div>
+                            </p:fieldset>
+
+
+                        </p:fieldset>
+
+                    </h:form>
+
+
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

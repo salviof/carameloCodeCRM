@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>br.org.carameloCode.erp.crm</groupId>
+    <artifactId>modelRegras</artifactId>
+    <name>ModelRegras CRM Caramelo Code</name>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <projetoSB.nomeBanco>CRMCarameloCode</projetoSB.nomeBanco>
+        <projetoSB.cliente>carameloCode</projetoSB.cliente>
+        <projetoSB.grupoProjeto>carameloCodeCRM</projetoSB.grupoProjeto>
+    </properties>
+
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intMautic</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intTypebot</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.super_bits.Casa_Nova.mktFaturamento</groupId>
+            <artifactId>apiJava</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.super_bits.casa_nova.crm</groupId>
+            <artifactId>apiJava</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.crm</groupId>
+            <artifactId>SbErpCRM</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.cssparser</groupId>
+            <artifactId>cssparser</artifactId>
+            <version>0.9.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dnsjava</groupId>
+            <artifactId>dnsjava</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes.erp</groupId>
+            <artifactId>intERPRestful</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.chat</groupId>
+            <artifactId>SbErpChatMatrixOrg</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes.erp</groupId>
+            <artifactId>intERPRestfulTest</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBWebPaginas</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        
+
+        <!--  <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-pagespeedonline</artifactId>
+            <version>v2-rev15-1.22.0</version>
+        </dependency> -->
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>gestaoArquivosProtocoloS3</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intMautic</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intTypebot</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intGoogleCalendar</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intMav</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>SBTarefaAgendada</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>editorArquivos</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.modulos</groupId>
+            <artifactId>SBAcessosModel</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v3-rev20200813-1.30.10</version>
+        </dependency> -->
+
+
+
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.notificacoes</groupId>
+            <artifactId>SbErpNotificacoes</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBRestClientTestes</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBTeste</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>4.11</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
+            <artifactId>intAmazonShortMessageService</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <configuration>
+                    <rules>
+                        <dependencyConvergence />
+                    </rules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                    <!--                    <archiveClasses>true</archiveClasses>-->
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+
+            </resource>
+        </resources>
+    </build>
+
+
+
+
+</project>

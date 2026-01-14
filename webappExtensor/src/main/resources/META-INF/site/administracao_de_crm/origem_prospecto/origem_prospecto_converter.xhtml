@@ -1,0 +1,74 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+        <h:form>
+
+
+            <p:fieldset legend="Responsável (dono da origem)" styleClass="Container3" >
+                <crm:origemDono origem="#{pgOrigemProspecto.entidadeSelecionada}" />
+                #{pgOrigemProspecto.entidadeSelecionada.nome}
+                #{pgOrigemProspecto.entidadeSelecionada.umaOrigemPrivada}
+                #{pgOrigemProspecto.entidadeSelecionada.umaOrigempublica}
+            </p:fieldset>
+
+            <p:fieldset legend="Converder para uma Origem pública" styleClass="Container3" rendered="#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('umaOrigemPrivada').valor}" >
+
+                <p:commandButton action="#{pgOrigemProspecto.converderOrigem()}"
+                                 value="Transformar origem em uma origem pública"
+                                 update="@form"
+
+                                 >
+                    <f:setPropertyActionListener target="#{pgOrigemProspecto.acaoSelecionada}" value="#{acoesAdminCrm_OrigemProspectoMbGerenciar.origemProspectoCtrConverter}" />
+
+
+                    <p:ajax event="dialogReturn"
+
+                            update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                            oncomplete="acoesPosAjax()"
+                            listener="#{pgOrigemProspecto.converderOrigem()}"
+
+                            />
+                </p:commandButton>
+
+            </p:fieldset>
+
+            <p:fieldset legend="Converder para uma Origem privada" styleClass="Container3" rendered="#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('umaOrigempublica').valor}">
+                <SBInput:seletorItem atualizarFormOnChange="true"
+                                     obrigatorio="true"
+                                     lista="#{pgOrigemProspecto.usuariosDisponivesi}"
+                                     itemSelecionado="#{pgOrigemProspecto.usuarioDestino}"
+                                     />
+
+
+                <p:commandButton action="#{pgOrigemProspecto.converderOrigem()}"
+                                 value="Converder para uma origem privada"
+                                 update="@form"
+
+                                 >
+                    <f:setPropertyActionListener target="#{pgOrigemProspecto.acaoSelecionada}" value="#{acoesAdminCrm_OrigemProspectoMbGerenciar.origemProspectoCtrConverter}" />
+
+
+                    <p:ajax event="dialogReturn"
+
+                            update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                            oncomplete="acoesPosAjax()"
+                            listener="#{pgOrigemProspecto.converderOrigem()}"
+
+                            />
+                </p:commandButton>
+
+
+            </p:fieldset>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

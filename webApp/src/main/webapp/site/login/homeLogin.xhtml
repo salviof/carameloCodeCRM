@@ -1,0 +1,115 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/resources/SBComp/template/basico/conteudoEmBranco.xhtml"
+    xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBLogin="http://xmlns.jcp.org/jsf/composite/SBComp/composite/login"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head"  >
+        <style>
+            .botaoBox {
+
+                margin-top: 3px;
+            }
+        </style>
+
+
+    </ui:define>
+
+    <ui:define name="conteudo">
+
+
+
+        <div class="Container12 OrganizadorContainer">
+            <div class="Container12 MarAuto Wid80 Hei20">
+                <div class="Card ">
+
+                    <div class="Container12">
+                        <div class="quebraBlocoComEspacoVertical20"/>
+
+                        <div class="TexAlCenter somenteDesktop" style="margin-bottom:-80px">
+                            <h:graphicImage name="logomarca.png" id="logo" style="width: 200px;" library="img" />
+                        </div>
+
+                        <div class="TexAlCenter somenteMobile" style=" margin-bottom:-80px">
+                            <h:graphicImage name="logomarca.png"  style="width: 200px;" id="logomobile" library="img" />
+                        </div>
+
+
+
+                        <div class="quebraBlocoComEspacoVertical110 "/>
+
+                        <div class="Container12 OrganizadorContainer " >
+
+                            <div class="somenteDesktop   " style="align-items: center; justify-content: center;  display: flex;">
+                                <div class="Container50   ">
+                                    <SBLogin:infoLogin ocultarFormulario="false" />
+                                </div>
+                            </div>
+
+                            <div class="somenteMobile">
+                                <div class="Container100">
+
+                                    <SBLogin:infoLogin  ocultarFormulario="false" />
+                                </div>
+                            </div>
+                            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="#{!paginaAtual.sessao.identificado}" >
+                                <h:panelGroup layout="block" styleClass="Container3 OrganizadorContainerDireita" >
+                                    Faça login usando a conta de outra platafoma: <br/>
+                                    <h:form>
+
+                                        <ui:repeat value="#{loginSocialColetivoJava.credenciais}" var="credencial" >
+                                            <p:commandLink actionListener="#{loginSocialColetivoJava.autenticar(credencial)}" >
+                                                <h:graphicImage value="/images/#{credencial.nome}.png" width="30px" style="margin: 12px;"/>
+                                            </p:commandLink>
+                                        </ui:repeat>
+
+                                    </h:form>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </div>
+
+
+
+                        <div class="quebraBlocoComEspacoVertical10" />
+
+                        <div class="Wid80 Fs18 FontAdamantiumRegular Fnone MarAuto">
+                            <div class="Fleft ">
+
+                            </div>
+
+                            <div class="quebraBlocoComEspacoVertical10 somenteMobile"> </div>
+
+                            <div class="Fright">
+                                <h:form>
+                                    <SBBotaoAcao:botaoDeAcao metodo="#{pgPaginaInicial.executarAcaoSelecionada()}"
+                                                             acao="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmRealizarLoginDoCliente}"
+                                                             armazenamentoAcaoExecutada="#{pgPaginaInicial.acaoSelecionada}"
+                                                             tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                             trasformarAcaoEmLink="true"
+                                                             rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}"
+                                                             label="Entrar como Cliente"
+                                                             classeEstilo="botaoVerde"
+                                                             />
+                                </h:form>
+                                <p:linkButton href="https://atendimento.casanovadigital.com.br"
+                                              icon="#{acoesAtendimentoCrm_LoginMbGerenciar.loginFrmRealizarLoginDoCliente.icone}"
+                                              value="Entrar como Cliente"
+                                              styleClass="botaoVerde"
+                                              rendered="#{!infoWebApp.emModoDesenvolvimentoHomologacao}"
+                                              />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </ui:define>
+</ui:composition>

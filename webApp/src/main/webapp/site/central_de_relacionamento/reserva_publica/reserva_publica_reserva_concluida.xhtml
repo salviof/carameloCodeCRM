@@ -1,0 +1,21 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCrmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
+    <ui:define name="conteudo">
+        <h:form>
+            <SBCrmAgenda:detalhesReservaHorario reserva="#{pgReservasPublicas.entidadeSelecionada}"
+
+                                                acaoConfirmarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrConfirmar}"
+                                                acaoListarOutrosHorarios="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaFrmListarHorarios}"
+                                                acaoSalvarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrReservar}"
+                                                acaoCancelarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrCancelar}"
+                                                />
+
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

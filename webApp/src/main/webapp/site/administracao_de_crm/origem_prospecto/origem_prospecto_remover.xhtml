@@ -1,0 +1,75 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+        <h:panelGroup layout="block" styleClass="Container12" id="origemRemocao" >
+            <h:form>
+                <p:fieldset legend="Quantidades de Cartões:" styleClass="Container3" >
+
+                    Total: #{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}
+                    Ativos:#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('qtdLeadsInativos').valor}
+                    Inativos:#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('qtdLeadsAtivos').valor}
+                    Meus cartões nesta orgiem:#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeMeusLeads').valor}
+                </p:fieldset>
+                <p:fieldset legend="Mover Cartões desta Origem" styleClass="Container3" >
+                    <crm:origemSeletor listaSelecao="#{pgOrigemProspecto.entidadesListadas}"
+                                       origemSelecionada="#{pgOrigemProspecto.origemDestino}"
+                                       idAtualizacao="#{pgUtil.gerarCaminhoCompletoID('origemRemocao')}"
+                                       />
+                    <p:commandButton action="#{pgOrigemProspecto.moverOrigens()}"
+                                     value="Mover permanetemente para novo destino"
+                                     update="@form"
+
+                                     >
+                        <f:setPropertyActionListener target="#{pgOrigemProspecto.acaoSelecionada}" value="#{acoesAdminCrm_OrigemProspectoMbGerenciar.origemProspectoCtrMover}" />
+
+
+                        <p:ajax event="dialogReturn"
+
+                                update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                                oncomplete="acoesPosAjax()"
+                                listener="#{pgOrigemProspecto.moverOrigens()}"
+
+                                />
+                    </p:commandButton>
+                </p:fieldset>
+                <p:fieldset legend="Responsável (dono da origem)" styleClass="Container3" >
+                    <crm:origemDono origem="#{pgOrigemProspecto.entidadeSelecionada}" />
+                    #{pgOrigemProspecto.entidadeSelecionada.nome}
+                </p:fieldset>
+
+                <p:fieldset legend="Excluir" styleClass="Container3" >
+                    <p:staticMessage severity="info"
+                                     summary="Mova os cartões para outra origem para excluir a origem"
+                                     rendered="#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor>0}"
+                                     />
+                    <p:commandButton action="#{pgOrigemProspecto.executarAcaoSelecionada()}"
+                                     value="Mover permanetemente para novo destino"
+                                     update="@form"
+                                     rendered="#{pgOrigemProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor==0}"
+                                     styleClass="botaoVermelho"
+                                     >
+                        <f:setPropertyActionListener target="#{pgOrigemProspecto.acaoSelecionada}" value="#{acoesAdminCrm_OrigemProspectoMbGerenciar.origemProspectoCtrRemover}" />
+
+
+                        <p:ajax event="dialogReturn"
+
+                                update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                                oncomplete="acoesPosAjax()"
+                                listener="#{paginaAtual.infoPagina.comoPaginaEntidade.metodoRespostaModal}"
+
+                                />
+                    </p:commandButton>
+
+
+                </p:fieldset>
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,32 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeralAnonimo.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="head">
+        <style>
+            body {
+                background-image:url('http://localhost:8080/resources/img/fundoColaboracao.png');
+                background-size:cover;
+            }
+
+            .ui-fieldset{
+                background: rgba(250, 250, 250, 0.3);
+            }
+
+        </style>
+
+    </ui:define>
+    <ui:define name="divConteudo">
+
+
+
+
+        <h:panelGroup id="#{pgFormularioExterno.idAreaExbicaoAcaoSelecionada}">
+            <ui:include src="#{pgFormularioExterno.xhtmlAcaoAtual}" />
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,248 @@
+/*Cor principal*/
+/*Cor principal Indefinido*/
+/*Cor principal Destaque*/
+/*Cor contraste */
+/*Cor Contraste com variação, por motivo indeterminado*/
+/*Cor Contraste - Destaque */
+/*Cor Contraste - Destaque com variação, por motivo indeterminado*/
+/* general */
+/** Components **/
+/* breadcrumb */
+/* datatable */
+/* datagrid */
+/** datalist **/
+/** paginator **/
+/* schedule for 5.2 and 5.1.8+ */
+/** picklist **/
+/* orderlist */
+/* columntoggler */
+/* carousel */
+/* tree */
+/** treetable **/
+/* accordion */
+/* panelgrid */
+/* scrollpanel */
+/* toolbar */
+/* notification bar */
+/* tabview */
+/* fileupload */
+/* steps */
+/* inplace */
+/* dashboard */
+/* datascroller */
+/* layout */
+/* wizard */
+/* dialog */
+/* overlaypanel */
+/* lightbox */
+/* fieldset */
+/* input field */
+/* button */
+/* menu */
+/* message */
+/* panel */
+/* selectonemenu */
+/* selectcheckboxmenu */
+/* growl */
+/* log */
+/* checkbox */
+/* radio */
+/* separator */
+/* keyboard */
+/* password */
+/* inputswitch */
+/* selectonelistbox */
+/* selectmanymenu */
+/* slider */
+/* rating */
+/* spinner */
+/* calendar */
+/* tooltip */
+/* link */
+/* editor */
+/* outputlabel */
+/* galleria */
+/* progressbar */
+/* clock */
+/* autocomplete */
+/* multiselectlistbox */
+/* terminal */
+/* misc */
+.short-transition {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.medium-transition {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.long-transition {
+  -webkit-transition: all 1.2s ease;
+  -moz-transition: all 1.2s ease;
+  -ms-transition: all 1.2s ease;
+  -o-transition: all 1.2s ease;
+  transition: all 1.2s ease;
+}
+.no-transition {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+/* button colors */
+.BlueTextButton {
+  background-color: #ffffff;
+  color: #0091EA;
+}
+.BlueTextButton .ui-icon {
+  color: #0091EA;
+}
+.BlueTextButton.ui-state-hover,
+.BlueTextButton.ui-state-focus {
+  background-color: #F5F5F5 !important;
+}
+.GrayButton {
+  background-color: #ECEFF1;
+  color: #455A64;
+}
+.GrayButton.ui-state-hover,
+.GrayButton.ui-state-focus {
+  background-color: #F6F7F9 !important;
+}
+.GreenButton {
+  background-color: #66BB6A;
+}
+.GreenButton.ui-state-hover,
+.GreenButton.ui-state-focus {
+  background-color: #85CB88 !important;
+}
+.RedButton {
+  background-color: #E53935;
+}
+.RedButton.ui-state-hover,
+.RedButton.ui-state-focus {
+  background-color: #EA5753 !important;
+}
+.PinkButton {
+  background-color: #FF4081;
+}
+.PinkButton.ui-state-hover,
+.PinkButton.ui-state-focus {
+  background-color: #FC6296 !important;
+}
+.OrangeButton {
+  background-color: #FB8C00;
+}
+.OrangeButton.ui-state-hover,
+.OrangeButton.ui-state-focus {
+  background-color: #FCA537 !important;
+}
+.PurpleButton {
+  background-color: #8E24AA;
+}
+.PurpleButton.ui-state-hover,
+.PurpleButton.ui-state-focus {
+  background-color: #A94CC2 !important;
+}
+.CyanButton {
+  background-color: #00ACC1;
+}
+.CyanButton.ui-state-hover,
+.CyanButton.ui-state-focus {
+  background-color: #26C6DA !important;
+}
+.BrownButton {
+  background-color: #6D4C41;
+}
+.BrownButton.ui-state-hover,
+.BrownButton.ui-state-focus {
+  background-color: #8D6E63 !important;
+}
+.RaisedButton {
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+}
+@media screen and (min-width: 0\0) {
+  .RaisedButton {
+    box-shadow: 0px 0px 8px 0px rgba(43, 59, 93, 0.4) !important;
+  }
+}
+.RaisedButton.ui-state-hover,
+.RaisedButton.ui-state-focus {
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+/* shadow for elements*/
+.shadows {
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+/* text colors */
+.White {
+  color: #ffffff;
+}
+.WhiteBlue {
+  color: #E1F5FE;
+}
+.SoftBlue {
+  color: #03A9F4;
+}
+.Blue {
+  color: #448d24;
+}
+.Turquoise {
+  color: #26C6DA;
+}
+.SoftGray {
+  color: #ECEFF1;
+}
+.Gray {
+  color: #90A4AE;
+}
+.BoldGray {
+  color: #546E7A;
+}
+.SoftOrange {
+  color: #FFCC80;
+}
+.Orange {
+  color: #FB8C00;
+}
+.SoftGreen {
+  color: #A5D6A7;
+}
+.Green {
+  color: #43A047;
+}
+.LeadenGreen {
+  color: #26A69A;
+}
+.SoftRed {
+  color: #EF9A9A;
+}
+.Red {
+  color: #E53935;
+}
+.Pink {
+  color: #FF4081;
+}
+.SoftPurple {
+  color: #CE93D8;
+}
+.Purple {
+  color: #8E24AA;
+}
+.Yellow {
+  color: #F7D100;
+}
+/*# sourceMappingURL=theme-variables.css.map */

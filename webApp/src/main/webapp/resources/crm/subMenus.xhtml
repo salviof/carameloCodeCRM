@@ -1,0 +1,37 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica" required="true"/>
+
+        <cc:attribute name="acoes" type="java.util.List" />
+        <cc:attribute name="indice"  default="-1" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:tabMenu activeIndex="#{cc.attrs.indice}" id="subMenuEmpresa" style="z-index: 100;" styleClass="">
+
+            <c:forEach items="#{cc.attrs.acoes}" var="acao" >
+                <p:menuitem value="#{acao.nome}"  url="#{infoWebApp.getUrlDaAcao(acao,cc.attrs.empresa)}" icon="#{acao.icone}" style="" onclick="PF('blkMenu').show();">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+
+            </c:forEach>
+
+
+        </p:tabMenu>
+        <p:blockUI block="subMenuEmpresa" widgetVar="blkMenu" >
+            <i class=" fa fa-spinner fa-spin fa-3x fa-fw"></i>
+        </p:blockUI>
+
+
+
+    </cc:implementation>
+</ui:composition>

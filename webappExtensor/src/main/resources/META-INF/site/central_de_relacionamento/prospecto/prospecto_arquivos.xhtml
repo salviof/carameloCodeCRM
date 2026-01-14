@@ -1,0 +1,104 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="modeloEdicaoProspecto.xhtml"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+    xmlns:crmInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="conteudo">
+
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="" >
+
+        
+
+
+            <div class="Container12" style="height: 80px;" />
+            <h:panelGroup layout="block" styleClass="Container9 OrganizadorContainer" style="" >
+                <h:panelGroup layout="block" styleClass="Container12" >
+                    <p:fieldset legend="Pastas do cliente" >
+                        <crmArquivo:arquivosCliente pessoa="#{pgProspecto.entidadeSelecionada}"/>
+                    </p:fieldset>
+                </h:panelGroup>
+
+                <div class="Container12" style="height: 80px;" />
+                <h:panelGroup layout="block" styleClass="Container12" >
+                    <p:fieldset legend="Pastas da equipe" styleClass="Container12" >
+                        <crmArquivo:arquivosEquipe pessoa="#{pgProspecto.entidadeSelecionada}"/>
+        <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block" id="usuariosCompartilhados" >
+            <p:fieldset  >
+                
+                <f:facet name="legend" >
+                    <h:form>
+                    <span class="fa fa-unlock Fs40" /> Compartilhamento com Equipe de produção
+                       <p:commandButton value="Adicionar usuário"  type="button" icon="fa fa-user-plus" onclick="PF('modalCompartilhamento').show()"/>  </h:form>
+                </f:facet>
+                <h:form>
+                <div class="OrganizadorContainerEsquerda" >
+                    <c:forEach var="convidado" items="#{pgProspecto.entidadeSelecionada.usuariosConvidados}" >
+                        <div class="Container12" style="height: 80px;" >
+                            <div class="Container12" >
+                            <div class="Contanier3" ><crm:avatar usuario="#{convidado}" altura="50" somenteLeitura="true" /></div>
+                        <div  style="margin-left: 90px;" > #{convidado.nome}, #{convidado.email}</div>      
+                    </div>
+                </div>
+            
+                </c:forEach>
+            </div>
+                </h:form>
+
+                <p:dialog header="Libere o acesso das pastas compartilhadas com usuários do google!" widgetVar="modalCompartilhamento" minHeight="40" width="350" showEffect="fade" modal="true"
+                 closeOnEscape="true">
+                 <h:form>
+                    <crmInput:input registro="#{pgProspecto.usuarioConvidadoNovo.getCampoInstanciadoByNomeOuAnotacao('nome')}" />
+
+
+
+                    <h:panelGrid columns="2"  class="inputCampo"
+                                 columnClasses="InputSBEsquerdaLabel">
+                        <p:outputLabel  value="Email"
+                                        for="#{pgUtil.getNomeIdComponenteInput(component)}"
+                                        />
+
+
+                        <h:panelGroup >
+                            <crmInput:input rendered="false" registro="#{pgProspecto.usuarioConvidadoNovo.getCampoInstanciadoByNomeOuAnotacao('email')}" />
+                            <p:inputText value="#{pgProspecto.usuarioConvidadoNovo.email}" />
+                        </h:panelGroup>
+
+
+                    </h:panelGrid>
+
+
+
+
+                    <p:commandButton value="Salvar" actionListener="#{pgProspecto.criarNovoConvidado()}" 
+                    update="usuariosCompartilhados" />
+                </h:form>
+                </p:dialog>
+                
+
+                
+            </p:fieldset>
+            
+        </h:panelGroup>
+                    </p:fieldset>
+                </h:panelGroup>
+            </h:panelGroup>
+            
+
+
+        </h:panelGroup>
+
+
+
+
+
+
+    </ui:define>
+</ui:composition>

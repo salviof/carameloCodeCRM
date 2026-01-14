@@ -1,0 +1,33 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmAtv="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="conteudo" >
+
+        <crmAtv:dialogoIntervalo pesquisa="#{pgAtividades.pesquisaAtividade}"/>
+        <h:form>
+            <h:panelGroup styleClass="Container12" layout="block" id="menuFiltroLeads" >
+                <crmAtv:menuAtividades  rendered="true" pesquisa="#{pgAtividades.pesquisaAtividade}"/>
+            </h:panelGroup>
+        </h:form>
+        <h:panelGroup id="gridListagemMeusProspets" layout="block" >
+            <h:form>
+
+                <p:separator/>
+                <crm:atividadesHistoricoAvancado
+                    atividadesRealizadas="#{pgAtividades.pesquisaAtividade.getCampoInstanciadoByNomeOuAnotacao('atividadesEncontradas').valor}"
+                    mostrarEmpresa="true"
+                    />
+            </h:form>
+        </h:panelGroup>
+
+
+
+    </ui:define>
+</ui:composition>

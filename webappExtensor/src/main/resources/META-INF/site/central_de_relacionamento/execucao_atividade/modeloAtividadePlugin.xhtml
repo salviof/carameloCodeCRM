@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+
+
+        </f:facet>
+        <title>#{paginaAtual.infoPagina.titulo}</title>
+
+        <ui:insert name="head" />
+    </h:head>
+    <h:body>
+        <h:form id="formAtualizarExibicaoPlugin">
+            <p:remoteCommand
+                name="atualizarExibicaoPlugin"
+                actionListener="#{pgExecutarAtividade.atualizarFormularioExecucao()}"
+                />
+        </h:form>
+
+        <ui:include src="/resources/SBComp/template/basico/folhasDeEstiloBasicas.xhtml"  />
+        <ui:include src="/resources/SBComp/template/basico/cabecalhoInicialDoBody.xhtml" />
+        <ui:include src="scriptsDeAtividade.xhtml" />
+        <CRM:menuProspecto
+            pessoaJuridica="#{pgExecutarAtividade.prospecto}"
+            rendered="#{pgExecutarAtividade.prospecto!=null}"
+            />
+
+
+
+
+
+        <h:panelGroup rendered="#{sessaoAtualSBWP.identificado}"  id="#{layoutIdsAreasConhecidas.AREA_TOPO_ITERNFACES}">
+            <div class="ManterNoTopo">
+                <h:outputScript name="js/layout.js" library="primefaces-adamantium" />
+                <ui:include src="/site/topo.xhtml"/>
+            </div>
+
+        </h:panelGroup>
+
+        <pe:layout maskPanesEarly="true"   style="margin-top: 300px;" >
+            <pe:layoutPane position="center" maskContents="true"  >
+
+                <h:panelGroup id="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}" layout="block" style="margin-top: 100px;"  >
+
+                    <p:fieldset
+                        style="height:  550px; padding-right: 40px; padding-left: 0px;"
+                        rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('noEstadoInteracaoPlugin').valor}"
+                        >
+
+
+                        <iframe id="iframeCenter"
+                                style="webkit-scrollbar:"
+                                src="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"
+                                width="100%"
+                                class="pluginAtividade"
+                                height="400px" frameborder="0" >
+                        </iframe>
+                        <h:form>
+
+                            <CRM:opcoesAtividade
+                                atividade="#{pgExecutarAtividade.atividade}"
+                                />
+                        </h:form>
+
+
+                    </p:fieldset>
+
+                    <h:panelGroup
+                        styleClass="OrganizadorContainerExpandido" id="atividadeAtual"
+                        rendered="#{!pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('noEstadoInteracaoPlugin').valor}"
+                        layout="block"
+                        >
+
+                        <ui:include src="#{pgExecutarAtividade.xhtmlAcaoAtual}" />
+
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+
+            </pe:layoutPane>
+
+
+        </pe:layout>
+
+        <h:panelGroup id="#{layoutIdsAreasConhecidas.AREA_RODAPE}">
+            <ui:include src="/site/rodape.xhtml"/>
+        </h:panelGroup>
+
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <p:graphicImage name="images/preloader.gif" library="primefaces-adamantium"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText />
+            </f:facet>
+        </p:ajaxStatus>
+
+
+        <h:panelGroup rendered="true" >
+            <ui:include src="/resources/SBComp/template/basico/scriptFinal.xhtml" rendered="true" />
+        </h:panelGroup>
+
+    </h:body>
+
+</html>

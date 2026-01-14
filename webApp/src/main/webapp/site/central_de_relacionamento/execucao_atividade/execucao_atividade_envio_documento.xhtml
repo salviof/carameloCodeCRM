@@ -1,0 +1,55 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="/resources/SBComp/template/basico/conteudo.xhtml"  >
+    <ui:define name="parametros">
+        <ui:param name="iconeConteudo" value="#{pgExecutarAtividade.atividade.tipoAtividade.iconeAcao}" />
+    </ui:define>
+    <ui:define name="titulo">
+        #{pgExecutarAtividade.atividade.tipoAtividade.nomeAcao}
+    </ui:define>
+    <ui:define name="subtitulo">
+        <b>#{pgExecutarAtividade.atividade.prospectoEmpresa.nome} </b> |
+        <b><a href="tel:+55#{pgExecutarAtividade.atividade.prospectoEmpresa.telefonePrincipal}">
+                #{pgExecutarAtividade.atividade.prospectoEmpresa.telefonePrincipal} </a></b> |
+        <b>
+            <a href="http://#{pgExecutarAtividade.atividade.prospectoEmpresa.site}"
+               target="siteCliente"
+               >
+                #{pgExecutarAtividade.atividade.prospectoEmpresa.site}"
+            </a> </b> |
+        <div class="quebraBlocoComEspacoVertical5 somenteMobile">
+        </div>
+    </ui:define>
+    <ui:define name="conteudoDireita">
+        <h:form>
+            <CRM:opcoesProspecto empresa="#{pgExecutarAtividade.prospecto}"
+                                 tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.superior}"
+                                 tipoVisualizacaoBotoes="#{layoutsComponenteSB.layoutBotoes.iconeENome}" />
+        </h:form>
+    </ui:define>
+    <ui:define name="conteudoCard">
+        <p:fieldset  legend="Esta Atividade irá gerar os seguintes documentos">
+            <div class="Container50">
+                <ul>
+                    <c:forEach items="#{pgExecutarAtividade.atividade.tipoAtividade.modelosDocumentoVinculados}" var="modelo" >
+                        <li>
+                            #{modelo.nome} -    #{modelo.descricao}
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+
+        </p:fieldset>
+    </ui:define>
+</ui:composition>
+

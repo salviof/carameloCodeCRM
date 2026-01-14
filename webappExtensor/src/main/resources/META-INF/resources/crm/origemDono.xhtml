@@ -1,0 +1,23 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="origem"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.origemProspecto.OrigemProspecto" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup layout="block" >
+            <i class=" Fs30 #{cc.attrs.origem.tipoOrigem.equals('OrigemProspecto')?'fa fa-globe':''}" style="width: 30px; height: 100%;"/>
+            <crm:avatar usuario="#{cc.attrs.origem.usuarioDono}" somenteLeitura="true" altura="30" largura="30" rendered="#{cc.attrs.origem.umaOrigemPrivada}" />
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

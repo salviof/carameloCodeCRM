@@ -1,0 +1,45 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBinput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoDaPagina="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+    template="modeloEdicaoProspecto.xhtml" >
+
+    <ui:define name="conteudoDireita">
+        <h:form >
+            <SBAcaoDaPagina:botaoAcaoPersonalizada acao="#{pgProspecto.acaoListarRegistros}" />
+
+            <SBAcaoDaPagina:botaoAcaoPersonalizada acao="#{pgProspecto.acaoVisualisar}" />
+        </h:form>
+    </ui:define>
+    <ui:define name="conteudo">
+
+
+
+
+        <h:form>
+
+            <SBFormulario:subFormulario
+                registro="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('servicos')}"
+                grupoCampos="#{pgUtil.gerarGrupoCamposEntidade('ServicoOferecido', 'Produtos', 'nome','tipoServico','valorSetup','valorMensal')}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.resumido}"
+                />
+            <h:panelGroup styleClass="Container2 Fright">
+
+                <SBAcao:botaoDeAcao
+                    metodo="#{pgProspecto.executarAcao(pgProspecto.prospecto)}"
+                    acao="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrSalvarServicos}"
+                    update="@form"
+                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                    armazenamentoAcaoExecutada="#{pgProspecto.acaoSelecionada}"
+
+                    />
+            </h:panelGroup>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

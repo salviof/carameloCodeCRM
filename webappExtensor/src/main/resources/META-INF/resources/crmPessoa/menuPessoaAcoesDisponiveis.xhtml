@@ -1,0 +1,41 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+
+
+
+
+        <h:form>
+            <h:panelGroup layout="block" style="width: 100%;" >
+                <p:selectOneListbox id="selecaoAcaoPEssoa" converter="conversorGenerico"
+                                    value="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                                    var="acaoPessoa" filter="true" filterMatchMode="contains" style="width: 100%;">
+                    <f:selectItems value="#{servicosCRM.acoesDeProspecto}" var="acaoPessoa" itemLabel="#{acaoPessoa.nome}" itemValue="#{acaoPessoa}"/>
+                    <p:column width="30px" >
+                        <i class="#{acaoPessoa.iconeAcao}" style="color:##{acaoPessoa.cor}}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{acaoPessoa.nome}"/>
+                    </p:column>
+                    <p:ajax event="change" listener="#{servicosCRM.abrirPaginaDeProspecto(cc.attrs.pessoa, paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada)}"
+                            onstart="PF('sidebar2').hide();"
+
+                            />
+                </p:selectOneListbox>
+            </h:panelGroup>
+        </h:form>
+
+    </cc:implementation>
+</ui:composition>

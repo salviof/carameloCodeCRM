@@ -1,0 +1,41 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo" >
+        <h:panelGroup styleClass="Container12  OrganizadorContainerDireita" style="top: -100px!important;    position: relative;" layout="block" >
+            <h:panelGroup styleClass="Container3" layout="block" >
+                <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgPastasdeEquipeDoConvidado.pessoa.imgPequena}"
+                     style="
+                     min-height: 70px;
+                     max-width: 70%;
+                     max-height:  90px;
+                     position: relative;
+                     top: 0px;" />
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container3" layout="block" >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer"  layout="block" >
+                <h:panelGroup styleClass="Container12 OrganizadorContainer" style="height: 100%;width: 700px;" layout="block" >
+                    <c:forEach items="#{pgPastasdeEquipeDoConvidado.pastasDaEquipe}" var="cat" >
+
+                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesConvidado_PastasDoClienteMbGestao.pastasDoClienteFrmVer,pgPastasdeEquipeDoConvidado.pessoa,cat.categoria)}" target="cndcrm" >
+                            <h:panelGroup styleClass="" style=" max-width:80px;  max-height: 100px; position: relative; margin: 30px;" layout="block" >
+                                <p:badge value="#{cat.quantidade}" styleClass="mr-2" size="large" severity="warning">
+                                    <span class="#{cat.icone} Fs50 BlueTextButton"></span><br/>
+                                </p:badge>
+                                <span class="FontAdamantiumBold Fs16" style="">#{cat.nome}</span>
+                                <span class="fa fa-unlock" />
+                            </h:panelGroup>
+                        </p:link>
+                    </c:forEach>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
