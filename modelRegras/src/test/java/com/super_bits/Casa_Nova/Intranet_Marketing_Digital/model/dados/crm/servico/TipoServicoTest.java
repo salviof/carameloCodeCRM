@@ -6,7 +6,7 @@
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.servico;
 
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.servico.TipoServico;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import java.util.List;

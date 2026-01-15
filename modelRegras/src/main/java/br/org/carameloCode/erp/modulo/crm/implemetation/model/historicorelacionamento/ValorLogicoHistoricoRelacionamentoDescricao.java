@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.historicorelacionamento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.historicoRelacionamento.HistoricoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import br.org.carameloCode.erp.modulo.crm.api.model.historicorelacionamento.ValorLogicoHistoricoRelacionamento;

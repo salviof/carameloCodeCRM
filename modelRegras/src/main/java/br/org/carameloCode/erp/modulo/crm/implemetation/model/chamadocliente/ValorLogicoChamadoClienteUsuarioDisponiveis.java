@@ -1,7 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.chamadocliente;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.ChamadoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.TipoChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.TipoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;

@@ -5,14 +5,14 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.ItemSimilarArquivoAnexo;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoAnexado.ArquivoAnexado;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.EmailCrm;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.emailRecebido.EmailRecebido;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.envioEmail.envioEmail.EnvioEmail;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.ItemSimilarContatoCrm;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.ItemSimilarArquivoAnexo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.ItemSimilarContatoCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.EMAILS_FRM_EMAILS_DO_PROSPECTO;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;

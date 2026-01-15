@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.emailcrm;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.EmailCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;

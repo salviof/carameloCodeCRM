@@ -1,7 +1,7 @@
 package br.org.carameloCode.erp.crm.paginas.servelet;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.formulario.TipoFormulario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.TipoFormulario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.FabConfigModuloIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao.ModuloCRMAplicacao;
 import br.org.coletivoJava.integracoes.matrixChat.config.FabConfigApiMatrixChat;

@@ -1,7 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.chamadocliente;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.ChamadoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.FabStatusChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.ValorLogicoChamadoCliente;

@@ -5,8 +5,8 @@
  */
 package org.coletivoJava.fw.projetos.crm.plugin.orcamento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.orcamento.Orcamento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.InfoModulosCRM;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;

@@ -3,7 +3,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.orcamento;
 import br.org.coletivoJava.fw.api.erp.erpintegracao.contextos.ERPIntegracaoSistemasApi;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import br.org.coletivoJava.integracoes.restInterprestfull.api.FabIntApiRestIntegracaoERPRestfull;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.orcamento.Orcamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;

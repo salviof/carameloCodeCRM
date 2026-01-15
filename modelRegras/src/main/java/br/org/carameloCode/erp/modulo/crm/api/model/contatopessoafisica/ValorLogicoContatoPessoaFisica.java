@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatopessoafisica.ValoresLogicosContatoPessoaFisica;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoPessoaFisica.ContatoPessoaFisica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaFisica.ContatoPessoaFisica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @Documented

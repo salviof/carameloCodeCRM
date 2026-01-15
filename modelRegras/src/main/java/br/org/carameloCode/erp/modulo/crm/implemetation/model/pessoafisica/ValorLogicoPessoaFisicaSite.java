@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.pessoafisica;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.PessoaFisica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaFisica;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;

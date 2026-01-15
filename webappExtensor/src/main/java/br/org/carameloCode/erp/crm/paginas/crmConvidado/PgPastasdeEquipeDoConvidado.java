@@ -1,10 +1,10 @@
 package br.org.carameloCode.erp.crm.paginas.crmConvidado;
 
 import br.org.carameloCode.erp.crm.paginas.crmAtendimento.ServicosCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoAnexado.ArquivoAnexado;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.DocsEquipeDaCategoria;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCategoria;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.InfoAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;

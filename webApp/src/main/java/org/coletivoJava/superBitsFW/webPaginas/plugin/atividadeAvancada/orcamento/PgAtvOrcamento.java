@@ -6,7 +6,7 @@
 package org.coletivoJava.superBitsFW.webPaginas.plugin.atividadeAvancada.orcamento;
 
 import br.org.carameloCode.erp.crm.paginas.crmAtendimento.MB_PaginaDeAtividade;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfParametroRequisicaoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;

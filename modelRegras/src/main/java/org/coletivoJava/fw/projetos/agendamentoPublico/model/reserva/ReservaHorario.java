@@ -5,9 +5,9 @@
  */
 package org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;

@@ -1,9 +1,9 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.chatbot;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chatBot.ChatBot;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.DadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.FabDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.TipoDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.ChatBot;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringUrl;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;

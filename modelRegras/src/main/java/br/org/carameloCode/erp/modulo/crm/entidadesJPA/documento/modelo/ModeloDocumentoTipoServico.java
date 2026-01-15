@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.servico.TipoServico;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

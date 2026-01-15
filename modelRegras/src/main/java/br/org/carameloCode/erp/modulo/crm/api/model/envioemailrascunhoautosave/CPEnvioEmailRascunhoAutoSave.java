@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.envioemailrascunhoautosave;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.envioEmail.envioEmail.EnvioEmailRascunhoAutoSave;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmailRascunhoAutoSave;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = EnvioEmailRascunhoAutoSave.class)

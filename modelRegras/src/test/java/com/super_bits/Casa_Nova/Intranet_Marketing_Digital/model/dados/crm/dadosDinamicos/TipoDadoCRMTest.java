@@ -5,13 +5,13 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.FabDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.DadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.FabTipoDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.TipoDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabTipoDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.AtividadeCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.opcaoPersonalizada.OpcaoPersonalizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.opcaoPersonalizada.OpcaoPersonalizada;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import org.junit.Test;
 

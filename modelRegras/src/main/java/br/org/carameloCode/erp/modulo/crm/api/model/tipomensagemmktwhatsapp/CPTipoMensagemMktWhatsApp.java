@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.tipomensagemmktwhatsapp;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.wtzpModeloMKT.TipoMensagemMktWhatsApp;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensagemMktWhatsApp;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = TipoMensagemMktWhatsApp.class)

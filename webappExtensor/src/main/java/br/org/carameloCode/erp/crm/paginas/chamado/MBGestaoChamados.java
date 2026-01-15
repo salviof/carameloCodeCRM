@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.crm.paginas.chamado;
 
 import br.org.carameloCode.erp.crm.paginas.ItfPaginaComGestaoChamado;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 
 /**

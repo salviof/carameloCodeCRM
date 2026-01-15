@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.tiposolicitacao;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.solicitacao.TipoSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.TipoSolicitacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = TipoSolicitacao.class)

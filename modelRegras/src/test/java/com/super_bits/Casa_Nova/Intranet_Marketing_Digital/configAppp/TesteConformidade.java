@@ -6,8 +6,8 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.pesquisaAtividade.PesquisaAtividade;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtividade.PesquisaAtividade;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.FabConfigModuloIntranet;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.MetadadoUsuarioCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;

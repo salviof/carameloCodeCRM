@@ -6,8 +6,8 @@
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
 import br.org.carameloCode.erp.crm.paginas.util.UtilSBWPComponentePrimeModel;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.fluxoAtividade.FluxoDeAtividades;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.relacionamento.TipoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.fluxoAtividade.FluxoDeAtividades;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;

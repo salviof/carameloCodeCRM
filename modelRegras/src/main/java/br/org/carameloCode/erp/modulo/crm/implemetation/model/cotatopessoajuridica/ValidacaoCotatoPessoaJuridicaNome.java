@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.cotatopessoajuridica;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoPessoaJuridica.CotatoPessoaJuridica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaJuridica.CotatoPessoaJuridica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ValidacaoGenerica;

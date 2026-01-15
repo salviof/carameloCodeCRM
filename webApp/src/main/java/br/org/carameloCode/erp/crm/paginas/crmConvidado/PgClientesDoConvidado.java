@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmConvidado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.InfoAcaoCRMConvidado;

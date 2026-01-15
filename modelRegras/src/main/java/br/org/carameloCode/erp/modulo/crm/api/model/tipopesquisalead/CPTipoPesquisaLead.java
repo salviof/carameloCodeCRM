@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.tipopesquisalead;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.pesquisaLead.TipoPesquisaLead;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.TipoPesquisaLead;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = TipoPesquisaLead.class)

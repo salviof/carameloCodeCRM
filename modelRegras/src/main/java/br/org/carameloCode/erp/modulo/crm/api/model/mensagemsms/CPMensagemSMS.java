@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.mensagemsms;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.sms.MensagemSMS;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = MensagemSMS.class)

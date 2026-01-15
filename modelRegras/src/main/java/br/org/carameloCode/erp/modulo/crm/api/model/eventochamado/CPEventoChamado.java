@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.eventochamado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.EventoChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.EventoChamado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = EventoChamado.class)

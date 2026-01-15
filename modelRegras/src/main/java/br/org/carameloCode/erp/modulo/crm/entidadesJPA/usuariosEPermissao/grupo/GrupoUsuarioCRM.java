@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.UtilCRMSistema;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.UtilCRMSistema;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabTipoUtilizacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.ModuloIntranetCasanova;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;

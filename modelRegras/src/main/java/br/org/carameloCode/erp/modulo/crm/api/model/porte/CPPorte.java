@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.porte;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.porteEmpresa.Porte;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.Porte;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = Porte.class)

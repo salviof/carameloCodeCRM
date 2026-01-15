@@ -22,91 +22,91 @@
         <class>com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoSecundaria</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistema</class>
         <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexado.ArquivoAnexado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ConfiguracaoDePermissao</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoProspecto.LocalizacaoDeContato</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.LocalizacaoDeContato</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Regiao</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Cidade</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localidade</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.modulo.ModuloIntranetCasanova</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.estrategiaResponsavelTipoRelacionamento.TipoEstrategiaResponsavelRelacionamento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.relacionamento.TipoRelacionamento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.StatusAtividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.TipoEmpresa</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.ProspectoEmpresa.ContatoProspecto</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.origemProspecto.OrigemProspecto</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.porteEmpresa.Porte</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.servico.TipoServico</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.servico.TipoServicoRecorrente</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.servico.TipoServicoSazonal</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.servico.ServicoOferecido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.conteudo.palavraChave.PalavraChave</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.contrato.Proposta</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.documento.modelo.ModeloDocumentoCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.documento.modelo.ModeloDocumentoTipoAtividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.documento.modelo.ModeloDocumentoTipoServico</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos.TipoDadoCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos.GrupoTipoDadoCrm</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.relacionamento.zonaRelacionamento.ResultadoTipoRelacionamento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.usuario.UsuarioCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos.OpcaoDadosCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.grupo.GrupoUsuarioCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.util.UtilGeradorDocumento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.DadoNaoColetado_Atividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.DadoColetado_Atividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos.DadoCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.opcaoPersonalizada.OpcaoPersonalizada</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.modeloEmail.ModeloEMail</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.envioEmail.envioDocumentoAtividade.EnvioEmailAtividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.documento.DocumentoAtividadeCRM</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.relacionamento.etapaFunil.MetaRelacionamento;</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.apresentacao.DocumentoApresentacao</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoDeUsuario.ArquivoDeUsuario</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.envioEmail.envioEmail.EnvioEmail</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.emailRecebido.EmailRecebido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.emailRecebido.ControleEmailRecebido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.EmailCrm</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexado.ArquivoAnexado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexadoEmailEmConteudo.ArquivoAnexadoEmailEmConteudo</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.emailRecebido.ControleCaixaDeEntrada</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.codigoAcesso.CodigoConviteAgendamento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.codigoAcesso.CodigoConviteAtividade</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.codigoAcesso.CodigoConvite</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.historicoRelacionamento.HistoricoRelacionamento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.areaTrabalho.AreaTrabalho</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.tagAtendimento.TagAtendimento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoDeUsuario.ArquivoDeUsuario</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.ModuloIntranetCasanova</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.estrategiaResponsavelTipoRelacionamento.TipoEstrategiaResponsavelRelacionamento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.StatusAtividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.ProspectoEmpresa.ContatoProspecto</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.Porte</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServicoRecorrente</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServicoSazonal</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.ServicoOferecido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.conteudo.palavraChave.PalavraChave</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.contrato.Proposta</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoAtividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoServico</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.GrupoTipoDadoCrm</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.zonaRelacionamento.ResultadoTipoRelacionamento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.OpcaoDadosCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.GrupoUsuarioCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.util.UtilGeradorDocumento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.DadoNaoColetado_Atividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.DadoColetado_Atividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.opcaoPersonalizada.OpcaoPersonalizada</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEMail</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioDocumentoAtividade.EnvioEmailAtividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.DocumentoAtividadeCRM</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.apresentacao.DocumentoApresentacao</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoDeUsuario.ArquivoDeUsuario</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.ControleEmailRecebido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexadoEmailEmConteudo.ArquivoAnexadoEmailEmConteudo</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.ControleCaixaDeEntrada</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAgendamento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAtividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConvite</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.areaTrabalho.AreaTrabalho</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoDeUsuario.ArquivoDeUsuario</class>
         <class>org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.rocketChat.UsuarioRocketChat</class>
         <class>com.super_bits.integracoes.widgets.lib.ModuloIntegracaoRest</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.Pessoa</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaJuridica</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.PessoaFisica</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoColaborador.ContatoColaborador</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoPessoaFisica.ContatoPessoaFisica</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoPessoaJuridica.CotatoPessoaJuridica</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoPessoal.ContatoPessoal</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexadoEmail.ArquivoAnexadoEmailRecebido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.LogEMailEnviadoLido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.LogEmailRecebidoLido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.caixaPostal.CaixaPostal</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.envioEmail.envioEmail.LogFalhaEnvioEmail</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.categoriaMailRecebido.CategoriaEmailRecebido</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.span.EnderecoEmailSpan</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.orcamento.Orcamento</class>
-        <class>tipoacom.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.marketingDigital.TipoAuditoriaPreAnalise</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.marketingDigital.AuditoriaPreAnalise</class>
-        <class>grucom.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.dadosDinamicos.GrupoTipoDadoCrm</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaFisica</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoColaborador.ContatoColaborador</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaFisica.ContatoPessoaFisica</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaJuridica.CotatoPessoaJuridica</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoal.ContatoPessoal</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexadoEmail.ArquivoAnexadoEmailRecebido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.LogEMailEnviadoLido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.LogEmailRecebidoLido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.caixaPostal.CaixaPostal</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.LogFalhaEnvioEmail</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.categoriaMailRecebido.CategoriaEmailRecebido</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.span.EnderecoEmailSpan</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento</class>
+        <class>tipoabr.org.carameloCode.erp.modulo.crm.entidadesJPA.marketingDigital.TipoAuditoriaPreAnalise</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.marketingDigital.AuditoriaPreAnalise</class>
+        <class>grubr.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.GrupoTipoDadoCrm</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.tokens.tokenRecuperacaoDeSenha.TokenRecuperacaoSenha</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.tokens.TokenAcesso</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.TokenAcessoDinamico</class>
-        <class>rocom.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.roboAtendimento.RoboAtendimento</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.roboAtendimento.InteracaoDoRobo</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.roboAtendimento.IteracaoComandoEspecialRest</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.mail.caixaPostal.CaixaPostalEstatisticas</class>
+        <class>robr.org.carameloCode.erp.modulo.crm.entidadesJPA.roboAtendimento.RoboAtendimento</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.roboAtendimento.InteracaoDoRobo</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.roboAtendimento.IteracaoComandoEspecialRest</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.caixaPostal.CaixaPostalEstatisticas</class>
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario</class>
         <class>pediorg.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implemetation.model.autorizacao.PedidoAcesso</class>
         <class>org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implemetation.model.autorizacao.PedidoAcessoPessoa</class>
@@ -117,20 +117,20 @@
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ContextoReserva</class>
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario</class>
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesqHorarioPublicado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.sms.MensagemSMS</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.pesquisaLead.PesquisaLead</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.origemProspecto.origemPrivada.OrigemProspectoPrivado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.StatusAtividade</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.origemPrivada.OrigemProspectoPrivado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.StatusAtividade</class>
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraPresencial</class>
         <class>org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraRemotoVideo</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.cliente.satisfacao.SatisfacaoCliente</class>
-        <class>evcom.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.Atividade.atividadeAtendimento.EventoChamado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.ChamadoCliente</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.StatusChamado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.NotificacaoResponsaveisChamado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.TipoChamado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado.SatisfacaoChamado</class>
-        <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.SatisfacaoCliente</class>
+        <class>evbr.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.atividadeAtendimento.EventoChamado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.StatusChamado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.NotificacaoResponsaveisChamado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.TipoChamado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.SatisfacaoChamado</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente</class>
         <class>br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel</class>
         <class>br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.LinkEntidadesSistemasERP</class>
         <properties>

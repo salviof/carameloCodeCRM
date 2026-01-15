@@ -4,7 +4,7 @@
  */
 package org.coletivoJava.fw.projetos.crm.plugin.valorLogicoCampoDinamico;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.DadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

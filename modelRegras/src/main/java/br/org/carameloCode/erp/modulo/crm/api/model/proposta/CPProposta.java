@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.proposta;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.contrato.Proposta;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.contrato.Proposta;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = Proposta.class)

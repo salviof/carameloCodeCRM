@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.statuschamado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.StatusChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.StatusChamado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = StatusChamado.class)

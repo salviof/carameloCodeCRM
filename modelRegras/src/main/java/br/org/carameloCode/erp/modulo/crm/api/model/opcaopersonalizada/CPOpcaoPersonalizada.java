@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.opcaopersonalizada;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.opcaoPersonalizada.OpcaoPersonalizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.opcaoPersonalizada.OpcaoPersonalizada;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = OpcaoPersonalizada.class)

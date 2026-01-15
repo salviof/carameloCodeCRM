@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.codigoconviteagendamento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.codigoAcesso.CodigoConviteAgendamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAgendamento;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = CodigoConviteAgendamento.class)

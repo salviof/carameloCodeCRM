@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.controleemailrecebido;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.emailRecebido.ControleEmailRecebido;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.ControleEmailRecebido;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = ControleEmailRecebido.class)

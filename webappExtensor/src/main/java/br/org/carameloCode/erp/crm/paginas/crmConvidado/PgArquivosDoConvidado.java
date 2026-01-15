@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmConvidado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoAnexado.ArquivoAnexado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.InfoAcaoCRMConvidado;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;

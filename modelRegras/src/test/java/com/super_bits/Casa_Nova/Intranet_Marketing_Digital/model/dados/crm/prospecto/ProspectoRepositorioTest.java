@@ -5,9 +5,9 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.ProspectoRepositorio;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.ProspectoRepositorio;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.historicoRelacionamento.HistoricoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento;
 import java.util.List;
 import org.junit.Test;
 

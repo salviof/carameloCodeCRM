@@ -6,9 +6,9 @@
 package br.org.carameloCode.erp.crm.paginas.crmAdmin;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.documentoapresentacao.CPDocumentoApresentacao;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.apresentacao.DocumentoApresentacao;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.orcamento.Orcamento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.servico.TipoServico;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.apresentacao.DocumentoApresentacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;

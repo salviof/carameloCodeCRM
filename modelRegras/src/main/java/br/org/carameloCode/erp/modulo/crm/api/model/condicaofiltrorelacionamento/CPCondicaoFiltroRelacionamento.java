@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.condicaofiltrorelacionamento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.relacionamento.filtroTipoRelacionamento.CondicaoFiltroRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.filtroTipoRelacionamento.CondicaoFiltroRelacionamento;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = CondicaoFiltroRelacionamento.class)

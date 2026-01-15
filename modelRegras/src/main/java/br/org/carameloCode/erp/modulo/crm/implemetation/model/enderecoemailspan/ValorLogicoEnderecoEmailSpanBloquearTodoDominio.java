@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.enderecoemailspan;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.span.EnderecoEmailSpan;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.span.EnderecoEmailSpan;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;

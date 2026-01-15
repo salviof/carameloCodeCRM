@@ -6,9 +6,9 @@
 package br.org.carameloCode.erp.crm.paginas.crmCliente;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.cliente.satisfacao.FabSatisfacaoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.IntegracaoLink;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.FabSatisfacaoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente.CHAMADO_MB_GESTAO;

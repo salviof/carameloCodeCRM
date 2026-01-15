@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.crm.paginas.util;
 
 import br.org.carameloCode.erp.crm.config.TesteWPCrmCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.modeloEmail.ModeloEmail;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEmail;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 /**

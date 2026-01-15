@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.tipoestrategiaresponsavelrelacionamento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.estrategiaResponsavelTipoRelacionamento.TipoEstrategiaResponsavelRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.estrategiaResponsavelTipoRelacionamento.TipoEstrategiaResponsavelRelacionamento;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = TipoEstrategiaResponsavelRelacionamento.class)

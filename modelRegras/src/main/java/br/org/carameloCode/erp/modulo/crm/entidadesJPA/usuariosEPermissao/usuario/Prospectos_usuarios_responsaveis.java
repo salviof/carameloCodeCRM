@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMGenerica;
 import javax.persistence.ManyToOne;
 

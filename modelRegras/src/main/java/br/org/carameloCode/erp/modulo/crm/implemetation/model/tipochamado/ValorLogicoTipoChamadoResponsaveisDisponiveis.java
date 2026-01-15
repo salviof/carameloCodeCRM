@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.tipochamado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.TipoChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.TipoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;

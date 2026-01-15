@@ -4,7 +4,7 @@
  */
 package com.super_bits.marketing.Util.imapMail;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.emailRecebido.ControleCaixaDeEntrada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.ControleCaixaDeEntrada;
 import java.util.ArrayList;
 import java.util.List;
 

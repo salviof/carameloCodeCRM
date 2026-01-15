@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.relacionamento.TipoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**

@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.emailcrm;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.EmailCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = EmailCrm.class)

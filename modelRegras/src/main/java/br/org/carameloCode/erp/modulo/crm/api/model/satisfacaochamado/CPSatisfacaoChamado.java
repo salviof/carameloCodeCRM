@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.satisfacaochamado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.SatisfacaoChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.SatisfacaoChamado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = SatisfacaoChamado.class)

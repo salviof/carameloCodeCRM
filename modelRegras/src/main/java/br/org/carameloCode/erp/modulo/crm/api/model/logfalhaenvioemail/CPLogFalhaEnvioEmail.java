@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.logfalhaenvioemail;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.envioEmail.envioEmail.LogFalhaEnvioEmail;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.LogFalhaEnvioEmail;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = LogFalhaEnvioEmail.class)

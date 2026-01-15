@@ -5,9 +5,9 @@
  */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoPessoaFisica.ContatoPessoaFisica;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.sms.MensagemSMS;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.wtzpModeloMKT.MensagemMktWhatsapp;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaFisica.ContatoPessoaFisica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.InfoModulosCRM;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;

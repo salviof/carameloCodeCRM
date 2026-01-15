@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.tipoemailtransacional;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.transacionalMkt.tipo.TipoEmailTransacional;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.transacionalMkt.tipo.TipoEmailTransacional;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = TipoEmailTransacional.class)

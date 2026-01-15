@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.tipochatbot;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chatBot.TipoChatBot;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.TipoChatBot;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipochatbot.ValorLogicoTipoChatBot;

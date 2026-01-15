@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.util;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.FabDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
 
 /**
  *

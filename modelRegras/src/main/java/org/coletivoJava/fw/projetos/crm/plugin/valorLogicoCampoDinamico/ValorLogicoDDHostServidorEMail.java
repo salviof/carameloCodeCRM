@@ -2,7 +2,7 @@ package org.coletivoJava.fw.projetos.crm.plugin.valorLogicoCampoDinamico;
 
 import br.org.coletivoJava.integracoes.restMavmail.api.pojo.RegistroDNSMav;
 import br.org.coletivoJava.integracoes.servicoDeEmail.ServicoDeEmailImplementacaoBeta;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.dadosDinamicos.DadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;

@@ -5,7 +5,7 @@
 package br.org.carameloCode.erp.crm.paginas.servico;
 
 import br.org.carameloCode.erp.crm.config.TesteWPCrmCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.PessoaJuridica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import org.junit.Test;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;

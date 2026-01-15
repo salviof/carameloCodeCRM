@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.integracaolink;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;

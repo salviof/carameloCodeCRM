@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import javax.persistence.EntityManager;

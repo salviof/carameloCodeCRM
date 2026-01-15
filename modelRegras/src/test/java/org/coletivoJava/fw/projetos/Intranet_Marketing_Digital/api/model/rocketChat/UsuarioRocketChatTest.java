@@ -11,7 +11,7 @@ import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
 import br.org.coletivoJava.fw.erp.implementacao.chat.model.model.FabTipoSalaMatrix;
 import br.org.coletivoJava.fw.erp.implementacao.chat.model.model.SalaMatrxOrg;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.PessoaJuridica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import java.util.ArrayList;
 import java.util.List;

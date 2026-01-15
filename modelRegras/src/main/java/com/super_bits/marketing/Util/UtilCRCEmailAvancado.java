@@ -7,7 +7,7 @@ package com.super_bits.marketing.Util;
 
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
 import com.sun.mail.imap.IMAPMessage;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmail;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmailObjetos;

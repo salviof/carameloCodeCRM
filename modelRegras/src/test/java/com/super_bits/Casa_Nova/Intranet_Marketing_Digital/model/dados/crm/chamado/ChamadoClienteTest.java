@@ -4,7 +4,7 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.chamado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.CPChamadoCliente;

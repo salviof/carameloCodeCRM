@@ -2,7 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.tiposervico;
 
 import br.org.coletivoJava.fw.api.erp.erpintegracao.contextos.ERPIntegracaoSistemasApi;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.servico.TipoServico;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;

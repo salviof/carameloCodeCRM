@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 import br.org.carameloCode.erp.modulo.crm.api.model.arquivodeusuario.ValoresLogicosArquivoDeUsuario;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.arquivos.arquivoDeUsuario.ArquivoDeUsuario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoDeUsuario.ArquivoDeUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @Documented

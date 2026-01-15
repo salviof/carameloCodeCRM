@@ -1,7 +1,7 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.fluxotypebotformulario.etapas;
 
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.fluxotypebotformulario.FluxoTypebotFormulario;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.formulario.TipoFormulario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.TipoFormulario;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.cucumber.fluxotypebotformulario.EtapasFluxoTypebotFormulario;
 import cucumber.api.java.pt.Entao;

@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.logemailenviadolido;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.LogEMailEnviadoLido;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.LogEMailEnviadoLido;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = LogEMailEnviadoLido.class)

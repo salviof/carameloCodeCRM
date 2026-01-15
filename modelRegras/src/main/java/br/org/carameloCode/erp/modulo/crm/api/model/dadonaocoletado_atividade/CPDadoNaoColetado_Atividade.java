@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.dadonaocoletado_atividade;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.DadoNaoColetado_Atividade;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.DadoNaoColetado_Atividade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = DadoNaoColetado_Atividade.class)

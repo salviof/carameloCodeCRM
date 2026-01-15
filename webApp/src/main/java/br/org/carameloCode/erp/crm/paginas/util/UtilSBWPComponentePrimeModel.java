@@ -5,10 +5,10 @@
  */
 package br.org.carameloCode.erp.crm.paginas.util;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.tipoAtividade.TipoAtividadeCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.fluxoAtividade.FluxoDeAtividades;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.relacionamento.FabTipoRelacionamentoMarketingDigital;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.relacionamento.TipoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.fluxoAtividade.FluxoDeAtividades;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.FabTipoRelacionamentoMarketingDigital;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 
 import java.util.HashMap;

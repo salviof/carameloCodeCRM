@@ -7,7 +7,7 @@ package com.super_bits.marketing.Util.navegador;
 
 import com.google.api.client.util.ArrayMap;
 import com.google.api.client.util.Lists;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.PessoaJuridica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import java.net.URL;

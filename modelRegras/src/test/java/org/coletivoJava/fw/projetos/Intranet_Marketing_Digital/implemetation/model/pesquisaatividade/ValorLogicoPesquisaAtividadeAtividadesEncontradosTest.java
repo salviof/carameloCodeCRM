@@ -6,7 +6,7 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implemetation.model.pesquisaatividade;
 
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.pesquisaAtividade.PesquisaAtividade;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtividade.PesquisaAtividade;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import java.util.Date;
 import br.org.carameloCode.erp.modulo.crm.api.model.pesquisaatividade.CPPesquisaAtividade;

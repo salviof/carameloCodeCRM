@@ -5,7 +5,7 @@
 package com.super_bits.marketing.Util;
 
 import com.sun.mail.imap.IMAPMessage;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.emailRecebido.ControleCaixaDeEntrada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.ControleCaixaDeEntrada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.AlwaysTrustSSLContextFactory;

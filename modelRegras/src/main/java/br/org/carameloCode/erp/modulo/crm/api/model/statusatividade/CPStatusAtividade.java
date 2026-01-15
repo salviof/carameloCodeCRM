@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.statusatividade;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.Atividade.StatusAtividade;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.StatusAtividade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = StatusAtividade.class)

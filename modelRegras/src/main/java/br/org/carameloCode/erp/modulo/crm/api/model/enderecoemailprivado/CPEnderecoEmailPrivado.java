@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.enderecoemailprivado;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.mail.span.EnderecoEmailPrivado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.span.EnderecoEmailPrivado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = EnderecoEmailPrivado.class)
