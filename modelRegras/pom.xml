@@ -32,6 +32,12 @@
         </dependency>
 
         <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.ia</groupId>
+            <artifactId>SbErpIA</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.super_bits.Casa_Nova.mktFaturamento</groupId>
             <artifactId>apiJava</artifactId>
             <version>1.1-SNAPSHOT</version>
@@ -87,7 +93,7 @@
             <scope>test</scope>
         </dependency>
 
-        
+
 
         <!--  <dependency>
             <groupId>com.google.apis</groupId>

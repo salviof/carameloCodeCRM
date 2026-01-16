@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.config;
 
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoClienteResolucao;
@@ -89,6 +90,7 @@ public class ConfigPercistenciaCrmCarameloCode implements ItfConfigSBPersistenci
             FabStatusChatBot.class,
             FabStatusNotificacao.class,
             FabTipoNotificacao.class
+
 //    FabAtividadeCRMAutoexecucao.class
         };
     }

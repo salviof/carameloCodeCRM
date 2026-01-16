@@ -10,3 +10,6 @@ rsync -a \
   --exclude='*/org/carameloCode/erp/crm/config/' \
   /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webApp/src/main/java/ \
   /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/java/
+
+cd /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor
+ mvn clean install -DskipTests

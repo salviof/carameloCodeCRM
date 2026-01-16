@@ -6,7 +6,6 @@
 package br.org.carameloCode.erp.modulo.crm.config;
 
 import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
-import br.org.carameloCode.erp.modulo.crm.config.UtilPermissoesObjetos;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoClienteResolucao;
@@ -35,6 +34,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.Modul
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
 import br.org.carameloCode.erp.modulo.crm.menu.FabMenuIntranetCasaNova;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
 import com.super_bits.modulos.SBAcessosModel.controller.UtilSBControllerAcessosModel;
@@ -77,7 +77,7 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             ModuloCRMAtendimentoEmail.class,
             ModuloPluginCrmOrcamento.class,
             ModuloAgendamentoPublico.class, ModuloAgendamentoPublicoPluginCRM.class,
-            ModuloCrmAgenda.class, ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class, ModuloNotificacao.class
+            ModuloCrmAgenda.class, ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class, ModuloNotificacao.class, ModuloCRM_IA.class
         });
     }
 
