@@ -16,6 +16,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.InfoModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.acoesAutomatizadas.FabTipoAutoExecucaoAcao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcaoController;
@@ -71,5 +72,10 @@ public enum FabAcaoCrmAplicacao implements ComoFabricaDeAcoesPersistencia {
     ATIVIDADE_AUTONOMA_CRM_CTR_CONCLUSAO_ALTERAR_TAGS,
     ATIVIDADE_AUTONOMA_CRM_CTR_CONCLUSAO_ACAO_DE_MUDANCA_RELACIONAMENTO,
     ATIVIDADE_AUTONOMA_CRM_CTR_CONCLUSAO_DISPARAR_TRANSACIONAL,
+    @InfoTipoAcaoController(entidade = Telefone.class, autoExecucao = FabTipoAutoExecucaoAcao.MINUTOS_A_CADA_15)
+    ATIVIDADE_AUTONOMA_CRM_CTR_SINCRONIZAR_PABX_AUTO_EXEC,
+    @InfoTipoAcaoController(entidade = AtividadeCRM.class)
+    ATIVIDADE_AUTONOMA_CRM_CTR_SALVAR_ATIVIDADE_VOIP
+
 
 }

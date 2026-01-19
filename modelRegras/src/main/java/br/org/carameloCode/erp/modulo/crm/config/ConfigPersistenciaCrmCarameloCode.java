@@ -5,7 +5,6 @@
  */
 package br.org.carameloCode.erp.modulo.crm.config;
 
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoClienteResolucao;
@@ -34,7 +33,7 @@ import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusRe
  *
  * @author Salvio
  */
-public class ConfigPercistenciaCrmCarameloCode implements ItfConfigSBPersistencia {
+public class ConfigPersistenciaCrmCarameloCode implements ItfConfigSBPersistencia {
 
     @Override
     public String bancoPrincipal() {

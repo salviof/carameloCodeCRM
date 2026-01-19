@@ -6,6 +6,10 @@
  */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.telefone.CPTelefone;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.StatusIntegracao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
@@ -716,6 +720,37 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(nomeAcao = "Respostas formulario", campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
     RESPOSTAS_FORMULARIO_TYPEBOT_FRM_LISTAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Respostas formulario", entidade = RespostaFormulario.class, campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
-    RESPOSTAS_FORMULARIO_TYPEBOT_FRM_VISUALIZAR
+    RESPOSTAS_FORMULARIO_TYPEBOT_FRM_VISUALIZAR,
+    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-phone", nomeAcao = "Chamadas Realizadas Pabx", entidade = TipoAtvChamadaRealizada.class)
+    TIPO_ATIVIDADE_CHAMADA_REALIZADA_MB_GESTAO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Chamadas Realizadas", campos = {CPTipoAtividadeCRM.id, CPTipoAtividadeCRM.nomeatividade})
+    TIPO_ATIVIDADE_CHAMADA_REALIZADA_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.nomeatividade, CPTipoAtividadeCRM.nomeinicioativida, CPTipoAtividadeCRM.nomefimatividade})
+    TIPO_ATIVIDADE_CHAMADA_REALIZADA_FRM_NOVO,
+    @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
+    TIPO_ATIVIDADE_CHAMADA_REALIZADA_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.nomeatividade, CPTipoAtividadeCRM.nomeinicioativida, CPTipoAtividadeCRM.nomefimatividade})
+    TIPO_ATIVIDADE_CHAMADA_REALIZADA_FRM_EDITAR,
+
+    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-phone", nomeAcao = "Chamadas Recebidas Pabx", entidade = TipoAtvChamadaRecebida.class)
+    TIPO_ATIVIDADE_CHAMADA_RECEBIDA_MB_GESTAO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Chamadas Recebidas", campos = {CPTipoAtividadeCRM.id, CPTipoAtividadeCRM.nomeatividade})
+    TIPO_ATIVIDADE_CHAMADA_RECEBIDA_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.nomeatividade, CPTipoAtividadeCRM.nomeinicioativida, CPTipoAtividadeCRM.nomefimatividade})
+    TIPO_ATIVIDADE_CHAMADA_RECEBIDA_FRM_NOVO,
+    @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
+    TIPO_ATIVIDADE_CHAMADA_RECEBIDA_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.nomeatividade, CPTipoAtividadeCRM.nomeinicioativida, CPTipoAtividadeCRM.nomefimatividade})
+    TIPO_ATIVIDADE_CHAMADA_RECEBIDA_FRM_EDITAR,
+    @InfoTipoAcaoGestaoEntidade(entidade = Telefone.class)
+    TELEFONE_VOIP_MB_GESTAO,
+    @InfoTipoAcaoFormulario(icone = "fa fa-phone", nomeAcao = "Telefone voip", campos = {CPTelefone.id, CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida})
+    TELEFONE_VOIP_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida})
+    TELEFONE_VOIP_FRM_NOVO,
+    @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
+    TELEFONE_VOIP_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone})
+    TELEFONE_VOIP_FRM_EDITAR,
 
 }

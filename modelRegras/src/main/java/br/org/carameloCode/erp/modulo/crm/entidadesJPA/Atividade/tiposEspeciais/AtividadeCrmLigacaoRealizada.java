@@ -21,8 +21,8 @@ import javax.persistence.ManyToOne;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Ligação recebida", plural = "Ligações recebidas")
-public class AtividadeCrmLigacaoRecebida extends AtividadeCRM implements ComoAtividadeVoip {
+@InfoObjetoSB(tags = "Ligação realizada", plural = "Ligações realizadas")
+public class AtividadeCrmLigacaoRealizada extends AtividadeCRM implements ComoAtividadeVoip {
 
     @ManyToOne(targetEntity = Telefone.class, fetch = FetchType.LAZY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -32,7 +32,7 @@ public class AtividadeCrmLigacaoRecebida extends AtividadeCRM implements ComoAti
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     private ContatoProspecto contatoProspecto;
 
-    @ManyToOne(targetEntity = AudioVoip.class)
+    @ManyToOne(targetEntity = AudioVoip.class, fetch = FetchType.LAZY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     private AudioVoip audioVoip;
 
@@ -54,13 +54,12 @@ public class AtividadeCrmLigacaoRecebida extends AtividadeCRM implements ComoAti
         this.telefoneVoip = telefoneVoip;
     }
 
-    @Override
     public AudioVoip getAudioVoip() {
         return audioVoip;
     }
 
-    @Override
     public void setAudioVoip(AudioVoip audioVoip) {
         this.audioVoip = audioVoip;
     }
+
 }

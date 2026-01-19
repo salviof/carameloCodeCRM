@@ -1,21 +1,39 @@
 <ui:composition
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:cc="http://java.sun.com/jsf/composite"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- INTERFACE -->
     <cc:interface>
 
         <cc:attribute name="pesquisa"
-                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead"
+                      type="com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.pesquisaLead.PesquisaLead"
                       required="true"/>
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <style>
+            .tag-item {
+
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                font-size: 0;
+                display: inline-flex;
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.2s ease;
+                cursor: help; /* cursor indicando que tem tooltip */
+                border: 2px solid white; /* borda branca para contraste */
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+        </style>
 
 
         <p:megaMenu orientation="horizontal" autoDisplay="false"  rendered="true" >
@@ -28,16 +46,12 @@
 
                             <p:menuitem value="#{tipoPesquisa.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('tipoPesquisa').valorValidando}"
 
                                                              value="#{tipoPesquisa}" />
 
                             </p:menuitem>
-
-
-
-
                         </c:forEach>
                     </p:submenu>
                 </p:column>
@@ -50,12 +64,11 @@
                         <p:menuitem oncomplete="PF('defineIntervalo').show()"
                                     icon="fa fa-calender"
                                     process="@this"
-                                    value="Definir novo intervalor"
-                                    />
+                                    value="Definir novo intervalo"
+                        />
 
                         <p:menuitem icon="fa fa-ban"
                                     process="@this"
-
                                     value="Sempre"
                                     update="@form"
                                     actionListener="#{cc.attrs.pesquisa.limparDatas()}"/>
@@ -63,23 +76,22 @@
                 </p:column>
 
             </p:submenu>
-            <p:submenu label="#{cc.attrs.pesquisa.usuario.nome}" disabled="true"  >
+
+            <p:submenu label="#{cc.attrs.pesquisa.usuario.nome == null ? 'Selecione um usuario' : cc.attrs.pesquisa.usuario.nome} "  >
                 <p:column>
-                    <p:submenu label="Usuários disponiveis" disabled="true" >
+
+
+                    <p:submenu label="Usuários disponiveis" disabled="false" >
                         <c:forEach items="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('usuariosDisponiveis').valor}"
                                    var="usuario" >
 
                             <p:menuitem value="#{usuario.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.usuario}"
 
                                                              value="#{usuario}" />
                             </p:menuitem>
-
-
-
-
                         </c:forEach>
                     </p:submenu>
                 </p:column>
@@ -94,7 +106,7 @@
                             <p:menuitem value="#{origemPrivada.nome}"
 
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('origem').valorValidando}"
 
                                                              value="#{origemPrivada}" >
@@ -110,7 +122,7 @@
                                    var="origemPub" >
                             <p:menuitem value="#{origemPub.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.origem}"
                                                              value="#{origemPub}" />
                             </p:menuitem>
@@ -122,7 +134,7 @@
                                    var="origemComp" >
                             <p:menuitem value="#{origemPub.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.origem}"
                                                              value="#{origemComp}" />
                             </p:menuitem>
@@ -137,14 +149,14 @@
                         <p:menuitem value="Todas as metas"
                                     update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
                                     actionListener="#{cc.attrs.pesquisa.limparMeta()}"
-                                    >
+                        >
 
                         </p:menuitem>
                         <c:forEach items="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('metasDisponiveis').valor}"
                                    var="meta" >
                             <p:menuitem value="#{meta.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.metaRelacionamento}"
                                                              value="#{meta}" />
                             </p:menuitem>
@@ -161,7 +173,7 @@
                                    var="tipoRelacionamento" >
                             <p:menuitem value="#{tipoRelacionamento.nome}"
                                         update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
+                            >
                                 <f:setPropertyActionListener target="#{cc.attrs.pesquisa.tipoRelacionamento}"
                                                              value="#{tipoRelacionamento}" />
                             </p:menuitem>
@@ -175,11 +187,14 @@
                     <p:submenu label="Tags disponíveis">
                         <c:forEach items="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('tagsDisponiveis').valor}"
                                    var="tagAtendimento" >
-                            <p:menuitem value="#{tagAtendimento.nome}"
-                                        update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"
-                                        >
-                                <f:setPropertyActionListener target="#{cc.attrs.pesquisa.tagAtendimento}"
-                                                             value="#{tagAtendimento}" />
+                            <p:menuitem
+                                    value="#{tagAtendimento.nome}"
+                                    style="background-color: ##{tagAtendimento.cor}; color: #fff;"
+                                    update="@form #{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}">
+
+                                <f:setPropertyActionListener
+                                        target="#{cc.attrs.pesquisa.tagAtendimento}"
+                                        value="#{tagAtendimento}" />
                             </p:menuitem>
                         </c:forEach>
                     </p:submenu>
@@ -192,20 +207,20 @@
 
 
                     <p:inputText
-                        styleClass="Fs16"
-                        id="pesquisaLead"
+                            styleClass="Fs16"
+                            id="pesquisaLead"
 
-                        value="#{cc.attrs.pesquisa.termoPesquisa}"
-                        style="width:400px; opacity: 0.8;"
-                        placeholder="Pesquise aqui em: #{cc.attrs.pesquisa.tipoPesquisa.nome}:">
+                            value="#{cc.attrs.pesquisa.termoPesquisa}"
+                            style="width:400px; opacity: 0.8;"
+                            placeholder="Pesquise aqui em: #{cc.attrs.pesquisa.tipoPesquisa.nome}:">
 
                         <p:ajax
 
-                            event="valueChange"
-                            onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}')"
-                            oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}')"
-                            process="@this"
-                            update="#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"/>
+                                event="valueChange"
+                                onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}')"
+                                oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}')"
+                                process="@this"
+                                update="#{pgUtil.gerarCaminhoCompletoID('gridListagemMeusProspets')}"/>
                     </p:inputText>
 
                     <p:button icon="fa fa-search" disabled="true" id="botaoFakePesquisa"  styleClass="botaoVerde" />

@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos;
 
-import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
+//import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -20,8 +20,8 @@ import javax.persistence.ManyToOne;
 @InfoObjetoSB(tags = "Tipo dado Gerado por IA", plural = "Tipo dado Gerado por ia")
 public class TipoDadoIA extends TipoDadoCRM {
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = ERP_IA.class)
-    private ERP_IA provedorIA;
+//    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = ERP_IA.class)
+//    private ERP_IA provedorIA;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, descricao = "Modelo de IA que será utilizado. Modelos mais avançados tendem a gerar respostas melhores, porém com maior custo.")
     private String model;
@@ -65,13 +65,13 @@ public class TipoDadoIA extends TipoDadoCRM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, descricao = "Em caso de falha, um tipo de dado logico pode ser acionado, em caso de falha o conteúdo de texto será utilizado")
     private TipoDadoCRMLogica tipoDadoLogicaCasoFalha;
 
-    public ERP_IA getProvedorIA() {
-        return provedorIA;
-    }
-
-    public void setProvedorIA(ERP_IA provedorIA) {
-        this.provedorIA = provedorIA;
-    }
+//    public ERP_IA getProvedorIA() {
+//        return provedorIA;
+//    }
+//
+//    public void setProvedorIA(ERP_IA provedorIA) {
+//        this.provedorIA = provedorIA;
+//    }
 
     public String getModel() {
         return model;

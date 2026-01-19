@@ -74,11 +74,11 @@
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>
-            <artifactId>openid</artifactId>
-            <version>1.0.0-RC-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>-->
+<!--            <artifactId>openid</artifactId>-->
+<!--            <version>1.0.0-RC-SNAPSHOT</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>br.org.coletivoJava.fw.api.erp.chat</groupId>

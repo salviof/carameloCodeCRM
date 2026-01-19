@@ -65,6 +65,18 @@
 
             <!-- Arquivos -->
             <p:column headerText="Arquivos" style="width:150px">
+                <h:panelGroup id="audioVoip" rendered="#{atividade.umaAtividadeVoip}" style="text-align:center; width:100%">
+                    <p:commandLink onclick="PF('audioDlg').show(); return false;">
+                        <i class="fa fa-play"></i>
+                    </p:commandLink>
+
+                    <p:dialog widgetVar="audioDlg" modal="true" header="Áudio">
+                        <p:audio value="http://download.lisztonian.com/music/download/Larghetto+in+F-62.mp3"
+                                 controls="true"
+
+                                 style="width:100%"/>
+                    </p:dialog>
+                </h:panelGroup>
                 <ui:repeat value="#{atividade.documentosGerados}" var="arquivo">
 
                     <h:panelGroup id="anexoFile" rendered="#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo ne null}">
