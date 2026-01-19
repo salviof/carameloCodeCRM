@@ -1,10 +1,10 @@
-package br.org.carameloCode.erp.modulo.crm.api.model.atividadecrmligacaorecebida;
+package br.org.carameloCode.erp.modulo.crm.api.model.atividadecrmligacaorealizada;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRealizada;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
-@InfoReferenciaEntidade(tipoObjeto = AtividadeCrmLigacaoRecebida.class)
-public enum CPAtividadeCrmLigacaoRecebida {
+@InfoReferenciaEntidade(tipoObjeto = AtividadeCrmLigacaoRealizada.class)
+public enum CPAtividadeCrmLigacaoRealizada {
 	_TELEFONEVOIP, _CONTATOPROSPECTO, _AUDIOVOIP;
 
 	public static final String telefonevoip = "telefoneVoip";
