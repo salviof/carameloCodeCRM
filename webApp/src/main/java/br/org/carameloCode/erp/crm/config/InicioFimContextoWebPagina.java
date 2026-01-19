@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.crm.config;
 
 import br.org.carameloCode.erp.modulo.crm.api.FabConfigErpCRM;
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtividade.PesquisaAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsClienteDaCategoria;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCategoria;
@@ -56,7 +56,7 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
             System.out.println("############### FIM CONFIG core");
             try {
 
-                SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode());
+                SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode());
                 SBPersistencia.criarRegistrosIniciais();
             } catch (Throwable t) {
                 System.out.println("FALHA CRIANDO JPA");

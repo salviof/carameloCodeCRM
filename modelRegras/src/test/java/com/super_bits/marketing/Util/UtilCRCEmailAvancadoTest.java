@@ -7,7 +7,7 @@ package com.super_bits.marketing.Util;
 
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -50,7 +50,7 @@ public class UtilCRCEmailAvancadoTest extends TesteCRMCarameloCode {
         // System.out.println("CAMINHO===" + getPastaExecucaoScriptsSQL());
         System.out.println("Retorno");
 
-        SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode(), true, false);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
         UtilCRCEmail.configurar(new ConfigEmailServersProjeto("mail.casanovadigital.com.br", "contato@casanovadigital.com.br", "acasadigital@2017"));
 
     }

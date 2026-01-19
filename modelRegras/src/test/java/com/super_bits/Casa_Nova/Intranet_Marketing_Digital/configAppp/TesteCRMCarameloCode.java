@@ -6,7 +6,7 @@
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp;
 
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.parametros.ParametroListaRestful;
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtividade.PesquisaAtividade;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
@@ -59,7 +59,7 @@ public class TesteCRMCarameloCode extends TesteJunitJPAModuloERP {
         //Nas classes de ambiente padrão do sistema  modo desenvolvimento significa execuções via JUNIT, HOmologação Jetty na sua maquina, e Produção na Web
         SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
-        SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode(), true, true);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, true);
         UtilCRCEmail.configurar(new ConfigEmailServersProjeto("mail.casanovadigital.com.br", "contato@casanovadigital.com.br", "acasadigital@2017"));
         MapaObjetosProjetoAtual.adcionarObjeto(PesquisaAtividade.class);
 

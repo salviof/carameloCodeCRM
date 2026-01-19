@@ -8,7 +8,7 @@ package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implemetation.mo
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.areatrabalho.ValorLogicoAreaTrabalhoNaoLidoEmailPessoasQtd;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.areaTrabalho.AreaTrabalho;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
@@ -17,7 +17,6 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import br.org.carameloCode.erp.modulo.crm.api.model.areatrabalho.CPAreaTrabalho;
 import org.junit.Test;
-import static testesFW.TesteJunitSBPersistencia.getEM;
 
 /**
  *
@@ -29,7 +28,7 @@ public class ValorLogicoAreaTrabalhoNaoLidoEmailPessoasQtdTest extends TesteCRMC
     public void configAmbienteDesevolvimento() {
 
         SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode(), true, false);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
 
     }
 
