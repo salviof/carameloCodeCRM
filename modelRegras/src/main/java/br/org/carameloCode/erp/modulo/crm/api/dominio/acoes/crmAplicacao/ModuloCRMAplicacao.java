@@ -1,23 +1,25 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao;
 
-import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
-import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
-import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
-import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
-import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
-import br.org.coletivoJava.fw.erp.implementacao.chat.ChatMatrixOrgimpl;
-import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestIntTypebotResultados;
-import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotBots;
-import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotWorkspace;
-import br.org.coletivoJava.integracoes.restTypebot.implementacao.util.UtilIntegracaoTypebot;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
-import br.org.coletivojava.fw.utils.agendador.UtilSBAgendadorTarefas;
-import com.google.common.collect.Lists;
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.typebot.UtilCRMTypeBot;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
+import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.api.model.telefone.CPTelefone;
+import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
+import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.usuariosb.CPUsuarioSB;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRealizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.ComoAtividadeVoip;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.ChatBot;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
@@ -26,22 +28,37 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.TipoFormulario
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.resposta.RespostaFormulario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.AudioVoip;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.ProspectoRepositorio;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
+import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
+import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
+import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
+import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
+import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
+import br.org.coletivoJava.fw.erp.implementacao.chat.ChatMatrixOrgimpl;
+import br.org.coletivoJava.integracoes.asterix_voip.api.FabApiAsterix;
+import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestIntTypebotResultados;
+import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotBots;
+import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotWorkspace;
+import br.org.coletivoJava.integracoes.restTypebot.implementacao.util.UtilIntegracaoTypebot;
+import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import br.org.coletivojava.fw.utils.agendador.UtilSBAgendadorTarefas;
+import com.google.common.collect.Lists;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.pabx.ResultadoLigacao;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.pabx.TipoChamada;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.pabx.UtilCRMPabx;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.typebot.UtilCRMTypeBot;
 import com.super_bits.Super_Bits.intTypebot.config.FabConfigModuloTypebot;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
@@ -67,14 +84,11 @@ import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalCo
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
-import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
-import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
-import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
-import br.org.carameloCode.erp.modulo.crm.api.model.usuariosb.CPUsuarioSB;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,6 +96,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_AMERICANO;
 
 /**
  *
@@ -749,5 +765,103 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
             }
         }
                 .getResposta();
+    }
+
+    @InfoAcaoCRMAplicacao(acao = FabAcaoCrmAplicacao.ATIVIDADE_AUTONOMA_CRM_CTR_SINCRONIZAR_PABX_AUTO_EXEC)
+    public synchronized static ItfRespostaAcaoDoSistema sincronizarChamadasPabx() {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoAtvChamadaRecebida.class), new TipoAtvChamadaRecebida()) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                final int DIAS_DECREMENTADOS = 10;
+                Date dataInicial = UtilCRCDataHora.decrementarDias(new Date(), DIAS_DECREMENTADOS);
+                Date dataFinal = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat(DATA_HORA_AMERICANO.getSimpleDateFormatStr());
+
+                String dataInicialFormatada = sdf.format(dataInicial);
+                String dataFinalFormatada = sdf.format(dataFinal);
+                JsonObject respostaWs = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta().getRespostaComoObjetoJson();
+
+                JsonArray retorno = respostaWs.getJsonArray("RETORNO");
+                for (JsonValue r : retorno) {
+                    ResultadoLigacao resultadoLigacao = UtilCRMPabx.interpretar(r.asJsonObject().getString("clid"));
+                    String numeroEmpresa;
+                    String numeroCliente;
+                    String numeroExternoDDDFormatado = resultadoLigacao.getNumeroExterno().replaceFirst("^0", "");
+                    String numeroDesticoDDDFormatado = r.asJsonObject().getString("dst").replaceFirst("^0", "");
+
+                    if (resultadoLigacao.getRamal() != null) {
+                        numeroEmpresa = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(numeroExternoDDDFormatado);
+                        numeroCliente = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(numeroDesticoDDDFormatado);
+                    } else {
+                        numeroCliente = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(numeroExternoDDDFormatado);
+                        numeroEmpresa = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(numeroDesticoDDDFormatado);
+                    }
+                    if (resultadoLigacao.getTipo() == TipoChamada.DESCONHECIDA) {
+                        continue;
+                    }
+
+                    //SALVAR AUDIO SO SE SALVAR A ATIVIDADE, FAZER ALGO CCOM A TRANSACAO SE UM N FOR SALVO OUTRO N FOR
+                    //CRIAR UMA CONTROLLER DE ATIVIDADEVOIP
+                    //SE DER ERRO MESMO ASSIM CONTINUAR, TALVEZ FORA DO FOR
+                    String dataInicialJson = r.asJsonObject().getString("calldate");
+                    String audioId = r.asJsonObject().getString("uniqueid");
+                    try {
+                        processarLigacaoPorStatus(resultadoLigacao, numeroEmpresa, numeroCliente, dataInicialJson, audioId);
+                    } catch (ErroPreparandoObjeto e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            private void processarLigacaoPorStatus(ResultadoLigacao pResultadoLigacao, String pNumeroEmpresa, String pNumeroCliente, String pDataInicialJson, String pAudioId) throws ErroRegraDeNegocio, ErroPreparandoObjeto {
+
+                SimpleDateFormat sdf = new SimpleDateFormat(DATA_HORA_AMERICANO.getSimpleDateFormatStr());
+                if(pNumeroEmpresa == null) {
+                    return;
+                }
+                Telefone telefone = new ConsultaDinamicaDeEntidade(Telefone.class, getEm()).addcondicaoCampoIgualA(CPTelefone.telefone, pNumeroEmpresa).getPrimeiroRegistro();
+                if (telefone == null) {
+                    return;
+                }
+                if(pNumeroCliente == null) {
+                    return;
+                }
+                ContatoProspecto contatoProspecto = new ConsultaDinamicaDeEntidade(ContatoProspecto.class, getEm()).addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, pNumeroCliente).getPrimeiroRegistro();
+                if (contatoProspecto == null) {
+                    return;
+                }
+
+                AtividadeCRM atividadeCRM;
+                if (pResultadoLigacao.getTipo() == TipoChamada.RECEBIDA) {
+                    atividadeCRM = new AtividadeCrmLigacaoRecebida();
+                     atividadeCRM.prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRecebida());
+                } else if (pResultadoLigacao.getTipo() == TipoChamada.REALIZADA) {
+                    atividadeCRM = new AtividadeCrmLigacaoRealizada();
+//                    ((ComoAtividadeVoip) atividadeCRM).prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRealizada());
+                    atividadeCRM.prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRealizada());
+                } else {
+                    return;
+                }
+//                AudioVoip audio = new ConsultaDinamicaDeEntidade(AudioVoip.class, getEm()).addcondicaoCampoIgualA(CPAudioVoip.uniqueid, pAudioId).getPrimeiroRegistro();
+//                if(audio == null) {
+                    //TODO : BAIXAR O AUDIO DPS DA REQUEST
+                    // JsonObject respostaWs = FabApiAsterix.LIGACOES_BAIXAR_AUDIO.getAcao(pAudioId).getResposta().getRespostaComoObjetoJson();
+//                    audio = new AudioVoip();
+//                    audio.setUniqueId(pAudioId); //todo setArquivo()
+//                    audio = atualizarEntidade(audio);
+//
+//                }
+//                ((ComoAtividadeVoip) atividadeCRM).setAudioVoip(audio);
+
+                try {
+                    Date dataConvertida = sdf.parse(pDataInicialJson);
+                    atividadeCRM.setDataHoraInicioAtividade(dataConvertida);
+                } catch (ParseException e) {
+                    throw new RuntimeException("Erro ao converter data", e);
+                }
+
+                atualizarEntidade(atividadeCRM, false);
+            }
+        };
     }
 }

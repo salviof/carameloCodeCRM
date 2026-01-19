@@ -7,7 +7,7 @@ package com.super_bits.apis.google.calendario;
 
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmail;
@@ -27,7 +27,7 @@ public class ApiCalendarioGoogleTest extends TesteCRMCarameloCode {
         // System.out.println("CAMINHO===" + getPastaExecucaoScriptsSQL());
         System.out.println("Retorno");
 
-        SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode(), true, true);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, true);
         UtilCRCEmail.configurar(new ConfigEmailServersProjeto("mail.casanovadigital.com.br", "contato@casanovadigital.com.br", "acasadigital@2019"));
 
         //    ApiCalendarioGoogle calendario = new ApiCalendarioGoogle();

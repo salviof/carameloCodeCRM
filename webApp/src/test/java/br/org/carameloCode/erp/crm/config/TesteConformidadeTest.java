@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.crm.config;
 
-import br.org.carameloCode.erp.modulo.crm.config.ConfigPercistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.SBWebPaginas;
@@ -38,7 +38,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
     @Override
     protected void configAmbienteDesevolvimento() {
         SBCore.configurar(new ConfigCoreWebAppCrmCarameloCode(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        SBPersistencia.configuraJPA(new ConfigPercistenciaCrmCarameloCode(), true, false);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
         try {
             SBWebPaginas.configurar(new ConfigWP_CRM_CarameloCode());
         } catch (IOException ex) {

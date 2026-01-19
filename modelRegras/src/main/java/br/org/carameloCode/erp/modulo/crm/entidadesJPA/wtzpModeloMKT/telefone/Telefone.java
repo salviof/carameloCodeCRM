@@ -4,14 +4,14 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 /**
  *
@@ -33,6 +33,14 @@ public class Telefone extends EntidadeSimples {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String codigoApiWhatsapp;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = TipoAtvChamadaRecebida.class)
+    private TipoAtvChamadaRecebida tipoChamadaRecebida;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = TipoAtvChamadaRealizada.class)
+    private TipoAtvChamadaRealizada tipoChamadaRealizada;
 
     public Long getId() {
         return id;
@@ -64,6 +72,22 @@ public class Telefone extends EntidadeSimples {
 
     public void setCodigoApiWhatsapp(String codigoApiWhatsapp) {
         this.codigoApiWhatsapp = codigoApiWhatsapp;
+    }
+
+    public TipoAtvChamadaRecebida getTipoChamadaRecebida() {
+        return tipoChamadaRecebida;
+    }
+
+    public void setTipoChamadaRecebida(TipoAtvChamadaRecebida tipoChamadaRecebida) {
+        this.tipoChamadaRecebida = tipoChamadaRecebida;
+    }
+
+    public TipoAtvChamadaRealizada getTipoChamadaRealizada() {
+        return tipoChamadaRealizada;
+    }
+
+    public void setTipoChamadaRealizada(TipoAtvChamadaRealizada tipoChamadaRealizada) {
+        this.tipoChamadaRealizada = tipoChamadaRealizada;
     }
 
 }

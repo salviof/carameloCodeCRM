@@ -5,7 +5,9 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = AtividadeCrmLigacaoRecebida.class)
 public enum CPAtividadeCrmLigacaoRecebida {
-	_CODIGOPABX;
+	_TELEFONEVOIP, _CONTATOPROSPECTO, _AUDIOVOIP;
 
-	public static final String codigopabx = "codigoPABX";
+	public static final String telefonevoip = "telefoneVoip";
+	public static final String contatoprospecto = "contatoProspecto";
+	public static final String audiovoip = "audioVoip";
 }

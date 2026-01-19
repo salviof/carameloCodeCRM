@@ -6,6 +6,7 @@ import java.io.Serializable;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoController;
 
 @Named
 @ApplicationScoped
@@ -61,5 +62,15 @@ public class AcoesAplicacaoCrm_AtividadeAutonomaCrmMbCatalogo
 	public ComoAcaoControllerEntidade getAtividadeAutonomaCrmCtrConclusaoDispararTransacional() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAplicacao.ATIVIDADE_AUTONOMA_CRM_CTR_CONCLUSAO_DISPARAR_TRANSACIONAL");
+	}
+
+	public ComoAcaoController getAtividadeAutonomaCrmCtrSincronizarPabxAutoExec() {
+		return (ComoAcaoController) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAplicacao.ATIVIDADE_AUTONOMA_CRM_CTR_SINCRONIZAR_PABX_AUTO_EXEC");
+	}
+
+	public ComoAcaoControllerEntidade getAtividadeAutonomaCrmCtrSalvarAtividadeVoip() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAplicacao.ATIVIDADE_AUTONOMA_CRM_CTR_SALVAR_ATIVIDADE_VOIP");
 	}
 }

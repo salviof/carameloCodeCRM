@@ -6,6 +6,7 @@
 package tesetsConexao;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.coletivoJava.fw.api.erp.crm.ERPCrm;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 //import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import org.apache.logging.log4j.LogManager;

@@ -1,5 +1,8 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.apresentacao.DocumentoApresentacao;
@@ -1086,6 +1089,36 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 atualizarEntidade(pTipoFormulario);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_REALIZADA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoAtividadeChamadaRealizadaAtualizar(TipoAtvChamadaRealizada pTipoAtvChamadaRealizada) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoAtvChamadaRealizada.class), pTipoAtvChamadaRealizada) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoAtvChamadaRealizada);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_RECEBIDA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoAtividadeChamadaRecebidaAtualizar(TipoAtvChamadaRecebida pTipoAtvChamadaRecebida) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoAtvChamadaRecebida.class), pTipoAtvChamadaRecebida) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoAtvChamadaRecebida);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TELEFONE_VOIP_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoAtividadeChamadaRecebidaAtualizar(Telefone pTelefone) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoAtvChamadaRecebida.class), pTelefone) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTelefone);
             }
         };
     }

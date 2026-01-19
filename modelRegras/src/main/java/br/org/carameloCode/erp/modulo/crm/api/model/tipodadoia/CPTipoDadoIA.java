@@ -5,9 +5,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = TipoDadoIA.class)
 public enum CPTipoDadoIA {
-	_PROVEDORIA, _MODEL, _TEMPERATURA, _TOP_P, _MAXIMOTOKENS, _TIMEOUT, _PRESENCE_PENALTY, _FREQUENCY_PENALTY, _CONTEXT_POLICY, _FALLBACK_MODEL, _MONTHLY_TOKEN_LIMIT, _ATIVO, _CONTEUDOPERGUNTAIA, _CONTEUDOALTERNATIVOCASOFALHA, _TIPODADOLOGICACASOFALHA;
+	_MODEL, _TEMPERATURA, _TOP_P, _MAXIMOTOKENS, _TIMEOUT, _PRESENCE_PENALTY, _FREQUENCY_PENALTY, _CONTEXT_POLICY, _FALLBACK_MODEL, _MONTHLY_TOKEN_LIMIT, _ATIVO, _CONTEUDOPERGUNTAIA, _CONTEUDOALTERNATIVOCASOFALHA, _TIPODADOLOGICACASOFALHA;
 
-	public static final String provedoria = "provedorIA";
 	public static final String model = "model";
 	public static final String temperatura = "temperatura";
 	public static final String top_p = "top_p";

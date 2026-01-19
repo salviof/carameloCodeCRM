@@ -5,11 +5,11 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade;
 
-import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -17,8 +17,7 @@ import javax.persistence.Id;
  *
  * @author desenvolvedor
  */
-@InfoObjetoSB(tags = {"Status Atividade"}, plural = "Status de Atividade", fabricaVinculada = FabStatusAtividade.class,
-         modulo = ERPCrm.NOME_MODULO_ERP)
+@InfoObjetoSB(tags = {"Status Atividade"}, plural = "Status de Atividade", fabricaVinculada = FabStatusAtividade.class)
 @Entity
 public class StatusAtividade extends EntidadeSimplesORM {
 

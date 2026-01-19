@@ -98,7 +98,6 @@ public enum FabMenuIntranetCasaNova implements ComoFabricaMenu {
                 sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.MAUTIC_FRM_EXPORTAR);
                 sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO);
                 sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.TIPO_FORMULARIO_TYPEBOT_MB_GESTAO);
-                ///TIPO_FORMULARIO_TYPEBOT_MB_GESTAO
                 menu.addSessao(sessaoIntegracoes);
                 menu.addSessao(FabMenuSessoesIntranetMarketing.SEGURANCA.getRegistro());
 
