@@ -47,7 +47,7 @@ public class ConfigPersistCRMDemostracao implements ItfConfigSBPersistencia {
 
     @Override
     public String bancoPrincipal() {
-        return "CRMCasaNova";
+        return "CRMCarameloCode";
     }
 
     @Override
