@@ -12,172 +12,583 @@
     <ui:define name="conteudo">
 
         <style>
-            .container-center {
-                width: 100%;
-                max-width: 1200px;
+            /* =======================================
+               VARIÁVEIS E ESTILOS GLOBAIS
+            ======================================== */
+            :root {
+                --primary-color: #70bf82;
+                --secondary-color: #406a47;
+                --success-color: #4cc9f0;
+                --danger-color: #f72585;
+                --light-color: #f8f9fa;
+                --dark-color: #212529;
+                --border-color: #dee2e6;
+                --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                --radius: 8px;
+                --transition: all 0.3s ease;
+            }
+
+            /* =======================================
+               LAYOUT PRINCIPAL
+            ======================================== */
+            .whatsapp-container {
+                max-width: 1400px;
                 margin: 0 auto;
-                padding: 10px;
+                padding: 20px;
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 24px;
+                min-height: calc(100vh - 40px);
+            }
+
+            @media (max-width: 1024px) {
+                .whatsapp-container {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+            }
+
+            /* =======================================
+               CARDS E SEÇÕES
+            ======================================== */
+            .card {
+                background: white;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                border: 1px solid var(--border-color);
+                overflow: hidden;
+                transition: var(--transition);
+            }
+
+            .card:hover {
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .card-header {
+                background: var(--primary-color);
+                color: white;
+                padding: 16px 20px;
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .card-body {
+                padding: 24px;
+            }
+
+            .section-title {
+                color: var(--secondary-color);
+                font-weight: 600;
+                margin-bottom: 16px;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .section-title i {
+                font-size: 1.2rem;
+            }
+
+            /* =======================================
+               INFORMACOES DO CONTATO
+            ======================================== */
+            .contact-info {
+                background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+                border-radius: var(--radius);
+                padding: 20px;
+                margin-bottom: 24px;
+                border-left: 4px solid var(--primary-color);
+            }
+
+            .contact-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .contact-avatar {
+                width: 50px;
+                height: 50px;
+                background: var(--primary-color);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            .contact-details h3 {
+                margin: 0;
+                color: var(--dark-color);
+                font-size: 1.2rem;
+            }
+
+            .contact-details p {
+                margin: 4px 0 0;
+                color: #666;
+                font-size: 0.9rem;
+            }
+
+            /* =======================================
+               COMPONENTES DE FORMULARIO
+            ======================================== */
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 500;
+                color: var(--dark-color);
+            }
+
+            .select-wrapper {
+                position: relative;
+                width: 100%;
+            }
+
+            .select-wrapper::after {
+                content: '▼';
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--primary-color);
+                pointer-events: none;
+            }
+
+            .ui-selectonelistbox {
+                width: 100% !important;
+                border: 1px solid var(--border-color) !important;
+                border-radius: var(--radius) !important;
+            }
+
+            .ui-selectonelistbox .ui-listbox-list {
+                padding: 8px 0 !important;
+            }
+
+            .ui-selectonelistbox .ui-listbox-item {
+                padding: 10px 12px !important;
+                margin: 2px 0 !important;
+                border-radius: 4px !important;
+                transition: var(--transition) !important;
+            }
+
+            .ui-selectonelistbox .ui-listbox-item.ui-state-highlight {
+                background: var(--primary-color) !important;
+                color: white !important;
+            }
+
+            /* =======================================
+               PREVIEW DO LINK
+            ======================================== */
+            .link-preview {
+                background: #f0f7ff;
+                border-radius: var(--radius);
+                padding: 16px;
+                margin: 20px 0;
+                text-align: center;
+                border: 1px dashed var(--primary-color);
+            }
+
+            .preview-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #25D366, #128C7E);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: var(--transition);
+            }
+
+            .preview-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            }
+
+            /* =======================================
+               BOTOES DE ACAO
+            ======================================== */
+            .actions-section {
+                background: #f8f9fa;
+                border-radius: var(--radius);
+                padding: 20px;
+                margin-top: 24px;
+            }
+
+            .action-buttons {
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+                gap: 16px;
+                margin-top: 20px;
             }
 
-            .linha {
+            .button-primary {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: var(--radius);
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
                 display: flex;
-                flex-wrap: wrap;
-                gap: 20px;
-                justify-content: center;
-            }
-
-            .col-8 { flex: 1 1 65%; min-width: 300px; }
-            .col-4 { flex: 1 1 30%; min-width: 280px; }
-
-            .centralizar {
-                display: flex;
-                justify-content: center;
                 align-items: center;
+                justify-content: center;
+                gap: 8px;
             }
 
-            .mt20 { margin-top: 20px; }
-            .mb20 { margin-bottom: 20px; }
+            .button-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+            }
+
+            .button-secondary {
+                background: linear-gradient(135deg, #6c757d, #495057);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: var(--radius);
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .button-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(108, 117, 125, 0.3);
+            }
+
+            /* =======================================
+               HISTORICO DE MENSAGENS
+            ======================================== */
+            .history-container {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .history-list {
+                flex: 1;
+                overflow-y: auto;
+                max-height: 500px;
+            }
+
+            .history-item {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: var(--transition);
+            }
+
+            .history-item:hover {
+                background: #f8f9fa;
+            }
+
+            .history-item:last-child {
+                border-bottom: none;
+            }
+
+            .message-info {
+                flex: 1;
+            }
+
+            .message-type {
+                display: inline-block;
+                padding: 4px 8px;
+                background: #e9ecef;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                color: var(--dark-color);
+                margin-left: 8px;
+            }
+
+            .message-time {
+                color: #6c757d;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .empty-history {
+                text-align: center;
+                padding: 40px 20px;
+                color: #6c757d;
+            }
+
+            .empty-history i {
+                font-size: 3rem;
+                margin-bottom: 16px;
+                opacity: 0.3;
+            }
+
+            /* =======================================
+               ESTADOS E UTILITARIOS
+            ======================================== */
+            .status-badge {
+                display: inline-block;
+                padding: 4px 12px;
+                margin: 4px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+            }
+
+            .status-sent {
+                background: #d4edda;
+                color: #155724;
+            }
+
+            .status-pending {
+                background: #fff3cd;
+                color: #856404;
+            }
+
+            .loading-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid var(--primary-color);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
         </style>
 
-        <h:form>
+        <h:form id="whatsappForm">
 
-            <div class="container-center">
+            <div class="whatsapp-container">
 
                 <!-- =======================================
-                     LADO ESQUERDO (FORM PRINCIPAL)
-                ========================================-->
-                <div class="linha">
+                     LADO ESQUERDO - ENVIO DE MENSAGENS
+                ======================================== -->
+                <div class="main-content">
 
-                    <div class="col-8">
+                    <!-- CABECALHO DO CONTATO -->
+                    <div class="card contact-info">
+                        <div class="contact-header">
+                            <div class="contact-avatar">
+                                #{pgMeusContatos.entidadeSelecionada.nome.substring(0, 1)}
+                            </div>
+                            <div class="contact-details">
+                                <h3>#{pgMeusContatos.entidadeSelecionada.nome}</h3>
+                                <p>
+                                    <i class="pi pi-phone"></i> #{pgMeusContatos.entidadeSelecionada.celular}
+                                    <span style="margin-left: 12px;">
+                                        <i class="pi pi-user"></i> #{pgMeusContatos.entidadeSelecionada.prospecto.nome}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <p class="section-title">
+                            <i class="pi pi-comment"></i> Envio de Mensagem de Marketing
+                        </p>
+                    </div>
 
-                        <p:fieldset legend="Envio MSG Marketing para #{pgMeusContatos.entidadeSelecionada.nome}
-                            - #{pgMeusContatos.entidadeSelecionada.celular}
-                            DE: #{pgMeusContatos.entidadeSelecionada.prospecto.nome}" >
+                    <!-- CARD DE CONFIGURACAO DA MENSAGEM -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="pi pi-cog"></i> Configurar Mensagem
+                        </div>
+                        <div class="card-body">
 
-                            <!-- CONTATO -->
-                            <div class="mt20 mb20">
+                            <!-- CONTATO (READONLY) -->
+                            <div class="form-group">
+                                <label class="form-label">Contato</label>
+<!--                                <SBInput:input-->
+<!--                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('contato')}"-->
+<!--                                        desabilitarEdicao="true"-->
+<!--                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}"-->
+<!--                                />-->
+                            </div>
+
+                            <!-- SELECAO DO TIPO DE MENSAGEM -->
+                            <div class="form-group">
+                                <label class="form-label">Tipo da Mensagem</label>
+                                <div class="select-wrapper">
+                                    <p:selectOneListbox
+                                            value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
+                                            converter="conversorGenerico"
+                                            filter="true"
+                                            var="tipoMsgem"
+                                            filterMatchMode="contains"
+                                            style="width: 100%;"
+                                            immediate="true"
+                                            placeholder="Selecione um tipo de mensagem">
+
+                                        <f:selectItems
+                                                value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
+                                                var="tipoMsgem"
+                                                itemLabel="#{tipoMsgem.nome}"
+                                                itemValue="#{tipoMsgem}" />
+
+                                        <p:column headerText="Tipo" style="width: 60%">
+                                            <h:outputText value="#{tipoMsgem.nome}" />
+                                        </p:column>
+
+                                        <p:column headerText="Envio Único" style="width: 40%">
+                                            <div style="text-align: center;">
+                                                <span class="status-badge #{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico').valor ? 'status-pending' : 'status-pending'}">
+                                                    #{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico').valor ? 'Apenas um envio' : 'Multiplos envios'}
+                                                </span>
+                                            </div>
+                                        </p:column>
+
+                                        <p:ajax event="valueChange" update=":whatsappForm:messageConfig" />
+                                    </p:selectOneListbox>
+                                </div>
+                            </div>
+
+                            <!-- PREVIEW DO LINK -->
+                            <p:outputPanel id="linkPreviewPanel" rendered="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor != null}">
+                                <div class="link-preview">
+                                    <p:link
+                                            href="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
+                                            value=""
+                                            target="cndcrmWtwapPreview"
+                                            styleClass="preview-button">
+                                        <i class="fa fa-whatsapp"></i> Visualizar no WhatsApp
+                                    </p:link>
+                                </div>
+                            </p:outputPanel>
+
+                        </div>
+                    </div>
+
+                    <!-- PARAMETROS EXTRAS (SE HOUVER) -->
+                    <p:outputPanel id="messageConfig">
+
+
+                        <!-- BOTOES DE ENVIO (APENAS QUANDO TIPO SELECIONADO) -->
+                        <h:panelGroup  class="actions-section" rendered="#{pgMeusContatos.mensagemWhatsapp.tipo != null}">
+                            <p class="section-title">
+                                <i class="pi pi-send"></i> Enviar Mensagens
+                            </p>
+
+                            <!-- TELEFONE PARA ENVIO -->
+                            <div class="form-group">
+                                <label class="form-label">Telefone para envio</label>
                                 <SBInput:input
-                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('contato')}"
-                                        desabilitarEdicao="true"
+                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('telefone')}"
+                                        desabilitarEdicao="false"
                                         layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
                                 />
                             </div>
 
-                            <!-- LISTA DE TIPOS -->
-                            <div class="mt20 mb20">
+                            <!-- BOTOES DE ACAO -->
+                            <div class="action-buttons">
+                                <SBBotaoDeAcao:botaoDeAcao
+                                        metodo="#{servicoCRMContato.enviarMensagemWtzap(pgMeusContatos.mensagemWhatsapp)}"
+                                        armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                        acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmEnviarMktWtzap}"
+                                        update=":whatsappForm"
+                                        label="Enviar para este contato"
+                                />
 
-                                <p:selectOneListbox
-                                        value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
-                                        converter="conversorGenerico"
-                                        filter="true"
-                                        var="tipoMsgem"
-                                        filterMatchMode="contains"
-                                        style="width: 100%;"
-                                        immediate="true">
-
-                                    <f:facet name="header">
-                                        <h:outputText value="Selecione o tipo da mensagem" />
-                                    </f:facet>
-
-                                    <f:selectItems value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
-                                                   var="tipoMsgem"
-                                                   itemLabel="#{tipoMsgem.nome}"
-                                                   itemValue="#{tipoMsgem}" />
-
-                                    <p:column>
-                                        <h:outputText value="#{tipoMsgem.nome}" />
-                                    </p:column>
-
-                                    <p:column headerText="Envio único?">
-                                        <SBInput:input
-                                                registro="#{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico')}"
-                                                layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
-                                                desabilitarEdicao="true"/>
-                                    </p:column>
-
-                                    <p:ajax event="valueChange" update="@form" />
-                                </p:selectOneListbox>
-
+                                <SBBotaoDeAcao:botaoDeAcao
+                                        metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(pgMeusContatos.mensagemWhatsapp)}"
+                                        armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                        acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
+                                        update=":whatsappForm"
+                                        label="Enviar para todos os contatos"
+                                />
                             </div>
+                        </h:panelGroup >
+                    </p:outputPanel>
 
-                            <!-- LINK PREVIEW -->
-                            <div class="mt20 mb20 centralizar">
+                </div>
 
-                                <p:link
-                                        href="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
-                                        value="VER NO WHATSAPP"
-                                        rendered="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor!=null}"
-                                        target="cndcrmWtwapPreview" />
+                <!-- =======================================
+                     LADO DIREITO - HISTORICO
+                ======================================== -->
+                <div class="history-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="pi pi-history"></i> Histórico de Mensagens
+                        </div>
+                        <div class="card-body">
+                            <div class="history-list">
+                                <c:choose>
+                                    <c:when test="#{not empty pgMeusContatos.mensagemSMS.contato.mensagens}">
+                                        <c:forEach items="#{pgMeusContatos.mensagemSMS.contato.mensagens}" var="msg">
+                                            <div class="history-item">
+                                                <div class="message-info">
+                                                    <span class="message-type">#{msg.tipo.nome}</span>
+                                                </div>
+                                                <div class="message-time">
+                                                    <i class="pi pi-clock"></i> #{pgUtilDataHoraFormato.getDataHoraSimplificado(msg.dataHora)}
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="empty-history">
+                                            <i class="pi pi-inbox"></i>
+                                            <p>Nenhuma mensagem enviada ainda</p>
+                                            <p class="small-text">As mensagens enviadas aparecerão aqui</p>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
-
-                        </p:fieldset>
-
-                        <!-- PARAMETROS EXTRAS -->
-                        <p:fieldset rendered="#{pgMeusContatos.mensagemWhatsapp.tipo!=null and pgMeusContatos.mensagemWhatsapp.tipo.parametros.size()>0}">
-                            <c:forEach items="#{pgMeusContatos.mensagemWhatsapp.tipo.parametros}" var="pr">
-                                <SBInput:input
-                                        registro="#{pgMeusContatos.getDado(pr.tipoDado).campoInstanciado}"
-                                        desabilitarEdicao="true"
-                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}" />
-                                <br/>
-                            </c:forEach>
-                        </p:fieldset>
-
-                        <!-- BOTÕES — exibidos SOMENTE QUANDO houver tipo selecionado -->
-                        <p:outputPanel rendered="#{pgMeusContatos.mensagemWhatsapp.tipo != null}" class="mt20">
-
-                            <p:fieldset legend="Enviar mensagens">
-
-                                <div class="centralizar">
-                                    <SBBotaoDeAcao:botaoDeAcao
-                                            metodo="#{servicoCRMContato.enviarMensagemWtzap(pgMeusContatos.mensagemWhatsapp)}"
-                                            armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
-                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                            acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmEnviarMktWtzap}"
-                                            update="@form" />
-                                </div>
-
-                                <div class="centralizar mt20">
-                                    <SBBotaoDeAcao:botaoDeAcao
-                                            metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(pgMeusContatos.mensagemWhatsapp)}"
-                                            armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
-                                            label="Enviar para todos os contatos de #{pgMeusContatos.mensagemWhatsapp.pessoa.nome}"
-                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                            acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
-                                            update="@form" />
-                                </div>
-
-                            </p:fieldset>
-
-                        </p:outputPanel>
-
+                        </div>
                     </div>
-
-                    <!-- =======================================
-                         LADO DIREITO (HISTÓRICO)
-                    ========================================-->
-                    <div class="col-4">
-
-                        <p:fieldset legend="Mensagens enviadas">
-
-                            <c:forEach items="#{pgMeusContatos.mensagemSMS.contato.mensagens}" var="msg">
-                                #{pgUtilDataHoraFormato.getDataHoraSimplificado(msg.dataHora)}
-                                - #{msg.tipo.nome}
-                                <br/>
-                            </c:forEach>
-
-                        </p:fieldset>
-
-                    </div>
-
                 </div>
 
             </div>
 
+            <!-- LOADING OVERLAY -->
+            <p:ajaxStatus onstart="PF('loadingDialog').show()" onsuccess="PF('loadingDialog').hide()" />
+            <p:dialog widgetVar="loadingDialog" modal="true" draggable="false" closable="false" showHeader="false">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                </div>
+            </p:dialog>
+
         </h:form>
+
+        <script>
+            // Scroll suave para histórico
+            document.addEventListener('DOMContentLoaded', function() {
+                const historyList = document.querySelector('.history-list');
+                if (historyList) {
+                    historyList.scrollTop = historyList.scrollHeight;
+                }
+
+                // Adiciona tooltips
+            });
+        </script>
 
     </ui:define>
 </ui:composition>

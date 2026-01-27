@@ -5,10 +5,7 @@ import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
-import br.org.coletivoJava.fw.api.erp.erpintegracao.contextos.ERPIntegracaoSistemasApi;
-import br.org.coletivoJava.fw.api.erp.erpintegracao.servico.ItfIntegracaoERP;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
-import br.org.coletivoJava.integracoes.restInterprestfull.api.FabIntApiRestIntegracaoERPRestfull;
 import br.org.coletivoJava.integracoes.restIntwhatsapp.api.model.FabTipoParametroWhatsapp;
 import br.org.coletivoJava.integracoes.restIntwhatsapp.api.model.ParametroMensgemWhatsapp;
 import br.org.coletivoJava.integracoes.whatsapp.FabApiRestIntWhatsappMensagem;
@@ -95,13 +92,11 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.oauth.FabStatusToken;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.ItfTokenGestaoOauth;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.token.ItfTokenAcessoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.erp.ItfSistemaERP;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import jakarta.json.JsonArray;
@@ -579,7 +574,6 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
      *
      *
      * @param pAtividade
-     * @param pEm
      * @return
      */
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_CONCLUIR_ATIVIDADE)
@@ -1947,7 +1941,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MENSAGEM_MKT_CTR_ENVIAR)
-    public static ItfRespostaAcaoDoSistema contatoProspectoEnviarWhatzapMtk(final MensagemMktWhatsapp pMensagem) {
+    public static ItfRespostaAcaoDoSistema contatoProspectoEnviarWhatsAppMtk(final MensagemMktWhatsapp pMensagem) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pMensagem), pMensagem) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
@@ -2054,19 +2048,22 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                             throw new AssertionError();
                     }
                 }
-                String codigoPadrao = FabConfigApiWhatsapp.CODIGO_USUARIO.getValorParametroSistema();
+                String codigoOrigemMensagemWhatsapp = FabConfigApiWhatsapp.CODIGO_USUARIO.getValorParametroSistema();
+                if(pMensagem.getTelefone() != null && pMensagem.getTelefone().getCodigoApiWhatsapp() != null || !pMensagem.getTelefone().getCodigoApiWhatsapp().isEmpty()) {
+                    codigoOrigemMensagemWhatsapp = pMensagem.getTelefone().getCodigoApiWhatsapp();
+                }
+
                 ItfRespostaWebServiceSimples resposta = FabApiRestIntWhatsappMensagem.MENSAGEM_TEMPLATE_SIMPLES.
-                        getAcao(codigoPadrao, telefone, mensagemAtualizada.getTipo().getSlugTemplate(), listaPrs).getResposta();
+                        getAcao(codigoOrigemMensagemWhatsapp, telefone, mensagemAtualizada.getTipo().getSlugTemplate(), listaPrs).getResposta();
                 String respostaStr = resposta.getRespostaTexto();
 
                 if (!resposta.isSucesso()) {
-                    throw new ErroRegraDeNegocio("Falha enviando Whatsap para " + telefone + " - Erro:" + respostaStr);
+                    throw new ErroRegraDeNegocio("Falha enviando Whatsapp para " + telefone + " - Erro:" + respostaStr);
                 } else {
                     mensagemAtualizada.setEnviado(true);
                     addAviso("Mensagem enviada com sucesso para " + telefone);
                 }
                 setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MENSAGEM_MKT_FRM_ENVIO_SUCESSO.getRegistro().getComoFormulario());
-
             }
         }.getResposta();
     }

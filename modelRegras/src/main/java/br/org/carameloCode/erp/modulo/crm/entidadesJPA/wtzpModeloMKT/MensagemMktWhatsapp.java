@@ -3,6 +3,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
@@ -27,7 +28,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Mensagem de Wtzap", plural = "Manssagens de whatazapp", icone = "fa fa-whatsapp")
+@InfoObjetoSB(tags = "Mensagem de WhatsApp", plural = "Mensagens de WhatsApp", icone = "fa fa-whatsapp")
 public class MensagemMktWhatsapp extends EntidadeSimplesORM {
 
     @Id
@@ -43,6 +44,11 @@ public class MensagemMktWhatsapp extends EntidadeSimplesORM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, somenteLeitura = true)
     @InfoCampoValorLogico(nomeCalculo = "pessoa")
     private Pessoa pessoa;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampoValorLogico(nomeCalculo = "Telefone")
+    @ManyToOne(targetEntity = Telefone.class)
+    private Telefone telefone;
 
     @ManyToOne(targetEntity = ContatoProspecto.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -169,6 +175,14 @@ public class MensagemMktWhatsapp extends EntidadeSimplesORM {
 
     public void setLinkPreview(String linkPreview) {
         this.linkPreview = linkPreview;
+    }
+
+    public Telefone getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
     }
 
 }

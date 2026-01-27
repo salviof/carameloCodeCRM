@@ -21,6 +21,10 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciadoDInamico.CampoInstanciadoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
+import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ItfTDadoDinamicoCRM;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
+
+import javax.persistence.*;
 import java.lang.reflect.Field;
 import java.util.Date;
 import javax.persistence.Column;
