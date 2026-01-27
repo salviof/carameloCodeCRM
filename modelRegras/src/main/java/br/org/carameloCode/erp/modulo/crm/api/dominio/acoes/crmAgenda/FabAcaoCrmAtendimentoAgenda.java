@@ -91,7 +91,7 @@ public enum FabAcaoCrmAtendimentoAgenda implements ComoFabricaDeAcoesPersistenci
     MEUS_CONTATOS_CTR_SMS_ENVIAR,
     @InfoTipoAcaoController(icone = "fa fa-mobile", nomeAcao = "Ligar pelo meu celular")
     MEUS_CONTATOS_CTR_LIGAR_PELO_CELULAR,
-    @InfoTipoAcaoController(icone = "fa fa-whatsapp", nomeAcao = "Abrir chat whatsaoo")
+    @InfoTipoAcaoController(icone = "fa fa-whatsapp", nomeAcao = "Abrir chat Whatsapp")
     MEUS_CONTATOS_CTR_ABRIR_CHAT_WHATSAPP,
     @InfoTipoAcaoController(icone = "fa fa-comments-o", nomeAcao = "Convidar para CHAT")
     MEUS_CONTATOS_CTR_CONVIDAR_PARA_CHAT,

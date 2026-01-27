@@ -59,6 +59,12 @@
             <artifactId>intAmazonShortMessageService</artifactId>
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBApiCore</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

@@ -644,9 +644,9 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPTipoMensagemMktWhatsApp.id, CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, CPTipoMensagemMktWhatsApp.enviounico})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, "telefonePadrao", "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_NOVO,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate,"telefonePadrao", "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_EDITAR,
     @InfoTipoAcaoController()
     TIPO_MENSAGEM_MKT_WTZAP_CTR_SALVAR_MERGE,
@@ -742,15 +742,15 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_ATIVIDADE_CHAMADA_RECEBIDA_CTR_SALVAR_MERGE,
     @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.nomeatividade, CPTipoAtividadeCRM.nomeinicioativida, CPTipoAtividadeCRM.nomefimatividade})
     TIPO_ATIVIDADE_CHAMADA_RECEBIDA_FRM_EDITAR,
-    @InfoTipoAcaoGestaoEntidade(entidade = Telefone.class)
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Telefones Padroes", entidade = Telefone.class)
     TELEFONE_VOIP_MB_GESTAO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-phone", nomeAcao = "Telefone voip", campos = {CPTelefone.id, CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida})
+    @InfoTipoAcaoFormulario(icone = "fa fa-phone", nomeAcao = "Telefone voip", campos = {CPTelefone.id, CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida, CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
     TELEFONE_VOIP_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida})
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone,CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
     TELEFONE_VOIP_FRM_NOVO,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     TELEFONE_VOIP_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone})
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
     TELEFONE_VOIP_FRM_EDITAR,
 
 }

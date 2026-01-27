@@ -123,7 +123,6 @@
                                         </h:panelGroup>
 
                                         <div class="area-botao">
-                                            <!--                                        <crm:botaoGrandeV2 onclick="PF('dlgObs').show(); return false;" label="Editar Observação" icone="pi pi-pencil"/>-->
                                             <p:commandButton value="Editar Observação"
                                                              icon="pi pi-pencil"
                                                              styleClass="btn-editar"
@@ -200,62 +199,6 @@
                     />
             </p:tab>
             <p:tab title="Contato">
-
-                <!--                <h:panelGroup styleClass="container-cards-cliente">-->
-                <!--                    <p:card styleClass="card-cliente">-->
-                <!--                        <h:panelGroup styleClass="card-contatos-titulo">-->
-                <!--                            <h:panelGroup styleClass="card-cliente-title-content" id="contatosDoLead">-->
-                <!--                                <div class="texto-titulo">-->
-                <!--                                    <h3>Contatos</h3>-->
-                <!--                                </div>-->
-                <!--                            </h:panelGroup>-->
-                <!--                            <h:panelGroup styleClass="botoes-container">-->
-                <!--                                <h:panelGroup styleClass="badge-wrapper">-->
-                <!--                                    <p:badge-->
-                <!--                                            value="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor}"-->
-                <!--                                            severity="info">-->
-
-                <!--                                        <h:form>-->
-                <!--                                            <p:commandButton-->
-                <!--                                                    actionListener="#{servicosCRM.exibirModalProspecto(pgProspecto.entidadeSelecionada,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos)}"-->
-                <!--                                                    value="Editar Contatos"-->
-                <!--                                                    icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos.icone}">-->
-                <!--                                                <p:ajax event="click" listener="#{pgProspecto.onModalProspectoOpen}"/>-->
-                <!--                                                <p:ajax event="dialogReturn"-->
-                <!--                                                        listener="#{pgProspecto.onModalProspectoClose}"-->
-                <!--                                                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"-->
-                <!--                                                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"-->
-                <!--                                                        update="#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}"/>-->
-                <!--                                            </p:commandButton>-->
-                <!--                                        </h:form>-->
-
-                <!--                                    </p:badge>-->
-                <!--                                </h:panelGroup>-->
-                <!--                                <h:form>-->
-                <!--                                    <p:commandButton-->
-                <!--                                            action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"-->
-                <!--                                            value="Chat, atendimento ao Cliente"-->
-                <!--                                            icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente.icone}"-->
-                <!--                                    >-->
-
-
-                <!--                                        <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}"-->
-                <!--                                                                     value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente}"/>-->
-                <!--                                    </p:commandButton>-->
-                <!--                                </h:form>-->
-                <!--                            </h:panelGroup>-->
-                <!--                        </h:panelGroup>-->
-                <!--                        <h:panelGroup styleClass="listagem-container-content">-->
-                <!--                            <crmPessoa:menuPessoaAcoesDeContatoDisponiveis-->
-                <!--                                    pessoa="#{pgProspecto.entidadeSelecionada}"-->
-                <!--                                    rendered="#{pgProspecto.entidadeSelecionada.contatosProspecto.size()!=0}"-->
-                <!--                            />-->
-                <!--                        </h:panelGroup>-->
-
-                <!--                    </p:card>-->
-
-
-                <!--                </h:panelGroup>-->
                 <h:panelGroup styleClass="container-cards-cliente">
                     <p:card styleClass="card-cliente">
                         <h:panelGroup styleClass="card-contatos-titulo">
@@ -314,60 +257,6 @@
                                 />
                         </h:panelGroup>
                     </p:card>
-                    <!--                    <p:fieldset styleClass="Container12" id="contatosDoLead">-->
-                    <!--                        <f:facet name="legend">-->
-                    <!--                            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">-->
-                    <!--                                Contatos-->
-                    <!--                                <p:badge-->
-                    <!--                                        value="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor}"-->
-                    <!--                                        severity="danger">-->
-                    <!--                                    <h:form>-->
-                    <!--                                        <p:commandButton-->
-                    <!--                                                actionListener="#{servicosCRM.exibirModalProspecto(pgProspecto.entidadeSelecionada,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos)}"-->
-                    <!--                                                value="Editar Contatos"-->
-                    <!--                                                icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos.icone}"-->
-                    <!--                                        >-->
-                    <!--                                            <p:ajax event="click" listener="#{pgProspecto.onModalProspectoOpen}"-->
-                    <!--                                            />-->
-                    <!--                                            <p:ajax event="dialogReturn" listener="#{pgProspecto.onModalProspectoClose}"-->
-                    <!--                                                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"-->
-                    <!--                                                    oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"-->
-                    <!--                                                    update="#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}"-->
-                    <!--                                            />-->
-
-                    <!--                                        </p:commandButton>-->
-                    <!--                                    </h:form>-->
-                    <!--                                </p:badge>-->
-                    <!--                                <h:form>-->
-                    <!--                                    <p:commandButton-->
-                    <!--                                            action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"-->
-                    <!--                                            value="Chat, atendimento ao Cliente"-->
-                    <!--                                            icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente.icone}"-->
-                    <!--                                    >-->
-
-
-                    <!--                                        <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}"-->
-                    <!--                                                                     value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente}"/>-->
-                    <!--                                    </p:commandButton>-->
-                    <!--                                </h:form>-->
-
-                    <!--                            </h:panelGroup>-->
-                    <!--                        </f:facet>-->
-                    <!--                        <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?-->
-                    <!--                                                         descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "-->
-                    <!--                                         rendered="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}"-->
-                    <!--                                         severity="info"-->
-                    <!--                        />-->
-                    <!--                        <h:panelGroup layout="block" styleClass="Container12" style="height: 600px;">-->
-
-                    <!--                            <crmPessoa:menuPessoaAcoesDeContatoDisponiveis-->
-
-                    <!--                                    pessoa="#{pgProspecto.entidadeSelecionada}"-->
-                    <!--                                    rendered="#{pgProspecto.entidadeSelecionada.contatosProspecto.size()!=0}"-->
-                    <!--                            />-->
-                    <!--                        </h:panelGroup>-->
-                    <!--                    </p:fieldset>-->
-
                 </h:panelGroup>
             </p:tab>
             <p:tab title="Histórico">
