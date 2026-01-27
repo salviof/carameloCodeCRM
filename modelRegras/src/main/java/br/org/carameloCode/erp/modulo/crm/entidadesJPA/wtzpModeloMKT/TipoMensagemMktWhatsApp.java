@@ -20,7 +20,7 @@ import javax.persistence.OrderBy;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Template Whatsapp", plural = "Templates Mensagem Whatzapp", icone = "fa fa-whatsapp")
+@InfoObjetoSB(tags = "Template WhatsApp", plural = "Templates Mensagem WhatsApp", icone = "fa fa-whatsapp")
 public class TipoMensagemMktWhatsApp extends EntidadeSimplesORM {
 
     @Id
@@ -32,7 +32,7 @@ public class TipoMensagemMktWhatsApp extends EntidadeSimplesORM {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     @ManyToOne(targetEntity = Telefone.class)
-    private Telefone telefone;
+    private Telefone telefonePadrao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, obrigatorio = true)
     private String slugTemplate;
@@ -49,12 +49,12 @@ public class TipoMensagemMktWhatsApp extends EntidadeSimplesORM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.URL)
     private String urlMensagemPreview;
 
-    public Telefone getTelefone() {
-        return telefone;
+    public Telefone getTelefonePadrao() {
+        return telefonePadrao;
     }
 
-    public void setTelefone(Telefone telefone) {
-        this.telefone = telefone;
+    public void setTelefonePadrao(Telefone telefone) {
+        this.telefonePadrao = telefone;
     }
 
     @Override

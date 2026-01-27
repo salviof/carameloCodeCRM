@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = MensagemMktWhatsapp.class)
 public enum ValoresLogicosMensagemMktWhatsapp {
-	PESSOA, LINKPREVIEW
+	PESSOA, TELEFONE, LINKPREVIEW
 }
