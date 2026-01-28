@@ -19,7 +19,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtivid
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRecebida;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.ComoAtividadeVoip;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.ChatBot;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
@@ -28,7 +27,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.TipoFormulario
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.resposta.RespostaFormulario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.AudioVoip;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.ProspectoRepositorio;
@@ -408,7 +406,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                         novaMensagem.setTipo(atividade.getTipoAtividade().getTipoMensagemWtzap());
                         novaMensagem.setAtividade(atividade);
 
-                        ItfRespostaAcaoDoSistema envioMEnsagem = ModuloCRMAtendimento.contatoProspectoEnviarWhatzapMtk(novaMensagem).dispararMensagens();
+                        ItfRespostaAcaoDoSistema envioMEnsagem = ModuloCRMAtendimento.contatoProspectoEnviarWhatsAppMtk(novaMensagem).dispararMensagens();
 
                         if (!envioMEnsagem.isSucesso()) {
                             throw new ErroRegraDeNegocio("Falha envian do mensagem");
@@ -441,7 +439,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 }
 
                 if (atividadeAtualizada.getTipoAtividade().getAtividadeAgendada() != null) {
-                    ItfRespostaAcaoDoSistema resposta = atividadeCOnclusaoAgendarNova(atividadeAtualizada);
+                    ItfRespostaAcaoDoSistema resposta = atividadeConclusaoAgendarNova(atividadeAtualizada);
                     if (!resposta.isSucesso()) {
                         resposta.dispararMensagens();
                     }
@@ -478,7 +476,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAplicacao(acao = FabAcaoCrmAplicacao.ATIVIDADE_AUTONOMA_CRM_CTR_CONCLUSAO_AGENDAR_NOVA_ATIVIDADE)
-    public static ItfRespostaAcaoDoSistema atividadeCOnclusaoAgendarNova(AtividadeCRM pAtividade) {
+    public static ItfRespostaAcaoDoSistema atividadeConclusaoAgendarNova(AtividadeCRM pAtividade) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pAtividade), pAtividade) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
@@ -772,7 +770,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoAtvChamadaRecebida.class), new TipoAtvChamadaRecebida()) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                final int DIAS_DECREMENTADOS = 10;
+                final int DIAS_DECREMENTADOS = 2;
                 Date dataInicial = UtilCRCDataHora.decrementarDias(new Date(), DIAS_DECREMENTADOS);
                 Date dataFinal = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat(DATA_HORA_AMERICANO.getSimpleDateFormatStr());
@@ -781,8 +779,12 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 String dataFinalFormatada = sdf.format(dataFinal);
                 JsonObject respostaWs = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta().getRespostaComoObjetoJson();
 
+
                 JsonArray retorno = respostaWs.getJsonArray("RETORNO");
                 for (JsonValue r : retorno) {
+                    if(r.asJsonObject().getString("clid") == null || r.asJsonObject().getString("clid").isEmpty()) {
+                        continue;
+                    }
                     ResultadoLigacao resultadoLigacao = UtilCRMPabx.interpretar(r.asJsonObject().getString("clid"));
                     String numeroEmpresa;
                     String numeroCliente;
@@ -800,7 +802,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                         continue;
                     }
 
-                    //SALVAR AUDIO SO SE SALVAR A ATIVIDADE, FAZER ALGO CCOM A TRANSACAO SE UM N FOR SALVO OUTRO N FOR
+                    //SALVAR AUDIO SO SE SALVAR A ATIVIDADE, FAZER ALGO COM A TRANSACAO SE UM N FOR SALVO OUTRO N FOR
                     //CRIAR UMA CONTROLLER DE ATIVIDADEVOIP
                     //SE DER ERRO MESMO ASSIM CONTINUAR, TALVEZ FORA DO FOR
                     String dataInicialJson = r.asJsonObject().getString("calldate");

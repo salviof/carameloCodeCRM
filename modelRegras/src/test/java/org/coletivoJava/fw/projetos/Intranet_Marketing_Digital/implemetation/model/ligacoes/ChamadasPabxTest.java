@@ -38,6 +38,7 @@ public class ChamadasPabxTest extends TesteJunitSBPersistencia {
         Telefone telefonePabx = new Telefone();
         telefonePabx.setId(1L);
         telefonePabx.setTelefone(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional("3121159751"));
+        telefonePabx.setCodigoApiWhatsapp("732627579934036");
         telefonePabx.setTipoChamadaRecebida(tipoChamadaRecebida);
         telefonePabx.setTipoChamadaRealizada(tipoChamadaRealizada);
         UtilSBPersistencia.mergeRegistro(telefonePabx, getEMTeste());
@@ -45,6 +46,7 @@ public class ChamadasPabxTest extends TesteJunitSBPersistencia {
         Telefone telefonePabx2 = new Telefone();
         telefonePabx2.setId(2L);
         telefonePabx2.setTelefone(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional("3121159755"));
+        telefonePabx.setCodigoApiWhatsapp("103007756220088");
         telefonePabx2.setTipoChamadaRecebida(tipoChamadaRecebida);
         telefonePabx2.setTipoChamadaRealizada(tipoChamadaRealizada);
         UtilSBPersistencia.mergeRegistro(telefonePabx2, getEMTeste());
@@ -63,14 +65,25 @@ public class ChamadasPabxTest extends TesteJunitSBPersistencia {
 
         Pessoa prospecto2 = new Pessoa();
         prospecto2.setNome("Teste");
+        prospecto2.setEmail("samuelfilipevianadois@gmail.com");
+        prospecto2.setTelefonePrincipal("31986831481");
         UtilSBPersistencia.mergeRegistro(prospecto2, getEMTeste());
 
         ContatoProspecto contatoProspecto2 = new ContatoProspecto();
+        contatoProspecto2.setCelularFormatoInternacional(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional("31986831481"));
+        contatoProspecto2.setCelular("31986831481");
+        contatoProspecto2.getMensagens();
         contatoProspecto2.setAtivo(true);
         contatoProspecto2.setNome("Teste2");
 
+
+
         contatoProspecto2.setCelularFormatoInternacional(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional("31986831481"));
         contatoProspecto2.setProspecto(prospecto2);
+
+        contatoProspecto2.getAcoesDisponiveis();
+
+
         UtilSBPersistencia.mergeRegistro(contatoProspecto2, getEMTeste());
 
         ModuloCRMAplicacao.sincronizarChamadasPabx();

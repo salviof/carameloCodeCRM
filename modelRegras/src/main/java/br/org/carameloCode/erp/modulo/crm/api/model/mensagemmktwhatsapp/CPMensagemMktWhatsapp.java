@@ -5,11 +5,12 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = MensagemMktWhatsapp.class)
 public enum CPMensagemMktWhatsapp {
-	_ID, _TIPO, _PESSOA, _CONTATO, _DATAHORA, _RECIBOENVIO, _ENVIADO, _RECEBIDO, _LIDO, _ATIVIDADE, _LINKPREVIEW;
+	_ID, _TIPO, _PESSOA, _TELEFONE, _CONTATO, _DATAHORA, _RECIBOENVIO, _ENVIADO, _RECEBIDO, _LIDO, _ATIVIDADE, _LINKPREVIEW;
 
 	public static final String id = "id";
 	public static final String tipo = "tipo";
 	public static final String pessoa = "pessoa";
+	public static final String telefone = "telefone";
 	public static final String contato = "contato";
 	public static final String datahora = "dataHora";
 	public static final String reciboenvio = "reciboEnvio";

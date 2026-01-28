@@ -158,7 +158,7 @@ public class ServicoCRMContato implements Serializable {
     }
 
     public void enviarMensagemWtzap(MensagemMktWhatsapp pMensagem) {
-        ModuloCRMAtendimento.contatoProspectoEnviarWhatzapMtk(pMensagem).dispararMensagens();
+        ModuloCRMAtendimento.contatoProspectoEnviarWhatsAppMtk(pMensagem).dispararMensagens();
     }
 
     public void enviarMensagemWtzapParaTodos(MensagemMktWhatsapp pMensagem) {
@@ -168,7 +168,7 @@ public class ServicoCRMContato implements Serializable {
                 MensagemMktWhatsapp mensagemWhatsapp = new MensagemMktWhatsapp();
                 try {
                     mensagemWhatsapp.prepararNovoObjeto(contato);
-                    ModuloCRMAtendimento.contatoProspectoEnviarWhatzapMtk(mensagemWhatsapp).dispararMensagens();
+                    ModuloCRMAtendimento.contatoProspectoEnviarWhatsAppMtk(mensagemWhatsapp).dispararMensagens();
                 } catch (ErroPreparandoObjeto ex) {
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando nova mensagem de Whatsapp", ex);
                     mensagemWhatsapp = null;
