@@ -7,6 +7,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.envioemailatividade.ValorLog
 import br.org.carameloCode.erp.modulo.crm.api.model.envioemailatividade.ValoresLogicosEnvioEmailAtividade;
 
 @ValorLogicoEnvioEmailAtividade(calculo = ValoresLogicosEnvioEmailAtividade.UMEMAILPASSIVO)
+
 public class ValorLogicoEnvioEmailAtividadeUmEmailPassivo
         extends
         ValorLogicoCalculoGenerico {

@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.usuarioconvidado.ValoresLogi
 
 @ValorLogicoUsuarioConvidado(calculo = ValoresLogicosUsuarioConvidado.CONTATOVINCULADO)
 public class ValorLogicoUsuarioConvidadoContatoVinculado
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoUsuarioConvidadoContatoVinculado(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoUsuarioConvidadoContatoVinculado(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

@@ -1,0 +1,78 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <h:outputScript library="js" name="menuRapido.js" />
+        <h:outputStylesheet library="css" name="menuRapido.css" />
+        <!-- DOCK MENU -->
+
+        <nav id="dock-container" style="pointer-events: none;">
+            <div id="dock" style="pointer-events: auto;">
+                <ul>
+                    <li>
+                        <a  href="https://chat.casanovadigital.com.br"  target="chatCasanova" >
+                            <span class="span-element-on-click">Abrir Chat</span>
+
+                            <!-- Use any element to open the sidenav -->
+                            <label class="spmouseovermenufw" onclick="openNavspfw()">
+                                <img src="#{resource['img/iosIcones/iconerocketChat.png']}" class="img-element-on-click"/>
+                                <div class="contatorBotaoMenuRapido" > #{paginaAtual.usuarioCrmLogado.getCampoInstanciadoByNomeOuAnotacao('areatrabalhoPadrao').valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('naoLidaMensagemQtd').valor}
+                                </div>
+                            </label>
+                        </a>
+                    </li>
+
+                    <li>
+                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido)}"  rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null}" >
+                            <li>
+                                <span class="span-element-on-click">Caixa de Entrada #{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.estatisticas.quantidadeNaoLidoConhecido} importantes não lidos</span>
+                                <label class="bsmouseovermenufw" onclick="openNavbsfw()">
+                                    <img src="#{resource['img/iosIcones/iconemailinbox.png']}" class="img-element-on-click"/>
+                                    <div class="contatorBotaoMenuRapido" > #{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal.estatisticas.quantidadeNaoLidoConhecido}</div>
+                                </label>
+                            </li>
+                        </p:link>
+                    </li>
+
+                    <li>
+                        <p:link href="#" onclick="moverMenuDock()" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}" >
+                            <h:panelGroup styleClass="span-element-on-click"  > Mova-me </h:panelGroup>
+
+                            <img src="#{resource['img/icones/horizontalmove.png']}" class="img-element-on-click"/>
+
+                        </p:link>
+                    </li>
+                </ul>
+                <div class="base"></div>
+            </div>
+        </nav>
+
+
+
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+

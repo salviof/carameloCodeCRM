@@ -1,0 +1,185 @@
+/* ESTILOS SIMPLIFICADOS PARA CARDS DE RESERVA */
+.container-principal {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Card quando não há horários */
+.card-sem-horarios {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 40px;
+    margin: 20px;
+}
+
+.mensagem-sem-horarios {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+/* Container dos cards */
+.container-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 16px;
+    padding: 20px 0;
+}
+
+/* Card individual de horário */
+.card-horario {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.2s ease;
+}
+
+.card-horario:hover {
+    border-color: #81C784;
+}
+
+/* Header do card */
+.cabecalho-card {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.titulo-servico {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.contador-disponiveis {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+/* Layout do card */
+.conteudo-card {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Lado esquerdo - Avatar e informações do profissional */
+.lado-esquerdo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.avatar-profissional img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+}
+
+.nome-profissional {
+    font-weight: 600;
+    color: #333;
+    font-size: 1em;
+}
+
+/* Lado direito - Informações do horário e botão */
+.lado-direito {
+    flex: 2;
+}
+
+.info-horario {
+    margin-bottom: 16px;
+}
+
+.data-horario {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.horario-periodo {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 12px;
+}
+
+/* Botão reservar */
+.botao-reservar {
+    background: #81C784;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.botao-reservar:hover {
+    background: #60a36c;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .container-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card-horario {
+        padding: 16px;
+    }
+
+    .conteudo-card {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .lado-esquerdo {
+        width: 100%;
+    }
+
+    .cabecalho-card {
+        padding: 12px;
+    }
+
+    .botao-reservar {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-principal {
+        padding: 16px;
+    }
+
+    .container-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card-horario {
+        margin: 0;
+    }
+
+    .lado-esquerdo {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+}

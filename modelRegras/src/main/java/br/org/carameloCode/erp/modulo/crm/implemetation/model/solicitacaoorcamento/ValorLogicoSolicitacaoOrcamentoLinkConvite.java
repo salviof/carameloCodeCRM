@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoorcamento.Valores
 
 @ValorLogicoSolicitacaoOrcamento(calculo = ValoresLogicosSolicitacaoOrcamento.LINKCONVITE)
 public class ValorLogicoSolicitacaoOrcamentoLinkConvite
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoSolicitacaoOrcamentoLinkConvite(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoOrcamentoLinkConvite(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

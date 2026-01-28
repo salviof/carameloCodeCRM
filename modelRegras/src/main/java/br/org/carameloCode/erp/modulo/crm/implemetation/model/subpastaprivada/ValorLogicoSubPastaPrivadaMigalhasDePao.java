@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.subpastaprivada.ValoresLogic
 
 @ValorLogicoSubPastaPrivada(calculo = ValoresLogicosSubPastaPrivada.MIGALHASDEPAO)
 public class ValorLogicoSubPastaPrivadaMigalhasDePao
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoSubPastaPrivadaMigalhasDePao(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSubPastaPrivadaMigalhasDePao(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

@@ -1,0 +1,42 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      required="true"/>
+        <cc:attribute name="contato"
+                      required="true"/>
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup layout="block" rendered="#{cc.attrs.email!=null}" >
+            <p:outputLabel value="#{cc.attrs.email}" style="width: 200px"  />
+
+            <p:button icon="fa fa-envelope-o"
+                      style="margin: 5px;"
+                      rendered="#{cc.attrs.contato!=null}"
+                      href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmNovo,cc.attrs.contato)}" />
+
+
+            <p:button icon="fa fa-copy"
+                      id="copiarEmail"
+                      style="margin: 5px;"
+                      onclick="alert('#{cc.attrs.email} copiado com sucesso')"
+                      href="#" >
+                <pe:clipboard trigger="copiarEmail" action="copy"
+
+                              text="#{cc.attrs.email}"  />
+            </p:button>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{cc.attrs.email==null}" >
+            Sem telefone
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

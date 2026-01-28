@@ -30,6 +30,7 @@ public class TesteConformidade extends TesteCRMCarameloCode {
             MapaObjetosProjetoAtual.adcionarObjeto(PesquisaAtividade.class);
             //MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);
             gerarCodigoModelProjeto();
+
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "falha executando teste do projeto ataul", t);
             throw t;

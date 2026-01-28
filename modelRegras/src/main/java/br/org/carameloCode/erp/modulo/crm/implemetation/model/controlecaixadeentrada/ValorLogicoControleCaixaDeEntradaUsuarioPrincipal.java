@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.controlecaixadeentrada.Valor
 
 @ValorLogicoControleCaixaDeEntrada(calculo = ValoresLogicosControleCaixaDeEntrada.USUARIOPRINCIPAL)
 public class ValorLogicoControleCaixaDeEntradaUsuarioPrincipal
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoControleCaixaDeEntradaUsuarioPrincipal(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoControleCaixaDeEntradaUsuarioPrincipal(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

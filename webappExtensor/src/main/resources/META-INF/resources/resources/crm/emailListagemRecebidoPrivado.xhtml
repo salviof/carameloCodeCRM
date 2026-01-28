@@ -1,0 +1,91 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="lista"
+                      type="java.util.List" required="true"/>
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <p:dataTable var="mail" value="#{pgEmails.listaEmails}"
+                     reflow="true"
+                     rows="20"
+                     paginator="true"
+                     widgetVar="listaEmails"
+                     id="listaEmailsRecebidos"
+                     selection="#{pgEmails.entidadeSelecionada}"
+                     selectionMode="single"
+                     rowKey="#{mail}"
+                     lazy="false"
+
+                     paginatorPosition="bottom"
+                     >
+            <f:facet name="header">
+                <p:outputPanel>
+
+
+                </p:outputPanel>
+            </f:facet>
+
+            <p:ajax event="rowSelect" listener="#{pgEmails.abrirEmail()}"
+                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listaEmailsRecebidos')}')"
+                    update="@form"
+
+                    />
+
+            <p:column headerText="Tipo" width="35px;"   >
+                <i class="#{mail.getCampoInstanciadoByNomeOuAnotacao('iconeTipoEmail').valor}" ></i>
+            </p:column>
+            <p:column headerText="Data-Hora" width="150px;" sortable="true" sortBy="#{mail.dataHoraArmazenamento}">
+                #{pgUtil.gerarDataHoraTexto(mail.getCampoByNomeOuAnotacao('dataHoraArmazenamento').valor)}
+
+            </p:column>
+            <p:column headerText="Enviado por" width="150px;">
+                #{mail.getCampoByNomeOuAnotacao('emailDeMensagemOriginal').valor}
+
+            </p:column>
+
+            <p:column headerText="Enviado para" width="350px;">
+                #{mail.getCampoByNomeOuAnotacao('emailsParaMensagemOriginal').valor}
+
+            </p:column>
+
+            <p:column headerText="Assunto"  >
+                #{mail.getCampoByNomeOuAnotacao('assunto').valor}
+
+            </p:column>
+
+
+
+            <p:column headerText="Parceiros envolvidos" width="150px;" >
+                <span style="position: relative;right: 1px; float: left">
+                    <ui:repeat value="#{mail.prospecto.usuariosResponsaveis}" var="usuario" >
+                        <div style="position: relative;width: 30px; margin: 0px; float: left">
+                            <CRM:avatar usuario="#{usuario}" somenteLeitura="#{true}" />
+                        </div>
+                    </ui:repeat>
+                    <h:panelGroup rendered="#{mail.prospecto.usuariosResponsaveis.size()>3}" style="position: relative;width: 30px; margin: 0px; float: right;">
+                        ...
+                    </h:panelGroup>
+
+                </span>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+
+    </cc:implementation>
+</ui:composition>

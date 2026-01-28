@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+
+
+        <cc:attribute name="registro" required="true" type="com.super_bits.dados.crm.relacionamento.ItfDadoGenerico" />
+        <cc:attribute name="pid" default="#{cc.attrs.id}#{cc.attrs.registro.nome}" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <p:watermark for="#{cc.attrs.pid}" value="#{cc.attrs.registro.nome}" id="watermark" />
+        <p:tooltip id="toolTipTrack" for="#{cc.attrs.pid}" value="#{cc.attrs.registro.nome}" trackMouse="true" />
+        <p:inputText id="#{cc.attrs.pid}" value="#{cc.attrs.registro.valor}" />
+
+        <i class="fa fa-umbrella Fs100 Red" id="#{cc.attrs.pid}help"></i>
+        <p:tooltip id="toolTipTrack" for="#{cc.attrs.pid}help" value="#{cc.attrs.registro.nome}" trackMouse="true" />
+        </c:otherwise>
+
+
+
+
+
+
+
+
+    </cc:implementation>
+</html>
+
+
+
+
+
+
+
+
+
+

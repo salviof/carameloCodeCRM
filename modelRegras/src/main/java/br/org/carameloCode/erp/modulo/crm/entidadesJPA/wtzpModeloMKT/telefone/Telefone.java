@@ -28,11 +28,7 @@ public class Telefone extends EntidadeSimples {
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
-<<<<<<< HEAD
-    @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_CELULAR, descricao = "Exemplo: +5531984178550")
-=======
     @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL, descricao = "Exemplo: +5531984178550")
->>>>>>> 36e11c0581268480e49a5faf15b0dda11b64b396
     private String telefone;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)

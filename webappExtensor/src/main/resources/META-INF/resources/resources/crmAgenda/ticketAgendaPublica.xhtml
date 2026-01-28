@@ -1,0 +1,56 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="reserva" type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario"
+                      required="true"/>
+
+        <cc:attribute name="acaoListarOutrosHorarios"
+                      default="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaFrmListarHorarios}"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+        <cc:attribute name="acaoSalvarReserva"
+                      default="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrReservar}"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup styleClass="card-lateral">
+            <p:fieldset
+                legend="ATIVAR RESERVA, #{pgUtil.gerarDataTextoExtenso(pgReservasPublicas.horario.dataHoraIicialAtendente)} de #{pgUtil.gerarHoraTextoSimples(pgReservasPublicas.horario.dataHoraIicialAtendente)} às #{pgUtil.gerarHoraTextoSimples(pgReservasPublicas.horario.datahoraFinalAtendente)} ">
+                <span style=";color: #56585a;font-weight: 600"
+                      class="Fs20 "> #{pgReservasPublicas.horario.tipoAgendamento.nome}</span>
+
+
+
+                <crm:avatar
+                    somenteLeitura="true"
+                    usuario="#{pgReservasPublicas.horario.usuarioResponsavel}"
+                    altura="70"/>
+                <span class="Fs18">#{pgReservasPublicas.horario.usuarioResponsavel.nome}</span>
+                <span class="Fs16">#{pgUtil.gerarDataTextoExtenso(pgReservasPublicas.horario.dataHoraIicialAtendente)}</span>
+                <span class="Fs18">#{pgUtil.gerarHoraTextoSimples(pgReservasPublicas.horario.dataHoraIicialAtendente)}-#{pgUtil.gerarHoraTextoSimples(pgReservasPublicas.horario.datahoraFinalAtendente)}</span>
+                <crm:botaoGrandeV2 tipo="primario"
+                                   acao="#{cc.attrs.acaoSalvarReserva}"
+                                   metodo="#{pgReservasPublicas.reservar()}"
+                                   rendered="#{cc.attrs.reserva.id == null}"
+                                   />
+                <crm:botaoGrandeV2 tipo="informativo"
+                                   processar="@this"
+                                   label="Alterar Horário"
+                                   acao="#{cc.attrs.acaoListarOutrosHorarios}"
+                                   metodo="#{pgReservasPublicas.executarAcaoSelecionada()}"/>
+            </p:fieldset>
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

@@ -1,0 +1,86 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="icone"  type="java.lang.String"/>
+        <cc:attribute name="url"  type="java.lang.String"/>
+        <cc:attribute name="cor" default="#0091EA" />
+        <cc:attribute name="estilo" />
+        <cc:attribute name="label" />
+        <cc:attribute name="descricao" />
+    </cc:interface>
+
+    <!-- IMPLEMENTAÇÃO -->
+    <cc:implementation>
+        <style>.btn-card-link {
+            text-decoration: none !important;
+        }
+
+        .btn-card {
+            width: 180px;
+            height: 150px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 16px;
+            transition: 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .btn-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .btn-card-icon {
+            margin-bottom: 12px;
+        }
+
+        .btn-card-title {
+            font-size: 15px;
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-card-text {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            height: 40px;
+        }</style>
+        <p:link href="#{cc.attrs.url}" styleClass="btn-card-link">
+            <div class="btn-card #{cc.attrs.estilo}">
+
+                <!-- Ícone -->
+                <div class="btn-card-icon" style="color: #{cc.attrs.cor}">
+                    <i class="#{cc.attrs.icone} fa fa-2x"></i>
+                </div>
+
+                <!-- Label -->
+                <div class="btn-card-text"
+                     rendered="#{not empty cc.attrs.label}">
+                    <h3 class="btn-card-title">#{cc.attrs.label}</h3>
+                </div>
+
+                <!-- Tooltip -->
+                <p:tooltip
+                        rendered="#{cc.attrs.descricao != null}"
+                        value="#{cc.attrs.descricao}" />
+
+            </div>
+        </p:link>
+
+    </cc:implementation>
+</ui:composition>

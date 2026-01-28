@@ -1,0 +1,116 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="reserva" type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario"
+                      required="true"/>
+
+        <cc:attribute name="acaoListarOutrosHorarios"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+        <cc:attribute name="acaoSalvarReserva"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+        <cc:attribute name="titulo" shortDescription="Titulo customizavel do card"/>
+        <cc:attribute name="subtitulo" shortDescription="Subtitulo customizavel do card"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <!-- Tela de confirmacao de agendamento -->
+        <h:panelGroup layout="block" styleClass="calendario-card">
+            <h:panelGrid></h:panelGrid>
+
+            <!-- Título do card -->
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #343a40; margin: 0 0 8px 0; font-weight: 600;">#{cc.attrs.titulo}</h3>
+                <p style="color: #6c757d; margin: 0; font-size: 0.9em;">#{cc.attrs.subtitulo}</p>
+            </div>
+
+            <!-- Display da data selecionada -->
+            <h:form>
+
+                <p:commandLink action="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
+                               style="text-decoration: none; display: block;"
+                               rendered="#{cc.attrs.reserva.id == null}"
+                >
+
+                    <f:setPropertyActionListener target="#{paginaAtual.infoPagina.acaoSelecionada}"
+                                                 value="#{cc.attrs.acaoListarOutrosHorarios}"/>
+                    <div class="calendar-date-display">
+                        <div class="calendar-info-message">
+                            <i class="pi pi-info-circle" style="margin-right: 8px"></i>
+                            Clique aqui para escolher outro dia
+                        </div>
+                        <div class="calendar-date-month">
+                            #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.reserva.inicioReservaAtendente)}
+                        </div>
+                        <div class="calendar-date-day">
+                            #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.reserva.inicioReservaAtendente)}
+
+                        </div>
+                        <div class="calendar-date-weekday">
+                            #{pgUtilDataHoraFormato.getDiaDaSemana(cc.attrs.reserva.inicioReservaAtendente)}
+
+                        </div>
+
+                    </div>
+
+                </p:commandLink>
+                <h:panelGroup layout="block" styleClass="calendar-date-display"
+                              rendered="#{cc.attrs.reserva.id != null}">
+
+                    <div class="calendar-info-message">
+                        <i class="pi pi-info-circle" style="margin-right: 8px"></i>
+                        Clique aqui para escolher outro dia
+                    </div>
+                    <div class="calendar-date-month">
+                        #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.reserva.inicioReservaAtendente)}
+                    </div>
+                    <div class="calendar-date-day">
+                        #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.reserva.inicioReservaAtendente)}
+
+                    </div>
+                    <div class="calendar-date-weekday">
+                        #{pgUtilDataHoraFormato.getDiaDaSemana(cc.attrs.reserva.inicioReservaAtendente)}
+
+                    </div>
+
+                </h:panelGroup>
+            </h:form>
+            <div style="display: flex; flex-direction: column">
+                <span style="margin: 0px;color:#6c757d;"
+                      class="Fs20 FontAdamantiumBold"> #{cc.attrs.reserva.tipoAgendamento.nome}</span>
+                <span class="Fs24 FontAdamantiumBold"
+                      style=""> #{pgUtil.gerarHoraTextoSimples(cc.attrs.reserva.inicioReservaAtendente)} às #{pgUtil.gerarHoraTextoSimples(cc.attrs.reserva.finalReservaAtendente)}</span>
+                <crm:avatar somenteLeitura="false"
+                            usuario="#{cc.attrs.reserva.atendenteResponsavel}"
+                            altura="50"/>
+                <span class="FontAdamantiumBold"
+                      style="">#{cc.attrs.reserva.atendenteResponsavel.nome}</span>
+            </div>
+
+            <h:form>
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
+                              rendered="#{cc.attrs.reserva.id eq null}">
+
+                    <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
+                                       rendered="#{cc.attrs.reserva.id eq null}"
+
+                                       acao="#{cc.attrs.acaoSalvarReserva}"
+                                       label="Confirmar para: #{pgUtilDataHoraFormato.getDataHoraRelativa(cc.attrs.reserva.inicioReservaAtendente)}"
+
+                    />
+                </h:panelGroup>
+            </h:form>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

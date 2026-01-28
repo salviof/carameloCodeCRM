@@ -1,0 +1,49 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="canal" type="br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean" required="true" />
+        <cc:attribute name="altura" />
+        <cc:attribute name="usuarioResponsavelPorLogin" class="java.lang.boolean" default="true" />
+        <cc:attribute name="margemTopo" default="10px;" />
+        <cc:attribute name="textoBotaoNovo" default="Criar sala de debate" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer" style="height: 80vh;" id="matrixChat" >
+            <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer" style="height: 100%;" rendered="#{cc.attrs.canal!=null}" >
+                <iframe id="canalRC"
+                        src="#{servicoChatView.urlSala}"
+                        style="width: #{paginaAtual.sessao.telaUsuario.umMobile?'100%':'90%'};opacity: 1;background-color: #ffffff;" height="#{cc.attrs.altura}" />
+
+                <p:separator/>
+                <div class="Container12" style="height: 30px;">
+
+                    <p:link href="#{servicoChatView.urlSala}"  value="ABRIR EM JANELA INTEIRA" target="RCCRM"/>
+                </div>
+            </h:panelGroup>
+
+
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+

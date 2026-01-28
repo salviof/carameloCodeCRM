@@ -20,7 +20,7 @@ public enum FabPorteProspectoEmpresa implements ComoFabrica {
 
         switch (this) {
             case PEQUENA:
-                return new Porte(1l, "pequena", "Empresas pequenas (Alcance local)");
+                return new Porte(1l, "pequena", "Empresas pequenas (Alcance local) ");
             case MEDIA:
                 return new Porte(2l, "Média", "Empresas pequenas (Alcance local)");
             case GRANDE:
