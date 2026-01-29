@@ -15,5 +15,5 @@ import br.org.carameloCode.erp.modulo.crm.api.model.integracaolink.ValidadoresIn
 @InfoReferenciaEntidade(tipoObjeto = IntegracaoLink.class)
 public @interface ValidadorIntegracaoLink {
 
-	ValidadoresIntegracaoLink validador();
+    ValidadoresIntegracaoLink validador();
 }

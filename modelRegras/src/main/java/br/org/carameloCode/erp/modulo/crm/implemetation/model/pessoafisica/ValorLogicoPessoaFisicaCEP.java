@@ -10,5 +10,6 @@ public class ValorLogicoPessoaFisicaCEP extends ValorLogicoPessoaCEP {
 
     public ValorLogicoPessoaFisicaCEP(ItfCampoInstanciado pCampo) {
         super(pCampo);
+
     }
 }

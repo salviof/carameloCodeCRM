@@ -1,13 +1,13 @@
 <ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
-        xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="conteudo">
 
@@ -380,8 +380,12 @@
             }
 
             @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
             }
         </style>
 
@@ -425,11 +429,11 @@
                             <!-- CONTATO (READONLY) -->
                             <div class="form-group">
                                 <label class="form-label">Contato</label>
-<!--                                <SBInput:input-->
-<!--                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('contato')}"-->
-<!--                                        desabilitarEdicao="true"-->
-<!--                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}"-->
-<!--                                />-->
+                                <!--                                <SBInput:input-->
+                                <!--                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('contato')}"-->
+                                <!--                                        desabilitarEdicao="true"-->
+                                <!--                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}"-->
+                                <!--                                />-->
                             </div>
 
                             <!-- SELECAO DO TIPO DE MENSAGEM -->
@@ -437,20 +441,21 @@
                                 <label class="form-label">Tipo da Mensagem</label>
                                 <div class="select-wrapper">
                                     <p:selectOneListbox
-                                            value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
-                                            converter="conversorGenerico"
-                                            filter="true"
-                                            var="tipoMsgem"
-                                            filterMatchMode="contains"
-                                            style="width: 100%;"
-                                            immediate="true"
-                                            placeholder="Selecione um tipo de mensagem">
+                                        value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
+                                        converter="conversorGenerico"
+                                        filter="true"
+                                        var="tipoMsgem"
+                                        filterMatchMode="contains"
+                                        style="width: 100%;"
+                                        immediate="true"
+
+                                        >
 
                                         <f:selectItems
-                                                value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
-                                                var="tipoMsgem"
-                                                itemLabel="#{tipoMsgem.nome}"
-                                                itemValue="#{tipoMsgem}" />
+                                            value="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
+                                            var="tipoMsgem"
+                                            itemLabel="#{tipoMsgem.nome}"
+                                            itemValue="#{tipoMsgem}" />
 
                                         <p:column headerText="Tipo" style="width: 60%">
                                             <h:outputText value="#{tipoMsgem.nome}" />
@@ -473,10 +478,10 @@
                             <p:outputPanel id="linkPreviewPanel" rendered="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor != null}">
                                 <div class="link-preview">
                                     <p:link
-                                            href="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
-                                            value=""
-                                            target="cndcrmWtwapPreview"
-                                            styleClass="preview-button">
+                                        href="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
+                                        value=""
+                                        target="cndcrmWtwapPreview"
+                                        styleClass="preview-button">
                                         <i class="fa fa-whatsapp"></i> Visualizar no WhatsApp
                                     </p:link>
                                 </div>
@@ -499,31 +504,31 @@
                             <div class="form-group">
                                 <label class="form-label">Telefone para envio</label>
                                 <SBInput:input
-                                        registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('telefone')}"
-                                        desabilitarEdicao="false"
-                                        layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
-                                />
+                                    registro="#{pgMeusContatos.mensagemWhatsapp.getCampoInstanciadoByNomeOuAnotacao('telefone')}"
+                                    desabilitarEdicao="false"
+                                    layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                                    />
                             </div>
 
                             <!-- BOTOES DE ACAO -->
                             <div class="action-buttons">
                                 <SBBotaoDeAcao:botaoDeAcao
-                                        metodo="#{servicoCRMContato.enviarMensagemWtzap(pgMeusContatos.mensagemWhatsapp)}"
-                                        armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
-                                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                        acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmEnviarMktWtzap}"
-                                        update=":whatsappForm"
-                                        label="Enviar para este contato"
-                                />
+                                    metodo="#{servicoCRMContato.enviarMensagemWtzap(pgMeusContatos.mensagemWhatsapp)}"
+                                    armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                    acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmEnviarMktWtzap}"
+                                    update=":whatsappForm"
+                                    label="Enviar para este contato"
+                                    />
 
                                 <SBBotaoDeAcao:botaoDeAcao
-                                        metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(pgMeusContatos.mensagemWhatsapp)}"
-                                        armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
-                                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                        acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
-                                        update=":whatsappForm"
-                                        label="Enviar para todos os contatos"
-                                />
+                                    metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(pgMeusContatos.mensagemWhatsapp)}"
+                                    armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                    acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
+                                    update=":whatsappForm"
+                                    label="Enviar para todos os contatos"
+                                    />
                             </div>
                         </h:panelGroup >
                     </p:outputPanel>
@@ -580,7 +585,7 @@
 
         <script>
             // Scroll suave para histórico
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const historyList = document.querySelector('.history-list');
                 if (historyList) {
                     historyList.scrollTop = historyList.scrollHeight;

@@ -13,4 +13,5 @@ public class ValorLogicoContatoPessoaFisicaUsuarioVinculado
     public ValorLogicoContatoPessoaFisicaUsuarioVinculado(ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
+
 }
