@@ -43,6 +43,8 @@ public class ValidacaoPessoaJuridicaSite extends ValidacaoGenerica<PessoaJuridic
         String site = (String) pValor;
 
         URL url = null;
+        getPessoa().setSite(site);
+        site = (String) getPessoa().getCPinst("site").getValor();
         try {
             url = new URL(site);
         } catch (MalformedURLException ex) {
@@ -74,7 +76,7 @@ public class ValidacaoPessoaJuridicaSite extends ValidacaoGenerica<PessoaJuridic
         return null;
     }
 
-    public Pessoa getPessoa() {
+    public PessoaJuridica getPessoa() {
         return getObjetoDoAtributo();
     }
 }
