@@ -89,6 +89,7 @@ public enum FabMenuIntranetCasaNova implements ComoFabricaMenu {
                 menu.addSessao(FabMenuSessoesIntranetMarketing.CADASTROS.getRegistro());
                 menu.addSessao(FabMenuSessoesIntranetMarketing.DOCUMENTOS.getRegistro());
                 menu.addSessao(FabMenuSessoesIntranetMarketing.ATIVIDADES.getRegistro());
+                menu.addSessao(FabMenuSessoesIntranetMarketing.VOIP_PABX.getRegistro());
                 menu.addSessao(FabMenuSessoesIntranetMarketing.DADOS_DINAMICOS.getRegistro());
                 menu.addSessao(FabMenuSessoesIntranetMarketing.ADMINISTRATIVO.getRegistro());
                 menu.addSessao(FabMenuSessoesIntranetMarketing.EMAIL_ADMIN.getRegistro());
