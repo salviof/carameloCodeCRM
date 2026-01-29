@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tiponotificacaocrm.ValoresLo
 
 @ValorLogicoTiponotificacaoCRM(calculo = ValoresLogicosTiponotificacaoCRM.ENTIDADESDISPONIVEIS)
 public class ValorLogicoTiponotificacaoCRMEntidadesDisponiveis
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoTiponotificacaoCRMEntidadesDisponiveis(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoTiponotificacaoCRMEntidadesDisponiveis(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

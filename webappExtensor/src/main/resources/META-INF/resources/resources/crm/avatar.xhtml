@@ -1,0 +1,54 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="usuario"
+                      type="com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario" required="true"/>
+        <cc:attribute name="somenteLeitura"
+                      type="java.lang.Boolean" required="true"/>
+        <cc:attribute name="largura" default="50"/> >
+        <cc:attribute name="altura" default="30" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup   layout="block" style="position: relative;">
+            <h:panelGroup rendered="#{cc.attrs.usuario.temImagemPequenaAdicionada}"   layout="block"
+                          style=" background-image: url('#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.usuario.imgPequena}');
+                          display: inline-block;
+                          /* make a square container */
+                          width:  #{cc.attrs.altura}px;
+                          height: #{cc.attrs.altura}px;
+                          top: 0px;
+                          /* fill the container, preserving aspect ratio, and cropping to fit */
+                          background-size: cover;
+                          pointer-events: none;
+                          /* center the image vertically and horizontally */
+                          background-position: top center;
+
+                          /* round the edges to a circle with border radius 1/2 container size */
+                          border-radius: 50%;"
+                          >
+
+            </h:panelGroup>
+
+
+            <h:panelGroup rendered="#{!cc.attrs.usuario.temImagemPequenaAdicionada}"  style="  position: absolute;
+                          /* make a square container */
+                          width:  #{cc.attrs.altura}px;
+                          height: #{cc.attrs.altura}px;"  >
+                <p:avatar  gravatar="#{cc.attrs.usuario.email}"
+                           shape="circle"
+                           gravatarConfig="d=monsterid"
+                           style=" max-width:#{cc.attrs.altura}px;  width:#{cc.attrs.altura}px; max-height:#{cc.attrs.altura}px;"
+                           rendered="#{!cc.attrs.usuario.temImagemPequenaAdicionada}"
+                           size="xlarge" />
+
+            </h:panelGroup>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

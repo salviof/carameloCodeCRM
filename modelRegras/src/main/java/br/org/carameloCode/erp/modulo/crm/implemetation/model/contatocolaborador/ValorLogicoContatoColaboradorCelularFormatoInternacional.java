@@ -7,11 +7,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.contatocolaborador.ValoresLo
 
 @ValorLogicoContatoColaborador(calculo = ValoresLogicosContatoColaborador.CELULARFORMATOINTERNACIONAL)
 public class ValorLogicoContatoColaboradorCelularFormatoInternacional
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoContatoColaboradorCelularFormatoInternacional(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoContatoColaboradorCelularFormatoInternacional(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

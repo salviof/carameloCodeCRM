@@ -7,11 +7,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.cotatopessoajuridica.Valores
 
 @ValorLogicoCotatoPessoaJuridica(calculo = ValoresLogicosCotatoPessoaJuridica.PROSPECTOSDISPONIVEIS)
 public class ValorLogicoCotatoPessoaJuridicaProspectosDisponiveis
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoCotatoPessoaJuridicaProspectosDisponiveis(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoCotatoPessoaJuridicaProspectosDisponiveis(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

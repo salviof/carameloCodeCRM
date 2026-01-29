@@ -1,0 +1,28 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="usuario"
+                      type="com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario" required="true"/>
+        <cc:attribute name="somenteLeitura"
+                      type="java.lang.Boolean" required="true"/>
+        <cc:attribute name="largura" default="50px"/> >
+        <cc:attribute name="altura" default="30" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGroup rendered="#{cc.attrs.usuario.temImagemPequenaAdicionada}"  >
+            <img class="w3-round w3-margin-right"  src="#{cc.attrs.usuario.imgPequena}"
+                 style="width:100%; max-height: #{cc.attrs.altura}px; max-width:#{cc.attrs.largura};border-radius: 50%;"
+                 />
+        </h:panelGroup>
+
+        <p:avatar gravatar="#{cc.attrs.usuario.email}"
+                  rendered="#{!cc.attrs.usuario.temImagemPequenaAdicionada}"
+                  size="30" /></cc:implementation>
+</ui:composition>

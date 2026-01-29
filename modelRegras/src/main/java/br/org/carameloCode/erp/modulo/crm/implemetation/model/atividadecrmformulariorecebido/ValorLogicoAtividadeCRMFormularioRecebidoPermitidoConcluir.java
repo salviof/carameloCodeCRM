@@ -7,11 +7,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrmformulariorecebi
 
 @ValorLogicoAtividadeCRMFormularioRecebido(calculo = ValoresLogicosAtividadeCRMFormularioRecebido.PERMITIDOCONCLUIR)
 public class ValorLogicoAtividadeCRMFormularioRecebidoPermitidoConcluir
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoAtividadeCRMFormularioRecebidoPermitidoConcluir(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoAtividadeCRMFormularioRecebidoPermitidoConcluir(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

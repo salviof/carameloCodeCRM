@@ -7,11 +7,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquiv
 
 @ValorLogicoSolicitacaoAtualizacaoArquivoEquipe(calculo = ValoresLogicosSolicitacaoAtualizacaoArquivoEquipe.NOME)
 public class ValorLogicoSolicitacaoAtualizacaoArquivoEquipeNome
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoSolicitacaoAtualizacaoArquivoEquipeNome(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoAtualizacaoArquivoEquipeNome(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

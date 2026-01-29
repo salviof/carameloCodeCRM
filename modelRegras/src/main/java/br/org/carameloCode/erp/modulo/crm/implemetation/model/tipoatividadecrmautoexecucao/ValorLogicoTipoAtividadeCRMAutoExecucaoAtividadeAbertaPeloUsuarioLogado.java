@@ -7,11 +7,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tipoatividadecrmautoexecucao
 
 @ValorLogicoTipoAtividadeCRMAutoExecucao(calculo = ValoresLogicosTipoAtividadeCRMAutoExecucao.ATIVIDADEABERTAPELOUSUARIOLOGADO)
 public class ValorLogicoTipoAtividadeCRMAutoExecucaoAtividadeAbertaPeloUsuarioLogado
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoTipoAtividadeCRMAutoExecucaoAtividadeAbertaPeloUsuarioLogado(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoTipoAtividadeCRMAutoExecucaoAtividadeAbertaPeloUsuarioLogado(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

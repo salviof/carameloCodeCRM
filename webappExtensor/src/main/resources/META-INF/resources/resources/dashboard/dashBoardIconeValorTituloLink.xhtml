@@ -1,0 +1,45 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="titulo" />
+        <cc:attribute name="icone" default="fa-newspaper-o" />
+        <cc:attribute name="codigoestilo"  default="1" />
+        <cc:attribute name="container"  default="Container3" />
+        <cc:attribute name="valor" />
+        <cc:attribute name="url"  default="#"
+        />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!--        <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />-->
+
+        <p:link href="#{cc.attrs.url}"
+                style="text-decoration: none;"
+                onclick="bloquearArea(this.parentElement.id)"
+        >
+            <!--                <div class="ui-g card colorbox colorbox-#{cc.attrs.codigoestilo}">-->
+            <div class="card-moderno card-estilo-#{cc.attrs.codigoestilo}">
+                <div class="card-conteudo">
+
+                    <h:panelGroup styleClass="card-icone card-estilo-#{cc.attrs.codigoestilo}">
+                        <i class="fa #{cc.attrs.icone} " ></i>
+                    </h:panelGroup>
+                </div>
+                <div class="card-info">
+                    <span class="card-titulo">#{cc.attrs.titulo}</span>
+                    <span class="card-valor">#{cc.attrs.valor}</span>
+                </div>
+            </div>
+        </p:link>
+
+    </cc:implementation>
+</ui:composition>

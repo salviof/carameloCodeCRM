@@ -14,6 +14,7 @@ public class ValorLogicoAtividadeCRMEmailEnvioPermitidoConcluir
     public ValorLogicoAtividadeCRMEmailEnvioPermitidoConcluir(
             ItfCampoInstanciado pCampo) {
         super(pCampo);
+
     }
 
     public AtividadeCRMEmailEnvio getAticidade() {

@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.servicooferecido.ValoresLogi
 
 @ValorLogicoServicoOferecido(calculo = ValoresLogicosServicoOferecido.SERVICOATIVO)
 public class ValorLogicoServicoOferecidoServicoAtivo
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoServicoOferecidoServicoAtivo(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoServicoOferecidoServicoAtivo(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

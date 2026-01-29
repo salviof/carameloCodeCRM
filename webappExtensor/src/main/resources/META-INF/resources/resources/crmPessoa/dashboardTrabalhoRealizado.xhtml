@@ -1,0 +1,70 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <cc:interface>
+        <cc:attribute name="pessoa" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <h:outputStylesheet name="prospecto.css" library="css"/>
+
+        <div class="cards-dashboard">
+
+            <!-- Card Histórico -->
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades,cc.attrs.pessoa)}"
+                    style="text-decoration: none;">
+                <div class="card-moderno">
+                    <div class="card-conteudo">
+                        <div class="card-icone historico">
+                            <i class="pi pi-history"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Todas atividades</div>
+                            <div class="card-valor">#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAtividades').valor}</div>
+                            <div class="card-descricao">Atividades</div>
+                        </div>
+                    </div>
+                </div>
+            </p:link>
+
+            <!-- Card Arquivos -->
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoa)}"
+                    style="text-decoration: none;">
+                <div class="card-moderno arquivos">
+                    <div class="card-conteudo">
+                        <div class="card-icone arquivos">
+                            <i class="pi pi-file-pdf"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Arquivos</div>
+                            <div class="card-valor">#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAnexos').valor}</div>
+                            <div class="card-descricao">Documentos</div>
+                        </div>
+                    </div>
+                </div>
+            </p:link>
+
+            <!-- Card Orçamentos -->
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa,cc.attrs.pessoa)}"
+                    style="text-decoration: none;">
+                <div class="card-moderno orcamentos">
+                    <div class="card-conteudo">
+                        <div class="card-icone orcamentos">
+                            <i class="pi pi-shopping-cart"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-titulo">Orçamentos</div>
+                            <div class="card-valor">#{cc.attrs.pessoa.orcamentos.size()}</div>
+                            <div class="card-descricao">Aprovados</div>
+                        </div>
+                    </div>
+                </div>
+            </p:link>
+
+        </div>
+    </cc:implementation>
+</ui:composition>

@@ -10,7 +10,7 @@ public class ValorLogicoSubPastaPrivadaPastaPublica
         extends
         ValorLogicoCalculoGenerico {
 
-    ValorLogicoSubPastaPrivadaPastaPublica(ItfCampoInstanciado pCampo) {
+    public ValorLogicoSubPastaPrivadaPastaPublica(ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
 }

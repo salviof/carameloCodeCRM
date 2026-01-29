@@ -444,12 +444,12 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                         resposta.dispararMensagens();
                     }
                 }
-                if (atividadeAtualizada.getTipoAtividade().getEmailTransacionalMkt() != null) {
-                    ItfRespostaAcaoDoSistema respostaEmailtransacional = atividadeConcluisaoEmailMktTransacional(atividadeAtualizada);
-                    if (!respostaEmailtransacional.isSucesso()) {
-                        respostaEmailtransacional.dispararMensagens();
-                    }
-                }
+                //  if (atividadeAtualizada.getTipoAtividade().getEmailTransacionalMkt() != null) {
+                //      ItfRespostaAcaoDoSistema respostaEmailtransacional = atividadeConcluisaoEmailMktTransacional(atividadeAtualizada);
+                //      if (!respostaEmailtransacional.isSucesso()) {
+                //          respostaEmailtransacional.dispararMensagens();
+                //      }
+                //   }
                 if (!atividadeAtualizada.getTipoAtividade().getTagsAtendimentoAdicionadas().isEmpty()
                         || !atividadeAtualizada.getTipoAtividade().getTagsAtendimentoRemovidas().isEmpty()) {
 
@@ -539,9 +539,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
             public void regraDeNegocio() {
 
                 AtividadeCRM atividade = loadEntidade(pAtividade);
-                if (atividade.getTipoAtividade().getEmailTransacionalMkt() != null) {
-                    //TODO api mautico envio email mkt
-                }
+
             }
 
         }.getResposta();
@@ -779,10 +777,9 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 String dataFinalFormatada = sdf.format(dataFinal);
                 JsonObject respostaWs = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta().getRespostaComoObjetoJson();
 
-
                 JsonArray retorno = respostaWs.getJsonArray("RETORNO");
                 for (JsonValue r : retorno) {
-                    if(r.asJsonObject().getString("clid") == null || r.asJsonObject().getString("clid").isEmpty()) {
+                    if (r.asJsonObject().getString("clid") == null || r.asJsonObject().getString("clid").isEmpty()) {
                         continue;
                     }
                     ResultadoLigacao resultadoLigacao = UtilCRMPabx.interpretar(r.asJsonObject().getString("clid"));
@@ -818,14 +815,14 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
             private void processarLigacaoPorStatus(ResultadoLigacao pResultadoLigacao, String pNumeroEmpresa, String pNumeroCliente, String pDataInicialJson, String pAudioId) throws ErroRegraDeNegocio, ErroPreparandoObjeto {
 
                 SimpleDateFormat sdf = new SimpleDateFormat(DATA_HORA_AMERICANO.getSimpleDateFormatStr());
-                if(pNumeroEmpresa == null) {
+                if (pNumeroEmpresa == null) {
                     return;
                 }
                 Telefone telefone = new ConsultaDinamicaDeEntidade(Telefone.class, getEm()).addcondicaoCampoIgualA(CPTelefone.telefone, pNumeroEmpresa).getPrimeiroRegistro();
                 if (telefone == null) {
                     return;
                 }
-                if(pNumeroCliente == null) {
+                if (pNumeroCliente == null) {
                     return;
                 }
                 ContatoProspecto contatoProspecto = new ConsultaDinamicaDeEntidade(ContatoProspecto.class, getEm()).addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, pNumeroCliente).getPrimeiroRegistro();
@@ -836,7 +833,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 AtividadeCRM atividadeCRM;
                 if (pResultadoLigacao.getTipo() == TipoChamada.RECEBIDA) {
                     atividadeCRM = new AtividadeCrmLigacaoRecebida();
-                     atividadeCRM.prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRecebida());
+                    atividadeCRM.prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRecebida());
                 } else if (pResultadoLigacao.getTipo() == TipoChamada.REALIZADA) {
                     atividadeCRM = new AtividadeCrmLigacaoRealizada();
 //                    ((ComoAtividadeVoip) atividadeCRM).prepararNovoObjeto(contatoProspecto.getProspecto(), telefone.getTipoChamadaRealizada());
@@ -846,8 +843,8 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 }
 //                AudioVoip audio = new ConsultaDinamicaDeEntidade(AudioVoip.class, getEm()).addcondicaoCampoIgualA(CPAudioVoip.uniqueid, pAudioId).getPrimeiroRegistro();
 //                if(audio == null) {
-                    //TODO : BAIXAR O AUDIO DPS DA REQUEST
-                    // JsonObject respostaWs = FabApiAsterix.LIGACOES_BAIXAR_AUDIO.getAcao(pAudioId).getResposta().getRespostaComoObjetoJson();
+                //TODO : BAIXAR O AUDIO DPS DA REQUEST
+                // JsonObject respostaWs = FabApiAsterix.LIGACOES_BAIXAR_AUDIO.getAcao(pAudioId).getResposta().getRespostaComoObjetoJson();
 //                    audio = new AudioVoip();
 //                    audio.setUniqueId(pAudioId); //todo setArquivo()
 //                    audio = atualizarEntidade(audio);

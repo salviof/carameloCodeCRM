@@ -1,0 +1,547 @@
+/* Container principal centralizado */
+.calendario-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 20px;
+}
+
+.calendario-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+/*.calendario-card:hover {*/
+/*    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);*/
+/*    transform: translateY(-2px);*/
+/*}*/
+
+/* Display da data no card */
+.calendar-date-display {
+    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: #81C784;
+    border-radius: 12px;
+    padding: 25px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-date-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.calendar-date-display:hover::before {
+    opacity: 1;
+}
+
+.calendar-date-display:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgb(72, 119, 80);
+}
+
+.calendar-date-month {
+    font-size: 0.9em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.calendar-date-day {
+    font-size: 3em;
+    font-weight: 700;
+    line-height: 1;
+    margin: 10px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-date-weekday {
+    font-size: 1.1em;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* Mensagem informativa no card */
+.calendar-info-message {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+    color: #495057;
+    line-height: 1.5;
+}
+.calendar-info-message-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0px;
+    text-align: center;
+    color: #495057;
+    line-height: 1.5;
+
+}
+
+.calendar-info-message i {
+    color: #667eea;
+    margin-right: 8px;
+}
+
+
+
+
+
+
+/* Responsividade para o card */
+@media (max-width: 768px) {
+    .calendario-card-container {
+        padding: 15px;
+        min-height: 50vh;
+    }
+
+    .calendario-card {
+        padding: 25px 20px;
+        max-width: 350px;
+    }
+
+    .calendar-date-display {
+        padding: 20px 15px;
+    }
+
+    .calendar-date-day {
+        font-size: 2.5em;
+    }
+    .horarios-container {
+        padding: 15px;
+    }
+
+    .horarios-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 12px;
+    }
+
+    .horario-card {
+        padding: 16px;
+    }
+
+    .horario-time {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendario-card {
+        padding: 15px 12px;
+        max-width: 300px;
+    }
+
+    .calendar-date-display {
+        padding: 18px 12px;
+    }
+
+    .calendar-date-day {
+        font-size: 2.2em;
+    }
+
+    .calendar-date-month {
+        font-size: 0.8em;
+    }
+
+    .calendar-info-message {
+        font-size: 0.85em;
+        padding: 12px;
+    }
+
+    .horarios-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .horario-card {
+        padding: 14px;
+    }
+
+    .horario-time {
+        font-size: 1.2em;
+    }
+
+    .horario-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1em;
+    }
+
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calendario-card {
+    animation: fadeInUp 0.6s ease;
+}
+
+/* Estado de loading */
+.calendario-card.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.calendario-card.loading::after {
+    content: 'Carregando...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #487750;
+}
+
+/* Container de horários disponíveis */
+.horarios-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Card de horário individual */
+.horario-card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.horario-card:hover {
+    transition: ease-in 3s;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.horario-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #60a36c;
+}
+
+.horario-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.horario-icon {
+    background: #60a36c;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2em;
+}
+
+.horario-time {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #343a40;
+    margin: 0;
+}
+
+.horario-text {
+    font-size: 1em;
+    color: #495057;
+    font-weight: 500;
+    margin: 0;
+}
+
+.horario-button {
+    background: #60a36c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.horario-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgb(64, 106, 71);
+}
+
+/* Estados de loading e feedback */
+.horario-card.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.horario-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+}
+.p-datepicker {
+    z-index: 9999 !important;
+}
+/* Responsividade */
+@media (max-width: 768px) {
+    .horarios-container {
+        padding: 15px;
+    }
+
+    .horarios-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 12px;
+    }
+
+    .horario-card {
+        padding: 16px;
+    }
+
+    .horario-time {
+        font-size: 1.3em;
+    }
+}
+
+.ui-datepicker {
+    width: auto !important;
+    min-width: 300px !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #e0e0e0 !important;
+    z-index: 10000 !important;
+}
+
+.ui-datepicker .ui-datepicker-header {
+    background: #81C784 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 12px !important;
+}
+
+.ui-datepicker .ui-datepicker-title {
+    font-weight: 600 !important;
+    font-size: 1.1em !important;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    color: white !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.ui-datepicker .ui-datepicker-prev:hover,
+.ui-datepicker .ui-datepicker-next:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50% !important;
+}
+
+.ui-datepicker table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 4px !important;
+    margin: 8px 0 !important;
+}
+
+.ui-datepicker th {
+    padding: 8px 4px !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+    font-size: 0.9em !important;
+}
+
+.ui-datepicker td {
+    padding: 0 !important;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    line-height: 2.5rem !important;
+    text-align: center !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 2px auto !important;
+    border: none !important;
+    background: transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.ui-datepicker td a {
+    color: #343a40 !important;
+    text-decoration: none !important;
+}
+
+.ui-datepicker td a:hover {
+    background: #81C784 !important;
+    color: white !important;
+    transform: scale(1.05) !important;
+}
+
+.ui-datepicker td .ui-state-active {
+    background: #60a36c !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.ui-datepicker td .ui-state-highlight {
+    background: #e8f5e8 !important;
+    color: #60a36c !important;
+    font-weight: 600 !important;
+}
+
+.ui-datepicker td .ui-state-disabled {
+    color: #adb5bd !important;
+    opacity: 0.6 !important;
+}
+
+/* CORREÇÃO PARA O FUNDO DOS DIAS */
+.ui-datepicker .ui-datepicker-calendar {
+    background: white !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar td {
+    background: transparent !important;
+}
+
+/* CORREÇÃO PARA MOBILE - DATEPICKER RESPONSIVO */
+@media (max-width: 768px) {
+    .ui-datepicker {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        min-width: 280px !important;
+        max-width: 90vw !important;
+        width: auto !important;
+        padding: 10px !important;
+        z-index: 10001 !important;
+    }
+
+    .ui-datepicker table {
+        border-spacing: 2px !important;
+    }
+
+    .ui-datepicker td span,
+    .ui-datepicker td a {
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+        line-height: 2.2rem !important;
+        font-size: 0.85em !important;
+    }
+
+    .ui-datepicker th {
+        padding: 6px 2px !important;
+        font-size: 0.8em !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .ui-datepicker {
+        min-width: 270px !important;
+        max-width: 95vw !important;
+        padding: 8px !important;
+    }
+
+    .ui-datepicker td span,
+    .ui-datepicker td a {
+        width: 2rem !important;
+        height: 2rem !important;
+        line-height: 2rem !important;
+        font-size: .8em !important;
+    }
+
+    .ui-datepicker .ui-datepicker-header {
+        padding: 8px !important;
+    }
+
+    .ui-datepicker .ui-datepicker-title {
+        font-size: 1em !important;
+    }
+}
+
+/* GARANTIR QUE O DATEPICKER FIQUE ACIMA DE TUDO */
+body .ui-datepicker {
+    z-index: 10000 !important;
+}
+
+

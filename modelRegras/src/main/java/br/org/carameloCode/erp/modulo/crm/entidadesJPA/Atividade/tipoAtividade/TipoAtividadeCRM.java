@@ -9,7 +9,7 @@ import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.TipoChatBot;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.transacionalMkt.tipo.TipoEmailTransacional;
+
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEmail;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
@@ -148,16 +148,6 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Apenas pós vendas", descricao = "Disponibilizar apenas no pós vendas")
     @InfoCampoVerdadeiroOuFalso()
     private boolean disponivelApenasPosVendas;
-
-    @InfoCampo(label = "Email Mkt", descricao = "Eviar e-mail de Marketing trasacional ao concluir",
-            tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "emailsTransacionaisDisponiveis")
-    // @ManyToOne(targetEntity = TipoEmailTransacional.class)
-    @Transient
-    private TipoEmailTransacional emailTransacionalMkt;
-
-    @Transient
-    // @InfoCampoValorLogico(nomeCalculo = "EmailsTransacionaisDisponiveis")
-    private List<TipoEmailTransacional> emailsTransacionaisDisponiveis;
 
 //    @CalculoTipoAtividadeCRM(calculo = CalculosTipoAtividadeCRM.FORMULARIO_EXECUCAO)
     @Transient
@@ -772,23 +762,6 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
     public void setTiposDadosColetarNaAtividade(List<TipoDadoCRM> tiposDadosColetarNaAtividade) {
         this.tiposDadosColetarNaAtividade = tiposDadosColetarNaAtividade;
     }
-
-    public TipoEmailTransacional getEmailTransacionalMkt() {
-        return emailTransacionalMkt;
-    }
-
-    public void setEmailTransacionalMkt(TipoEmailTransacional emailTransacionalMkt) {
-        this.emailTransacionalMkt = emailTransacionalMkt;
-    }
-
-    public List<TipoEmailTransacional> getEmailsTransacionaisDisponiveis() {
-        return emailsTransacionaisDisponiveis;
-    }
-
-    public void setEmailsTransacionaisDisponiveis(List<TipoEmailTransacional> emailsTransacionaisDisponiveis) {
-        this.emailsTransacionaisDisponiveis = emailsTransacionaisDisponiveis;
-    }
-//
 
     public boolean isAtivaModoPosVendas() {
         return ativaModoPosVendas;

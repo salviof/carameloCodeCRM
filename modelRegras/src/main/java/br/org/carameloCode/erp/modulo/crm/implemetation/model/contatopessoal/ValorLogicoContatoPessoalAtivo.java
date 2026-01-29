@@ -8,7 +8,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.contatopessoal.ValoresLogico
 @ValorLogicoContatoPessoal(calculo = ValoresLogicosContatoPessoal.ATIVO)
 public class ValorLogicoContatoPessoalAtivo extends ValorLogicoCalculoGenerico {
 
-	ValorLogicoContatoPessoalAtivo(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoContatoPessoalAtivo(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

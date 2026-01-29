@@ -167,11 +167,6 @@ public class AcoesAtendimentoCrm_ProspectoMbGerenciar implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_FRM_PRE_ANALISE");
 	}
 
-	public ComoAcaoControllerEntidade getProspectoCtrNovaPreAnalise() {
-		return (ComoAcaoControllerEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_NOVA_PRE_ANALISE");
-	}
-
 	public ComoAcaoControllerEntidade getProspectoCtrNovaPreAnaliseSeo() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_NOVA_PRE_ANALISE_SEO");

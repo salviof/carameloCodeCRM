@@ -192,7 +192,7 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.AudioVoip</class>
-        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.Chamada</class>
+        
 
 
 
