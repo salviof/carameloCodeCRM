@@ -39,6 +39,7 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
     MEU_PERFIL_EMAIL_ADMIN,
     MINHAS_ORIGENS,
     MINHA_AGENDA,
+    VOIP_PABX,
     MENU_CONVIDADO;
 
     @Override
@@ -97,8 +98,6 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
                 SessaoMenuSB sessaoAdmin = new SessaoMenuSB(admin);
                 sessaoAdmin.addAcao(FabAcaoCRMAtendimento.ORGANOGRAMA_FLUXO_MB.getRegistro());
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.MAUTIC_MB_INTEGRACAO.getRegistro());
-                sessaoAdmin.addAcao(FabAcaoCrmAdmin.TELEFONE_VOIP_MB_GESTAO.getRegistro());
-
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.MANUTENCAO_DADOS_PROSPECTO_MB.getRegistro());
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.PROSPECTO_ADMIN_MB_GERENCIAR.getRegistro());
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_CONFIGURAR_EMAILS.getRegistro());
@@ -112,13 +111,17 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
                 sessaoDocumentos.addAcao(FabAcaoCrmAdmin.CATEGORIA_DOCUMENTO_EQUIPE_MB_GESTAO.getRegistro());
                 return sessaoDocumentos;
 
+            case VOIP_PABX:
+                SessaoMenuSB sessaoVoipPabx = new SessaoMenuSB("Pabx", "fa fa-phone");
+                sessaoVoipPabx.addAcao(FabAcaoCrmAdmin.TELEFONE_VOIP_MB_GESTAO.getRegistro());
+                sessaoVoipPabx.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_REALIZADA_MB_GESTAO.getRegistro());
+                sessaoVoipPabx.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_RECEBIDA_MB_GESTAO.getRegistro());
+                return sessaoVoipPabx;
+
             case ATIVIDADES:
 
                 SessaoMenuSB sessaoAtividades = new SessaoMenuSB("Atividades", "fa fa-sitemap");
-
                 sessaoAtividades.addAcao(FabAcaoCrmAdmin.TIPO_RELACIONAMENTO_MB_GERENCIAR.getRegistro());
-                sessaoAtividades.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_REALIZADA_MB_GESTAO.getRegistro());
-                sessaoAtividades.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CHAMADA_RECEBIDA_MB_GESTAO.getRegistro());
                 sessaoAtividades.addAcao(FabAcaoCrmAdmin.META_RELACIONAMENTO_MB.getRegistro());
                 sessaoAtividades.addAcao(FabAcaoCrmAdmin.ATIVIDADES_FRM_LISTAR_ATIVIDADES.getRegistro());
                 sessaoAtividades.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_MB_GERENCIAR.getRegistro());

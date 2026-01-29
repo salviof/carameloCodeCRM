@@ -408,7 +408,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     IMPORTADOR_PROSPECTO_FRM_RELATORIO,
     @InfoTipoAcaoController(icone = "fa fa-upload")
     IMPORTADOR_PROSPECTO_CTR_IMPORTAR,
-    @InfoTipoAcaoGestaoEntidade(entidade = PessoaJuridica.class, icone = "fa fa-line-chart", precisaPermissao = true)
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Integracao Mautic", entidade = PessoaJuridica.class, icone = "fa fa-line-chart", precisaPermissao = true)
     MAUTIC_MB_INTEGRACAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar Configurações", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     MAUTIC_FRM_CONFIGURACOES,
@@ -744,13 +744,13 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_ATIVIDADE_CHAMADA_RECEBIDA_FRM_EDITAR,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Telefones Padroes", entidade = Telefone.class)
     TELEFONE_VOIP_MB_GESTAO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-phone", nomeAcao = "Telefone voip", campos = {CPTelefone.id, CPTelefone.telefone, CPTelefone.tipochamadarealizada, CPTelefone.tipochamadarecebida, CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
+    @InfoTipoAcaoFormulario(icone = "fa fa-phone", nomeAcao = "Telefone voip", campos = {CPTelefone.id, CPTelefone.nome, CPTelefone.telefone, CPTelefone.codigoapiwhatsapp})
     TELEFONE_VOIP_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone,CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone,CPTelefone.codigoapiwhatsapp, CPTelefone.nome,"[separador: Tipos de Chamadas]", "tipoChamadaRecebida", "tipoChamadaRealizada"})
     TELEFONE_VOIP_FRM_NOVO,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     TELEFONE_VOIP_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.codigoapiwhatsapp, CPTelefone.nome})
+    @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.codigoapiwhatsapp, CPTelefone.nome,"[separador: Tipos de Chamadas]", "tipoChamadaRecebida", "tipoChamadaRealizada"})
     TELEFONE_VOIP_FRM_EDITAR,
 
 }
