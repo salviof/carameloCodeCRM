@@ -79,6 +79,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.caixapostal.CPCaixaPostal;
+import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.util.UtilSBEditorArquivosConversor;
 
@@ -495,13 +496,12 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
                         String dataTextoDoc = new SimpleDateFormat("dd'do'MM'de'yy").format(new Date());
                         nomeDocumento = nomeDocumento + "_" + dataTextoDoc + "_CA" + atividadeGenrenciada.getId() + ".pdf";
                         novoDocumento.setNome("GeradoPorAtv" + atividadeGenrenciada.getId() + "_" + nomeDocumento);
-                        System.out.println("Vinculando " + arquivoPdf + " a entidade" + novoDocumento);
+                        System.out.println("Vinculando " + arquivoPdf + " a entidade" + novoDocumento.toString());
                         novoDocumento.getCampoInstanciadoByNomeOuAnotacao("arquivo").getComoArquivoDeEntidade().uploadArquivo(
                                 nomeDocumento,
                                 FileUtils.readFileToByteArray(new File(arquivoPdf)));
                         novoDocumento.setDataHoraCriacao(new Date());
                         novoDocumento.setUsuarioCriou(atividadeGenrenciada.getUsuarioInsersao());
-
                         atualizarEntidade(novoDocumento, false);
 
                         try {
