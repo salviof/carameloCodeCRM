@@ -102,6 +102,7 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.PROSPECTO_ADMIN_MB_GERENCIAR.getRegistro());
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_CONFIGURAR_EMAILS.getRegistro());
                 sessaoAdmin.addAcao(FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO.getRegistro());
+                sessaoAdmin.addAcao(FabAcaoCrmAdmin.DISPARO_EM_MASSA_MB_GESTAO.getRegistro());
                 return sessaoAdmin;
             case DOCUMENTOS:
                 SessaoMenuSB sessaoDocumentos = new SessaoMenuSB("Documentos", "fa fa-file-pdf-o");

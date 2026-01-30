@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
@@ -1122,5 +1123,26 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             }
         };
     }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema disparoEmMassaAtualizar(DisparoEmMassa pDisparoEmMassa) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(DisparoEmMassa.class), pDisparoEmMassa) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pDisparoEmMassa);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_DISPARAR)
+    public static ItfRespostaAcaoDoSistema disparoEmMassaDisparar(DisparoEmMassa pDisparoEmMassa) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(DisparoEmMassa.class), pDisparoEmMassa) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+            }
+        };
+    }
+
 
 }
