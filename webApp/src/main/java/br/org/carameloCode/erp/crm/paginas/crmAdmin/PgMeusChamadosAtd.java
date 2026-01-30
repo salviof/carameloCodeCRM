@@ -168,12 +168,11 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                 consulta.addCondicaoManyToOneIgualA(FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro());
                 if (pessoaSelecionada != null) {
                     consulta.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.pessoa, pessoaSelecionada);
-                } else {
+                }
                     //  consulta.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
-                }
-                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-                    consulta.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
-                }
+//                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
+//                    consulta.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
+//                }
                 List<ChamadoCliente> chamados = consulta.resultadoRegistros();
                 setEntidadesListadas(chamados);
                 break;
