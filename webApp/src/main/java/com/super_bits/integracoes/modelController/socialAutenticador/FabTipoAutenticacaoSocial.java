@@ -25,6 +25,10 @@ public enum FabTipoAutenticacaoSocial implements ComoFabrica {
     public static FabTipoAutenticacaoSocial getFabricaPorString(String pString) {
         for (Enum fab : FabTipoAutenticacaoSocial.class.getEnumConstants()) {
             FabTipoAutenticacaoSocial tipo = (FabTipoAutenticacaoSocial) fab;
+            TipoCredencialSocial tp = tipo.getRegistro();
+            if (tp.getNome().equals(pString)) {
+                return tipo;
+            }
             if (pString.toLowerCase().equals(tipo.getStrIdentificacao().toLowerCase())) {
                 return tipo;
             }

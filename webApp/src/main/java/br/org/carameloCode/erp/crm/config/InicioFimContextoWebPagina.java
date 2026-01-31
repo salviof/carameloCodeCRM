@@ -51,7 +51,7 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
             System.out.println("ConfigSBPaginas");
             SBCore.configurar(
                     new ConfigCoreWebAppCrmCarameloCode(ConfiguradorCoreDeProjetoWebWarAbstrato.contextoDoServlet),
-                    SBCore.ESTADO_APP.PRODUCAO
+                    SBCore.ESTADO_APP.HOMOLOGACAO
             );
             System.out.println("############### FIM CONFIG core");
             try {

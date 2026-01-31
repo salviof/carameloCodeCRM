@@ -30,11 +30,11 @@
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>-->
-<!--            <artifactId>openid</artifactId>-->
-<!--            <version>1.0.0-RC-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>-->
+        <!--            <artifactId>openid</artifactId>-->
+        <!--            <version>1.0.0-RC-SNAPSHOT</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>br.org.coletivoJava.fw.api.erp.chat</groupId>
@@ -93,7 +93,11 @@
             <artifactId>restfb</artifactId>
             <version>2.0.0-rc.3</version>
         </dependency>
-
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.WebPaginas.modulos</groupId>
+            <artifactId>openid</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
