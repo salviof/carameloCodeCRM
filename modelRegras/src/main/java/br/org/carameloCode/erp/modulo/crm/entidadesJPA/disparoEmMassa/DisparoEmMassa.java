@@ -12,10 +12,10 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 @InfoObjetoSB(plural = "Disparo de Mensagens WhatsApp", tags = "Disparo WhatsApp", icone = "fa fa-paper-plane")
 @Entity
 public class DisparoEmMassa extends EntidadeSimples {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +25,8 @@ public class DisparoEmMassa extends EntidadeSimples {
     private Date dataDisparo;
 
     @ManyToOne(targetEntity = StatusDisparo.class)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
-    private FabStatusDisparo statusDisparoFabrica;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, somenteLeitura = true)
+    private StatusDisparo statusDisparoFabrica;
 
     @ManyToOne
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -36,7 +36,6 @@ public class DisparoEmMassa extends EntidadeSimples {
     @OneToMany(fetch = FetchType.LAZY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, caminhoParaLista = "metaRelacionamento.tiposRelacionamento")
     private List<TipoRelacionamento> relacionamentos;
-
 
     public void setId(Long id) {
         this.id = id;
@@ -77,6 +76,5 @@ public class DisparoEmMassa extends EntidadeSimples {
     public void setRelacionamentos(List<TipoRelacionamento> relacionamentos) {
         this.relacionamentos = relacionamentos;
     }
-
 
 }

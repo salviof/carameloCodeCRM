@@ -9,12 +9,9 @@ import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSoci
 import com.super_bits.integracoes.modelController.socialAutenticador.FabTipoAutenticacaoSocial;
 import com.super_bits.integracoes.modelController.socialAutenticador.TipoCredencialSocial;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.arquivosConfiguracao.ConfigModulo;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBcoreModulos;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivos;
 
-import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.webSite.InfoWebApp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
@@ -22,10 +19,8 @@ import java.util.List;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import org.brickred.socialauth.Permission;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
-import org.brickred.socialauth.util.OAuthConfig;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.coletivojava.fw.utilCoreBase.UtilCRCFabrica;
 
