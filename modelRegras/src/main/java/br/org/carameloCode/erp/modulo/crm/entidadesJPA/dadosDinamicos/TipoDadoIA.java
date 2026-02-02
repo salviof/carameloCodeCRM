@@ -11,6 +11,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 
 /**
@@ -30,6 +32,7 @@ public class TipoDadoIA extends TipoDadoCRM {
     private double temperatura;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
+    @Enumerated(EnumType.STRING)
     private ERP_IA implementacaoPadrao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.PERCENTUAL, descricao = "Limita o conjunto de palavras consideradas pelo modelo. Quanto menor o valor, mais restritas e seguras tendem a ser as respostas.")
