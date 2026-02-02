@@ -11,6 +11,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoCli
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.FabStatusChatBot;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.FabSatisfacaoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.estrategiaResponsavelTipoRelacionamento.FabTipoEstrategiaResponsalvelRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.categoriaMailRecebido.FabCategoriaEmailRecebido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.FabStatusEnvioEmail;
@@ -88,7 +89,8 @@ public class ConfigPersistenciaCrmCarameloCode implements ItfConfigSBPersistenci
             FabTipoSolicitacao.class,
             FabStatusChatBot.class,
             FabStatusNotificacao.class,
-            FabTipoNotificacao.class
+            FabTipoNotificacao.class,
+            FabStatusDisparo.class
 
 //    FabAtividadeCRMAutoexecucao.class
         };

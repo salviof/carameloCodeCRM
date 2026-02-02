@@ -38,6 +38,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.util.UtilGeradorDocumentoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
+import br.org.carameloCode.erp.modulo.crm.api.model.disparoemmassa.CPDisparoEmMassa;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
 import com.super_bits.modulos.SBAcessosModel.model.PermissaoSB;
@@ -69,6 +70,14 @@ import javax.persistence.EntityManager;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.modelodocumentotiposervico.CPModeloDocumentoTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemProspecto;
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.coletivojava.fw.api.objetoNativo.mensagem.Mensagem;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.importacao.ImportacaoExcel;
 
@@ -1129,20 +1138,71 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(DisparoEmMassa.class), pDisparoEmMassa) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                atualizarEntidade(pDisparoEmMassa);
+                setRetorno(atualizarEntidade(pDisparoEmMassa));
             }
         };
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_DISPARAR)
     public static ItfRespostaAcaoDoSistema disparoEmMassaDisparar(DisparoEmMassa pDisparoEmMassa) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(DisparoEmMassa.class), pDisparoEmMassa) {
+
+        DisparoEmMassa disp = (DisparoEmMassa) disparoEmMassaAtualizar(pDisparoEmMassa).getRetorno();
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(DisparoEmMassa.class), disp) {
+            private DisparoEmMassa disparo;
+
+            private void enviarContato(ContatoProspecto pContato) throws ErroRegraDeNegocio {
+                try {
+                    if (pContato == null && pContato.getCelular() == null) {
+                        return;
+                    }
+                    MensagemMktWhatsapp mensagem = new MensagemMktWhatsapp();
+                    mensagem.setDisparoEmMassa(disparo);
+                    mensagem.prepararNovoObjeto(pContato);
+                    if (true) {
+                        throw new ErroRegraDeNegocio("Recurso desativado momentaneamente");
+                    }
+                    ModuloCRMAtendimento.contatoProspectoEnviarWhatsAppMtk(mensagem);
+                } catch (ErroPreparandoObjeto ex) {
+                    return;
+                }
+            }
+
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
+                loadEntidade(pDisparoEmMassa);
+                if (pDisparoEmMassa.getStatus().equals(FabStatusDisparo.ENVIADO.getRegistro())) {
+                    throw new ErroRegraDeNegocio("O disparo já foi realizado");
+                }
+
+                if (pDisparoEmMassa.getMetaRelacionamento() == null) {
+                    throw new ErroRegraDeNegocio("Defina uma meta");
+                }
+
+                if (pDisparoEmMassa.getTipoMensagem() == null) {
+                    throw new ErroRegraDeNegocio("Defina o tipo de mensagem");
+                }
+
+                ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(Pessoa.class, getEm());
+                consulta.addCondicaoManyToOneIgualA(CPPessoa.meta, disparo.getMetaRelacionamento());
+                if (!disparo.getRelacionamentos().isEmpty()) {
+                    consulta.addCondicaoManyToOneContemNoIntervalo(CPPessoa.relacionamento, disparo.getRelacionamentos());
+                }
+                List<Pessoa> pessoas = consulta.gerarResultados();
+                StringBuilder errosDeEnvio;
+                for (Pessoa p : pessoas) {
+                    if (!disparo.isEnviarParaContatosSecundarios()) {
+                        p.getCPinst(CPPessoa.contatoprincipal).getValor();
+                        enviarContato(p.getContatoPrincipal());
+                    } else {
+                        for (ContatoProspecto ct : p.getContatosProspecto()) {
+                            enviarContato(ct);
+                        }
+                    }
+                }
 
             }
         };
     }
-
 
 }

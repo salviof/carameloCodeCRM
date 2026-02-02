@@ -753,23 +753,26 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TELEFONE_VOIP_CTR_SALVAR_MERGE,
     @InfoTipoAcaoFormulario(campos = {CPTelefone.telefone, CPTelefone.codigoapiwhatsapp, CPTelefone.nome, "[separador: Tipos de Chamadas]", "tipoChamadaRecebida", "tipoChamadaRealizada"})
     TELEFONE_VOIP_FRM_EDITAR,
-    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-envelope-o", nomeAcao = "Disparo em Massa de Mensagens", entidade = DisparoEmMassa.class)
+    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-envelope-o", nomeAcao = "Disparo em Massa de Mensagens", entidade = DisparoEmMassa.class, precisaPermissao = true)
     DISPARO_EM_MASSA_MB_GESTAO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Disparo de Mensagens", campos = {CPDisparoEmMassa.id, CPDisparoEmMassa.datadisparo, CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, CPDisparoEmMassa.statusdisparofabrica})
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Disparos", campos = {CPDisparoEmMassa.id, "nome", CPDisparoEmMassa.tipomensagem, CPDisparoEmMassa.datadisparo, CPDisparoEmMassa.status})
     DISPARO_EM_MASSA_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Disparo de Mensagens", campos = {CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, CPDisparoEmMassa.statusdisparofabrica})
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Novo Disparo", campos = {"[separador: Dados Básicos do disparo]", "nome", CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos})
     DISPARO_EM_MASSA_FRM_NOVO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Disparo de Mensagens", campos = {CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, CPDisparoEmMassa.statusdisparofabrica})
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Editar Disparo", campos = {"[separador: Dados Básicos do disparo]", "nome", CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos})
     DISPARO_EM_MASSA_FRM_EDITAR,
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "ver detalhes", campos = {"[separador: Dados Básicos do disparo]", "nome",
+        CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, "[separador: Mensagens Enviadas]", "mensagensEnviadas"})
+    DISPARO_EM_MASSA_FRM_VISUALIZAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     DISPARO_EM_MASSA_CTR_SALVAR_MERGE,
     @InfoTipoAcaoController(nomeAcao = "Disparar Mensagens", icone = "fa fa-paper-plane", precisaPermissao = true, exibirModalConfirmacao = true,
-            fraseComunicação = "Deseja disparar mensagens em massa?",
+            fraseComunicação = "Deseja disparar mensagens em massa: [nome]?",
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO})
     DISPARO_EM_MASSA_CTR_DISPARAR,
     @InfoTipoAcaoController(nomeAcao = "Excluir", precisaPermissao = true, exibirModalConfirmacao = true,
             fraseComunicação = "Deseja excluir a mensagem?",
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
-    DISPARO_EM_MASSA_CTR_EXCLUIR,
+    DISPARO_EM_MASSA_CTR_REMOVER,
 }

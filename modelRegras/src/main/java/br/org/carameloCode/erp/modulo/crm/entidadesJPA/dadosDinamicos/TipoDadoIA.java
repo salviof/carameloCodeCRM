@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos;
 
 //import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
+import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -22,12 +23,14 @@ public class TipoDadoIA extends TipoDadoCRM {
 
 //    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = ERP_IA.class)
 //    private ERP_IA provedorIA;
-
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, descricao = "Modelo de IA que será utilizado. Modelos mais avançados tendem a gerar respostas melhores, porém com maior custo.")
     private String model;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.PERCENTUAL, descricao = "Controla o nível de variação das respostas. Valores baixos geram respostas mais previsíveis; valores altos tornam o texto mais criativo.")
     private double temperatura;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
+    private ERP_IA implementacaoPadrao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.PERCENTUAL, descricao = "Limita o conjunto de palavras consideradas pelo modelo. Quanto menor o valor, mais restritas e seguras tendem a ser as respostas.")
     private double top_p;
@@ -72,9 +75,16 @@ public class TipoDadoIA extends TipoDadoCRM {
 //    public void setProvedorIA(ERP_IA provedorIA) {
 //        this.provedorIA = provedorIA;
 //    }
-
     public String getModel() {
         return model;
+    }
+
+    public ERP_IA getImplementacaoPadrao() {
+        return implementacaoPadrao;
+    }
+
+    public void setImplementacaoPadrao(ERP_IA implementacaoPadrao) {
+        this.implementacaoPadrao = implementacaoPadrao;
     }
 
     public void setModel(String model) {

@@ -5,11 +5,15 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = DisparoEmMassa.class)
 public enum CPDisparoEmMassa {
-	_ID, _DATADISPARO, _STATUSDISPAROFABRICA, _METARELACIONAMENTO, _RELACIONAMENTOS;
+	_ID, _NOME, _DATADISPARO, _TIPOMENSAGEM, _STATUS, _ENVIARPARACONTATOSSECUNDARIOS, _METARELACIONAMENTO, _RELACIONAMENTOS, _RELACIONAMENTOSDISPONIVEIS;
 
 	public static final String id = "id";
+	public static final String nome = "nome";
 	public static final String datadisparo = "dataDisparo";
-	public static final String statusdisparofabrica = "statusDisparoFabrica";
+	public static final String tipomensagem = "tipoMensagem";
+	public static final String status = "status";
+	public static final String enviarparacontatossecundarios = "enviarParaContatosSecundarios";
 	public static final String metarelacionamento = "metaRelacionamento";
 	public static final String relacionamentos = "relacionamentos";
+	public static final String relacionamentosdisponiveis = "relacionamentosDisponiveis";
 }

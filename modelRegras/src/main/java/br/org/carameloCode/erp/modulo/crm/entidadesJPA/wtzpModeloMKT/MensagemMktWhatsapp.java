@@ -1,6 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
@@ -72,6 +73,10 @@ public class MensagemMktWhatsapp extends EntidadeSimplesORM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
     private boolean lido;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = DisparoEmMassa.class)
+    private DisparoEmMassa disparoEmMassa;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES)
     @ManyToOne(targetEntity = AtividadeCRM.class)
@@ -183,6 +188,14 @@ public class MensagemMktWhatsapp extends EntidadeSimplesORM {
 
     public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
+    }
+
+    public DisparoEmMassa getDisparoEmMassa() {
+        return disparoEmMassa;
+    }
+
+    public void setDisparoEmMassa(DisparoEmMassa disparoEmMassa) {
+        this.disparoEmMassa = disparoEmMassa;
     }
 
 }
