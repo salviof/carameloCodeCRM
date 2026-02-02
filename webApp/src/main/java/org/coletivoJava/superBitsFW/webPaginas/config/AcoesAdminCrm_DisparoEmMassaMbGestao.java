@@ -32,6 +32,11 @@ public class AcoesAdminCrm_DisparoEmMassaMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_FRM_EDITAR");
 	}
 
+	public ItfAcaoFormularioEntidade getDisparoEmMassaFrmVisualizar() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_FRM_VISUALIZAR");
+	}
+
 	public ComoAcaoControllerEntidade getDisparoEmMassaCtrSalvarMerge() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_SALVAR_MERGE");
@@ -42,8 +47,8 @@ public class AcoesAdminCrm_DisparoEmMassaMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_DISPARAR");
 	}
 
-	public ComoAcaoControllerEntidade getDisparoEmMassaCtrExcluir() {
+	public ComoAcaoControllerEntidade getDisparoEmMassaCtrRemover() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_EXCLUIR");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.DISPARO_EM_MASSA_CTR_REMOVER");
 	}
 }

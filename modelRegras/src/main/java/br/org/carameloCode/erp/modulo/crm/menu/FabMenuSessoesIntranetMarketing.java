@@ -194,6 +194,7 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.OPCAO_DADOS_CRM_MB_GERENCIAR.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_INTEGRACAO_MB_GERENCIAR.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_LOGICO_MB_GERENCIA.getRegistro());
+                dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_MB_GERENCIAR.getRegistro());
                 return dadosDinamicos;
             case MENU_CONVIDADO:
