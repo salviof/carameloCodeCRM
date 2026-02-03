@@ -616,7 +616,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_CHAMADO_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-plug", precisaPermissao = false, entidade = SistemaERPConfiavel.class, nomeAcao = "Integrações ERP")
     INTEGRACAO_ERP_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {CPSistemaERPConfiavel.id, CPSistemaERPConfiavel.nome,
+    @InfoTipoAcaoFormulario(campos = {CPSistemaERPConfiavel.id, "hashChavePublica", CPSistemaERPConfiavel.nome,
         CPSistemaERPConfiavel.dominio, CPSistemaERPConfiavel.urlpublicaendpoint,
         CPSistemaERPConfiavel.urlrecepcaocodigo, CPSistemaERPConfiavel.hashchavepublica})
     INTEGRACAO_ERP_FRM_LISTAR,

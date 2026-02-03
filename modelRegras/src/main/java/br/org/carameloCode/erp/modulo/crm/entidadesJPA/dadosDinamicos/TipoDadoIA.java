@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @InfoObjetoSB(tags = "Tipo dado Gerado por IA", plural = "Tipo dado Gerado por ia")
-public class TipoDadoIA extends TipoDadoCRM {
+public class TipoDadoIA extends TipoDadoCRMLogica {
 
 //    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = ERP_IA.class)
 //    private ERP_IA provedorIA;
@@ -70,6 +70,11 @@ public class TipoDadoIA extends TipoDadoCRM {
     @ManyToOne(targetEntity = TipoDadoCRMLogica.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, descricao = "Em caso de falha, um tipo de dado logico pode ser acionado, em caso de falha o conteúdo de texto será utilizado")
     private TipoDadoCRMLogica tipoDadoLogicaCasoFalha;
+
+    public TipoDadoIA() {
+        setValorPadrao("IA");
+
+    }
 
 //    public ERP_IA getProvedorIA() {
 //        return provedorIA;

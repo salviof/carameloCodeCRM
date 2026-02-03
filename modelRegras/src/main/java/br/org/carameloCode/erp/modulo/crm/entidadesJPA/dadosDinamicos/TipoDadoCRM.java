@@ -651,4 +651,8 @@ public class TipoDadoCRM extends EntidadeSimplesORM implements ItfAtributoObjeto
         return tipoEntityDadoDinamico;
     }
 
+    public TipoDadoIA getComoTipoDadoIA() {
+        return (TipoDadoIA) this;
+    }
+
 }
