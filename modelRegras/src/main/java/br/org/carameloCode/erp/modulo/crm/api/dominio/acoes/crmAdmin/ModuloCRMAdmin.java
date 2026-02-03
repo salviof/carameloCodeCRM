@@ -3,6 +3,7 @@ package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
@@ -1201,4 +1202,22 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         };
     }
 
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema personaIaAtualizar(Persona pPersonaIA) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPersonaIA), pPersonaIA) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pPersonaIA);
+            }
+        };
+    }
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_CTR_REMOVER)
+    public static ItfRespostaAcaoDoSistema personaIaRemover(Persona pPersonaIA) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPersonaIA), pPersonaIA) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                removerEntidade(pPersonaIA);
+            }
+        };
+    }
 }

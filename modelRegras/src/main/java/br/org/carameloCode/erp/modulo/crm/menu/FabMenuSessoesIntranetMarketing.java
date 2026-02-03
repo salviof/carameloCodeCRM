@@ -40,6 +40,7 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
     MINHAS_ORIGENS,
     MINHA_AGENDA,
     VOIP_PABX,
+    PERSONA_IA,
     MENU_CONVIDADO;
 
     @Override
@@ -194,9 +195,13 @@ public enum FabMenuSessoesIntranetMarketing implements ComoFabrica {
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.OPCAO_DADOS_CRM_MB_GERENCIAR.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_INTEGRACAO_MB_GERENCIAR.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_LOGICO_MB_GERENCIA.getRegistro());
-                dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO.getRegistro());
                 dadosDinamicos.addAcao(FabAcaoCrmAdmin.TIPO_ATIVIDADE_MB_GERENCIAR.getRegistro());
                 return dadosDinamicos;
+            case PERSONA_IA:
+                SessaoMenuSB personaIA = new SessaoMenuSB("Personas IA", "fa fa-android");
+                personaIA.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO.getRegistro());
+                personaIA.addAcao(FabAcaoCrmAdmin.PERSONA_IA_MB_GESTAO.getRegistro());
+                return personaIA;
             case MENU_CONVIDADO:
                 SessaoMenuSB meusClientes = new SessaoMenuSB("Meus Clientes", "fa fa-heart");
                 meusClientes.addAcao(FabAcaoCRMConvidado.MEUS_CLIENTES_MB_GESTAO);
