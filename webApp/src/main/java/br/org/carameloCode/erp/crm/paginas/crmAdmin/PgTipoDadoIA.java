@@ -19,7 +19,7 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-@InfoPagina(nomeCurto = "ddia", tags = {"Gestao de dados dinamicos IA"})
+@InfoPagina(nomeCurto = "ddia", tags = {"gestao de dados dinamicos ia"})
 @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO)
 public class PgTipoDadoIA extends MB_paginaCadastroEntidades<TipoDadoIA> {
 

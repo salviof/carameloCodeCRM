@@ -125,15 +125,15 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_DADO_DINAMICO_LOGICO_CTR_SALVAR_MERGE,
 
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Tipo de dado IA",
-            descricao = "Gestao de dados dinamicos gerados por IA" ,entidade = TipoDadoIA.class)
+            descricao = "Gestao de dados dinamicos gerados por IA", entidade = TipoDadoIA.class)
     TIPO_DADO_DINAMICO_IA_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha", "tipoDadoLogicaCasoFalha", "fabricaTipoAtributo"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "ativo", "conteudoPerguntaIA"})
     TIPO_DADO_DINAMICO_IA_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha", "tipoDadoLogicaCasoFalha", "fabricaTipoAtributo"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]", "model", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
     TIPO_DADO_DINAMICO_IA_FRM_NOVO,
-    @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha", "tipoDadoLogicaCasoFalha", "fabricaTipoAtributo"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
     TIPO_DADO_DINAMICO_IA_FRM_EDITAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha", "tipoDadoLogicaCasoFalha", "fabricaTipoAtributo"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]","model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
     TIPO_DADO_DINAMICO_IA_FRM_VISUALIZAR,
     @InfoTipoAcaoController()
     TIPO_DADO_DINAMICO_IA_CTR_SALVAR_MERGE,
