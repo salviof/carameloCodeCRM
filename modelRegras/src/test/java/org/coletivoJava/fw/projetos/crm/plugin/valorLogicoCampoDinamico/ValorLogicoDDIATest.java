@@ -47,7 +47,7 @@ public class ValorLogicoDDIATest extends TesteCRMCarameloCode {
         TipoDadoIA tipoDadoIa = new TipoDadoIA();
         tipoDadoIa.setImplementacaoPadrao(ERP_IA.OLHAMA);
         tipoDadoIa.setLabel("Teste");
-        tipoDadoIa.setConteudoPerguntaIA("Quanto é 2 + 2, e qual é meu nome?");
+        tipoDadoIa.setConteudoPerguntaIA("Quanto é 2 + 2, e qual é o nome do lead?");
         tipoDadoIa = (TipoDadoIA) ModuloCRMAdmin.tipoDadoDinamicoLogico(tipoDadoIa).getRetorno();
 
         tipoDadoIa = UtilSBPersistencia.loadEntidade(tipoDadoIa, getEM());
