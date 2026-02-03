@@ -3,7 +3,6 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.tiporelacionament
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import java.math.BigInteger;
@@ -29,6 +28,10 @@ public class ValorLogicoTipoRelacionamentoProximosResponsaveis
     public Object getValor(Object... pEntidade) {
 
         List<UsuarioCRM> usuarios = new ArrayList();
+
+        if (getTipoRElacionamento().getId() == null) {
+            return getTipoRElacionamento().getProximosResponsaveis();
+        }
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
             TipoRelacionamento relacionamento = UtilSBPersistencia.loadEntidade(getTipoRElacionamento(), em);

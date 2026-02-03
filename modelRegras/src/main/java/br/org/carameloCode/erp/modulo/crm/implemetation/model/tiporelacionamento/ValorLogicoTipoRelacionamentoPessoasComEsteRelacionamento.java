@@ -25,9 +25,11 @@ public class ValorLogicoTipoRelacionamentoPessoasComEsteRelacionamento
     @Override
     public Object getValor(Object... pEntidade) {
         if (!pesquisaRealizada) {
-            ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, UtilSBPersistencia.getEMDoContexto());
-            novaConsulta.addCondicaoManyToOneIgualA(CPPessoa.relacionamento, getTipoRelacionamento());
-            getTipoRelacionamento().setPessoasComEsteRelacionamento(novaConsulta.resultadoRegistros());
+            if (getTipoRelacionamento().getId() != null) {
+                ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, UtilSBPersistencia.getEMDoContexto());
+                novaConsulta.addCondicaoManyToOneIgualA(CPPessoa.relacionamento, getTipoRelacionamento());
+                getTipoRelacionamento().setPessoasComEsteRelacionamento(novaConsulta.gerarResultados());
+            }
         }
         return getTipoRelacionamento().getPessoasComEsteRelacionamento();
     }

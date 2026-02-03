@@ -1085,7 +1085,10 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                 super.executarAcoesFinais(); //To change body of generated methods, choose Tools | Templates.
                 if (isSucesso()) {
                     ModuloCRMAtendimento.prospectoCriarUsuarios(pProspecto);
-                    ModuloCRMAtendimento.prospectoAtualizarMautic((Pessoa) pProspecto);
+                    if (!SBCore.isEmModoDesenvolvimento()) {
+                        ModuloCRMAtendimento.prospectoAtualizarMautic((Pessoa) pProspecto);
+                    }
+
                     addAviso("Alguns dados de [" + pProspecto.getNome() + "] foram atualizado");
                 }
             }
@@ -2049,7 +2052,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                     }
                 }
                 String codigoOrigemMensagemWhatsapp = FabConfigApiWhatsapp.CODIGO_USUARIO.getValorParametroSistema();
-                if(pMensagem.getTelefone() != null && pMensagem.getTelefone().getCodigoApiWhatsapp() != null || !pMensagem.getTelefone().getCodigoApiWhatsapp().isEmpty()) {
+                if (pMensagem.getTelefone() != null && pMensagem.getTelefone().getCodigoApiWhatsapp() != null || !pMensagem.getTelefone().getCodigoApiWhatsapp().isEmpty()) {
                     codigoOrigemMensagemWhatsapp = pMensagem.getTelefone().getCodigoApiWhatsapp();
                 }
 

@@ -74,6 +74,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.coletivojava.fw.api.objetoNativo.mensagem.Mensagem;
@@ -162,6 +163,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 setRetorno(atualizarEntidade(pMeta));
+
             }
         }.getResposta();
 
@@ -493,19 +495,13 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_RELACIONAMENTO_CTR_SALVAR_MERGE)
-    public static ItfRespostaAcaoDoSistema salvarTipoRelacionamento(final TipoRelacionamento pTipoRelacionamento) {
+    public static ItfRespostaAcaoDoSistema tipoRelacionamentoSalvar(final TipoRelacionamento pTipoRelacionamento) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoRelacionamento), pTipoRelacionamento) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                TipoRelacionamento novoModelo = (TipoRelacionamento) atualizarEntidade(pTipoRelacionamento);
-
-                if (novoModelo == null) {
-                    addErro("Ouve Um Erro Salvando o novo Modelo");
-
-                } else {
-
-                }
+                TipoRelacionamento tipoRelacionamento = (TipoRelacionamento) atualizarEntidade(pTipoRelacionamento);
+                setRetorno(tipoRelacionamento);
 
             }
         }.dispararMensagens();
@@ -999,18 +995,18 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_LOGICO_CTR_SALVAR_MERGE)
-    public static ItfRespostaAcaoDoSistema tipoDadoDinamicoLogico(TipoDadoCRMLogica pCategoria) {
+    public static ItfRespostaAcaoDoSistema tipoDadoDinamicoLogico(TipoDadoCRMLogica pTipodado) {
 
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(CategoriaArquivoEquipe.class), pCategoria) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(CategoriaArquivoEquipe.class), pTipodado) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                atualizarEntidade(pCategoria);
+                setRetorno(atualizarEntidade(pTipodado));
             }
         };
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_RELACIONAMENTO_CTR_CONVERTER)
-    public static ItfRespostaAcaoDoSistema tipoRelacionamento(TipoRelacionamento pTipoRelacionamento) {
+    public static ItfRespostaAcaoDoSistema tipoRelacionamentoConverter(TipoRelacionamento pTipoRelacionamento) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(CategoriaArquivoEquipe.class), pTipoRelacionamento) {
             @Override
@@ -1063,7 +1059,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.META_RELACIONAMENTO_CTR_CONVERTER)
-    public static ItfRespostaAcaoDoSistema tipoRelacionamento(MetaRelacionamento pMeta) {
+    public static ItfRespostaAcaoDoSistema tipoRelacionamentoConverter(MetaRelacionamento pMeta) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(CategoriaArquivoEquipe.class), pMeta) {
             @Override
@@ -1082,7 +1078,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.FORM_CHAT_CTR_SALVAR_MERGE)
-    public static ItfRespostaAcaoDoSistema tipoRelacionamento(TipoChatBot pChatBot) {
+    public static ItfRespostaAcaoDoSistema tipoChatBot(TipoChatBot pChatBot) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(CategoriaArquivoEquipe.class), pChatBot) {
             @Override

@@ -24,7 +24,7 @@ public class ValorLogicoMetaRelacionamentoTiposAtividadeUpGrade
     @Override
     public Object getValor(Object... pEntidade) {
 
-        if (!valordefinido) {
+        if (!valordefinido && getMeta().getId() != null) {
             List<TipoAtividadeCRM> tipos = new ArrayList<>();
 
             getMeta().getTiposAtividadeDisponiveis().stream().filter(at -> at.getRelacionamentoGerado() != null && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() > getMeta().getPeso())

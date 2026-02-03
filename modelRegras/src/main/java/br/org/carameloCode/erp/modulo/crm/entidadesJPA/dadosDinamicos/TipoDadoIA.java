@@ -7,6 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos;
 //import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Column;
@@ -34,6 +35,12 @@ public class TipoDadoIA extends TipoDadoCRMLogica {
     @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
     @Enumerated(EnumType.STRING)
     private ERP_IA implementacaoPadrao;
+
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean enviarHistorico;
+
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean enviarDadosDeAtividade;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.PERCENTUAL, descricao = "Limita o conjunto de palavras consideradas pelo modelo. Quanto menor o valor, mais restritas e seguras tendem a ser as respostas.")
     private double top_p;
@@ -72,7 +79,8 @@ public class TipoDadoIA extends TipoDadoCRMLogica {
     private TipoDadoCRMLogica tipoDadoLogicaCasoFalha;
 
     public TipoDadoIA() {
-        setValorPadrao("IA");
+        setValorPadrao("ValorLogicoDDIA.class");
+        setFabricaTipoAtributo(FabTipoAtributoObjeto.DESCRITIVO);
 
     }
 
@@ -201,6 +209,22 @@ public class TipoDadoIA extends TipoDadoCRMLogica {
 
     public void setConteudoPerguntaIA(String conteudoPerguntaIA) {
         this.conteudoPerguntaIA = conteudoPerguntaIA;
+    }
+
+    public boolean isEnviarHistorico() {
+        return enviarHistorico;
+    }
+
+    public void setEnviarHistorico(boolean enviarHistorico) {
+        this.enviarHistorico = enviarHistorico;
+    }
+
+    public boolean isEnviarDadosDeAtividade() {
+        return enviarDadosDeAtividade;
+    }
+
+    public void setEnviarDadosDeAtividade(boolean enviarDadosDeAtividade) {
+        this.enviarDadosDeAtividade = enviarDadosDeAtividade;
     }
 
 }

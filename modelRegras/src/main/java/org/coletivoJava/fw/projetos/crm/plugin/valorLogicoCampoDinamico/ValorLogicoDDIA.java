@@ -8,9 +8,10 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import br.org.coletivoJava.fw.api.erp.ia.escopo.ItfErpIA;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.ia.UtilCRM_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
+import jakarta.json.JsonObject;
 
 /**
  *
@@ -31,6 +32,14 @@ public class ValorLogicoDDIA extends
         tipodado.getConteudoPerguntaIA();
 
         ERP_IA erp = tipodado.getImplementacaoPadrao();
+
+        JsonObject dadosDaPessoa = UtilCRM_IA.getDadosBasicosPessoa(getDadoDinamico().getProspectoEmpresa());
+        if (tipodado.isEnviarDadosDeAtividade()) {
+            JsonObject dadosExtras = UtilCRM_IA.getDadosDinamicossPessoa(getDadoDinamico().getProspectoEmpresa());
+        }
+        if (tipodado.isEnviarHistorico()) {
+            JsonObject historico = UtilCRM_IA.getDadosAtividadePessoa(getDadoDinamico().getProspectoEmpresa());
+        }
 
         ItfErpIA erpImpl = erp.getImplementacaoDoContexto();
 

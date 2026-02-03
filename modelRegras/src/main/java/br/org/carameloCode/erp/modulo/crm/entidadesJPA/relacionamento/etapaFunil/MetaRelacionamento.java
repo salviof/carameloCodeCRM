@@ -102,7 +102,7 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
     }
 
     public int getQtdEmpresasNestaMeta() {
-        if (qtdEmpresasNestaMeta < 0) {
+        if (qtdEmpresasNestaMeta < 0 && getId() != null) {
             Long valor = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, SBCore.getCentralDados().getAcessoDadosDoContexto().getEntitiManager())
                     .addCondicaoManyToOneContemNoIntervalo("relacionamento", getTiposRelacionamento()).resultadoSomarQuantidade();
             qtdEmpresasNestaMeta = valor.intValue();

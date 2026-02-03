@@ -24,9 +24,11 @@ public class ValorLogicoTipoRelacionamentoQtdEmpresasNesteTipoRelacionamento
     @Override
     public Object getValor(Object... pEntidade) {
         if (!pesquisaRealizada) {
-            ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, UtilSBPersistencia.getEMDoContexto());
-            novaConsulta.addCondicaoManyToOneIgualA(CPPessoa.relacionamento, getTipoRelacionamento());
-            getTipoRelacionamento().setQtdEmpresasNesteTipoRelacionamento(new Long(novaConsulta.resultadoSomarQuantidade()).intValue());
+            if (getTipoRelacionamento().getId() != null) {
+                ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, UtilSBPersistencia.getEMDoContexto());
+                novaConsulta.addCondicaoManyToOneIgualA(CPPessoa.relacionamento, getTipoRelacionamento());
+                getTipoRelacionamento().setQtdEmpresasNesteTipoRelacionamento(new Long(novaConsulta.gerarResultadoSomarQuantidade()).intValue());
+            }
 
         }
         return getTipoRelacionamento().getQtdEmpresasNesteTipoRelacionamento();
