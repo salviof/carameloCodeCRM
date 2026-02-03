@@ -197,6 +197,7 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.AudioVoip</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.StatusDisparo</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona</class>
 
 
 
