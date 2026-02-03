@@ -42,7 +42,9 @@ public class ValorLogicoDDIA extends
         }
 
         ItfErpIA erpImpl = erp.getImplementacaoDoContexto();
-        erpImpl.obterResposta(pNomePersona, pUsuario, pMensagem) //erpImpl.obterResposta(tipodado.getModel(), SBCore.getUsuarioLogado(), "");
+        ///erpImpl.obterResposta(pNomePersona, pUsuario, pMensagem) //erpImpl.obterResposta(tipodado.getModel(), SBCore.getUsuarioLogado(), "");
+
+        
         return super.getValor(pEntidade); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 

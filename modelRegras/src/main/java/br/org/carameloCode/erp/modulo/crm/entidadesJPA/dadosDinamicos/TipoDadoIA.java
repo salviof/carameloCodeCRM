@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Tipo dado Gerado por IA", plural = "Tipo dado Gerado por ia")
+@InfoObjetoSB(tags = "Tipo dado Gerado por IA", plural = "Tipo dado Gerado por ia", icone = "fa fa-superpowers")
 public class TipoDadoIA extends TipoDadoCRMLogica {
 
 //    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = ERP_IA.class)
