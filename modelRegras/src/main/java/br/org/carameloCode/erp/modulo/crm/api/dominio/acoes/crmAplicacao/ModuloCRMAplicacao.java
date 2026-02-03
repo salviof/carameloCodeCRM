@@ -778,6 +778,9 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 JsonObject respostaWs = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta().getRespostaComoObjetoJson();
 
                 JsonArray retorno = respostaWs.getJsonArray("RETORNO");
+                if(retorno == null || retorno.isEmpty()){
+                    return;
+                }
                 for (JsonValue r : retorno) {
                     if (r.asJsonObject().getString("clid") == null || r.asJsonObject().getString("clid").isEmpty()) {
                         continue;
