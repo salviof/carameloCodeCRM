@@ -96,6 +96,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_AMERICANO;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.ComoFabricaIntegracaoRest;
 
 /**
  *
@@ -569,6 +570,11 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                         .collect(Collectors.toList());
 
                 ItfRespostaWebServiceSimples resposta = FabApiRestTypebotWorkspace.LISTAR_TODOS_WORKSPACES.getAcao().getResposta();
+                if (!resposta.isSucesso()) {
+                    if (!resposta.getMensagens().isEmpty()) {
+                        throw new ErroRegraDeNegocio(resposta.getMensagens().get(0).getMenssagem());
+                    }
+                }
                 JsonArray workspaces = resposta.getRespostaComoObjetoJson().getJsonArray("workspaces");
                 if (!resposta.isSucesso()) {
                     throw new ErroRegraDeNegocio("Falha conectando com typebot, cheque as configurações e o serviço");
@@ -778,13 +784,13 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 JsonObject respostaWs = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta().getRespostaComoObjetoJson();
 
                 JsonArray retorno = null;
-                if(respostaWs.getJsonArray("RETORNO") != null) {
+                if (respostaWs.getJsonArray("RETORNO") != null) {
                     retorno = respostaWs.getJsonArray("RETORNO");
                 } else {
 
                 }
 
-                if(retorno == null || retorno.isEmpty()){
+                if (retorno == null || retorno.isEmpty()) {
                     return;
                 }
                 for (JsonValue r : retorno) {

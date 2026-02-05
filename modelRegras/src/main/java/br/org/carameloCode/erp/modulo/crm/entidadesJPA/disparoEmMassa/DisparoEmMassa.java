@@ -10,6 +10,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
 
 import javax.persistence.*;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @InfoObjetoSB(plural = "Disparo de Mensagens WhatsApp", tags = "Disparo WhatsApp", icone = "fa fa-paper-plane")
 @Entity
-public class DisparoEmMassa extends EntidadeSimples {
+public class DisparoEmMassa extends EntidadeSimples implements ComoTemStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,6 +141,11 @@ public class DisparoEmMassa extends EntidadeSimples {
 
     public void setMensagensEnviadas(List<MensagemMktWhatsapp> mensagensEnviadas) {
         this.mensagensEnviadas = mensagensEnviadas;
+    }
+
+    @Override
+    public ComoStatus getStatusPrincipal() {
+        return status;
     }
 
 }

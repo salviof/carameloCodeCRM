@@ -17,6 +17,7 @@ public class ValorLogicoAtividadeCRMEmailRecepcaoChatBot
 
     @Override
     public Object getValor(Object... pEntidade) {
+
         return getAticidade().getChatBot();
     }
 
