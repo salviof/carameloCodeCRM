@@ -86,13 +86,6 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
         super.persistirPermissoesNoBanco(); //To change body of generated methods, choose Tools | Templates.
 
         try {
-            EntityManager emmodulo = UtilSBPersistencia.getNovoEMIniciandoTransacao();
-            UtilSBPersistencia.mergeRegistro(FabModulosCRM.CLIENTE_CONTATO.getRegistro(), emmodulo);
-            UtilSBPersistencia.finzalizaTransacaoEFechaEM(emmodulo);
-
-            for (FabGruposIntranetCasaNova grupo : FabGruposIntranetCasaNova.values()) {
-                UtilSBPersistencia.mergeRegistro(grupo.getRegistro());
-            }
 
             MapaAcoesSistema.getListaTodasAcoes().stream().filter(ac -> ac.isPrecisaPermissao()).forEach(acP -> {
 
@@ -176,22 +169,6 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             //EntityManager emmodulo = UtilSBPersistencia.getNovoEMIniciandoTransacao();
             //UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(FabModulosCRM.class, emmodulo, UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
             //UtilSBPersistencia.finzalizaTransacaoEFechaEM(emmodulo);
-
-            EntityManager emstatusChamado = UtilSBPersistencia.getEntyManagerPadraoNovo();
-            UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(FabStatusChamado.class, emstatusChamado, UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
-            UtilSBPersistencia.fecharEM(emstatusChamado);
-
-            EntityManager emSatisfacao = UtilSBPersistencia.getEntyManagerPadraoNovo();
-            UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(FabSatisfacaoCliente.class, emSatisfacao, UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
-            UtilSBPersistencia.fecharEM(emSatisfacao);
-
-            EntityManager emSatisfacaoChamado = UtilSBPersistencia.getEntyManagerPadraoNovo();
-            UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(FabSastisfacaoClienteResolucao.class, emSatisfacaoChamado, UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
-            UtilSBPersistencia.fecharEM(emSatisfacaoChamado);
-
-            EntityManager emstatusReserva = UtilSBPersistencia.getEntyManagerPadraoNovo();
-            UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(FabStatusReservaHorario.class, emstatusReserva, UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
-            UtilSBPersistencia.fecharEM(emstatusReserva);
 
             MapaObjetosProjetoAtual.adcionarObjeto(MetadadoAtendente.class);
             MapaObjetosProjetoAtual.adcionarObjeto(MetadadoUsuarioCliente.class);
