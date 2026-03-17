@@ -34,6 +34,8 @@ public enum FabAcaoCrmAplicacao implements ComoFabricaDeAcoesPersistencia {
 
     @InfoTipoAcaoGestaoEntidade(entidade = UsuarioCRM.class)
     ACOES_PROGRAMADAS_MB,
+    @InfoTipoAcaoController(entidade = TipoFormulario.class, autoExecucao = FabTipoAutoExecucaoAcao.DIARIO_MADRUGADA_TREZ_DA_MANHA)
+    ACOES_PROGRAMADAS_CTR_ATUALIZAR_LEADS_URGENTES_AUTO_EXEC,
     @InfoTipoAcaoController(entidade = EnvioEmail.class, iconeFonteAnsowame = FabIconeFontAwesome.REG_VALIDAR)
     ACOES_PROGRAMADAS_CTR_ENVIAR_EMAIL_PROGRAMADO,
     @InfoTipoAcaoController(entidade = UsuarioSistemaRoot.class, iconeFonteAnsowame = FabIconeFontAwesome.SISTEMA_ENGRENAGEM)
@@ -76,6 +78,5 @@ public enum FabAcaoCrmAplicacao implements ComoFabricaDeAcoesPersistencia {
     ATIVIDADE_AUTONOMA_CRM_CTR_SINCRONIZAR_PABX_AUTO_EXEC,
     @InfoTipoAcaoController(entidade = AtividadeCRM.class)
     ATIVIDADE_AUTONOMA_CRM_CTR_SALVAR_ATIVIDADE_VOIP
-
 
 }

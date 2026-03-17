@@ -51,7 +51,7 @@
                                     <div class="ui-g-3">
                                         <h:panelGroup styleClass="Container12 dashboard" style="background-color: white;"  layout="block"  >
                                             <SBLogin:avatar porcentagemTamanhoFoto="35%" rendered="#{origem.umaOrigemPrivada}" />
-                                            #{origem.nome}
+                                            <span class="colorbox-name FontAdamantiumBold">#{origem.nome}</span> 
                                         </h:panelGroup>
                                         <ui:repeat value="#{origem.getCampoInstanciadoByNomeOuAnotacao('usuariosComAcesso').valor}"
                                                    var="usuarioCompartilhado" >

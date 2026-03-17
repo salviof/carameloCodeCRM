@@ -35,9 +35,9 @@
                                                   />
                                 </div>
                                 <div class="ui-g-8">
-                                    <span class="colorbox-name">#{origem.nome}</span>
+                                    <span class="colorbox-name FontAdamantiumBold">#{origem.nome}</span> <br/>
                                     <h:panelGroup styleClass="colorbox-count" id="quantidadeLeads" >
-                                        #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeMeusLeads').valor}/#{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}
+                                        #{pgDashBoardAtendimento.pesquisaLead.usuario.nome} possui: #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeMeusLeads').valor} de #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}
                                         <p:tooltip  for="@parent" position="right"
                                                     value="#{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeMeusLeads').valor} cartões meus em #{origem.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeads').valor}" />
                                     </h:panelGroup>

@@ -143,31 +143,31 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     OPCAO_DADOS_CRM_MB_GERENCIAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Dados", descricao = "Lista tipo Dados dinâmicos", icone = "fa fa-list", entidade = TipoDadoCRM.class,
             campos = {"[separador: listagem]", "id", "nome", CPTipoDadoCRM.grupotipodadodinamico,
-                    "descricao", "tipoEntityDadoDinamico", "fabricaTipoAtributo"//, "listaDeOpcoes"
+                "descricao", "tipoEntityDadoDinamico", "fabricaTipoAtributo"//, "listaDeOpcoes"
             })
     OPCAO_DADOS_CRM_FRM_LISTAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Criar Opção de Dados CRM", descricao = "Exibe formulario de criação de opção para um dado crm", icone = "fa fa-plus",
             campos = {"[separador: Informações Basicas]", "nome", "descricao", "label",
-                    "grupoTipoDadoDinamico",
-                    "fabricaTipoAtributo", "valorPadrao",
-                    "[separador: Validação Geral]", "valorMaximo", "valorMinimo", "obrigatorio", "fraseValidacao",
-                    "[separador: Validação texto]", "mascara",
-                    "[separador: Validação Numero]", "numeroDeCasasDecimais",
-                    "[separador: Avançado]", "campoProspectoCorrespondente",
-                    "[separador: propriedades combo]", "caminhoListagem", "umalistagemDinamica"
+                "grupoTipoDadoDinamico",
+                "fabricaTipoAtributo", "valorPadrao",
+                "[separador: Validação Geral]", "valorMaximo", "valorMinimo", "obrigatorio", "fraseValidacao",
+                "[separador: Validação texto]", "mascara",
+                "[separador: Validação Numero]", "numeroDeCasasDecimais",
+                "[separador: Avançado]", "campoProspectoCorrespondente",
+                "[separador: propriedades combo]", "caminhoListagem", "umalistagemDinamica"
 
             })
     OPCAO_DADOS_CRM_FRM_NOVO,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar Opção de Dados CRM", descricao = "Exibe formulario de edição de uma opção de dado crm", icone = "fa fa-edit",
             campos = {"[separador: Informações Basicas]",
-                    "nome", "descricao", "label",
-                    "grupoTipoDadoDinamico",
-                    "fabricaTipoAtributo", "valorPadrao",
-                    "[separador: Validação Geral]", "valorMaximo", "valorMinimo", "obrigatorio", "fraseValidacao",
-                    "[separador: Validação texto]", "mascara",
-                    "[separador: Validação Numero]", "numeroDeCasasDecimais",
-                    "[separador: propriedades combo]", "caminhoListagem", "umalistagemDinamica",
-                    "[separador: Avançado]", "campoProspectoCorrespondente", "nomeClasseAtributoDeclarado"})
+                "nome", "descricao", "label",
+                "grupoTipoDadoDinamico",
+                "fabricaTipoAtributo", "valorPadrao",
+                "[separador: Validação Geral]", "valorMaximo", "valorMinimo", "obrigatorio", "fraseValidacao",
+                "[separador: Validação texto]", "mascara",
+                "[separador: Validação Numero]", "numeroDeCasasDecimais",
+                "[separador: propriedades combo]", "caminhoListagem", "umalistagemDinamica",
+                "[separador: Avançado]", "campoProspectoCorrespondente", "nomeClasseAtributoDeclarado"})
     OPCAO_DADOS_CRM_FRM_EDITAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Cadastrar opções", icone = "fa fa-bars")
     OPCAO_DADOS_CRM_FRM_DADOS_DINAMICOS,
@@ -209,24 +209,24 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     SERVICO_DIPONIVEL_MB_GESTAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Cadastrar Serviço", descricao = "Cadastrar Serviço Disponivel", entidade = TipoServico.class,
             campos = {"nome", "descricao",
-                    "[separador: Tipo de pagamento (Sazonal ou Recorrente)]",
-                    CPTipoServico.gerapgtorecorrente, CPTipoServico.gerapgtosazonal,
-                    "[separador: Apresentaçãoo]",
-                    "descricaoApresentacao", "arquivoApresentacao", "urlDetalhes"},
+                "[separador: Tipo de pagamento (Sazonal ou Recorrente)]",
+                CPTipoServico.gerapgtorecorrente, CPTipoServico.gerapgtosazonal,
+                "[separador: Apresentaçãoo]",
+                "descricaoApresentacao", "arquivoApresentacao", "urlDetalhes"},
             icone = "fa fa-plus-square"
     )
     @InfoTipoAcaoFormCamposAtualizaGrupoDoCampo(campos = {CPTipoServico.gerapgtorecorrente, CPTipoServico.gerapgtosazonal})
     SERVICO_DIPONIVEL_FRM_NOVO,
     @InfoTipoAcaoFormulario(nomeAcao = "Cadastrar item Recorrente", campos = {"[separador: Dados básicos]", CPTipoServico.nome, CPTipoServico.descricao,
-            "[separador: Valor item recorrente]", CPTipoServicoRecorrente.valormensalmin, CPTipoServicoRecorrente.valormensalmax, "[separador: Divulgação]", CPTipoServico.arquivoapresentacao,
-            CPTipoServico.descricaoapresentacao, CPTipoServico.urldetalhes}, icone = "fa fa-retweet",
+        "[separador: Valor item recorrente]", CPTipoServicoRecorrente.valormensalmin, CPTipoServicoRecorrente.valormensalmax, "[separador: Divulgação]", CPTipoServico.arquivoapresentacao,
+        CPTipoServico.descricaoapresentacao, CPTipoServico.urldetalhes}, icone = "fa fa-retweet",
             entidade = TipoServicoRecorrente.class
     )
     SERVICO_DIPONIVEL_FRM_NOVO_ITEM_RECORRENTE,
     @InfoTipoAcaoFormulario(nomeAcao = "Cadastrar item Sazonal", campos = {"[separador: Dados básicos]", CPTipoServico.nome, CPTipoServico.descricao,
-            "[separador: Item sazonal]", CPTipoServicoSazonal.valorsetupmin, CPTipoServicoSazonal.valorsetupmax,
-            "[separador: Divulgação]", CPTipoServico.arquivoapresentacao,
-            CPTipoServico.descricaoapresentacao, CPTipoServico.urldetalhes},
+        "[separador: Item sazonal]", CPTipoServicoSazonal.valorsetupmin, CPTipoServicoSazonal.valorsetupmax,
+        "[separador: Divulgação]", CPTipoServico.arquivoapresentacao,
+        CPTipoServico.descricaoapresentacao, CPTipoServico.urldetalhes},
             entidade = TipoServicoSazonal.class
     )
     SERVICO_DIPONIVEL_FRM_NOVO_ITEM_SAZONAL,
@@ -239,7 +239,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     SERVICO_DIPONIVEL_FRM_LISTAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar Serviços", descricao = "Editar Serviço Disponivel", entidade = TipoServico.class,
             campos = {"nome", "descricao", "[separador: Apresentaçãoo]",
-                    "descricaoApresentacao"})
+                "descricaoApresentacao"})
     SERVICO_DIPONIVEL_FRM_EDITAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar Serviço", descricao = "Salvar Serviço Disponivel", entidade = TipoServico.class)
     SERVICO_DIPONIVEL_CTR_SALVAR_MERGE,
@@ -280,9 +280,9 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados novo Documento]", "nome", "descricao", "documento", "tipoAtividadeVinculada", "[separador: Ao concluir atividade salvar em:]", CPModeloDocumentoCRM.categoriaarquivocliente, CPModeloDocumentoCRM.categoriaarquivoequipe})
     MODELOS_DOCUMENTOS_TIPO_ATIVIDADE_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados Doc]", "nome", "descricao",
-            "documento",
-            "[separador: Teste e dados dinâmicos]", "leadParaTestes",
-            "tipoAtividadeVinculada", "[separador: Ao concluir atividade salvar em:]", CPModeloDocumentoCRM.categoriaarquivocliente, CPModeloDocumentoCRM.categoriaarquivoequipe})
+        "documento",
+        "[separador: Teste e dados dinâmicos]", "leadParaTestes",
+        "tipoAtividadeVinculada", "[separador: Ao concluir atividade salvar em:]", CPModeloDocumentoCRM.categoriaarquivocliente, CPModeloDocumentoCRM.categoriaarquivoequipe})
     MODELOS_DOCUMENTOS_TIPO_ATIVIDADE_FRM_EDITAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar dados dinamicos do lead")
     MODELOS_DOCUMENTOS_TIPO_ATIVIDADE_FRM_EDITAR_DADOS_LEAD,
@@ -302,7 +302,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_RELACIONAMENTO_MB_GERENCIAR,
     @InfoTipoAcaoFormulario(entidade = TipoRelacionamento.class,
             campos = {"id", "nome", "descricao", "nomeDoRelacionado", "peso",
-                    "metaRelacionamento", "qtdEmpresasNesteTipoRelacionamento"}, precisaPermissao = true)
+                "metaRelacionamento", "qtdEmpresasNesteTipoRelacionamento"}, precisaPermissao = true)
     TIPO_RELACIONAMENTO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(icone = "fa fa-refresh", nomeAcao = "Converter Tipo de relacionamento", campos = {"tipoRelacionamentoConversao"})
     TIPO_RELACIONAMENTO_FRM_CONVERTER,
@@ -320,15 +320,15 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             iconeFonteAnsowame = FabIconeFontAwesome.REG_AGRUPAR_REGISTROS)
     TIPO_RELACIONAMENTO_FRM_ATIVIDADES_DISPONIVEIS,
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados novo Relacionamento]", "nome", "descricao", "dicas", "nomeDoRelacionado", "peso", "cor", "resultado",
-            "metaRelacionamento",
-            "[separador: Opções de tempo para execução]", "tempoAceitavelResolucao", "tempoAcaoInerciaRelacionamento", "relacionamentoPeranteInercia", "relacionamentoPeranteInercia",
-            "[separador: Integracao]",
-            CPTipoRelacionamento.tipomensagemwtzp
+        "metaRelacionamento",
+        "[separador: Opções de tempo para execução]", "tempoAceitavelResolucao", "tempoAcaoInerciaRelacionamento", "relacionamentoPeranteInercia", "relacionamentoPeranteInercia",
+        "[separador: Integracao]",
+        CPTipoRelacionamento.tipomensagemwtzp
     })
     TIPO_RELACIONAMENTO_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados Relacionamento]", "nome", "descricao", "dicas", "nomeDoRelacionado", "peso", "cor", "resultado",
-            "metaRelacionamento",
-            "[separador: Opções versão Beta]", "tempoAceitavelResolucao", "tempoAcaoInerciaRelacionamento", "relacionamentoPeranteInercia", "relacionamentoPeranteInercia"})
+        "metaRelacionamento",
+        "[separador: Opções versão Beta]", "tempoAceitavelResolucao", "tempoAcaoInerciaRelacionamento", "relacionamentoPeranteInercia", "relacionamentoPeranteInercia"})
     TIPO_RELACIONAMENTO_FRM_EDITAR,
     @InfoTipoAcaoController(nomeAcao = "Mover serviços", fraseComunicação = "Deseja mover os servi", iconeFonteAnsowame = FabIconeFontAwesome.REG_REMOVER, comunicacao = FabTipoComunicacao.PERGUNTAR_SIM_OU_NAO)
     TIPO_RELACIONAMENTO_CTR_MOVERLEADS,
@@ -343,28 +343,28 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_ATIVIDADE_FRM_LISTAR,
     @InfoTipoAcaoFormCamposAtualizaGrupoDoCampo(campos = {"progresso", "regresso"})
     @InfoTipoAcaoFormulario(campos = {
-            "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade",
-            "[separador: Visualizacao]", "cor", "icone",
-            "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
-            "[separador: Condições especiais de execução]",
-            "precisaServicosDefinidos", "precisaTerPreAnalise",
-            "precisaEnviarDocumento", "precisaTerImagem", "precisaTerAnexo", "precisaTerSite",
-            "execucaoDiretaSemRelatorio",
-            "[separador: Plugin]", "acaoDePLuginVunculado",
-            "[separador: ChatBot]", CPTipoAtividadeCRM.tipochatbot,
-            "[separador: Finalização de atividade]", "resultaEmRelacionamentoAnterior", "relacionamentoGerado", CPTipoAtividadeCRM.tipomensagemwtzap,
-            "atividadeAgendada", "diasAgendarNovaAtividade"})
+        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade",
+        "[separador: Visualizacao]", "cor", "icone",
+        "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
+        "[separador: Condições especiais de execução]",
+        "precisaServicosDefinidos", "precisaTerPreAnalise",
+        "precisaEnviarDocumento", "precisaTerImagem", "precisaTerAnexo", "precisaTerSite",
+        "execucaoDiretaSemRelatorio",
+        "[separador: Plugin]", "acaoDePLuginVunculado",
+        "[separador: ChatBot]", CPTipoAtividadeCRM.tipochatbot,
+        "[separador: Finalização de atividade]", "resultaEmRelacionamentoAnterior", "relacionamentoGerado", CPTipoAtividadeCRM.tipomensagemwtzap,
+        "atividadeAgendada", "diasAgendarNovaAtividade"})
     TIPO_ATIVIDADE_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {
-            "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade",
-            "[separador: Visualizacao]", "cor", "icone",
-            "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
-            "[separador: Condições especiais de execução]", "precisaServicosDefinidos", "precisaTerPreAnalise", "precisaEnviarDocumento",
-            "precisaTerImagem", "precisaTerAnexo", "precisaTerSite", "execucaoDiretaSemRelatorio",
-            "[separador: Plugin]", "acaoDePLuginVunculado",
-            "[separador: ChatBot]", CPTipoAtividadeCRM.tipochatbot,
-            "[separador: Finalização de atividade]", "resultaEmRelacionamentoAnterior", "relacionamentoGerado", CPTipoAtividadeCRM.tipomensagemwtzap,
-            "atividadeAgendada", "diasAgendarNovaAtividade"})
+        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade",
+        "[separador: Visualizacao]", "cor", "icone",
+        "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
+        "[separador: Condições especiais de execução]", "precisaServicosDefinidos", "precisaTerPreAnalise", "precisaEnviarDocumento",
+        "precisaTerImagem", "precisaTerAnexo", "precisaTerSite", "execucaoDiretaSemRelatorio",
+        "[separador: Plugin]", "acaoDePLuginVunculado",
+        "[separador: ChatBot]", CPTipoAtividadeCRM.tipochatbot,
+        "[separador: Finalização de atividade]", "resultaEmRelacionamentoAnterior", "relacionamentoGerado", CPTipoAtividadeCRM.tipomensagemwtzap,
+        "atividadeAgendada", "diasAgendarNovaAtividade"})
     @InfoTipoAcaoFormCamposAtualizaForm(campos = {"progresso", "regresso"})
     TIPO_ATIVIDADE_FRM_EDITAR,
     @InfoTipoAcaoFormulario(campos = {CPTipoAtividadeCRM.tiposdadoscoletarnaatividade}, nomeAcao = "Tipos de dado para coletar", icone = "fa fa-database")
@@ -372,7 +372,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(nomeAcao = "Limitar Acessos", icone = "fa fa-shield")
     TIPO_ATIVIDADE_FRM_PERMISSAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Vincular a modelo de e-mail", campos = {
-            "[separador: Formatar E-Mail]", "modeloEmail.assunto", "modeloEmail.textoModelo"}, icone = "fa fa-envelope-square")
+        "[separador: Formatar E-Mail]", "modeloEmail.assunto", "modeloEmail.textoModelo"}, icone = "fa fa-envelope-square")
     TIPO_ATIVIDADE_FRM_FORMATAR_EMAIL_VINCULADO,
     @InfoTipoAcaoController(nomeAcao = "Vincular E-Mail", icone = "fa fa-envelope-square")
     TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL,
@@ -394,10 +394,10 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoGestaoEntidade(entidade = MetaRelacionamento.class, nomeAcao = "Estágio de Relacionamento", precisaPermissao = true)
     META_RELACIONAMENTO_MB,
     @InfoTipoAcaoFormulario(campos = {
-            "[separador:Estágio de Relacionamento]", "id", "nome", "cor", CPMetaRelacionamento.peso})
+        "[separador:Estágio de Relacionamento]", "id", "nome", "cor", CPMetaRelacionamento.peso})
     META_RELACIONAMENTO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {
-            "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor", CPMetaRelacionamento.peso, CPMetaRelacionamento.cliente})
+        "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor", CPMetaRelacionamento.peso, CPMetaRelacionamento.cliente})
     META_RELACIONAMENTO_FRM_EDITAR,
     @InfoTipoAcaoFormulario(
             nomeAcao = "Atividades Disponíveis",
@@ -405,7 +405,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             iconeFonteAnsowame = FabIconeFontAwesome.REG_AGRUPAR_REGISTROS)
     META_RELACIONAMENTO_FRM_ATIVIDADES_VINCULADOS,
     @InfoTipoAcaoFormulario(campos = {
-            "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor"})
+        "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor"})
     META_RELACIONAMENTO_FRM_NOVO,
     META_RELACIONAMENTO_CTR_MERGE,
     @InfoTipoAcaoFormulario(campos = {"metaConversao"}, icone = "fa fa-refresh", nomeAcao = "Converter meta")
@@ -437,13 +437,13 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-folder-o", entidade = CategoriaArquivoCliente.class, precisaPermissao = true, nomeAcao = "Diretórios do Cliente")
     CATEGORIA_DOCUMENTO_CLIENTE_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoCliente.pastapai, //CPCategoriaArquivoCliente.subpastas
-    })
+})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"nome", "icone"})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_NOVO,
     @InfoTipoAcaoFormulario(nomeAcao = "Novo subDiretorio", campos = {"[separador: Diretorio pai:]", CPCategoriaArquivoCliente.pastapai,
-            "[separador: Detalhes subdiretorio]",
-            "nome", "icone"})
+        "[separador: Detalhes subdiretorio]",
+        "nome", "icone"})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_NOVO_SUB_DIRETORIO,
     @InfoTipoAcaoFormulario(campos = {"nome", "icone"})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_EDITAR,
@@ -525,15 +525,15 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             icone = "fa fa-edit",
             entidade = PessoaJuridica.class,
             campos = {"[separador:Dados Básicos]",
-                    "nome", "origem", "porte", "tipoEmpresa", "relacionamento",
-                    "[separador:Dados de contato]",
-                    "email", "telefonePrincipal", "responsavel",
-                    "[separador:Locais]",
-                    "endereco", "site",
-                    "[separador:Configuração ]",
-                    "umPerfilPrivado",
-                    "[separador:Observações]",
-                    "observacao"})
+                "nome", "origem", "porte", "tipoEmpresa", "relacionamento",
+                "[separador:Dados de contato]",
+                "email", "telefonePrincipal", "responsavel",
+                "[separador:Locais]",
+                "endereco", "site",
+                "[separador:Configuração ]",
+                "umPerfilPrivado",
+                "[separador:Observações]",
+                "observacao"})
     PROSPECTO_ADMIN_FRM_EDITAR,
     @InfoTipoAcaoController
     PROSPECTO_ADMIN_CTR_SALVAR_MERGE,
@@ -629,26 +629,26 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-plug", precisaPermissao = false, entidade = SistemaERPConfiavel.class, nomeAcao = "Integrações ERP")
     INTEGRACAO_ERP_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPSistemaERPConfiavel.id, "hashChavePublica", CPSistemaERPConfiavel.nome,
-            CPSistemaERPConfiavel.dominio, CPSistemaERPConfiavel.urlpublicaendpoint,
-            CPSistemaERPConfiavel.urlrecepcaocodigo, CPSistemaERPConfiavel.hashchavepublica})
+        CPSistemaERPConfiavel.dominio, CPSistemaERPConfiavel.urlpublicaendpoint,
+        CPSistemaERPConfiavel.urlrecepcaocodigo, CPSistemaERPConfiavel.hashchavepublica})
 
     INTEGRACAO_ERP_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Informações]",
-            CPSistemaERPConfiavel.nome, CPSistemaERPConfiavel.dominio,
-            "[separador: Email acesso direto sem intermediação de senha do usuário]",
-            "emailusuarioAdmin",
-            CPSistemaERPConfiavel.urlpublicaendpoint, CPSistemaERPConfiavel.urlrecepcaocodigo,
-            "[separador: Chave pública]",
-            CPSistemaERPConfiavel.chavepublica})
+        CPSistemaERPConfiavel.nome, CPSistemaERPConfiavel.dominio,
+        "[separador: Email acesso direto sem intermediação de senha do usuário]",
+        "emailusuarioAdmin",
+        CPSistemaERPConfiavel.urlpublicaendpoint, CPSistemaERPConfiavel.urlrecepcaocodigo,
+        "[separador: Chave pública]",
+        CPSistemaERPConfiavel.chavepublica})
     INTEGRACAO_ERP_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {
-            "[separador: Informações]",
-            CPSistemaERPConfiavel.nome, CPSistemaERPConfiavel.dominio,
-            "[separador: Email acesso direto sem intermediação de senha do usuário]",
-            "emailusuarioAdmin",
-            CPSistemaERPConfiavel.urlpublicaendpoint, CPSistemaERPConfiavel.urlrecepcaocodigo,
-            "[separador: Chave pública]",
-            CPSistemaERPConfiavel.chavepublica})
+        "[separador: Informações]",
+        CPSistemaERPConfiavel.nome, CPSistemaERPConfiavel.dominio,
+        "[separador: Email acesso direto sem intermediação de senha do usuário]",
+        "emailusuarioAdmin",
+        CPSistemaERPConfiavel.urlpublicaendpoint, CPSistemaERPConfiavel.urlrecepcaocodigo,
+        "[separador: Chave pública]",
+        CPSistemaERPConfiavel.chavepublica})
     @InfoTipoAcaoFormCamposAtualizaGrupoDoCampo(campos = CPSistemaERPConfiavel.urlpublicaendpoint)
     INTEGRACAO_ERP_FRM_EDITAR,
     @InfoTipoAcaoFormulario(campos = {CPSistemaERPConfiavel.nome, CPSistemaERPConfiavel.chavepublica, CPSistemaERPConfiavel.dominio})
@@ -657,7 +657,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     INTEGRACAO_ERP_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Mensagens de Marketing do Whatsapp", entidade = TipoMensagemMktWhatsApp.class)
     TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {CPTipoMensagemMktWhatsApp.id, CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, CPTipoMensagemMktWhatsApp.enviounico})
+    @InfoTipoAcaoFormulario(campos = {CPTipoMensagemMktWhatsApp.id, CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.telefonepadrao, CPTipoMensagemMktWhatsApp.slugtemplate, CPTipoMensagemMktWhatsApp.enviounico})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, "telefonePadrao", "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_NOVO,
@@ -668,23 +668,23 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoGestaoEntidade(entidade = ParametroMensagemWtzap.class, nomeAcao = "Parametro de mensagem Wtzap")
     PARAMETRO_MSG_WTZAP_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPParametroMensagemWtzap.id, CPParametroMensagemWtzap.descricao, CPParametroMensagemWtzap.codigoparametro, CPParametroMensagemWtzap.cabecalho,
-            CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.tipoparametrowtzap})
+        CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.tipoparametrowtzap})
     PARAMETRO_MSG_WTZAP_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Modelo Mensagem de Marketing]",
-            CPParametroMensagemWtzap.tipomensagem,
-            "[separador: Configurações básicas]",
-            CPParametroMensagemWtzap.cabecalho, CPParametroMensagemWtzap.codigoparametro,
-            "[separador: Origem]",
-            CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.dadorelativo,
-            "[separador: Avançado]", CPParametroMensagemWtzap.tipoparametrowtzap, CPParametroMensagemWtzap.descricao})
+        CPParametroMensagemWtzap.tipomensagem,
+        "[separador: Configurações básicas]",
+        CPParametroMensagemWtzap.cabecalho, CPParametroMensagemWtzap.codigoparametro,
+        "[separador: Origem]",
+        CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.dadorelativo,
+        "[separador: Avançado]", CPParametroMensagemWtzap.tipoparametrowtzap, CPParametroMensagemWtzap.descricao})
     PARAMETRO_MSG_WTZAP_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {"[separador: Modelo Mensagem de Marketing]",
-            CPParametroMensagemWtzap.tipomensagem,
-            "[separador: Configurações básicas]",
-            CPParametroMensagemWtzap.cabecalho, CPParametroMensagemWtzap.codigoparametro,
-            "[separador: Origem]",
-            CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.dadorelativo,
-            "[separador: Avançado]", CPParametroMensagemWtzap.tipoparametrowtzap, CPParametroMensagemWtzap.descricao})
+        CPParametroMensagemWtzap.tipomensagem,
+        "[separador: Configurações básicas]",
+        CPParametroMensagemWtzap.cabecalho, CPParametroMensagemWtzap.codigoparametro,
+        "[separador: Origem]",
+        CPParametroMensagemWtzap.tipodado, CPParametroMensagemWtzap.dadorelativo,
+        "[separador: Avançado]", CPParametroMensagemWtzap.tipoparametrowtzap, CPParametroMensagemWtzap.descricao})
     PARAMETRO_MSG_WTZAP_FRM_EDITAR,
     @InfoTipoAcaoFormulario()
     PARAMETRO_MSG_WTZAP_FRM_VISUALIZAR,
@@ -695,16 +695,16 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoEquipe.compartilharcomconvidados})
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Diretorio pai:]", CPCategoriaArquivoCliente.pastapai,
-            "[separador: Detalhes subdiretorio]",
-            "nome", "icone", CPCategoriaArquivoEquipe.compartilharcomconvidados})
+        "[separador: Detalhes subdiretorio]",
+        "nome", "icone", CPCategoriaArquivoEquipe.compartilharcomconvidados})
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {"[separador: Diretorio pai:]", CPCategoriaArquivoCliente.pastapai,
-            "[separador: Detalhes subdiretorio]",
-            "nome", "icone"})
+        "[separador: Detalhes subdiretorio]",
+        "nome", "icone"})
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_EDITAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Diretorio pai:]", CPCategoriaArquivoCliente.pastapai,
-            "[separador: Detalhes subdiretorio]",
-            "nome", "icone"})
+        "[separador: Detalhes subdiretorio]",
+        "nome", "icone"})
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_NOVO_SUB_DIRETORIO,
     @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoEquipe.compartilharcomconvidados})
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_VISUALIZAR,
@@ -722,13 +722,13 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     FORM_CHAT_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-list", nomeAcao = "Formularios Typebot", entidade = TipoFormulario.class)
     TIPO_FORMULARIO_TYPEBOT_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {CPTipoFormulario.id, CPTipoFormulario.codigotypebot, CPTipoFormulario.urlpublica, "integrarDados"})
+    @InfoTipoAcaoFormulario(campos = {CPTipoFormulario.id, CPTipoFormulario.codigotypebot, CPTipoFormulario.urlpublica, "integrarDados", CPTipoFormulario.usuariopadrao, CPTipoFormulario.qtdrespostas})
     TIPO_FORMULARIO_TYPEBOT_FRM_LISTAR,
     @InfoTipoAcaoController(nomeAcao = "Processar", icone = "fa fa-cogs")
     TIPO_FORMULARIO_TYPEBOT_CTR_PROCESSAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     TIPO_FORMULARIO_TYPEBOT_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoFormulario(campos = {CPTipoFormulario.reprocessarquandohouvererrodados, CPTipoFormulario.integrardados, CPTipoFormulario.notificaratendente})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoFormulario.nome, CPTipoFormulario.reprocessarquandohouvererrodados, CPTipoFormulario.integrardados, "[separador: Notificação]", CPTipoFormulario.notificaratendente, CPTipoFormulario.usuariopadrao})
     TIPO_FORMULARIO_TYPEBOT_FRM_EDITAR,
     @InfoTipoAcaoGestaoEntidade(entidade = RespostaFormulario.class)
     RESPOSTAS_FORMULARIO_TYPEBOT_MB_GESTAO,
@@ -775,7 +775,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Editar Disparo", campos = {"[separador: Dados Básicos do disparo]", "nome", CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos})
     DISPARO_EM_MASSA_FRM_EDITAR,
     @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "ver detalhes", campos = {"[separador: Dados Básicos do disparo]", "nome",
-            CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, "[separador: Mensagens Enviadas]", "mensagensEnviadas"})
+        CPDisparoEmMassa.tipomensagem, "[separador: Alcance]", CPDisparoEmMassa.metarelacionamento, CPDisparoEmMassa.relacionamentos, "[separador: Mensagens Enviadas]", "mensagensEnviadas"})
     DISPARO_EM_MASSA_FRM_VISUALIZAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     DISPARO_EM_MASSA_CTR_SALVAR_MERGE,
@@ -788,7 +788,6 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
     DISPARO_EM_MASSA_CTR_REMOVER,
-
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-android", nomeAcao = "Personas IA", entidade = Persona.class)
     PERSONA_IA_MB_GESTAO,
     @InfoTipoAcaoFormulario(icone = "fa fa-android", nomeAcao = "Listar Personas IA", campos = {CPPersona.id, CPPersona.nome, CPPersona.descricao, CPPersona.publicoalvo, CPPersona.status})

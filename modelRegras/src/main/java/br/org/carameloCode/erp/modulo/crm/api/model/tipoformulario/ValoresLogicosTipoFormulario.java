@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = TipoFormulario.class)
 public enum ValoresLogicosTipoFormulario {
-	NOME
+	NOME, QTDRESPOSTAS
 }

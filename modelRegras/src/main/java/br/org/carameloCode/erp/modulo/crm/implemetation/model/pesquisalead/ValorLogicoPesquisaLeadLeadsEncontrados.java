@@ -25,6 +25,8 @@ import br.org.carameloCode.erp.modulo.crm.api.model.pesquisalead.CPPesquisaLead;
 import br.org.carameloCode.erp.modulo.crm.api.model.pesquisalead.ValorLogicoPesquisaLead;
 import br.org.carameloCode.erp.modulo.crm.api.model.pesquisalead.ValoresLogicosPesquisaLead;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.FabTipoPesquisaLeads.LEADS_URGENTES;
+import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.FabTipoPesquisaLeads.MEUS_LEADS;
 
 @ValorLogicoPesquisaLead(calculo = ValoresLogicosPesquisaLead.LEADSENCONTRADOS)
 public class ValorLogicoPesquisaLeadLeadsEncontrados
@@ -69,16 +71,11 @@ public class ValorLogicoPesquisaLeadLeadsEncontrados
                     consultaPesquisa.addCondicaoManyToManyContendoObjeto(CPPessoa.tagsatendimento, getPesquisa().getTagAtendimento());
                 }
 
-                switch (tipoPesquisa) {
-                    case MEUS_LEADS:
-                        break;
-                    default:
-                        if (getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.datainicial).getValor() != null && getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.datafinal).getValor() != null) {
-                            consultaPesquisa.addCondicaoDataHoraMaiorOuIgualA(CPPessoa.datahoraultimainteracao, getPesquisa().getDatainicial());
-                            if (!getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.momentoatual).getValorComoBoolean()) {
-                                consultaPesquisa.addCondicaoDataHoraMenorOuIgualA(CPPessoa.datahoraultimainteracao, UtilCRCDataHora.incrementaHoras(new Date(), 10));
-                            }
-                        }
+                if (getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.datainicial).getValor() != null && getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.datafinal).getValor() != null) {
+                    consultaPesquisa.addCondicaoDataHoraMaiorOuIgualA(CPPessoa.datahoraultimainteracao, getPesquisa().getDatainicial());
+                    if (!getPesquisa().getCampoInstanciadoByNomeOuAnotacao(CPPesquisaLead.momentoatual).getValorComoBoolean()) {
+                        consultaPesquisa.addCondicaoDataHoraMenorOuIgualA(CPPessoa.datahoraultimainteracao, UtilCRCDataHora.incrementaHoras(new Date(), 10));
+                    }
                 }
 
                 if (getPesquisa().getTipoRelacionamento() != null) {
@@ -95,32 +92,22 @@ public class ValorLogicoPesquisaLeadLeadsEncontrados
                         if (getPesquisa().getUsuario() == null) {
                             getPesquisa().setUsuario((UsuarioCRM) SBCore.getUsuarioLogado());
                         }
-                        consultaPesquisa.addCondicaoManyToManyContendoObjeto("usuariosResponsaveis", getPesquisa().getUsuario());
-                        setValorPorReflexao(consultaPesquisa.gerarResultados());
+
                         break;
                     case ORIGEM_PUBLICAS:
                     case ORIGEM_PRIVADA:
-                        consultaPesquisa.addCondicaoManyToOneIgualA(getPesquisa().getOrigem());
-                        setValorPorReflexao(consultaPesquisa.gerarResultados());
+
                         break;
                     case LEADS_URGENTES:
-                        if (getPesquisa().getUsuario() == null) {
-                            getPesquisa().setUsuario((UsuarioCRM) SBCore.getUsuarioLogado());
-                        }
-                        consultaPesquisa.addCondicaoManyToManyContendoObjeto("usuariosResponsaveis", getPesquisa().getUsuario());
 
-                        List<Pessoa> listaCompleta = consultaPesquisa.resultadoRegistros();
-                        List<Pessoa> listaComFiltro = new ArrayList<>();
-                        listaCompleta.stream().filter(cp -> cp.getCampoInstanciadoByNomeOuAnotacao(CPPessoa.possuidemandaurgencia).getValorComoBoolean())
-                                .forEach(listaComFiltro::add);
-                        getPesquisa().setLeadsEncontrados(listaComFiltro);
+                        consultaPesquisa.addCondicaoPositivo(CPPessoa.possuidemandaurgencia);
+
                         break;
                     case PESQUISA_LIVRE:
                         if (UtilCRCStringValidador.isNuloOuEmbranco(getPesquisa().getTermoPesquisa())) {
                             SBCore.enviarAvisoAoUsuario("Defina o termo da pesquisa");
                             setValorPorReflexao(new ArrayList<>());
-                        } else {
-                            setValorPorReflexao(consultaPesquisa.resultadoRegistros());
+                            return getPesquisa().getLeadsEncontrados();
                         }
                         break;
                     default:
@@ -128,7 +115,37 @@ public class ValorLogicoPesquisaLeadLeadsEncontrados
 
                 }
                 ultimoHashCalculado = novoHash;
+
+                if (getPesquisa().getOrigem() != null) {
+                    consultaPesquisa.addCondicaoManyToManyContendoObjeto(CPPessoa.origem, getPesquisa().getOrigem());
+                }
+                if (getPesquisa().getUsuario() != null) {
+                    consultaPesquisa.addCondicaoManyToManyContendoObjeto("usuariosResponsaveis", getPesquisa().getUsuario());
+                }
+                if (getPesquisa().getTagAtendimento() != null) {
+                    consultaPesquisa.addCondicaoManyToManyContendoObjeto(CPPessoa.tagsatendimento, getPesquisa().getTagAtendimento());
+                }
+                if (getPesquisa().getTipoRelacionamento() != null) {
+                    consultaPesquisa.addCondicaoManyToOneIgualA(CPPessoa.relacionamento, getPesquisa().getTipoRelacionamento());
+                }
+                if (getPesquisa().getMetaRelacionamento() != null) {
+                    consultaPesquisa.addCondicaoManyToOneIgualA(CPPessoa.meta, getPesquisa().getMetaRelacionamento());
+                }
+
+                setValorPorReflexao(consultaPesquisa.gerarResultados());
+
+                switch (tipoPesquisa) {
+                    case LEADS_URGENTES:
+                        List<Pessoa> leadsNaoUrgentes = new ArrayList<>();
+                        getPesquisa().getLeadsEncontrados().stream().filter(ld -> !(ld.getCPinst(CPPessoa.possuidemandaurgencia).getValorComoBoolean())).forEach(leadsNaoUrgentes::add);
+                        getPesquisa().getLeadsEncontrados().removeAll(leadsNaoUrgentes);
+                        for (Pessoa p : leadsNaoUrgentes) {
+                            UtilSBPersistencia.mergeRegistro(p);
+                        }
+                }
+
             }
+
             int limite = 10000;
 
             String termo;

@@ -24,6 +24,7 @@ public class TesteConformidade extends TesteCRMCarameloCode {
 
     @Test
     public void testePesquisa() {
+
         try {
             MapaObjetosProjetoAtual.adcionarObjeto(ContatoAnonimoDadoTansitorio.class);
             MapaObjetosProjetoAtual.adcionarObjeto(MetadadoUsuarioCliente.class);

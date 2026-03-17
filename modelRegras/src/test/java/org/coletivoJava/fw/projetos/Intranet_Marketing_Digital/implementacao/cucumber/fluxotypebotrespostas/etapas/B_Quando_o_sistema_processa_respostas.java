@@ -10,7 +10,7 @@ public class B_Quando_o_sistema_processa_respostas {
 
     @Quando(EtapasFluxoTypebotRespostas.QUANDO_O_SISTEMA_PROCESSA_RESPOSTAS)
     public void implementacaoEtapa() {
-        ItfResposta resp = ModuloCRMAplicacao.respostasSincronizar();
+        ItfResposta resp = ModuloCRMAplicacao.respostasFormularioSincronizar();
         System.out.println(resp.isSucesso());
         Assert.assertTrue("Falha processando respostas", resp.isSucesso());
     }

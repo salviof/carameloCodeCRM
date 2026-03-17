@@ -61,6 +61,10 @@ import java.util.Date;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import java.util.Map;
+import javax.faces.context.FacesContext;
+import org.primefaces.component.tabview.TabView;
+import org.primefaces.event.TabChangeEvent;
 
 /**
  *
@@ -656,6 +660,37 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
             }
 
         }
+
+    }
+
+    private int abaSelecionada = 1;
+
+    public int getAbaSelecionada() {
+        return abaSelecionada;
+    }
+
+    public void setAbaSelecionada(int abaSelecionada) {
+        this.abaSelecionada = abaSelecionada;
+    }
+
+    public void onTabChange(TabChangeEvent event) {
+
+        TabView tv = (TabView) event.getComponent();
+        String clientId = tv.getClientId(FacesContext.getCurrentInstance());
+
+        Map<String, String> params = FacesContext.getCurrentInstance()
+                .getExternalContext().getRequestParameterMap();
+
+        String idxStr = params.get(clientId + "_tabindex");  // chave comum em PF 10–14
+
+        if (idxStr != null && !idxStr.isEmpty()) {
+            this.abaSelecionada = Integer.parseInt(idxStr);
+        } else {
+            // Fallback raro
+            this.abaSelecionada = tv.getActiveIndex();
+        }
+
+        System.out.println("Índice via param: " + this.abaSelecionada);
 
     }
 

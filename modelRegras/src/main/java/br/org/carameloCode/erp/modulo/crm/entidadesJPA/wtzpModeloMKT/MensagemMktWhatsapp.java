@@ -29,7 +29,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Mensagem de WhatsApp", plural = "Mensagens de WhatsApp", icone = "fa fa-whatsapp")
+@InfoObjetoSB(tags = "Mensagem de WhatsApp ", plural = "Mensagens de WhatsApp", icone = "fa fa-whatsapp")
 public class MensagemMktWhatsapp extends EntidadeSimplesORM {
 
     @Id

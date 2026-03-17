@@ -22,9 +22,9 @@
                 #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}
             </div>
             <span class="CardSubTopic">
-                
+
                 <h:panelGroup style="margin-top: 20px;" styleClass="fa fa-unlock " rendered="#{pgDocumentoPessoa.categoriaArquivoEquipe.compartilharComConvidados}"  >
-                Esta pasta está compartilhada com a equipe de desenvolvimento
+                    Esta pasta está compartilhada com a equipe de desenvolvimento
                 </h:panelGroup>
             </span>
             <div class="OrganizadorContainerEsquerda" style="position: absolute;top: 32px;left: 42px;" >
@@ -129,7 +129,7 @@
                     listener="#{servicosCRM.enviarArquivosEquipePessoa}"
                     update="@parent"
                     styleClass="inputDropArquivo"
-                    sizeLimit="285485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx|zip|mp3|mp4)$/"
+                    sizeLimit="285485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx|zip|mp3|mp4|txt)$/"
                     invalidSizeMessage="O tamanho máximo permitido é 100 KB"
                     invalidFileMessage="Este tipo de arquivo não é permitido, apenas: png|pdf|doc|docx|xml|xmlx são permitidos"
                     label="Procurar no meu dispositivo local para: #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}."

@@ -46,6 +46,7 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.icones.FabIconeFontAwesome;
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.CPChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoafisica.CPPessoaFisica;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.api.model.subpastaprivada.CPSubPastaPrivada;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.PedidoAcesso;
 
@@ -692,7 +693,7 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     SOLICITACAO_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-gavel")
     SOLICITACAO_FRM_CONCEDER_ACESSO,
-    @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-hand-paper-o", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
+    @InfoTipoAcaoFormulario(campos = {"id", CPSolicitacao.tiposolicitacao, CPSolicitacao.usuariosolicitante, CPSolicitacao.usuariosolicitado, CPSolicitacao.obeservacao}, icone = "fa fa-hand-paper-o", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
     SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA,
     @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-hand-paper-o")
     SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS,

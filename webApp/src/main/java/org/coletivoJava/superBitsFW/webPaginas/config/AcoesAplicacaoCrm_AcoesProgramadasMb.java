@@ -5,8 +5,8 @@ import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoController;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
 
 @Named
 @ApplicationScoped
@@ -15,6 +15,11 @@ public class AcoesAplicacaoCrm_AcoesProgramadasMb implements Serializable {
 	public ItfAcaoFormulario getAcoesProgramadasMb() {
 		return (ItfAcaoFormulario) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAplicacao.ACOES_PROGRAMADAS_MB");
+	}
+
+	public ComoAcaoController getAcoesProgramadasCtrAtualizarLeadsUrgentesAutoExec() {
+		return (ComoAcaoController) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAplicacao.ACOES_PROGRAMADAS_CTR_ATUALIZAR_LEADS_URGENTES_AUTO_EXEC");
 	}
 
 	public ComoAcaoControllerEntidade getAcoesProgramadasCtrEnviarEmailProgramado() {

@@ -17,7 +17,6 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.ItfTipoA
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TipoAtributoMetodosBase;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.CampoNaoImplementado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoEditavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciadoDInamico.CampoInstanciadoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
@@ -40,6 +39,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ItfTDadoDinamicoCRM;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ComoAtributoObjetoSB;
 
 /**
  *
@@ -254,7 +254,7 @@ public class DadoCRM extends EntidadeORMNormal implements ItfDadoDinamico, ItfTD
         }
 
         @Override
-        public ItfAtributoObjetoSB getAtributosCampoDinamico() {
+        public ComoAtributoObjetoSB getAtributosCampoDinamico() {
             return getTipoDadoCRM();
         }
 

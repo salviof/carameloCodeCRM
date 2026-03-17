@@ -125,7 +125,7 @@ public class ServletNovoContato extends HttpServlet {
                     return;
 
                 }
-                ItfRespostaAcaoDoSistema resposta = ModuloCRMAplicacao.FormularioTypebotProcessar(formulario);
+                ItfRespostaAcaoDoSistema resposta = ModuloCRMAplicacao.formularioTypebotProcessar(formulario);
                 JsonObjectBuilder jb = UtilCRCJsonRest.getRespostaJsonBuilder(resposta);
                 String texto = UtilCRCJson.getTextoByJsonObjeect(jb.build());
                 System.out.println(texto);

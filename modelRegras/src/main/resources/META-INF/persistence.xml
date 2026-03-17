@@ -20,6 +20,7 @@
         <class>com.super_bits.modulos.SBAcessosModel.model.acoes.acaoDeEntidade.AcaoGestaoEntidade</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoSecundaria</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistema</class>
+        <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistemaNativo</class>
         <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ConfiguracaoDePermissao</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel</class>

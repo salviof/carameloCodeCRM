@@ -48,7 +48,7 @@ import java.util.Map;
  * @author sfurbino
  */
 @Entity
-@InfoObjetoSB(tags = {"Usuário CRM "}, icone = "fa fa-user", plural = "Usuários da Central")
+@InfoObjetoSB(tags = {"Usuário CRM"}, icone = "fa fa-user", plural = "Usuários da Central")
 public class UsuarioCRM extends UsuarioSB {
 
     public UsuarioCRM() {

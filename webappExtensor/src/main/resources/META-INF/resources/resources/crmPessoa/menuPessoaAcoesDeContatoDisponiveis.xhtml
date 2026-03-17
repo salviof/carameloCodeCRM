@@ -18,7 +18,11 @@
     <cc:implementation>
 
 
-
+        <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
+                         descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "
+                         rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}"
+                         severity="info"
+                         />
 
         <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" style="" layout="block">
 

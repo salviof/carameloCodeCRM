@@ -32,6 +32,7 @@ import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ComoLea
 import com.super_bits.modulosSB.SBCore.modulos.email.ItfServidorEmailAvancado;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
 import com.super_bits.modulosSB.SBCore.modulos.email.ConfigEmailServersProjeto;
+import com.super_bits.modulosSB.SBCore.modulos.email.FabConfigModuloEmailService;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoArquivo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import java.io.UnsupportedEncodingException;
@@ -60,9 +61,9 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
     private synchronized ItfServidorEmailAvancado buildEmailSErver(UsuarioCRM pUsuario) throws ErroEnvioEmail {
         CaixaPostal novoServidor = new CaixaPostal();
 
-        novoServidor.setSenhaSMTP(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_SENHA));
-        novoServidor.setUsuarioSMTP(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_USUARIO));
-        novoServidor.setEnderecoServidor(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_HOSTNAME));
+        novoServidor.setSenhaSMTP(FabConfigModuloEmailService.EMAIL_SERVICE_SENHA.getValorParametroSistema());
+        novoServidor.setUsuarioSMTP(FabConfigModuloEmailService.EMAIL_SERVICE_USUARIO.getValorParametroSistema());
+        novoServidor.setEnderecoServidor(FabConfigModuloEmailService.EMAIL_SERVICE_HOSTNAME.getValorParametroSistema());
         novoServidor.setPortaRecepcao(587);
         novoServidor.setUsarSSLRecepcao(true);
 
@@ -70,9 +71,9 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
             if (servidorPadrao != null) {
                 return servidorPadrao;
             } else {
-                novoServidor.setNomeRemetente(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_NOME_REMETENTE));
-                novoServidor.setEmailRemetente(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_EMAIL_REMETENTE));
-                novoServidor.setNome(SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_EMAIL_REMETENTE));
+                novoServidor.setNomeRemetente(FabConfigModuloEmailService.EMAIL_SERVICE_NOME_REMETENTE.getValorParametroSistema());
+                novoServidor.setEmailRemetente(FabConfigModuloEmailService.EMAIL_SERVICE_EMAIL_REMETENTE.getValorParametroSistema());
+                novoServidor.setNome(FabConfigModuloEmailService.EMAIL_SERVICE_EMAIL_REMETENTE.getValorParametroSistema());
                 servidorPadrao = novoServidor;
                 return servidorPadrao;
             }
@@ -99,11 +100,14 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
     }
 
     public CRMCarameloCodePadraoimpl() {
-        String hostname = SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_HOSTNAME);
-        String usuario = SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_USUARIO);
-        String senha = SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_SERVICE_SENHA);
-        String nomeRemetente = SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_NOME_REMETENTE);
-        String emailREmetente = SBCore.getConfigModulo(FabConfigErpCRM.class).getPropriedade(FabConfigErpCRM.EMAIL_SIMPLE_MAIL_EMAIL_REMETENTE);
+
+        String variaveisAmbiente = FabConfigModuloEmailService.EMAIL_SERVICE_EMAIL_REMETENTE.getCaminhoArquivoVariaveisAmbiente();
+
+        String hostname = FabConfigModuloEmailService.EMAIL_SERVICE_HOSTNAME.getValorParametroSistema();
+        String usuario = FabConfigModuloEmailService.EMAIL_SERVICE_USUARIO.getValorParametroSistema();
+        String senha = FabConfigModuloEmailService.EMAIL_SERVICE_NOME_REMETENTE.getValorParametroSistema();
+        String nomeRemetente = FabConfigModuloEmailService.EMAIL_SERVICE_NOME_REMETENTE.getValorParametroSistema();
+        String emailREmetente = FabConfigModuloEmailService.EMAIL_SERVICE_EMAIL_REMETENTE.getValorParametroSistema();
         UtilCRCEmail.configurar(new ConfigEmailServersProjeto(hostname, nomeRemetente + " <" + emailREmetente + ">", usuario, senha));
 
     }

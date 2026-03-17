@@ -46,10 +46,10 @@ public class PgPesquisaProspecto extends MB_PaginaConversation {
 
     private OrigemProspecto novaOrigem;
 
-    @InfoParametroURL(nome = "Origem padrao", obrigatorio = false, tipoEntidade = OrigemProspecto.class, tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = false)
+    @InfoParametroURL(nome = "Origem publica", obrigatorio = false, tipoEntidade = OrigemProspecto.class, tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = false)
     private ParametroURL prOrigem;
 
-    @InfoParametroURL(nome = "Origem padrao", obrigatorio = false, tipoEntidade = OrigemProspectoPrivado.class, tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = false)
+    @InfoParametroURL(nome = "Origem origemPrivada", obrigatorio = false, tipoEntidade = OrigemProspectoPrivado.class, tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = false)
     private ParametroURL prOrigemPrivada;
     private List<DadosPesquisaGooglePlace> historicoPesquisas = new ArrayList<>();
     private static final int MAX_HISTORICO = 3; // Limita o histórico a 10 pesquisas

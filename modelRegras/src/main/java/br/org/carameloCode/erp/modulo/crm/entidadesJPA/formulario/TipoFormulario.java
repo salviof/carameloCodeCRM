@@ -23,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import br.org.carameloCode.erp.modulo.crm.api.model.respostaformulario.CPRespostaFormulario;
+import javax.persistence.Transient;
 import org.hibernate.annotations.Formula;
 
 /**
@@ -77,6 +78,11 @@ public class TipoFormulario
     @OneToMany(mappedBy = CPRespostaFormulario.tipoformulario)
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES, somenteLeitura = true)
     private List<RespostaFormulario> respostas;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
+    @InfoCampoValorLogico(nomeCalculo = "Qtade Respostas")
+    @Transient
+    private int qtdRespostas;
 
     @Formula(
             "(SELECT GROUP_CONCAT(CONCAT('[', r.codigoResposta, ']')) "
@@ -195,6 +201,14 @@ public class TipoFormulario
 
     public void setTipoEmpresa(TipoEmpresa tipoEmpresa) {
         this.tipoEmpresa = tipoEmpresa;
+    }
+
+    public int getQtdRespostas() {
+        return qtdRespostas;
+    }
+
+    public void setQtdRespostas(int qtdRespostas) {
+        this.qtdRespostas = qtdRespostas;
     }
 
 }

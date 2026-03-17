@@ -95,6 +95,8 @@ public class UtilCRMTypeBot {
         if (pTipoFormulario.getOrigemPadrao() != null) {
             novoContato.setOrigem((OrigemProspecto) UtilSBPersistencia.getRegistroByID(OrigemProspecto.class,
                     5l));
+        } else {
+            novoContato.setOrigem(pTipoFormulario.getOrigemPadrao());
         }
         if (!variaveis.containsKey("porte")) {
             novoContato

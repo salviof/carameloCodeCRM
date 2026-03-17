@@ -19,7 +19,6 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TIPO_ORI
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TIPO_PRIMITIVO;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TipoAtributoMetodosBase;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoEditavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +37,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ComoAtributoObjetoSB;
 
 /**
  *
@@ -204,7 +204,7 @@ public class TipoDadoCRM extends EntidadeSimplesORM implements ItfAtributoObjeto
 
     }
 
-    public final ItfAtributoObjetoSB geAttributoCampoVinculado() {
+    public final ComoAtributoObjetoSB geAttributoCampoVinculado() {
         if (propriedades == null) {
             propriedades = new PropriedadesReflexaoCampo(this);
         }

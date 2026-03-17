@@ -27,7 +27,7 @@ import org.coletivoJava.fw.projetos.agendamentoPublico.model.tipoAgendamentoPubl
 @InfoModulosSistemaSB(modulo = FabModulosSistemaSB.AGENDA)
 public enum FabAcaoAgendaMentoPublico implements ComoFabricaDeAcoesPersistencia {
 
-    @InfoTipoAcaoGestaoEntidade(entidade = DisponibilidadeAtdmtPublico.class, icone = "fa fa-ticket", nomeAcao = "Disponibilidade agenda pública")
+    @InfoTipoAcaoGestaoEntidade(entidade = DisponibilidadeAtdmtPublico.class, icone = "fa fa-ticket", nomeAcao = "Disponibilidade agenda pública", precisaPermissao = true)
     MINHA_DISPONIBILIDADE_MB_GESTAO,
     @InfoTipoAcaoFormulario(descricao = "Lista de disponibilidades cadastradas", nomeAcao = "Minhas disponibilidades",
             campos = {"diasDaSemana", "horarioInicio", "horarioFim", "diaInicial", "diaFinal"}

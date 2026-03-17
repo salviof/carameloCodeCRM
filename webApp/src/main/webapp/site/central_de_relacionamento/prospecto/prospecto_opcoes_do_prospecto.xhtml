@@ -11,9 +11,26 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo">
+
+
+        <p:remoteCommand name="ajusteTelainicial" update="atualizarAba" />
+
+
         <h:outputStylesheet name="prospecto.css" library="css"/>
-        <p:tabView id="dadosDaEmpresa">
-            <p:tab title="Dados da empresa">
+        <p:tabView id="dadosDaEmpresa"
+                   cache="false"
+                   widgetVar="abasLead"
+                   dynamic="true"
+                   >
+
+            <p:ajax event="tabChange"
+                    listener="#{pgProspecto.onTabChange}"
+                    update="atualizarAba"/>
+            <p:tab title="Dados da empresa" >
+                <script>
+                    setTimeout(ajusteTelainicial(), 300);
+                </script>
+
 
                 <h:panelGroup styleClass="container-cards-cliente">
                     <p:card styleClass="card-cliente" >
@@ -126,7 +143,8 @@
                                             <p:commandButton value="Editar Observação"
                                                              icon="pi pi-pencil"
                                                              styleClass="btn-editar"
-                                                             onclick="PF('dlgObs').show(); return false;"/>
+                                                             onclick="PF('dlgObs').show();
+                                                                     return false;"/>
                                         </div>
 
                                     </p:panel>
@@ -157,7 +175,8 @@
 
                                             <p:commandButton value="Cancelar"
                                                              icon="pi pi-times"
-                                                             onclick="PF('dlgObs').hide(); return false;"
+                                                             onclick="PF('dlgObs').hide();
+                                                                     return false;"
                                                              styleClass="p-button-secondary"
                                                              style="margin-left:8px"/>
                                         </h:panelGroup>
@@ -199,15 +218,19 @@
                     />
             </p:tab>
             <p:tab title="Contato">
-                <h:panelGroup styleClass="container-cards-cliente">
+                <h:panelGroup styleClass="container-cards-cliente" id="contatosDoLead">
                     <p:card styleClass="card-cliente">
                         <h:panelGroup styleClass="card-contatos-titulo">
-                            <h:panelGroup styleClass="card-cliente-title-content" id="contatosDoLead">
+                            <h:panelGroup styleClass="card-cliente-title-content" >
                                 <div class="texto-titulo">
                                     <h3>Contatos</h3>
+
                                 </div>
                             </h:panelGroup>
-                            <h:panelGroup styleClass="botoes-container">
+
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="listagem-container-content">
+                            <h:panelGroup styleClass="botoes-container Fright">
                                 <h:panelGroup styleClass="badge-wrapper">
                                     <p:badge
                                         value="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor}"
@@ -230,9 +253,11 @@
                                     </p:badge>
                                 </h:panelGroup>
                                 <h:form>
+
                                     <p:commandButton
                                         action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
                                         value="Chat, atendimento ao Cliente"
+                                        style="width: 300px;"
                                         icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente.icone}"
                                         >
 
@@ -240,16 +265,11 @@
                                         <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}"
                                                                      value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente}"/>
                                     </p:commandButton>
+
                                 </h:form>
                             </h:panelGroup>
-                        </h:panelGroup>
-                        <h:panelGroup styleClass="listagem-container-content">
 
-                            <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
-                                             descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "
-                                             rendered="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}"
-                                             severity="info"
-                                             />
+
                             <crmPessoa:menuPessoaAcoesDeContatoDisponiveis
 
                                 pessoa="#{pgProspecto.entidadeSelecionada}"
@@ -284,6 +304,32 @@
                 <crmPessoa:dashboardInteracao pessoa="#{pgProspecto.prospecto}"/>
             </p:tab>
         </p:tabView>
+
+        <h:panelGroup id="atualizarAba">
+            <script>
+
+
+
+
+                function ajustarAba() {
+                    var widget = PF('abasLead');
+                    if (widget) {  // verifica se está pronto
+                        var indiceCorreto = #{pgProspecto.abaSelecionada}; // valor do bean (EL vira número)
+                        var atual = widget.getActiveIndex();
+                        console.log('Widget pronto! Atual: ' + atual + ' | Desejado: ' + indiceCorreto);
+                        if (atual !== indiceCorreto) {
+                            console.log('Corrigindo aba para ' + indiceCorreto);
+                            widget.select(indiceCorreto);
+                        } else {
+                            console.log('Aba já está correta');
+                        }
+                    }
+                }
+
+                setTimeout(ajustarAba, 100);
+
+            </script>
+        </h:panelGroup>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
             <h:form>

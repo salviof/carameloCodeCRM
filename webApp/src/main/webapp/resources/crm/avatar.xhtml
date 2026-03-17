@@ -13,42 +13,49 @@
                       type="java.lang.Boolean" required="true"/>
         <cc:attribute name="largura" default="50"/> >
         <cc:attribute name="altura" default="30" />
+        <cc:attribute name="mostrarNome"
+                      type="java.lang.Boolean"
+                      default="false" />
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:panelGroup   layout="block" style="position: relative;">
-            <h:panelGroup rendered="#{cc.attrs.usuario.temImagemPequenaAdicionada}"   layout="block"
-                          style=" background-image: url('#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.usuario.imgPequena}');
-                          display: inline-block;
-                          /* make a square container */
-                          width:  #{cc.attrs.altura}px;
-                          height: #{cc.attrs.altura}px;
-                          top: 0px;
-                          /* fill the container, preserving aspect ratio, and cropping to fit */
-                          background-size: cover;
-                          pointer-events: none;
-                          /* center the image vertically and horizontally */
-                          background-position: top center;
+        <h:panelGroup layout="block"
+                      style="display:flex; align-items:center; gap:8px; position:relative;">
 
-                          /* round the edges to a circle with border radius 1/2 container size */
-                          border-radius: 50%;"
-                          >
-
+            <!-- FOTO REAL -->
+            <h:panelGroup rendered="#{cc.attrs.usuario != null and cc.attrs.usuario.temImagemPequenaAdicionada}"
+                          layout="block"
+                          style="background-image:url('#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.usuario.imgPequena}');
+                          display:inline-block;
+                          width:#{cc.attrs.altura}px;
+                          height:#{cc.attrs.altura}px;
+                          background-size:cover;
+                          background-position:top center;
+                          border-radius:50%;
+                          flex-shrink:0;">
             </h:panelGroup>
 
+            <!-- GRAVATAR -->
+            <p:avatar gravatar="#{cc.attrs.usuario.email}"
+                      shape="circle"
+                      gravatarConfig="d=monsterid"
+                      size="xlarge"
+                      rendered="#{cc.attrs.usuario != null and !cc.attrs.usuario.temImagemPequenaAdicionada}"
+                      style="width:#{cc.attrs.altura}px;
+                      height:#{cc.attrs.altura}px;
+                      flex-shrink:0;" />
 
-            <h:panelGroup rendered="#{!cc.attrs.usuario.temImagemPequenaAdicionada}"  style="  position: absolute;
-                          /* make a square container */
-                          width:  #{cc.attrs.altura}px;
-                          height: #{cc.attrs.altura}px;"  >
-                <p:avatar  gravatar="#{cc.attrs.usuario.email}"
-                           shape="circle"
-                           gravatarConfig="d=monsterid"
-                           style=" max-width:#{cc.attrs.altura}px;  width:#{cc.attrs.altura}px; max-height:#{cc.attrs.altura}px;"
-                           rendered="#{!cc.attrs.usuario.temImagemPequenaAdicionada}"
-                           size="xlarge" />
+            <!-- NOME -->
+            <p:outputLabel value="#{cc.attrs.usuario.nome}"
+                           rendered="#{cc.attrs.mostrarNome and cc.attrs.usuario != null}"
+                           style="
+                           font-weight:600;
+                           font-size:13px;
+                           color:#2c3e50;
+                           letter-spacing:0.2px;
+                           line-height:1;
+                           " />
 
-            </h:panelGroup>
         </h:panelGroup>
     </cc:implementation>
 </ui:composition>

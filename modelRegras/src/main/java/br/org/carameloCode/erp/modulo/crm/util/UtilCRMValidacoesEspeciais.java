@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.util;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
@@ -35,9 +36,9 @@ public class UtilCRMValidacoesEspeciais {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         ErroValidacao erroValidacao = null;
         try {
-            ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(UsuarioCRM.class, em);
-            consulta.addcondicaoCampoIgualA("email", pEmail);
-            List<UsuarioCRM> usuarios = consulta.gerarResultados();
+            ConsultaDinamicaDeEntidade consultaUsuario = new ConsultaDinamicaDeEntidade(UsuarioCRM.class, em);
+            consultaUsuario.addcondicaoCampoIgualA("email", pEmail);
+            List<UsuarioCRM> usuarios = consultaUsuario.gerarResultados();
             if (!usuarios.isEmpty()) {
                 for (UsuarioCRM usr : usuarios) {
                     if (!usr.isUmUsuarioDoCliente()) {
@@ -51,6 +52,7 @@ public class UtilCRMValidacoesEspeciais {
                     }
                 }
             }
+
             return true;
         } catch (ErroValidacao erro) {
             erroValidacao = erro;

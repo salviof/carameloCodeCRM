@@ -19,30 +19,58 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
+        <h:panelGroup layout="block" styleClass="atividadeContainer" style="display: flex; flex-direction: row;">
 
-        <h:panelGroup style="width: 300px;" styleClass="OrganizadorContainerEsquerda ">
+            <!-- ESQUERDA - BOTÃO -->
+            <h:panelGroup layout="block" styleClass="atividadeBotao" style="margin-top: 18px;">
 
-            <h:panelGroup styleClass="Container5" style="height: 95px;">
                 <h:form>
-                    <CRM:botaoPersonalizado
-                        metodo="#{servicosCRM.continuarAtividade(cc.attrs.atividade)}"
-                        titulo="#{cc.attrs.atividade.tipoAtividade.nome}"
-                        icone="#{cc.attrs.atividade.tipoAtividade.icone}"
-
-                        />
+                    <h:panelGroup layout="block" style="margin-left: 12px;" >
+                        <CRM:botaoPersonalizado
+                            metodo="#{servicosCRM.continuarAtividade(cc.attrs.atividade)}"
+                            titulo="#{cc.attrs.atividade.tipoAtividade.nome}"
+                            icone="#{cc.attrs.atividade.tipoAtividade.icone}" />
+                    </h:panelGroup>
                 </h:form>
+
             </h:panelGroup>
-            <h:panelGroup styleClass="Container7">
 
-                <p:outputLabel value="Por: #{cc.attrs.atividade.usuarioInsersao.nome} "/><br/>
-                <p:outputLabel value="#{pgUtil.gerarDataHoraTexto(cc.attrs.atividade.dataHoraInicioAtividade)}"/><br/>
-                <p:outputLabel value="#{cc.attrs.atividade.anotacoes}"/><br/>
 
-                <p:outputLabel value="Agendado para: #{pgUtil.gerarDataHoraTexto(cc.attrs.atividade.dataHoraPrevisaoExecucao)}"
-                               rendered="#{cc.attrs.atividade.dataHoraPrevisaoExecucao!=null}"/><br/>
+            <!-- DIREITA - RESUMO -->
+            <h:panelGroup layout="block" styleClass="atividadeResumo">
+
+                <h:panelGroup layout="block" styleClass="atividadeDescricao">
+                    <p:outputLabel value="#{cc.attrs.atividade.anotacoes}" />
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="atividadeMeta">
+
+                    <h:panelGroup layout="block" styleClass="atividadeLinhaMeta usuarioMeta">
+
+                        <CRM:avatar somenteLeitura="true" usuario="#{cc.attrs.atividade.usuarioInsersao}" mostrarNome="true" />
+
+
+
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="atividadeLinhaMeta">
+                        <i class="fa fa-clock-o"></i>
+                        <p:outputLabel value="#{pgUtil.gerarDataHoraTexto(cc.attrs.atividade.dataHoraInicioAtividade)}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block"
+                                  styleClass="atividadeLinhaMeta"
+                                  rendered="#{cc.attrs.atividade.dataHoraPrevisaoExecucao != null}">
+                        <i class="fa fa-calendar"></i>
+                        <p:outputLabel value="Agendado para: #{pgUtil.gerarDataHoraTexto(cc.attrs.atividade.dataHoraPrevisaoExecucao)}"/>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
             </h:panelGroup>
 
         </h:panelGroup>
+
     </cc:implementation>
 </ui:composition>
 

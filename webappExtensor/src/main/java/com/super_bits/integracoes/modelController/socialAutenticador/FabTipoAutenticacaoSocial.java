@@ -33,6 +33,7 @@ public enum FabTipoAutenticacaoSocial implements ComoFabrica {
                 return tipo;
             }
         }
+        System.out.println("Não emcontrou tipo " + pString);
         return null;
     }
 

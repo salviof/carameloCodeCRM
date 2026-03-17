@@ -9,9 +9,11 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.Modul
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.api.model.telefone.CPTelefone;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
+import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariosb.CPUsuarioSB;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
@@ -44,6 +46,7 @@ import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
 import br.org.coletivoJava.fw.erp.implementacao.chat.ChatMatrixOrgimpl;
+import br.org.coletivoJava.fw.erp.implementacao.transportecomunicacao.MsgDisparoEmailimpl;
 import br.org.coletivoJava.integracoes.asterix_voip.api.FabApiAsterix;
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestIntTypebotResultados;
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotBots;
@@ -627,7 +630,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_FORMULARIO_TYPEBOT_CTR_PROCESSAR)
-    public synchronized static ItfRespostaAcaoDoSistema FormularioTypebotProcessar(TipoFormulario pTipo) {
+    public synchronized static ItfRespostaAcaoDoSistema formularioTypebotProcessar(TipoFormulario pTipo) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(TipoFormulario.class), pTipo) {
             @Override
@@ -693,6 +696,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro enviando direct para o vendedor", t);
                                 }
                             }
+
                         }
                         UtilSBPersistencia.mergeRegistro(respostaForm);
                     } catch (ErroValidacao
@@ -745,7 +749,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAplicacao(acao = FabAcaoCrmAplicacao.ACOES_PROGRAMADAS_CTR_TYPEBOT_RESPOSTA_SINCRONIZAR_AUTO_EXEC)
-    public static ItfRespostaAcaoDoSistema respostasSincronizar() {
+    public static ItfRespostaAcaoDoSistema respostasFormularioSincronizar() {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(RespostaFormulario.class
         ), new RespostaFormulario()) {
@@ -756,11 +760,40 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
 
                 for (TipoFormulario tipoFormulario : tipoFormularios) {
                     if (tipoFormulario.isIntegrarDados()) {
-
-                        FormularioTypebotProcessar(tipoFormulario);
+                        System.out.println(tipoFormulario.getId());
+                        formularioTypebotProcessar(tipoFormulario);
 
                         //        ConsultaDinamicaDeEntidade conulta = new ConsultaDinamicaDeEntidade(RespostaFormulario.class, getEm())
                         //              .addcondicaoCampoIgualA("codigoResposta",);
+                    }
+                }
+
+            }
+        }
+                .getResposta();
+    }
+
+    @InfoAcaoCRMAplicacao(acao = FabAcaoCrmAplicacao.ACOES_PROGRAMADAS_CTR_ATUALIZAR_LEADS_URGENTES_AUTO_EXEC)
+    public static ItfRespostaAcaoDoSistema leadsUrgentes() {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(RespostaFormulario.class
+        ), new RespostaFormulario()) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                List<TipoRelacionamento> tipoFormularios = UtilSBPersistencia.getListaTodos(TipoRelacionamento.class, getEMResposta());
+
+                List<TipoRelacionamento> tipoComPraso = new ArrayList<>();
+                tipoFormularios.stream().filter(tp -> tp.getTempoAceitavelResolucao() > 0).forEach(tipoComPraso::add);
+
+                for (TipoRelacionamento tp : tipoComPraso) {
+                    List<Pessoa> pessoasDoRelacionamento = new ConsultaDinamicaDeEntidade(Pessoa.class, getEMResposta()).addcondicaoCampoIgualA(CPPessoa.relacionamento, tp).gerarResultados();
+                    for (Pessoa pessoa : pessoasDoRelacionamento) {
+                        boolean valorBanco = pessoa.isPossuiDemandaUrgencia();
+                        boolean valorProcessado = pessoa.getCPinst(CPPessoa.possuidemandaurgencia).getValorComoBoolean();
+                        if (valorBanco != valorProcessado) {
+                            UtilSBPersistencia.mergeRegistro(pessoa);
+                        }
                     }
                 }
 
