@@ -74,6 +74,7 @@ public class ContatoProspecto extends EntidadeContatoPessoa {
     private String cargo;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_CELULAR, label = "Whatsapp")
+    @InfoCampoValidadorLogico()
     private String celular;
 
     @InfoCampoValorLogico(nomeCalculo = "celularFormatoInternacional")

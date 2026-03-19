@@ -61,6 +61,7 @@ import java.util.Date;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import org.primefaces.component.tabview.TabView;
@@ -184,7 +185,8 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
                 setEntidadesListadas(ListasProspectos.PROSPECTOS_DESTE_RELACIONAMENTO.getLista(getEMPagina(), tipoRelacionamentoSelecionado));
                 break;
             case TODOS:
-                setEntidadesListadas(UtilSBPersistencia.getListaTodos(Pessoa.class, getEMPagina()));
+                //setEntidadesListadas(UtilSBPersistencia.getListaTodos(Pessoa.class, getEMPagina()));
+                setEntidadesListadas(new ArrayList<>());
                 break;
             default:
                 throw new AssertionError(tipo.name());

@@ -109,7 +109,7 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
     @OneToMany(mappedBy = "prospectoEmpresa", cascade = CascadeType.MERGE)
     private List<DadoCRM> todosdadosColetados;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL, label = "Tel. fixo Principal")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_GENERICO, label = "Tel. fixo Principal")
     @Column(unique = true)
     private String telefonePrincipal;
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Telefone Alternativo")

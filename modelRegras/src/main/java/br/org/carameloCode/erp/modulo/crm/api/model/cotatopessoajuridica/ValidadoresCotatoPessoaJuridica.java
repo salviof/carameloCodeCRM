@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = CotatoPessoaJuridica.class)
 public enum ValidadoresCotatoPessoaJuridica {
-	NOME, EMAIL
+	NOME, CELULAR, EMAIL
 }

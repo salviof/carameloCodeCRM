@@ -13,20 +13,22 @@ import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
  */
 public enum FabPorteProspectoEmpresa implements ComoFabrica {
 
-    PEQUENA, MEDIA, GRANDE, INDEFINIDO;
+    PEQUENA, MEDIA, GRANDE, MICRO, INDEFINIDO;
 
     @Override
     public Porte getRegistro() {
 
         switch (this) {
             case PEQUENA:
-                return new Porte(1l, "pequena", "Empresas pequenas (Alcance local) ");
+                return new Porte(1l, "Pequena", "Empresas pequenas (Alcance local) ");
             case MEDIA:
                 return new Porte(2l, "Média", "Empresas pequenas (Alcance local)");
             case GRANDE:
                 return new Porte(3l, "grande", "Empresas de Grande porte (Alcance Nacional)");
             case INDEFINIDO:
                 return new Porte(4l, "Indefinido", "Não definido");
+            case MICRO:
+                return new Porte(5l, "Micro", "Micro empresa MEI");
 
             default:
                 throw new AssertionError(this.name());
