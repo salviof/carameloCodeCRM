@@ -8,7 +8,6 @@ package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoAtividade;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.util.UtilGeradorDocumentoCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
@@ -26,6 +25,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.superBits.utilitario.editorArquivos.office.MapaSubstituicaoWord;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *

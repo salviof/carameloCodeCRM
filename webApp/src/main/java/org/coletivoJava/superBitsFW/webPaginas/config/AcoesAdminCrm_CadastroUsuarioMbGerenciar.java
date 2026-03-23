@@ -17,6 +17,16 @@ public class AcoesAdminCrm_CadastroUsuarioMbGerenciar implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.CADASTRO_USUARIO_MB_GERENCIAR");
 	}
 
+	public ItfAcaoFormularioEntidade getCadastroUsuarioFrmListarAtendente() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.CADASTRO_USUARIO_FRM_LISTAR_ATENDENTE");
+	}
+
+	public ItfAcaoFormularioEntidade getCadastroUsuarioFrmListarGestores() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.CADASTRO_USUARIO_FRM_LISTAR_GESTORES");
+	}
+
 	public ItfAcaoFormularioEntidade getCadastroUsuarioFrmListar() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.CADASTRO_USUARIO_FRM_LISTAR");

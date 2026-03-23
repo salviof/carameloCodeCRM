@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
@@ -30,7 +30,7 @@ public enum FabUsuarioPadraoMarketingParaWeb implements ComoFabrica {
                 novoUsuario.setEmail("salvio@casanovadigital.com.br");
                 novoUsuario.setSenha("123");
                 novoUsuario.setAtivo(true);
-                novoUsuario.setGrupo(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro());
+                novoUsuario.setGrupo(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro());
                 break;
             case ATENDIMENTO:
                 novoUsuario.setId(2l);
@@ -38,12 +38,12 @@ public enum FabUsuarioPadraoMarketingParaWeb implements ComoFabrica {
                 novoUsuario.setEmail("atendimento@casanovadigital.com.br");
                 novoUsuario.setSenha("123");
                 novoUsuario.setAtivo(true);
-                novoUsuario.setGrupo(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro());
+                novoUsuario.setGrupo(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro());
                 break;
             case USUAIRO_CONVIDADO:
                 novoUsuario.setId(3l);
                 novoUsuario.setNome("Convidado");
-                novoUsuario.setGrupo(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro());
+                novoUsuario.setGrupo(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro());
                 novoUsuario.setEmail("convidado@casanovadigital.com.br");
                 novoUsuario.setSenha(String.valueOf("senhgaSecreta".hashCode()));
                 break;

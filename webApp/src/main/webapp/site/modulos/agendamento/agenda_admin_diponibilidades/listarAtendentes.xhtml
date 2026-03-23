@@ -1,0 +1,40 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="conteudo" >
+        <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                        xmlns:SBListagem="http://xmlns.jcp.org/jsf/composite/SBComp/composite/listagens">
+            <h:form >
+
+                <SBListagem:listaComOpcoesMobile
+                    grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                    mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                    armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                    itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                    itens="#{pgAgendaDispColaboradores.atendentes}"
+                    metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                    opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                    rendered="#{paginaAtual.sessao.telaUsuario.umMobile}"
+                    titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoListarRegistros.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                    />
+            </h:form>
+            <h:form>
+                <SBListagem:listaComOpcoesDesktop
+                    grupoCampos="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.gruposDeCampos[0]}"
+                    mensagemSemRegistro="Nenhum #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.nomeDominio} foi encontrado"
+                    armazenamentoAcaoSelecionada="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSelecionada}"
+                    itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                    itens="#{pgAgendaDispColaboradores.atendentes}"
+                    metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
+                    opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
+                    rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}"
+                    titulo="Listagem de  #{paginaAtual.infoPagina.comoPaginaEntidade.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
+                    />
+            </h:form>
+        </ui:composition>
+
+    </ui:define>
+</ui:composition>

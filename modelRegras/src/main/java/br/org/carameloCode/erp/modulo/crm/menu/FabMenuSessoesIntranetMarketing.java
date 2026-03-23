@@ -12,7 +12,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAc
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.icones.FabIconeFontAwesome;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
 import org.coletivojava.fw.api.objetoNativo.view.menu.SessaoMenuSB;
 
 /**

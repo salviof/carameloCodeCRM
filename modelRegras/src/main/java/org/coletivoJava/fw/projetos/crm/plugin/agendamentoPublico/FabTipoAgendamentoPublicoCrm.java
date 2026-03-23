@@ -7,10 +7,10 @@ package org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico;
 
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabContextoDeReserva;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.tipoAgendamentoPublico.TipoAgendamentoAtdmPresencial;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.tipoAgendamentoPublico.TipoAgendamentoAtdmRemoto;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPresencial;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmRemoto;
 
 /**
  *

@@ -10,7 +10,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaFisica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.ListasProspectos;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
@@ -61,6 +61,7 @@ import java.util.Date;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import org.primefaces.component.tabview.TabView;
@@ -184,7 +185,8 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
                 setEntidadesListadas(ListasProspectos.PROSPECTOS_DESTE_RELACIONAMENTO.getLista(getEMPagina(), tipoRelacionamentoSelecionado));
                 break;
             case TODOS:
-                setEntidadesListadas(UtilSBPersistencia.getListaTodos(Pessoa.class, getEMPagina()));
+                //setEntidadesListadas(UtilSBPersistencia.getListaTodos(Pessoa.class, getEMPagina()));
+                setEntidadesListadas(new ArrayList<>());
                 break;
             default:
                 throw new AssertionError(tipo.name());
@@ -242,7 +244,7 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
                 }
             }
             if (!getEntidadeSelecionada().isUsuarioLogadoPermitido()) {
-                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                     executaAcaoSelecionadaPorEnum(FabAcaoCRMAtendimento.PROSPECTO_FRM_ACESSO_PESSOA_NEGADO);
                 }
 
@@ -403,7 +405,7 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
         if (acaoExecutada.equals(FabAcaoCRMAtendimento.PROSPECTO_FRM_ACESSO_PESSOA_NEGADO)) {
             if (getEntidadeSelecionada() != null) {
                 if (!getEntidadeSelecionada().isUsuarioLogadoPermitido()) {
-                    if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                    if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                         executaAcaoSelecionadaPorEnum(FabAcaoCRMAtendimento.PROSPECTO_FRM_ACESSO_PESSOA_NEGADO);
                     }
                     return;
@@ -615,7 +617,7 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
     public UsuarioConvidado getUsuarioConvidadoNovo() {
         if (usuarioConvidadoNovo == null) {
             usuarioConvidadoNovo = new UsuarioConvidado();
-            usuarioConvidadoNovo.setGrupo(FabGruposIntranetCasaNova.CRM_CONVIDADO.getRegistro());
+            usuarioConvidadoNovo.setGrupo(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro());
         }
         return usuarioConvidadoNovo;
     }

@@ -45,7 +45,7 @@ public class GrupoUsuarioCRM extends GrupoUsuarioSB {
         FabTipoUtilizacao tipoUtulizacaoPadrao = UtilCRMSistema.TIPO_UTILIZACAO_PADRAO;
         switch (tipoUtulizacaoPadrao) {
             case WEBMAIL_B2B:
-                if (this.equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                if (this.equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                     return FabAcaoCRMAtendimento.EMAILS_MB_GESTAO;
                 }
                 return FabAcaoCRMAtendimento.EMAILS_MB_GESTAO;

@@ -28,15 +28,15 @@ import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbD
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabTipoChamado;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabTipoEmpresa;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabTipoOrigemDemo;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ItfConfigSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabUnidadesFederativas;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabContextoDeReserva;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 
 /**
@@ -84,7 +84,7 @@ public class ConfigPersistCRMDemostracao implements ItfConfigSBPersistencia {
             FabTipoDadoCRM.class,
             FabPorteProspectoEmpresa.class,
             FabModulosCRM.class,
-            FabGruposIntranetCasaNova.class,
+            FabGruposCRMCaramelo.class,
             FabUsuarioPadraoMarketingParaWeb.class,
             FabResultadoTipoRelacionamento.class,
             FabStatusEnvioEmail.class,

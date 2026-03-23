@@ -21,15 +21,15 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.zonaRelaci
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabTipoSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ItfConfigSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabUnidadesFederativas;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabContextoDeReserva;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 
 /**
  *
@@ -73,7 +73,7 @@ public class ConfigPersistenciaCrmCarameloCode implements ItfConfigSBPersistenci
             FabSatisfacaoCliente.class,
             FabUnidadesFederativas.class,
             FabModulosCRM.class,
-            FabGruposIntranetCasaNova.class,
+            FabGruposCRMCaramelo.class,
             FabUsuarioPadraoMarketingParaWeb.class,
             FabResultadoTipoRelacionamento.class,
             FabStatusEnvioEmail.class,

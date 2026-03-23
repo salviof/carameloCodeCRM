@@ -8,7 +8,7 @@ package br.org.carameloCode.erp.crm.paginas.crmAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.model.escopopesquisamelhorhorario.CPEscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
@@ -36,13 +36,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.ModuloAgendamentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.HorarioDisponivelAtendimentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraPresencial;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -113,7 +113,7 @@ public class PgMinhasReservas
 
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-            if (usuarioLogado.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+            if (usuarioLogado.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                 usuario = (UsuarioCRM) getParametroInstanciado(prUsuario).getValor();
             }
         }

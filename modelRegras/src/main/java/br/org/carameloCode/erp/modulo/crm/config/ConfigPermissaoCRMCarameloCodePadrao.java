@@ -8,12 +8,9 @@ package br.org.carameloCode.erp.modulo.crm.config;
 import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoClienteResolucao;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.FabSatisfacaoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM.ADMIN_CRM;
 import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM.ATENDIMENTO_CRM;
@@ -41,7 +38,6 @@ import com.super_bits.modulos.SBAcessosModel.controller.UtilSBControllerAcessosM
 import com.super_bits.modulos.SBAcessosModel.model.ContatoUsuarioTransiente;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
@@ -57,9 +53,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoGrupo
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
 import com.super_bits.modulosSB.SBCore.modulos.view.menu.ComoMenusDeSessao;
-import javax.persistence.EntityManager;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.ModuloAgendamentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ModuloAgendamentoPublicoPluginCRM;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.ModuloPluginCrmOrcamento;
 import org.coletivojava.fw.api.objetoNativo.view.menu.MenuSBFW;
@@ -90,64 +84,64 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             MapaAcoesSistema.getListaTodasAcoes().stream().filter(ac -> ac.isPrecisaPermissao()).forEach(acP -> {
 
                 if (acP.getAcaoDeGestaoEntidade().getModulo().equals(FabModulosCRM.CONVIDADO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CONVIDADO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.SOLICITACAO_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
-                UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro(), acP);
+                UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro(), acP);
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMCliente.RESERVAS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMCliente.FORM_CHAT_INTERATIVO_MB.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMCliente.CONVERSA_MB.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMCliente.CHAMADO_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MEUS_CHAMADOS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.ATIVIDADE_MB_GERENCIAR.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MEUS_ORCAMENTOS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.DOCUMENTOS_PESSOA_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.DESCOBRIDOR_PROSPECTO_MB_GERENCIAR.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MEU_DASHBOARD_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.EMAILS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MINHAS_ORIGENS_MB_GESTAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
                 if (acP.equals(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_CTR_TESTAR_CONFIGURACAO.getRegistro())
                         || acP.equals(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_CTR_SALVAR_CONFIGURACAO.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
 
                 }
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MEUS_ORCAMENTOS_MB_GESTAO.getRegistro())
@@ -156,13 +150,13 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
                         || acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro())
                         || acP.getAcaoDeGestaoEntidade().equals(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_MB_GESTAO.getRegistro())
                         || acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.MEUS_PROSPECTOS_MB_GERENCIAR.getRegistro())) {
-                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.PROSPECTO_MB_GERENCIAR.getRegistro())) {
                     if (!acP.equals(FabAcaoCRMAtendimento.PROSPECTO_FRM_EXCLUIR_EMPRESA.getRegistro())
                             && !acP.equals(FabAcaoCRMAtendimento.PROSPECTO_CTR_REMOVER.getRegistro())) {
-                        UtilSBControllerAcessosModel.adicionarPermissao(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), acP);
+                        UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                     }
                 }
             });
@@ -220,10 +214,10 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
                 return FabTipoAgenteOrganizacao.CONVIDADO;
             }
             if (pUsuario instanceof UsuarioCRM) {
-                if (pUsuario.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                     return FabTipoAgenteOrganizacao.ATENDIMENTO;
                 }
-                if (pUsuario.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro())) {
+                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro())) {
                     return FabTipoAgenteOrganizacao.ATENDIMENTO;
                 }
 
@@ -284,7 +278,7 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
 
     @Override
     public boolean isObjetoPermitidoUsuario(ComoUsuario pUsuario, ComoEntidadeSimplesSomenteLeitura pObjeto) {
-        if (pUsuario.getGrupo().equals(FabGruposIntranetCasaNova.GRUPOADMIN)) {
+        if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.GRUPOADMIN)) {
             return true;
         }
         if (pObjeto instanceof ArquivoCliente) {

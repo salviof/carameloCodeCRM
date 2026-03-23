@@ -5,8 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
-import br.org.carameloCode.erp.modulo.crm.api.model.escopopesqhorariopublicado.ValoresLogicosEscopoPesqHorarioPublicado;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesqHorarioPublicado;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @Documented
@@ -15,5 +14,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 @InfoReferenciaEntidade(tipoObjeto = EscopoPesqHorarioPublicado.class)
 public @interface ValorLogicoEscopoPesqHorarioPublicado {
 
-	ValoresLogicosEscopoPesqHorarioPublicado calculo();
+    ValoresLogicosEscopoPesqHorarioPublicado calculo();
 }

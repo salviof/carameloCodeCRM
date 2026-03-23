@@ -46,7 +46,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**

@@ -17,7 +17,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.Ti
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
@@ -121,7 +121,7 @@ public class PgMeusProspectos extends MB_PaginaConversation implements ItfPagina
                 }
 
                 if (getParametroInstanciado(parametroUsuarioSelecionado).isValorDoParametroFoiConfigurado()) {
-                    if (SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                    if (SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                         pesquisa.setUsuario(UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(parametroUsuarioSelecionado).getValor(), getEMPagina()));
 
                     } else {

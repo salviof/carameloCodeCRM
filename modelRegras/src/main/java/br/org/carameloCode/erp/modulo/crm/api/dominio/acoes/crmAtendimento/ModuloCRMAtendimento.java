@@ -56,7 +56,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensage
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.DocumentoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.transitorio.DadosPesquisaGooglePlace;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.util.UtilCRMDadoOrigemCaminhoRelativo;
@@ -123,9 +123,9 @@ import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.FabStatusPedidoAcesso;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.PedidoAcessoPessoa;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraRemotoVideo;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -1602,7 +1602,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
 
-                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.GRUPOADMIN)) {
+                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.GRUPOADMIN)) {
                     if (!SBCore.getUsuarioLogado().equals(pUsuario)) {
                         throw new ErroRegraDeNegocio("Você não tem permissão para realizar esta alteração.");
                     }
@@ -1969,7 +1969,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                 String telefone = (String) pMensagem.getContato().getCampoInstanciadoByNomeOuAnotacao(CPContatoProspecto.celularformatointernacional).getValor();
                 TipoMensagemMktWhatsApp tipoMensagem = loadEntidade(pMensagem.getTipo());
 
-                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.GRUPOADMIN)) {
+                if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.GRUPOADMIN)) {
                     if (tipoMensagem.isEnvioUnico()) {
                         ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(MensagemMktWhatsapp.class,
                                 getEm()).addCondicaoManyToOneIgualA(CPMensagemMktWhatsapp.contato, pMensagem.getContato())

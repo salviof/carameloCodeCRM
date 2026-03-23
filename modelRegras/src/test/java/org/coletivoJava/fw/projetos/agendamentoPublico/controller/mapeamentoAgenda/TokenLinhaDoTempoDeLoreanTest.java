@@ -5,7 +5,8 @@
  */
 package org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda;
 
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ErroAtingiuFinalLinhaDoTempoPermita;
 import org.junit.Test;
 

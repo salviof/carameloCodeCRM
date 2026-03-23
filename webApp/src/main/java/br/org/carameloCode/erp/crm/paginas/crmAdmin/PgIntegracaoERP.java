@@ -6,7 +6,6 @@
 package br.org.carameloCode.erp.crm.paginas.crmAdmin;
 
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.coletivoJava.fw.api.erp.erpintegracao.contextos.ERPIntegracaoSistemasApi;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -16,6 +15,7 @@ import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *

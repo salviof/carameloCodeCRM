@@ -9,9 +9,9 @@ import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_pagina
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.FabAcaoAgendaMentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.InfoAcaoAgendamentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.InfoAcaoAgendamentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 
 /**
  *

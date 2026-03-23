@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.crm.paginas.loginSocial;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
 import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSocialAutenticador;
 import com.super_bits.integracoes.modelController.socialAutenticador.FabTipoAutenticacaoSocial;
@@ -107,7 +107,7 @@ public class PgAutendicadorSocial extends MB_PaginaSession {
                             novoUsuarioConvidado.setEmail(profile.getEmail());
                             novoUsuarioConvidado.setNome(profile.getFullName());
                             novoUsuarioConvidado.setApelido(profile.getFirstName());
-                            novoUsuarioConvidado.setGrupo(FabGruposIntranetCasaNova.CRM_CONVIDADO.getRegistro());
+                            novoUsuarioConvidado.setGrupo(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro());
                             novoUsuarioConvidado = UtilSBPersistencia.mergeRegistro(novoUsuarioConvidado, getEMPagina());
                             SBCore.getServicoSessao().getSessaoAtual().setUsuario(novoUsuarioConvidado);
                             getPaginaUtil().irParaURL(usuario.getGrupo().getPaginaInicial().getRegistro());

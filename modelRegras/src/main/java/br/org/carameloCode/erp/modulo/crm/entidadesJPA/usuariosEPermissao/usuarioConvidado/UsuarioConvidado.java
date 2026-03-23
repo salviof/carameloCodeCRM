@@ -5,7 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -27,7 +27,7 @@ import javax.persistence.ManyToMany;
 public class UsuarioConvidado extends UsuarioCRM {
 
     public UsuarioConvidado() {
-        setGrupo(FabGruposIntranetCasaNova.CRM_CONVIDADO.getRegistro());
+        setGrupo(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro());
         setSenha(UtilCRCStringGerador.getStringRandomicaUUID());
     }
 

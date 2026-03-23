@@ -10,8 +10,8 @@ import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.metadadousuariocliente.ValorLogicoMetadadoUsuarioCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.metadadousuariocliente.ValoresLogicosMetadadoUsuarioCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 
 @ValorLogicoMetadadoUsuarioCliente(calculo = ValoresLogicosMetadadoUsuarioCliente.RESERVASATIVAS)
 public class ValorLogicoMetadadoUsuarioClienteReservasAtivas

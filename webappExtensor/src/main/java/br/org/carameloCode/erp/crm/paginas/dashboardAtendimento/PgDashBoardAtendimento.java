@@ -8,7 +8,7 @@ package br.org.carameloCode.erp.crm.paginas.dashboardAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.origemPrivada.OrigemProspectoPrivado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
@@ -61,7 +61,7 @@ public class PgDashBoardAtendimento extends MB_PaginaConversation {
     }
 
     public UsuarioCRM getUsuarioSelecionado() {
-        if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+        if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
             usuarioSelecionado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         } else {
             if (getParametroInstanciado(prUsuarioSelecionado).isValorDoParametroFoiConfigurado()) {

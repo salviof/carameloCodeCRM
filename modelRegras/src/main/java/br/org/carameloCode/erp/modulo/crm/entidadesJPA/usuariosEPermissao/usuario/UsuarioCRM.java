@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
@@ -20,7 +21,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAcessoCard;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.areaTrabalho.AreaTrabalho;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.EstatisticasDoUsuario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
@@ -33,7 +34,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoGrupoUsuario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.Where;
 
@@ -59,7 +60,7 @@ public class UsuarioCRM extends UsuarioSB {
     public void prepararNovoObjeto(Object... parametros) {
         try {
             super.prepararNovoObjeto();
-            setGrupo((ComoGrupoUsuario) UtilSBPersistencia.loadEntidade(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(), UtilSBPersistencia.getNovoEM()));
+            setGrupo((ComoGrupoUsuario) UtilSBPersistencia.loadEntidade(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), UtilSBPersistencia.getNovoEM()));
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro preparando objeto UsuarioCRM", t);
         }
@@ -291,10 +292,12 @@ public class UsuarioCRM extends UsuarioSB {
 
     public int getEmpresasNestaMeta(MetaRelacionamento pMeta) {
         if (calculosMeta.get(pMeta.getId()) == null) {
-            Long qtd = new ConsultaDinamicaDeEntidade(PessoaJuridica.class, SBCore.getCentralDados().getAcessoDadosDoContexto().getEntitiManager())
+            Long qtd = new ConsultaDinamicaDeEntidade(PessoaJuridica.class,
+                    SBCore.getServicoRepositorio().getAcessoDadosDoContexto().getEntitiManager())
                     .addCondicaoManyToOneIgualA(pMeta)
+                    .addCondicaoManyToOneContemNoIntervalo(CPPessoa.relacionamento, pMeta.getTiposRelacionamento())
                     .addCondicaoManyToManyContendoObjeto("usuariosResponsaveis", this)
-                    .resultadoSomarQuantidade();
+                    .gerarResultadoSomarQuantidade();
 
             calculosMeta.put(pMeta.getId(), qtd.intValue());
             return qtd.intValue();

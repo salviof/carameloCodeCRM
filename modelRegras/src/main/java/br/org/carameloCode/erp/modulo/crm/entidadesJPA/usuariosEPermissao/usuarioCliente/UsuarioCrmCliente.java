@@ -10,7 +10,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.FabSat
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.SatisfacaoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
@@ -29,7 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
@@ -96,7 +96,7 @@ public class UsuarioCrmCliente extends UsuarioCRM {
         setNome(contato.getNome());
         setApelido(contato.getEmail() + contato.getId());
         contatoClienteVinculado = contato;
-        setGrupo(FabGruposIntranetCasaNova.CRM_CLIENTE.getRegistro());
+        setGrupo(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro());
 
     }
 

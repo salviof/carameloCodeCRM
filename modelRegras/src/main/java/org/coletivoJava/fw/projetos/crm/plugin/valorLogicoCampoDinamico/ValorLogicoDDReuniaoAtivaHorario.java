@@ -12,8 +12,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.FabStatusReservaHorario;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 
 /**
  *

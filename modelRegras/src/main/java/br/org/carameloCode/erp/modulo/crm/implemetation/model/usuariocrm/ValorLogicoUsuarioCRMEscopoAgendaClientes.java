@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.ValorLogicoUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.ValoresLogicosUsuarioCRM;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 
 @ValorLogicoUsuarioCRM(calculo = ValoresLogicosUsuarioCRM.ESCOPOAGENDACLIENTES)
 public class ValorLogicoUsuarioCRMEscopoAgendaClientes

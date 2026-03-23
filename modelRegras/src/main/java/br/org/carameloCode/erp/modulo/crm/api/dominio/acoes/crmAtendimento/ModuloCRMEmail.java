@@ -28,7 +28,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.DocumentoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.util.UtilGeradorDocumentoCRM;
@@ -857,8 +857,8 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
                                 UsuarioCRM usuario = (UsuarioCRM) SBCore.getServicoPermissao().getUsuarioByEmail(email);
 
                                 UsuarioCrmCliente usuarioCliente = mensagem.getUsuarioCliente();
-                                if (usuario.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro())
-                                        || usuario.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                                if (usuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro())
+                                        || usuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                                     try {
                                         ChatMatrixOrgimpl chat = (ChatMatrixOrgimpl) ERPChat.MATRIX_ORG.getImplementacaoDoContexto();
                                         String url = SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.PROSPECTO_FRM_VER_ATIVIDADES, usuarioCliente.getRepresentanteLegal());

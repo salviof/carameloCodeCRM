@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.contatoprospecto;
 
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.util.UtilCRMValidacoesEspeciais;
@@ -15,6 +16,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.ValidadorCo
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.ValidadoresContatoProspecto;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import java.util.Objects;
 import javax.persistence.EntityManager;
 
@@ -55,7 +57,8 @@ public class ValidacaoContatoProspectoEmail extends ValidacaoGenerica<ContatoPro
                         if (Objects.equals(c.getProspecto(), getContatoProspecto().getProspecto())) {
                             throw new ErroValidacao(c.getProspecto().getNome() + " já tem um contato " + c.getNome() + " com email: " + pValor + " cadastrado");
                         } else {
-                            throw new ErroValidacao("Outra empresa: " + c.getProspecto().getNome() + ", código: " + c.getProspecto().getId() + " já tem um contato com o e-mail" + pValor + " cadastrado");
+                            String url = SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.PROSPECTO_FRM_OPCOES_DO_PROSPECTO, c.getProspecto());
+                            throw new ErroValidacao("Outra empresa: " + c.getProspecto().getNome() + ", código: " + c.getProspecto().getId() + " já tem um contato com o e-mail" + pValor + " cadastrado, Acesse: " + url);
                         }
 
                     }

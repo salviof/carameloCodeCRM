@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
@@ -40,7 +40,7 @@ public class PgMeusCompromissos extends MB_paginaCadastroEntidades<AtividadeCRM>
     public void inicio() {
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-            if (usuarioLogado.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+            if (usuarioLogado.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                 usuario = (UsuarioCRM) getParametroInstanciado(prUsuario).getValor();
             }
         }

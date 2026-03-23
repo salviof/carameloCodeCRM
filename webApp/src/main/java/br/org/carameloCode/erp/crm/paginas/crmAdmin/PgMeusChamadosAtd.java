@@ -11,7 +11,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.CPChamadoClie
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
@@ -110,7 +110,7 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
         }
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-            if (usuarioLogado.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+            if (usuarioLogado.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                 usuario = (UsuarioCRM) getParametroInstanciado(prUsuario).getValor();
             }
         } else {

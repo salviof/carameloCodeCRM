@@ -8,7 +8,6 @@ package br.org.carameloCode.erp.crm.paginas.crmAdmin;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -25,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.primefaces.event.FileUploadEvent;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *

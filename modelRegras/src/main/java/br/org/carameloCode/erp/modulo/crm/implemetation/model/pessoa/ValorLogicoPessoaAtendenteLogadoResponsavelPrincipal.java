@@ -1,7 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.pessoa;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
@@ -26,7 +26,7 @@ public class ValorLogicoPessoaAtendenteLogadoResponsavelPrincipal
     public Object getValor(Object... pEntidade) {
         boolean responsavelVIP = false;
         if (!valorDefinido) {
-            if (SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.GRUPOADMIN)) {
+            if (SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.GRUPOADMIN)) {
                 responsavelVIP = true;
             } else {
                 UsuarioCRM userVenda = (UsuarioCRM) getPessoa().getCPinst("usuarioResponsavel").getValor();

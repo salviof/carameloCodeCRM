@@ -27,7 +27,7 @@ public class GraficoPizzaDeMetasDoUsuario extends GraficoPizza {
     private GraficoPizza graficoPizza;
 
     public GraficoPizzaDeMetasDoUsuario(List<MetaRelacionamento> pMetas, UsuarioCRM pUsuario) {
-        super(buildDados(pMetas, pUsuario), "Meus Leads por Meta ", FabAcaoCRMAtendimento.MEUS_PROSPECTOS_FRM_LISTAR);
+        super(buildDados(pMetas, pUsuario), pUsuario == null ? "Meus Leads por Meta " : "Leads por meta de" + pUsuario.getNome(), FabAcaoCRMAtendimento.MEUS_PROSPECTOS_FRM_LISTAR);
         metas = pMetas;
         usuario = pUsuario;
     }

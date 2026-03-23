@@ -5,9 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesqHorarioPublicado;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
-import br.org.carameloCode.erp.modulo.crm.api.model.escopopesqhorariopublicado.ValidadoresEscopoPesqHorarioPublicado;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,5 +14,5 @@ import br.org.carameloCode.erp.modulo.crm.api.model.escopopesqhorariopublicado.V
 @InfoReferenciaEntidade(tipoObjeto = EscopoPesqHorarioPublicado.class)
 public @interface ValidadorEscopoPesqHorarioPublicado {
 
-	ValidadoresEscopoPesqHorarioPublicado validador();
+    ValidadoresEscopoPesqHorarioPublicado validador();
 }

@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.contatoprospecto;
 
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ValidacaoGenerica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
@@ -7,6 +8,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.ValidadorCo
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.ValidadoresContatoProspecto;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import java.util.ArrayList;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
@@ -35,10 +37,19 @@ public class ValidacaoContatoProspectoCelular
                 ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(ContatoProspecto.class, em);
                 consulta.addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, telefone);
                 contato = consulta.getPrimeiroRegistro();
-                if (getContatoProspecto().getId() != null) {
-                    if (!contato.getId().equals(getContatoProspecto().getId())) {
+                if (contato != null) {
+                    String url = "semURl";
+                    if (getContatoProspecto().getProspecto() != null) {
+                        url = SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.PROSPECTO_FRM_OPCOES_DO_PROSPECTO, contato.getProspecto());
+                    }
+                    if (getContatoProspecto().getId() != null) {
+                        if (!contato.getId().equals(getContatoProspecto().getId())) {
 
-                        throw new ErroValidacao("Este telefone já existe");
+                            throw new ErroValidacao("Este telefone já foi cadastrado para " + contato.getProspecto().getNome() + " -> Acesse: " + url);
+                        }
+                    } else {
+
+                        throw new ErroValidacao("Este telefone já foi cadastrado para " + contato.getProspecto().getNome() + " -> Acesse: " + url);
                     }
                 }
             } finally {

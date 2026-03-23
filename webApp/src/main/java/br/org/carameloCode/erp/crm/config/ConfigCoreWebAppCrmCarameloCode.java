@@ -25,7 +25,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.ConfiguradorCoreDeProjetoWebWarAbstrato;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
 import javax.servlet.ServletContext;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.FabAcaoAdminAgenda;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabAcaoAgendamentoPublicoCRMPlugin;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.FabAcaoOrcamento;
 
@@ -70,7 +71,8 @@ public class ConfigCoreWebAppCrmCarameloCode extends ConfiguradorCoreDeProjetoWe
             FabAcaoCRMCliente.class,
             FabAcaoCRMConvidado.class,
             FabAcaoNotificacaoPadraoSB.class,
-            FabAcaoCRMIA.class
+            FabAcaoCRMIA.class,
+            FabAcaoAdminAgenda.class
         });
         MapaObjetosProjetoAtual.adcionarObjeto(TipoCredencialSocial.class);
 

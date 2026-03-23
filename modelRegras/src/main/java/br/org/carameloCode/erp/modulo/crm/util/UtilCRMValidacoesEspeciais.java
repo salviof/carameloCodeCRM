@@ -4,11 +4,13 @@
  */
 package br.org.carameloCode.erp.modulo.crm.util;
 
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import java.util.List;
@@ -44,9 +46,9 @@ public class UtilCRMValidacoesEspeciais {
                     if (!usr.isUmUsuarioDoCliente()) {
                         throw new ErroValidacao("Existe um usuário de atendimento com este e-mail");
                     } else {
-
+                        String url = SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.PROSPECTO_FRM_OPCOES_DO_PROSPECTO, usr.getUsuarioComoUsrCliente().getRepresentanteLegal());
                         if (!usr.getComoUsuarioCliente().getRepresentanteLegal().getId().equals(pessoa.getId())) {
-                            throw new ErroValidacao("Já existe um usuário com este email em " + usr.getUsuarioComoUsrCliente().getRepresentanteLegal().getNome());
+                            throw new ErroValidacao("Já existe um usuário com este email em " + usr.getUsuarioComoUsrCliente().getRepresentanteLegal().getNome() + ", acesse: " + url);
                         }
 
                     }

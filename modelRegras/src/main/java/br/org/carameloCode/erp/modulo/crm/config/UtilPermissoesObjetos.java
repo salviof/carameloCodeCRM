@@ -7,7 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.config;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
@@ -46,7 +46,7 @@ public class UtilPermissoesObjetos {
 
         try {
             Pessoa pessoa = UtilSBPersistencia.loadEntidade(pArquivo.getProspecto(), em);
-            if (pUsuario.getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+            if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                 return true;
             }
             if (pArquivo instanceof ArquivoCliente) {

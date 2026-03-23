@@ -13,13 +13,13 @@
         <ui:param name="iconeConteudo" value="fa fa-archive" />
     </ui:define>
     <ui:define name="titulo">
-        Cadastro de novo Prospecto
+        Cadastro de novo Cartão de Cliente
     </ui:define>
     <ui:define name="subtitulo">
         <br/>
-        <span class="CardSubTopic">Os cadastros realizados aqui terão prioridade na realização de pré analizes</span>
+
         <br/>
-        <span class="CardSubTopic">Caso queira você pode ganhar tempo executando você mesmo  esta análise </span>
+
     </ui:define>
     <ui:define name="conteudoDireita">
 
@@ -36,23 +36,26 @@
                                      registro="#{pgProspecto.entidadeSelecionada}"
                                      />
             </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+                <div class="Fright">
+                    <div class="Container12" style="margin-bottom: 8px">
+                        <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoSalvarAlteracoes}"
+                                                      tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                      update="@form"
 
-            <div class="Fright">
-                <div class="Container12" style="margin-bottom: 8px">
-                    <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoSalvarAlteracoes}"
-                                                  tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                                  update="@form"
-                                                  label="Salvar e Criar Novo"
-                                                  />
-                </div>
-                <div class="Container12">
-                    <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoNovoProspectoListarOpcoes}"
-                                                  tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                                  update="@form"
-                                                  />
-                </div>
-            </div>
+                                                      label="Salvar e Criar Novo"
+                                                      javaScriptOncomplete="irParaTopo();"
+                                                      />
+                    </div>
+                    <div class="Container12">
+                        <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoNovoProspectoListarOpcoes}"
+                                                      tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                      update="@form"
 
+                                                      />
+                    </div>
+                </div>
+            </h:panelGroup>
         </h:form>
     </ui:define>
 </ui:composition>

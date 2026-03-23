@@ -10,11 +10,11 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import java.sql.Time;
 import java.util.List;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda.MapaHorariosDisponiveis;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.DisponibilidadeAtdmtPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.HorarioDisponivelAtendimentoPublico;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.DisponibilidadeAtdmtPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 import org.junit.Test;
 

@@ -2,7 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.pesquisalead;
 
 import com.google.common.collect.Lists;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
@@ -27,7 +27,7 @@ public class ValorLogicoPesquisaLeadUsuariosDisponiveis
     public Object getValor(Object... pEntidade) {
         boolean gerenteAdministrativo = false;
         if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
-            if (SBCore.getServicoSessao().getSessaoAtual().getUsuario().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+            if (SBCore.getServicoSessao().getSessaoAtual().getUsuario().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                 gerenteAdministrativo = true;
             }
         }

@@ -5,9 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
-import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.ValidadoresReservaHorario;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,5 +14,5 @@ import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.ValidadoresRe
 @InfoReferenciaEntidade(tipoObjeto = ReservaHorario.class)
 public @interface ValidadorReservaHorario {
 
-	ValidadoresReservaHorario validador();
+    ValidadoresReservaHorario validador();
 }

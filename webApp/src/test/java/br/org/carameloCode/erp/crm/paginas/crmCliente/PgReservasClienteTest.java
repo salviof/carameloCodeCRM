@@ -10,8 +10,8 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda.MapaHorariosDisponiveis;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
 import org.junit.Test;
 
 /**

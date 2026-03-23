@@ -6,7 +6,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.ValorLogicoUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.ValoresLogicosUsuarioCrmCliente;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 
 @ValorLogicoUsuarioCrmCliente(calculo = ValoresLogicosUsuarioCrmCliente.POSSUIRESERVAATIVA)
 public class ValorLogicoUsuarioCrmClientePossuiReservaAtiva

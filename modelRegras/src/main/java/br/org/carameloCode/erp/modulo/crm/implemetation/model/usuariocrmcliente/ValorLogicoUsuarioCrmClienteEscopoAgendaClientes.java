@@ -1,7 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.usuariocrmcliente;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
@@ -10,7 +9,7 @@ import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.ValorLogicoUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.ValoresLogicosUsuarioCrmCliente;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 
 @ValorLogicoUsuarioCrmCliente(calculo = ValoresLogicosUsuarioCrmCliente.ESCOPOAGENDACLIENTES)
 public class ValorLogicoUsuarioCrmClienteEscopoAgendaClientes

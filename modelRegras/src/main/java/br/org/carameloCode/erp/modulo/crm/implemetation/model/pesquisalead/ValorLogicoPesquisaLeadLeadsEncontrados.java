@@ -6,7 +6,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.FabTipoPesquisaLeads;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
@@ -45,7 +45,7 @@ public class ValorLogicoPesquisaLeadLeadsEncontrados
             String novoHash = gerarHash();
             if (ultimoHashCalculado == null || !novoHash.equals(ultimoHashCalculado)) {
 
-                boolean gerente = SBCore.getUsuarioLogado().getGrupo().equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro());
+                boolean gerente = SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro());
                 if (getPesquisa().getTipoPesquisa() == null) {
                     if (gerente) {
                         getPesquisa().setTipoPesquisa(FabTipoPesquisaLeads.LEADS_URGENTES.getRegistro());

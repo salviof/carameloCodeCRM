@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -14,5 +14,5 @@ import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHora
 @InfoReferenciaEntidade(tipoObjeto = ReservaHoraPresencial.class)
 public @interface ValorLogicoReservaHorarioEncontroPresencial {
 
-	ValoresLogicosReservaHorarioEncontroPresencial calculo();
+    ValoresLogicosReservaHorarioEncontroPresencial calculo();
 }

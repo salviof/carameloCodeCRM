@@ -12,7 +12,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsClienteDaCa
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCategoria;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estilo.EstiloVisualizacaoProspecto;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.integracao.IntegracaoManual;
@@ -34,7 +34,7 @@ import com.super_bits.modulosSB.webPaginas.ConfigGeral.FabConfigModuloWebAppGene
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.servlet.SessionCookieConfig;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda.MapaHorariosDisponiveis;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 
 /**
  *
@@ -70,7 +70,7 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
                 novoUsuario.setNome(FabConfigErpCRM.NOME_USUARIO_ADMIN.getValorParametroSistema());
                 novoUsuario.setEmail(FabConfigErpCRM.EMAIL_USUARIO_AMDIN.getValorParametroSistema());
                 novoUsuario.setSenha(UtilCRCStringGerador.getStringRandomicaTokenAleatorio(48));
-                novoUsuario.setGrupo(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro());
+                novoUsuario.setGrupo(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro());
                 UtilSBPersistencia.mergeRegistro(novoUsuario);
 
             }
@@ -80,7 +80,7 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
             System.out.println("############### FIM CONFIG WEBPAGINAS");
             System.out.println(SBWebPaginas.isAmbienteConfigurado());
             SBCore.adicionarFabricaObjetoEstatico(FabTipoAutenticacaoSocial.class);
-            SBCore.getServicoPermissao().persitirMergePermissoes();
+            SBCore.getServicoPermissao().atualizarInformacoesDePermissoesDoSistema();
             if (!SBWebPaginas.isAmbienteConfigurado()) {
                 throw new UnsupportedOperationException("Falha configurando webpagina");
             }

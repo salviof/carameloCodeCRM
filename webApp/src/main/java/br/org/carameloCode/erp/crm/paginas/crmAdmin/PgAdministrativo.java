@@ -12,7 +12,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelaci
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistenciaGraficos;
@@ -29,6 +28,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.model.charts.pie.PieChartModel;
 import com.super_bits.modulosSB.webPaginas.JSFBeans.PrimeFacesBeanModel.grafico.UtilGraficoPrimefaces;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *

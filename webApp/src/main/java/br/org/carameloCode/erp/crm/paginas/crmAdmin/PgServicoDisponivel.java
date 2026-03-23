@@ -10,7 +10,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.apresentacao.Doc
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.TipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
@@ -29,6 +28,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *

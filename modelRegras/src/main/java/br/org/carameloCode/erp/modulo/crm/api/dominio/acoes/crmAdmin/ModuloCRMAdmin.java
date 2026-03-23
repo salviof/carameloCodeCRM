@@ -34,7 +34,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensage
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoServico;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.util.UtilGeradorDocumentoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
@@ -831,7 +831,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             public void regraDeNegocio() throws ErroRegraDeNegocio {
 
                 GrupoUsuarioSB grupoATualizado = UtilSBPersistencia.loadEntidade(pQuadrosPermissaoGrupo.get(0).getGrupoUsuario(), getEm());
-                if (grupoATualizado.equals(FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro())) {
+                if (grupoATualizado.equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
                     addErro("As permissões do Grupo Admin, são imutáveis");
                     return;
                 }

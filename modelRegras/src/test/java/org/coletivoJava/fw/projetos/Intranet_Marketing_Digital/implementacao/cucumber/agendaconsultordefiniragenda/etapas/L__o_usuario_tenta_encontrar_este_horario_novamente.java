@@ -6,8 +6,8 @@ import java.util.List;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.cucumber.agendaconsultordefiniragenda.EtapasAgendaConsultorDefinirAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.model.escopopesquisamelhorhorario.CPEscopoPesquisaMelhorHorario;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.agendaconsultordefiniragenda.FluxoAgendaDoConsultor;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda.UtilSBAgendaHorariosDisponiveis;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.UtilSBAgendaHorariosDisponiveis;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
 
 public class L__o_usuario_tenta_encontrar_este_horario_novamente {
 

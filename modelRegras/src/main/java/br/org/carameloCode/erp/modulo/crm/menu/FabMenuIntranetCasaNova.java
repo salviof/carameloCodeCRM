@@ -86,22 +86,19 @@ public enum FabMenuIntranetCasaNova implements ComoFabricaMenu {
         switch (this) {
             case CRM_ADMIN:
                 MenuSBFW menu = new MenuSBFW();
-                menu.addSessao(FabMenuSessoesIntranetMarketing.CADASTROS.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.DOCUMENTOS.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.ATIVIDADES.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.VOIP_PABX.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.PERSONA_IA.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.DADOS_DINAMICOS.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.ADMINISTRATIVO.getRegistro());
-                menu.addSessao(FabMenuSessoesIntranetMarketing.EMAIL_ADMIN.getRegistro());
-                SessaoMenuSB sessaoIntegracoes = new SessaoMenuSB(FabAcaoCrmAdmin.INTEGRACOES_MB_GESTAO.getRegistro());
-                sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.INTEGRACOES_FRM_LISTAR_INTEGRACOES);
-                sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.INTEGRACAO_ERP_MB_GESTAO);
-                sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.MAUTIC_FRM_EXPORTAR);
-                sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO);
-                sessaoIntegracoes.addAcao(FabAcaoCrmAdmin.TIPO_FORMULARIO_TYPEBOT_MB_GESTAO);
-                menu.addSessao(sessaoIntegracoes);
-                menu.addSessao(FabMenuSessoesIntranetMarketing.SEGURANCA.getRegistro());
+
+                menu.addSessao(FabSessaoMenuExtendido.CONTATO_METADADOS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.META_DADOS_LOGICOS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.SERVICOS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.DOCUMENTOS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.ATIVIDADES_RELACIONAMENTO.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.PABX_TELEFONIA.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.RESERVAS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.CHAMADOS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.COLABORADORES.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.PERSONAS_IA.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.ADMINISTRATIVO_CONFIGURACOES_GERAIS.getRegistro());
+                menu.addSessao(FabSessaoMenuExtendido.INTEGRACOES.getRegistro());
 
                 return menu;
 

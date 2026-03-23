@@ -1,7 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao;
 
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
@@ -36,7 +35,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
@@ -100,6 +99,7 @@ import java.util.stream.Collectors;
 
 import static com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_AMERICANO;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.ComoFabricaIntegracaoRest;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *
@@ -118,8 +118,8 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(EmailRecebido.class), null) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                List<GrupoUsuarioSB> grupos = Lists.newArrayList(FabGruposIntranetCasaNova.CRM_ATENDIMENTO.getRegistro(),
-                        FabGruposIntranetCasaNova.CRM_ADMIN.getRegistro());
+                List<GrupoUsuarioSB> grupos = Lists.newArrayList(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(),
+                        FabGruposCRMCaramelo.CRM_ADMIN.getRegistro());
 
                 List<UsuarioCRM> usuarios = new ConsultaDinamicaDeEntidade(UsuarioCRM.class)
                         .addCondicaoManyToOneContemNoIntervalo(CPUsuarioSB.grupo, grupos)

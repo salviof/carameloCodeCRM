@@ -10,7 +10,7 @@ import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import cucumber.api.CucumberOptions;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.ConfigPersistCRMDemostracao;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.junit.runner.RunWith;
 import testesFW.cucumber.CucumberSBTestes;
 import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;

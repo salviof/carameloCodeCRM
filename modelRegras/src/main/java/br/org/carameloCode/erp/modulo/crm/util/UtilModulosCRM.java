@@ -15,7 +15,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAc
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaAcoes;
-import org.coletivoJava.fw.projetos.agendamentoPublico.controller.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabAcaoAgendamentoPublicoCRMPlugin;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.FabAcaoOrcamento;
 

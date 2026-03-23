@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -14,5 +14,5 @@ import org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHora
 @InfoReferenciaEntidade(tipoObjeto = ReservaHoraRemotoVideo.class)
 public @interface ValidadorReservaHorarioVideoConferencia {
 
-	ValidadoresReservaHorarioVideoConferencia validador();
+    ValidadoresReservaHorarioVideoConferencia validador();
 }

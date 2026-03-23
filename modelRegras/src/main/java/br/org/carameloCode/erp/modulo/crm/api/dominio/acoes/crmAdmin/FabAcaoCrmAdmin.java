@@ -249,6 +249,12 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     SERVICO_DIPONIVEL_CTR_REMOVER,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Gerenciar Usuarios", entidade = UsuarioCRM.class, precisaPermissao = true)
     CADASTRO_USUARIO_MB_GERENCIAR,
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Atendentes", entidade = UsuarioCRM.class, descricao = "Lista os usuários cadastrados no sistema",
+            campos = {"id", "nome", "email", "telefone", "ativo"}, valoresParametroEstatico = {"FabGruposCRMCaramelo.CRM_ATENDIMENTO"})
+    CADASTRO_USUARIO_FRM_LISTAR_ATENDENTE,
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Gestores", entidade = UsuarioCRM.class, descricao = "Lista os usuários cadastrados no sistema",
+            campos = {"id", "nome", "email", "telefone", "ativo"}, valoresParametroEstatico = {"FabGruposCRMCaramelo.CRM_ADMIN"})
+    CADASTRO_USUARIO_FRM_LISTAR_GESTORES,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar Usuarios", entidade = UsuarioCRM.class, descricao = "Lista os usuários cadastrados no sistema",
             campos = {"id", "nome", "email", "telefone", "ativo"})
     CADASTRO_USUARIO_FRM_LISTAR,
@@ -710,7 +716,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     CATEGORIA_DOCUMENTO_EQUIPE_FRM_VISUALIZAR,
     @InfoTipoAcaoController()
     CATEGORIA_DOCUMENTO_EQUIPE_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-comments-o", entidade = TipoChatBot.class)
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Formularios de Pesquisa", icone = "fa fa-comments-o", entidade = TipoChatBot.class)
     FORM_CHAT_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPTipoChatBot.id, CPTipoChatBot.nome, CPTipoChatBot.link})
     FORM_CHAT_FRM_LISTAR,
@@ -804,5 +810,6 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             fraseComunicação = "Deseja excluir a persona?",
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
-    PERSONA_IA_CTR_REMOVER,
+    PERSONA_IA_CTR_REMOVER;
+
 }

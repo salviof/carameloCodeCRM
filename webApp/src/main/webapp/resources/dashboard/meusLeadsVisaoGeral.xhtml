@@ -23,7 +23,7 @@
 
         <p:fieldset  style="margin: 32px;"   >
             <f:facet name="legend"  >
-                <i class="fa fa-address-card-o" style="margin-right: 8px"></i>Cartões Registrados
+                <i class="fa fa-address-card-o" style="margin-right: 8px"></i>Estatisticas cadastros de #{cc.attrs.dadosDeLead.usuario.nome}
             </f:facet>
             <h:form>
                 <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" layout="block" style="margin-top: 60px;">
@@ -32,7 +32,6 @@
 
                         <p:pieChart model="#{servicoGraficosLeads.getGraficoDeAtendimento(cc.attrs.dadosDeLead.usuario).grafico}" style="max-height: 350px;"  >
                             <p:ajax event="itemSelect" listener="#{servicoGraficosLeads.getGraficoDeAtendimento(cc.attrs.dadosDeLead.usuario).eventoitemSelect}" />
-
                         </p:pieChart>
 
 
