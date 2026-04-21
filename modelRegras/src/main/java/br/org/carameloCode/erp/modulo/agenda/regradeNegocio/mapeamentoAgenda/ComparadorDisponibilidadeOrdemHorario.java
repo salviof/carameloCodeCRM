@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda;
 
 import java.util.Comparator;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.DisponibilidadeAtdmtPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 
 /**
  *

@@ -1,0 +1,38 @@
+{
+  // ====================== JAVA 8 - Seu JDK exato ======================
+  "java.jdt.ls.java.home": "/usr/java/jdk1.8.0_202-amd64",
+
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "maven.terminal.useJavaHome": true,
+
+  // Define explicitamente o runtime Java 8 (evita conflitos)
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-1.8",
+      "path": "/usr/java/jdk1.8.0_202-amd64",
+      "default": true
+    }
+  ],
+
+  // ====================== JSF + PrimeFaces + Composite Components ======================
+  "files.associations": {
+    "*.xhtml": "xml",
+    "*.facelets": "xml"
+  },
+
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.multiCursorModifier": "ctrl",
+
+  // Ajuda na navegação de composite components
+  "faces-intellisense.languages": ["xml", "html", "xhtml"],
+
+  // ====================== XML (melhor formatação dos .xhtml) ======================
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.formatOnSave": true
+  },
+
+  // ====================== Boas práticas ======================
+  "redhat.telemetry.enabled": false,
+  "maven.view": "flat"
+}

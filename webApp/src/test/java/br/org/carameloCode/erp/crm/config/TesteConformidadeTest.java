@@ -7,7 +7,6 @@ package br.org.carameloCode.erp.crm.config;
 
 import br.org.caramelo.web.testesFW.webApp.testes.RelatorioTesteWebPaginas;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
-import br.org.coletivojava.erp.notificacao.padrao.controller.FabAcaoNotificacaoPadraoSB;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.SBWebPaginas;

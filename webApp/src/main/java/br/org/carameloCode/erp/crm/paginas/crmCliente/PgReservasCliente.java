@@ -22,8 +22,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.DisponibilidadeAtdmtPublico;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
@@ -59,8 +59,6 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     private AgendaDisponibilidade agendaDisponivel;
 
-    private EscopoPesquisaMelhorHorario escopoPesquisaRepComercial;
-    private EscopoPesquisaMelhorHorario escopoPesquisaGestaoSucesso;
     private UsuarioCrmCliente usuarioLogado;
     private UsuarioCRM usrRepComercial;
     private UsuarioCRM usrGestaoSucesso;
@@ -78,7 +76,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     }
 
     @Inject
-    private ServicoChatView servicoRC;
+    private ServicoChatView servicoMatrix;
 
     @InfoParametroURL(tipoEntidade = TipoAgendamentoAtdmPublico.class, nome = "Tipo de reserva", tipoParametro = TIPO_PARTE_URL.ENTIDADE, obrigatorio = false)
     private ParametroURL prTipoReserva;
@@ -213,7 +211,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 defineTipoDeReserva(agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().get(0));
 
             } else {
-                if (!agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
+                if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
                     tiposDisponiveis = new ArrayList<>();
                     ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(DisponibilidadeAtdmtPublico.class, getEMPagina());
                     consulta.addCondicaoManyToManyContendoObjeto("atendentesDisponiveis", usrAtendenteSelecionado);
@@ -281,20 +279,25 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         if (tipoAgendamento != null) {
 
             getEscopoPesquisa().setTipoAgendamento(tipoAgendamento);
-            try {
-                agendaDisponivel.loadgenda15Dias();
-            } catch (ErroAtingiuFinalLinhaDoTempoPermita ex) {
-                SBCore.enviarAvisoAoUsuario("Sem horários disponíveis");
-            }
-            if (getAgendaDisponivel() != null && getAgendaDisponivel().isTemAgenda()) {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS);
-            } else {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
-            }
-            //   escopoSelecionado.getCampoInstanciadoByNomeOuAnotacao(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
 
+            //   escopoSelecionado.getCampoInstanciadoByNomeOuAnotacao(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
         }
 
+    }
+
+    public void atualizarTelaSelecao() {
+
+        if (getAgendaDisponivel() != null && (getAgendaDisponivel().getEscopo().getAtendentes() == null || getAgendaDisponivel().getEscopo().getAtendentes().isEmpty())) {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
+        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().getEscopo().getTipoAgendamento() == null) {
+
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
+
+        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().isTemAgenda()) {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS);
+        } else {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
+        }
     }
 
     private HorarioDisponivelAtendimentoPublico horarioDisponivelSelecionado;
@@ -361,7 +364,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     public ComoChatSalaBean getCanalRocketChat() {
 
-        return servicoRC.getSalaAtendimento(usuarioLogado.getRepresentanteLegal());
+        return servicoMatrix.getSalaAtendimento(usuarioLogado.getRepresentanteLegal());
 
     }
 

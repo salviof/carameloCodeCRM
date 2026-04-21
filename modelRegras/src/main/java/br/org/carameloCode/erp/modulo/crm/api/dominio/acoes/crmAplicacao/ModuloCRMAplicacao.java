@@ -609,7 +609,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                             tipoFormulario = new TipoFormulario();
                             tipoFormulario.setCodigoTypebot(typebotId);
                             tipoFormulario.setIntegrarDados(UtilIntegracaoTypebot.isIntegrarDadosTrue(typebotInfo));
-                            tipoFormulario.setUrlPublica("https://iachat.casanovadigital.com.br/" + typebotInfo.getString("publicId"));
+                            tipoFormulario.setUrlPublica(FabConfigModuloTypebot.URL_TYPEBOT_CLIENTE.getValorParametroSistema() + "/" + typebotInfo.getString("publicId"));
                             UtilSBPersistencia.mergeRegistro(tipoFormulario, getEMResposta());
                         } else {
                             System.out.println("ignorando tipo de formulário não publicado");
@@ -618,8 +618,13 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                         ConsultaDinamicaDeEntidade conslta = new ConsultaDinamicaDeEntidade(TipoFormulario.class, getEMResposta());
                         conslta.addcondicaoCampoIgualA(CPTipoFormulario.codigotypebot, typebotId);
                         tipoFormulario = conslta.getPrimeiroRegistro();
+                        if (false) {
+                            // Atualizar url publica?
+                            JsonObject typebotInfo = FabApiRestTypebotBots.OBTER_TYPEBOT_BY_ID.getAcao(typebotId).getResposta().getRespostaComoObjetoJson().getJsonObject("typebot");
+                            tipoFormulario.setUrlPublica(FabConfigModuloTypebot.URL_TYPEBOT_CLIENTE.getValorParametroSistema() + "/" + typebotInfo.getString("publicId"));
+                            UtilSBPersistencia.mergeRegistro(tipoFormulario, getEMResposta());
+                        }
 
-                        // Atualizar url publica?
                     }
 
                 }

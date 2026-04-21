@@ -7,27 +7,36 @@
     xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
     template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}"
     xmlns:p="http://primefaces.org/ui"
-    >
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="divConteudo">
 
         <h:panelGroup id="divSBAreaAcaoSelecionada" styleClass="Container12" style="" layout="block" >
 
-            <h:panelGroup >
+            <h:panelGroup layout="block" styleClass="Container12" >
                 <p:fieldset legend="Usuário" style="margin: 32px;"  >
-                    <h:form>
-                        <p:panelGrid columns="2">
-                            <h:panelGroup layout="block" styleClass="Container12" style="position: relative; min-width: 40px; padding-bottom: 20px;" >
-                                <crm:avatar somenteLeitura="true" usuario="#{pgAdministrativo.pesquisaLead.usuario}" />
+                    <f:facet name="legend" >
+
+                        <h:form>
+
+
+                            <h:panelGroup layout="block" styleClass="Container3 Fleft" >
+
+                                <h:panelGroup layout="block" styleClass="Container2" style="position: relative; min-width: 40px; padding-bottom: 10px; margin-top: 5px;" >
+                                    <crm:avatar somenteLeitura="true" usuario="#{pgAdministrativo.pesquisaLead.usuario}" />
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" styleClass="Container7" style="" >
+                                    <SBInput:input registro="#{pgAdministrativo.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('usuario')}"
+                                                   layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                                   idAtualizarOnChange="divSBAreaAcaoSelecionada"
+                                                   />
+                                </h:panelGroup>
                             </h:panelGroup>
+                        </h:form>
+                    </f:facet>
 
-                            <SBInput:input registro="#{pgAdministrativo.pesquisaLead.getCampoInstanciadoByNomeOuAnotacao('usuario')}"
-                                           layout="#{layoutsComponenteSB.layoutCampo.resumido}"
-                                           idAtualizarOnChange="divSBAreaAcaoSelecionada"
-                                           />
-                        </p:panelGrid>
-                    </h:form>
-
+                    <div class="quebraBlocoComEspacoVertical10" />
 
                     <crmDashBoard:meusCompromissosAtendimento dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
 

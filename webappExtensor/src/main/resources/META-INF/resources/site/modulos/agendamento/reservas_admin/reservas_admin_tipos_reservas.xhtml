@@ -1,0 +1,29 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:CRMAgenda="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
+    <ui:define name="conteudo">
+        <h:form>
+
+            <p:fieldset legend="Escolha o tipo de reserva, para ver os horários" >
+
+                #{pgAgendaResrvaColaboradores.tiposDisponiveis}
+
+                <crmAgenda:escolhaTipoReserva
+                    tiposDisponiveis="#{pgAgendaResrvaColaboradores.tiposDisponiveis}"
+                    agenda="#{pgAgendaResrvaColaboradores.agendaDisponivel}"
+                    atendente="#{pgAgendaResrvaColaboradores.usuarioAtendimentoAgenda}"
+                    areaAtualizacao="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                    />
+
+            </p:fieldset>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

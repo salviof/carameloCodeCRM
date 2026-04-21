@@ -1,6 +1,7 @@
 package br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa;
 
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHoraCalendarioLocal;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ErroAtingiuFinalLinhaDoTempoPermita;
 
@@ -29,6 +32,9 @@ public class AgendaDisponibilidade {
     private boolean temAgenda;
     private final Map<LocalDate, List<HorarioDisponivelAtendimentoPublico>> mapaHorariosDisponiveis = new HashMap<>();
     private List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis;
+    private boolean tipoAtendimentoDefinido;
+    private boolean atendenteDefinido;
+    private boolean pessoaDefinida;
 
     public void loadgenda15Dias() throws ErroAtingiuFinalLinhaDoTempoPermita {
 
@@ -159,4 +165,65 @@ public class AgendaDisponibilidade {
         return horariosDisponiveis;
     }
 
+    public void executarPesquisaNovoTipoAgendamento(TipoAgendamentoAtdmPublico pPTipo) {
+        try {
+            getEscopo().setTipoAgendamento(pPTipo);
+            loadgenda15Dias();
+
+        } catch (ErroAtingiuFinalLinhaDoTempoPermita ex) {
+            SBCore.enviarAvisoAoUsuario("Sem horários disponíveis");
+        }
+    }
+
+    public void executarPesquisaNovoAtendente(UsuarioCRM pUsuario) {
+
+    }
+
+    public Date getDataultimaAtualizacaoAgenda() {
+        return dataultimaAtualizacaoAgenda;
+    }
+
+    public void setDataultimaAtualizacaoAgenda(Date dataultimaAtualizacaoAgenda) {
+        this.dataultimaAtualizacaoAgenda = dataultimaAtualizacaoAgenda;
+    }
+
+    public boolean isTipoAtendimentoDefinido() {
+        return tipoAtendimentoDefinido;
+    }
+
+    public void setTipoAtendimentoDefinido(boolean tipoAtendimentoDefinido) {
+        this.tipoAtendimentoDefinido = tipoAtendimentoDefinido;
+    }
+
+    public boolean isAtendenteDefinido() {
+        return atendenteDefinido;
+    }
+
+    public void setAtendenteDefinido(boolean atendenteDefinido) {
+        this.atendenteDefinido = atendenteDefinido;
+    }
+
+    public boolean isPessoaDefinida() {
+        return pessoaDefinida;
+    }
+
+    public void setPessoaDefinida(boolean pessoaDefinida) {
+        this.pessoaDefinida = pessoaDefinida;
+    }
+
+    public void limparPesquisa() {
+
+    }
+
+    public void limparTipoEvento() {
+
+    }
+
+    public void limparAtendentes() {
+
+    }
+
+    public void limparPessoa() {
+
+    }
 }

@@ -12,11 +12,11 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo">
 
+        <h:form>
+            <p:remoteCommand name="ajusteTelainicial" update="atualizarAba" />
+        </h:form>
 
-        <p:remoteCommand name="ajusteTelainicial" update="atualizarAba" />
 
-
-        <h:outputStylesheet name="prospecto.css" library="css"/>
         <p:tabView id="dadosDaEmpresa"
                    cache="false"
                    widgetVar="abasLead"
@@ -25,6 +25,8 @@
 
             <p:ajax event="tabChange"
                     listener="#{pgProspecto.onTabChange}"
+                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosDaEmpresa')}')"
+                    oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosDaEmpresa')}')"
                     update="atualizarAba"/>
             <p:tab title="Dados da empresa" >
                 <script>
@@ -35,157 +37,8 @@
                 <h:panelGroup styleClass="container-cards-cliente">
                     <p:card styleClass="card-cliente" >
 
-                        <h:panelGroup styleClass="card-cliente-title-content">
-                            <div class="texto-titulo">
-                                <h3>#{pgProspecto.prospecto.nome}</h3>
-                            </div>
-                            <div class="container-imagem-edicao">
-                                <p:graphicImage styleClass="img-prospecto"
-                                                url="#{pgProspecto.prospecto.imgPequena}"/>
-                                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEncontrarLogomarca,pgProspecto.entidadeSelecionada)}"
-                                        styleClass="botao-editar-imagem-link"
-                                        title="Alterar imagem">
-                                    <i class="pi pi-pencil" style="font-size: 1rem;"></i>
-                                </p:link>
-                            </div>
-                        </h:panelGroup>
-                        <div class="card-conteudo">
-                            <h:panelGroup styleClass="card-cliente-infos">
-                                <h:panelGroup styleClass="text-informacao"
-                                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
-                                    Site:
+                        <crmPessoa:resumoPessoa pessoa="#{pgProspecto.prospecto}" />
 
-                                    <p:link
-                                        href="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"
-                                        target="_blank"
-                                        rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}">
-                                        #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}
-                                    </p:link>
-
-                                    <h:outputText
-                                        value="N/A"
-                                        rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"/>
-                                </h:panelGroup>
-                                <h:panelGroup styleClass="text-informacao"
-                                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
-                                    Email:
-
-                                    <p:link
-                                        href="mailto:#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"
-                                        target="_blank"
-                                        rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}">
-                                        #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}
-                                    </p:link>
-
-                                    <h:outputText
-                                        value="N/A"
-                                        rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"/>
-                                </h:panelGroup>
-                                <h:outputText
-                                    value="CNPJ: #{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj
-                                                   ? 'N/A'
-                                                   : pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj}"
-                                    styleClass="text-informacao"
-                                    rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}"/>
-
-                                <h:outputText
-                                    value="CPF: #{empty pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf
-                                                  ? 'N/A'
-                                                  : pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf}"
-                                    styleClass="text-informacao"
-                                    rendered="#{pgProspecto.entidadeSelecionada.umaPessoaFisica}"/>
-                                <h:panelGroup>
-                                    <h:form>
-                                        <h:panelGroup style="display:flex; align-items: center">
-                                            <h:outputText value="Prospecto privado:" style="padding-right: 4px"
-                                                          styleClass="text-informacao"/>
-                                            <p:toggleSwitch
-                                                value="#{pgProspecto.entidadeSelecionada.umPerfilPrivado}"
-                                                onchange="alterStatusPrivado();"
-                                                />
-                                        </h:panelGroup>
-
-                                    </h:form>
-                                </h:panelGroup>
-                                <h:form>
-                                    <p:remoteCommand
-                                        action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
-                                        name="alterStatusPrivado"
-                                        update="#{pgUtil.gerarCaminhoCompletoID('reponsaveis')}"
-                                        >
-                                        <f:setPropertyActionListener
-                                            target="#{pgProspecto.acaoSelecionada}"
-                                            value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAlterarStatusPrivado}"/>
-                                    </p:remoteCommand>
-                                </h:form>
-                                <h:form id="formObservacao" style="margin-top: 32px">
-                                    <p:panel header="Observação" styleClass="panel-observacao">
-
-                                        <f:facet name="header">
-                                            <div class="header-observacao">
-                                                <i class="pi pi-info-circle" style="margin-right:6px"></i>
-                                                Observação
-                                            </div>
-                                        </f:facet>
-
-                                        <h:panelGroup
-                                            rendered="#{not empty pgProspecto.entidadeSelecionada.observacao}">
-                                            <h:outputText value="#{pgProspecto.entidadeSelecionada.observacao}"
-                                                          styleClass="texto-observacao"
-                                                          escape="false"/>
-                                        </h:panelGroup>
-
-                                        <h:panelGroup rendered="#{empty pgProspecto.entidadeSelecionada.observacao}">
-                                            <i class="texto-vazio">Nenhuma observação cadastrada.</i>
-                                        </h:panelGroup>
-
-                                        <div class="area-botao">
-                                            <p:commandButton value="Editar Observação"
-                                                             icon="pi pi-pencil"
-                                                             styleClass="btn-editar"
-                                                             onclick="PF('dlgObs').show();
-                                                                     return false;"/>
-                                        </div>
-
-                                    </p:panel>
-                                    <p:dialog header="Editar Observação"
-                                              widgetVar="dlgObs"
-                                              modal="true"
-                                              width="600"
-                                              responsive="true"
-                                              closable="true">
-
-                                        <h:panelGroup id="obsPanel">
-
-                                            <!-- CAMPO PERSONALIZADO (textarea) -->
-                                            <SBInput:input
-                                                registro="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
-                                                layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
-                                                />
-
-                                            <!-- BOTÕES -->
-                                            <p:separator/>
-
-                                            <p:commandButton value="Salvar"
-                                                             icon="pi pi-check"
-                                                             actionListener="#{pgProspecto.atualizarObservacao()}"
-                                                             update="formObservacao"
-                                                             oncomplete="PF('dlgObs').hide(); atualizarAreaByID('dadosDaEmpresa');"
-                                                             styleClass="p-button-success"/>
-
-                                            <p:commandButton value="Cancelar"
-                                                             icon="pi pi-times"
-                                                             onclick="PF('dlgObs').hide();
-                                                                     return false;"
-                                                             styleClass="p-button-secondary"
-                                                             style="margin-left:8px"/>
-                                        </h:panelGroup>
-
-                                    </p:dialog>
-                                </h:form>
-
-                            </h:panelGroup>
-                        </div>
                         <div class="card-lado-direito">
                             <crmPessoa:tagsVisaoGrande pessoa="#{pgProspecto.prospecto}"/>
                             <h:panelGroup

@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Maven: Clean",
+      "type": "shell",
+      "command": "mvn clean",
+      "group": "build",
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "Maven: Package",
+      "type": "shell",
+      "command": "mvn package",
+      "group": "build",
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "Maven: Jetty Run",
+      "type": "shell",
+      "command": "mvn jetty:run",
+      "group": "build",
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "Maven: Build and Run",
+      "type": "shell",
+      "command": "mvn clean package jetty:run",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$maven"]
+    }
+  ]
+}

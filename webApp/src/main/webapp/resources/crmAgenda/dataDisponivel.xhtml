@@ -12,7 +12,7 @@
     <cc:interface>
         <cc:attribute name="areaAtualizacao" required="true"/>
         <cc:attribute name="agendaDiponibilidade"
-                      type="org.coletivoJava.fw.projetos.agendamentoPublico.model.escopoPesquisa.AgendaDisponibilidade"
+                      type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade"
                       required="true"/>
         <cc:attribute name="vagasDisponiveis" default="false"/>
     </cc:interface>
@@ -100,7 +100,7 @@
                             oncomplete="toggleCalendarLoading(false); PF('seletorDia').hide();"
                             global="true"
                             event="dateSelect"
-                            update=":painelHorariosDisponives @form">
+                            update="#{cc.attrs.areaAtualizacao}">
                         </p:ajax>
                     </p:datePicker>
                 </h:form>

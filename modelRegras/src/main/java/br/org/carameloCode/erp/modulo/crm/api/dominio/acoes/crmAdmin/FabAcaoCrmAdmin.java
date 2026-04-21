@@ -738,9 +738,9 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_FORMULARIO_TYPEBOT_FRM_EDITAR,
     @InfoTipoAcaoGestaoEntidade(entidade = RespostaFormulario.class)
     RESPOSTAS_FORMULARIO_TYPEBOT_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Respostas formulario", campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
+    @InfoTipoAcaoFormulario(nomeAcao = "Respostas do formulario", campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
     RESPOSTAS_FORMULARIO_TYPEBOT_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(nomeAcao = "Respostas formulario", entidade = RespostaFormulario.class, campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
+    @InfoTipoAcaoFormulario(nomeAcao = "Ver Reposta", entidade = RespostaFormulario.class, campos = {CPRespostaFormulario.codigoresposta, CPRespostaFormulario.datahora, CPRespostaFormulario.pessoa, CPRespostaFormulario.jsonresposta})
     RESPOSTAS_FORMULARIO_TYPEBOT_FRM_VISUALIZAR,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-phone", nomeAcao = "Chamadas Realizadas Pabx", entidade = TipoAtvChamadaRealizada.class)
     TIPO_ATIVIDADE_CHAMADA_REALIZADA_MB_GESTAO,

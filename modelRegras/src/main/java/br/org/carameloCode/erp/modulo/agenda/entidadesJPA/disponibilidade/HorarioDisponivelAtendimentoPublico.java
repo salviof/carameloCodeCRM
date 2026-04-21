@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.carameloCode.erp.modulo.agenda.entidadesJPA;
+package br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;

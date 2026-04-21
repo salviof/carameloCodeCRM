@@ -79,7 +79,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.caixapostal.CPCaixaPostal;
-import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.util.UtilSBEditorArquivosConversor;
 

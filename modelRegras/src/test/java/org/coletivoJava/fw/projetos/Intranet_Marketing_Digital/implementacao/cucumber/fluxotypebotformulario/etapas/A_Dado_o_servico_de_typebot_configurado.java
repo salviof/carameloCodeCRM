@@ -9,7 +9,7 @@ public class A_Dado_o_servico_de_typebot_configurado {
 
     @Dado(EtapasFluxoTypebotFormulario.DADO_O_SERVICO_DE_TYPEBOT_CONFIGURADO)
     public void implementacaoEtapa() {
-        String url = FabConfigModuloTypebot.URL_SERVIDOR.getValorParametroSistema();
+        String url = FabConfigModuloTypebot.URL_TYPEBOT_ADMIN.getValorParametroSistema();
         System.out.println(url);
     }
 }

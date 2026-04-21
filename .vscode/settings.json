@@ -1,0 +1,42 @@
+{
+  // ====================== JAVA 8 (Importante!) ======================
+  "java.jdt.ls.java.home": "/usr/lib/jvm/java-1.8.0-openjdk",
+
+  // Alternativas caso a linha acima não funcione (teste uma por vez):
+  // "java.jdt.ls.java.home": "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0",
+  // "java.jdt.ls.java.home": "/usr/lib/jvm/java-8-openjdk",
+
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "maven.terminal.useJavaHome": true,
+
+  // ====================== JSF / PrimeFaces / Composite Components ======================
+  "files.associations": {
+    "*.xhtml": "xml",
+    "*.facelets": "xml"
+  },
+
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.multiCursorModifier": "ctrl",
+
+  // Ajuda na navegação de composite components
+  "faces-intellisense.languages": ["xml", "html", "xhtml"],
+
+  // ====================== XML / Formatação ======================
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.formatOnSave": true
+  },
+
+  // ====================== Boas práticas ======================
+  "redhat.telemetry.enabled": false,
+  "maven.view": "flat",
+
+  // Evita que o VS Code fique tentando usar Java mais novo
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-1.8",
+      "path": "/usr/lib/jvm/java-1.8.0-openjdk",
+      "default": true
+    }
+  ]
+}

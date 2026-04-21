@@ -7,10 +7,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.reservahorapresencial.Valore
 
 @ValorLogicoReservaHoraPresencial(calculo = ValoresLogicosReservaHoraPresencial.VALORRESERVA)
 public class ValorLogicoReservaHoraPresencialValorReserva
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	ValorLogicoReservaHoraPresencialValorReserva(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoReservaHoraPresencialValorReserva(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 }

@@ -2,6 +2,7 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:sb="http://superbitsframework/ui"
     xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
     xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
     template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
@@ -12,6 +13,25 @@
             tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
             somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
             />
+        #{pgRespostaFormTypebot.entidadeSelecionada.pessoa.nome}
+
+
+        #{pgRespostaFormTypebot.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}
+        <sb:inputSB
+
+            atualizarGrupoOnChange="false"
+
+            atualizarFormOnChange="false"
+            desabilitarEdicao="true"
+
+            label="teste"
+            obrigatorio="#{false}"
+            possuiIDOnChange="false"
+            possuiMetodoOnChange="false"
+            registro="#{pgRespostaFormTypebot.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"
+            layoutCampo="#{layoutsComponenteSB.layoutCampo.superior}"
+            />
+
     </ui:define>
     <ui:define name="botoesDeAcao">
 

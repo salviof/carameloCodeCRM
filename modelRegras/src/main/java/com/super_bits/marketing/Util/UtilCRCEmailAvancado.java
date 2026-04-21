@@ -31,6 +31,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
+import com.amazonaws.services.simpleemail.model.AmazonSimpleEmailServiceException;
 import com.amazonaws.services.simpleemail.model.RawMessage;
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendRawEmailResult;
@@ -238,7 +239,14 @@ public class UtilCRCEmailAvancado {
 
         } catch (MessagingException | IOException ex) {
             Logger.getLogger(UtilCRCEmail.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+
+            throw new ErroEnvioEmail("Erro enviando e-mail " + ex.getMessage());
+
+        } catch (AmazonSimpleEmailServiceException ase) {
+
+            throw new ErroEnvioEmail("Falha no serviço AWS " + ase.getMessage());
+        } catch (Throwable t) {
+            throw new ErroEnvioEmail("Erro enviando e-mail " + t.getClass().getSimpleName() + "-" + t.getMessage());
         }
     }
 
@@ -405,6 +413,8 @@ public class UtilCRCEmailAvancado {
 
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro enviando email" + t.getMessage(), t);
             return null;
+        } catch (ErroEnvioEmail erroEnvio) {
+            throw erroEnvio;
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro enviando email" + t.getMessage(), t);
             return null;

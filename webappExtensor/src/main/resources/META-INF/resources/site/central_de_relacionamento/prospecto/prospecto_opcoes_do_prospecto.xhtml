@@ -12,9 +12,9 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo">
 
-
-        <p:remoteCommand name="ajusteTelainicial" update="atualizarAba" />
-
+        <h:form>
+            <p:remoteCommand name="ajusteTelainicial" update="atualizarAba" />
+        </h:form>
 
         <h:outputStylesheet name="prospecto.css" library="css"/>
         <p:tabView id="dadosDaEmpresa"

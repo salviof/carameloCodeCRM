@@ -1,0 +1,115 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+
+
+    <cc:interface>
+        <cc:attribute name="tiposDisponiveis" type="java.util.List" required="true"/>
+
+        <cc:attribute name="agenda" type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade" required="true" />
+        <cc:attribute name="atendente" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM" rendered="false"  default="#{cc.attrs.agenda.escopo.atendentes[0]}"/>
+        <cc:attribute name="metodo"  method-signature="void listener()"  required="true"/>
+
+        <cc:attribute name="areaAtualizacao" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="agenda.css" library="css"/>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" style="">
+            <ui:repeat value="#{cc.attrs.tiposDisponiveis}"
+                       var="tipoDisponivel"
+                       >
+                <h:panelGroup layout="block" styleClass="Container4 "   >
+                    <p:fieldset legend="" styleClass="Container12 FieldSetLead" style="height: 400px; margin: 10px;" >
+                        <f:facet name="legend" >
+
+                            <h:panelGroup styleClass="FontAdamantiumBold BoldGray Fs24" style="line-height: 30px;" layout="block">
+                                #{tipoDisponivel.nome}
+                            </h:panelGroup>
+
+                        </f:facet>
+                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="height:300px; position: relative;" >
+                            <h:panelGroup layout="block" styleClass="Container8 FontAdamantiumLight Fs24"    >
+
+                                #{tipoDisponivel.descricao}
+
+                                <h:panelGroup styleClass="FontAdamantiumBold Fs24 Container12" style="height: 100px;position: absolute;bottom: 3px; left: 3px;" layout="block">
+                                    <h:panelGroup styleClass="Container3 Fright" style="margin-right: 60px; margin-top: 10px;" layout="block">
+                                        <SBCRM:avatar somenteLeitura="true" usuario="#{cc.attrs.atendente}" altura="90"  />
+                                    </h:panelGroup>
+
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="Container3 OrganizadorContainerDireita  " style="position: relative; margin-right: 30px;" >
+                                <h:panelGroup layout="block" styleClass="Container3" style="width: 100px;position: absolute;left: 103px; bottom: 3px;" >
+
+                                    <h:panelGroup
+                                        styleClass="#{tipoDisponivel.nomeCurto} #{tipoDisponivel.umAtendimentoRemoto?'fa fa-video-camera':'fa fa-handshake-o'} Fs30"  style="margin-left: 5px; color: darkgreen" id="tipoEncontro" >
+                                        <p:tooltip   for="@parent"  >
+                                            #{tipoDisponivel.umAtendimentoRemoto?'VÍDEO CONFERÊNCIA':'PRESENCIAL'}
+                                        </p:tooltip>
+                                        <span class="fa fa-question-circle Fs14 Fright" style="margin-left:  4px;"/>
+                                    </h:panelGroup>
+                                    <span class=" Fs30 fa fa-clock-o"  style="margin-top: 15px; margin-left: 5px; margin-right: 2px; color: darkgreen" > #{tipoDisponivel.minutosProgramadosAtendimento}m </span>
+
+
+                                </h:panelGroup>
+
+                                <p:commandLink
+                                    update="#{cc.attrs.areaAtualizacao}"
+                                    process="@this"
+                                    actionListener="#{cc.attrs.agenda.executarPesquisaNovoTipoAgendamento(tipoDisponivel)}"
+                                    action="#{cc.attrs.metodo}"
+                                    >
+                                    <h:panelGroup layout="block" styleClass="btnSeletor-big containerBtnSeletor OrganizadorContainer" >
+
+                                        <h:panelGroup  layout="block" styleClass="OrganizadorContainer" style="height: inherit;">
+                                            <h:panelGroup style="height: 50px;align-self: center;" layout="span">
+                                                <font color="#{cc.attrs.cor}" >
+                                                    <div class="Container12" style=" color:#{cc.attrs.cor}!important;">
+                                                        <i  class="fa fa-ticket fa fa-2x iconeBotaoQuadrado" style=" color: #{cc.attrs.cor}"  > </i><br/>
+                                                    </div>
+                                                </font>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup styleClass="btnSeletor-label "
+                                                          style="color: #000000; "
+
+                                                          layout="block" >
+                                                <div style="display: table-cell; vertical-align: middle; height: 100px; width: 150px; ">
+                                                    <h3 class="FontAdamantiumRegular Fs14 TexAlCenter " style=""> Escolher o Melhor Horário </h3>
+                                                </div>
+
+
+                                            </h:panelGroup>
+
+                                        </h:panelGroup>
+
+                                    </h:panelGroup>
+                                    <f:setPropertyActionListener target="#{cc.attrs.agenda.escopo.tipoAgendamento}" value="#{tipoDisponivel}" />
+                                </p:commandLink>
+
+
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </h:panelGroup>
+
+            </ui:repeat>
+
+        </h:panelGroup>
+
+
+    </cc:implementation>
+</ui:composition>

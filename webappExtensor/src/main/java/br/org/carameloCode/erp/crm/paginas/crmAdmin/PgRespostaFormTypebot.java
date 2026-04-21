@@ -33,12 +33,16 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRM
 @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.RESPOSTAS_FORMULARIO_TYPEBOT_MB_GESTAO)
 public class PgRespostaFormTypebot extends MB_paginaCadastroEntidades<RespostaFormulario> {
 
-    @InfoParametroURL(nome = "Formulário", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = TipoFormulario.class, obrigatorio = true)
+    @InfoParametroURL(nome = "Formulário", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = TipoFormulario.class, obrigatorio = false)
     private ParametroURL prFormulario;
+
+    @InfoParametroURL(nome = "Resposa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = RespostaFormulario.class, obrigatorio = false, representaEntidadePrincipalMB = true)
+    private ParametroURL prResposta;
+
     private TipoFormulario tipoFormulario;
 
     @PostConstruct
-    private void inicio() {
+    public void inicio() {
         if (getParametroInstanciado(prFormulario).isValorDoParametroFoiConfigurado()) {
             tipoFormulario = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prFormulario).getValor(), getEMPagina());
         }

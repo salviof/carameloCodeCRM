@@ -45,7 +45,7 @@ public class EditorDeTema extends EntidadeSimples {
                 + "/primefaces-" + pNomeTema + "/less/variables/theme-variables.less";
         try {
             propriedades = new Properties();
-            propriedades.load(UTilSBCoreInputs.getStreamByLocalFile(arquivoConfig));
+//            propriedades.load(UTilSBCoreInputs.getStreamByLocalFile(arquivoConfig));
 
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro lendo variaveis", t);

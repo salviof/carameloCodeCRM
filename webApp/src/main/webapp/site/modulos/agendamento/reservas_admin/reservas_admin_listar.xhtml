@@ -1,8 +1,20 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM_AGENDA="http://xmlns.jcp.org/jsf/composite/crmAgenda"
     template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}" >
+
     <ui:define name="conteudo" >
-        <ui:include src="/site/modelo/listagemGenerica.xhtml" />
+        #{pgAgendaResrvaColaboradores.agendaDisponivel.horariosDisponiveis}
+
+        <SBCRM_AGENDA:dataDisponivel agendaDiponibilidade="#{pgAgendaResrvaColaboradores.agendaDisponivel}"
+                                     areaAtualizacao="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                                     />
+        <SBCRM_AGENDA:horariosDisponiveis
+            horariosDisponiveis="#{pgAgendaResrvaColaboradores.agendaDisponivel.horariosDisponiveis}"
+
+
+            />
+
     </ui:define>
 </ui:composition>

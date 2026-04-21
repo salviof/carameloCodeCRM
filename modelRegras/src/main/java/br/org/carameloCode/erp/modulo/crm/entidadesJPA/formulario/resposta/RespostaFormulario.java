@@ -9,6 +9,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -52,6 +53,7 @@ public class RespostaFormulario extends EntidadeSimplesORM {
     private UsuarioCRM usuarioResponsavelAtendimento;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @InfoCampoValorLogico(nomeCalculo = "DataHoras")
     private Date dataHora;
 
     @ManyToOne(targetEntity = TipoFormulario.class, optional = false)
