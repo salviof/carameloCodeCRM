@@ -1,17 +1,17 @@
 <ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:cc="http://java.sun.com/jsf/composite"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
-        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="reserva" type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario"
+        <cc:attribute name="reserva" type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario"
                       required="true"/>
 
         <cc:attribute name="acaoListarOutrosHorarios"
@@ -41,7 +41,7 @@
                 <p:commandLink action="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
                                style="text-decoration: none; display: block;"
                                rendered="#{cc.attrs.reserva.id == null}"
-                >
+                               >
 
                     <f:setPropertyActionListener target="#{paginaAtual.infoPagina.acaoSelecionada}"
                                                  value="#{cc.attrs.acaoListarOutrosHorarios}"/>
@@ -108,7 +108,7 @@
                                        acao="#{cc.attrs.acaoSalvarReserva}"
                                        label="Confirmar para: #{pgUtilDataHoraFormato.getDataHoraRelativa(cc.attrs.reserva.inicioReservaAtendente)}"
 
-                    />
+                                       />
                 </h:panelGroup>
             </h:form>
         </h:panelGroup>

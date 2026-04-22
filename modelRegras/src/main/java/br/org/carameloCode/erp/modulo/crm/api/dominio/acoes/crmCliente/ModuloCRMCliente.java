@@ -502,56 +502,63 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
 
     @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.DASHBOARD_CTR_MUITO_SATISFEITO)
     public static ItfRespostaAcaoDoSistema satisfacaoDeclararMuitoSatisfeito(UsuarioCrmCliente pUsuario) {
-        final SatisfacaoCliente satisfacao = pUsuario.getSatisfacao();
-        final Pessoa pessoa = pUsuario.getRepresentanteLegal();
-        pessoa.getUsuariosResponsaveis().size();
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(UsuarioCrmCliente.class), pUsuario) {
-            @Override
-            public void executarAcoesFinais() throws ErroEmBancoDeDados {
-                super.executarAcoesFinais();
-                if (isSucesso()) {
-                    List<UsuarioCRM> usuariosNTF = new ArrayList<>();
-                    if (pessoa.getUsuarioAtendimento() != null) {
-                        usuariosNTF.add(pessoa.getUsuarioAtendimento());
-                    }
-                    if (pessoa.getUsuarioResponsavel() != null) {
-                        if (!usuariosNTF.contains(pessoa.getUsuarioResponsavel())) {
-                            usuariosNTF.add(pessoa.getUsuarioResponsavel());
-                        }
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        UsuarioCrmCliente usuario = UtilSBPersistencia.loadEntidade(pUsuario, em);
 
-                    }
-                    for (UsuarioCRM usr : pessoa.getUsuariosResponsaveis()) {
-                        if (!usuariosNTF.contains(usr)) {
-                            usuariosNTF.add(usr);
+        try {
+            final SatisfacaoCliente satisfacao = usuario.getSatisfacao();
+            final Pessoa pessoa = usuario.getRepresentanteLegal();
+            pessoa.getUsuariosResponsaveis().size();
+            return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(UsuarioCrmCliente.class), pUsuario) {
+                @Override
+                public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                    super.executarAcoesFinais();
+                    if (isSucesso()) {
+                        List<UsuarioCRM> usuariosNTF = new ArrayList<>();
+                        if (pessoa.getUsuarioAtendimento() != null) {
+                            usuariosNTF.add(pessoa.getUsuarioAtendimento());
                         }
-                    }
-                    for (UsuarioCRM usrNtf : usuariosNTF) {
-                        try {
-                            ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(usrNtf.getCodigoMatrix(), "Parábens! "
-                                    + pUsuario.getNome() + " de " + pessoa.getNome() + " alterou o nível de satisfação de  " + satisfacao.getNome() + " para MUITO SATISFEITO "
-                            );
-                        } catch (Throwable t) {
+                        if (pessoa.getUsuarioResponsavel() != null) {
+                            if (!usuariosNTF.contains(pessoa.getUsuarioResponsavel())) {
+                                usuariosNTF.add(pessoa.getUsuarioResponsavel());
+                            }
 
+                        }
+                        for (UsuarioCRM usr : pessoa.getUsuariosResponsaveis()) {
+                            if (!usuariosNTF.contains(usr)) {
+                                usuariosNTF.add(usr);
+                            }
+                        }
+                        for (UsuarioCRM usrNtf : usuariosNTF) {
+                            try {
+                                ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(usrNtf.getCodigoMatrix(), "Parábens! "
+                                        + pUsuario.getNome() + " de " + pessoa.getNome() + " alterou o nível de satisfação de  " + satisfacao.getNome() + " para MUITO SATISFEITO "
+                                );
+                            } catch (Throwable t) {
+
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                UsuarioCrmCliente usuario = loadEntidade(pUsuario);
-                if (usuario.getSatisfacao().equals(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro())) {
-                    throw new ErroRegraDeNegocio("Nenhuma modificação realizada.");
+                @Override
+                public void regraDeNegocio() throws ErroRegraDeNegocio {
+                    UsuarioCrmCliente usuario = loadEntidade(pUsuario);
+                    if (usuario.getSatisfacao().equals(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro())) {
+                        throw new ErroRegraDeNegocio("Nenhuma modificação realizada.");
+                    }
+                    usuario.setSatisfacao(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro());
+                    UtilSBPersistencia.mergeRegistro(usuario, getEm());
+                    Pessoa pessoaresponsavel = loadEntidade(usuario.getRepresentanteLegal());
+                    pessoaresponsavel.setSatisfacao(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro());
+                    UtilSBPersistencia.mergeRegistro(pessoaresponsavel);
+                    UsuarioCRM responsavel = (UsuarioCRM) usuario.getRepresentanteLegal().getCampoInstanciadoByNomeOuAnotacao(CPPessoa.usuarioresponsavel).getValor();
+                    addAviso("Obrigado, nós notificamos " + responsavel.getNome() + " sobre sua satisfação atual, você também já está em nossos corações, e na lista de ofertas exclusivas ;)");
                 }
-                usuario.setSatisfacao(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro());
-                UtilSBPersistencia.mergeRegistro(usuario, getEm());
-                Pessoa pessoaresponsavel = loadEntidade(usuario.getRepresentanteLegal());
-                pessoaresponsavel.setSatisfacao(FabSatisfacaoCliente.MUITOSATISFEITO.getRegistro());
-                UtilSBPersistencia.mergeRegistro(pessoaresponsavel);
-                UsuarioCRM responsavel = (UsuarioCRM) usuario.getRepresentanteLegal().getCampoInstanciadoByNomeOuAnotacao(CPPessoa.usuarioresponsavel).getValor();
-                addAviso("Obrigado, nós notificamos " + responsavel.getNome() + " sobre sua satisfação atual, você também já está em nossos corações, e na lista de ofertas exclusivas ;)");
-            }
-        }.getResposta();
+            }.getResposta();
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
     }
 
     @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.DASHBOARD_CTR_INSATISFEITO)

@@ -49,7 +49,7 @@
                 <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
                                                             url="#{pgDashboardCliente.urlAgenda}"
                                                             icone="fa fa-ticket"
-                                                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':'Próximo evento '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
+                                                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':' '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
                                                             valor="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'Agende uma reunião':pgDashboardCliente.usuarioLogado.metadados.getCampoInstanciadoByNomeOuAnotacao('textoProximaReserva').valor}"
                                                             />
 

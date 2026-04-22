@@ -35,6 +35,7 @@ import com.amazonaws.services.simpleemail.model.AmazonSimpleEmailServiceExceptio
 import com.amazonaws.services.simpleemail.model.RawMessage;
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendRawEmailResult;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringNomeArquivosEDiretorios;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -45,14 +46,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.activation.URLDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -133,120 +135,146 @@ public class UtilCRCEmailAvancado {
             String pAssunto, String pConteudo, List<ComoArquivo> pAnexos) throws ErroEnvioEmail {
 
         Regions regiao = UtilCRCEmail.detectarRegiao(pServidor.getEnderecoServidor());
+        System.out.println("Enviando pela região: " + regiao.getName());
 
-        System.out.println("Enviando pela região:");
-        System.out.println(regiao.getName());
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(
+                pServidor.getUsuarioSMTP(),
+                pServidor.getSenhaSMTP()
+        );
 
-        BasicAWSCredentials awsCreds
-                = new BasicAWSCredentials(pServidor.getUsuarioSMTP(), pServidor.getSenhaSMTP());
-
-        //TODO IDENTIFICAR A REGIAO PELO pEnderecoServidor
-        AmazonSimpleEmailService sesClient
-                = AmazonSimpleEmailServiceClientBuilder.standard()
-                        .withRegion(regiao)
-                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                        .build();
+        AmazonSimpleEmailService sesClient = AmazonSimpleEmailServiceClientBuilder.standard()
+                .withRegion(regiao)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .build();
 
         Session session = Session.getInstance(new Properties());
-
         MimeMessage message = new MimeMessage(session);
 
         try {
-            // Remetente com nome
-            message.setFrom(
-                    new InternetAddress(pServidor.getFromEmail(), pServidor.getFromNome(), "UTF-8")
-            );
+            // Remetente
+            message.setFrom(new InternetAddress(pServidor.getFromEmail(), pServidor.getFromNome(), "UTF-8"));
 
+            // Destinatários TO
             JSONArray contatosParaJson = (JSONArray) pContatos.get("contatos");
-            if (pCopias != null) {
-                JSONArray contaotsEmcopiaJson = (JSONArray) pCopias.get("contatos");
-                for (Iterator iterator = contaotsEmcopiaJson.iterator(); iterator.hasNext();) {
-                    JSONObject contato = (JSONObject) iterator.next();
-                    String nomecontato = (String) contato.get("nome");
-                    String emailcontato = (String) contato.get("email");
-                    if (nomecontato != null && !nomecontato.contains("@")) {
-                        message.addRecipient(Message.RecipientType.CC, new InternetAddress(emailcontato, nomecontato, "UTF-8"));
-                    } else {
-                        message.addRecipient(Message.RecipientType.CC, new InternetAddress(emailcontato,
-                                "UTF-8"));
-                    }
-
-                }
-
-            }
-
             for (Iterator iterator = contatosParaJson.iterator(); iterator.hasNext();) {
                 JSONObject contato = (JSONObject) iterator.next();
-                String nomecontato = (String) contato.get("nome");
-                String emailcontato = (String) contato.get("email");
-                if (nomecontato != null && !nomecontato.contains("@")) {
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailcontato, nomecontato, "UTF-8"));
+                String nome = (String) contato.get("nome");
+                String email = (String) contato.get("email");
+
+                if (nome != null && !nome.contains("@")) {
+                    message.addRecipient(Message.RecipientType.TO,
+                            new InternetAddress(email, nome, "UTF-8"));
                 } else {
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailcontato,
-                            "UTF-8"));
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                 }
-
             }
 
-            if (message.getAllRecipients().length == 0) {
-                throw new ErroEnvioEmail("Nenhum destinatário foi adicionando no campo para");
+            // CC (se houver)
+            if (pCopias != null) {
+                JSONArray copiaJson = (JSONArray) pCopias.get("contatos");
+                for (Iterator iterator = copiaJson.iterator(); iterator.hasNext();) {
+                    JSONObject contato = (JSONObject) iterator.next();
+                    String nome = (String) contato.get("nome");
+                    String email = (String) contato.get("email");
+
+                    if (nome != null && !nome.contains("@")) {
+                        message.addRecipient(Message.RecipientType.CC,
+                                new InternetAddress(email, nome, "UTF-8"));
+                    } else {
+                        message.addRecipient(Message.RecipientType.CC, new InternetAddress(email));
+                    }
+                }
             }
 
-            // Permite múltiplos emails e formato "Nome <email>"
+            if (message.getAllRecipients() == null || message.getAllRecipients().length == 0) {
+                throw new ErroEnvioEmail("Nenhum destinatário foi adicionado");
+            }
+
             message.setSubject(pAssunto, "UTF-8");
 
-            // Corpo HTML
-            MimeBodyPart htmlPart = new MimeBodyPart();
-            htmlPart.setContent(UtilCRCEmail.gerarConteudoEmailNormatizado(pConteudo), "text/html; charset=UTF-8");
+            // ==================== CRIAÇÃO CORRETA DO MULTIPART ====================
+            MimeMultipart multipart = new MimeMultipart("mixed");
 
-            MimeMultipart multipart = new MimeMultipart();
+            // Parte HTML
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(
+                    UtilCRCEmail.gerarConteudoEmailNormatizado(pConteudo),
+                    "text/html; charset=UTF-8"
+            );
             multipart.addBodyPart(htmlPart);
 
-            message.setContent(multipart);
-
-            // Converter para RawMessage
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            message.writeTo(outputStream);
-
-            RawMessage rawMessage = new RawMessage(
-                    ByteBuffer.wrap(outputStream.toByteArray())
-            );
-
-            SendRawEmailRequest request = new SendRawEmailRequest(rawMessage);
-
+            // ==================== ANEXOS ====================
             if (pAnexos != null) {
                 for (ComoArquivo arquivo : pAnexos) {
                     MimeBodyPart attachmentPart = new MimeBodyPart();
+
                     String caminhoArquivo = arquivo.getCampoInstanciadoByNomeOuAnotacao(CPArquivoAnexado.arquivo)
                             .getComoArquivoDeEntidade()
                             .getCaminhoArquivoLocal();
-                    String nomeArquivo = arquivo.getNome();
-
-                    if (caminhoArquivo.startsWith("http")) {
-                        DataSource source = new URLDataSource(new URL(caminhoArquivo));
-                        attachmentPart.setDataHandler(new DataHandler(source));
-                        attachmentPart.setFileName(nomeArquivo);
+                    String extencao = UtilCRCStringNomeArquivosEDiretorios.getExtencaoNomeArquivo(arquivo.getArquivo());
+                    StringBuilder nomeArquivoStrB = new StringBuilder();
+                    if (extencao != null && !extencao.isEmpty()) {
+                        nomeArquivoStrB.append(arquivo.getNome().replace(" ", "_").replace(extencao, ""));
+                        nomeArquivoStrB.append(extencao);
                     } else {
-                        File file = new File(caminhoArquivo);
-                        attachmentPart.attachFile(file);
+                        nomeArquivoStrB.append(arquivo.getArquivo().replace(" ", "_"));
                     }
-                    multipart.addBodyPart(attachmentPart);
+                    String nomeArquivo = nomeArquivoStrB.toString();
+                    try {
+                        if (caminhoArquivo.startsWith("http")) {
+                            // URL - forma mais confiável
+                            URL url = new URL(caminhoArquivo);
+                            byte[] conteudo = org.apache.commons.io.IOUtils.toByteArray(url.openStream());
+
+                            DataSource dataSource = new ByteArrayDataSource(conteudo, "application/octet-stream");
+                            attachmentPart.setDataHandler(new DataHandler(dataSource));
+                            attachmentPart.setFileName(nomeArquivo);
+                        } else {
+                            // Arquivo local
+                            File file = new File(caminhoArquivo);
+                            attachmentPart.attachFile(file);
+
+                            // Garante o nome correto
+                            if (nomeArquivo != null && !nomeArquivo.trim().isEmpty()) {
+                                attachmentPart.setFileName(nomeArquivo);
+                            }
+                        }
+
+                        // Essencial para anexos funcionarem
+                        attachmentPart.setDisposition(Part.ATTACHMENT);
+
+                        multipart.addBodyPart(attachmentPart);
+                        System.out.println("✅ Anexo adicionado com sucesso: " + nomeArquivo);
+
+                    } catch (Exception e) {
+                        System.err.println("❌ Falha ao adicionar anexo " + nomeArquivo + " (" + caminhoArquivo + ")");
+                        e.printStackTrace();
+                        // Continua enviando sem esse anexo
+                    }
                 }
             }
 
+            // Define o conteúdo do message APÓS adicionar tudo
+            message.setContent(multipart);
+
+            // Converte para RawMessage
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            message.writeTo(outputStream);
+
+            RawMessage rawMessage = new RawMessage(ByteBuffer.wrap(outputStream.toByteArray()));
+
+            SendRawEmailRequest request = new SendRawEmailRequest(rawMessage);
             SendRawEmailResult result = sesClient.sendRawEmail(request);
+
             return result.getMessageId();
 
         } catch (MessagingException | IOException ex) {
             Logger.getLogger(UtilCRCEmail.class.getName()).log(Level.SEVERE, null, ex);
-
-            throw new ErroEnvioEmail("Erro enviando e-mail " + ex.getMessage());
-
+            throw new ErroEnvioEmail("Erro enviando e-mail: " + ex.getMessage());
         } catch (AmazonSimpleEmailServiceException ase) {
-
-            throw new ErroEnvioEmail("Falha no serviço AWS " + ase.getMessage());
+            throw new ErroEnvioEmail("Falha no serviço AWS: " + ase.getMessage());
         } catch (Throwable t) {
-            throw new ErroEnvioEmail("Erro enviando e-mail " + t.getClass().getSimpleName() + "-" + t.getMessage());
+            throw new ErroEnvioEmail("Erro inesperado: " + t.getClass().getSimpleName() + " - " + t.getMessage());
         }
     }
 

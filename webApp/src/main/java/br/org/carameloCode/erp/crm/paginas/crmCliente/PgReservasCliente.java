@@ -285,6 +285,11 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     }
 
+    @Override
+    public void executarAcaoSelecionada() {
+        super.executarAcaoSelecionada(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
     public void atualizarTelaSelecao() {
 
         if (getAgendaDisponivel() != null && (getAgendaDisponivel().getEscopo().getAtendentes() == null || getAgendaDisponivel().getEscopo().getAtendentes().isEmpty())) {
