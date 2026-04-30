@@ -15,6 +15,7 @@
         <cc:attribute name="atualizar" default="@form" />
         <cc:attribute name="acao"  type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
         <cc:attribute name="metodo"  method-signature="void listener()"  default="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"/>
+        <cc:attribute name="listener"  method-signature="void listener()"  default="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"/>
         <cc:attribute name="cor" default="#0091EA" />
         <cc:attribute name="estilo" shortDescription="Exemplo: botaoGrandeDestaque" />
         <cc:attribute name="label"  default="#{cc.attrs.acao.nomeAcao}" />
@@ -26,6 +27,7 @@
             update="#{cc.attrs.atualizar}"
             process="#{cc.attrs.processar}"
             action="#{cc.attrs.metodo}"
+            actionListener="#{cc.attrs.listener}"
             >
             <div class="btnSeletor-big containerBtnSeletor OrganizadorContainer #{cc.attrs.estilo}"   >
                 <h:panelGroup  layout="block" styleClass="OrganizadorContainer" style="height: inherit;">

@@ -16,6 +16,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemCor;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemIcone;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,7 +37,7 @@ import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ItfMeta
  */
 @Entity
 @InfoObjetoSB(plural = "Estágios do Lead", tags = "Estágio do lead", icone = "fa fa-handshake-o", generoFeminino = false)
-public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLead {
+public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLead, ComoTemIcone, ComoTemCor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,6 +92,9 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Converter Meta em:", entidadeOpcoesDisponiveis = MetaRelacionamento.class)
     @Transient
     private MetaRelacionamento metaConversao;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ICONE)
+    private String icone;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     @ManyToOne(targetEntity = Funil.class)
@@ -221,6 +226,14 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
 
     public void setFunil(Funil funil) {
         this.funil = funil;
+    }
+
+    public String getIcone() {
+        return icone;
+    }
+
+    public void setIcone(String icone) {
+        this.icone = icone;
     }
 
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import javax.net.ssl.SSLHandshakeException;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoafisica.ValidadorPessoaFisica;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoafisica.ValidadoresPessoaFisica;
+import java.util.ArrayList;
 
 @ValidadorPessoaFisica(validador = ValidadoresPessoaFisica.SITE)
 public class ValidacaoPessoaFisicaSite extends ValidacaoGenerica<PessoaFisica> {
@@ -71,7 +72,7 @@ public class ValidacaoPessoaFisicaSite extends ValidacaoGenerica<PessoaFisica> {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     public Pessoa getPessoa() {

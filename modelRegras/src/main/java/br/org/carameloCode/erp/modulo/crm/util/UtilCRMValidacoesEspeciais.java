@@ -58,13 +58,11 @@ public class UtilCRMValidacoesEspeciais {
             return true;
         } catch (ErroValidacao erro) {
             erroValidacao = erro;
+            throw erroValidacao;
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }
-        if (erroValidacao != null) {
-            throw erroValidacao;
-        }
-        return true;
+
     }
 
     public static void validarEmail(String pEmail) throws ErroValidacao {

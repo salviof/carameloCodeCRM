@@ -83,7 +83,7 @@ import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ComoLea
 @Table(name = "ProspectoEmpresa")
 @Entity(name = "Pessoa")
 @EntityListeners(ListenerEntidadePessoa.class)
-@InfoObjetoSB(tags = "Representante Legal", plural = "Pessoas Fisico e Juridico")
+@InfoObjetoSB(tags = "Representante Legal ", plural = "Pessoas Fisico e Jurídico")
 public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat, ComoLead {
 
     @Id
@@ -104,6 +104,7 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     @InfoCampoValorLogico(nomeCalculo = "documento")
+    @InfoCampoValidadorLogico()
     private String documento;
 
     @OneToMany(mappedBy = "prospectoEmpresa", cascade = CascadeType.MERGE)
@@ -111,6 +112,7 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_GENERICO, label = "Tel. fixo Principal")
     @Column(unique = true)
+    @InfoCampoValidadorLogico()
     private String telefonePrincipal;
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Telefone Alternativo")
     private String outrosTelefones;

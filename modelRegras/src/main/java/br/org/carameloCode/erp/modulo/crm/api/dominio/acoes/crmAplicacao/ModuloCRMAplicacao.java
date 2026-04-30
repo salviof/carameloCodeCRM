@@ -12,7 +12,6 @@ import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.api.model.telefone.CPTelefone;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
-import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariosb.CPUsuarioSB;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
@@ -45,7 +44,6 @@ import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
 import br.org.coletivoJava.fw.erp.implementacao.chat.ChatMatrixOrgimpl;
-import br.org.coletivoJava.fw.erp.implementacao.transportecomunicacao.MsgDisparoEmailimpl;
 import br.org.coletivoJava.integracoes.asterix_voip.api.FabApiAsterix;
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestIntTypebotResultados;
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotBots;
@@ -98,8 +96,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_AMERICANO;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.ComoFabricaIntegracaoRest;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmail;
 
 /**
  *

@@ -38,6 +38,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemCor;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -67,7 +68,7 @@ import org.hibernate.annotations.GenericGenerator;
 @InfoObjetoSB(tags = {"Tipo atividade CRM "}, plural = "Tipos de Atividade CRM ", icone = "fa fa-paint-brush", modulo = ERPCrm.NOME_MODULO_ERP)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
-public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSistema {
+public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSistema, ComoTemCor {
 
     @Id()
     //@GeneratedValue(strategy = GenerationType.AUTO)

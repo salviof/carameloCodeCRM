@@ -47,6 +47,8 @@ public class UtilGeradorDocumentoCRM {
             novoMapa.adicionarPalavrasChaveDoObjeto(CPPessoa.ultimoorcamento, pPessoa.getUltimoOrcamento());
             novoMapa.adicionarImagem("[logoProspecto]", CarameloCode.getServicoArquivosDeEntidade()
                     .getEndrLocalImagem(pPessoa, FabTipoAtributoObjeto.IMG_PEQUENA));
+            novoMapa.adicionarImagem("[logo]", CarameloCode.getServicoArquivosDeEntidade()
+                    .getEndrLocalImagem(pPessoa, FabTipoAtributoObjeto.IMG_PEQUENA));
             System.out.println("Logo Prospecto=" + CarameloCode.getServicoArquivosDeEntidade().getEndrLocalImagem(pPessoa, FabTipoAtributoObjeto.IMG_PEQUENA));
             adicionarSolucoes(novoMapa, pPessoa);
             adicionarDadosDinamicos(novoMapa, pPessoa);
@@ -56,7 +58,16 @@ public class UtilGeradorDocumentoCRM {
         ItfErpCrm implentacao = ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto();
         Map<String, String> marcadores = implentacao.getMarcadoresDeSubstituicao(pPessoa);
         for (String chave : marcadores.keySet()) {
-            novoMapa.adicionarPalavraChave(chave, marcadores.get(chave));
+            try {
+                if (marcadores.get(chave).startsWith("/") || marcadores.get(chave).startsWith("http")) {
+                    novoMapa.adicionarImagem(chave, marcadores.get(chave));
+                } else {
+                    novoMapa.adicionarPalavraChave(chave, marcadores.get(chave));
+                }
+            } catch (Throwable t) {
+
+            }
+
         }
         return novoMapa;
 

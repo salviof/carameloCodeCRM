@@ -6,7 +6,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.FabConfigModuloIntranet;
-import br.org.carameloCode.erp.modulo.crm.menu.FabMenuIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.menu.FabMenuCRMCaramelo;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGeradorDeID;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfModuloAcaoSistema;
@@ -100,7 +100,7 @@ public enum FabModulosCRM implements ComoFabricaModulo {
                     case CRM_PESSOA_FISICA:
                         break;
                     default:
-                        return FabMenuIntranetCasaNova.CRM_ATENDIMENTO;
+                        return FabMenuCRMCaramelo.CRM_ATENDIMENTO;
 
                 }
 
@@ -118,7 +118,7 @@ public enum FabModulosCRM implements ComoFabricaModulo {
                         throw new AssertionError(tipoUtilizacaocaoPadrao.name());
 
                 }
-                return FabMenuIntranetCasaNova.CRM_ADMIN;
+                return FabMenuCRMCaramelo.CRM_ADMIN;
             case CLIENTE_CONTATO:
                 break;
             case PRODUCAO:
@@ -128,10 +128,10 @@ public enum FabModulosCRM implements ComoFabricaModulo {
             case PLUGIN:
                 break;
             case CONVIDADO:
-                return FabMenuIntranetCasaNova.CONVIDADO;
+                return FabMenuCRMCaramelo.CONVIDADO;
 
             default:
-                return FabMenuIntranetCasaNova.CRM_ATENDIMENTO;
+                return FabMenuCRMCaramelo.CRM_ATENDIMENTO;
         }
         return null;
     }

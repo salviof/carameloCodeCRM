@@ -49,7 +49,7 @@
                 <crmDashBoard:dashBoardIconeValorTituloLink container="Container5"
                                                             url="#{pgDashboardCliente.urlAgenda}"
                                                             icone="fa fa-ticket"
-                                                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':'Próximo evento '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
+                                                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':' '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
                                                             valor="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'Agende uma reunião':pgDashboardCliente.usuarioLogado.metadados.getCampoInstanciadoByNomeOuAnotacao('textoProximaReserva').valor}"
                                                             />
 
@@ -120,16 +120,7 @@
             </h:panelGroup>
 
 
-            <h:panelGroup styleClass="Container3" layout="block" style="#{sessaoAtualSBWP.telaUsuario.umMobile?'margin-top: 800px;':''} " >
-                <p:fieldset  legend="Ultimas notícias" styleClass="Container12" >
-                    <div class="fb-page" data-href="https://www.facebook.com/casanovadigitalmkt"
-                         data-tabs="timeline" data-width="500" data-height="800"
-                         data-small-header="true" data-adapt-container-width="true"
-                         data-hide-cover="true" data-show-facepile="true">
-                        <blockquote cite="https://www.facebook.com/casanovadigitalmkt" class="fb-xfbml-parse-ignore">
-                            <a href="https://www.facebook.com/casanovadigitalmkt">Utimas notícias do Blog</a></blockquote></div>
-                </p:fieldset>
-            </h:panelGroup>
+
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                 <h:form>
                     <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>

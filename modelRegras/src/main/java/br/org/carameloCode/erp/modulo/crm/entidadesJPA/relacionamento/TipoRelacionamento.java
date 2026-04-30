@@ -21,6 +21,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemCor;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemIcone;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -47,7 +49,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @InfoObjetoSB(tags = "Tipo de Relacionamento ", icone = "fa fa-heart", plural = "Tipos de Relacionamento")
-public class TipoRelacionamento extends EntidadeSimplesORM {
+public class TipoRelacionamento extends EntidadeSimplesORM implements ComoTemCor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

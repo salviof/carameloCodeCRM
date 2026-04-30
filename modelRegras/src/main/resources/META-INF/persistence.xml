@@ -137,7 +137,7 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCRMFormularioRecebido</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCrmLigacaoRecebida</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCRMEmailEnvio</class>
-        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA..Atividade.StatusAtividade</class>
+        
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.TipoAtividadeCRMAutoExecucao</class>
 
 
@@ -224,6 +224,7 @@
 
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.TipoPesquisaLead</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.Funil</class>
+
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>

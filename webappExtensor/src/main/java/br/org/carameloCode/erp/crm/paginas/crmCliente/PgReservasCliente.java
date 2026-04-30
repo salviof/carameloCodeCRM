@@ -211,7 +211,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 defineTipoDeReserva(agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().get(0));
 
             } else {
-                if (!agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
+                if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
                     tiposDisponiveis = new ArrayList<>();
                     ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(DisponibilidadeAtdmtPublico.class, getEMPagina());
                     consulta.addCondicaoManyToManyContendoObjeto("atendentesDisponiveis", usrAtendenteSelecionado);
@@ -280,15 +280,29 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
             getEscopoPesquisa().setTipoAgendamento(tipoAgendamento);
 
-            if (getAgendaDisponivel() != null && getAgendaDisponivel().isTemAgenda()) {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS);
-            } else {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
-            }
             //   escopoSelecionado.getCampoInstanciadoByNomeOuAnotacao(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
-
         }
 
+    }
+
+    @Override
+    public void executarAcaoSelecionada() {
+        super.executarAcaoSelecionada(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    public void atualizarTelaSelecao() {
+
+        if (getAgendaDisponivel() != null && (getAgendaDisponivel().getEscopo().getAtendentes() == null || getAgendaDisponivel().getEscopo().getAtendentes().isEmpty())) {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
+        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().getEscopo().getTipoAgendamento() == null) {
+
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
+
+        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().isTemAgenda()) {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS);
+        } else {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
+        }
     }
 
     private HorarioDisponivelAtendimentoPublico horarioDisponivelSelecionado;

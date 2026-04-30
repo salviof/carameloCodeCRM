@@ -105,10 +105,14 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
 
         String hostname = FabConfigModuloEmailService.EMAIL_SERVICE_HOSTNAME.getValorParametroSistema();
         String usuario = FabConfigModuloEmailService.EMAIL_SERVICE_USUARIO.getValorParametroSistema();
-        String senha = FabConfigModuloEmailService.EMAIL_SERVICE_NOME_REMETENTE.getValorParametroSistema();
+        String senha = FabConfigModuloEmailService.EMAIL_SERVICE_SENHA.getValorParametroSistema();
         String nomeRemetente = FabConfigModuloEmailService.EMAIL_SERVICE_NOME_REMETENTE.getValorParametroSistema();
         String emailREmetente = FabConfigModuloEmailService.EMAIL_SERVICE_EMAIL_REMETENTE.getValorParametroSistema();
-        UtilCRCEmail.configurar(new ConfigEmailServersProjeto(hostname, nomeRemetente + " <" + emailREmetente + ">", usuario, senha));
+        if (nomeRemetente != null && !nomeRemetente.isEmpty()) {
+            UtilCRCEmail.configurar(new ConfigEmailServersProjeto(hostname, emailREmetente, nomeRemetente, usuario, senha));
+        } else {
+            UtilCRCEmail.configurar(new ConfigEmailServersProjeto(hostname, emailREmetente, usuario, senha));
+        }
 
     }
 

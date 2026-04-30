@@ -65,6 +65,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tipoatividadecrm.CPTipoAtivi
 import br.org.carameloCode.erp.modulo.crm.api.model.tipochatbot.CPTipoChatBot;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrmlinkintegracao.CPTipoDadoCrmLinkIntegracao;
+import br.org.carameloCode.erp.modulo.crm.api.model.tipodadoia.CPTipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipomensagemmktwhatsapp.CPTipoMensagemMktWhatsApp;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
@@ -130,9 +131,16 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_DADO_DINAMICO_IA_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {"[separador: listagem]", "id", "nome", "label", "descricao", "model", "ativo", "conteudoPerguntaIA"})
     TIPO_DADO_DINAMICO_IA_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]", "model", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]",
+        "nome", "label", "descricao",
+        "[separador: Configrações básicas]", CPTipoDadoIA.personaia, "conteudoPerguntaIA", "conteudoAlternativoCasoFalha",
+        "[separador: Avançado]", "model", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo"})
     TIPO_DADO_DINAMICO_IA_FRM_NOVO,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
+    @InfoTipoAcaoFormulario(
+            campos = {"[separador: Configurações dos dados]",
+                "nome", "label", "descricao",
+                "[separador: Configrações básicas]", CPTipoDadoIA.personaia, "conteudoPerguntaIA", "conteudoAlternativoCasoFalha",
+                "[separador: Avançado]", "model", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo"})
     TIPO_DADO_DINAMICO_IA_FRM_EDITAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Configurações dos dados]", "id", "nome", "label", "descricao", "[separador: Configurações IA]", "model", "implementacaoPadrao", "temperatura", "top_p", "maximoTokens", "timeout", "presence_penalty", "frequency_penalty", "context_policy", "fallback_model", "monthly_token_limit", "ativo", "conteudoPerguntaIA", "conteudoAlternativoCasoFalha"})
     TIPO_DADO_DINAMICO_IA_FRM_VISUALIZAR,
@@ -144,7 +152,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Dados", descricao = "Lista tipo Dados dinâmicos", icone = "fa fa-list", entidade = TipoDadoCRM.class,
             campos = {"[separador: listagem]", "id", "nome", CPTipoDadoCRM.grupotipodadodinamico,
                 "descricao", "tipoEntityDadoDinamico", "fabricaTipoAtributo"//, "listaDeOpcoes"
-            })
+        })
     OPCAO_DADOS_CRM_FRM_LISTAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Criar Opção de Dados CRM", descricao = "Exibe formulario de criação de opção para um dado crm", icone = "fa fa-plus",
             campos = {"[separador: Informações Basicas]", "nome", "descricao", "label",
@@ -391,7 +399,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             exibirModalConfirmacao = true,
             fraseComunicação = "O tipo de atividade, e as atividades vinculadas a '[nomeAtividade]' serão exluidas de maneira ireversível, ok? ")
     TIPO_ATIVIDADE_CTR_REMOVER,
-    @InfoTipoAcaoGestaoEntidade(entidade = AtividadeCRM.class)
+    @InfoTipoAcaoGestaoEntidade(entidade = AtividadeCRM.class, nomeAcao = "Atividades Realizadas")
     ATIVIDADES_MB_GESTAO,
     @InfoTipoAcaoFormulario(icone = "fa fa-history")
     ATIVIDADES_FRM_LISTAR_ATIVIDADES,
@@ -400,10 +408,10 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoGestaoEntidade(entidade = MetaRelacionamento.class, nomeAcao = "Estágio de Relacionamento", precisaPermissao = true)
     META_RELACIONAMENTO_MB,
     @InfoTipoAcaoFormulario(campos = {
-        "[separador:Estágio de Relacionamento]", "id", "nome", "cor", CPMetaRelacionamento.peso})
+        "[separador:Estágio de Relacionamento]", "id", "nome", "cor", CPMetaRelacionamento.icone, CPMetaRelacionamento.peso})
     META_RELACIONAMENTO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {
-        "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor", CPMetaRelacionamento.peso, CPMetaRelacionamento.cliente})
+        "[separador: Dados Estágio de Relacionamento]", "nome", "descricaoEtapaVisaoPrestador", "descricaoEtapaVisaoCliente", "cor", CPMetaRelacionamento.icone, CPMetaRelacionamento.peso, CPMetaRelacionamento.cliente})
     META_RELACIONAMENTO_FRM_EDITAR,
     @InfoTipoAcaoFormulario(
             nomeAcao = "Atividades Disponíveis",

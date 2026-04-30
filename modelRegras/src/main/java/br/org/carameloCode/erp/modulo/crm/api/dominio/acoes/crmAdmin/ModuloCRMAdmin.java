@@ -72,6 +72,7 @@ import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.modelodocumentotiposervico.CPModeloDocumentoTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
@@ -1211,12 +1212,23 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             }
         };
     }
+
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_CTR_REMOVER)
     public static ItfRespostaAcaoDoSistema personaIaRemover(Persona pPersonaIA) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPersonaIA), pPersonaIA) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 removerEntidade(pPersonaIA);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoDadoIASalvar(TipoDadoIA pTipoDadoIA) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoDadoIA), pTipoDadoIA) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoDadoIA);
             }
         };
     }

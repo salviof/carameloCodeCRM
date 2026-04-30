@@ -22,6 +22,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ContextoReserva;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
+import com.super_bits.modulos.SBAcessosModel.model.PermissaoSB;
+import java.util.List;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -72,6 +80,17 @@ public class TipoAgendamentoAtdmPublico extends EntidadeSimplesORM {
 
     @Column(nullable = false, updatable = false, insertable = false, length = 500)
     private String tipoAtendimentoPublico;
+
+    @ManyToOne(targetEntity = MetaRelacionamento.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    private MetaRelacionamento metadisponivel;
+
+    @ManyToMany(targetEntity = TipoRelacionamento.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "TpAgendaPublica_Relacionamentos",
+            joinColumns = @JoinColumn(name = "tipoagenda_id"),
+            inverseJoinColumns = @JoinColumn(name = "relacionamento_id"))
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, caminhoParaLista = "metaRelacionamento.tiposRelacionamento")
+    private List<TipoRelacionamento> relacionamentosDisponivel;
 
     @Override
     public Long getId() {
@@ -199,6 +218,22 @@ public class TipoAgendamentoAtdmPublico extends EntidadeSimplesORM {
 
     public void setMinutosAnteriorAReserva(int minutosAnteriorAReserva) {
         this.minutosAnteriorAReserva = minutosAnteriorAReserva;
+    }
+
+    public MetaRelacionamento getMetadisponivel() {
+        return metadisponivel;
+    }
+
+    public void setMetadisponivel(MetaRelacionamento metadisponivel) {
+        this.metadisponivel = metadisponivel;
+    }
+
+    public List<TipoRelacionamento> getRelacionamentosDisponivel() {
+        return relacionamentosDisponivel;
+    }
+
+    public void setRelacionamentosDisponivel(List<TipoRelacionamento> relacionamentosDisponivel) {
+        this.relacionamentosDisponivel = relacionamentosDisponivel;
     }
 
 }

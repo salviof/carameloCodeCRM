@@ -16,6 +16,8 @@
 
         <cc:attribute name="agenda" type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade" required="true" />
         <cc:attribute name="atendente" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM" rendered="false"  default="#{cc.attrs.agenda.escopo.atendentes[0]}"/>
+        <cc:attribute name="metodo"  method-signature="void listener()"  required="true"/>
+
         <cc:attribute name="areaAtualizacao" />
     </cc:interface>
 
@@ -31,13 +33,13 @@
                     <p:fieldset legend="" styleClass="Container12 FieldSetLead" style="height: 400px; margin: 10px;" >
                         <f:facet name="legend" >
 
-                            <h:panelGroup styleClass="FontAdamantiumBold BoldGray Fs24" style="color: white;line-height: 30px;" layout="block">
+                            <h:panelGroup styleClass="FontAdamantiumBold BoldGray Fs24" style="line-height: 30px;" layout="block">
                                 #{tipoDisponivel.nome}
                             </h:panelGroup>
 
                         </f:facet>
                         <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="height:300px; position: relative;" >
-                            <h:panelGroup layout="block" styleClass="Container8 FontAdamantiumLight Fs24" style=""   >
+                            <h:panelGroup layout="block" styleClass="Container8 FontAdamantiumLight Fs24"    >
 
                                 #{tipoDisponivel.descricao}
 
@@ -64,11 +66,39 @@
 
                                 </h:panelGroup>
 
-                                <SBCRM:botaoGrande acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
-                                                   metodo="#{cc.attrs.agenda.executarPesquisaNovoTipoAgendamento(tipoDisponivel)}"
-                                                   label="Ver Horários disponíveis"
-                                                   atualizar="#{cc.attrs.areaAtualizacao}"
-                                                   />
+                                <p:commandLink
+                                    update="#{cc.attrs.areaAtualizacao}"
+                                    process="@this"
+                                    actionListener="#{cc.attrs.agenda.executarPesquisaNovoTipoAgendamento(tipoDisponivel)}"
+                                    action="#{cc.attrs.metodo}"
+                                    >
+                                    <h:panelGroup layout="block" styleClass="btnSeletor-big containerBtnSeletor OrganizadorContainer" >
+
+                                        <h:panelGroup  layout="block" styleClass="OrganizadorContainer" style="height: inherit;">
+                                            <h:panelGroup style="height: 50px;align-self: center;" layout="span">
+                                                <font color="#{cc.attrs.cor}" >
+                                                    <div class="Container12" style=" color:#{cc.attrs.cor}!important;">
+                                                        <i  class="fa fa-ticket fa fa-2x iconeBotaoQuadrado" style=" color: #{cc.attrs.cor}"  > </i><br/>
+                                                    </div>
+                                                </font>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup styleClass="btnSeletor-label "
+                                                          style="color: #000000; "
+
+                                                          layout="block" >
+                                                <div style="display: table-cell; vertical-align: middle; height: 100px; width: 150px; ">
+                                                    <h3 class="FontAdamantiumRegular Fs14 TexAlCenter " style=""> Escolher o Melhor Horário </h3>
+                                                </div>
+
+
+                                            </h:panelGroup>
+
+                                        </h:panelGroup>
+
+                                    </h:panelGroup>
+                                    <f:setPropertyActionListener target="#{cc.attrs.agenda.escopo.tipoAgendamento}" value="#{tipoDisponivel}" />
+                                </p:commandLink>
 
 
                             </h:panelGroup>

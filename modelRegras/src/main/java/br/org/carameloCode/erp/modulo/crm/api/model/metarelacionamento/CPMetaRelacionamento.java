@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = MetaRelacionamento.class)
 public enum CPMetaRelacionamento {
-	_ID, _NOME, _DESCRICAOETAPAVISAOPRESTADOR, _DESCRICAOETAPAVISAOCLIENTE, _PESO, _QTDEMPRESASNESTAMETA, _COR, _CLIENTE, _TIPOSRELACIONAMENTO, _TIPOSATIVIDADEDISPONIVEIS, _TIPOSATIVIDADEUPGRADE, _TIPOSATIVIDADEDOWGRADE, _TIPOSATIVIDADEGRUPOATIVIDADE, _METACONVERSAO, _FUNIL;
+	_ID, _NOME, _DESCRICAOETAPAVISAOPRESTADOR, _DESCRICAOETAPAVISAOCLIENTE, _PESO, _QTDEMPRESASNESTAMETA, _COR, _CLIENTE, _TIPOSRELACIONAMENTO, _TIPOSATIVIDADEDISPONIVEIS, _TIPOSATIVIDADEUPGRADE, _TIPOSATIVIDADEDOWGRADE, _TIPOSATIVIDADEGRUPOATIVIDADE, _METACONVERSAO, _ICONE, _FUNIL;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -21,5 +21,6 @@ public enum CPMetaRelacionamento {
 	public static final String tiposatividadedowgrade = "tiposAtividadeDowGrade";
 	public static final String tiposatividadegrupoatividade = "tiposAtividadeGrupoAtividade";
 	public static final String metaconversao = "metaConversao";
+	public static final String icone = "icone";
 	public static final String funil = "funil";
 }

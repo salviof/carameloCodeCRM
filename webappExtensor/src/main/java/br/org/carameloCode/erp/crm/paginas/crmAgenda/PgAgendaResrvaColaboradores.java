@@ -95,4 +95,16 @@ public class PgAgendaResrvaColaboradores extends MB_paginaCadastroEntidades<Rese
         return usuarioAtendimentoAgenda;
     }
 
+    public void atualizarVisaoAgenda() {
+        if (agendaDisponivel == null) {
+            executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_ATENDENTES);
+        }
+        if (agendaDisponivel.getEscopo().getTipoAgendamento() == null) {
+            executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_TIPOS_RESERVAS);
+        }
+        if (agendaDisponivel.getHorariosDisponiveis() != null && !agendaDisponivel.getHorariosDisponiveis().isEmpty()) {
+            executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_LISTAR_RESERVAS_DISPONIVEIS);
+        }
+
+    }
 }

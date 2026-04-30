@@ -59,7 +59,7 @@ public class TesteCRMCarameloCode extends TesteJunitJPAModuloERP {
         //Nas classes de ambiente padrão do sistema  modo desenvolvimento significa execuções via JUNIT, HOmologação Jetty na sua maquina, e Produção na Web
         SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
-        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, true);
         UtilCRCEmail.configurar(new ConfigEmailServersProjeto("mail.casanovadigital.com.br", "contato@casanovadigital.com.br", "acasadigital@2017"));
         MapaObjetosProjetoAtual.adcionarObjeto(PesquisaAtividade.class);
 

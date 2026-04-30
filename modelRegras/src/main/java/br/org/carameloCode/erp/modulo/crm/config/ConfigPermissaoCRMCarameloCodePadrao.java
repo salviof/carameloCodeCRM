@@ -32,7 +32,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCR
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
-import br.org.carameloCode.erp.modulo.crm.menu.FabMenuIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.menu.FabMenuCRMCaramelo;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
 import com.super_bits.modulos.SBAcessosModel.controller.UtilSBControllerAcessosModel;
 import com.super_bits.modulos.SBAcessosModel.model.ContatoUsuarioTransiente;
@@ -183,16 +183,16 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
 
             switch (modulos) {
                 case ATENDIMENTO_CRM:
-                    return new MenusDaSessao(FabMenuIntranetCasaNova.CRM_ATENDIMENTO.getMenuPrincipal(), FabMenuIntranetCasaNova.CRM_ATENDIMENTO.getMenuSecundario());
+                    return new MenusDaSessao(FabMenuCRMCaramelo.CRM_ATENDIMENTO.getMenuPrincipal(), FabMenuCRMCaramelo.CRM_ATENDIMENTO.getMenuSecundario());
 
                 case ADMIN_CRM:
-                    return new MenusDaSessao(FabMenuIntranetCasaNova.CRM_ADMIN.getMenuPrincipal(), FabMenuIntranetCasaNova.CRM_ADMIN.getMenuSecundario());
+                    return new MenusDaSessao(FabMenuCRMCaramelo.CRM_ADMIN.getMenuPrincipal(), FabMenuCRMCaramelo.CRM_ADMIN.getMenuSecundario());
 
                 case CLIENTE_CONTATO:
-                    return new MenusDaSessao(FabMenuIntranetCasaNova.CLIENTE.getMenuPrincipal(), FabMenuIntranetCasaNova.CLIENTE.getMenuSecundario());
+                    return new MenusDaSessao(FabMenuCRMCaramelo.CLIENTE.getMenuPrincipal(), FabMenuCRMCaramelo.CLIENTE.getMenuSecundario());
 
                 case PRODUCAO:
-                    return new MenusDaSessao(FabMenuIntranetCasaNova.DIRETOR_DE_CONTEUDO_E_MARKETING.getMenuPrincipal(), FabMenuIntranetCasaNova.DIRETOR_DE_CONTEUDO_E_MARKETING.getMenuSecundario());
+                    return new MenusDaSessao(FabMenuCRMCaramelo.DIRETOR_DE_CONTEUDO_E_MARKETING.getMenuPrincipal(), FabMenuCRMCaramelo.DIRETOR_DE_CONTEUDO_E_MARKETING.getMenuSecundario());
 
                 default:
                     throw new AssertionError(modulos.name());

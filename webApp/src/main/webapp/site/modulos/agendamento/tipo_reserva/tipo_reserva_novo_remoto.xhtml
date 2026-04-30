@@ -4,18 +4,21 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
     xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
-    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:define name="conteudo">
-        <SBFormulario:camposDaAcao
-            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
-            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-            />
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer" >
+            <SBFormulario:camposDaAcao
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                />
+        </h:panelGroup>
     </ui:define>
     <ui:define name="botoesDeAcao">
-
-        <SBPaginaAtual:botaoSalvarAlteracoes/>
-
+        <h:panelGroup layout="block" styleClass="OrganizadorContainer Container6 Fright" >
+            <SBPaginaAtual:botaoSalvarAlteracoes/>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

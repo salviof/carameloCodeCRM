@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.crm.config;
 
-import br.org.carameloCode.erp.modulo.crm.menu.FabMenuIntranetCasaNova;
+import br.org.carameloCode.erp.modulo.crm.menu.FabMenuCRMCaramelo;
 
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.interfaces.ItfSiteMapa;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.siteMap.MB_SiteMapa;
@@ -35,7 +35,7 @@ public class SiteMap extends MB_SiteMapa implements ItfSiteMapa {
 
     @Override
     public Class<? extends ComoFabricaMenu> getFabricaMenu() {
-        return FabMenuIntranetCasaNova.class;
+        return FabMenuCRMCaramelo.class;
     }
 
 }

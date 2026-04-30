@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos;
 
 //import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
 import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
@@ -31,6 +32,10 @@ public class TipoDadoIA extends TipoDadoCRMLogica {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.PERCENTUAL, descricao = "Controla o nível de variação das respostas. Valores baixos geram respostas mais previsíveis; valores altos tornam o texto mais criativo.")
     private double temperatura;
+
+    @ManyToOne(targetEntity = Persona.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    private Persona personaIA;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
     @Enumerated(EnumType.STRING)
@@ -225,6 +230,14 @@ public class TipoDadoIA extends TipoDadoCRMLogica {
 
     public void setEnviarDadosDeAtividade(boolean enviarDadosDeAtividade) {
         this.enviarDadosDeAtividade = enviarDadosDeAtividade;
+    }
+
+    public Persona getPersonaIA() {
+        return personaIA;
+    }
+
+    public void setPersonaIA(Persona personaIA) {
+        this.personaIA = personaIA;
     }
 
 }

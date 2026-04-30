@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @Entity
 @InfoObjetoSB(plural = "Personas", tags = "Persona", icone = "fa fa-users")
 public class Persona extends EntidadeSimples implements ItfPersona {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
@@ -55,7 +56,7 @@ public class Persona extends EntidadeSimples implements ItfPersona {
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, descricao = "Palavras bloqueadas ou proibidas", label = "Palavras proibidas")
     private String palavrasProibidas;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, descricao = "Definicao se a Persona está ativa ou inativa", label = "Status Persona")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO, descricao = "Definicao se a Persona está ativa ou inativa", label = "Status Persona")
     private boolean status;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, descricao = "Tipo da persona (ex: interna, externa, buyer persona)", label = "Tipo Persona")

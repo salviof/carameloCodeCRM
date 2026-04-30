@@ -1,13 +1,13 @@
 <ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:cc="http://java.sun.com/jsf/composite"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:sb="http://superbitsframework/ui"
-        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
-        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <!-- INTERFACE -->
 
 
@@ -46,12 +46,12 @@
                             </h:panelGroup>
 
                             <SBCRM:botaoGrandeV2
-                                    acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmVisualizar}"
-                                    metodo="#{servicoCrmReserva.reservarHorario(horario)}"
-                                    label="Reservar"
-                                    atualizar="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
-                                    estilo="outline"
-                            />
+                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmVisualizar}"
+                                metodo="#{servicoCrmReserva.reservarHorario(horario)}"
+                                label="Reservar"
+                                atualizar="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
+                                estilo="outline"
+                                />
                             <!--                            </p:commandLink>-->
                         </h:form>
                     </h:panelGroup>

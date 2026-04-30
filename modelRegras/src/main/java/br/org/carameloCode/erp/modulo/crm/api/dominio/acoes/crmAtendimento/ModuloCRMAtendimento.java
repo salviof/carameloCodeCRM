@@ -1164,14 +1164,16 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
 
                 //  ContatoProspecto contatoPrAtualizado = atualizarEntidade(prosp.getContatoPrincipal(), true);
                 ContatoProspecto contato = (ContatoProspecto) pProspecto.getCPinst(CPPessoa.contatoprincipal).getValor();
-                if (contato.getEmail() != null) {
-                    pProspecto.getContatoPrincipal().getCPinst(CPContatoProspecto.usuariovinculado).getValor();
-                    contato = pProspecto.getContatoPrincipal();
-                }
+                if (contato != null) {
+                    if (contato.getEmail() != null) {
+                        pProspecto.getContatoPrincipal().getCPinst(CPContatoProspecto.usuariovinculado).getValor();
+                        contato = pProspecto.getContatoPrincipal();
+                    }
 
-                UsuarioCrmCliente usuarioCliente = contato.getUsuarioVinculado();
-                if (!pProspecto.getContatosProspecto().contains(contato)) {
-                    pProspecto.getContatosProspecto().add(contato);
+                    UsuarioCrmCliente usuarioCliente = contato.getUsuarioVinculado();
+                    if (!pProspecto.getContatosProspecto().contains(contato)) {
+                        pProspecto.getContatosProspecto().add(contato);
+                    }
                 }
                 //Pessoa prosp = atualizarEntidade(pProspecto, true);
                 //validarAtributos(pProspecto);

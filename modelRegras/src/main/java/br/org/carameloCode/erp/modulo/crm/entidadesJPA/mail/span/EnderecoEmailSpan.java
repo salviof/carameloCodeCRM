@@ -32,7 +32,6 @@ public class EnderecoEmailSpan extends EntidadeSimplesORM {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-
     private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)

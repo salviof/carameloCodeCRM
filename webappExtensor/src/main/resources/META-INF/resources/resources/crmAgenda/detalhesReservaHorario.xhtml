@@ -11,7 +11,7 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="reserva" type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHorario"
+        <cc:attribute name="reserva" type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario"
                       required="true"/>
 
         <cc:attribute name="acaoListarOutrosHorarios"
@@ -105,16 +105,18 @@
                 </div>
 
                 <h:form>
+
                     <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
-                                  rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor}">
+                                  rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor}" style="margin: 3px;">
                         <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
                                            rendered="#{cc.attrs.reserva.status.id == 1}"
                                            acao="#{cc.attrs.acaoConfirmarReserva}"
+                                           cor="#81C784"
                                            label="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor?'Confirmar':'Confirme esta reserva com 24 horas de antecedencia'}"
 
                                            />
                     </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer">
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin: 3px;">
                         <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"
                                            rendered="#{cc.attrs.reserva.id ne null}"
                                            tipo="danger"
@@ -212,7 +214,7 @@
                     <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
                                   rendered="#{cc.attrs.reserva.id eq null}">
 
-                        <crm:botaoGrandeV2 metodo="#{cc.attrs.reserva.executarAcaoSelecionada()}"
+                        <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
                                            rendered="#{cc.attrs.reserva.id eq null}"
 
                                            acao="#{cc.attrs.acaoSalvarReserva}"

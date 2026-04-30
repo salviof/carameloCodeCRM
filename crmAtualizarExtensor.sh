@@ -1,3 +1,6 @@
+#!/bin/bash
+rm /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/resources/META-INF -rf
+mkdir -p /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/resources/META-INF/resources/
 cp /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webApp/src/main/webapp/site /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/resources/META-INF/resources/ -rf
 cp /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webApp/src/main/webapp/images /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/resources/META-INF/resources/ -rf
 cp /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webApp/src/main/webapp/resources /home/superBits/projetos/carameloCode/source/carameloCodeCRM/webappExtensor/src/main/resources/META-INF/resources/ -rf

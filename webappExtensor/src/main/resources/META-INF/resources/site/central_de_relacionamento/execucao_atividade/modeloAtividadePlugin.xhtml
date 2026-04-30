@@ -65,10 +65,11 @@
                                 src="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"
                                 width="100%"
                                 class="pluginAtividade"
-                                height="400px" frameborder="0" >
+                                height="600px" frameborder="0" >
                         </iframe>
                         <h:form>
-
+                            <h:outputText value="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"
+                                          rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" />
                             <CRM:opcoesAtividade
                                 atividade="#{pgExecutarAtividade.atividade}"
                                 />

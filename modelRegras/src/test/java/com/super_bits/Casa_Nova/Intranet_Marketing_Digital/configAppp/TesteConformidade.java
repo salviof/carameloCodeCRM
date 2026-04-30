@@ -30,6 +30,7 @@ public class TesteConformidade extends TesteCRMCarameloCode {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "falha executando teste do projeto ataul", t);
             throw t;
         }
+
         //  gerarCodigoConvercaoObjetosIntegracaoAplicacao();
     }
 
