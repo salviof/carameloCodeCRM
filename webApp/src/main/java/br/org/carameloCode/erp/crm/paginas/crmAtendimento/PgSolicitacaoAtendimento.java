@@ -66,6 +66,7 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
         if (pessoa == null) {
             definirPArametros();
         }
+
         FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
         switch (acao) {
             case SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE:

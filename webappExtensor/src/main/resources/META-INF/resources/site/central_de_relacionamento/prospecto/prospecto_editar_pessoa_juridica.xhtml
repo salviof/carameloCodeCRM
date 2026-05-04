@@ -15,13 +15,14 @@
     <ui:define name="conteudo">
         <h:form>
             <p:fieldset >
+
                 <p:fragment>
-                    <p:steps activeIndex="0"  styleClass="OrganizadorContainer Container12" activeStepExecutable="false" readonly="false" widgetVar="etapas"
+                    <p:steps activeIndex="0"  styleClass="OrganizadorContainer Container12" activeStepExecutable="false"  readonly="false" widgetVar="etapas"
                              rendered="#{pgProspecto.prospecto.id>0}"
                              >
                         <p:menuitem value="Informações básicas" />
                         <p:menuitem value="Endereço" disabled="false"
-
+                                    actionListener="#{pgUtil.abrirXHTML(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEditarEnderecoPessoaJuridica,pgProspecto.entidadeSelecionada)}"
                                     url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEditarEnderecoPessoaJuridica,pgProspecto.entidadeSelecionada)}">
                         </p:menuitem>
                     </p:steps>

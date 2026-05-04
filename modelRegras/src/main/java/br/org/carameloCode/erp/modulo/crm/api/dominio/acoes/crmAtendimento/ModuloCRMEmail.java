@@ -267,6 +267,19 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_SALVAR_DADOS_DINAMICOS)
+    public static ItfRespostaAcaoDoSistema atividadeCRMDeclararDadosColetados(final AtividadeCRM pAtividade) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pAtividade), pAtividade) {
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                AtividadeCRM atv = loadEntidade(pAtividade);
+                atv.setDadosRevisados(true);
+            }
+        }.getResposta();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_SALVAR_DADOS_DINAMICOS)
     public static ItfRespostaAcaoDoSistema atividadeCRMComplementarSalvarDadosDinamicos(final AtividadeCRM pAtividade) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pAtividade), pAtividade) {
@@ -274,7 +287,9 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais();
                 if (isSucesso()) {
+                    atividadeCRMDeclararDadosColetados(pAtividade);
                     atividadeAplicarModeloEmail(pAtividade);
+
                 }
             }
 

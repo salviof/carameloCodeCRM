@@ -14,7 +14,7 @@
     <cc:interface>
 
         <cc:attribute name="dadosDeLead" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.pesquisaLead.PesquisaLead" required="true" />
-        br.org.carameloCode.erp.modulo.crm.entidadesJPA.crm.prospecto.pesquisaLead
+
 
 
     </cc:interface>
@@ -25,6 +25,7 @@
                 <i class="fa fa-handshake-o" style="margin-right: 8px"/>Demandas de Atendimento
             </f:facet>
             <h:panelGroup styleClass="cards-dashboard" layout="block" style="margin-top: 10px;">
+
                 <crmDashBoard:dashBoardIconeValorTituloLink
                     codigoestilo="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
                                     .getCampoInstanciadoByNomeOuAnotacao('chamadosEmAtendimento').valor>0?'3':'2'}"
@@ -34,6 +35,8 @@
                     valor="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
                              .getCampoInstanciadoByNomeOuAnotacao('chamadosEmAtendimento').valor}"
                     />
+
+
                 <crmDashBoard:dashBoardIconeValorTituloLink
                     codigoestilo="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
                                     .getCampoInstanciadoByNomeOuAnotacao('chamadosAguardandoAtendimento').valor>0?'3':'2'}"
@@ -43,6 +46,8 @@
                     valor="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
                              .getCampoInstanciadoByNomeOuAnotacao('chamadosAguardandoAtendimento').valor}"
                     />
+
+
                 <crmDashBoard:dashBoardIconeValorTituloLink
                     codigoestilo="#{cc.attrs.dadosDeLead.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('reservasAtivas').valor>0?'3':'2'}"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral, cc.attrs.dadosDeLead.usuario)}"
@@ -50,6 +55,7 @@
                     titulo="Horários reservados "
                     valor="#{cc.attrs.dadosDeLead.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('reservasAtivas').valor}"
                     />
+
             </h:panelGroup>
         </p:fieldset>
 

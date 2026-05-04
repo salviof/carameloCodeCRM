@@ -102,9 +102,16 @@
                     <p:panel header="Observação" styleClass="panel-observacao">
 
                         <f:facet name="header">
-                            <div class="header-observacao">
-                                <i class="pi pi-info-circle" style="margin-right:6px"></i>
+                            <div class="header-observacao container-imagem-edicao">
+                                <i class="pi pi-info-circle " style="margin-right:6px;"></i>
                                 Observação
+                                <p:link href="#"
+                                        styleClass="botao-editar-imagem-link"
+                                        onclick="PF('dlgObs').show();"
+                                        style="font-size: 2rem;margin-top: 10px;"
+                                        title="Editar observação">
+                                    <i class="pi pi-pencil" style="color: #FFFFFF; font-size: 1.2rem;"></i>
+                                </p:link>
                             </div>
                         </f:facet>
 
@@ -120,11 +127,9 @@
                         </h:panelGroup>
 
                         <div class="area-botao">
-                            <p:commandButton value="Editar Observação"
-                                             icon="pi pi-pencil"
-                                             styleClass="btn-editar"
-                                             onclick="PF('dlgObs').show();
-                                                     return false;"/>
+
+
+
                         </div>
 
                     </p:panel>
@@ -135,9 +140,10 @@
                               responsive="true"
                               closable="true">
 
-                        <h:panelGroup id="obsPanel">
+                        <h:panelGroup id="obsPanel" styleClass="OrganizadorContainer Container12" style="padding: -10px;" layout="block">
 
                             <!-- CAMPO PERSONALIZADO (textarea) -->
+
                             <SBInput:input
                                 registro="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
                                 layout="#{layoutsComponenteSB.layoutCampo.semLabel}"

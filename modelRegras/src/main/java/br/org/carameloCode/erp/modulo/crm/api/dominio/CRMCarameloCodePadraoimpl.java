@@ -326,4 +326,17 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
         return marcadores;
 
     }
+
+    @Override
+    public boolean excluirMetadadosExtencao(Long pCodigo, EntityManager em) {
+        try {
+
+            UtilSBPersistencia.executaSQL(em, "delete from Preanalise where pessoaJuridica_id = " + pCodigo);
+        } catch (Throwable t) {
+            return false;
+        }
+        return true;
+
+    }
+
 }

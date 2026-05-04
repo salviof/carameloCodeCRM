@@ -98,6 +98,8 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     EXECUCAO_ATIVIDADE_CTR_CANCELAR_ATIVIDADE_ANTERIOR,
     @InfoTipoAcaoController(nomeAcao = "Continuar atividade Anterior", descricao = "Cancela a criação de uma anova atividade, e retoma a atividade anterior", iconeFonteAnsowame = FabIconeFontAwesome.REG_ANTERIOR)
     EXECUCAO_ATIVIDADE_CTR_CONTINUAR_ANTERIOR_EXCLUINDO_ESTA,
+    @InfoTipoAcaoController(nomeAcao = "Declarar dados coletados", icone = "fa fa-save")
+    EXECUCAO_ATIVIDADE_CTR_DECLARAR_DADOS_COLETADOS,
     @InfoTipoAcaoController(nomeAcao = "Salvar dados com relatório Final", icone = "fa fa-save")
     EXECUCAO_ATIVIDADE_CTR_SALVAR_DADOS_DINAMICOS,
     @InfoTipoAcaoController(nomeAcao = "Salvar prospecto com dados dinamicos", icone = "fa fa-save")

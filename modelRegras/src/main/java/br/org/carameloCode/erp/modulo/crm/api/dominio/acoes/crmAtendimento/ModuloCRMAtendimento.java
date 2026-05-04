@@ -29,7 +29,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConvit
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.FabDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioDocumentoAtividade.EnvioEmailAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.FabStatusEnvioEmail;
@@ -41,7 +40,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.origemPrivada.OrigemProspectoPrivado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.ServicoOferecido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabTipoSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
@@ -55,7 +53,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.ParametroMe
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensagemMktWhatsApp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.DocumentoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.transitorio.DadosPesquisaGooglePlace;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
@@ -126,6 +123,12 @@ import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.Pedido
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.emailRecebido.EmailRecebido;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.ServicoOferecido;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -734,57 +737,182 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
             public void regraDeNegocio() throws ErroRegraDeNegocio {
 
                 UsuarioCRM usuarioLogado = UtilModulosCRM.getUsuarioCRMLogado(getEmResposta());
-                Pessoa prospAtualizado = loadEntidade(pProspecto);
 
-                if (!prospAtualizado.getUsuariosResponsaveis().contains(usuarioLogado)) {
-                    throw new ErroRegraDeNegocio("Seu usuário, não consta como responsável por este prospecto.");
+                Long idProspecto = pProspecto.getId();
+
+// 1. Busca os IDs
+                List<Long> contatosIDS = getEm()
+                        .createQuery("SELECT c.id FROM ContatoProspecto c WHERE c.prospecto.id = :prospectoId", Long.class)
+                        .setParameter("prospectoId", idProspecto)
+                        .getResultList();
+
+                List<Long> usuariosID = getEm()
+                        .createNativeQuery("SELECT usuarioCRM_id FROM prospectos_usuarios_responsaveis WHERE prospecto_id = :prospectoId")
+                        .setParameter("prospectoId", idProspecto)
+                        .getResultList();
+
+// 2. Limpeza TOTAL da tabela de relacionamento (o mais importante)
+                UtilSBPersistencia.executaSQL(getEm(),
+                        "DELETE FROM prospectos_usuarios_responsaveis WHERE prospecto_id = " + idProspecto);
+
+                getEm().flush();
+
+// 3. Limpeza extra pelos usuários que vamos deletar (essencial para evitar o erro)
+                if (!usuariosID.isEmpty()) {
+                    String idsUsuarios = UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuariosID, ",");
+                    UtilSBPersistencia.executaSQL(getEm(),
+                            "DELETE FROM prospectos_usuarios_responsaveis WHERE usuarioCRM_id IN " + idsUsuarios);
+                    getEm().flush();
                 }
 
-                if (prospAtualizado.getContatoPrincipal() != null) {
-                    removerEntidade(prospAtualizado.getContatoPrincipal());
+// 4. Agora sim pode deletar os UsuarioSB
+                if (!contatosIDS.isEmpty()) {
+                    String idsContatos = UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(contatosIDS, ",");
+
+                    UtilSBPersistencia.executaSQL(getEm(),
+                            "DELETE FROM " + UsuarioSB.class.getSimpleName()
+                            + " WHERE contatoClienteVinculado_id IN " + idsContatos);
+
+                    getEm().flush();
+
+                    System.out.println("✅ UsuarioSB deletados com sucesso.");
                 }
-                for (ContatoProspecto ct : prospAtualizado.getContatosProspecto()) {
-                    removerEntidade(ct);
-                }
 
-                prospAtualizado.getServicos().forEach(srv -> {
-                    removerEntidade(srv);
-                });
+                UtilSBPersistencia.executaSQL(getEm(), "delete from " + ContatoProspecto.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
+                getEm().flush();
 
-                prospAtualizado.getServicos().clear();
-                prospAtualizado.getHistoricoRelacionamento().forEach(hist -> {
-                    removerEntidade(hist);
-                });
+                UtilSBPersistencia.executaSQL(getEm(), "delete from " + HistoricoRelacionamento.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
+                getEm().flush();
 
-                prospAtualizado.getEmailsEnviadoRecebido().forEach(emailEnviadoRecebido -> {
-                    if (emailEnviadoRecebido.isUmEmailRecebido()) {
-                        ((EmailRecebido) emailEnviadoRecebido).getArquivosRecebidos().forEach(arm -> {
-                            removerEntidade(arm);
-                        });
+                UtilSBPersistencia.executaSQL(getEm(), "delete from " + ServicoOferecido.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
+                getEm().flush();
+
+                List<Long> atividadeIds = getEm()
+                        .createQuery("SELECT a.id FROM AtividadeCRM a WHERE a.prospectoEmpresa.id = :prospectoId", Long.class)
+                        .setParameter("prospectoId", pProspecto.getId())
+                        .getResultList();
+
+                if (!atividadeIds.isEmpty()) {
+
+                    // PASSO 2: Pega os IDs dos ChatBots que vão ser deletados
+                    List<Long> chatBotIds = getEm()
+                            .createQuery("SELECT c.id FROM ChatBot c WHERE c.atividade.id IN (:ids)", Long.class)
+                            .setParameter("ids", atividadeIds)
+                            .getResultList();
+
+                    getEm().createQuery(
+                            "UPDATE AtividadeCRM a SET a.chatBot = NULL WHERE a.id IN :ids")
+                            .setParameter("ids", atividadeIds)
+                            .executeUpdate();
+                    getEm().flush();
+
+                    // PASSO 3: Update usando os IDs dos ChatBots que foram deletados
+                    if (!chatBotIds.isEmpty()) {
+                        getEm().createQuery("UPDATE AtividadeCRM a SET a.chatBot = NULL WHERE a.chatBot.id IN :chatIds")
+                                .setParameter("chatIds", chatBotIds)
+                                .executeUpdate();
+
+                        getEm().flush();
                     }
-                    removerEntidade(emailEnviadoRecebido);
-                });
-                prospAtualizado.getArquivos().forEach(arq -> {
-                    removerEntidade(arq);
-                });
-                prospAtualizado.getTodosdadosColetados().forEach(dado -> {
-                    removerEntidade(dado);
-                });
-                prospAtualizado.getOrcamentos().forEach(orc -> {
-                    removerEntidade(orc);
+                    // 3. Deleta os ChatBots
+                    getEm().createQuery(
+                            "DELETE FROM ChatBot c WHERE c.atividade.id IN :ids")
+                            .setParameter("ids", atividadeIds)
+                            .executeUpdate();
 
-                });
-                UtilSBPersistencia.executaSQL(getEm(), "delete from " + ServicoOferecido.class.getSimpleName() + " where  prospecto_id=" + pProspecto.getId());
+                    getEm().flush();
+                }
 
-                prospAtualizado.getServicos().stream().forEach(this::removerEntidade);
-                prospAtualizado.getAtividadesRealizadas().forEach(atv -> {
-                    if (atv != null) {
-                        atv.getDadosVinculoDireto().forEach(vc -> removerEntidade(vc));
-                        atv.getDadosColetados().forEach(dc -> removerEntidade(dc));
-                        atv.getDadosNaoColetados().forEach(dnc -> removerEntidade(dnc));
-                        removerEntidade(atv);
-                    }
-                });
+                List<Long> dadoIds = getEm()
+                        .createQuery("SELECT d.id FROM DadoCRM d WHERE d.atividadeCRM.id in :id", Long.class)
+                        .setParameter("id", atividadeIds)
+                        .getResultList();
+
+                if (!dadoIds.isEmpty()) {
+                    getEm().createQuery("DELETE FROM DadoColetado_Atividade  WHERE dado_id IN :ids")
+                            .setParameter("ids", dadoIds)
+                            .executeUpdate();
+                    getEm().flush();
+                    getEm().createQuery("DELETE FROM DadoNaoColetado_Atividade  WHERE dado_id IN :ids")
+                            .setParameter("ids", dadoIds)
+                            .executeUpdate();
+                    getEm().flush();
+                    getEm().createQuery("DELETE FROM DadoCRM d WHERE d.id IN :ids")
+                            .setParameter("ids", dadoIds)
+                            .executeUpdate();
+                    getEm().flush();
+                }
+
+                List<Long> emailIDs = getEm()
+                        .createQuery("SELECT e.id FROM EnvioEmailAtividade e WHERE e.atividade.id in :atividadeId", Long.class)
+                        .setParameter("atividadeId", atividadeIds)
+                        .getResultList();
+                if (!emailIDs.isEmpty()) {
+                    getEm().createNativeQuery(
+                            "DELETE FROM envioDocumento_contatos WHERE envioDocumento_id IN :ids")
+                            .setParameter("ids", emailIDs)
+                            .executeUpdate();
+                    getEm().flush();
+                    // Deletar relacionamento com Arquivos Anexados
+                    getEm().createNativeQuery(
+                            "DELETE FROM envioEmail_arquivoAnexado WHERE envioEmail_id IN :ids")
+                            .setParameter("ids", emailIDs)
+                            .executeUpdate();
+                    getEm().flush();
+                    getEm().createNativeQuery(
+                            "DELETE FROM EnvioEmailRascunhoAutoSave WHERE emailVinculado_id IN :ids")
+                            .setParameter("ids", emailIDs)
+                            .executeUpdate();
+                    getEm().flush();
+
+                    getEm().createNativeQuery(
+                            "DELETE FROM envioEmail_arquivoAnexado WHERE envioEmail_id IN :ids")
+                            .setParameter("ids", emailIDs)
+                            .executeUpdate();
+                    getEm().flush();
+                }
+
+                UtilSBPersistencia.executaSQL(getEm(),
+                        "DELETE FROM EmailCrm WHERE atividade_id in " + atividadeIds);
+
+                getEm().flush();;
+
+                List<Long> anexos = getEm()
+                        .createQuery("SELECT a.id FROM ArquivoAnexado a WHERE a.atividadeGeradora.id in :atividadeId", Long.class)
+                        .setParameter("atividadeId", atividadeIds)
+                        .getResultList();
+                if (!anexos.isEmpty()) {
+                    getEm().createNativeQuery(
+                            "DELETE FROM envioEmail_arquivoAnexado WHERE arquivoAnexado_id IN :ids")
+                            .setParameter("ids", anexos)
+                            .executeUpdate();
+                    getEm().flush();
+                    getEm().createNativeQuery("DELETE FROM ArquivoAnexado WHERE id IN :ids")
+                            .setParameter("ids", anexos) // ← CORRIGIDO: usa anexosIds, não emailIDs
+                            .executeUpdate();
+                    getEm().flush();
+                    UtilSBPersistencia.executaSQL(getEm(),
+                            "DELETE FROM ArquivoAnexado WHERE atividadeGeradora_id in " + atividadeIds);
+                }
+                getEm().flush();
+
+                UtilSBPersistencia.executaSQL(getEm(), "delete from " + EmailCrm.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
+                getEm().flush();
+
+                //prospAtualizado.getArquivos().clear();
+                //getEm().flush();
+                getEm().createNativeQuery("DELETE FROM ArquivoAnexado WHERE prospecto_id = :id")
+                        .setParameter("id", idProspecto) // ← CORRIGIDO: usa anexosIds, não emailIDs
+                        .executeUpdate();
+                getEm().flush();
+
+                Pessoa prospAtualizado = null;
+                prospAtualizado.getMensagensMkt().clear();
+                getEMResposta().flush();
+                //    boolean metadadosExtencao = ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto().excluirMetadadosExtencao(prospAtualizado.getId(), getEm());
+                //if (!metadadosExtencao) {
+                //   addAviso("Falha tratando exclusão de metadados da extenção");
+                //}
                 removerEntidade(prospAtualizado);
 
             }
@@ -792,6 +920,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_ATUALIZAR_MAUTIC)
+
     public static ItfRespostaAcaoDoSistema prospectoAtualizarMautic(final Pessoa pPessoaJuridica) {
         return new RespostaComGestaoEntityManagerSomenteLeitura(getNovaRespostaAutorizaChecaNulo(pPessoaJuridica)) {
             private String zeraNulo(String pValor) {
@@ -1175,9 +1304,9 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                         pProspecto.getContatosProspecto().add(contato);
                     }
                 }
-                //Pessoa prosp = atualizarEntidade(pProspecto, true);
+                Pessoa prosp = atualizarEntidade(pProspecto, false);
                 //validarAtributos(pProspecto);
-                Pessoa prosp = UtilSBPersistencia.mergeRegistro(pProspecto, getEm());
+                // Pessoa prosp = UtilSBPersistencia.mergeRegistro(pProspecto, getEm());
                 setRetorno(prosp);
             }
         }.dispararMensagens();

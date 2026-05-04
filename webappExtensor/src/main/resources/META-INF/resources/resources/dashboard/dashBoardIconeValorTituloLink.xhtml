@@ -27,17 +27,17 @@
                 onclick="bloquearArea(this.parentElement.id)"
                 >
                     <!--                <div class="ui-g card colorbox colorbox-#{cc.attrs.codigoestilo}">-->
-            <div class="card-moderno card-estilo-#{cc.attrs.codigoestilo}" style="max-width: 600px;min-width: 420px">
+            <div class="card-moderno card-estilo-#{cc.attrs.codigoestilo}" style="   #{sessaoAtualSBWP.telaUsuario.umMobile?'width:100%; max-width: 330px;':'min-width: 420px; max-width: 600px;'} ">
                 <div class="card-conteudo">
 
                     <h:panelGroup styleClass="card-icone card-estilo-#{cc.attrs.codigoestilo}" style="min-width: 90px;min-height: 90px;">
-                        <i class="fa #{cc.attrs.icone} Fs50"  ></i>
+                        <i class="fa #{cc.attrs.icone}  #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs40':'Fs50'}"  ></i>
                     </h:panelGroup>
 
                     <div class="card-info">
 
-                        <span class="card-valor Fs30"   >#{cc.attrs.valor}</span>
-                        <span class="card-titulo Fs24" style="margin-left: 3px;">#{cc.attrs.titulo}</span>
+                        <span class="card-valor #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs24':'Fs30'}"   >#{cc.attrs.valor}</span>
+                        <span class="card-titulo #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs16':'Fs24'}" style="margin-left: 3px;">#{cc.attrs.titulo}</span>
                     </div>
                 </div>
             </div>

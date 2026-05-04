@@ -12,7 +12,17 @@
 
     <ui:define name="divConteudo">
 
-        <h:panelGroup id="divSBAreaAcaoSelecionada" styleClass="Container12" style="" layout="block" >
+        <h:panelGroup  styleClass="Container12" style="" layout="block" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}" >
+
+            <crmDashBoard:meusCompromissosAtendimento dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+
+            <crmDashBoard:meusCompromissosLead dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+
+            <crmDashBoard:minhasOrigens dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+            <crmDashBoard:meusLeadsVisaoGeral dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
+        </h:panelGroup>
+
+        <h:panelGroup id="divSBAreaAcaoSelecionada" styleClass="Container12" style="" layout="block" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}"  >
 
             <h:panelGroup layout="block" styleClass="Container12" >
                 <p:fieldset legend="Usuário" style="margin: 32px;"  >

@@ -68,6 +68,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.Where;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.model.ComoLead;
@@ -319,7 +321,7 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
     private List<AtividadeCRM> atividadesRealizadas;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES)
-    @OneToMany(mappedBy = "prospecto", targetEntity = HistoricoRelacionamento.class, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "prospecto", targetEntity = HistoricoRelacionamento.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("dataHora DESC")
     private List<HistoricoRelacionamento> historicoRelacionamento;
 
@@ -439,6 +441,9 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
     @OneToMany(targetEntity = Solicitacao.class, mappedBy = "pessoa")
     @Where(clause = " foiFinalizada = 0")
     private List<Solicitacao> solicitacoesAbertas;
+
+    @OneToMany(mappedBy = "pessoa", targetEntity = MensagemMktWhatsapp.class, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<MensagemMktWhatsapp> mensagensMkt;
 
     public Pessoa() {
         super();
@@ -1361,6 +1366,10 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     public void setUltimosArquivos(List<ArquivoAnexado> ultimosArquivos) {
         this.ultimosArquivos = ultimosArquivos;
+    }
+
+    public List<MensagemMktWhatsapp> getMensagensMkt() {
+        return mensagensMkt;
     }
 
 }
