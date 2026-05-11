@@ -13,12 +13,18 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAd
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DadosProspectoGoogle;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringEnderecos;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_URL;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_PaginaConversation;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.InfoParametroURL;
@@ -59,7 +65,8 @@ public class PgPesquisaProspecto extends MB_PaginaConversation {
         dadosPesquisa = new DadosPesquisaGooglePlace();
         dadosPesquisa.setLocal("Belo Horizonte");
         historicoPesquisas = new ArrayList<>();
-        origens = UtilSBPersistencia.getListaTodos(OrigemProspecto.class, getEMPagina());
+
+        origens = UtilSBPersistencia.gerarConsultaDeEntidade(OrigemProspecto.class, getEMPagina()).addCondicaoPositivo(CPOrigemProspecto.ativo).gerarResultados();
         novaOrigem = new OrigemProspecto();
 
         executaAcaoSelecionadaPorEnum(FabAcaoCRMAtendimento.DESCOBRIDOR_PROSPECTO_FRM_LISTAR_DESCOBERTAS);
@@ -140,13 +147,24 @@ public class PgPesquisaProspecto extends MB_PaginaConversation {
 
     }
 
-    public void salvarProsPecto(PessoaJuridica pProspecto) {
-        if (origemSelecionada == null) {
-            SBCore.enviarMensagemUsuario("Você precisa selecionadr uma origem", FabMensagens.ALERTA);
-        } else {
-            pProspecto.setOrigem(origemSelecionada);
-            ModuloCRMAtendimento.prospectoSalvar(pProspecto).dispararMensagens().dispararMensagens();
+    public void salvarProsPecto(DadosProspectoGoogle pDados) {
 
+        try {
+            PessoaJuridica p = pDados.gerarProspectoComValidacao();
+            p.getCPinst("origem").setValorSeValido(origemSelecionada);
+            if (origemSelecionada == null) {
+                throw new ErroValidacao("Selecione uma origem");
+            }
+            if (origemSelecionada.isUmaOrigemPrivada() && origemSelecionada.getComoOrigemPrivada().getUsuarioDono() != null) {
+                p.setUsuarioResponsavel(origemSelecionada.getComoOrigemPrivada().getUsuarioDono());
+                if (!SBCore.getUsuarioLogado().equals(p)) {
+                    p.setUsuariosResponsaveis(new ArrayList<>());
+                    p.getUsuariosResponsaveis().add((UsuarioCRM) SBCore.getUsuarioLogado());
+                }
+            }
+            ModuloCRMAtendimento.prospectoSalvar(p).dispararMensagens().dispararMensagens();
+        } catch (ErroValidacao ex) {
+            SBCore.enviarMensagemUsuario(ex.getMensagemAoUsuario(), FabMensagens.AVISO);
         }
 
     }

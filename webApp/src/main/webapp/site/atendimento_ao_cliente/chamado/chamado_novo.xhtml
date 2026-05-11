@@ -16,18 +16,20 @@
             <p:fieldset legend="Tipo de chamado" styleClass="Container6" >
                 <p:selectOneButton value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('tipoChamado').valor}" id="tipoChamado" required="true"
                                    converter="conversorGenerico"
+
+                                   validator="org.super_bits.view.validadores.beanSimples"
                                    requiredMessage="Por favor, clique  no tipo de chamado"
                                    >
                     <f:passThroughAttribute name="caminhoCampo" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('tipoChamado').nomeCompostoIdentificador}" />
                     <f:passThroughAttribute name="dominio" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('tipoChamado').nomeClasseOrigemAtributo}" />
                     <f:passThroughAttribute name="campoInstanciado" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('tipoChamado')}" />
                     <c:forEach var="tipoChamado" items="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('tipoChamado').comoCampoSeltorItem.origem}" >
-                        <f:selectItem itemLabel="#{tipoChamado.nome}" itemValue="#{tipoChamado}"/>
+                        <f:selectItem itemLabel="#{tipoChamado.nome}" itemValue="#{tipoChamado}" />
                     </c:forEach>
 
                     <p:ajax
                         event="change"
-                        update="tipoChamado"
+                        update="@form"
                         process="@this"
                         listener="#{pgSuporteCliente.salvarDescritivoTemporario()}"
                         />
@@ -35,12 +37,28 @@
                 <p:message for="tipoChamado"
 
                            />
+
+            </p:fieldset>
+
+
+
+        </h:panelGroup>
+
+        <h:panelGroup style="width: 100%;" styleClass="Container8 Responsive" id="dadosDaAtividade" rendered="#{pgSuporteCliente.entidadeSelecionada.dadosDoChamado!=null and !pgSuporteCliente.entidadeSelecionada.dadosDoChamado.isEmpty()}">
+
+            <p:fieldset styleClass="Container12" >
+                <c:forEach items="#{pgSuporteCliente.entidadeSelecionada.dadosDoChamado}" var="dado" >
+                    <h:panelGroup styleClass="Container3"  layout="block">
+
+                        <SBInput:input registro="#{dado.campoInstanciado}"
+                                       layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                       />
+                    </h:panelGroup>
+                </c:forEach>
             </p:fieldset>
         </h:panelGroup>
 
-
-
-        <h:panelGroup style="width: 100%;" styleClass="Container8 Responsive" id="relatorioAtividade">
+        <h:panelGroup style="width: 100%;" styleClass="Container8 Responsive" id="relatorioAtividade" rendered="#{pgSuporteCliente.entidadeSelecionada.tipoChamado!=null}">
 
             <p:fragment >
                 <p:textEditor widgetVar="editor2"
@@ -58,7 +76,7 @@
                         event="blur"
                         onstart="bloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
                         oncomplete="desbloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
-
+                        process="@parent"
 
                         listener="#{pgSuporteCliente.salvarDescritivoTemporario()}"
                         />
@@ -80,20 +98,26 @@
                            />
 
                 <p:poll interval="10" listener="#{pgSuporteCliente.salvarDescritivoTemporario()}" />
+
             </p:fragment>
         </h:panelGroup>
-
+        <h:panelGroup styleClass="Container3 Fright" style="margin: 10px"  layout="block">
+            <SBPaginaAtual:botaoSalvarAlteracoes   />
+        </h:panelGroup>
 
     </ui:define>
 
     <ui:define name="botoesDeAcao">
         <h:panelGroup  styleClass="Fright Container12" >
             <h:panelGroup styleClass="Container3 Fright"  style="margin: 10px">
-                <SBBotao:botaoDeAcao_Pagina update="@form" classeEstilo="botaoVerde" acao="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrAbrirChamado}" tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"/>
+                <SBBotao:botaoDeAcao_Pagina update="@form"
+
+                                            classeEstilo="botaoVerde"
+                                            acao="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrAbrirChamado}"
+                                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                            />
             </h:panelGroup>
-            <h:panelGroup styleClass="Container3 Fright" style="margin: 10px" >
-                <SBPaginaAtual:botaoSalvarAlteracoes  />
-            </h:panelGroup>
+
 
         </h:panelGroup>
 

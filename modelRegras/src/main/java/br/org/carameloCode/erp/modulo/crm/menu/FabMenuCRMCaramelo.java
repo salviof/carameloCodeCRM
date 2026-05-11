@@ -96,6 +96,8 @@ public enum FabMenuCRMCaramelo implements ComoFabricaMenu {
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.PERSONAS_IA.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.ADMINISTRATIVO_CONFIGURACOES_GERAIS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.INTEGRACOES.getRegistro());
+                menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.CADASTRO_CONTATO.getRegistro());
+                menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.FORMULARIOS_ENQUETES.getRegistro());
 
                 return menu;
 

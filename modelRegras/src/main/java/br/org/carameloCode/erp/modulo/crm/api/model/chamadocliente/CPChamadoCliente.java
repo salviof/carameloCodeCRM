@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ChamadoCliente.class)
 public enum CPChamadoCliente {
-	_ID, _TITULO, _SATISFACAO, _STATUS, _ATENDENTERESPONSAVEL, _NOTIFICARVIASMS, _NOTIFICARVIAEMAIL, _ATENDENTESCONVIDADOS, _USUARIODISPONIVEIS, _USUARIOCLIENTE, _TIPOCHAMADO, _DESCRICAO, _RESUMODESCRICAO, _DATAHORACRIACAO, _DATAHORAPROGRAMADA, _SALAMATRIX, _ATIVO, _NOTIFICACOES, _EVENTOSDOCHAMADO, _PESSOA, _USUARIOCRIOU, _LINKURLACESSOCLIENTE, _DATAHORAULTIMOLINKACESSO, _DATAHORAPRIMEIROATENDIMENTO, _DATAHORAULTIMAINTERACAO;
+	_ID, _TITULO, _SATISFACAO, _STATUS, _ATENDENTERESPONSAVEL, _NOTIFICARVIASMS, _NOTIFICARVIAEMAIL, _ATENDENTESCONVIDADOS, _USUARIODISPONIVEIS, _USUARIOCLIENTE, _TIPOCHAMADO, _TIPOSDISPONIVEIS, _DESCRICAO, _RESUMODESCRICAO, _DATAHORACRIACAO, _DATAHORAPROGRAMADA, _SALAMATRIX, _ATIVO, _NOTIFICACOES, _EVENTOSDOCHAMADO, _PESSOA, _USUARIOCRIOU, _LINKURLACESSOCLIENTE, _DATAHORAULTIMOLINKACESSO, _DATAHORAPRIMEIROATENDIMENTO, _DATAHORAULTIMAINTERACAO, _DADOSDOCHAMADO;
 
 	public static final String id = "id";
 	public static final String titulo = "titulo";
@@ -18,6 +18,7 @@ public enum CPChamadoCliente {
 	public static final String usuariodisponiveis = "usuarioDisponiveis";
 	public static final String usuariocliente = "usuarioCliente";
 	public static final String tipochamado = "tipoChamado";
+	public static final String tiposdisponiveis = "tiposDisponiveis";
 	public static final String descricao = "descricao";
 	public static final String resumodescricao = "resumoDescricao";
 	public static final String datahoracriacao = "dataHoraCriacao";
@@ -32,4 +33,5 @@ public enum CPChamadoCliente {
 	public static final String datahoraultimolinkacesso = "dataHoraUltimoLinkAcesso";
 	public static final String datahoraprimeiroatendimento = "dataHoraPrimeiroAtendimento";
 	public static final String datahoraultimainteracao = "dataHoraUltimaInteracao";
+	public static final String dadosdochamado = "dadosDoChamado";
 }

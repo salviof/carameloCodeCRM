@@ -1,9 +1,9 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.reservahoraremotovideo;
 
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = ReservaHoraRemotoVideo.class)
 public enum ValoresLogicosReservaHoraRemotoVideo {
-    LINKCONFERENCIA, LINKCONFERENCIAFOIDEFINIDO, DESCRICAO, VALORRESERVA, CODIGORESERVA, DISPONIVELPARACONFIRMACAO
+	LINKCONFERENCIA, LINKCONFERENCIAFOIDEFINIDO, DESCRICAO, VALORRESERVA, CODIGORESERVA, DISPONIVELPARACONFIRMACAO
 }

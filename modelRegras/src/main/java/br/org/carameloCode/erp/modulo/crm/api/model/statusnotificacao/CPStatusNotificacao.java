@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.statusnotificacao;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.StatusNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.StatusNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = StatusNotificacao.class)

@@ -19,15 +19,7 @@ public class ValidacaoPessoaLocalizacao extends ValidacaoGenerica<Pessoa> {
 
     @Override
     public List<WidgetsFormulario> validar(Object pValor) throws ErroValidacao {
-        if (getPessoa().getLocalizacao() == null) {
-            if (!UtilCRCStringValidador.isNuloOuEmbranco(getPessoa().getCEP())) {
-                if (getPessoa().getLocalizacao() != null) {
-                    if (!UtilCRCStringValidador.isNuloOuEmbranco(getPessoa().getLocalizacao().getCep())) {
-                        getCampoInstanciado().getComoCampoLocalizacao().aplicarCEP(getPessoa().getLocalizacao().getCep());
-                    }
-                }
-            }
-        }
+
         normalizaEndereco(getPessoa());
 
         return null;

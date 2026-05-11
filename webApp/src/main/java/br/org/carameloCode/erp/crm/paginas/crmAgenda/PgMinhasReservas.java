@@ -5,8 +5,8 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmAgenda;
 
+import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.escopopesquisamelhorhorario.CPEscopoPesquisaMelhorHorario;
-import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -38,11 +38,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -59,7 +61,7 @@ import org.primefaces.model.ScheduleModel;
 @Named
 @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_MB_GESTAO)
 public class PgMinhasReservas
-        extends MB_paginaCadastroEntidades<ReservaHorario> implements ItfPaginaListaDeHorariosDisponiveis {
+        extends MB_paginaCadastroEntidades<ReservaHorarioCRM> implements ItfPaginaListaDeHorariosDisponiveis {
 
     @InfoParametroURL(nome = "Usuarário da agenda", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = UsuarioCRM.class, obrigatorio = false)
     private ParametroURL prUsuario;
@@ -75,7 +77,7 @@ public class PgMinhasReservas
     private HorarioDisponivelAtendimentoPublico horarioDisponivelSelecionado;
 
     @Override
-    public ReservaHorario getEntidadeSelecionada() {
+    public ReservaHorarioCRM getEntidadeSelecionada() {
         if (super.getEntidadeSelecionada() == null) {
             if (getHorarioDisponivelSelecionado() != null) {
                 autoexecEntidadeNova();
@@ -148,7 +150,7 @@ public class PgMinhasReservas
             consulta.addCondicaoManyToOneIgualA(CPReservaHorario.atendenteresponsavel, usuario);
             consulta.addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, UtilCRCDataHora.decrementarDias(new Date(), 1));
 
-            List<ReservaHorario> reservas = consulta.resultadoRegistros();
+            List<ReservaHorarioCRM> reservas = consulta.resultadoRegistros();
 
             reservas.stream().forEach(reserva -> {
 
@@ -222,7 +224,7 @@ public class PgMinhasReservas
     }
 
     public void salvarEscopoReservaCliente() {
-        ItfRespostaAcaoDoSistema resposta = ModuloAgendamentoPublico.atualizarMeuEscopoClientePadrao(usuario);
+        ItfRespostaAcaoDoSistema resposta = ModuloAgendamentoPublico.escopoPublicoSalvarMerge((EscopoPesqHorarioPublicado) usuario.getEscopoAgendaClientes());
         resposta.dispararMensagens();
         if (resposta.isSucesso()) {
             UtilSBWP_JSFTools.vaParaPaginaInicial();

@@ -179,8 +179,8 @@ public class UtilCRMChat {
         return usuariosAtendentes;
     }
 
-    public static List<UsuarioCRM> gerarListasUsuariosContatos(ChamadoCliente pChamdo) throws ErroConexaoServicoChat, ErroRegraDeNEgocioChat {
-        List<UsuarioCRM> usuariosExternosCLiante = new ArrayList<>();
+    public static List<UsuarioCrmCliente> gerarListasUsuariosContatos(ChamadoCliente pChamdo) throws ErroConexaoServicoChat, ErroRegraDeNEgocioChat {
+        List<UsuarioCrmCliente> usuariosExternosCLiante = new ArrayList<>();
         UsuarioCrmCliente usuario = pChamdo.getUsuarioCliente();
         usuariosExternosCLiante.add(usuario);
         return usuariosExternosCLiante;
@@ -290,20 +290,16 @@ public class UtilCRMChat {
 
         for (UsuarioCRM usr : pUsuariosExternosCLiente) {
             if (usr.isUmUsuarioDoCliente()) {
-                try {
-                    usuariosMatrixExternosCLiente.add(gerarUsuarioContatoCliente(usr.getComoUsuarioCliente()));
-                } catch (ErroRegraDeNEgocioChat ex) {
-                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando usuário Matrix do Cliente", ex);
-                }
+
+                usuariosMatrixExternosCLiente.add(gerarUsuarioContatoCliente(usr.getComoUsuarioCliente()));
+
             }
         }
         for (UsuarioCRM usr : pUsuarioAtendimento) {
             if (!usr.isUmUsuarioDoCliente()) {
-                try {
-                    usuariosMatrixAtendimento.add(gerarUsuarioAtendimento(usr));
-                } catch (ErroRegraDeNEgocioChat ex) {
-                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando usuário Matrix do Atendimento", ex);
-                }
+
+                usuariosMatrixAtendimento.add(gerarUsuarioAtendimento(usr));
+
             }
         }
 
@@ -352,7 +348,7 @@ public class UtilCRMChat {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
             ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(ppChamado, em);
-            List<UsuarioCRM> usuariosExternosCLiente = gerarListasUsuariosContatos(chamado);
+            List<UsuarioCrmCliente> usuariosExternosCLiente = gerarListasUsuariosContatos(chamado);
             List<UsuarioCRM> usuariosAtendimento = getarListasUsuariosAtendTimeIntranet(chamado);
 
             String nomePErsonalizado = "Chamado " + chamado.getId() + " " + UtilCRCStringFiltros.getNomeReduzido(chamado.getCliente().getRepresentanteLegal().getNome());
@@ -361,11 +357,12 @@ public class UtilCRMChat {
                     FabTipoSalaMatrix.MATRIX_CHAT_ATENDIMENTO_CHAMADO,
                     nomePErsonalizado,
                     chamado,
-                    usuariosAtendimento, usuariosExternosCLiente);
+                    usuariosAtendimento, (List) usuariosExternosCLiente);
 
             UtilSBPersistencia.executaSQL("update " + ChamadoCliente.class.getSimpleName() + " set salaMatrix='" + chat.getApelido() + "' where id = " + chamado.getId());
             return chat;
-
+        } catch (Throwable t) {
+            throw t;
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }

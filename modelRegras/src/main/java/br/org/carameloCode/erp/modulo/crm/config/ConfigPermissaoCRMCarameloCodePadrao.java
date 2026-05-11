@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.config;
 
-import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;

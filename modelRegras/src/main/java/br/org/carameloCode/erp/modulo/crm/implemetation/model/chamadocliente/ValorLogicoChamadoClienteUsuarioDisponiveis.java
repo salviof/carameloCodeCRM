@@ -31,13 +31,11 @@ public class ValorLogicoChamadoClienteUsuarioDisponiveis
         EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
         try {
             TipoChamado tipoChamado = UtilSBPersistencia.loadEntidade(getChamado().getTipoChamado(), em);
-            UsuarioCrmCliente usuarioCliente = UtilSBPersistencia.loadEntidade(getChamado().getUsuarioCliente(), em);
+
             tipoChamado.getResponsaveis().stream().filter(usuario -> (!usuariosDisponiveis.contains(usuario))).forEachOrdered(usuario -> {
                 usuariosDisponiveis.add(usuario);
             });
-            usuarioCliente.getRepresentanteLegal().getUsuariosResponsaveis().stream().filter(usuario -> (!usuariosDisponiveis.contains(usuario))).forEachOrdered(usuario -> {
-                usuariosDisponiveis.add(usuario);
-            });
+
             getChamado().setUsuarioDisponiveis(usuariosDisponiveis);
         } finally {
             UtilSBPersistencia.fecharEM(em);

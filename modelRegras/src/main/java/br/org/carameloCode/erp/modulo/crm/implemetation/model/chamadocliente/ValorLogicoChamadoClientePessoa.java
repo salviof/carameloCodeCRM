@@ -17,14 +17,17 @@ public class ValorLogicoChamadoClientePessoa extends ValorLogicoCalculoGenerico 
     @Override
     public Object getValor(Object... pEntidade) {
         if (getChamado().getPessoa() == null) {
-            Pessoa pessoa = getChamado().getUsuarioCliente().getRepresentanteLegal();
-            getChamado().setPessoa(pessoa);
+            if (getChamado().getUsuarioCliente() != null) {
+                Pessoa pessoa = getChamado().getUsuarioCliente().getRepresentanteLegal();
+                getChamado().setPessoa(pessoa);
+            }
+
         }
         return getChamado().getPessoa();
     }
 
     public ChamadoCliente getChamado() {
-        return (ChamadoCliente) getCampoInst().getObjetoDoAtributo();
+        return (ChamadoCliente) getCampoInst().getObjetoRaizDoAtributo();
     }
 
 }

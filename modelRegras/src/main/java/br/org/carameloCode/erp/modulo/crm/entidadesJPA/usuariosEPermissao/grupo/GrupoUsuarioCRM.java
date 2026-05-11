@@ -12,7 +12,9 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaAcoes;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -26,6 +28,9 @@ public class GrupoUsuarioCRM extends GrupoUsuarioSB {
 
     @ManyToOne(targetEntity = ModuloIntranetCasanova.class)
     private ModuloIntranetCasanova moduloPrincipal;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.URL)
+    private String urlChatMatrix;
 
     @Override
     public ModuloIntranetCasanova getModuloPrincipal() {
@@ -59,6 +64,14 @@ public class GrupoUsuarioCRM extends GrupoUsuarioSB {
 
         }
 
+    }
+
+    public String getUrlChatMatrix() {
+        return urlChatMatrix;
+    }
+
+    public void setUrlChatMatrix(String urlChatMatrix) {
+        this.urlChatMatrix = urlChatMatrix;
     }
 
 }

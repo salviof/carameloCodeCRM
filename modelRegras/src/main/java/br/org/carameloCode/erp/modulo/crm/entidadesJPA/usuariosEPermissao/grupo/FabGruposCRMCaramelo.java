@@ -35,24 +35,27 @@ public enum FabGruposCRMCaramelo implements ComoFabricaComPersistencia {
                 novoGrupo.setPaginaInicial(FabAcaoCRMAtendimento.MEU_DASHBOARD_MB_GESTAO);
                 novoGrupo.adicionarModulo(FabModulosCRM.ATENDIMENTO_CRM.getRegistro());
                 novoGrupo.setModuloPrincipal(FabModulosCRM.ATENDIMENTO_CRM.getRegistro());
+                novoGrupo.setUrlChatMatrix("https://chatatendimento.casanovadigital.com.br");
                 break;
             case CRM_ADMIN:
                 novoGrupo.setNome("Administração de CRM");
                 novoGrupo.setPaginaInicial(FabAcaoCrmAdmin.ADMINISTRATIVO_PAGINA_PRINCIPAL_MB);
                 novoGrupo.adicionarModulo(FabModulosCRM.ADMIN_CRM.getRegistro());
                 novoGrupo.setModuloPrincipal(FabModulosCRM.ADMIN_CRM.getRegistro());
+                novoGrupo.setUrlChatMatrix("https://chatatendimento.casanovadigital.com.br");
                 break;
             case CRM_CLIENTE:
                 novoGrupo.setNome("Cliente");
                 novoGrupo.setPaginaInicial(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO);
                 novoGrupo.adicionarModulo(FabModulosCRM.CLIENTE_CONTATO.getRegistro());
                 novoGrupo.setModuloPrincipal(FabModulosCRM.CLIENTE_CONTATO.getRegistro());
+                novoGrupo.setUrlChatMatrix("https://chatatcliente.casanovadigital.com.br");
                 break;
             case CRM_CONVIDADO:
                 novoGrupo.setNome("Convidado");
                 novoGrupo.setPaginaInicial(FabAcaoCRMConvidado.MEUS_CLIENTES_MB_GESTAO);
                 novoGrupo.adicionarModulo(FabModulosCRM.CONVIDADO.getRegistro());
-
+                novoGrupo.setUrlChatMatrix("https://chatcomunidade.casanovadigital.com.br/");
                 break;
 
             default:

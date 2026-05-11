@@ -9,6 +9,7 @@ import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao.ModuloCRMAplicacao;
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
@@ -47,6 +48,10 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
+import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat.gerarListasUsuariosContatos;
+import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat.getarListasUsuariosAtendTimeIntranet;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_controller.intranetMarketingDigital.controller.ServicoNotificacao;
 
 /**
  *
@@ -100,7 +105,8 @@ public class ModuloCRMAtendimentoChamado extends ControllerAbstratoSBPersistenci
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
                 if (isSucesso()) {
-                    setRetorno(chamadoAssumirResponsavel(pChamado).getRetorno());
+                    chamadoAssumirResponsavel(pChamado).dispararMensagens();
+                    setRetorno(chamadoAssumirResponsavel(pChamado).dispararMensagens().getRetorno());
                 }
             }
 
@@ -267,73 +273,102 @@ public class ModuloCRMAtendimentoChamado extends ControllerAbstratoSBPersistenci
         }.getResposta();
     }
 
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_ASSUMIR_CHAMADO)
-    public static ItfRespostaAcaoDoSistema chamadoAssumirResponsavel(final ChamadoCliente pChamado) {
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_VALIDAR_CHAMADO)
+    public static ItfRespostaAcaoDoSistema chamadoValidar(final ChamadoCliente pChamado) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pChamado), pChamado) {
             @Override
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais();
-
-                if (isSucesso()) {
-                    try {
-                        ChamadoCliente chamadoAtualizado = (ChamadoCliente) getRetorno();
-                        UtilCRMChat.gerarSalaChamado(chamadoAtualizado);
-
-                    } catch (ErroConexaoServicoChat | ErroRegraDeNEgocioChat ex) {
-                        addErro("Falha criando integração do chamado com Matrix");
-                        EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
-                        try {
-                            ChamadoCliente chamadoReversaoFalhaMatrix = UtilSBPersistencia.loadEntidade(pChamado, em);
-                            chamadoReversaoFalhaMatrix.setStatus(FabStatusChamado.RASCUNHO.getRegistro());
-                            UtilSBPersistencia.mergeRegistro(chamadoReversaoFalhaMatrix, em);
-                        } finally {
-                            UtilSBPersistencia.fecharEM(em);
-                        }
-                    }
-
-                }
 
             }
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
 
+                try {
+                    List<UsuarioCrmCliente> usuariosExternosCLiente = gerarListasUsuariosContatos(pChamado);
+                    if (usuariosExternosCLiente.isEmpty()) {
+                        throw new ErroRegraDeNegocio("Usuários do cliente não foram definidos");
+                    }
+                    if (pChamado.getUsuarioCliente() == null) {
+                        throw new ErroRegraDeNegocio("Usuários do cliente não foi encontrado, cadastre o e-mail e telefone do cliente");
+                    }
+                    List<UsuarioCRM> usuariosAtendimento = getarListasUsuariosAtendTimeIntranet(pChamado);
+
+                    if (usuariosAtendimento.isEmpty()) {
+                        throw new ErroRegraDeNegocio("Usuários de atendimento não foram definidos");
+                    }
+                    for (UsuarioCRM atend : usuariosAtendimento) {
+                        UtilCRMChat.gerarUsuarioAtendimento(atend);
+                    }
+                    for (UsuarioCrmCliente usrCliente : usuariosExternosCLiente) {
+                        UtilCRMChat.gerarUsuarioContatoCliente(usrCliente);
+                    }
+
+                } catch (ErroConexaoServicoChat | ErroRegraDeNEgocioChat ex) {
+                    throw new ErroRegraDeNegocio(ex.getMessage());
+                }
+
+            }
+        }.getResposta();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_ABANDONAR_CHAMADO)
+    public static ItfRespostaAcaoDoSistema chamadoAbandonar(final ChamadoCliente pChamado) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pChamado), pChamado) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais();
+
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
                 ChamadoCliente chamado = loadEntidade(pChamado);
+                chamado.setStatus(FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro());
+                if (chamado.getAtendenteResponsavel() != null) {
+                    if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
+                        if (chamado.getAtendenteResponsavel().equals(SBCore.getUsuarioLogado())) {
+                            chamado.setAtendenteResponsavel(null);
+                        }
+                    } else {
+                        chamado.setAtendenteResponsavel(null);
+                    }
+                }
+                atualizarEntidade(chamado);
+                addAlerta("O Chamado foi abandonado, está em busca de um resposável agora");
+            }
+        }.getResposta();
+    }
 
-                chamado.setStatus(FabStatusChamado.EM_ATENDIMENTO.getRegistro());
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_ASSUMIR_CHAMADO)
+    public static ItfRespostaAcaoDoSistema chamadoAssumirResponsavel(final ChamadoCliente pChamado) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pChamado), pChamado) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais();
+                if (isSucesso()) {
+                    try {
+                        UtilCRMChat.gerarSalaChamado(pChamado);
+                        ServicoNotificacao.notificarChamadoCliente(FabTipoNotificacao.NOTIFICACAO_CLIENTE_CHAMADO_EM_ATENDIMENTO, pChamado);
 
+                    } catch (ErroConexaoServicoChat | ErroRegraDeNEgocioChat ex) {
+                        chamadoAbandonar(pChamado).dispararMensagens();
+                    }
+                }
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                ChamadoCliente chamado = loadEntidade(pChamado);
                 UsuarioCRM usuario = (UsuarioCRM) loadEntidade(SBCore.getUsuarioLogado());
                 chamado.setAtendenteResponsavel(usuario);
-                atualizarEntidade(chamado);
-
-                String url = getUrlChamadoAcessoCLiente(pChamado);
-                String conteudoemail = "Olá, " + chamado.getAtendenteResponsavel().getNome() + " assumiu o chamado " + "Cod." + chamado.getId() + "do dipo " + chamado.getTipoChamado().getNome()
-                        + " você pode interajir com este chamado "
-                        + "<h1><a href='"
-                        + url + "'>CLICANDO AQUI "
-                        + "</a> </h1> <br/>"
-                        + "O assunto do chamado é: <h3> "
-                        + "" + chamado.getDescricao() + "</h3>"
-                        + "";
-                try {
-                    if (ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto().enviarEMailAplicandoModeloAssinatura(usuario, chamado.getUsuarioCliente(),
-                            "Chamado do tipo " + chamado.getTipoChamado().getNome() + ", foi assumido por" + chamado.getAtendenteResponsavel().getNome(),
-                            conteudoemail)) {
-
-                        addAviso("O email para " + pChamado.getUsuarioCliente().getEmail() + " foi enviado");
-                    } else {
-                        addAlerta("Falhando enviando email para " + pChamado.getUsuarioCliente().getEmail());
-                    }
-                } catch (ErroEnvioEmail ex) {
-                    addAlerta("Falhando enviando email para " + pChamado.getUsuarioCliente().getEmail());
-                }
-                if (chamado.getUsuarioCliente().getContatoClienteVinculado().isPossuiTelefone()) {
-                    if (FabIntegracaoSMS.ENVIAR_MENSAGEM.getAcao(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(chamado.getUsuarioCliente().getContatoClienteVinculado().getCelular()),
-                            "Chamado do tipo " + chamado.getTipoChamado().getNome() + ", foi assumido por" + chamado.getAtendenteResponsavel().getNome() + " para interajir com o chamado acesse: " + url).getResposta().isSucesso()) {
-                        addAviso("Um sms foi enviado para " + pChamado.getUsuarioCliente().getContatoClienteVinculado().getCelular());
-                    } else {
-                        addAlerta("Falhando enviando SMS para " + chamado.getUsuarioCliente().getContatoClienteVinculado().getCelular());
-                    }
+                chamado.setStatus(FabStatusChamado.EM_ATENDIMENTO.getRegistro());
+                chamado = atualizarEntidade(chamado);
+                ItfRespostaAcaoDoSistema respValidacaoChamado = chamadoValidar(pChamado);
+                if (!respValidacaoChamado.isSucesso()) {
+                    throw new ErroRegraDeNegocio("Não foi possível assumir o chamado, falha no Matrix" + respValidacaoChamado.getMensagens().get(0).getMenssagem());
                 }
 
                 EventoChamado novoEvento = new EventoChamado();

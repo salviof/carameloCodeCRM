@@ -74,6 +74,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemPros
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
@@ -1225,6 +1226,16 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
 
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_CTR_SALVAR_MERGE)
     public static ItfRespostaAcaoDoSistema tipoDadoIASalvar(TipoDadoIA pTipoDadoIA) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoDadoIA), pTipoDadoIA) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoDadoIA);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_EMPRESA_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoEmpresaSalvar(TipoEmpresa pTipoDadoIA) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoDadoIA), pTipoDadoIA) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {

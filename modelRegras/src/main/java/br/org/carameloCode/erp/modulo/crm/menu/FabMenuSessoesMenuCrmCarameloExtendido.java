@@ -18,6 +18,8 @@ import org.coletivojava.fw.api.objetoNativo.view.menu.SessaoMenuSB;
 public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
     CONTATO_METADADOS,
     META_DADOS_LOGICOS,
+    CADASTRO_CONTATO,
+    FORMULARIOS_ENQUETES,
     SERVICOS,
     DOCUMENTOS,
     ATIVIDADES_RELACIONAMENTO,
@@ -56,16 +58,8 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
             case CONTATO_METADADOS:
                 sessao = new SessaoMenuSB("Metadados de Contatos", "fa fa-database");
                 sessao.addAcao(FabAcaoCrmAdmin.ORIGEM_PROSPECTO_MB_GERENCIAR);
-                sessao.addAcao(FabAcaoCrmAdmin.IMPORTADOR_PROSPECTO_MB);
-                sessao.addAcao(FabAcaoCrmAdmin.MANUTENCAO_DADOS_PROSPECTO_MB);
-                sessao.addAcao(FabAcaoCrmAdmin.TIPO_RELACIONAMENTO_MB_GERENCIAR);
-                sessao.addAcao(FabAcaoCrmAdmin.META_RELACIONAMENTO_MB);
                 sessao.addAcao(FabAcaoCrmAdmin.TAG_MB);
-
-                sessao.addAcao(FabAcaoCrmAdmin.OPCAO_DADOS_CRM_MB_GERENCIAR);
-                sessao.addAcao(FabAcaoCrmAdmin.GRUPO_OPCAO_DADOS_CRM_MB_GERENCIAR);
-
-                sessao.addAcao(FabAcaoCrmAdmin.FORM_CHAT_MB_GESTAO);
+                sessao.addAcao(FabAcaoCrmAdmin.TIPO_EMPRESA_MB);
 
                 break;
             case COLABORADORES:
@@ -106,17 +100,20 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
                 break;
             case META_DADOS_LOGICOS:
                 sessao = new SessaoMenuSB("Metadados Lógicos e IA ", "fa fa-cubes");
+                sessao.addAcao(FabAcaoCrmAdmin.OPCAO_DADOS_CRM_MB_GERENCIAR);
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_LOGICO_MB_GERENCIA);
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO);
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_INTEGRACAO_MB_GERENCIAR);
                 sessao.addAcao(FabAcaoCrmAdmin.GRUPO_OPCAO_DADOS_CRM_MB_GERENCIAR);
+
                 break;
             case ADMINISTRATIVO_CONFIGURACOES_GERAIS:
-                sessao = new SessaoMenuSB("Configurações Gerais", "fa fa-cogs");
+                sessao = new SessaoMenuSB("Configurações Notificação ", "fa fa-cogs");
 
                 sessao.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_LISTAR_ASSINATURAS);
                 sessao.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_CONFIGURAR_EMAILS);
-                sessao.addAcao(FabAcaoCrmAdmin.MANUTENCAO_DADOS_PROSPECTO_MB);
+                sessao.addAcao(FabAcaoCrmAdmin.TIPO_NOTIFICACAO_MB);
+
                 break;
             case INTEGRACOES:
                 sessao = new SessaoMenuSB("Integrações", "fa fa-plug");
@@ -129,6 +126,17 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
                 break;
             case SEGURANCA:
                 sessao = new SessaoMenuSB("Segurança", "fa fa-shield");
+                break;
+            case CADASTRO_CONTATO:
+                sessao = new SessaoMenuSB("Cadastro Manutenção", "fa fa-address-card-o");
+                sessao.addAcao(FabAcaoCrmAdmin.IMPORTADOR_PROSPECTO_MB);
+                sessao.addAcao(FabAcaoCrmAdmin.MANUTENCAO_DADOS_PROSPECTO_MB);
+                break;
+            case FORMULARIOS_ENQUETES:
+                sessao = new SessaoMenuSB("Formulários", "fa fa-clipboard");
+                sessao.addAcao(FabAcaoCrmAdmin.FORM_CHAT_MB_GESTAO);
+                sessao.addAcao(FabAcaoCrmAdmin.TIPO_FORMULARIO_TYPEBOT_MB_GESTAO);
+
                 break;
 
             default:

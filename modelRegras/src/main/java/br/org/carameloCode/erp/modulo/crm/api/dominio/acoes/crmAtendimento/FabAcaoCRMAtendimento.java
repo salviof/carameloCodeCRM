@@ -673,6 +673,10 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     MEUS_CHAMADOS_CTR_DEFINIR_RESPONSAVEL,
     @InfoTipoAcaoController(nomeAcao = "Assumir chamado", icone = "fa fa-hand-rock-o")
     MEUS_CHAMADOS_CTR_ASSUMIR_CHAMADO,
+    @InfoTipoAcaoController(nomeAcao = "Validar Chamado", icone = "fa fa-hand-rock-o")
+    MEUS_CHAMADOS_CTR_VALIDAR_CHAMADO,
+    @InfoTipoAcaoController(nomeAcao = "Abandonar Chamado", icone = "fa fa-hand-rock-o")
+    MEUS_CHAMADOS_CTR_ABANDONAR_CHAMADO,
     @InfoTipoAcaoController(nomeAcao = "Notificação 1 click", icone = "fa fa-bell-o")
     MEUS_CHAMADOS_CTR_NOTIFICAR_CLIENTE,
     @InfoTipoAcaoController(nomeAcao = "Gerar código de acesso", icone = "fa fa-key")

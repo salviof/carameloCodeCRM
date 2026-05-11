@@ -18,6 +18,11 @@
     overflow: hidden;
 }
 
+.editor-branco .ql-editor {
+    color: #FFFFFF !important;
+    font-family: "Adamantium Light", sans-serif;
+    font-size: 14px;
+}
 
 .card-moderno:hover {
     transform: translateY(-4px);

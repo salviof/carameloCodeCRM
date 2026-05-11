@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
-import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.usuariosb.CPUsuarioSB;
+import br.org.coletivoJava.fw.projetos.fw.api.model.usuariosb.CPUsuarioSB;
 
 /**
  *

@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensagemMktWhatsApp;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import javax.persistence.Entity;
@@ -24,6 +24,14 @@ public class TiponotificacaoCRM extends TipoNotificacao {
     @Override
     public boolean isEntidadeExtendida() {
         return true;
+    }
+
+    public TipoMensagemMktWhatsApp getTipoMensagem() {
+        return tipoMensagem;
+    }
+
+    public void setTipoMensagem(TipoMensagemMktWhatsApp tipoMensagem) {
+        this.tipoMensagem = tipoMensagem;
     }
 
 }

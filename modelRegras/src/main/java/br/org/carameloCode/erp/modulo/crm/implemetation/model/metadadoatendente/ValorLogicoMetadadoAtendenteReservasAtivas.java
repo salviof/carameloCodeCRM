@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.metadadoatendente;
 
+import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
 import com.google.common.collect.Lists;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
@@ -11,7 +12,6 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.metadadoatendente.ValorLogicoMetadadoAtendente;
 import br.org.carameloCode.erp.modulo.crm.api.model.metadadoatendente.ValoresLogicosMetadadoAtendente;
-import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 

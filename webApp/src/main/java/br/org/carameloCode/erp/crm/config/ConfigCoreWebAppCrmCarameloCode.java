@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.crm.config;
 
-import br.org.coletivojava.erp.notificacao.padrao.controller.FabAcaoNotificacaoPadraoSB;
+import br.org.carameloCode.erp.modulo.notificacao.controller.FabAcaoNotificacaoPadraoSB;
 import br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.ServicoDeArquivosWebAppS3;
 
 import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSocialAutenticador;

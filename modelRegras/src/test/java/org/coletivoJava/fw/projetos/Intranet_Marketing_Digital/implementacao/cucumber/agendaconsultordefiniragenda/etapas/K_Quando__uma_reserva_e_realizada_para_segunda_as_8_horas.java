@@ -1,6 +1,5 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.agendaconsultordefiniragenda.etapas;
 
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import cucumber.api.java.pt.Quando;
@@ -9,7 +8,7 @@ import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.cucumber.agen
 import br.org.carameloCode.erp.modulo.crm.api.model.escopopesquisamelhorhorario.CPEscopoPesquisaMelhorHorario;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.agendaconsultordefiniragenda.FluxoAgendaDoConsultor;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.junit.Assert;
 
@@ -27,7 +26,7 @@ public class K_Quando__uma_reserva_e_realizada_para_segunda_as_8_horas {
         } catch (ErroPreparandoObjeto ex) {
             throw new UnsupportedOperationException("Falha criando reserva de horário");
         }
-        ItfResposta resp = ModuloCRMCliente.reservaHorario(novaReserva);
+        ItfResposta resp = null;//ModuloCRMCliente.reservaHorario(novaReserva);
         Assert.assertTrue("Falha criando reserva", resp.isSucesso());
     }
 }

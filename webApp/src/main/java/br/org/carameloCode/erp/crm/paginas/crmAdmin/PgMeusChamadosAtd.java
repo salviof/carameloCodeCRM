@@ -101,12 +101,13 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
     @PostConstruct
     public void inicio() {
         FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
-
-        switch (acao) {
-            case MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO:
-            case MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO:
-                listarDados();
-                break;
+        if (acao != null) {
+            switch (acao) {
+                case MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO:
+                case MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO:
+                    listarDados();
+                    break;
+            }
         }
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
@@ -169,7 +170,7 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                 if (pessoaSelecionada != null) {
                     consulta.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.pessoa, pessoaSelecionada);
                 }
-                    //  consulta.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
+                //  consulta.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
 //                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
 //                    consulta.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
 //                }

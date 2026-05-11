@@ -13,9 +13,6 @@ import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
-import br.org.coletivojava.erp.notificacao.api.ErroGerandoNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
@@ -36,7 +33,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_controller.intranetMarketingDigital.controller.ServicoNotificacao;
-import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_controller.intranetMarketingDigital.controller.ServicoNotificacao.NOTIFICACAO_SRV;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.InfoAcaoaAcessoAnonimoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
@@ -44,7 +40,6 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.Modul
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
-import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -55,7 +50,6 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +65,8 @@ import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.Map
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.StatusReserva;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 
 /**
  *
@@ -129,7 +125,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                     pChamado.setPessoa(loadEntidade(pChamado.getPessoa()));
                 }
                 pChamado.setDataHoraCriacao(new Date());
-
+                atualizarEntidade(pChamado);
+                setProximoFormulario(FabAcaoCRMCliente.CHAMADO_FRM_NOVO.getRegistro().getComoFormulario());
                 setRetorno(atualizarEntidade(pChamado));
 
             }
@@ -198,26 +195,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                         }
                     }
                 } else {
-
-                    new ExecucaoComGestaoEntityManager() {
-
-                        @Override
-                        public void regraDeNegocio() throws ErroRegraDeNegocio {
-                            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getRetorno(), getEm());
-                            NotificacaoSB notificacao;
-                            try {
-                                notificacao = NOTIFICACAO_SRV.getNotificacao(FabTipoNotificacao.NOTIFICACAO_CLIENTE_PROTOCOLO_DE_CHAMADO.getRegistro(), chamado.getUsuarioCliente(), chamado);
-                                notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
-                                ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
-                                ServicoNotificacao.chamadoNotificarResponsaveis(FabTipoNotificacao.NOTIFICACAO_RESPONSAVEIS_CHAMADO_ABERTO, chamado);
-                            } catch (ErroGerandoNotificacao ex) {
-                                Logger.getLogger(ModuloCRMCliente.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-                        }
-
-                    };
-
+                    ServicoNotificacao.notificarChamadoCliente(FabTipoNotificacao.NOTIFICACAO_CLIENTE_PROTOCOLO_DE_CHAMADO, pChamado);
+                    ServicoNotificacao.notificacarChamadoResponsaveis(FabTipoNotificacao.NOTIFICACAO_RESPONSAVEIS_CHAMADO_ABERTO, pChamado);
                 }
             }
 
@@ -247,8 +226,6 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 if (chamadoAtualizado.getTipoChamado() == null) {
                     throw new ErroRegraDeNegocio("O tipo de chamado é obrigatorio");
                 }
-
-                ServicoNotificacao.chamadoNotificarResponsaveis(FabTipoNotificacao.NOTIFICACAO_RESPONSAVEIS_CHAMADO_ABERTO, chamadoAtualizado);
 
                 setRetorno(atualizarEntidade(chamadoAtualizado, true));
 
@@ -633,13 +610,14 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.RESERVAS_CTR_RESERVAR)
-    public static ItfRespostaAcaoDoSistema reservaHorario(ReservaHorario pReserva) {
+    public static ItfRespostaAcaoDoSistema reservaHorario(ReservaHorarioCRM pReserva) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
             @Override
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais();
                 if (isSucesso()) {
+                    ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_MARCOU_NA_AGENDA, pReserva);
                     MapaHorariosDisponiveis.adicionarReservaAtendente((ReservaHorario) getRetorno());
                 }
             }
@@ -650,17 +628,9 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                     throw new ErroRegraDeNegocio("A reserva já foi registrada");
                 }
                 pReserva.setStatus(FabStatusReservaHorario.AGENDADO.getRegistro());
-                ReservaHorario reservaAtualizada = atualizarEntidade(pReserva);
-                setRetorno(reservaAtualizada);
-                try {
-                    ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(reservaAtualizada.getAtendenteResponsavel().getCodigoMatrix(),
-                            reservaAtualizada.getAtendidoResponsavel().getNome() + " agendou uma reunião com você dia "
-                            + UtilCRCDataHora.getDataHoraString(reservaAtualizada.getInicioReservaAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO)
-                            + " para  " + reservaAtualizada.getPessoaRelacionada().getNome() + " sobre " + reservaAtualizada.getTipoAgendamento().getNome()
-                    );
-                } catch (Throwable t) {
 
-                }
+                ReservaHorarioCRM reservaAtualizada = atualizarEntidade(pReserva);
+                setRetorno(reservaAtualizada);
 
                 setProximoFormulario(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO.getRegistro().getComoFormulario());
             }
@@ -670,8 +640,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoaAcessoAnonimoCRM(acao = FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_CTR_CANCELAR)
-    public static ItfRespostaAcaoDoSistema reservaPubHorarioCancelar(ReservaHorario pReserva) {
-        final String codigoRC = pReserva.getAtendenteResponsavel().getCodigoMatrix();
+    public static ItfRespostaAcaoDoSistema reservaPubHorarioCancelar(ReservaHorarioCRM pReserva) {
+
         final String nomeCliente;
         final String tipoChamado;
         if (pReserva.getPessoaRelacionada() == null) {
@@ -689,10 +659,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 try {
                     if (isSucesso()) {
                         MapaHorariosDisponiveis.removerReservaAtendente((ReservaHorario) getRetorno());
-                        ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(codigoRC,
-                                pReserva.getAtendidoResponsavel().getNome() + " cancelou uma reunião com você dia "
-                                + UtilCRCDataHora.getDataHoraString(pReserva.getInicioReservaAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO)
-                                + " para  " + nomeCliente + " sobre " + tipoChamado);
+                        ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_CANCELOU, pReserva);
                     }
                 } catch (Throwable t) {
 
@@ -723,7 +690,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoaAcessoAnonimoCRM(acao = FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_CTR_CONFIRMAR)
-    public static ItfRespostaAcaoDoSistema reservaConfirmar(ReservaHorario pReserva) {
+    public static ItfRespostaAcaoDoSistema reservaConfirmar(ReservaHorarioCRM pReserva) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
             @Override
@@ -731,9 +698,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 ReservaHorario reserva = loadEntidade(pReserva);
                 reserva.setStatus(FabStatusReservaHorario.CONFIRMADO.getRegistro());
                 try {
-                    ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(reserva.getAtendenteResponsavel().getCodigoMatrix(),
-                            reserva.getAtendidoResponsavel().getNome() + " confirmou a reunião nas proximas 24 horas, para  " + reserva.getPessoaRelacionada().getNome() + " sobre " + reserva.getTipoAgendamento().getNome()
-                    );
+                    ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_CONFIRMOU, pReserva);
                 } catch (Throwable t) {
 
                 }
@@ -744,9 +709,17 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.RESERVAS_CTR_CONFIRMAR)
-    public static ItfRespostaAcaoDoSistema reservaHorarioConfirmar(ReservaHorario pReserva) {
+    public static ItfRespostaAcaoDoSistema reservaHorarioConfirmar(ReservaHorarioCRM pReserva) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                if (isSucesso()) {
+                    ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_CANCELOU, pReserva);
+                }
+            }
+
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 ReservaHorario reserva = loadEntidade(pReserva);
@@ -756,13 +729,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 reserva.setStatus((StatusReserva) FabStatusReservaHorario.CONFIRMADO.getRegistro());
                 ReservaHorario reservaAtualizada = atualizarEntidade(reserva);
                 setRetorno(reservaAtualizada);
-                try {
-                    ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(reservaAtualizada.getAtendenteResponsavel().getCodigoMatrix(),
-                            reservaAtualizada.getAtendidoResponsavel().getNome() + " confirmou a reunião nas proximas 24 horas, para  " + reservaAtualizada.getPessoaRelacionada().getNome() + " sobre " + reservaAtualizada.getTipoAgendamento().getNome()
-                    );
-                } catch (Throwable t) {
 
-                }
                 atualizarEntidade(reserva);
                 setProximoFormulario(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO.getRegistro().getComoFormulario());
 
@@ -773,8 +740,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.RESERVAS_CTR_CANCELAR)
-    public static ItfRespostaAcaoDoSistema reservaHorarioCancelar(ReservaHorario pReserva) {
-        final String codigoRC = pReserva.getAtendenteResponsavel().getCodigoMatrix();
+    public static ItfRespostaAcaoDoSistema reservaHorarioCancelar(ReservaHorarioCRM pReserva) {
+
         final String nomeCliente;
         final String tipoChamado;
         if (pReserva.getPessoaRelacionada() == null) {
@@ -791,11 +758,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 super.executarAcoesFinais();
                 try {
                     if (isSucesso()) {
-                        MapaHorariosDisponiveis.removerReservaAtendente((ReservaHorario) getRetorno());
-                        ERPChat.MATRIX_ORG.getImplementacaoDoContexto().enviarDirect(codigoRC,
-                                pReserva.getAtendidoResponsavel().getNome() + " cancelou uma reunião com você dia "
-                                + UtilCRCDataHora.getDataHoraString(pReserva.getInicioReservaAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO)
-                                + " para  " + nomeCliente + " sobre " + tipoChamado);
+
+                        ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_CANCELOU, pReserva);
                     }
                 } catch (Throwable t) {
 
@@ -827,7 +791,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
     }
 
     @InfoAcaoaAcessoAnonimoCRM(acao = FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_CTR_RESERVAR)
-    public static ItfRespostaAcaoDoSistema reservaPublicaReservar(ReservaHorario pReserva) {
+    public static ItfRespostaAcaoDoSistema reservaPublicaReservar(ReservaHorarioCRM pReserva) {
 
         ItfRespostaAcaoDoSistema respCadastroContato = new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
             @Override
@@ -872,7 +836,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                     pessoa = new PessoaJuridica();
                     try {
 
-                        pessoa.setUsuarioAtendimento(pReserva.getAtendenteResponsavel());
+                        pessoa.setUsuarioAtendimento((UsuarioCRM) pReserva.getAtendenteResponsavel());
                         pessoa.getCPinst(CPPessoa.nome).setValorSeValido(nomeContato);
                         if (site != null && !site.isEmpty()) {
                             pessoa.getCPinst(CPPessoaJuridica.site).setValorSeValido(site);

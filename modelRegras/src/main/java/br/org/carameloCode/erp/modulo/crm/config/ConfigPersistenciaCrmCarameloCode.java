@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.config;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabSastisfacaoClienteResolucao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;

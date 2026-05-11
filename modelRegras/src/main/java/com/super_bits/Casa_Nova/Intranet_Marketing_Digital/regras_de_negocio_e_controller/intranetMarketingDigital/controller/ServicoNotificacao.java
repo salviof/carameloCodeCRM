@@ -4,17 +4,19 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_controller.intranetMarketingDigital.controller;
 
-import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
-import br.org.coletivojava.erp.notificacao.api.ItfERPNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -25,19 +27,138 @@ public class ServicoNotificacao {
 
     public static ItfERPNotificacao NOTIFICACAO_SRV = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto();
 
-    public static boolean notificarClienteContatoPrincipal(TiponotificacaoCRM tipoNotificacao, ChamadoCliente pChamado) {
+    public static boolean notificarReservaCliente(FabTipoNotificacao pTipo, ReservaHorarioCRM pReserva) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+
+        try {
+
+            tipoNotificacao = UtilSBPersistencia.loadEntidade(tipoNotificacao, em);
+            UtilSBPersistencia.iniciarTransacao(em);
+            ReservaHorarioCRM reserva = UtilSBPersistencia.loadEntidade(pReserva, em);
+            Pessoa p = UtilSBPersistencia.loadEntidade(reserva.getAtendidoResponsavel().getRepresentanteLegal(), em);
+            List<ContatoProspecto> contatos = p.getContatosProspecto();
+            if (!contatos.contains(p.getContatoPrincipal())) {
+                contatos.add(p.getContatoPrincipal());
+            }
+            for (ContatoProspecto usuario : p.getContatosProspecto()) {
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.getNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
+                notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
+                return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
+            }
+
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
+        }
+        return true;
+    }
+
+    public static boolean notificarReservaAtendente(FabTipoNotificacao pTipo, ReservaHorarioCRM pReserva) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+
+        try {
+
+            tipoNotificacao = UtilSBPersistencia.loadEntidade(tipoNotificacao, em);
+            UtilSBPersistencia.iniciarTransacao(em);
+            ReservaHorarioCRM reserva = UtilSBPersistencia.loadEntidade(pReserva, em);
+            Pessoa p = UtilSBPersistencia.loadEntidade(reserva.getAtendidoResponsavel().getRepresentanteLegal(), em);
+            List<ContatoProspecto> contatos = p.getContatosProspecto();
+            if (!contatos.contains(p.getContatoPrincipal())) {
+                contatos.add(p.getContatoPrincipal());
+            }
+            for (ContatoProspecto usuario : p.getContatosProspecto()) {
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.getNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
+                notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
+                return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
+            }
+
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
+        }
+        return true;
+    }
+
+    public static boolean notificarChamadoAtendente(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+
+        try {
+
+            tipoNotificacao = UtilSBPersistencia.loadEntidade(tipoNotificacao, em);
+            UtilSBPersistencia.iniciarTransacao(em);
+            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
+            Pessoa p = UtilSBPersistencia.loadEntidade(chamado.getPessoa(), em);
+            List<ContatoProspecto> contatos = p.getContatosProspecto();
+            if (!contatos.contains(p.getContatoPrincipal())) {
+                contatos.add(p.getContatoPrincipal());
+            }
+            for (ContatoProspecto usuario : p.getContatosProspecto()) {
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.getNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pChamado);
+                notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
+                return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
+            }
+
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
+        }
+        return true;
+    }
+
+    public static boolean notificarChamadoCliente(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+
+        try {
+
+            tipoNotificacao = UtilSBPersistencia.loadEntidade(tipoNotificacao, em);
+            UtilSBPersistencia.iniciarTransacao(em);
+            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
+            Pessoa p = UtilSBPersistencia.loadEntidade(chamado.getPessoa(), em);
+            List<ContatoProspecto> contatos = p.getContatosProspecto();
+            if (!contatos.contains(p.getContatoPrincipal())) {
+                contatos.add(p.getContatoPrincipal());
+            }
+            for (ContatoProspecto usuario : p.getContatosProspecto()) {
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.getNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pChamado);
+                notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
+                return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
+            }
+
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
+        }
+        return true;
+
+    }
+
+    public static boolean notificarClienteContatoPrincipal(FabTipoNotificacao tipoNotificacao, ChamadoCliente pChamado) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        try {
+            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
+            NotificacaoSB notificacao;
+            try {
+                notificacao = NOTIFICACAO_SRV.getNotificacao(tipoNotificacao.getRegistro(), pChamado.getUsuarioCliente(), pChamado);
+            } catch (Throwable ex) {
+                return false;
+            }
+            notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
+            ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
         return false;
     }
 
-    public static boolean notificarClienteContatoPrincipal(AtividadeCRM tipoNotificacao, ChamadoCliente pChamado) {
-        return false;
-    }
-
-    public static boolean notificarClienteContatoPrincipal(Pessoa tipoNotificacao, ChamadoCliente pChamado) {
-        return false;
-    }
-
-    public static boolean chamadoNotificarResponsaveis(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
+    public static boolean notificacarChamadoResponsaveis(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
 
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();

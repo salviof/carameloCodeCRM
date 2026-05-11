@@ -1,5 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.pessoa;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.ValidadorPessoa;
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.ValidadoresPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
@@ -7,8 +9,6 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ValidacaoGeneri
 import com.super_bits.modulosSB.SBCore.modulos.view.widgetsFormulario.WidgetsFormulario;
 import java.util.ArrayList;
 import java.util.List;
-import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.ValidadorPessoa;
-import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.ValidadoresPessoa;
 
 @ValidadorPessoa(validador = ValidadoresPessoa.USUARIOSRESPONSAVEIS)
 public class ValidacaoPessoaUsuariosResponsaveis extends ValidacaoGenerica<Pessoa> {

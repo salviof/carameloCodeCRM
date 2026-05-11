@@ -8,9 +8,9 @@ package br.org.carameloCode.erp.crm.paginas.crmPublico;
 import com.google.common.collect.Lists;
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
 import br.org.carameloCode.erp.crm.paginas.crmCliente.PgReservasCliente;
+import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
-import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
+import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.InfoAcaoaAcessoAnonimoCRM;
@@ -41,10 +41,10 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.Horari
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
-import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ErroAtingiuFinalLinhaDoTempoPermita;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ErroAtingiuFinalLinhaDoTempoPermita;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
@@ -56,7 +56,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 @InfoPagina(nomeCurto = "ReservaPulica", tags = {"Reservas Publicas"})
 @ViewScoped
 @InfoAcaoaAcessoAnonimoCRM(acao = FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_MB_RESERVAS)
-public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorario> implements ItfPaginaListaDeHorariosDisponiveis {
+public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorarioCRM> implements ItfPaginaListaDeHorariosDisponiveis {
 
     private ContatoAnonimoDadoTansitorio novoContato = new ContatoAnonimoDadoTansitorio();
 
@@ -89,7 +89,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
     }
 
     @Override
-    public void setEntidadeSelecionada(ReservaHorario entidadeSelecionada) {
+    public void setEntidadeSelecionada(ReservaHorarioCRM entidadeSelecionada) {
         if (entidadeSelecionada != null) {
             entidadeSelecionada.setDadosContatoAcessoAnonimo(novoContato);
 
@@ -134,7 +134,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
         ContatoProspecto contatoExistente = (ContatoProspecto) UtilSBPersistencia.gerarConsultaDeEntidade(ContatoProspecto.class, getEMPagina())
                 .addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, celInternancional).getPrimeiroRegistro();
         if (contatoExistente != null) {
-            List<ReservaHorario> reservas = new ConsultaDinamicaDeEntidade(ReservaHorario.class, getEMPagina()).addCondicaoManyToOneIgualA(CPReservaHorario.pessoarelacionada, contatoExistente.getProspecto())
+            List<ReservaHorarioCRM> reservas = new ConsultaDinamicaDeEntidade(ReservaHorarioCRM.class, getEMPagina()).addCondicaoManyToOneIgualA("pessoarelacionada", contatoExistente.getProspecto())
                     .addCondicaoManyToOneContemNoIntervalo(CPReservaHorario.status, Lists.newArrayList(FabStatusReservaHorario.AGENDADO.getRegistro(), FabStatusReservaHorario.CONFIRMADO.getRegistro()))
                     .addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, new Date())
                     .gerarResultados();

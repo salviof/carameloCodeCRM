@@ -57,21 +57,27 @@ import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivocliente.CPCa
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.metarelacionamento.CPMetaRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.modelodocumentocrm.CPModeloDocumentoCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.parametromensagemwtzap.CPParametroMensagemWtzap;
 import br.org.carameloCode.erp.modulo.crm.api.model.respostaformulario.CPRespostaFormulario;
 import br.org.carameloCode.erp.modulo.crm.api.model.servicooferecido.CPServicoOferecido;
 import br.org.carameloCode.erp.modulo.crm.api.model.sistemaerpconfiavel.CPSistemaERPConfiavel;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoatividadecrm.CPTipoAtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.tipochamado.CPTipoChamado;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipochatbot.CPTipoChatBot;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrmlinkintegracao.CPTipoDadoCrmLinkIntegracao;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadoia.CPTipoDadoIA;
+import br.org.carameloCode.erp.modulo.crm.api.model.tipoempresa.CPTipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipomensagemmktwhatsapp.CPTipoMensagemMktWhatsApp;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervico.CPTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicorecorrente.CPTipoServicoRecorrente;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicosazonal.CPTipoServicoSazonal;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.tiponotificacao.CPTipoNotificacao;
 
 /**
  *
@@ -146,10 +152,10 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_DADO_DINAMICO_IA_FRM_VISUALIZAR,
     @InfoTipoAcaoController()
     TIPO_DADO_DINAMICO_IA_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Tipos dados dinâmicos",
-            descricao = "Gestão de Dados dinamicos CRM", icone = "fa fa-pencil-square-o", entidade = TipoDadoCRM.class, precisaPermissao = true)
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Tipos dados personalizados",
+            descricao = "Gestão de Dados personalizados CRM", icone = "fa fa-pencil-square-o", entidade = TipoDadoCRM.class, precisaPermissao = true)
     OPCAO_DADOS_CRM_MB_GERENCIAR,
-    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Dados", descricao = "Lista tipo Dados dinâmicos", icone = "fa fa-list", entidade = TipoDadoCRM.class,
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos personalizados", descricao = "Lista tipo Dados dinâmicos", icone = "fa fa-list", entidade = TipoDadoCRM.class,
             campos = {"[separador: listagem]", "id", "nome", CPTipoDadoCRM.grupotipodadodinamico,
                 "descricao", "tipoEntityDadoDinamico", "fabricaTipoAtributo"//, "listaDeOpcoes"
         })
@@ -193,7 +199,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             campos = {"nome", "descricao", "relacionamentoPadrao"})
     ORIGEM_PROSPECTO_FRM_NOVO,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar Origem de Prospecto", descricao = "Exibe formulario de edição de origens de prospectos", icone = "fa fa-edit", entidade = OrigemProspecto.class,
-            campos = {"nome", "descricao", "relacionamentoPadrao"})
+            campos = {"nome", "descricao", "relacionamentoPadrao", CPOrigemProspecto.ativo})
     ORIGEM_PROSPECTO_FRM_EDITAR,
     @InfoTipoAcaoFormulario(iconeFonteAnsowame = FabIconeFontAwesome.REG_REMOVER)
     ORIGEM_PROSPECTO_FRM_REMOVER,
@@ -209,7 +215,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             campos = {"id", "nome", "descricao", "relacionamentoPadrao"})
     ORIGEM_PROSPECTO_FRM_VISUALIZAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar Origem de Prospecto", descricao = "Listas as origens de prospectos", icone = "fa fa-list", entidade = OrigemProspecto.class,
-            campos = {"id", "nome", "descricao", "umaOrigempublica"})
+            campos = {"id", "nome", "descricao", "umaOrigempublica", CPOrigemProspecto.ativo})
     ORIGEM_PROSPECTO_FRM_LISTAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar", descricao = "Registra os dados informados", icone = "fa fa-save", entidade = OrigemProspecto.class)
     ORIGEM_PROSPECTO_CTR_SALVAR_MERGE,
@@ -634,9 +640,9 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_CHAMADO_MB,
     @InfoTipoAcaoFormulario(icone = "fa fa-life-ring", campos = {"id", "nome", "descricao", "ativo"})
     TIPO_CHAMADO_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos tipo Chamado]", "nome", "descricao", "ativo", "[separador: Usuários responsáveis]", "responsaveis"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos tipo Chamado]", "nome", "descricao", "[separador: Disponibilidade]", "ativo", CPTipoChamado.podeclientecriar, "[separador: Usuários responsáveis]", "responsaveis", "[separador: Dados complementares]", CPTipoChamado.tipodados})
     TIPO_CHAMADO_FRM_NOVO,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos tipo Chamado]", "nome", "descricao", "ativo", "[separador: Usuários responsáveis]", "responsaveis"})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos tipo Chamado]", "nome", "descricao", "[separador: Disponibilidade]", "ativo", CPTipoChamado.podeclientecriar, "[separador: Usuários responsáveis]", "responsaveis", "[separador: Dados complementares]", CPTipoChamado.tipodados})
     TIPO_CHAMADO_FRM_EDITAR,
     @InfoTipoAcaoController()
     TIPO_CHAMADO_CTR_SALVAR_MERGE,
@@ -818,6 +824,30 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             fraseComunicação = "Deseja excluir a persona?",
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
-    PERSONA_IA_CTR_REMOVER;
+    PERSONA_IA_CTR_REMOVER,
+    @InfoTipoAcaoGestaoEntidade(entidade = TipoEmpresa.class, icone = "fa fa-pie-chart")
+    TIPO_EMPRESA_MB,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome})
+    TIPO_EMPRESA_FRM_NOVO,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome})
+    TIPO_EMPRESA_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome})
+    TIPO_EMPRESA_FRM_EDITAR,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome})
+    TIPO_EMPRESA_FRM_VISUALIZAR,
+    @InfoTipoAcaoController(nomeAcao = "Salvar")
+    TIPO_EMPRESA_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoGestaoEntidade(entidade = TiponotificacaoCRM.class, icone = "fa fa-bullhorn", nomeAcao = "Notificações")
+    TIPO_NOTIFICACAO_MB,
+    @InfoTipoAcaoFormulario(campos = {CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml, CPTipoNotificacao.acaogatilhonotificacao})
+    TIPO_NOTIFICACAO_FRM_NOVO,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.nomeentidadereferencia})
+    TIPO_NOTIFICACAO_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml})
+    TIPO_NOTIFICACAO_FRM_EDITAR,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoEmpresa.id, CPTipoEmpresa.nome, "[separador: DAdos mensagem]", CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml})
+    TIPO_NOTIFICACAO_FRM_VISUALIZAR,
+    @InfoTipoAcaoController(nomeAcao = "Salvar")
+    TIPO_NOTIFICACAO_CTR_SALVAR_MERGE
 
 }

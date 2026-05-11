@@ -171,11 +171,6 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
     @InfoCampoValorLogico(nomeCalculo = "textoEndereco")
     private String endereco;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Cep")
-    @Deprecated
-    @InfoCampoValorLogico(nomeCalculo = "textoCep")
-    private String CEP;
-
     @InfoCampo(label = "Origem Prospecto", tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, obrigatorio = true)
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = OrigemProspecto.class, optional = true)
     private OrigemProspecto origem;
@@ -235,7 +230,8 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
             joinColumns = @JoinColumn(name = "prospecto_id"),
             inverseJoinColumns = @JoinColumn(name = "usuarioCRM_id"))
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, caminhoParaLista = "usuariosRespDisponiveis")
-    @InfoCampoValidadorLogico
+    @InfoCampoValorLogico(nomeCalculo = "Usuarios responsáveis")
+    @InfoCampoValidadorLogico()
     private List<UsuarioCRM> usuariosResponsaveis = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -662,16 +658,6 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    @Deprecated
-    public String getCEP() {
-        return CEP;
-    }
-
-    @Deprecated
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
     }
 
     @Override

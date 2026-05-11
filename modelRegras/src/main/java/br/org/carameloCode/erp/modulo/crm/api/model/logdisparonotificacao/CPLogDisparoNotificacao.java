@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.logdisparonotificacao;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = LogDisparoNotificacao.class)

@@ -18,7 +18,7 @@ public class ModuloCRMAtendimentoExluirPessoaTest extends TesteCRMCarameloCodeSe
 
     @Test
     public void exlusao() {
-        PessoaJuridica pessoa = UtilSBPersistencia.getRegistroByID(PessoaJuridica.class, 2031l, getEM());
+        PessoaJuridica pessoa = UtilSBPersistencia.getRegistroByID(PessoaJuridica.class, 3014l, getEM());
         SBCore.getServicoSessao().logarEmailESenha("salvio@casanovadigital.com.br", "semSenha@123");
         ModuloCRMAtendimento.prospectoRemover(pessoa);
     }

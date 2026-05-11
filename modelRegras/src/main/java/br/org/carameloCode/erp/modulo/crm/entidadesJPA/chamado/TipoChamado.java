@@ -6,10 +6,12 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.List;
@@ -47,14 +49,28 @@ public class TipoChamado extends EntidadeSimplesORM {
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, caminhoParaLista = "responsaveisDisponiveis")
+    @InfoCampoValorLogico(nomeCalculo = "Responsável")
     private List<UsuarioCRM> responsaveis;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "tipochamado_tipoDado",
+            joinColumns = @JoinColumn(name = "tipochamado_id"),
+            inverseJoinColumns = @JoinColumn(name = "tipoDado_id")
+    )
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Dados do chamado")
+    private List<TipoDadoCRM> tipoDados;
 
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
     @InfoCampoValorLogico(nomeCalculo = "responsaveis disponíveis")
     private List<UsuarioCRM> responsaveisDisponiveis;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean podeClienteCriar = true;
+
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
+    @InfoCampoVerdadeiroOuFalso()
     private boolean ativo;
 
     @Override
@@ -107,6 +123,22 @@ public class TipoChamado extends EntidadeSimplesORM {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<TipoDadoCRM> getTipoDados() {
+        return tipoDados;
+    }
+
+    public void setTipoDados(List<TipoDadoCRM> tipoDados) {
+        this.tipoDados = tipoDados;
+    }
+
+    public boolean isPodeClienteCriar() {
+        return podeClienteCriar;
+    }
+
+    public void setPodeClienteCriar(boolean podeClienteCriar) {
+        this.podeClienteCriar = podeClienteCriar;
     }
 
 }

@@ -1,6 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.reciboleitura;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura.ReciboLeitura;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = ReciboLeitura.class)

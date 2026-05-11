@@ -4,7 +4,7 @@
  */
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.FabAtividadeCRMAutoexecucao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.FabIntegracaoNativa;

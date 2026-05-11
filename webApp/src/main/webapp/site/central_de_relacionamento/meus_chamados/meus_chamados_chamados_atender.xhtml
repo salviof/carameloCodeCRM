@@ -17,8 +17,19 @@
     <ui:define name="conteudo">
 
 
+        <h:panelGroup styleClass="Container9" layout="block"  rendered="#{pgMeusChamadosAtd.chamado.status.modoRascunho}">
+            <h1> Chamado em modo Rascunho </h1>
+            <h:panelGroup styleClass="Container9 OrganizadorContainer" layout="block"  >
 
-        <h:panelGroup styleClass="Container9" layout="block" id="dadosDoChamado" >
+                <h:form>
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmNovo}"
+                                       atualizar="#{pgUtil.gerarCaminhoCompletoID('opcoesResponsavel')}"
+                                       />
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="Container9" layout="block" id="dadosDoChamado"  rendered="#{!pgMeusChamadosAtd.chamado.status.modoRascunho}">
             <SBChamado:dadosBasicosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}"  />
 
 
@@ -111,7 +122,7 @@
         </h:panelGroup>
 
 
-        <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+        <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" rendered="#{!pgMeusChamadosAtd.chamado.status.modoRascunho}" >
 
             <SBChamado:dadosAvancadosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}" />
 

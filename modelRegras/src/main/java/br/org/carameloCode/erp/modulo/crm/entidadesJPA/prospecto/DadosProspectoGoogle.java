@@ -6,6 +6,8 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringEnderecos;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
@@ -75,6 +77,67 @@ public class DadosProspectoGoogle {
 
     public Pessoa getProspecto() {
         return gerarProspecto();
+    }
+
+    public PessoaJuridica gerarProspectoComValidacao() throws ErroValidacao {
+
+        PessoaJuridica prospectoValidado = new PessoaJuridica();
+        prospectoValidado.setNome((String) getObjEmpresa().getString("name"));
+
+        String endereco = (String) getObjEmpresa().getString("formatted_address");
+        String cep = UtilCRCStringEnderecos.extrairCep(endereco);
+        if (cep != null) {
+            try {
+                prospectoValidado.getCPinst("localizacao").getComoCampoLocalizacao().setCep(cep);
+            } catch (Throwable t) {
+                prospectoValidado.setEndereco((String) getObjEmpresa().getString("formatted_address"));
+            }
+
+        } else {
+            prospectoValidado.setEndereco((String) getObjEmpresa().getString("formatted_address"));
+        }
+        JsonObject detalhes = getObjDetalhes();
+        if (detalhes.containsKey("website")) {
+
+            prospectoValidado.getCPinst("site").setValorSeValido((String) detalhes.getString("website"));
+
+        }
+        if (detalhes.containsKey("formatted_phone_number")) {
+            prospectoValidado.getCPinst("telefonePrincipal").setValorSeValido((String) detalhes.getString("formatted_phone_number"));
+        }
+        if (detalhes.containsKey("icon")) {
+            String icone = (String) detalhes.getString("icon");
+
+        }
+
+        final StringBuilder observacoesGooglePlace = new StringBuilder("nota->" + getObjEmpresa().getInt("rating"));
+        observacoesGooglePlace.append("<br/>");
+        JsonArray fotos = (JsonArray) getObjEmpresa().getJsonArray("photos");
+        if (fotos != null) {
+            observacoesGooglePlace.append(" Qtd Fotos: " + fotos.size());
+        } else {
+            observacoesGooglePlace.append(" sem fotos ");
+        }
+        JsonArray tipos = getObjEmpresa().getJsonArray("types");
+        if (tipos != null) {
+            observacoesGooglePlace.append("<br/> Tipo: ");
+            if (tipos.isEmpty()) {
+                observacoesGooglePlace.append(" não definido");
+            } else {
+                getObjEmpresa().getJsonArray("types").forEach(vl -> {
+                    String valor = ((JsonString) vl).getString();
+                    observacoesGooglePlace.append(valor);
+                    observacoesGooglePlace.append(" | ");
+                });
+
+            }
+        }
+        if (getObjEmpresa().containsKey("business_status")) {
+            observacoesGooglePlace.append("<br/> Status " + getObjEmpresa().getString("business_status"));
+        }
+        prospectoValidado.setObservacao(observacoesGooglePlace.toString());
+
+        return prospectoValidado;
     }
 
     public Pessoa gerarProspecto() {

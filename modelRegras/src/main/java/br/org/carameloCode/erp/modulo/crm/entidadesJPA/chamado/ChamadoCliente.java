@@ -6,11 +6,13 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -37,7 +39,7 @@ import javax.persistence.Transient;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 @Entity
-@InfoObjetoSB(tags = "Chamado do cliente", plural = "Chamados de cliente", icone = "fa fa-life-ring", modulo = ERPCrm.NOME_MODULO_ERP)
+@InfoObjetoSB(tags = "Chamado do cliente", plural = "Chamados de cliente ", icone = "fa fa-life-ring", modulo = ERPCrm.NOME_MODULO_ERP)
 public class ChamadoCliente extends EntidadeSimplesORM {
 
     @Id
@@ -86,11 +88,18 @@ public class ChamadoCliente extends EntidadeSimplesORM {
     private UsuarioCrmCliente usuarioCliente;
 
     @ManyToOne(targetEntity = TipoChamado.class)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, obrigatorio = true)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, obrigatorio = true, caminhoParaLista = "tiposDisponiveis")
+    @InfoCampoValidadorLogico()
     private TipoChamado tipoChamado;
+
+    @Transient
+    @InfoCampoValorLogico(nomeCalculo = "Tipos dispoponiveis")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    private List<TipoChamado> tiposDisponiveis;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.HTML, label = "Descrição do chamado", valorMinimo = 30)
     @Column(length = 8000)
+    @InfoCampoValidadorLogico
     private String descricao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
@@ -142,6 +151,15 @@ public class ChamadoCliente extends EntidadeSimplesORM {
     private Date dataHoraPrimeiroAtendimento;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataHoraUltimaInteracao;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "chamado_dadoComplementar",
+            joinColumns = @JoinColumn(name = "tipochamado_id"),
+            inverseJoinColumns = @JoinColumn(name = "tipoDado_id")
+    )
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    @InfoCampoValorLogico(classePrincipal = DadoCRM.class, nomeCalculo = "Dados do Chamado")
+    private List<DadoCRM> dadosDoChamado;
 
     @Override
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = UsuarioCrmCliente.class)
@@ -418,6 +436,22 @@ public class ChamadoCliente extends EntidadeSimplesORM {
 
     public void setDataHoraUltimaInteracao(Date dataHoraUltimaInteracao) {
         this.dataHoraUltimaInteracao = dataHoraUltimaInteracao;
+    }
+
+    public List<DadoCRM> getDadosDoChamado() {
+        return dadosDoChamado;
+    }
+
+    public void setDadosDoChamado(List<DadoCRM> dadosDoChamado) {
+        this.dadosDoChamado = dadosDoChamado;
+    }
+
+    public List<TipoChamado> getTiposDisponiveis() {
+        return tiposDisponiveis;
+    }
+
+    public void setTiposDisponiveis(List<TipoChamado> tiposDisponiveis) {
+        this.tiposDisponiveis = tiposDisponiveis;
     }
 
 }

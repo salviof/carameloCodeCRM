@@ -22,14 +22,14 @@ public class ValorLogicoTipoChamadoResponsaveisDisponiveis
 
     @Override
     public Object getValor(Object... pEntidade) {
-        if (UtilCRCListas.isNuloOuVazio(getTipoChamado().getResponsaveis())) {
+        if (UtilCRCListas.isNuloOuVazio(getTipoChamado().getResponsaveisDisponiveis())) {
             ConsultaDinamicaDeEntidade novaconsulta = new ConsultaDinamicaDeEntidade(UsuarioCRM.class, UtilSBPersistencia.getEMDoContexto());
             novaconsulta.addcondicaoCampoIgualA("tipoUsuario", UsuarioCRM.class.getSimpleName());
             List<UsuarioCRM> usuarios = novaconsulta.resultadoRegistros();
-            getTipoChamado().setResponsaveis(usuarios);
+            getTipoChamado().setResponsaveisDisponiveis(usuarios);
         }
 
-        return getTipoChamado().getResponsaveis();
+        return getTipoChamado().getResponsaveisDisponiveis();
     }
 
     public TipoChamado getTipoChamado() {

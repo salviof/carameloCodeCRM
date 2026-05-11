@@ -5,7 +5,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = GrupoUsuarioCRM.class)
 public enum CPGrupoUsuarioCRM {
-	_MODULOPRINCIPAL;
+	_MODULOPRINCIPAL, _URLCHATMATRIX;
 
 	public static final String moduloprincipal = "moduloPrincipal";
+	public static final String urlchatmatrix = "urlChatMatrix";
 }

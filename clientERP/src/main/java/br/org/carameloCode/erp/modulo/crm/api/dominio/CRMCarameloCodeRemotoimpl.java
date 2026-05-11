@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 
 @CRMCarameloCodeRemoto
 public class CRMCarameloCodeRemotoimpl extends RepositorioLinkEntidadesGenerico
@@ -197,5 +198,10 @@ public class CRMCarameloCodeRemotoimpl extends RepositorioLinkEntidadesGenerico
     public ItfTDadoDinamicoCRM atualizarDadoCRM(java.lang.String s,
             java.lang.String s1, java.lang.Object o) {
         return null;
+    }
+
+    @Override
+    public boolean excluirMetadadosExtencao(Long pCodigoPessoa, EntityManager pEm) {
+        return true;
     }
 }

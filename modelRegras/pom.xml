@@ -26,9 +26,9 @@
         </dependency>
 
         <dependency>
-            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
-            <artifactId>intTypebot</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>br.org.carameloCode.erp.agenda</groupId>
+            <artifactId>SbErpAgenda</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -113,11 +113,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>br.org.coletivoJava.fw.integracoes</groupId>
-            <artifactId>intMautic</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>br.org.coletivoJava.fw.integracoes</groupId>
@@ -173,7 +168,7 @@
 
 
         <dependency>
-            <groupId>br.org.coletivoJava.fw.api.erp.notificacoes</groupId>
+            <groupId>br.org.carameloCode.erp.notificacao</groupId>
             <artifactId>SbErpNotificacoes</artifactId>
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>

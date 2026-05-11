@@ -63,4 +63,7 @@ public class StatusChamado extends EntidadeORMStatus {
         this.fabStatus = fabStatus;
     }
 
+    public boolean isModoRascunho() {
+        return fabStatus.equals(FabStatusChamado.RASCUNHO);
+    }
 }

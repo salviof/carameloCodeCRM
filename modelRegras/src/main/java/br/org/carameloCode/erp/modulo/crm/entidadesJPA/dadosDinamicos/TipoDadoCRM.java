@@ -74,6 +74,10 @@ public class TipoDadoCRM extends EntidadeSimplesORM implements ItfAtributoObjeto
     @InfoCampo(label = "Mascara")
     private String mascara;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean dadoTemporario;
+
     @InfoCampo(label = "Entidade Listada")
     private String objetReferente;
 
@@ -653,6 +657,14 @@ public class TipoDadoCRM extends EntidadeSimplesORM implements ItfAtributoObjeto
 
     public TipoDadoIA getComoTipoDadoIA() {
         return (TipoDadoIA) this;
+    }
+
+    public boolean isDadoTemporario() {
+        return dadoTemporario;
+    }
+
+    public void setDadoTemporario(boolean dadoTemporario) {
+        this.dadoTemporario = dadoTemporario;
     }
 
 }

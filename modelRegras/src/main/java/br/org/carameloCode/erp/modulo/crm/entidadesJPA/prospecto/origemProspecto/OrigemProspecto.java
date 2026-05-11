@@ -7,11 +7,14 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspect
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.origemPrivada.OrigemProspectoPrivado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import com.super_bits.modulos.SBAcessosModel.model.PermissaoSB;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.List;
@@ -90,14 +93,15 @@ public class OrigemProspecto extends EntidadeSimplesORM {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "origens_usuarioCRM",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "origem_id")
+            joinColumns = @JoinColumn(name = "origem_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
     private List<UsuarioCRM> usuariosComAcesso;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
-    private boolean ativo;
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean ativo = true;
 
     public List<PessoaJuridica> getProspectos() {
         return prospectos;
@@ -215,4 +219,7 @@ public class OrigemProspecto extends EntidadeSimplesORM {
         this.ativo = ativo;
     }
 
+    public OrigemProspectoPrivado getComoOrigemPrivada() {
+        return (OrigemProspectoPrivado) this;
+    }
 }

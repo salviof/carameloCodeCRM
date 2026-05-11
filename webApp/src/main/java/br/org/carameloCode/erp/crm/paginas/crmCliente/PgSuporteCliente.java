@@ -59,6 +59,11 @@ public class PgSuporteCliente extends MBGestaoChamados {
     }
 
     @Override
+    public void executarAcao(ChamadoCliente pEntidadeSelecionada) {
+        super.executarAcao(pEntidadeSelecionada); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
     protected void autoexecEntidadeNova() {
 
         ConsultaDinamicaDeEntidade qrychamadoRascunho = new ConsultaDinamicaDeEntidade(ChamadoCliente.class, getEMPagina());

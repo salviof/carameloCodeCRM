@@ -8,6 +8,7 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.Dispon
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.FabAcaoAdminAgenda;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.InfoAgendaAdmin;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.coletivoJava.fw.projetos.fw.api.model.usuariosb.CPUsuarioSB;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_URL;
@@ -18,7 +19,6 @@ import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosU
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.usuariosb.CPUsuarioSB;
 
 /**
  *

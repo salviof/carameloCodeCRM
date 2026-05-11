@@ -5,7 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.util;
 
-import br.org.coletivojava.erp.notificacao.padrao.controller.FabAcaoNotificacaoPadraoSB;
+import br.org.carameloCode.erp.modulo.notificacao.controller.FabAcaoNotificacaoPadraoSB;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;

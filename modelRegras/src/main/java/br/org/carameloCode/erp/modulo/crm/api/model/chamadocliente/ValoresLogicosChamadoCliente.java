@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ChamadoCliente.class)
 public enum ValoresLogicosChamadoCliente {
-	TITULO, USUARIODISPONIVEIS, RESUMODESCRICAO, SALAMATRIX, ATIVO, PESSOA, LINKURLACESSOCLIENTE
+	TITULO, USUARIODISPONIVEIS, TIPOSDISPONIVEIS, RESUMODESCRICAO, SALAMATRIX, ATIVO, PESSOA, LINKURLACESSOCLIENTE, DADOSDOCHAMADO
 }

@@ -1,6 +1,6 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.aberturadechamadosimples.etapas;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import cucumber.api.java.pt.Entao;
 import java.util.List;

@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda;
 
+import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
 import com.google.common.collect.Lists;
@@ -23,10 +24,12 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import java.util.Date;
 import java.util.List;
-import br.org.carameloCode.erp.modulo.crm.api.model.reservahorario.CPReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 
 /**
  *
@@ -51,6 +54,24 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
 
     }
 
+    @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_CTR_ESCOPO_RESERVA_CLIENTE_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema atualizarMeuEscopoClientePadrao(UsuarioCRM pUsuario) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pUsuario), pUsuario) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                UsuarioCRM usuarioLogado = loadEntidade((UsuarioCRM) SBCore.getUsuarioLogado());
+                if (!usuarioLogado.equals(pUsuario)) {
+                    throw new ErroRegraDeNegocio("Somente o usuário " + pUsuario.getNome() + " pode alterar este escopo");
+                }
+                EscopoPesquisaMelhorHorario escopo = atualizarEntidade(pUsuario.getEscopoAgendaClientes());
+                usuarioLogado.setEscopoAgendaClientes(escopo);
+                atualizarEntidade(usuarioLogado);
+            }
+        }.getResposta();
+
+    }
+
     @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_CTR_REMOVER)
     public static ItfRespostaAcaoDoSistema reservaREmover(ReservaHorario pReserva) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
@@ -69,7 +90,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_CTR_AGENDAR)
-    public static ItfRespostaAcaoDoSistema reservaCriarNova(ReservaHorario pReserva) {
+    public static ItfRespostaAcaoDoSistema reservaCriarNova(ReservaHorarioCRM pReserva) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserva), pReserva) {
             @Override
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
@@ -77,7 +98,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
 
                 if (!UtilCRCStringValidador.isNuloOuEmbranco(pReserva.getAtendidoResponsavel().getContatoClienteVinculado().getEmail())) {
                     try {
-                        UsuarioCrmCliente usuario = pReserva.getAtendidoResponsavel();
+                        UsuarioCrmCliente usuario = (UsuarioCrmCliente) pReserva.getAtendidoResponsavel();
                         if (usuario != null) {
                             ItfTokenAcessoDinamico token = SBCore.getServicoPermissao().gerarTokenDinamico(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO, usuario.getContatoClienteVinculado(), usuario.getEmail());
 
@@ -117,13 +138,13 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                     throw new ErroRegraDeNegocio("A data final precia ser menor que a data inicial");
                 }
 
-                ConsultaDinamicaDeEntidade novaconsulta = new ConsultaDinamicaDeEntidade(ReservaHorario.class, getEm());
+                ConsultaDinamicaDeEntidade novaconsulta = new ConsultaDinamicaDeEntidade(ReservaHorarioCRM.class, getEm());
                 novaconsulta.addCondicaoManyToOneIgualA(CPReservaHorario.atendenteresponsavel, pReserva.getAtendenteResponsavel());
                 novaconsulta.addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, new Date());
                 novaconsulta.addCondicaoManyToOneContemNoIntervalo(CPReservaHorario.status, Lists.newArrayList(FabStatusReservaHorario.AGENDADO.getRegistro(), FabStatusReservaHorario.CONFIRMADO.getRegistro()));
 
-                List<ReservaHorario> reservasPossivelConflito = novaconsulta.resultadoRegistros();
-                for (ReservaHorario reservaElegivel : reservasPossivelConflito) {
+                List<ReservaHorarioCRM> reservasPossivelConflito = novaconsulta.resultadoRegistros();
+                for (ReservaHorarioCRM reservaElegivel : reservasPossivelConflito) {
                     if (MapaHorariosDisponiveis.isReservaBloqueadoPorOutraReserva(pReserva, reservaElegivel)) {
                         throw new ErroRegraDeNegocio("Já existe uma reunião para " + pReserva.getAtendenteResponsavel().getNome() + " com " + reservaElegivel.getPessoaRelacionada().getNome());
                     }

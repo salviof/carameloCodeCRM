@@ -2,6 +2,7 @@ package br.org.carameloCode.erp.crm.paginas.servico;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
@@ -42,8 +43,18 @@ public class ServicoChatView implements Serializable {
 
     @PostConstruct
     public void inicio() {
-
-        urlClientChat = "https://chat.casanovadigital.com.br";
+        if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
+            urlClientChat = "https://chat.casanovadigital.com.br";
+            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro().getId())) {
+                urlClientChat = "https://atendimento.casanovadigital.com.br";
+            }
+            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro().getId())) {
+                urlClientChat = "https://chatatendimento.casanovadigital.com.br";
+            }
+            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro().getId())) {
+                urlClientChat = "https://chatcomunidade.casanovadigital.com.br";
+            }
+        }
 
     }
 
@@ -102,6 +113,7 @@ public class ServicoChatView implements Serializable {
     }
 
     public String getUrlSala() {
+
         if (sala == null) {
             return null;
         }

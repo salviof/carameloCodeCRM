@@ -819,7 +819,8 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 String dataFinalFormatada = sdf.format(dataFinal);
 
                 ItfRespostaWebServiceSimples resp = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta();
-                if (!resp.isSucesso()) {
+
+                if (resp == null || !resp.isSucesso()) {
                     throw new ErroRegraDeNegocio("Falha comunicando com Serviço de PABX" + resp.getRespostaTexto());
                 }
                 JsonObject respostaWs = resp.getRespostaComoObjetoJson();

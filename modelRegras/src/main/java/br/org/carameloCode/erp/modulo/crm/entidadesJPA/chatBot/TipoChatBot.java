@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-@InfoObjetoSB(tags = "Tipo chat", plural = "Chatbots", modulo = ERPCrm.NOME_MODULO_ERP)
+@InfoObjetoSB(tags = "Formulario de Pesquisa", plural = "Formulario de Pesquisa", modulo = ERPCrm.NOME_MODULO_ERP)
 public class TipoChatBot extends EntidadeSimplesORM {
 
     @Id

@@ -26,11 +26,10 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.Dispon
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
-import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ErroAtingiuFinalLinhaDoTempoPermita;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
@@ -40,6 +39,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.InfoAcaoCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
 
 /**
@@ -50,7 +50,7 @@ import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
 @Named
 @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.RESERVAS_MB_GESTAO)
 @InfoPagina(nomeCurto = "RESCLI", tags = {"Minhas reservas com consultores"})
-public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario> implements ItfPaginaListaDeHorariosDisponiveis {
+public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorarioCRM> implements ItfPaginaListaDeHorariosDisponiveis {
 
     @InfoParametroURL(nome = "Reserva", tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = true, tipoEntidade = ReservaHoraRemotoVideo.class, obrigatorio = false)
     private ParametroURL parametroReservaRemoto;
@@ -104,7 +104,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     }
 
     @Override
-    public void executarAcao(ReservaHorario pEntidadeSelecionada) {
+    public void executarAcao(ReservaHorarioCRM pEntidadeSelecionada) {
         super.executarAcao(pEntidadeSelecionada); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
@@ -126,11 +126,11 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 || getParametroInstanciado(parametroReservaRemoto).isValorDoParametroFoiConfigurado()) {
             if (getParametroInstanciado(parametroReservaPresencial).isValorDoParametroFoiConfigurado()) {
                 executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_VISUALIZAR_PRESENCIAL);
-                setEntidadeSelecionada((ReservaHorario) getParametroInstanciado(parametroReservaRemoto).getValor());
+                setEntidadeSelecionada((ReservaHorarioCRM) getParametroInstanciado(parametroReservaRemoto).getValor());
 
             }
             if (getParametroInstanciado(parametroReservaRemoto).isValorDoParametroFoiConfigurado()) {
-                setEntidadeSelecionada((ReservaHorario) getParametroInstanciado(parametroReservaRemoto).getValor());
+                setEntidadeSelecionada((ReservaHorarioCRM) getParametroInstanciado(parametroReservaRemoto).getValor());
                 executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_VISUALIZAR_REMOTO);
                 renovarEMPagina();
             }
@@ -149,7 +149,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
             }
         }
 
-        ReservaHorario reserva = (ReservaHorario) getUsuarioLogado().getCampoInstanciadoByNomeOuAnotacao(CPUsuarioCrmCliente.reservaativamaisproxima).getValor();
+        ReservaHorarioCRM reserva = (ReservaHorarioCRM) getUsuarioLogado().getCampoInstanciadoByNomeOuAnotacao(CPUsuarioCrmCliente.reservaativamaisproxima).getValor();
         if (reserva != null) {
             setEntidadeSelecionada(reserva);
             if (reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
@@ -313,7 +313,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     }
 
     @Override
-    public void setEntidadeSelecionada(ReservaHorario entidadeSelecionada) {
+    public void setEntidadeSelecionada(ReservaHorarioCRM entidadeSelecionada) {
         super.setEntidadeSelecionada(entidadeSelecionada); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -439,7 +439,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         return listarApenasRegistrosAtivos;
     }
 
-    public BP_DataModelLasy<ReservaHorario> getListaEntidadeLasy() {
+    public BP_DataModelLasy<ReservaHorarioCRM> getListaEntidadeLasy() {
         return listaEntidadeLasy;
     }
 

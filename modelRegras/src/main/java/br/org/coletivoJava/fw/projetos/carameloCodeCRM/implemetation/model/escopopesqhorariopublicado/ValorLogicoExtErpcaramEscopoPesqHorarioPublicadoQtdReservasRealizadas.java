@@ -1,0 +1,23 @@
+package br.org.coletivoJava.fw.projetos.carameloCodeCRM.implemetation.model.escopopesqhorariopublicado;
+
+import br.org.carameloCode.erp.modulo.agenda.implemetation.model.escopopesqhorariopublicado.ValorLogicoEscopoPesqHorarioPublicadoQtdReservasRealizadas;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.escopopesqhorariopublicado.ValorLogicoEscopoPesqHorarioPublicado;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.escopopesqhorariopublicado.ValoresLogicosEscopoPesqHorarioPublicado;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
+
+@ValorLogicoEscopoPesqHorarioPublicado(calculo = ValoresLogicosEscopoPesqHorarioPublicado.QTDRESERVASREALIZADAS)
+public class ValorLogicoExtErpcaramEscopoPesqHorarioPublicadoQtdReservasRealizadas
+		extends
+			ValorLogicoEscopoPesqHorarioPublicadoQtdReservasRealizadas {
+
+	public ValorLogicoExtErpcaramEscopoPesqHorarioPublicadoQtdReservasRealizadas(
+			ItfCampoInstanciado pCampo) {
+		super(pCampo);
+	}
+
+	@Override
+	public Object getValor(Object... pEntidade) {
+		return super.getValor(pEntidade);
+	}
+}

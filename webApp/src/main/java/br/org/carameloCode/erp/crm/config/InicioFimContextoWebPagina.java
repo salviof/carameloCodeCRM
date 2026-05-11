@@ -11,7 +11,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtivida
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsClienteDaCategoria;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCategoria;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoFormLead.ContatoAnonimoDadoTansitorio;
+import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estilo.EstiloVisualizacaoProspecto;
