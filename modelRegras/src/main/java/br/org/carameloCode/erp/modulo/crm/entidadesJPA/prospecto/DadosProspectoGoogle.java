@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringEnderecos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
+import java.util.Optional;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -79,16 +74,58 @@ public class DadosProspectoGoogle {
         return gerarProspecto();
     }
 
+    private static boolean hasType(JsonObject component, String... desiredTypes) {
+        if (!component.containsKey("types") || component.isNull("types")) {
+            return false;
+        }
+
+        JsonArray typesArray = component.getJsonArray("types");
+        if (typesArray == null) {
+            return false;
+        }
+
+        for (String desired : desiredTypes) {
+            for (int i = 0; i < typesArray.size(); i++) {
+                if (desired.equals(typesArray.getString(i))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static Optional<String> getFirstByType(JsonArray components, String... types) {
+        for (JsonObject comp : components.getValuesAs(JsonObject.class)) {
+            if (hasType(comp, types)) {
+                String longName = comp.getString("long_name", null);
+                if (longName != null && !longName.isEmpty()) {
+                    return Optional.of(longName);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
     public PessoaJuridica gerarProspectoComValidacao() throws ErroValidacao {
 
         PessoaJuridica prospectoValidado = new PessoaJuridica();
         prospectoValidado.setNome((String) getObjEmpresa().getString("name"));
 
         String endereco = (String) getObjEmpresa().getString("formatted_address");
-        String cep = UtilCRCStringEnderecos.extrairCep(endereco);
-        if (cep != null) {
+
+        JsonArray partesDoEndereco = getObjDetalhes().getJsonArray("address_components");
+
+        GoogleAddressParser.EnderecoGooglePlace enderecoGooogle = GoogleAddressParser.parseFromAddressComponents(partesDoEndereco);
+
+        if (enderecoGooogle != null && !enderecoGooogle.getCep().isEmpty()) {
             try {
+                String cep = enderecoGooogle.getCep();
                 prospectoValidado.getCPinst("localizacao").getComoCampoLocalizacao().setCep(cep);
+                if (!enderecoGooogle.getRuaComNumeroEComplemento().isEmpty()) {
+                    prospectoValidado.getCPinst("localizacao").getComoCampoLocalizacao().setLogradouro(enderecoGooogle.getRua());
+                    prospectoValidado.getCPinst("localizacao").getComoCampoLocalizacao().setComplemento(enderecoGooogle.getNumeroEComplemento());
+                }
+
             } catch (Throwable t) {
                 prospectoValidado.setEndereco((String) getObjEmpresa().getString("formatted_address"));
             }
