@@ -13,6 +13,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
  *
  * @author salvio
  */
+@InfoValorLogicoLinkIntegracao
 public class ValorLogicoLinkFatura extends ValorLogicoLinkPadrao {
 
     public ValorLogicoLinkFatura(ItfCampoInstanciado pCampoInstnciado) {

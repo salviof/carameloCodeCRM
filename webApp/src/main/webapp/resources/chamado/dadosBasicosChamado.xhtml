@@ -49,7 +49,9 @@
                             <span class="colorbox-count">nº #{cc.attrs.chamado.id}</span>
                         </h:panelGroup>
                         <h:panelGroup styleClass="Container6 OrganizadorContainer" layout="block" style="color: #FFFFFF;" >
-                            <p:textEditor style="color: #FFFFFF" readonly="true" value="#{cc.attrs.chamado.descricao}" secure="false" toolbarVisible="false"  styleClass="FontAdamantiumLight Fs14 Container12 ResumoChamado editor-branco" />
+                            <h:form>
+                                <p:textEditor style="color: #FFFFFF" readonly="true" value="#{cc.attrs.chamado.descricao}" secure="false" toolbarVisible="false"  styleClass="FontAdamantiumLight Fs14 Container12 ResumoChamado editor-branco" />
+                            </h:form>
                         </h:panelGroup>
 
 

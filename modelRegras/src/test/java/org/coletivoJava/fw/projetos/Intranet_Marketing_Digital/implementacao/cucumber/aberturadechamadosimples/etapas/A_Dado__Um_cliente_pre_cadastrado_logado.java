@@ -17,6 +17,7 @@ import java.util.List;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.cucumber.aberturadechamadosimples.EtapasAberturaDeChamadoSimples;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.aberturadechamadosimples.FluxoChamadoSimples;
 import org.junit.Assert;
 
@@ -25,12 +26,8 @@ public class A_Dado__Um_cliente_pre_cadastrado_logado {
     @Dado(EtapasAberturaDeChamadoSimples.DADO_UM_CLIENTE_PRE_CADASTRADO_LOGADO)
     public void implementacaoEtapa() {
 
-        List<UsuarioCRM> usuarios = UtilSBPersistencia.getListaTodos(UsuarioCRM.class, FluxoChamadoSimples.getEM());
-        for (UsuarioCRM usr : usuarios) {
-            System.out.println(usr.getEmail());
-        }
-        SBCore.getServicoSessao().logarEmailESenha("atendimento@casanovadigital.com.br", "123");
-        PessoaJuridica prospecto = (PessoaJuridica) FabDadosIniciais.PROSPECTO1.getRegistro();
+        CarameloCode.getServicoSessao().logarEmailESenha("atendimento@casanovadigital.com.br", "123");
+        PessoaJuridica prospecto = (PessoaJuridica) FabDadosIniciais.PROSPECTO1.getRegistro(FluxoChamadoSimples.getEM());
 
         UtilSBPersistencia.mergeRegistro(prospecto);
 

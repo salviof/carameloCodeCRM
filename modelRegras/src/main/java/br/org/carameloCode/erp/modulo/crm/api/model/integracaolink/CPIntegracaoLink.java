@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = IntegracaoLink.class)
 public enum CPIntegracaoLink {
-	_ID, _NOME, _IMAGEM, _CODIGOPESSOA, _TIPODADO, _URL;
+	_ID, _NOME, _IMAGEM, _CODIGOPESSOA, _TIPODADO, _URL, _DADOCRM;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -13,4 +13,5 @@ public enum CPIntegracaoLink {
 	public static final String codigopessoa = "codigoPessoa";
 	public static final String tipodado = "tipoDado";
 	public static final String url = "url";
+	public static final String dadocrm = "dadoCRM";
 }

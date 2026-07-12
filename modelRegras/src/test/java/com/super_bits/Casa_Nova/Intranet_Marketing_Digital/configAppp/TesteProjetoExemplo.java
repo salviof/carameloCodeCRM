@@ -49,7 +49,7 @@ public class TesteProjetoExemplo extends TesteJunitSBPersistencia {
     @Override
     protected void configAmbienteDesevolvimento() {
         //Nas classes de ambiente padrão do sistema  modo desenvolvimento significa execuções via JUNIT, HOmologação Jetty na sua maquina, e Produção na Web
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         //Configuração do arquivo de persistencia
 
     }

@@ -37,14 +37,19 @@ public class AcoesAtendimentoCrm_MeusChamadosMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_FECHAR_CHAMADO");
 	}
 
-	public ItfAcaoFormularioEntidade getMeusChamadosFrmTodosStatus() {
+	public ItfAcaoFormularioEntidade getMeusChamadosFrmListarTodosStatus() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_TODOS_STATUS");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_LISTAR_TODOS_STATUS");
 	}
 
-	public ItfAcaoFormularioEntidade getMeusChamadosFrmChamadosEmAtendimento() {
+	public ItfAcaoFormularioEntidade getMeusChamadosFrmListarChamadosEmAtendimento() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO");
+	}
+
+	public ItfAcaoFormularioEntidade getMeusChamadosFrmListarChamadosAguardandoAtendimento() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_AGUARDANDO_ATENDIMENTO");
 	}
 
 	public ItfAcaoFormularioEntidade getMeusChamadosFrmChamadosAtender() {
@@ -57,11 +62,6 @@ public class AcoesAtendimentoCrm_MeusChamadosMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO");
 	}
 
-	public ItfAcaoFormularioEntidade getMeusChamadosFrmChamadosAguardandoAtendimento() {
-		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO");
-	}
-
 	public ComoAcaoControllerEntidade getMeusChamadosCtrDefinirResponsavel() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_DEFINIR_RESPONSAVEL");
@@ -70,6 +70,16 @@ public class AcoesAtendimentoCrm_MeusChamadosMbGestao implements Serializable {
 	public ComoAcaoControllerEntidade getMeusChamadosCtrAssumirChamado() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_ASSUMIR_CHAMADO");
+	}
+
+	public ComoAcaoControllerEntidade getMeusChamadosCtrValidarChamado() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_VALIDAR_CHAMADO");
+	}
+
+	public ComoAcaoControllerEntidade getMeusChamadosCtrAbandonarChamado() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_ABANDONAR_CHAMADO");
 	}
 
 	public ComoAcaoControllerEntidade getMeusChamadosCtrNotificarCliente() {

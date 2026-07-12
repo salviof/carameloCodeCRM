@@ -4,11 +4,14 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMStatus;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +21,8 @@ import javax.persistence.Id;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Status da solicitação", plural = "status de solicitações")
-public class StatusSolicitacao extends EntidadeSimplesORM {
+@InfoObjetoSB(tags = "Status da solicitação", plural = "status de solicitações", fabricaVinculada = FabStatusSolicitacao.class)
+public class StatusSolicitacao extends EntidadeORMStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +31,18 @@ public class StatusSolicitacao extends EntidadeSimplesORM {
     private String nome;
     @InfoCampo(tipo = FabTipoAtributoObjeto.ICONE)
     private String icone;
+
+    @Enumerated(EnumType.STRING)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.STATUS_ENUM)
+    private FabStatusSolicitacao fabStatus;
+
+    public FabStatusSolicitacao getFabStatus() {
+        return fabStatus;
+    }
+
+    public void setFabStatus(FabStatusSolicitacao fabStatus) {
+        this.fabStatus = fabStatus;
+    }
 
     public Long getId() {
         return id;

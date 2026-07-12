@@ -21,7 +21,7 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-
+        <h:outputStylesheet  name="dashboardAtendEAdmin/dashboard.css" library="css" />
         <p:fieldset style="margin: 32px;">
             <f:facet name="legend">
                 <i class="fa fa-handshake-o" style="margin-right: 8px"></i>Compromissos condução de Lead
@@ -30,7 +30,7 @@
             <h:form>
                 <h:panelGroup styleClass="cards-dashboard">
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="4"
+                        codigoestilo="2"
                         rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null}"
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido, cc.attrs.dadosDeLead.usuario)}"
                         icone="fa-envelope-o"
@@ -38,7 +38,7 @@
                         valor="#{cc.attrs.dadosDeLead.usuario.caixaPostalPrincipal.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoConhecido').valor}"
                         />
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="4"
+                        codigoestilo="2"
                         icone="fa fa-calendar-o"
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusCompromissosMb.meusCompromissosFrmHoje, cc.attrs.dadosDeLead.usuario)}"
                         titulo="Compromissos para hoje"
@@ -46,16 +46,16 @@
                         />
 
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        rendered="false"
-                        codigoestilo="3"
+                        rendered="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada.size()>0}"
+                        codigoestilo="2"
                         icone="fa-exclamation-triangle "
-                        url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarUrgentes, cc.attrs.dadosDeLead.usuario)}"
+                        url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarAtividadesPendentes, cc.attrs.dadosDeLead.usuario)}"
                         titulo="Atividades em aberto"
-                        valor="#{cc.attrs.dadosDeLead.getCampoInstanciadoByNomeOuAnotacao('quantidadeLeadsUrgentes').valor}"
+                        valor="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada.size()}"
                         />
 
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="3"
+                        codigoestilo="2"
                         icone="fa-exclamation-triangle "
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarUrgentes, cc.attrs.dadosDeLead.usuario)}"
                         titulo="Leads demandas urgentes"

@@ -14,4 +14,5 @@ public class ValorLogicoContatoPessoaFisicaProspectosDisponiveis
             ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
+
 }

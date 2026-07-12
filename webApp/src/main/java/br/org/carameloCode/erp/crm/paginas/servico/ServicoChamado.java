@@ -64,10 +64,10 @@ public class ServicoChamado implements Serializable {
             } else {
                 if (!pChamado.isFoiFinalizado()) {
                     ModuloCRMAtendimentoChamado.chamadoFinalizar(pChamado).dispararMensagens();
-                    UtilSBWP_JSFTools.vaParaPagina(SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO));
+                    UtilSBWP_JSFTools.vaParaPagina(SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO));
                 } else {
                     ModuloCRMAtendimentoChamado.chamadoAssumirResponsavel(pChamado).dispararMensagens();
-                    UtilSBWP_JSFTools.vaParaPagina(SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO, pChamado));
+                    UtilSBWP_JSFTools.vaParaPagina(SBCore.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO, pChamado));
                 }
             }
         }

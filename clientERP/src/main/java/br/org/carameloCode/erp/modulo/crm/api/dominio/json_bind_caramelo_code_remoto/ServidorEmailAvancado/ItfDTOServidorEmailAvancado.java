@@ -1,9 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.json_bind_caramelo_code_remoto.ServidorEmailAvancado;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import com.super_bits.modulosSB.SBCore.modulos.email.ItfServidorEmailAvancado;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.json_bind_caramelo_code_remoto.ServidorEmailAvancado.JsonBindDTOServidorEmailAvancado;
 import java.util.Date;
 import java.lang.String;
 import java.lang.Long;

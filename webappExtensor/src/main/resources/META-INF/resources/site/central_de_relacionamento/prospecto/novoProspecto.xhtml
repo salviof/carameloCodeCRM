@@ -37,8 +37,9 @@
                                      />
             </h:panelGroup>
             <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
-                <div class="Fright">
-                    <div class="Container12" style="margin-bottom: 8px">
+                <h:panelGroup layout="block" styleClass="Container8 OrganizadorContainerDireita" >
+
+                    <div class="Container6" style="margin: 9px;">
                         <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoSalvarAlteracoes}"
                                                       tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
                                                       update="@form"
@@ -47,14 +48,15 @@
                                                       javaScriptOncomplete="irParaTopo();"
                                                       />
                     </div>
-                    <div class="Container12">
+                    <div class="Container6" style="margin: 9px;">
                         <SBAcaoNav:botaoDeAcao_Pagina acao="#{pgProspecto.acaoNovoProspectoListarOpcoes}"
                                                       tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
                                                       update="@form"
 
                                                       />
                     </div>
-                </div>
+
+                </h:panelGroup>
             </h:panelGroup>
         </h:form>
     </ui:define>

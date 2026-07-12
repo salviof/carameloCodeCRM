@@ -14,7 +14,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.T
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioDocumentoAtividade.EnvioEmailAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_FRM_ATIVIDADE_COM_EMAIL;
@@ -89,8 +88,8 @@ public abstract class MB_PaginaDeAtividade extends MB_PaginaConversation impleme
         tipoExibicaoPagina = tipoExibicao.NOVA_ATIVIDADE_ESPECIFICA;
         if (getParaetroCodigoAcesso() != null && getParaetroCodigoAcesso().isValorDoParametroFoiConfigurado()) {
             tipoExibicaoPagina = tipoExibicao.ATIVIDADE_CONVIDADO;
-            UsuarioCRM usuariocrm = FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro();
-            SBCore.getServicoSessao().logarEmailESenha(usuariocrm.getEmail(), usuariocrm.getSenha());
+            //UsuarioCRM usuariocrm = FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro();
+            //SBCore.getServicoSessao().logarEmailESenha(usuariocrm.getEmail(), usuariocrm.getSenha());
             return;
         }
         if (getParametroAtividade().isValorDoParametroFoiConfigurado()) {

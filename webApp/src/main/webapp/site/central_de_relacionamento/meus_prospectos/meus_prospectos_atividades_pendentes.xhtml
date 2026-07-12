@@ -15,7 +15,7 @@
         <div class="alert alert-warning" >
             <strong>Existem Atividades não finalizadas</strong> Você precisa informar sobre o andamento delas
         </div>
-        <p:dataScroller value="#{pgMeusProspectos.usuarioLogado.atividadeNaoFinalizada}"
+        <p:dataScroller value="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada}"
                         var="atividade" scrollHeight="800px"  mode="inline" >
             <div class="alert alert-info">
                 Atividade incabada para: <strong> <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,atividade.prospectoEmpresa)}"

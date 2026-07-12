@@ -13,23 +13,29 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="conteudo">
         <h:form>
-            <SBForm:camposDaAcao
-                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
-                somenteLeitura="#{pgProspecto.somenteLeitura}"
-                />
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
 
-            <h:panelGroup styleClass="Fright" style="margin-right: 60px">
-                <SBAcaoNav:botaoDeAcao
-                    rendered="#{pgProspecto.podeEditar}"
-                    acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
-                    label="Salvar #TAGS"
-                    tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                    metodo="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
-                    armazenamentoAcaoExecutada="#{pgProspecto.acaoSelecionada}"
-                    update="#{pgProspecto.idAreaExbicaoAcaoSelecionada}"
+                <SBForm:camposDaAcao
+                    registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                    acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                    tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                    somenteLeitura="#{pgProspecto.somenteLeitura}"
                     />
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+                <h:panelGroup layout="block" styleClass="Container8 OrganizadorContainerDireita" >
+                    <h:panelGroup styleClass="Fright" style="margin-right: 60px">
+                        <SBAcaoNav:botaoDeAcao
+                            rendered="#{pgProspecto.podeEditar}"
+                            acao="#{paginaAtual.infoPagina.comoPaginaEntidade.acaoSalvarAlteracoes}"
+                            label="Salvar #TAGS"
+                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                            metodo="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
+                            armazenamentoAcaoExecutada="#{pgProspecto.acaoSelecionada}"
+                            update="#{pgProspecto.idAreaExbicaoAcaoSelecionada}"
+                            />
+                    </h:panelGroup>
+                </h:panelGroup>
             </h:panelGroup>
         </h:form>
 

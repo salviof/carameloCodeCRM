@@ -23,7 +23,7 @@ public class CriarImplementacaoCRMPadrao {
     @Test
     public void testes() {
         try {
-            SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+            SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
             new GeradorERPImplementacaoContexto(ERPCrm.CARAMELO_CODE_PADRAO).salvarEmDiretorioPadraCASO_NAO_EXISTA();
 
             for (Class entidade : ERPCrm.CARAMELO_CODE_PADRAO.getInterfacesDeEntidade()) {

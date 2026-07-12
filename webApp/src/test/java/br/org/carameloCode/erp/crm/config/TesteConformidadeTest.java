@@ -28,6 +28,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
         try {
 
             System.out.println(FabAcaoPaginasDoSistema.PAGINA_NATIVA_TOKEN_DINAMICO_MB.getRegistro().getNomeUnico());
+
             gerarMangedBeansAcessoAcoes();
             exibirRelatorioCompleto();
             String teste = FabConfigModuloWebAppGenerico.TEMA.getCaminhoArquivoVariaveisAmbiente();

@@ -20,6 +20,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcao
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.icones.FabIconeFontAwesome;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 
 /**
  *
@@ -104,5 +105,17 @@ public enum FabAcaoCRMCliente implements ComoFabricaDeAcoesPersistencia {
     FORM_CHAT_INTERATIVO_MB,
     @InfoTipoAcaoFormulario(icone = "fa fa-comments-o")
     FORM_CHAT_INTERATIVO_FRM_INTERACAO,
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Gestão de solicitações", entidade = Solicitacao.class)
+    SOLICITACAO_MB_GESTAO,
+    @InfoTipoAcaoController()
+    SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO,
+    @InfoTipoAcaoFormulario(icone = "fa fa-solid fa-file-arrow-up")
+    SOLICITACAO_FRM_ENVIAR_ARQUIVO,
+    @InfoTipoAcaoController()
+    SOLICITACAO_CTR_ENVIAR_ARQUIVO,
+    @InfoTipoAcaoFormulario(icone = "fa fa-solid fa-check-to-slot")
+    SOLICITACAO_FRM_ACEITE,
+    @InfoTipoAcaoController()
+    SOLICITACAO_CTR_RESPONDER_ACEITE,
 
 }

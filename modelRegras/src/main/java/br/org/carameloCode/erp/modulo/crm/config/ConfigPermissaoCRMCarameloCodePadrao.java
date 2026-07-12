@@ -8,7 +8,7 @@ package br.org.carameloCode.erp.modulo.crm.config;
 import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.MetadadoAtendente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
@@ -54,6 +54,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuar
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
 import com.super_bits.modulosSB.SBCore.modulos.view.menu.ComoMenusDeSessao;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ModuloAgendamentoPublicoPluginCRM;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.ModuloPluginCrmOrcamento;
 import org.coletivojava.fw.api.objetoNativo.view.menu.MenuSBFW;
@@ -71,7 +72,9 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             ModuloCRMAtendimentoEmail.class,
             ModuloPluginCrmOrcamento.class,
             ModuloAgendamentoPublico.class, ModuloAgendamentoPublicoPluginCRM.class,
-            ModuloCrmAgenda.class, ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class, ModuloNotificacao.class, ModuloCRM_IA.class
+            ModuloCrmAgenda.class,
+            ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class,
+            ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class
         });
     }
 
@@ -292,6 +295,11 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             if (!((Pessoa) pObjeto).isUmPerfilPrivado()) {
                 return true;
             } else {
+                if (((Pessoa) pObjeto).getOrigem() != null && ((Pessoa) pObjeto).getOrigem().isUmaOrigemPrivada() && ((Pessoa) pObjeto).getOrigem().getComoOrigemPrivada().getUsuarioDono() != null) {
+                    if (((Pessoa) pObjeto).getOrigem().getComoOrigemPrivada().getUsuarioDono().equals(pUsuario)) {
+                        return true;
+                    }
+                }
                 for (UsuarioCRM usr : ((Pessoa) pObjeto).getUsuariosResponsaveis()) {
                     if (SBCore.getUsuarioLogado().equals(usr)) {
                         return true;

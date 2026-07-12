@@ -5,9 +5,10 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = StatusSolicitacao.class)
 public enum CPStatusSolicitacao {
-	_ID, _NOME, _ICONE;
+	_ID, _NOME, _ICONE, _FABSTATUS;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
 	public static final String icone = "icone";
+	public static final String fabstatus = "fabStatus";
 }

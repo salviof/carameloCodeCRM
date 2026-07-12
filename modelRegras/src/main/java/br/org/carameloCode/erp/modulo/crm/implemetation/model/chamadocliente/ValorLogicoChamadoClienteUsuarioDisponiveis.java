@@ -12,6 +12,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.ValorLogicoChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.ValoresLogicosChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 
 @ValorLogicoChamadoCliente(calculo = ValoresLogicosChamadoCliente.USUARIODISPONIVEIS)
 public class ValorLogicoChamadoClienteUsuarioDisponiveis
@@ -24,17 +26,29 @@ public class ValorLogicoChamadoClienteUsuarioDisponiveis
 
     @Override
     public Object getValor(Object... pEntidade) {
-        List<UsuarioCRM> usuariosDisponiveis = new ArrayList<>();
-        if (getChamado().getTipoChamado() == null) {
+
+        if (getChamado().getUsuarioDisponiveis() != null && !getChamado().getUsuarioDisponiveis().isEmpty()) {
             return getChamado().getUsuarioDisponiveis();
         }
         EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
         try {
+            List<UsuarioCRM> usuariosDisponiveis = new ArrayList<>();
+            if (getChamado().getPessoa() != null) {
+                Pessoa pessoa = UtilSBPersistencia.loadEntidade(getChamado().getPessoa(), em);
+                List<UsuarioCRM> responsaveis = (List) pessoa.getCPinst(CPPessoa.usuariosresponsaveis).getValor();
+                responsaveis.stream().forEach(usuariosDisponiveis::add);
+            }
             TipoChamado tipoChamado = UtilSBPersistencia.loadEntidade(getChamado().getTipoChamado(), em);
+            if (!tipoChamado.getResponsaveis().isEmpty()) {
 
-            tipoChamado.getResponsaveis().stream().filter(usuario -> (!usuariosDisponiveis.contains(usuario))).forEachOrdered(usuario -> {
-                usuariosDisponiveis.add(usuario);
-            });
+                List<UsuarioCRM> responsaveisDesteChamado = tipoChamado.getResponsaveis();
+
+                responsaveisDesteChamado.stream().filter(usuario -> (!usuariosDisponiveis.contains(usuario))).forEachOrdered(usuario -> {
+                    if (!usuariosDisponiveis.contains(usuario)) {
+                        usuariosDisponiveis.add(usuario);
+                    }
+                });
+            }
 
             getChamado().setUsuarioDisponiveis(usuariosDisponiveis);
         } finally {

@@ -5,7 +5,7 @@
  */
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.aberturadechamadosimples;
 
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -25,14 +25,14 @@ import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;
         monochrome = false, dryRun = false)
 public class FluxoChamadoSimples extends TesteIntegracaoFuncionalidadeCucumber {
 
-    public static final String USUARIO_VENDEDOR = "atendimento@casanovadigital.com.br";
+    public static final String EMAIL_USUARIO_VENDEDOR = "atendimento@casanovadigital.com.br";
     public static final String SENHA_VENDEDOR = "123";
     public static ChamadoCliente chamado;
 
     @Override
     protected void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        SBPersistencia.configuraJPA(new ConfigPersistCRMDemostracao());
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBPersistencia.configuraJPA(new ConfigPersistCRMDemostracao(), true, true);
 
     }
 

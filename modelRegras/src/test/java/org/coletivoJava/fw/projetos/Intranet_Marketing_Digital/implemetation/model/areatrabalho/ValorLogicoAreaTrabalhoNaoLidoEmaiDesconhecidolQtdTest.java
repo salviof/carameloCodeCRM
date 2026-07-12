@@ -6,7 +6,7 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implemetation.model.areatrabalho;
 
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.areatrabalho.ValorLogicoAreaTrabalhoNaoLidoEmaiDesconhecidolQtd;
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.areaTrabalho.AreaTrabalho;
@@ -26,7 +26,7 @@ public class ValorLogicoAreaTrabalhoNaoLidoEmaiDesconhecidolQtdTest extends Test
     @Override
     public void configAmbienteDesevolvimento() {
 
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
 
     }

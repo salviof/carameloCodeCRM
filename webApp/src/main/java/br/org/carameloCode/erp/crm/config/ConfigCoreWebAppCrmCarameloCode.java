@@ -5,7 +5,6 @@
  */
 package br.org.carameloCode.erp.crm.config;
 
-import br.org.carameloCode.erp.modulo.notificacao.controller.FabAcaoNotificacaoPadraoSB;
 import br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.ServicoDeArquivosWebAppS3;
 
 import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSocialAutenticador;
@@ -27,6 +26,8 @@ import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
 import javax.servlet.ServletContext;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.FabAcaoAdminAgenda;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabAcaoAgendamentoPublicoCRMPlugin;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.FabAcaoOrcamento;
 
@@ -47,7 +48,8 @@ public class ConfigCoreWebAppCrmCarameloCode extends ConfiguradorCoreDeProjetoWe
     @Override
     public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao);
-        pConfiguracao.setCentralComunicacao(ConfigClasseComunicacaoCRM.class);
+        //pConfiguracao.setCentralComunicacao(ConfigClasseComunicacaoCRM.class);
+        pConfiguracao.setCentralComunicacao(ServicoComunicacaoCRM.class);
 
     }
 
@@ -75,6 +77,7 @@ public class ConfigCoreWebAppCrmCarameloCode extends ConfiguradorCoreDeProjetoWe
             FabAcaoAdminAgenda.class
         });
         MapaObjetosProjetoAtual.adcionarObjeto(TipoCredencialSocial.class);
+        MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);
 
     }
 

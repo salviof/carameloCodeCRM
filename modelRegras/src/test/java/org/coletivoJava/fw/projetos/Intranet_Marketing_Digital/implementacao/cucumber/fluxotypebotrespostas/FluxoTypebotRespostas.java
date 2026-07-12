@@ -6,7 +6,7 @@
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.fluxotypebotrespostas;
 
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.fluxotypebotformulario.FluxoTypebotFormulario;
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
@@ -36,7 +36,7 @@ public class FluxoTypebotRespostas extends TesteIntegracaoFuncionalidadeCucumber
 
     @Override
     protected void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistCRMDemostracao(), true, false);
         DevOpsCucumberPersistenciaMysql.carregarResultadoRequisito(FluxoTypebotFormulario.class);
         TipoDadoCRM observacao = new TipoDadoCRM();

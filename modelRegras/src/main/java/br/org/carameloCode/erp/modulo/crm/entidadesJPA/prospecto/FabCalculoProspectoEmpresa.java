@@ -9,13 +9,13 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogico;
 
 /**
  *
  * @author SalvioF
  */
-public enum FabCalculoProspectoEmpresa implements ItfCalculos {
+public enum FabCalculoProspectoEmpresa implements ComoValorLogico {
 
     NOME_RESPONSAVEL,
     TELEFONE_PRINCIPAL,

@@ -5,26 +5,29 @@
  */
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.FabPorteProspectoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.Porte;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.FabTipoRelacionamentoMarketingDigital;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author desenvolvedor
  */
-public enum FabDadosIniciais implements ComoFabrica {
+public enum FabDadosIniciais implements ComoFabricaComPersistencia {
 
+    @InfoObjetoDaFabrica(classeObjeto = PessoaJuridica.class, id = 1, nomeObjeto = "prospecto teste 1")
     PROSPECTO1,
     PROSPECTO2,
-    PROSPECTO3,;
+    PROSPECTO3,
+    PASTA_CONSULTRIA_ESPECIAL;
 
     @Override
     public Object getRegistro() {
@@ -84,6 +87,12 @@ public enum FabDadosIniciais implements ComoFabrica {
 
                 //prospecto3.getAtividadesRealizadas().add((AtividadeCRM) UtilSBPersistencia.loadEntidade(FabTipoAtividadeCRM.CRIAR_PROSPECTO.gerarNovaAtividadeCRM(prospecto3), em));
                 return prospecto3;
+            case PASTA_CONSULTRIA_ESPECIAL:
+                CategoriaArquivoEquipe pastaConsultEsp = new CategoriaArquivoEquipe();
+                pastaConsultEsp.setId(1l);
+                pastaConsultEsp.setNome("Consultoria Especial");
+                pastaConsultEsp.setIcone("fa fa-book");
+                return pastaConsultEsp;
 
             default:
 

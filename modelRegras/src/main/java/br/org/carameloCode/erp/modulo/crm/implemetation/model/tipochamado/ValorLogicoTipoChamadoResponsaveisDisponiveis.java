@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import java.util.List;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipochamado.ValorLogicoTipoChamado;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipochamado.ValoresLogicosTipoChamado;
+import br.org.carameloCode.erp.modulo.crm.api.model.usuariosb.CPUsuarioSB;
 
 @ValorLogicoTipoChamado(calculo = ValoresLogicosTipoChamado.RESPONSAVEISDISPONIVEIS)
 public class ValorLogicoTipoChamadoResponsaveisDisponiveis
@@ -25,7 +26,8 @@ public class ValorLogicoTipoChamadoResponsaveisDisponiveis
         if (UtilCRCListas.isNuloOuVazio(getTipoChamado().getResponsaveisDisponiveis())) {
             ConsultaDinamicaDeEntidade novaconsulta = new ConsultaDinamicaDeEntidade(UsuarioCRM.class, UtilSBPersistencia.getEMDoContexto());
             novaconsulta.addcondicaoCampoIgualA("tipoUsuario", UsuarioCRM.class.getSimpleName());
-            List<UsuarioCRM> usuarios = novaconsulta.resultadoRegistros();
+            novaconsulta.addCondicaoPositivo(CPUsuarioSB.ativo);
+            List<UsuarioCRM> usuarios = novaconsulta.gerarResultados();
             getTipoChamado().setResponsaveisDisponiveis(usuarios);
         }
 

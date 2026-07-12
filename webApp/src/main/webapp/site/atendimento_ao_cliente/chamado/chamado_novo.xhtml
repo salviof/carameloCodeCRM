@@ -74,8 +74,8 @@
                     <f:passThroughAttribute name="campoInstanciado" value="#{pgSuporteCliente.entidadeSelecionada.getCampoByNomeOuAnotacao('descricao')}" />
                     <p:ajax
                         event="blur"
-                        onstart="bloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
-                        oncomplete="desbloquearArea('#{pgUtil.getNomeIdPFieldSetPai(component)}')"
+                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('relatorioAtividade')}')"
+                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('relatorioAtividade')}')"
                         process="@parent"
 
                         listener="#{pgSuporteCliente.salvarDescritivoTemporario()}"

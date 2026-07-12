@@ -1,0 +1,11 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCHAMADO="http://xmlns.jcp.org/jsf/composite/chamado"
+    template="#{layoutsPaginas.formularioListarGenerico.xhtmlVinculado}" >
+
+    <ui:define name="conteudo" >
+        <SBCHAMADO:cabecalhoListaChamado/>
+        <ui:include src="/site/modelo/listagemGenerica.xhtml" />
+    </ui:define>
+</ui:composition>

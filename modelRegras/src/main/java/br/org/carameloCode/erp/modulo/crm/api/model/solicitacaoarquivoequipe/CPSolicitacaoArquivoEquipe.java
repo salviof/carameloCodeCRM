@@ -5,7 +5,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoArquivoEquipe.class)
 public enum CPSolicitacaoArquivoEquipe {
-	_CATEGORIAARQEQUIPE;
+	_CATEGORIAARQEQUIPE, _LINKEQUIPEVERARQUIVO;
 
 	public static final String categoriaarqequipe = "categoriaArqEquipe";
+	public static final String linkequipeverarquivo = "linkEquipeVerArquivo";
 }

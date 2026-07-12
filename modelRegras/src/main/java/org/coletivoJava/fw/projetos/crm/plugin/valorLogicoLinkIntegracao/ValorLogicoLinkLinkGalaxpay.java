@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
  *
  * @author salvio
  */
+@InfoValorLogicoLinkIntegracao
 public class ValorLogicoLinkLinkGalaxpay extends ValorLogicoLinkPadrao {
 
     private final static String URLFATURA_INICIO = "https://crm.casanovadigital.com.br/Prospectos";

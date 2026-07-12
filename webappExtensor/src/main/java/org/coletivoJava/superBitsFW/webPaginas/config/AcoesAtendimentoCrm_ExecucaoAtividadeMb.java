@@ -102,6 +102,11 @@ public class AcoesAtendimentoCrm_ExecucaoAtividadeMb implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_CONTINUAR_ANTERIOR_EXCLUINDO_ESTA");
 	}
 
+	public ComoAcaoControllerEntidade getExecucaoAtividadeCtrDeclararDadosColetados() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_DECLARAR_DADOS_COLETADOS");
+	}
+
 	public ComoAcaoControllerEntidade getExecucaoAtividadeCtrSalvarDadosDinamicos() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_SALVAR_DADOS_DINAMICOS");

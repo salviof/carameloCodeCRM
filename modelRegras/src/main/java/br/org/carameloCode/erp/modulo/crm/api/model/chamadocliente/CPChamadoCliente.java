@@ -5,13 +5,14 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ChamadoCliente.class)
 public enum CPChamadoCliente {
-	_ID, _TITULO, _SATISFACAO, _STATUS, _ATENDENTERESPONSAVEL, _NOTIFICARVIASMS, _NOTIFICARVIAEMAIL, _ATENDENTESCONVIDADOS, _USUARIODISPONIVEIS, _USUARIOCLIENTE, _TIPOCHAMADO, _TIPOSDISPONIVEIS, _DESCRICAO, _RESUMODESCRICAO, _DATAHORACRIACAO, _DATAHORAPROGRAMADA, _SALAMATRIX, _ATIVO, _NOTIFICACOES, _EVENTOSDOCHAMADO, _PESSOA, _USUARIOCRIOU, _LINKURLACESSOCLIENTE, _DATAHORAULTIMOLINKACESSO, _DATAHORAPRIMEIROATENDIMENTO, _DATAHORAULTIMAINTERACAO, _DADOSDOCHAMADO;
+	_ID, _TITULO, _SATISFACAO, _STATUS, _ATENDENTERESPONSAVEL, _ATENDENTEANTERIOR, _NOTIFICARVIASMS, _NOTIFICARVIAEMAIL, _ATENDENTESCONVIDADOS, _USUARIODISPONIVEIS, _USUARIOCLIENTE, _TIPOCHAMADO, _TIPOSDISPONIVEIS, _DESCRICAO, _RESUMODESCRICAO, _DATAHORACRIACAO, _DATAHORAPROGRAMADA, _SALAMATRIX, _ATIVO, _NOTIFICACOES, _EVENTOSDOCHAMADO, _PESSOA, _USUARIOCRIOU, _LINKURLACESSOCLIENTE, _DATAHORAULTIMOLINKACESSO, _DATAHORAPRIMEIROATENDIMENTO, _DATAHORAULTIMAINTERACAO, _DADOSDOCHAMADO;
 
 	public static final String id = "id";
 	public static final String titulo = "titulo";
 	public static final String satisfacao = "satisfacao";
 	public static final String status = "status";
 	public static final String atendenteresponsavel = "atendenteResponsavel";
+	public static final String atendenteanterior = "atendenteAnterior";
 	public static final String notificarviasms = "notificarViaSMS";
 	public static final String notificarviaemail = "notificarViaEmail";
 	public static final String atendentesconvidados = "atendentesConvidados";

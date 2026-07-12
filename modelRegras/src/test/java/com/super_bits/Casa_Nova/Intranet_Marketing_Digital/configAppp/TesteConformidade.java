@@ -3,6 +3,8 @@ package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.pesquisaAtividade.PesquisaAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tiposEspeciais.AtividadeCRMEmailEnvio;
 import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.MetadadoAtendente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.FabConfigModuloIntranet;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.MetadadoUsuarioCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -27,6 +29,8 @@ public class TesteConformidade extends TesteCRMCarameloCode {
             MapaObjetosProjetoAtual.adcionarObjeto(ContatoAnonimoDadoTansitorio.class);
             MapaObjetosProjetoAtual.adcionarObjeto(MetadadoUsuarioCliente.class);
             MapaObjetosProjetoAtual.adcionarObjeto(PesquisaAtividade.class);
+            MapaObjetosProjetoAtual.adcionarObjeto(MetadadoAtendente.class);
+            MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);
             //MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);
 
             Class classe = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(AtividadeCRMEmailEnvio.class.getSimpleName());

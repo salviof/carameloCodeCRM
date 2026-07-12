@@ -1,9 +1,9 @@
 package br.org.carameloCode.erp.modulo.crm.api.model.metadadoatendente;
 
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.MetadadoAtendente;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
 
 @InfoReferenciaEntidade(tipoObjeto = MetadadoAtendente.class)
 public enum ValoresLogicosMetadadoAtendente {
-	CHAMADOSEMATENDIMENTO, CHAMADOSAGUARDANDOATENDIMENTO, RESERVASATIVAS, CLIENTESSATISFEITOS, CLIENTESMUITOSATISFEITOS, CLIENTESINSATISFEITOS
+	CHAMADOSEMATENDIMENTO, CHAMADOSAGUARDANDOATENDIMENTO, RESERVASATIVAS, CLIENTESSATISFEITOS, CLIENTESMUITOSATISFEITOS, CLIENTESINSATISFEITOS, SOLICITACOESFEITASPORMIMEQUIPE, SOLICITACOESFEITASPARAMIM, SOLICITACOESFEITASPORMIMPARACLIENTES
 }

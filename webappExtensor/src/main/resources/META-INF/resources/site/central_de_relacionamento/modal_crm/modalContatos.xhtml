@@ -45,6 +45,7 @@
                     <SBInput:input
                         registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('nome')}"
                         layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        idAtualizarOnChange="@this"
                         />
                     <p:separator/>
                     <SBInput:input
@@ -56,7 +57,11 @@
 
 
 
-                    <SBContato:numeroWhatsapp contato="#{pgModalProspecto.contatoSelecionado}"/>
+                    <SBInput:input
+                        idAtualizarOnChange="@this"
+                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('celular')}"
+                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                        />
 
 
 

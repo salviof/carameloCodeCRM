@@ -15,25 +15,28 @@
             <br/>
             <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
             <span class="CardSubTopic FontAdamantiumBold Fs16">
+                <br/>
                 Atendendo a solicitação de #{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante.nome}<br/>
-                <span style="font-style: italic;" class="Fs24" >"#{pgSolicitacaoAtendimento.entidadeSelecionada.obeservacao}"</span>
-                <h:panelGroup layout="block" styleClass="Container3" id="usrTEam" >
+                Compartilhamento de documento para #{pgSolicitacaoAtendimento.entidadeSelecionada.pessoa.nome}<br/>
+
+                <h:panelGroup layout="block" styleClass="Container3 " id="usrTEam" >
 
 
 
-                    <h:panelGroup styleClass="" style="position: relative;    margin-top: 20px;margin-left: 40px;"  layout="block"  >
-                        <crm:avatar usuario="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante}" somenteLeitura="true" altura="90" />
-                    </h:panelGroup>
-                    <h:panelGroup styleClass="fa fa-hand-paper-o Fs40 containerBtnSeletor"   style="margin-left: 130px;"  >
-                    </h:panelGroup>
+
+
 
 
 
                 </h:panelGroup>
             </span>
-            <h:panelGroup styleClass="Fright" style="position: relative  " layout="block">
+            <h:panelGroup styleClass="" style="position: absolute;margin-left: 40px;top: 320px;left:  1px;"  layout="block"  >
 
+                <crm:avatar usuario="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante}" somenteLeitura="true" altura="90" />
+                <h:panelGroup styleClass="fa fa-hand-paper-o Fs40 containerBtnSeletor"   style="margin-left: 90px;margin-top: -180px;"  /><br/>
+                <span style="font-style: italic;" class="Fs24" >"#{pgSolicitacaoAtendimento.entidadeSelecionada.observacao}"</span>
             </h:panelGroup>
+
         </div>
 
         <h:form>
@@ -76,91 +79,15 @@
                 (ou arraste aqui)
             </h:panelGroup>
         </p:fieldset>
+
+        <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
+        <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
         <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
 
 
 
-            <c:forEach  items="#{pgSolicitacaoAtendimento.categoriaEquipe.arquivos}" var="arquivo" >
-                <h:form>
-                    <p:confirmDialog global="true">
-                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                    </p:confirmDialog>
-                    <p:fieldset  id="arquivos" styleClass="Container3" >
-                        <f:facet name="legend">
-                            <p:growl id="message" showDetail="true"/>
-                            <p:commandButton
-                                partialSubmit="true"
-                                process="@this"
-                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank');"
-                                icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
-                                />
-                            <p:commandButton
-
-                                partialSubmit="true"
-                                process="@this"
-                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}', '_blank');"
-                                icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
-                                />
-                            <p:commandButton
-                                partialSubmit="true"
-                                rendered="false"
-                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
-                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
-                                oncomplete="atualizarVisaoArquivosPessoa();"
-
-                                >
-                                <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-
-                            <p:commandButton
-                                partialSubmit="true"
-
-                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
-                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
-                                oncomplete="atualizarVisaoArquivosPessoa();"
-
-                                >
-                                <p:confirm header="Confirmation" message="Deseja excluir #{arquivo.nome} de forma irreversível?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-                            #{arquivo.nomeCurto}
-                        </f:facet>
-
-                        <p:panelGrid columns="3" styleClass=""  style="width: 100%;" >
-                            <h:panelGroup layout="block" >Tipo</h:panelGroup>
-                            <h:panelGroup layout="block" >Criado Por</h:panelGroup>
-                            <h:panelGroup layout="block" >Criado às</h:panelGroup>
-                            <h:panelGroup layout="block" >
 
 
-                                <i class="Fs50 #{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
-
-                            </h:panelGroup>
-                            <h:panelGroup layout="block" >
-
-                                <crm:avatar  id="criado_por" usuario="#{arquivo.usuarioCriou}" somenteLeitura="true" />
-
-                            </h:panelGroup>
-
-                            <h:panelGroup layout="block" >
-
-
-                                <p:outputLabel id="dataHoraCriou" value="#{pgUtil.gerarDataHoraTexto(arquivo.dataHoraCriacao)}" />
-
-                            </h:panelGroup>
-
-
-                        </p:panelGrid>
-
-
-                        <h:panelGroup layout="block" style="width: 100%;" rendered="arquivo.dataHoraAlteracao!=null">
-                            *    Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por:      <crm:avatar usuario="#{arquivo.usuarioAlteracao}" somenteLeitura="true" />
-                        </h:panelGroup>
-
-                    </p:fieldset>
-                </h:form>
-
-            </c:forEach>
 
         </p:fieldset>
 

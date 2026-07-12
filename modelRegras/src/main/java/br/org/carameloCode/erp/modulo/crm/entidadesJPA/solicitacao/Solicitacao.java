@@ -2,24 +2,27 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.DestinatarioTransiente;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDestinatario;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoRespostaComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.StatusNotificacao;
+
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +40,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
 
 /**
  *
@@ -47,7 +49,7 @@ import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
 @InfoObjetoSB(tags = "Solicitação", plural = "Solicitacoes", icone = "fa fa-hand-paper-o")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntitySoliciatacao")
-public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
+public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +86,11 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntitySoliciatacao;
 
+    @ManyToOne(targetEntity = StatusSolicitacao.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampoValorLogico(nomeCalculo = "Status solicitação")
+    private StatusSolicitacao status;
+
     @ManyToOne(targetEntity = Pessoa.class, fetch = FetchType.LAZY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, somenteLeitura = true)
     private Pessoa pessoa;
@@ -93,7 +100,7 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
     private String linkConvite;
 
     @InfoCampo(label = "Observação", obrigatorio = true)
-    private String obeservacao;
+    private String observacao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso()
@@ -110,6 +117,14 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso()
     private boolean foiRecebida;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    @InfoCampoValorLogico(nomeCalculo = "Está atrazada?")
+    private boolean emAtraso;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String codigoSelo;
 
     public Long getId() {
         return id;
@@ -159,12 +174,12 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
         this.usuarioSolicitado = usuarioSolicitado;
     }
 
-    public String getObeservacao() {
-        return obeservacao;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setObeservacao(String obeservacao) {
-        this.obeservacao = obeservacao;
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
     public Pessoa getPessoa() {
@@ -227,7 +242,6 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
         return destinatario;
     }
 
-    @Override
     public ComoUsuario getUsuarioRemetente() {
         return getUsuarioSolicitante();
     }
@@ -245,7 +259,7 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
     @Transient
     private ItfRespostaComunicacao resposta;
 
-    private ItfTipoRespostaComunicacao tipoREsposta() {
+    private ComoTipoRespostaComunicacao tipoREsposta() {
         if (!foiFinalizada) {
             return null;
         }
@@ -300,7 +314,13 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
 
     @Override
     public void setRespostaEscolhida(ItfRespostaComunicacao pResposta) {
-
+        if (pResposta.getTipoResposta().isRespostasPosiva()) {
+            foiAtendida = pResposta.getTipoResposta().isRespostasPosiva();
+            foiFinalizada = true;
+        } else {
+            foiAtendida = pResposta.getTipoResposta().isRespostasPosiva();
+            foiFinalizada = true;
+        }
     }
 
     @Transient
@@ -342,12 +362,12 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
 
     @Override
     public String getAssunto() {
-        return obeservacao;
+        return observacao;
     }
 
     @Override
     public void setAssunto(String pAssunto) {
-        obeservacao = pAssunto;
+        observacao = pAssunto;
     }
 
     @Override
@@ -367,7 +387,7 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
 
     @Override
     public String getCodigoSelo() {
-        return String.valueOf(getSlugIdentificador().hashCode());
+        return codigoSelo;
     }
 
     @Override
@@ -413,8 +433,8 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
     }
 
     @Override
-    public void setCodigoSelo(String codigoSelo) {
-
+    public void setCodigoSelo(String pCodigoSelo) {
+        codigoSelo = pCodigoSelo;
     }
 
     public boolean isFoiAtendida() {
@@ -439,6 +459,37 @@ public class Solicitacao extends EntidadeSimplesORM implements ItfDialogo {
 
     public SolicitacaoArquivoEquipe getComoSolicitacaoArquivoEquipe() {
         return (SolicitacaoArquivoEquipe) this;
+    }
+
+    @Override
+    public List<ERPTipoCanalComunicacao> getCanais() {
+        return Lists.newArrayList(ERPTipoCanalComunicacao.INTRANET_MENU, ERPTipoCanalComunicacao.MATRIX);
+    }
+
+    @Override
+    public void setCanais(List<ERPTipoCanalComunicacao> pCanais) {
+
+    }
+
+    @Override
+    public String getPaginaInstanciaID() {
+        return null;
+    }
+
+    public StatusSolicitacao getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusSolicitacao status) {
+        this.status = status;
+    }
+
+    public boolean isEmAtraso() {
+        return emAtraso;
+    }
+
+    public void setEmAtraso(boolean emAtraso) {
+        this.emAtraso = emAtraso;
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package com.super_bits.marketing.Util;
 
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
@@ -45,7 +45,7 @@ public class UtilCRCEmailAvancadoTest extends TesteCRMCarameloCode {
 
     @Override
     public void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
         // System.out.println("CAMINHO===" + getPastaExecucaoScriptsSQL());
         System.out.println("Retorno");

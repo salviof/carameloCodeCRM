@@ -1,9 +1,3 @@
-/*
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.disparoemmassa.CPDisparoEmMassa;
@@ -71,12 +65,14 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tipodadoia.CPTipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoempresa.CPTipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipoformulario.CPTipoFormulario;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipomensagemmktwhatsapp.CPTipoMensagemMktWhatsApp;
+import br.org.carameloCode.erp.modulo.crm.api.model.tiponotificacaocrm.CPTiponotificacaoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervico.CPTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicorecorrente.CPTipoServicoRecorrente;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicosazonal.CPTipoServicoSazonal;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.tiponotificacao.CPTipoNotificacao;
 
 /**
@@ -825,7 +821,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
     PERSONA_IA_CTR_REMOVER,
-    @InfoTipoAcaoGestaoEntidade(entidade = TipoEmpresa.class, icone = "fa fa-pie-chart")
+    @InfoTipoAcaoGestaoEntidade(entidade = TipoEmpresa.class, icone = "fa fa-pie-chart", nomeAcao = "Tipo de Lead")
     TIPO_EMPRESA_MB,
     @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome})
     TIPO_EMPRESA_FRM_NOVO,
@@ -837,15 +833,28 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_EMPRESA_FRM_VISUALIZAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar")
     TIPO_EMPRESA_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoGestaoEntidade(entidade = TiponotificacaoCRM.class, icone = "fa fa-bullhorn", nomeAcao = "Notificações")
+    @InfoTipoAcaoGestaoEntidade(entidade = TiponotificacaoCRM.class, icone = "fa fa-bullhorn", nomeAcao = "Tipos de Notificações")
     TIPO_NOTIFICACAO_MB,
-    @InfoTipoAcaoFormulario(campos = {CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml, CPTipoNotificacao.acaogatilhonotificacao})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
+        "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog,
+        "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
+        "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura}
+    )
     TIPO_NOTIFICACAO_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.nomeentidadereferencia})
     TIPO_NOTIFICACAO_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
+        "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog, CPTiponotificacaoCRM.tipomensagem,
+        "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
+        "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura})
     TIPO_NOTIFICACAO_FRM_EDITAR,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoEmpresa.id, CPTipoEmpresa.nome, "[separador: DAdos mensagem]", CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
+        "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog,
+        "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
+        "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura})
     TIPO_NOTIFICACAO_FRM_VISUALIZAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar")
     TIPO_NOTIFICACAO_CTR_SALVAR_MERGE

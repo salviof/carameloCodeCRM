@@ -28,15 +28,23 @@
 
         </p:fieldset>
         <h:form>
-            <SBFormulario:camposDaAcao
-                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
-                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-                />
-            <h:panelGroup layout="block" styleClass="Container3 Fright" style="margin: 100px;" >
-                <SBPaginaAtual:botaoSalvarAlteracoes/>
+            <h:panelGroup  layout="block">
 
+
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
+                <h:panelGroup layout="block" styleClass="Container12" >
+                    <SBFormulario:camposDaAcao
+                        registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                        acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                        tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                        somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+                        />
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="Container3 " style="margin: 100px;" >
+                    <SBPaginaAtual:botaoSalvarAlteracoes/>
+
+                </h:panelGroup>
             </h:panelGroup>
         </h:form>
     </ui:define>

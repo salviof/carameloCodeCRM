@@ -78,7 +78,7 @@
             <h:form>
                 <h:panelGroup styleClass="Container12" >
 
-                    <ui:repeat value="#{pgExecutarAtividade.dadosDaAtividade}"  var="dado" varStatus="recNum">
+                    <c:forEach items="#{pgExecutarAtividade.dadosDaAtividade}"  var="dado" varStatus="recNum">
                         <h:panelGroup  styleClass="Container3" style="padding: 10px;">
                             <c:catch var="erro">
 
@@ -91,7 +91,7 @@
                                 #{erro}
                             </c:if>
                         </h:panelGroup>
-                    </ui:repeat>
+                    </c:forEach>>
 
                 </h:panelGroup>
 

@@ -21,10 +21,11 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
 import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import jersey.repackaged.com.google.common.collect.Lists;
 import com.super_bits.editorImagem.util.UtilSBImagemEdicao;
 import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
@@ -40,7 +41,8 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.qualificadoresCDI.sessao.QlSessaoFacesContext;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.util.PgUtil;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.webSite.InfoWebApp;
@@ -219,7 +221,7 @@ public class ServicosCRM implements Serializable {
                                         + atv.getTipoAtividade().getNome() + " para o cliente  "
                                         + atv.getProspectoEmpresa().getNome()
                                         + "") != null) {
-                                    ItfDialogo dialogo = SBCore.getServicoComunicacao()
+                                    ComoDialogo dialogo = SBCore.getServicoComunicacao()
                                             .gerarComunicacaoSistema_Usuario(FabTipoComunicacao.NOTIFICAR,
                                                     usuario,
                                                     "Olá, executei a atividade " + atv.getNomeAtividade()
@@ -235,7 +237,7 @@ public class ServicosCRM implements Serializable {
                             }
                             notificados++;
                         } else {
-                            ItfDialogo dialogo = SBCore.getServicoComunicacao().gerarComunicacaoSistema_Usuario(FabTipoComunicacao.NOTIFICAR, usuario, "Olá, executei a atividade " + atv.getNomeAtividade()
+                            ComoDialogo dialogo = SBCore.getServicoComunicacao().gerarComunicacaoSistema_Usuario(FabTipoComunicacao.NOTIFICAR, usuario, "Olá, executei a atividade " + atv.getNomeAtividade()
                                     + " para " + atv.getProspectoEmpresa().getNome());
                             try {
                                 SBCore.getServicoComunicacao().dispararComunicacao(dialogo, ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
@@ -484,7 +486,7 @@ public class ServicosCRM implements Serializable {
                     resposta.dispararMensagens();
                 } else {
                     if (solicitacaoEquipe != null) {
-                        ModuloCRMAtendimento.solicitacaoNotificarArquivoEquipe(solicitacaoEquipe);
+                        ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe(solicitacaoEquipe);
                     }
                 }
 
@@ -493,6 +495,10 @@ public class ServicosCRM implements Serializable {
             }
 
         }
+    }
+
+    public void atualizarIntegracao(IntegracaoLink pIntegracao) {
+        // UtilSBPersistencia.mergeRegistro(pIntegracao);
     }
 
     public void atualizarImagemProspecto(FileUploadEvent event) {
@@ -556,14 +562,14 @@ public class ServicosCRM implements Serializable {
             }
 
             EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
+            try {
+                UtilSBPersistencia.iniciarTransacao(em);
 
-            UtilSBPersistencia.iniciarTransacao(em);
-
-            pArquivo.getCPinst("arquivo").getComoArquivoDeEntidade().excluirArquivo();
-            UtilSBPersistencia.exluirRegistro(pArquivo, em);
-
-            UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
-
+                pArquivo.getCPinst("arquivo").getComoArquivoDeEntidade().excluirArquivo();
+                UtilSBPersistencia.exluirRegistro(pArquivo, em);
+            } finally {
+                UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
+            }
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro exluindo arquivo" + nomeArquivo, t);
         }
@@ -591,7 +597,7 @@ public class ServicosCRM implements Serializable {
     }
 
     public void solicitarPermissao(Pessoa p) {
-        ModuloCRMAtendimento.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
+        ModuloCRMAtendimentoSolicitacoes.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
     }
 
     public boolean isUmUsuarioAtendimentoLogado() {
@@ -605,5 +611,12 @@ public class ServicosCRM implements Serializable {
 
         }
         return false;
+    }
+
+    public boolean isUsuarioTemPermissao(Pessoa pPessoa) {
+        EntityManager em = UtilSBPersistencia.getEMDoContexto();
+        Pessoa p = UtilSBPersistencia.loadEntidade(pPessoa, em);
+        return SBCore.getServicoPermissao().isObjetoPermitidoUsuario(SBCore.getUsuarioLogado(), p);
+
     }
 }

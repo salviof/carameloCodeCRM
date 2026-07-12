@@ -12,15 +12,17 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
-import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
+
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
@@ -35,6 +37,10 @@ public class SolicitacaoArquivoEquipe extends Solicitacao {
     @ManyToOne(targetEntity = CategoriaArquivoEquipe.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, obrigatorio = true)
     private CategoriaArquivoEquipe categoriaArqEquipe;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.URL)
+    @InfoCampoValorLogico(nomeCalculo = "Link ver arquivos")
+    private String linkEquipeVerArquivo;
 
     @Override
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
@@ -67,6 +73,14 @@ public class SolicitacaoArquivoEquipe extends Solicitacao {
         respostas = new ArrayList<>();
         respostas.add(new RespostaComunicacao(this, FabTipoRespostaComunicacao.ENVIAR_INFORMACAO.getRegistro()));
         return respostas;
+    }
+
+    public String getLinkEquipeVerArquivo() {
+        return linkEquipeVerArquivo;
+    }
+
+    public void setLinkEquipeVerArquivo(String linkEquipeVerArquivo) {
+        this.linkEquipeVerArquivo = linkEquipeVerArquivo;
     }
 
 }

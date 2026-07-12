@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
  *
  * @author salvio
  */
+@InfoValorLogicoLinkIntegracao
 public class ValorLogicoLinkMautic extends ValorLogicoLinkPadrao {
 
     private final static String URLFATURA = "https://campanha.casanovadigital.com.br/s/contacts?search=company:\"";

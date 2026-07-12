@@ -49,7 +49,7 @@ import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestIntTypebotResul
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotBots;
 import br.org.coletivoJava.integracoes.restTypebot.api.FabApiRestTypebotWorkspace;
 import br.org.coletivoJava.integracoes.restTypebot.implementacao.util.UtilIntegracaoTypebot;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+
 import br.org.coletivojava.fw.utils.agendador.UtilSBAgendadorTarefas;
 import com.google.common.collect.Lists;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
@@ -74,7 +74,7 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebSer
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.UsuarioSistemaRoot;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
@@ -97,7 +97,7 @@ import java.util.stream.Collectors;
 
 import static com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_AMERICANO;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmail;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 
 /**
  *
@@ -224,7 +224,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
 
                         String mensagem = "Houve uma falha enviando um e-mail agendado, o envio foi reagendado para "
                                 + UtilCRCDataHora.getDataSTRFormatoUsuario(pEmail.getDataHoraInsercao());
-                        ItfDialogo dialogo = SBCore.getServicoComunicacao().gerarComunicacaoSistema_Usuario(FabTipoComunicacao.NOTIFICAR,
+                        ComoDialogo dialogo = SBCore.getServicoComunicacao().gerarComunicacaoSistema_Usuario(FabTipoComunicacao.NOTIFICAR,
                                 (ComoUsuario) pEmail.getUsuarioCriou(), mensagem
                         );
 
@@ -821,7 +821,11 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 ItfRespostaWebServiceSimples resp = FabApiAsterix.LIGACOES_LISTAR.getAcao(dataInicialFormatada, dataFinalFormatada).getResposta();
 
                 if (resp == null || !resp.isSucesso()) {
-                    throw new ErroRegraDeNegocio("Falha comunicando com Serviço de PABX" + resp.getRespostaTexto());
+                    if (resp != null) {
+                        throw new ErroRegraDeNegocio("Falha comunicando com Serviço de PABX" + resp.getRespostaTexto());
+                    } else {
+                        throw new ErroRegraDeNegocio("Falha comunicando com Serviço de PABX");
+                    }
                 }
                 JsonObject respostaWs = resp.getRespostaComoObjetoJson();
 

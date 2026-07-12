@@ -74,7 +74,6 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
                 UtilSBPersistencia.mergeRegistro(novoUsuario);
 
             }
-
             System.out.println("############### FIM CONFIG JPA");
             SBWebPaginas.configurar(new ConfigWP_CRM_CarameloCode());
             System.out.println("############### FIM CONFIG WEBPAGINAS");

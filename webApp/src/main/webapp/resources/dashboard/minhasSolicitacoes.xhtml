@@ -1,0 +1,62 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="usuario" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM" required="true" />
+
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:fieldset style="margin: 32px;"  >
+            <f:facet name="legend">
+                <i class="fa fa-handshake-o" style="margin-right: 8px"/>Solicitações de #{cc.attrs.usuario.nome}
+            </f:facet>
+            <h:panelGroup styleClass="cards-dashboard" layout="block" style="margin-top: 10px;">
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="4"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMinhasPendenciasAbertas,cc.attrs.usuario)}"
+                    icone="fa fa-life-ring"
+                    titulo="Solicitações feitas PARA mim"
+                    valor="#{cc.attrs.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
+                             .getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasParaMim').valor}"
+                    />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="4"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbrtos,cc.attrs.usuario)}"
+                    icone="fa fa-hand-paper-o"
+                    titulo="Aguardando que fiz para equipe"
+                    valor="#{cc.attrs.usuario.metadadosAtendente
+                             .getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimEquipe').valor}"
+                    />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="4"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbrtos,cc.attrs.usuario)}"
+                    icone="fa fa-ticket"
+                    titulo="Solicitações que fiz para clientes"
+                    valor="#{cc.attrs.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimParaClientes').valor}"
+                    />
+
+            </h:panelGroup>
+        </p:fieldset>
+
+
+
+    </cc:implementation>
+</ui:composition>

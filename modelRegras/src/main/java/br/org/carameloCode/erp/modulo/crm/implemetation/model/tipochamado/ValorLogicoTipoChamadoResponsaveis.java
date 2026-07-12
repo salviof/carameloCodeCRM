@@ -8,14 +8,19 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
 
 @ValorLogicoTipoChamado(calculo = ValoresLogicosTipoChamado.RESPONSAVEIS)
 public class ValorLogicoTipoChamadoResponsaveis
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoCalculoGenerico {
 
-	public ValorLogicoTipoChamadoResponsaveis(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoTipoChamadoResponsaveis(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public TipoChamado getTipoChamado() {
-		return (TipoChamado) getCampoInst().getObjetoRaizDoAtributo();
-	}
+    @Override
+    public Object getValor(Object... pEntidade) {
+        return getTipoChamado().getResponsaveis();
+    }
+
+    public TipoChamado getTipoChamado() {
+        return (TipoChamado) getCampoInst().getObjetoRaizDoAtributo();
+    }
 }

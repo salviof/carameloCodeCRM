@@ -63,6 +63,10 @@ public class ChamadoCliente extends EntidadeSimplesORM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, camposExibidosEmLista = "usuarioDisponiveis")
     private UsuarioCRM atendenteResponsavel;
 
+    @ManyToOne(targetEntity = UsuarioCRM.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, camposExibidosEmLista = "usuarioDisponiveis")
+    private UsuarioCRM atendenteAnterior;
+
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso()
     private boolean notificarViaSMS = true;
@@ -154,7 +158,7 @@ public class ChamadoCliente extends EntidadeSimplesORM {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "chamado_dadoComplementar",
-            joinColumns = @JoinColumn(name = "tipochamado_id"),
+            joinColumns = @JoinColumn(name = "chamado_id"),
             inverseJoinColumns = @JoinColumn(name = "tipoDado_id")
     )
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
@@ -452,6 +456,14 @@ public class ChamadoCliente extends EntidadeSimplesORM {
 
     public void setTiposDisponiveis(List<TipoChamado> tiposDisponiveis) {
         this.tiposDisponiveis = tiposDisponiveis;
+    }
+
+    public UsuarioCRM getAtendenteAnterior() {
+        return atendenteAnterior;
+    }
+
+    public void setAtendenteAnterior(UsuarioCRM atendenteAnterior) {
+        this.atendenteAnterior = atendenteAnterior;
     }
 
 }

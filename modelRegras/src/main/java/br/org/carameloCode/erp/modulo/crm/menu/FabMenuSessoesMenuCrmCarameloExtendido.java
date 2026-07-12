@@ -45,7 +45,6 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
                 sessao = new SessaoMenuSB("Reservas", "fa fa-calendar-check-o");
                 sessao.addAcao(FabAcaoAdminAgenda.COLABORADOR_COM_AGENDA_MB_GESTAO);
                 sessao.addAcao(FabAcaoAgendaMentoPublico.TIPO_RESERVA_MB.getRegistro());
-                sessao.addAcao(FabAcaoAdminAgenda.RESERVAS_ADMIN_MB_GESTAO);
                 sessao.addAcao(FabAcaoAgendaMentoPublico.ESCOPO_AGENDAMENTO_PUBLICO_MB);
 
                 break;

@@ -132,7 +132,7 @@
                     </p:card>
                 </h:panelGroup>
             </p:tab>
-            <p:tab title="Histórico">
+            <p:tab title="Histórico de Atendimento, Arquivos e Orçamento">
                 <crmPessoa:dashboardTrabalhoRealizado
                     pessoa="#{pgProspecto.prospecto}"
                     />
@@ -140,7 +140,7 @@
             <p:tab>
                 <f:facet name="title">
                     <h:panelGroup layout="block" style="display:inline-flex; align-items:center; gap:6px;">
-                        <h:outputText value="Interações"/>
+                        <h:outputText value="Interações (Chamados,Solicitações e Atividades)"/>
                         <h:panelGroup rendered="#{pgProspecto.somaTotalInteracoes != null and pgProspecto.somaTotalInteracoes > 0}">
                             <p:badge value="#{pgProspecto.somaTotalInteracoes}"
                                      rendered="#{pgProspecto.somaTotalInteracoes != null}"

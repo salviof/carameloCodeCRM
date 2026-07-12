@@ -4,6 +4,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRM
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.TipoChamado;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabTipoChamado;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import cucumber.api.java.pt.Quando;
@@ -20,7 +21,8 @@ public class B_Quando__o_Cliente_cria_um_novo_chamado {
     public void implementacaoEtapa() {
         ChamadoCliente novoChamado = new ChamadoCliente();
         try {
-            novoChamado.prepararNovoObjeto(SBCore.getUsuarioLogado());
+
+            novoChamado.prepararNovoObjeto(CarameloCode.getUsuarioLogado());
         } catch (ErroPreparandoObjeto ex) {
             Logger.getLogger(B_Quando__o_Cliente_cria_um_novo_chamado.class.getName()).log(Level.SEVERE, null, ex);
         }

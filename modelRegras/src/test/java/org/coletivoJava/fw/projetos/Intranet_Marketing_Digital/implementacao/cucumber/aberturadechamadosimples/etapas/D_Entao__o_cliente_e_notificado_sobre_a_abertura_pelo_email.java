@@ -14,6 +14,7 @@ public class D_Entao__o_cliente_e_notificado_sobre_a_abertura_pelo_email {
         List<NotificacaoSB> notificacoes = UtilSBPersistencia.getListaTodos(NotificacaoSB.class, FluxoChamadoSimples.getEM());
         for (NotificacaoSB ntf : notificacoes) {
             System.out.println(ntf);
+
         }
     }
 }

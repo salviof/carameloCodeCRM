@@ -6,7 +6,7 @@
 package org.coletivoJava.fw.projetos.agendamentoPublico.controller;
 
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabUsuarioPadraoMarketingParaWeb;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import java.sql.Time;
 import java.util.List;

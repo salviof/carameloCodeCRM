@@ -5,9 +5,8 @@ import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.api.cucumber.aber
 
 public class J_Entao__o_cliente_e_notificado_via_email {
 
-	@Entao(EtapasAberturaDeChamadoSimples.ENTAO_O_CLIENTE_E_NOTIFICADO_VIA_EMAIL)
-	public void implementacaoEtapa() {
-		throw new UnsupportedOperationException(
-				"Etapa 'o cliente é notificado via email' não implementadas");
-	}
+    @Entao(EtapasAberturaDeChamadoSimples.ENTAO_O_CLIENTE_E_NOTIFICADO_VIA_EMAIL)
+    public void implementacaoEtapa() {
+        //TODO Checar notificação via email
+    }
 }

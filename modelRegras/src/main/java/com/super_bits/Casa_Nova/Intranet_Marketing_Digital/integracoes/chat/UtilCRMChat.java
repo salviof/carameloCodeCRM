@@ -15,7 +15,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import com.super_bits.marketing.Util.ErroNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringSlugs;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
@@ -25,8 +24,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
-import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
@@ -103,7 +102,9 @@ public class UtilCRMChat {
 
                 } catch (ErroConexaoServicoChat ex) {
 
-                    return null;
+                    throw ex;
+                } catch (Throwable t) {
+                    throw new ErroRegraDeNEgocioChat("Falha criando usuário associado a matrix");
                 }
             }
             //verificando se precisa atualizar o telefone ou Email
@@ -186,30 +187,37 @@ public class UtilCRMChat {
         return usuariosExternosCLiante;
     }
 
-    public static List<UsuarioCRM> getarListasUsuariosAtendTimeIntranet(ChamadoCliente pChamado) {
+    public static List<UsuarioCRM> gerarListasUsuariosAtendTimeIntranet(ChamadoCliente pChamado) {
 
         List<UsuarioCRM> usuarioInternoAtendimento = new ArrayList<>();
+        if (pChamado == null || pChamado.getId() == null) {
+            return usuarioInternoAtendimento;
+        }
 
-        for (UsuarioCRM usr : pChamado.getAtendentesConvidados()) {
-            usuarioInternoAtendimento.add(usr);
-        }
-        if (pChamado.getAtendenteResponsavel() != null) {
-            usuarioInternoAtendimento.add(pChamado.getAtendenteResponsavel());
-        }
         EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
         try {
+            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
+
+            if (chamado.getStatus().getId().equals(FabStatusChamado.FINALIZADO.getRegistro().getId())
+                    || chamado.getStatus().getId().equals(FabStatusChamado.RASCUNHO.getRegistro().getId())
+                    || chamado.getStatus().getId().equals(FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro().getId())) {
+                return new ArrayList<>();
+            }
+
+            for (UsuarioCRM usr : chamado.getAtendentesConvidados()) {
+                usuarioInternoAtendimento.add(usr);
+            }
+            if (chamado.getAtendenteResponsavel() != null) {
+                usuarioInternoAtendimento.add(chamado.getAtendenteResponsavel());
+            }
 
             Pessoa pessoa = UtilSBPersistencia.loadEntidade(pChamado.getPessoa(), em);
             if (usuarioInternoAtendimento.isEmpty()) {
-
                 UsuarioCRM atendimento = (UsuarioCRM) pessoa.getCPinst(CPPessoa.usuarioatendimento).getValor();
-
                 if (atendimento != null) {
                     usuarioInternoAtendimento.add(atendimento);
                 }
-
             }
-
             if (usuarioInternoAtendimento.isEmpty()) {
                 UsuarioCRM captadorLead = (UsuarioCRM) pessoa.getCPinst(CPPessoa.usuarioresponsavel).getValor();
                 usuarioInternoAtendimento.add(captadorLead);
@@ -227,7 +235,7 @@ public class UtilCRMChat {
         try {
             sala = getSalaAtendimentoContatoPrincipal(pUsuarioCLiente);
         } catch (ErroRegraDeNEgocioChat | ErroConexaoServicoChat ex) {
-            throw new ErroNotificacao("Falçha notificando sala de atendimento" + ex.getMessage());
+            throw new ErroNotificacao("Falha notificando sala de atendimento" + ex.getMessage());
         }
 
         if (sala == null) {
@@ -267,7 +275,18 @@ public class UtilCRMChat {
         }
         ComoChatSalaBean sala = null;
         if (apelido != null) {
+
             sala = chatService.getSalaByAlias(apelido);
+
+            //verificando permissoes da sala
+            if (sala != null) {
+                if (sala.getNome() != null) {
+                    if (!sala.getNome().equals(nomePersonalizado)) {
+                        chatService.getSalaRenomear(sala, nomePersonalizado);
+                    }
+                }
+            }
+
         }
 
         UsuarioCRM usuarioGestao = pPessoa.getUsuarioAtendimento();
@@ -276,31 +295,37 @@ public class UtilCRMChat {
         }
         if (usuarioGestao != null) {
             if (usuarioGestao.getCodigoMatrix() == null) {
-                gerarUsuarioAtendimento(usuarioGestao);
+                ComoUsuarioChat usrAtendimentoPrincipal = gerarUsuarioAtendimento(usuarioGestao);
+                if (usrAtendimentoPrincipal == null) {
+                    throw new ErroRegraDeNEgocioChat("Falha obtendo usuário vinculado a " + usuarioGestao.getEmail());
+                }
             }
 
         }
         List<UsuarioCRM> usuariosSala = new ArrayList<>();
         usuariosSala.addAll(pUsuariosExternosCLiente);
         usuariosSala.addAll(pUsuarioAtendimento);
+
         if (sala != null) {
             new Thread(new AssincAddUserRespCanalIntranet(sala, usuarioGestao, usuariosSala)).start();
             return sala;
         }
 
-        for (UsuarioCRM usr : pUsuariosExternosCLiente) {
-            if (usr.isUmUsuarioDoCliente()) {
+        for (UsuarioCRM usuario : pUsuariosExternosCLiente) {
+            ComoUsuarioChat usuariochat = UtilCRMChat.gerarUsuarioContatoCliente((UsuarioCrmCliente) usuario);
 
-                usuariosMatrixExternosCLiente.add(gerarUsuarioContatoCliente(usr.getComoUsuarioCliente()));
-
+            if (usuariochat == null) {
+                throw new ErroRegraDeNEgocioChat("Falha obtendo usuário vinculado ao contato");
             }
+            usuariosMatrixExternosCLiente.add(usuariochat);
         }
-        for (UsuarioCRM usr : pUsuarioAtendimento) {
-            if (!usr.isUmUsuarioDoCliente()) {
+        for (UsuarioCRM usuario : pUsuarioAtendimento) {
+            ComoUsuarioChat usuariochat = UtilCRMChat.gerarUsuarioAtendimento(usuario);
 
-                usuariosMatrixAtendimento.add(gerarUsuarioAtendimento(usr));
-
+            if (usuariochat == null) {
+                throw new ErroRegraDeNEgocioChat("Falha obtendo usuário vinculado ao contato");
             }
+            usuariosMatrixAtendimento.add(usuariochat);
         }
 
         ComoChatSalaBean salaIdealizada;
@@ -343,13 +368,13 @@ public class UtilCRMChat {
         }
     }
 
-    public static ComoChatSalaBean gerarSalaChamado(ChamadoCliente ppChamado) throws ErroConexaoServicoChat, ErroRegraDeNEgocioChat {
+    public static ComoChatSalaBean gerarSalaChamado(ChamadoCliente pChamado) throws ErroConexaoServicoChat, ErroRegraDeNEgocioChat {
 
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
-            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(ppChamado, em);
+            ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
             List<UsuarioCrmCliente> usuariosExternosCLiente = gerarListasUsuariosContatos(chamado);
-            List<UsuarioCRM> usuariosAtendimento = getarListasUsuariosAtendTimeIntranet(chamado);
+            List<UsuarioCRM> usuariosAtendimento = gerarListasUsuariosAtendTimeIntranet(chamado);
 
             String nomePErsonalizado = "Chamado " + chamado.getId() + " " + UtilCRCStringFiltros.getNomeReduzido(chamado.getCliente().getRepresentanteLegal().getNome());
 

@@ -30,6 +30,7 @@
         </h:panelGroup>
 
         <h:panelGroup styleClass="Container9" layout="block" id="dadosDoChamado"  rendered="#{!pgMeusChamadosAtd.chamado.status.modoRascunho}">
+
             <SBChamado:dadosBasicosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}"  />
 
 
@@ -40,7 +41,7 @@
                     <f:facet name="title" >
                         <b>    Interação via Chat recepção e envio de anexo</b>
                     </f:facet>
-                    testes
+
                     <RC:salaDebate
                         rendered="#{pgMeusChamadosAtd.canalDoChamado !=null}"
                         canal="#{pgMeusChamadosAtd.canalDoChamado}" altura="400px"
@@ -96,7 +97,7 @@
                                 </h:panelGroup>
                                 <h:panelGroup styleClass="Container3" layout="block" style="margin-top: 30px;" >
                                     <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrDefinirResponsavel}"
-                                                       atualizar="#{pgUtil.gerarCaminhoCompletoID('opcoesResponsavel')}"
+                                                       atualizar="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
                                                        />
                                 </h:panelGroup>
                             </h:form>
@@ -105,11 +106,11 @@
 
                     </h:panelGroup>
 
-                    <p:fieldset legend="Me tornar responsavel " styleClass="Container3" >
+                    <p:fieldset legend="Me tornar responsavel " styleClass="Container3" rendered="#{pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel!=null and pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel ne sessaoAtualSBWP.usuario }" >
                         <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 10px;" >
                             <h:form>
                                 <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrAssumirChamado}"
-                                                   atualizar="#{pgUtil.gerarCaminhoCompletoID('opcoesResponsavel')}"
+                                                   atualizar="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
                                                    />
                             </h:form>
                         </h:panelGroup>

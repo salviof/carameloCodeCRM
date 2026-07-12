@@ -5,13 +5,14 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ContatoProspecto.class)
 public enum CPContatoProspecto {
-	_ID, _NOME, _PROSPECTO, _CARGO, _CELULAR, _CELULARFORMATOINTERNACIONAL, _TELEFONEALTERNATIVO, _EMAIL, _OBSERVACAO, _UMCONTATOPRINCIPAL, _EMAILCLIENTEVERIFICADO, _TELEFONECLIENTEVERIFICADO, _DATAHORAVERIFICACAOCLIENTE, _TIPOCONTATO, _PROSPECTOSDISPONIVEIS, _LOCALIZACAOCONTATO, _CODIGOMAUTIC, _USUARIOVINCULADO, _ATIVO, _RESERVAS, _MENSAGENS, _MENSAGENSSMS;
+	_ID, _NOME, _PROSPECTO, _CARGO, _CELULAR, _PARTICIPACHATEMPRESA, _CELULARFORMATOINTERNACIONAL, _TELEFONEALTERNATIVO, _EMAIL, _OBSERVACAO, _UMCONTATOPRINCIPAL, _EMAILCLIENTEVERIFICADO, _TELEFONECLIENTEVERIFICADO, _DATAHORAVERIFICACAOCLIENTE, _TIPOCONTATO, _PROSPECTOSDISPONIVEIS, _LOCALIZACAOCONTATO, _CODIGOMAUTIC, _USUARIOVINCULADO, _ATIVO, _RESERVAS, _MENSAGENS, _MENSAGENSSMS;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
 	public static final String prospecto = "prospecto";
 	public static final String cargo = "cargo";
 	public static final String celular = "celular";
+	public static final String participachatempresa = "participaChatEmpresa";
 	public static final String celularformatointernacional = "celularFormatoInternacional";
 	public static final String telefonealternativo = "telefoneAlternativo";
 	public static final String email = "email";

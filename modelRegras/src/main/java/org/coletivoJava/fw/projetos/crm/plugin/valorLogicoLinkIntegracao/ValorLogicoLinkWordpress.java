@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
  *
  * @author salvio
  */
+@InfoValorLogicoLinkIntegracao
 public class ValorLogicoLinkWordpress extends ValorLogicoLinkPadrao {
 
     public ValorLogicoLinkWordpress(ItfCampoInstanciado pCampoInstnciado) {

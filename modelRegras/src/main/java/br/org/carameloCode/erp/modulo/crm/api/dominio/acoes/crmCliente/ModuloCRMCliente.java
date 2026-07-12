@@ -195,8 +195,8 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                         }
                     }
                 } else {
-                    ServicoNotificacao.notificarChamadoCliente(FabTipoNotificacao.NOTIFICACAO_CLIENTE_PROTOCOLO_DE_CHAMADO, pChamado);
-                    ServicoNotificacao.notificacarChamadoResponsaveis(FabTipoNotificacao.NOTIFICACAO_RESPONSAVEIS_CHAMADO_ABERTO, pChamado);
+                    ServicoNotificacao.notificarChamadoCliente(FabTipoNotificacao.NOTIFICACAO_CLIENTE_PROTOCOLO_DE_CHAMADO, (ChamadoCliente) getRetorno());
+                    ServicoNotificacao.notificacarChamadoResponsaveis(FabTipoNotificacao.NOTIFICACAO_RESPONSAVEIS_CHAMADO_ABERTO, (ChamadoCliente) getRetorno());
                 }
             }
 

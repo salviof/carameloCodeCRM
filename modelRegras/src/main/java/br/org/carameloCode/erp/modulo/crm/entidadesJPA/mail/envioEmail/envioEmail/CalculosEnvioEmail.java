@@ -7,14 +7,14 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEma
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogico;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
  * @author desenvolvedor
  */
-public enum CalculosEnvioEmail implements ItfCalculos {
+public enum CalculosEnvioEmail implements ComoValorLogico {
     FOI_ENVIADO,
     ULTIMO_RASCUNHO,;
 

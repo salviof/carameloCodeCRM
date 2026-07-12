@@ -209,6 +209,7 @@ public class PgPesquisaProspecto extends MB_PaginaConversation {
     }
 
     public List<OrigemProspecto> getOrigens() {
+        origens = UtilSBPersistencia.gerarConsultaDeEntidade(OrigemProspecto.class, getEMPagina()).addCondicaoPositivo(CPOrigemProspecto.ativo).gerarResultados();
         return origens;
     }
 

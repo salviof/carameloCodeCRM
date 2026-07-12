@@ -1,11 +1,15 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}">
     <ui:define name="divConteudo">
         <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
             <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
+            <CRM:menuProspecto pessoaJuridica="#{pgMeusChamadosAtd.pessoaSelecionada}"
+                               rendered="#{pgMeusChamadosAtd.pessoaSelecionada!=null}"
+                               />
         </h:panelGroup>
     </ui:define>
 </ui:composition>

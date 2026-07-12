@@ -77,6 +77,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusD
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1240,6 +1241,16 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 atualizarEntidade(pTipoDadoIA);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_NOTIFICACAO_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema tipoNotificacaoSAlvar(TipoNotificacao pTipoNotificacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoNotificacao), pTipoNotificacao) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoNotificacao);
             }
         };
     }

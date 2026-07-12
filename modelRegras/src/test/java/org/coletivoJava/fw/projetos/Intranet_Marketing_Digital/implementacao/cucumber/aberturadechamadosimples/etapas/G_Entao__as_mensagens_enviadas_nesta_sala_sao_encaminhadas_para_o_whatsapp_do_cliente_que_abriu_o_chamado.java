@@ -16,7 +16,7 @@ public class G_Entao__as_mensagens_enviadas_nesta_sala_sao_encaminhadas_para_o_w
 
     @Entao(EtapasAberturaDeChamadoSimples.E_AS_MENSAGENS_ENVIADAS_NESTA_SALA_SAO_ENCAMINHADAS_PARA_O_WHATSAPP_DO_CLIENTE_QUE_ABRIU_O_CHAMADO)
     public void implementacaoEtapa() {
-        SBCore.getServicoSessao().logarEmailESenha(FluxoChamadoSimples.USUARIO_VENDEDOR, FluxoChamadoSimples.SENHA_VENDEDOR);
+        SBCore.getServicoSessao().logarEmailESenha(FluxoChamadoSimples.EMAIL_USUARIO_VENDEDOR, FluxoChamadoSimples.SENHA_VENDEDOR);
         ComoChatSalaBean sala;
         try {
             sala = ERPChat.MATRIX_ORG.getImplementacaoDoContexto().getSalaByAlias(FluxoChamadoSimples.chamado.getSalaMatrix());

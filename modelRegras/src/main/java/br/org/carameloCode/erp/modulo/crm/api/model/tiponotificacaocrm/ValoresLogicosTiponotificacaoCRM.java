@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = TiponotificacaoCRM.class)
 public enum ValoresLogicosTiponotificacaoCRM {
-	ENTIDADESDISPONIVEIS
+	NOME, ACAOGATILHONOTIFICACAO, ACAOAUTOEXECUCAOENVIO, ACAOAUTOEXECUCAOENTREGA, ACAOAUTOEXECUCAOLEITURA, ESTRUTURAENTIDADE, ACAOESGATILHODISPONIVEIS, ENTIDADESDISPONIVEIS
 }

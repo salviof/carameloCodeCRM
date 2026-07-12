@@ -157,6 +157,11 @@ public class AcoesAtendimentoCrm_ProspectoMbGerenciar implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_REDUZIR_LOGO");
 	}
 
+	public ComoAcaoControllerEntidade getProspectoCtrAssumir() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_ASSUMIR");
+	}
+
 	public ComoAcaoControllerEntidade getProspectoCtrSalvarNovosProspesctosNavegacao() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_NOVOS_PROSPESCTOS_NAVEGACAO");

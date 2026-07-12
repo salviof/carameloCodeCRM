@@ -16,6 +16,11 @@ public class AcoesAgenda_ReservasAdminMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoAdminAgenda.RESERVAS_ADMIN_MB_GESTAO");
 	}
 
+	public ItfAcaoFormularioEntidade getReservasAdminFrmAtendentes() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_ATENDENTES");
+	}
+
 	public ItfAcaoFormularioEntidade getReservasAdminFrmTiposReservas() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_TIPOS_RESERVAS");

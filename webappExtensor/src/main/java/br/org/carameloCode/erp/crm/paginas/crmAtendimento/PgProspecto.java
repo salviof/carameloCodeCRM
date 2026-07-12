@@ -591,12 +591,18 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
     public void fecharExluirProspecto(SelectEvent event) {
 
         FabTipoRespostaComunicacao resp = mapaRespostasComunicacaoTransienteDeAcaoByAcoes.get(FabAcaoCRMAtendimento.PROSPECTO_CTR_REMOVER.getRegistro().getNomeUnico());
-        if (resp.isRespostaPositiva()) {
-            super.metodoRespostaModal(event.getObject());
+        if (resp != null) {
+            if (resp.isRespostaPositiva()) {
 
-            UtilSBWP_JSFTools.vaParaPagina(MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.MEUS_PROSPECTOS_FRM_LISTAR.getRegistro()));
-        } else {
-            executaAcaoSelecionadaPorEnum(getAcaoUltimoFormularioExecutado().getEnumAcaoDoSistema());
+                super.metodoRespostaModal(event.getObject());
+                if (getEntidadeSelecionada() == null) {
+                    UtilSBWP_JSFTools.vaParaPagina(MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.MEUS_PROSPECTOS_FRM_LISTAR.getRegistro()));
+                } else {
+                    //executaAcaoSelecionadaPorEnum(getAcaoUltimoFormularioExecutado().getEnumAcaoDoSistema());
+                }
+            } else {
+                executaAcaoSelecionadaPorEnum(getAcaoUltimoFormularioExecutado().getEnumAcaoDoSistema());
+            }
         }
         mapaRespostasComunicacaoTransienteDeAcaoByAcoes.clear();
     }

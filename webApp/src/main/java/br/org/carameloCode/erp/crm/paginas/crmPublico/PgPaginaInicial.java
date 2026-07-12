@@ -8,7 +8,6 @@ package br.org.carameloCode.erp.crm.paginas.crmPublico;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.GrupoUsuarioCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.InfoAcaoaAcessoAnonimoCRM;
@@ -86,12 +85,12 @@ public class PgPaginaInicial extends MB_PaginaConversation {
 
             } else {
 
-                if (SBCore.getControleDeSessao().getSessaoAtual().isIdentificado() && !SBCore.getUsuarioLogado().equals(FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro())) {
+                if (SBCore.getControleDeSessao().getSessaoAtual().isIdentificado()) {
                     GrupoUsuarioCRM grupoATualizado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado().getGrupo(), getEMPagina());
                     EstruturaDeFormulario est = MapaDeFormularios.getEstruturaByXHTMLDeGestao(grupoATualizado.getPaginaInicial().getRegistro().getComoFormulario().getXhtml());
                     getPaginaUtil().irParaURL(est.getUrlPadrao());
                 }
-                if (SBCore.getUsuarioLogado().equals(FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro())) {
+                if (!SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
                     MapaDeFormularios.getUrlFormulario(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_MB_PADRAO.getRegistro());
                 }
             }

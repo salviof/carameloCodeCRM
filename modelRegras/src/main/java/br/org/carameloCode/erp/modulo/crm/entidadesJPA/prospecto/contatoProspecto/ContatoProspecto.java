@@ -47,6 +47,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
@@ -76,6 +77,10 @@ public class ContatoProspecto extends EntidadeContatoPessoa {
     @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_GENERICO, label = "WhatsApp")
     @InfoCampoValidadorLogico()
     private String celular;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean participaChatEmpresa = false;
 
     @InfoCampoValorLogico(nomeCalculo = "celularFormatoInternacional")
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)

@@ -5,7 +5,7 @@
  */
 package com.super_bits.apis.google.calendario;
 
-import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRM_CRC;
+import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
@@ -22,7 +22,7 @@ public class ApiCalendarioGoogleTest extends TesteCRMCarameloCode {
     public static void main(String[] args) {
 
         //Nas classes de ambiente padrão do sistema  modo desenvolvimento significa execuções via JUNIT, HOmologação Jetty na sua maquina, e Produção na Web
-        SBCore.configurar(new ConfiguradorCoreCRM_CRC(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
         // System.out.println("CAMINHO===" + getPastaExecucaoScriptsSQL());
         System.out.println("Retorno");

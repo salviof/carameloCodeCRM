@@ -6,14 +6,14 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogico;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
  * @author desenvolvedor
  */
-public enum CalculosDocumentoCRM implements ItfCalculos {
+public enum CalculosDocumentoCRM implements ComoValorLogico {
     documentoFoiEnviado;
 
     @Override

@@ -64,4 +64,9 @@ public class TipoDadoCrmLinkIntegracao extends TipoDadoCRM {
         this.mostrarParaCliente = mostrarParaCliente;
     }
 
+    @Override
+    public String getImgPequena() {
+        return super.getImgPequena(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
 }

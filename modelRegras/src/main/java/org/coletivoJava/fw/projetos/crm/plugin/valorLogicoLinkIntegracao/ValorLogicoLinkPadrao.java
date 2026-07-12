@@ -17,6 +17,7 @@ import br.org.carameloCode.erp.modulo.crm.implemetation.model.integracao.Integra
  *
  * @author salvio
  */
+@InfoValorLogicoLinkIntegracao
 public abstract class ValorLogicoLinkPadrao extends
         ValorLogicoCalculoGenerico {
 

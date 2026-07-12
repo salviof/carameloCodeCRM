@@ -218,10 +218,11 @@ public class PgExecutarAtividade extends MB_PaginaDeAtividade implements ItfPagi
     public void salvarDadosDinamicos() {
         try {
             ModuloCRMAtendimento.prospectoSalvar(prospecto);
-            atividade.setDadosRevisados(true);
-            atividade = UtilSBPersistencia.mergeRegistro(atividade, getEMPagina());
+
             ItfResposta resp = ModuloCRMEmail.atividadeCRMComplementarSalvarDadosDinamicos(atividade).dispararMensagens();
-            //   vaiEditarDados = false;
+            if (resp.isSucesso()) {
+                vaiEditarDados = false;
+            }
             renovarEMPagina();
 
             xhtmlAcaoAtual = atividade.getCampoInstanciadoByNomeOuAnotacao(CPAtividadeCRM.formularioexecucao).getValor().toString();
@@ -447,9 +448,6 @@ public class PgExecutarAtividade extends MB_PaginaDeAtividade implements ItfPagi
     public List<DadoCRM> getDadosDaAtividade() {
         if (dadosDaAtividade == null || dadosDaAtividade.isEmpty()) {
             dadosDaAtividade = new ArrayList<>();
-            if (!getAtividade().getTipoAtividade().isGeraNovoRelacionamento() && getAtividade().getTipoAtividade().getTiposDadosColetarNaAtividade().isEmpty()) {
-                return dadosDaAtividade;
-            }
 
             getAtividade().getDadosNaoColetados().stream().filter(da -> !dadosDaAtividade.contains(da)).forEach(dadosDaAtividade::add);
             prospecto.getDadosColetadosPorTipoAtividade(getAtividade().getTipoAtividade()).stream().filter(da -> !dadosDaAtividade.contains(da)).forEach(dadosDaAtividade::add);

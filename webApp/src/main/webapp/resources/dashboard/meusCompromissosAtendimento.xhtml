@@ -27,9 +27,8 @@
             <h:panelGroup styleClass="cards-dashboard" layout="block" style="margin-top: 10px;">
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
-                                    .getCampoInstanciadoByNomeOuAnotacao('chamadosEmAtendimento').valor>0?'3':'2'}"
-                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmChamadosEmAtendimento, cc.attrs.dadosDeLead.usuario)}"
+                    codigoestilo="1"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento,cc.attrs.dadosDeLead.usuario)}"
                     icone="fa fa-life-ring"
                     titulo="Chamados em atendimento"
                     valor="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
@@ -38,9 +37,8 @@
 
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
-                                    .getCampoInstanciadoByNomeOuAnotacao('chamadosAguardandoAtendimento').valor>0?'3':'2'}"
-                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmChamadosAguardandoAtendimento, cc.attrs.dadosDeLead.usuario)}"
+                    codigoestilo="1"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosAguardandoAtendimento, cc.attrs.dadosDeLead.usuario)}"
                     icone="fa fa-hand-paper-o"
                     titulo="Chamados Abertos"
                     valor="#{cc.attrs.dadosDeLead.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
@@ -49,7 +47,7 @@
 
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="#{cc.attrs.dadosDeLead.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('reservasAtivas').valor>0?'3':'2'}"
+                    codigoestilo="1"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral, cc.attrs.dadosDeLead.usuario)}"
                     icone="fa fa-ticket"
                     titulo="Horários reservados "

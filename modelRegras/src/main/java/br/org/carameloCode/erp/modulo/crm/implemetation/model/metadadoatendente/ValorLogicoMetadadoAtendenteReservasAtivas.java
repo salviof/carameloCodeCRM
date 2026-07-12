@@ -2,7 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.metadadoatendente
 
 import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
 import com.google.common.collect.Lists;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.MetadadoAtendente;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;

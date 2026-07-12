@@ -317,6 +317,8 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     PROSPECTO_CTR_SALVAR_LOGO_MARCA_ENCONTRADA,
     @InfoTipoAcaoController(nomeAcao = "Reduzir Logo", icone = "fa fa-retweet")
     PROSPECTO_CTR_REDUZIR_LOGO,
+    @InfoTipoAcaoController(nomeAcao = "Assumir Atendimento", icone = "fa fa-hand-rock-o")
+    PROSPECTO_CTR_ASSUMIR,
     @InfoTipoAcaoController(nomeAcao = "Salvar prospectos empresas encontradas", descricao = "Salvar prospectos encontrados", icone = "fa fa-save", entidade = PessoaJuridica.class)
     PROSPECTO_CTR_SALVAR_NOVOS_PROSPESCTOS_NAVEGACAO,
     @InfoTipoAcaoFormulario(
@@ -648,7 +650,7 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     MEUS_COMPROMISSOS_FRM_VER_60_DIAS,
     @InfoTipoAcaoFormulario(nomeAcao = "Agenda completa", icone = "fa fa-calendar")
     MEUS_COMPROMISSOS_FRM_AGENDA_COMPLETA,
-    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Meus chamados", icone = "fa fa-life-ring", entidade = ChamadoCliente.class, precisaPermissao = true)
+    @InfoTipoAcaoGestaoEntidade(nomeAcao = "Meus chamados", icone = "fa fa-life-ring", entidade = ChamadoCliente.class, precisaPermissao = true, utilizarMesmoFormEdicao = false)
     MEUS_CHAMADOS_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPChamadoCliente.pessoa, CPChamadoCliente.resumodescricao, CPChamadoCliente.usuariocliente},
             nomeAcao = "Novo Chamado", estadoFormulario = FabEstadoFormulario.NOVO)
@@ -659,16 +661,16 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     MEUS_CHAMADOS_CTR_CRIAR_CHAMADO,
     @InfoTipoAcaoController(icone = "fa fa-stop")
     MEUS_CHAMADOS_CTR_FECHAR_CHAMADO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Todos", icone = "fa fa-life-ring")
-    MEUS_CHAMADOS_FRM_TODOS_STATUS,
-    @InfoTipoAcaoFormulario(nomeAcao = "Meus chamados em atendimento", icone = "fa fa-life-ring")
-    MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Todos", icone = "fa fa-life-ring", xhtmlDaAcao = "meus_chamados_todos_status.xhtml")
+    MEUS_CHAMADOS_FRM_LISTAR_TODOS_STATUS,
+    @InfoTipoAcaoFormulario(nomeAcao = "Meus chamados em atendimento", icone = "fa fa-life-ring", xhtmlDaAcao = "meus_chamados_chamados_em_atendimento.xhtml")
+    MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Meus chamados aguardando atendimento", icone = "fa fa-life-ring", campos = {"id", "tipoChamado", "titulo", "status", "pessoa"}, xhtmlDaAcao = "meus_chamados_chamados_aguardando_atendimento.xhtml")
+    MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_AGUARDANDO_ATENDIMENTO,
     @InfoTipoAcaoFormulario(nomeAcao = "Atender", icone = "fa fa-handshake-o")
     MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER,
     @InfoTipoAcaoFormulario(nomeAcao = "Definir atendimento", icone = "fa fa-handshake-o")
     MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Meus chamados aguardando atendimento", icone = "fa fa-life-ring", campos = {"id", "tipoChamado", "titulo", "status", "pessoa"})
-    MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO,
     @InfoTipoAcaoController(nomeAcao = "Definir Responsável", icone = "fa fa-share")
     MEUS_CHAMADOS_CTR_DEFINIR_RESPONSAVEL,
     @InfoTipoAcaoController(nomeAcao = "Assumir chamado", icone = "fa fa-hand-rock-o")
@@ -697,14 +699,18 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     DADO_CRM_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(entidade = Solicitacao.class, precisaPermissao = true)
     SOLICITACAO_MB_GESTAO,
+    @InfoTipoAcaoController(nomeAcao = "Criar resolução", icone = "fa fa-solid fa-clipboard-list")
+    SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Revisar solicitação", icone = "fa fa-solid fa-clipboard-check")
+    SOLICITACAO_FRM_REVISAR_SOLICITACAO,
     @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-gavel")
     SOLICITACAO_FRM_CONCEDER_ACESSO,
-    @InfoTipoAcaoFormulario(campos = {"id", CPSolicitacao.tiposolicitacao, CPSolicitacao.usuariosolicitante, CPSolicitacao.usuariosolicitado, CPSolicitacao.obeservacao}, icone = "fa fa-hand-paper-o", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
+    @InfoTipoAcaoFormulario(nomeAcao = "Solicitações do Contato", campos = {"id", CPSolicitacao.tiposolicitacao, CPSolicitacao.usuariosolicitante, CPSolicitacao.usuariosolicitado, CPSolicitacao.observacao}, icone = "fa fa-hand-paper-o", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
     SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA,
-    @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-hand-paper-o")
+    @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-hand-paper-o", nomeAcao = "Minhas pedencias")
     SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS,
-    @InfoTipoAcaoFormulario(icone = "fa fa-hand-paper-o")
-    SOLICITACAO_FRM_LISTAR_MEUS_EDIDOS_ABRTOS,
+    @InfoTipoAcaoFormulario(icone = "fa fa-hand-paper-o", nomeAcao = "Meus pedidos")
+    SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS,
     @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa fa-thumbs-up", nomeAcao = "Solicitar acesso ao Cartão")
     SOLICITACAO_CTR_SOLICIATAR_ACESSO_PESSOA,
     @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa fa-thumbs-up", nomeAcao = "Conceder")

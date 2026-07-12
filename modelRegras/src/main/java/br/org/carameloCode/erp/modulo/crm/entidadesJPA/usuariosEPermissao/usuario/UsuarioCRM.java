@@ -9,7 +9,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.MetadadoAtendente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.estatisticas.MetadadoAtendente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.caixaPostal.CaixaPostal;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
@@ -400,6 +400,13 @@ public class UsuarioCRM extends UsuarioSB {
     public boolean isUmUsuarioDoCliente() {
         return (this instanceof UsuarioCrmCliente);
 
+    }
+
+    public boolean isUmUsuarioAdmin() {
+        if (getGrupo() == null) {
+            return false;
+        }
+        return getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro().getId());
     }
 
     public boolean isUmUsuarioConvidado() {

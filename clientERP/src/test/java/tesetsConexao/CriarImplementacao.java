@@ -26,6 +26,7 @@ public class CriarImplementacao {
     public void criarImplementaca() {
 
         try {
+
             SBCore.configurar(new ConfigCoreJunitPadraoDevLib(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
             new GeradorERPImplementacaoContexto(ERPCrm.CARAMELO_CODE_REMOTO).salvarEmDiretorioPadraCASO_NAO_EXISTA();
 

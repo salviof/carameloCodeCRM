@@ -103,8 +103,8 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
         FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
         if (acao != null) {
             switch (acao) {
-                case MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO:
-                case MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO:
+                case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_AGUARDANDO_ATENDIMENTO:
+                case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO:
                     listarDados();
                     break;
             }
@@ -150,7 +150,7 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
         FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
 
         switch (acao) {
-            case MEUS_CHAMADOS_FRM_TODOS_STATUS:
+            case MEUS_CHAMADOS_FRM_LISTAR_TODOS_STATUS:
                 ConsultaDinamicaDeEntidade consultaTodos = new ConsultaDinamicaDeEntidade(ChamadoCliente.class, getEMPagina());
 
                 if (pessoaSelecionada != null) {
@@ -158,13 +158,11 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                 } else {
                     consultaTodos.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
                 }
-                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-                    consultaTodos.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
-                }
+
                 List<ChamadoCliente> chamadosTodos = consultaTodos.resultadoRegistros();
                 setEntidadesListadas(chamadosTodos);
                 break;
-            case MEUS_CHAMADOS_FRM_CHAMADOS_AGUARDANDO_ATENDIMENTO:
+            case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_AGUARDANDO_ATENDIMENTO:
                 ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(ChamadoCliente.class, getEMPagina());
                 consulta.addCondicaoManyToOneIgualA(FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro());
                 if (pessoaSelecionada != null) {
@@ -177,23 +175,18 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                 List<ChamadoCliente> chamados = consulta.resultadoRegistros();
                 setEntidadesListadas(chamados);
                 break;
-            case MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO:
+            case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO:
 
                 ConsultaDinamicaDeEntidade consultaEmAtendimento = new ConsultaDinamicaDeEntidade(ChamadoCliente.class, getEMPagina());
                 consultaEmAtendimento.addCondicaoManyToOneContemNoIntervalo(CPChamadoCliente.status, Lists.newArrayList(FabStatusChamado.EM_ATENDIMENTO.getRegistro(), FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro()));
-                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
-                    consultaEmAtendimento.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
+                if (pessoaSelecionada != null) {
+                    consultaEmAtendimento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.pessoa, pessoaSelecionada);
                 } else {
-
-                    //consultaEmAtendimPgMeusChamadosAtdento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
-                    if (pessoaSelecionada != null) {
-                        consultaEmAtendimento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.pessoa, pessoaSelecionada);
-                    } else {
-                        consultaEmAtendimento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
-                    }
+                    consultaEmAtendimento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
                 }
 
-                List<ChamadoCliente> chamadosEmAtendimento = consultaEmAtendimento.resultadoRegistros();
+                //consultaEmAtendimento.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
+                List<ChamadoCliente> chamadosEmAtendimento = consultaEmAtendimento.gerarResultados();
                 setEntidadesListadas(chamadosEmAtendimento);
                 break;
         }
@@ -251,9 +244,9 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
 
                 switch (acao) {
 
-                    case MEUS_CHAMADOS_FRM_CHAMADOS_EM_ATENDIMENTO:
+                    case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO:
                     case MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER:
-                    case MEUS_CHAMADOS_FRM_TODOS_STATUS:
+                    case MEUS_CHAMADOS_FRM_LISTAR_TODOS_STATUS:
                         atualizardados = true;
                         break;
 
@@ -342,9 +335,13 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
 
         ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimentoChamado.chamadoSalvarMerge(getEntidadeSelecionada());
         setEntidadeSelecionada((ChamadoCliente) resposta.getRetorno());
+        atualizarEntidadeSelecionada();
     }
 
     public Pessoa getPessoaSelecionada() {
+        if (pessoaSelecionada != null) {
+            pessoaSelecionada = UtilSBPersistencia.loadEntidade(pessoaSelecionada, getEMPagina());
+        }
         return pessoaSelecionada;
     }
 

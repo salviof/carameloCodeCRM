@@ -226,6 +226,7 @@ public class DadoCRM extends EntidadeORMNormal implements ItfDadoDinamico, ItfTD
 
         @Override
         public Object getValor() {
+
             if (!UtilCRCStringValidador.isNuloOuEmbranco(getTipoDadoCRM().getCampoProspectoCorrespondente())) {
                 try {
                     if (!getTipoDadoCRM().getCampoProspectoCorrespondente().startsWith("atividadeCRM")) {

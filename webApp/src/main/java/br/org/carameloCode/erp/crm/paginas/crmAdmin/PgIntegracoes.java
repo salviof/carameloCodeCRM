@@ -196,4 +196,9 @@ public class PgIntegracoes extends MB_PaginaConversation implements ItfPaginaGer
         return super.getJsonPagina(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
+    @Override
+    public List<ItfAcaoFormularioEntidade> getAcoesNovoRegistro() {
+        return new ArrayList<>();
+    }
+
 }

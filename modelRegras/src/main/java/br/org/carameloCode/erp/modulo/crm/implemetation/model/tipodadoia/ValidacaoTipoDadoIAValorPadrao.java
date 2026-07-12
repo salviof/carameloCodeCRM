@@ -5,7 +5,8 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tipodadoia.ValidadoresTipoDa
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculoValorLogicoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogicoAtributoObjeto;
+
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciadoDInamico.UtilCRCReflexaoCampoLogicoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
@@ -31,7 +32,7 @@ public class ValidacaoTipoDadoIAValorPadrao
         if (novoValor.endsWith(".class") || novoValor.startsWith("ValorLogicoDD")) {
             DadoCRM dado = new DadoCRM(new Pessoa());
             dado.setTipoDadoCRM(getTipoDadoCRMLogica());
-            ItfCalculoValorLogicoAtributoObjeto logica = UtilCRCReflexaoCampoLogicoDinamico.getLogicaValorCampo(novoValor, dado.getCampoInstanciado());
+            ComoValorLogicoAtributoObjeto logica = UtilCRCReflexaoCampoLogicoDinamico.getLogicaValorCampo(novoValor, dado.getCampoInstanciado());
             if (logica == null) {
                 throw new ErroValidacao("Os Algorítimos para " + pValor + " não foram encontrados no sistema");
             }

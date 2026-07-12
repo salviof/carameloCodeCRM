@@ -4,14 +4,19 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCrmLinkIntegracao;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
+import cucumber.api.Transpose;
+import javax.persistence.Transient;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
  *
@@ -36,6 +41,33 @@ public class IntegracaoLink extends EntidadeSimples {
     @InfoCampoValidadorLogico()
     @InfoCampoValorLogico(nomeCalculo = "url")
     private String url;
+
+    @Transient
+    private DadoCRM dadoCRM;
+
+    public IntegracaoLink() {
+    }
+
+    public DadoCRM getDadoCRM() {
+        return dadoCRM;
+    }
+
+    @Override
+    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class})
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        Pessoa pessoa = getParametroInicialEnviado(Pessoa.class, parametros);
+        TipoDadoCrmLinkIntegracao tipoLinkIntegracao = getParametroInicialEnviado(TipoDadoCrmLinkIntegracao.class, parametros);
+        dadoCRM = new DadoCRM(pessoa);
+        dadoCRM.setTipoDadoCRM(tipoLinkIntegracao);
+        // String url = dadoCRM.getValor();
+
+        setImagem(tipoLinkIntegracao.getImgPequena());
+        //integracador.setUrl(url);
+        setTipoDado(tipoLinkIntegracao);
+        setCodigoPessoa(pessoa.getId());
+        setNome(tipoLinkIntegracao.getNome());
+
+    }
 
     public boolean isTemUrl() {
 

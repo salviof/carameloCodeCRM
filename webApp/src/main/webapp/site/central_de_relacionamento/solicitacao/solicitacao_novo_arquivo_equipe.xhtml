@@ -32,7 +32,16 @@
                 </p:column>
             </p:selectOneListbox>
             <h:panelGroup styleClass="Container12" layout="block">
-                <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('obeservacao')}"
+
+                <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"
+                                desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+                <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitado')}"
+
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+                <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
 
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}" />
                 <SBInput:input registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dataHoraDataProgramada')}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
