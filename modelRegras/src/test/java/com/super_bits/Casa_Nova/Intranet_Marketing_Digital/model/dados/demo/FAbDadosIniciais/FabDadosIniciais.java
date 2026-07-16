@@ -6,6 +6,7 @@
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.FabPorteProspectoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.Porte;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
@@ -27,7 +28,8 @@ public enum FabDadosIniciais implements ComoFabricaComPersistencia {
     PROSPECTO1,
     PROSPECTO2,
     PROSPECTO3,
-    PASTA_CONSULTRIA_ESPECIAL;
+    PASTA_CONSULTRIA_ESPECIAL,
+    PASTA_CONSULTRIA_ORCAMENTOS;
 
     @Override
     public Object getRegistro() {
@@ -90,9 +92,16 @@ public enum FabDadosIniciais implements ComoFabricaComPersistencia {
             case PASTA_CONSULTRIA_ESPECIAL:
                 CategoriaArquivoEquipe pastaConsultEsp = new CategoriaArquivoEquipe();
                 pastaConsultEsp.setId(1l);
-                pastaConsultEsp.setNome("Consultoria Especial");
-                pastaConsultEsp.setIcone("fa fa-book");
+                pastaConsultEsp.setNome("Orçamento");
+                pastaConsultEsp.setIcone("fa fa-money");
                 return pastaConsultEsp;
+            case PASTA_CONSULTRIA_ORCAMENTOS:
+
+                CategoriaArquivoCliente pastaClienteExemplo = new CategoriaArquivoCliente();
+                pastaClienteExemplo.setId(1l);
+                pastaClienteExemplo.setNome("Consultoria Especial");
+                pastaClienteExemplo.setIcone("fa fa-book");
+                return pastaClienteExemplo;
 
             default:
 

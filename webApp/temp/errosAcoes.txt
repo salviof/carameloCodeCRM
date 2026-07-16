@@ -38,6 +38,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_PEDIDO_ATUALIZAR_ARQUIVOfa-solid fa-file-pen deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -91,6 +92,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_CONCEDER_ACESSOfa-solid fa-thumbs-up deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -104,6 +106,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ORCAMENTOfa-solid fa-hand-holding-dollar deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -118,6 +121,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTASfa-solid fa-hourglass-half deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -146,6 +150,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CHAMADOfa-solid fa-paper-plane deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -184,10 +189,12 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CONFIRMACAO_EQUIPEfa-solid fa-circle-check deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTEfa-solid fa-file-circle-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -223,6 +230,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_NEGAR_ACESSOfa-solid fa-thumbs-down deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -265,6 +273,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTEfa-solid fa-clipboard-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -362,9 +371,12 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOAfa-solid fa-rectangle-list deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ORCAMENTOfa-solid fa-file-invoice-dollar deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_ATUALIZAR_ARQUIVOfa-solid fa-arrows-rotate deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -407,8 +419,10 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_EQUIPEfa-solid fa-file-circle-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOSfa-solid fa-paper-plane deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -432,6 +446,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_EQUIPEfa-solid fa-file-circle-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -486,6 +501,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAOfa-solid fa-clipboard-list deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -529,6 +545,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_CLIENTEfa-solid fa-clipboard-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -562,9 +579,12 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_CONCEDER_ACESSOfa-solid fa-key deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CHAMADOfa-solid fa-ticket deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_EQUIPEfa-solid fa-clipboard-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -572,15 +592,18 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_RENEGOCIA_PRAZOfa-solid fa-calendar-plus deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPEfa-solid fa-clipboard-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_ENVIAR_ARQUIVO_EQUIPEfa-solid fa-file-arrow-up deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -650,6 +673,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPEfa-solid fa-file-arrow-up deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -693,9 +717,11 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_FRM_REVISAR_SOLICITACAOfa-solid fa-clipboard-check deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ACESSO_PESSOAfa-solid fa-hand deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -753,6 +779,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_ENVIAR_ARQUIVO_CLIENTEfa-solid fa-file-arrow-up deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
@@ -760,21 +787,7 @@ OS SEGUINTES ERROS DE CONFIGURAÇÃO FORAM ENCONTRADOS NO SISTEMA:
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
-->O arquivo font-awesome.css não foi encontrado no sistema
+->O ícone  da ação FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_CLIENTEfa-solid fa-file-circle-question deveria começar com [fa ] (Para os fontawsome) ou [icon] (para os icones nativos)
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema
 ->O arquivo font-awesome.css não foi encontrado no sistema

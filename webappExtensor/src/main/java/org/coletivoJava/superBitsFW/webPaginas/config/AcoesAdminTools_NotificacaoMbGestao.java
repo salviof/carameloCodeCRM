@@ -18,6 +18,11 @@ public class AcoesAdminTools_NotificacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.NOTIFICACAO_MB_GESTAO");
 	}
 
+	public ItfAcaoFormularioEntidade getNotificacaoFrmNovo() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.NOTIFICACAO_FRM_NOVO");
+	}
+
 	public ItfAcaoFormularioEntidade getNotificacaoFrmListar() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.NOTIFICACAO_FRM_LISTAR");
@@ -26,6 +31,11 @@ public class AcoesAdminTools_NotificacaoMbGestao implements Serializable {
 	public ComoAcaoControllerEntidade getNotificacaoCtrRegistrarNotificacao() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO");
+	}
+
+	public ComoAcaoControllerEntidade getNotificacaoCtrAtualizarRepositorioLocal() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_ATUALIZAR_REPOSITORIO_LOCAL");
 	}
 
 	public ComoAcaoControllerEntidade getNotificacaoCtrEnviarNotificacaoRegistrada() {

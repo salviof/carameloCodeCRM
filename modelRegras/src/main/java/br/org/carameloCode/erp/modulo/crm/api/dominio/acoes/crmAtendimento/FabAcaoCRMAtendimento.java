@@ -47,7 +47,11 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.icones.FabIconeF
 import br.org.carameloCode.erp.modulo.crm.api.model.chamadocliente.CPChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoafisica.CPPessoaFisica;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoarquivocliente.CPSolicitacaoArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.subpastaprivada.CPSubPastaPrivada;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtualizacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoChamado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoOrcamento;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.PedidoAcesso;
 
 /**
@@ -697,54 +701,67 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     DADO_CRM_FRM_LISTAR,
     @InfoTipoAcaoController()
     DADO_CRM_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoGestaoEntidade(entidade = Solicitacao.class, precisaPermissao = true)
+    @InfoTipoAcaoGestaoEntidade(entidade = Solicitacao.class, precisaPermissao = true, utilizarMesmoFormEdicao = false)
     SOLICITACAO_MB_GESTAO,
-    @InfoTipoAcaoController(nomeAcao = "Criar resolução", icone = "fa fa-solid fa-clipboard-list")
+    @InfoTipoAcaoController(nomeAcao = "Criar resolução", icone = "fa-solid fa-clipboard-list")
     SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Revisar solicitação", icone = "fa fa-solid fa-clipboard-check")
+    @InfoTipoAcaoFormulario(nomeAcao = "Revisar solicitação", icone = "fa-solid fa-clipboard-check")
     SOLICITACAO_FRM_REVISAR_SOLICITACAO,
-    @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-gavel")
+    @InfoTipoAcaoFormulario(nomeAcao = "Conceder acesso", campos = "id", icone = "fa-solid fa-key")
     SOLICITACAO_FRM_CONCEDER_ACESSO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Solicitações do Contato", campos = {"id", CPSolicitacao.tiposolicitacao, CPSolicitacao.usuariosolicitante, CPSolicitacao.usuariosolicitado, CPSolicitacao.observacao}, icone = "fa fa-hand-paper-o", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
+    @InfoTipoAcaoFormulario(nomeAcao = "Solicitações do Contato", campos = {"id", CPSolicitacao.tiposolicitacao, CPSolicitacao.usuariosolicitante, CPSolicitacao.usuariosolicitado, CPSolicitacao.observacao}, icone = "fa-solid fa-rectangle-list", xhtmlDaAcao = "solicitacoes_pessoa.xhtml")
     SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA,
-    @InfoTipoAcaoFormulario(campos = "id", icone = "fa fa-hand-paper-o", nomeAcao = "Minhas pedencias")
+    @InfoTipoAcaoFormulario(nomeAcao = "Minhas pendências", campos = "id", icone = "fa-solid fa-hourglass-half")
     SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS,
-    @InfoTipoAcaoFormulario(icone = "fa fa-hand-paper-o", nomeAcao = "Meus pedidos")
-    SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS,
-    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa fa-thumbs-up", nomeAcao = "Solicitar acesso ao Cartão")
+    @InfoTipoAcaoFormulario(nomeAcao = "Meus pedidos", icone = "fa-solid fa-paper-plane")
+    SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS,
+    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa-solid fa-hand", nomeAcao = "Solicitar acesso ao Cartão")
     SOLICITACAO_CTR_SOLICIATAR_ACESSO_PESSOA,
-    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa fa-thumbs-up", nomeAcao = "Conceder")
+    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa-solid fa-thumbs-up", nomeAcao = "Conceder")
     SOLICITACAO_CTR_CONCEDER_ACESSO,
-    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa fa-thumbs-down", nomeAcao = "Negar")
+    @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa-solid fa-thumbs-down", nomeAcao = "Negar")
     SOLICITACAO_CTR_NEGAR_ACESSO,
-    @InfoTipoAcaoController(entidade = SolicitacaoArquivoEquipe.class, icone = "fa fa-hand-paper-o", nomeAcao = "Enviar solicitação arquivo")
+    @InfoTipoAcaoController(entidade = SolicitacaoArquivoEquipe.class, icone = "fa-solid fa-file-circle-question", nomeAcao = "Enviar solicitação de arquivo")
     SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_EQUIPE,
-    @InfoTipoAcaoController(entidade = SolicitacaoArquivoEquipe.class, icone = "fa fa-hand-paper-o", nomeAcao = "Enviar aquivo")
+    @InfoTipoAcaoController(entidade = SolicitacaoArquivoEquipe.class, icone = "fa-solid fa-file-arrow-up", nomeAcao = "Enviar arquivo")
     SOLICITACAO_CTR_ENVIAR_ARQUIVO_EQUIPE,
-    @InfoTipoAcaoController(entidade = SolicitacaoArquivoCliente.class, icone = "fa fa-hand-paper-o", nomeAcao = "Enviar solicitação para cliente")
+    @InfoTipoAcaoController(entidade = SolicitacaoArquivoCliente.class, icone = "fa-solid fa-file-circle-question", nomeAcao = "Enviar solicitação para cliente")
     SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_CLIENTE,
-    @InfoTipoAcaoController(entidade = SolicitacaoArquivoCliente.class, icone = "fa fa-upload", nomeAcao = "Enviar")
+    @InfoTipoAcaoController(entidade = SolicitacaoArquivoCliente.class, icone = "fa-solid fa-file-arrow-up", nomeAcao = "Enviar")
     SOLICITACAO_CTR_ENVIAR_ARQUIVO_CLIENTE,
-    @InfoTipoAcaoController(entidade = SolicitacaoConfirmacaoCliente.class, icone = "fa fa-hand-paper-o", nomeAcao = "Solicitar confirmação a membro da equipe")
+    @InfoTipoAcaoController(entidade = SolicitacaoConfirmacaoEquipe.class, icone = "fa-solid fa-clipboard-question", nomeAcao = "Solicitar confirmação a membro da equipe")
     SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPE,
-    @InfoTipoAcaoController(entidade = SolicitacaoArquivoCliente.class, nomeAcao = "Solicitar confirmação do Cliente")
+    @InfoTipoAcaoController(entidade = SolicitacaoConfirmacaoCliente.class, icone = "fa-solid fa-clipboard-question", nomeAcao = "Solicitar confirmação do Cliente")
     SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_CLIENTE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-hand-paper-o", nomeAcao = "Nova solicitação de Equipe")
-    SOLICITACAO_FRM_NOVA_SOLICITACAO_EQUIPE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-thumbs-up", entidade = SolicitacaoConfirmacaoEquipe.class, nomeAcao = "Solicitar confirmação", estadoFormulario = FabEstadoFormulario.NOVO)
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-clipboard-question", entidade = SolicitacaoConfirmacaoEquipe.class, nomeAcao = "Solicitar confirmação", estadoFormulario = FabEstadoFormulario.NOVO)
     SOLICITACAO_FRM_NOVO_CONFIRMACAO_EQUIPE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-upload", entidade = SolicitacaoArquivoEquipe.class, nomeAcao = "Solicitar Arquivo equipe", estadoFormulario = FabEstadoFormulario.NOVO)
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-circle-check", entidade = SolicitacaoConfirmacaoEquipe.class, nomeAcao = "Enviar confirmação", estadoFormulario = FabEstadoFormulario.EDITAR)
+    SOLICITACAO_FRM_ENVIAR_CONFIRMACAO_EQUIPE,
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-file-circle-question", entidade = SolicitacaoArquivoEquipe.class, nomeAcao = "Solicitar Arquivo equipe", estadoFormulario = FabEstadoFormulario.NOVO)
     SOLICITACAO_FRM_NOVO_ARQUIVO_EQUIPE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-upload", entidade = SolicitacaoArquivoCliente.class, nomeAcao = "Solicitar Arquivo Cliente", estadoFormulario = FabEstadoFormulario.NOVO)
-    SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-upload", entidade = SolicitacaoArquivoEquipe.class, nomeAcao = "Enviar arquivo equipe solicitado", estadoFormulario = FabEstadoFormulario.EDITAR)
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-file-arrow-up", entidade = SolicitacaoArquivoEquipe.class, nomeAcao = "Enviar arquivo equipe solicitado", estadoFormulario = FabEstadoFormulario.EDITAR)
     SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-thumbs-up", entidade = SolicitacaoConfirmacaoCliente.class, nomeAcao = "Solicitar confirmação Cliente", estadoFormulario = FabEstadoFormulario.NOVO)
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-file-circle-question",
+            entidade = SolicitacaoArquivoCliente.class, nomeAcao = "Solicitar Arquivo Cliente", estadoFormulario = FabEstadoFormulario.NOVO,
+            campos = {CPSolicitacaoArquivoCliente.categoriaarqcliente, CPSolicitacaoArquivoCliente.contatopessoa, CPSolicitacao.observacao, CPSolicitacao.datahoradataprogramada}
+    )
+    SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE,
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-clipboard-question", entidade = SolicitacaoConfirmacaoCliente.class, nomeAcao = "Solicitar confirmação Cliente", estadoFormulario = FabEstadoFormulario.NOVO)
     SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE,
-    @InfoTipoAcaoFormulario(icone = "fa fa-upload", nomeAcao = "Solicitar atualização do arquivo")
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-ticket", entidade = SolicitacaoChamado.class, nomeAcao = "Solicitar abertura de chamado", estadoFormulario = FabEstadoFormulario.NOVO)
+    SOLICITACAO_FRM_NOVO_CHAMADO,
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-paper-plane", entidade = SolicitacaoChamado.class, nomeAcao = "Enviar chamado", estadoFormulario = FabEstadoFormulario.EDITAR)
+    SOLICITACAO_FRM_ENVIAR_CHAMADO,
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-file-pen", entidade = SolicitacaoAtualizacaoArquivoEquipe.class, nomeAcao = "Solicitar atualização de arquivo", estadoFormulario = FabEstadoFormulario.NOVO)
+    SOLICITACAO_FRM_NOVO_PEDIDO_ATUALIZAR_ARQUIVO,
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-arrows-rotate", nomeAcao = "Atualizar o arquivo", entidade = SolicitacaoAtualizacaoArquivoEquipe.class)
     SOLICITACAO_FRM_ATUALIZAR_ARQUIVO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-clock-o", nomeAcao = "Renegociar prazo")
+    @InfoTipoAcaoFormulario(icone = "fa-solid fa-calendar-plus", nomeAcao = "Renegociar prazo")
     SOLICITACAO_FRM_RENEGOCIA_PRAZO,
+    @InfoTipoAcaoFormulario(entidade = SolicitacaoOrcamento.class, nomeAcao = "Solicitar orçamento", icone = "fa-solid fa-file-invoice-dollar")
+    SOLICITACAO_FRM_NOVO_ORCAMENTO,
+    @InfoTipoAcaoFormulario(entidade = SolicitacaoOrcamento.class, nomeAcao = "Enviar orçamento", icone = "fa-solid fa-hand-holding-dollar")
+    SOLICITACAO_FRM_ENVIAR_ORCAMENTO,
     @InfoTipoAcaoGestaoEntidade(entidade = ArquivoAnexado.class, utilizarMesmoFormEdicao = false, precisaPermissao = true)
     DOCUMENTOS_PESSOA_MB_GESTAO,
     @InfoTipoAcaoFormulario(xhtmlDaAcao = "listarPastasCliente.xhtml", nomeAcao = "Pastas De Clientes", icone = "fa fa-share-alt")

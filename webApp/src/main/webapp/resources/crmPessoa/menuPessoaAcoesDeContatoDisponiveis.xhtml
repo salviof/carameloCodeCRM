@@ -16,16 +16,12 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-
-
         <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
                          descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "
                          rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}"
                          severity="info"
                          />
-
         <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" style="" layout="block">
-
             <h:form>
                 <p:remoteCommand action="#{servicoCRMContato.irParaAcaoSelecionada()}"
                                  process="@form"
@@ -48,7 +44,6 @@
                                        var="contato"
                                        itemLabel="#{contato.nome}"
                                        itemValue="#{contato}"
-
                                        />
 
                         <p:column>
@@ -61,8 +56,6 @@
                         <p:column>
                             <h:panelGroup rendered="#{contato.possuiEmail}" style="width: 200px;">
                                 <h:outputText value="#{contato.email}" style="margin-left: 5px"/>
-
-
                             </h:panelGroup>
                         </p:column>
 
@@ -163,29 +156,34 @@
                         <!--                                    descricao=""/>-->
 
                         <!--                        </h:panelGroup>-->
-                        <h:panelGroup layout="block" style="">
-                            <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
-                                <span class="fa fa-life-ring"/> Chamados
+                        <h:panelGroup layout="block" style="" styleClass="Container12">
+
+
+                            <h:panelGroup layout="block" style="" styleClass="Container5">
+                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
+                                    <span class="fa fa-life-ring"/> Chamados
+                                </h:panelGroup>
+                                <crm:botaoGrandeLink
+                                    rendered="#{servicoCRMContato.contatoSelecionado!=null}"
+                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                                    icone="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosMbGestao.icone}"
+                                    label="Novo Chamado para #{servicoCRMContato.contatoSelecionado.nome}"
+                                    descricao=""/>
                             </h:panelGroup>
-                            <crm:botaoGrandeLink
-                                rendered="#{servicoCRMContato.contatoSelecionado!=null}"
-                                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                                icone="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosMbGestao.icone}"
-                                label="Novo Chamado para #{servicoCRMContato.contatoSelecionado.nome}"
-                                descricao=""/>
-                            <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
-                                <span class="fa fa-calendar-plus-o"/> Agenda
+                            <h:panelGroup layout="block" style="" styleClass="Container5">
+                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
+                                    <span class="fa fa-calendar-plus-o"/> Agenda
+                                </h:panelGroup>
+
+
+
+                                <crm:botaoGrandeLink
+                                    rendered="#{servicoCRMContato.contatoSelecionado!=null}"
+                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                                    icone="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo.icone}"
+                                    label="Marcar reunião com #{servicoCRMContato.contatoSelecionado.nome}"
+                                    descricao=""/>
                             </h:panelGroup>
-
-
-
-                            <crm:botaoGrandeLink
-                                rendered="#{servicoCRMContato.contatoSelecionado!=null}"
-                                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                                icone="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo.icone}"
-                                label="Marcar reunião com #{servicoCRMContato.contatoSelecionado.nome}"
-                                descricao=""/>
-
                         </h:panelGroup>
                     </h:panelGroup>
 

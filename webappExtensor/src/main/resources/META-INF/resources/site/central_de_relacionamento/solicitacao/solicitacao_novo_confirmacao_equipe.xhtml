@@ -11,6 +11,7 @@
 
 
     <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
+
         <h:form >
             <p:focus  context="obs" />
             <h:panelGroup styleClass="Container12" id="obs" layout="block">
@@ -18,6 +19,14 @@
                 <SBInput:input
                     label="Resumo"
                     registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('obeservacao')}"
+                    layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+            </h:panelGroup>
+            <h:panelGroup styleClass="Container12" layout="block">
+
+                <SBInput:input
+                    label="Usuário"
+                    registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitado')}"
                     layout="#{layoutsComponenteSB.layoutCampo.superior}" />
 
             </h:panelGroup>

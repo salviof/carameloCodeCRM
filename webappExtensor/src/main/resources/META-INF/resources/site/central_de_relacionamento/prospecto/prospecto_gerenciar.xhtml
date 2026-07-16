@@ -1,12 +1,14 @@
 <ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}">
 
     <ui:define name="head">
         <style>
-            body {font-family: Arial, Helvetica, sans-serif;}
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
 
             .navbar {
                 width: 100%;
@@ -64,7 +66,8 @@
             }
             #voltarAoTopo:hover {
                 background-color:#e74c3c;
-                opacity:1;filter:"alpha(opacity=100)";
+                opacity:1;
+                filter:"alpha(opacity=100)";
                 -ms-filter:"alpha(opacity=100)";
 
             }
@@ -80,7 +83,7 @@
     </ui:define>
 
     <ui:define name="divConteudo">
-        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
+        <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}" layout="block" style="margin-top: -10px;">
             <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
         </h:panelGroup>
     </ui:define>

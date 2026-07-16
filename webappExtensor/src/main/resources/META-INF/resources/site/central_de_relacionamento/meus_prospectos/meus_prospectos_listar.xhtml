@@ -50,16 +50,18 @@
     </script>
     <h:panelGroup
         styleClass="Container12" layout="block" id="menuFiltroLeads"
+        style="position: fixed;margin-top: -20px;"
         >
         <h:form>
             <listaLead:menuMeusProspectos pesquisa="#{pgMeusProspectos.pesquisa}" />
         </h:form>
     </h:panelGroup>
 
-    <p:separator/>
+
     <h:panelGroup
         id="gridListagemMeusProspets" layout="block"
         styleClass="Container12"
+        style="margin-top: 55px;"
 
         >
         <p:focus for="#{pgUtil.gerarCaminhoCompletoID('pesquisaLead')}" />

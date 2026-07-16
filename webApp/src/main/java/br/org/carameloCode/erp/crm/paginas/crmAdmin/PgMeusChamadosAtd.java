@@ -63,6 +63,9 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
     @InfoParametroURL(nome = "chamado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ChamadoCliente.class, obrigatorio = false, representaEntidadePrincipalMB = true)
     private ParametroURL prchamado;
 
+    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false)
+    private ParametroURL prPessoa;
+
     private Pessoa pessoaSelecionada;
 
     private UsuarioCRM usuario;
@@ -108,6 +111,9 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                     listarDados();
                     break;
             }
+        }
+        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
+            pessoaSelecionada = (Pessoa) getParametroInstanciado(prPessoa).getValor();
         }
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {

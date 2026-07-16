@@ -95,7 +95,7 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
                     consulta.addCondicaoManyToOneIgualA(CPSolicitacao.pessoa, getPessoa());
                 }
                 break;
-            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS:
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS:
                 consulta.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitante, getUsuarioEquipe());
                 break;
             default:

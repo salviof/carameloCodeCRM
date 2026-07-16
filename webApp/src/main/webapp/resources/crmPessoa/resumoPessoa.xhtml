@@ -1,3 +1,4 @@
+
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:cc="http://java.sun.com/jsf/composite"
@@ -13,20 +14,11 @@
 
     </cc:interface>
     <cc:implementation>
-        <h:outputStylesheet  name="prospecto.css" library="css"/>
+
 
         <h:panelGroup styleClass="card-cliente-title-content">
             <div class="texto-titulo">
                 <h3>#{pgProspecto.prospecto.nome}</h3>
-            </div>
-            <div class="container-imagem-edicao">
-                <p:graphicImage styleClass="img-prospecto"
-                                url="#{pgProspecto.prospecto.imgPequena}"/>
-                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEncontrarLogomarca,pgProspecto.entidadeSelecionada)}"
-                        styleClass="botao-editar-imagem-link"
-                        title="Alterar imagem">
-                    <i class="pi pi-pencil" style="font-size: 1rem;"></i>
-                </p:link>
             </div>
         </h:panelGroup>
         <div class="card-conteudo">
@@ -98,79 +90,16 @@
                             value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAlterarStatusPrivado}"/>
                     </p:remoteCommand>
                 </h:form>
-                <h:form id="formObservacao" style="margin-top: 32px">
-                    <p:panel header="Observação" styleClass="panel-observacao Container12">
 
-                        <f:facet name="header">
-                            <div class="header-observacao container-imagem-edicao">
-                                <i class="pi pi-info-circle " style="margin-right:6px;"></i>
-                                Observação
-                                <p:link href="#"
-                                        styleClass="botao-editar-imagem-link"
-                                        onclick="PF('dlgObs').show();"
-                                        style="font-size: 2rem;margin-top: 10px;"
-                                        title="Editar observação">
-                                    <i class="pi pi-pencil" style="color: #FFFFFF; font-size: 1.2rem;"></i>
-                                </p:link>
-                            </div>
-                        </f:facet>
-
-                        <h:panelGroup
-                            rendered="#{not empty pgProspecto.entidadeSelecionada.observacao}">
-                            <h:outputText value="#{pgProspecto.entidadeSelecionada.observacao}"
-                                          styleClass="texto-observacao"
-                                          escape="false"/>
-                        </h:panelGroup>
-
-                        <h:panelGroup rendered="#{empty pgProspecto.entidadeSelecionada.observacao}">
-                            <i class="texto-vazio">Nenhuma observação cadastrada.</i>
-                        </h:panelGroup>
-
-                        <div class="area-botao">
-
-
-
-                        </div>
-
-                    </p:panel>
-                    <p:dialog header="Editar Observação"
-                              widgetVar="dlgObs"
-                              modal="true"
-                              width="600"
-                              responsive="true"
-                              closable="true">
-
-                        <h:panelGroup id="obsPanel" styleClass="OrganizadorContainer Container12" style="padding: -10px;" layout="block">
-
-                            <!-- CAMPO PERSONALIZADO (textarea) -->
-
-                            <SBInput:input
-                                registro="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
-                                layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
-                                />
-
-                            <!-- BOTÕES -->
-                            <p:separator/>
-
-                            <p:commandButton value="Salvar"
-                                             icon="pi pi-check"
-                                             actionListener="#{pgProspecto.atualizarObservacao()}"
-                                             update="formObservacao"
-                                             oncomplete="PF('dlgObs').hide(); atualizarAreaByID('dadosDaEmpresa');"
-                                             styleClass="p-button-success"/>
-
-                            <p:commandButton value="Cancelar"
-                                             icon="pi pi-times"
-                                             onclick="PF('dlgObs').hide();
-                                                     return false;"
-                                             styleClass="p-button-secondary"
-                                             style="margin-left:8px"/>
-                        </h:panelGroup>
-
-                    </p:dialog>
-                </h:form>
 
             </h:panelGroup>
+
+
         </div>
+
+
+
+
+
     </cc:implementation>
 </ui:composition>

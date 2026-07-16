@@ -32,9 +32,9 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS");
 	}
 
-	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusEdidosAbrtos() {
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbrtos() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_EDIDOS_ABRTOS");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS");
 	}
 
 	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarAcessoPessoa() {

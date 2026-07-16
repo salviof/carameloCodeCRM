@@ -1,5 +1,172 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* ============================================================
+   ESCOPO GERAL
+   Tudo desta tela vive dentro de .DashboardVisaoGeralProspecto.
+   O wrapper tambem e a ancora (position:relative) da barra de
+   acoes rapidas e o dono das variaveis de tema.
+   ============================================================ */
+.DashboardVisaoGeralProspecto {
+    --cor-primaria: #60a36c;        /* verde Caramelo */
+    --cor-primaria-escura: #406a47;
+    --cor-texto: #2c3e50;
+    --cor-borda: #d1d1d1;
+    --cor-borda-suave: #e9ecef;
+    --cor-texto-suave: #6c757d;
+
+    position: relative;
+    font-family: "Roboto", sans-serif;
+}
+
+/* ============================================================
+   BARRA DE ACOES RAPIDAS (substitui .AcoesRapidasLead)
+   Desktop: flutua sobre a linha dos cabecalhos das abas.
+   Mobile/telas medias: vira uma linha normal acima das abas.
+   ============================================================ */
+/* A barra e realocada por script para dentro do .ui-tabs, logo
+   depois da .ui-tabs-nav. O .ui-tabs e a ancora do absolute. */
+.DashboardVisaoGeralProspecto .ui-tabs {
+    position: relative;
+}
+
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+    display: flex;
+    align-items: center;      /* alinha integracoes e acoes na mesma linha media */
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: absolute;
+    top: 10px;                /* respiro no topo */
+    right: 16px;
+    max-width: 45%;
+    z-index: 100;
+}
+
+/* h:form nao pode quebrar o flex: os filhos viram itens diretos */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead form,
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .formAcaoRapida {
+    display: contents;
+}
+
+/* --- normalizacao dos icones de integracao (crm:integracao) ---
+   o componente traz wrappers com Container floats do grid CRC;
+dentro da barra eles precisam se comportar como itens flex
+simples, centralizados verticalmente e sem largura de grid.  */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead > *,
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead a {
+    display: inline-flex;
+    align-items: center;
+}
+
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead [class*="Container"] {
+    width: auto !important;
+    float: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    margin: 0 !important;
+}
+
+/* imagens de integracao: tratadas como avatar circular.
+   As imagens de integracao sao garantidamente quadradas; o circulo
+   tem tamanho fixo (36px, harmonizando com os botoes de 40px),
+   padding interno como respiro e object-fit:contain para exibir a
+   imagem inteira, sem recorte nem distorcao. Os !important vencem
+   dimensoes inline aplicadas pelo crm:integracao (tamanhoPixel). */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead img {
+    display: block;
+    width: 36px !important;
+    height: 36px !important;
+    box-sizing: border-box;
+    border-radius: 50%;        /* circular, estilo avatar */
+    background: #ffffff;
+    border: 1px solid var(--cor-borda-suave);
+    object-fit: cover;         /* preenche o circulo inteiro; */
+    object-position: center;   /* recorta pelas bordas, centro intacto */
+}
+
+/* reserva espaco na linha das abas para a barra nao cobrir a 4a aba */
+.DashboardVisaoGeralProspecto .ui-tabs > .ui-tabs-nav {
+    padding-right: 46%;
+}
+
+.DashboardVisaoGeralProspecto .separadorAcoesRapidas {
+    width: 1px;
+    height: 26px;
+    background: var(--cor-borda);
+    margin: 0 2px;
+    align-self: center;
+}
+
+/* botao redondo padrao das acoes rapidas (alvo de toque >= 40px) */
+.DashboardVisaoGeralProspecto .btnAcaoRapida {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f3f5;
+    color: var(--cor-texto) !important;
+    border: 1px solid var(--cor-borda-suave);
+    font-size: 1.15rem;
+    text-decoration: none !important;
+    transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.DashboardVisaoGeralProspecto .btnAcaoRapida:hover {
+    background: #e2e6ea;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+}
+
+/* variante primaria (Nova atividade) */
+.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria {
+    background: var(--cor-primaria);
+    color: #ffffff !important;
+    border-color: var(--cor-primaria);
+}
+
+.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria:hover {
+    background: var(--cor-primaria-escura);
+}
+
+/* badge sobreposto (p:badge gera .ui-overlay-badge > .ui-badge) */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .ui-overlay-badge .ui-badge {
+    font-size: .68rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    line-height: 1.15rem;
+}
+
+/* em telas ate 1199px a barra sai do absolute e entra no fluxo.
+   Como foi realocada para depois da .ui-tabs-nav, ela aparece
+   ABAIXO do menu de abas e ACIMA do conteudo, como uma toolbar
+   do registro. Fundo branco + borda eliminam a faixa cinza que
+   o fundo da pagina criava atras dela. */
+@media (max-width: 1199px) {
+    .DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+        position: static;
+        max-width: 100%;
+        padding: 10px 14px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--cor-borda-suave);
+    }
+
+    /* integracoes a esquerda, acoes a direita: o separador vira
+       um espacador flexivel invisivel entre os dois grupos */
+    .DashboardVisaoGeralProspecto .separadorAcoesRapidas {
+        margin-right: auto;
+        background: transparent;
+    }
+
+    .DashboardVisaoGeralProspecto .ui-tabs > .ui-tabs-nav {
+        padding-right: 0;
+    }
+}
+
+/* ============================================================
+   LAYOUT DOS CARDS DO CLIENTE
+   ============================================================ */
 .container-cards-cliente {
     font-family: "Roboto", sans-serif;
     width: 100%;
@@ -14,7 +181,7 @@
 .card-cliente {
     width: 100%;
     padding: 32px;
-    border: 1px solid #d1d1d1;
+    border: 1px solid var(--cor-borda, #d1d1d1);
     border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -40,6 +207,7 @@
 .container-imagem-edicao {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 .botao-editar-imagem-link {
     position: absolute;
@@ -69,10 +237,6 @@
     opacity: 0.9;
 }
 
-/* Efeito de hover na imagem */
-.container-imagem-edicao {
-    cursor: pointer;
-}
 .img-prospecto {
     width: 200px;
     height: 150px;
@@ -82,8 +246,10 @@
     object-position: center; /* centraliza o recorte */
 }
 
-/* Conteúdo principal - informações e tags */
-.card-conteudo {
+/* Conteúdo principal - informações e tags
+   (ESCOPADO: antes .card-conteudo colidia com o .card-conteudo
+   dos cards de dashboard, e a definição de lá vencia) */
+.card-cliente .card-conteudo {
     display: flex;
     gap: 32px;
     align-items: flex-start;
@@ -121,9 +287,11 @@
     margin-top: 24px;
 }
 
-/* Header do painel com nova cor */
-.ui-panel .ui-panel-titlebar {
-    background-color: #60a36c !important; /* Azul em vez de verde */
+/* Header verde dos paineis
+   (ESCOPADO: antes .ui-panel .ui-panel-titlebar pintava TODOS os
+   paineis da página, inclusive de dialogs de outros contextos) */
+.DashboardVisaoGeralProspecto .ui-panel .ui-panel-titlebar {
+    background-color: var(--cor-primaria) !important; /* verde Caramelo */
     color: white !important;
     border-radius: 8px 8px 0 0 !important;
     padding: 12px 16px !important;
@@ -164,7 +332,7 @@
 
 /* Botão editar */
 .btn-editar {
-    background-color: #60a36c !important; /* Azul combinando com o header */
+    background-color: var(--cor-primaria) !important;
     color: white !important;
     border-radius: 6px !important;
     padding: 0.6rem 1.2rem !important;
@@ -174,22 +342,22 @@
 }
 
 .btn-editar:hover {
-    background-color: #406a47 !important;
+    background-color: var(--cor-primaria-escura) !important;
 }
 
 /* Switch de privacidade */
-.ui-toggleswitch {
+.DashboardVisaoGeralProspecto .ui-toggleswitch {
     margin-left: 8px;
 }
 
 
-/* Links */
-.ui-link {
+/* Links (escopado para não vazar para o restante da página) */
+.DashboardVisaoGeralProspecto .ui-link {
     color: #70bf82 !important;
     text-decoration: none !important;
 }
 
-.ui-link:hover {
+.DashboardVisaoGeralProspecto .ui-link:hover {
     text-decoration: underline !important;
 }
 
@@ -217,7 +385,7 @@
         height: 100px;
     }
 
-    .card-conteudo {
+    .card-cliente .card-conteudo {
         flex-direction: column;
         gap: 24px;
     }
@@ -256,12 +424,21 @@
     }
 }
 
-/* Cards de Dashboard Modernos */
+/* ============================================================
+   CARDS DE DASHBOARD MODERNOS
+   ============================================================ */
 .cards-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px 0;
+}
+
+/* h:form dentro do grid não pode virar célula: os filhos (cards)
+   passam a ser itens diretos do grid. Corrige o card "Nova
+   atividade" isolado no canto direito. */
+.cards-dashboard > form {
+    display: contents;
 }
 
 .card-moderno {
@@ -315,7 +492,8 @@
     background: linear-gradient(135deg, #3498db, #2980b9);
 }
 
-.card-conteudo {
+/* (ESCOPADO — ver comentário em .card-cliente .card-conteudo) */
+.card-moderno .card-conteudo {
     display: flex;
     align-items: center;
     gap: 15px;

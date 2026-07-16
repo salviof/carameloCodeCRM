@@ -5,8 +5,10 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoConfirmacaoEquipe.class)
 public enum CPSolicitacaoConfirmacaoEquipe {
-	_DESCRICAOCONFIRMACAO, _OBSERVACAOSOLICITADO;
+	_DESCRICAOCONFIRMACAO, _FABTIPOCOMUNICACAO, _TIPORESPOSTASELECIONADA, _RESPOSTASPOSSIVEIS;
 
 	public static final String descricaoconfirmacao = "descricaoConfirmacao";
-	public static final String observacaosolicitado = "observacaoSolicitado";
+	public static final String fabtipocomunicacao = "fabTipoComunicacao";
+	public static final String tiporespostaselecionada = "tipoRespostaSelecionada";
+	public static final String respostaspossiveis = "respostasPossiveis";
 }

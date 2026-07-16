@@ -1,21 +1,53 @@
+
 <!-- template conteúdo com formulario-->
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
-    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
-    <ui:define name="conteudo">
-        <SBFormulario:camposDaAcao
-            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
-            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-            />
-    </ui:define>
-    <ui:define name="botoesDeAcao">
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-        <SBPaginaAtual:botaoSalvarAlteracoes/>
 
-    </ui:define>
+    <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
+        <h:form >
+            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"
+                            desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
+                            idAtualizarOnChange="@this"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('fabTipoComunicacao')}"
+                            desabilitarEdicao="false"
+                            idAtualizarOnChange="@this"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
+                            label="Texto confirmação"
+                            idAtualizarOnChange="@this"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
+
+                <h:panelGroup styleClass="Container7" layout="block" >
+
+
+                    <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('contatoPessoa')}"
+                                    idAtualizarOnChange="@this"
+                                    layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+
+
+                    <SBInput:input registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dataHoraDataProgramada')}"
+                                   idAtualizarOnChange="@this"
+                                   layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container2 OrganizadorContainer" layout="block" style="margin: 30px;">
+                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrSoliciatarConfirmacaoCliente}" />
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:form>
+    </h:panelGroup>
+
+
 </ui:composition>

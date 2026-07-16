@@ -5,18 +5,18 @@
     </welcome-file-list>
     <context-param>
         <param-name>com.sun.faces.numberOfViewsInSession</param-name>
-        <param-value>8</param-value>
+        <param-value>15</param-value>
     </context-param>
     <context-param>
         <param-name>com.sun.faces.application.view.activeViewMapsSize</param-name>
-        <param-value>5</param-value>
+        <param-value>15</param-value>
     </context-param>
     <listener>
         <listener-class>com.super_bits.modulosSB.webPaginas.controller.listenners.SessaoHttpListener</listener-class>
     </listener>
     <context-param>
         <param-name>com.sun.faces.numberOfLogicalViews</param-name>
-        <param-value>3</param-value>
+        <param-value>8</param-value>
     </context-param>
     <context-param>
         <param-name>com.sun.faces.serializeServerState</param-name>

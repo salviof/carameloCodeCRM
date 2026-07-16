@@ -15,7 +15,6 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoComunicacao;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
@@ -40,6 +39,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
 
 /**
  *
@@ -247,7 +247,7 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
     }
 
     @Override
-    public ItfTipoComunicacao getTipoComunicacao() {
+    public ComoTipoComunicacao getTipoComunicacao() {
         if (this instanceof SolicitacaoAcessoCard) {
             return FabTipoComunicacao.SOLICITAR_AUTORIZACAO.getRegistro();
         }

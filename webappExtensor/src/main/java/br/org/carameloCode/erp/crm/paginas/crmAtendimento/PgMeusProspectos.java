@@ -18,7 +18,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.UtilModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
+
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.MEUS_PROSPECTOS_FRM_LISTAR;
@@ -90,7 +90,7 @@ public class PgMeusProspectos extends MB_PaginaConversation implements ItfPagina
     @PostConstruct
     public void init() {
         try {
-            if (SBCore.getCentralDeSessao().getSessaoAtual().isIdentificado() && !SBCore.getCentralDeSessao().getSessaoAtual().getUsuario().equals(FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro())) {
+            if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
                 if (acaoSelecionada == null) {
                     setAcaoSelecionada(acaoListar);
                 }

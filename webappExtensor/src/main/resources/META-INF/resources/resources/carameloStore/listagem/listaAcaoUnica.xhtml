@@ -1,0 +1,178 @@
+
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!--
+    ═══════════════════ CARAMELO STORE ═══════════════════
+    Componente : listaAcaoUnica
+    Categoria  : listagem
+    Descrição  : Listagem de registros com seleção de linha
+                 inteira: um clique em qualquer ponto da
+                 linha seleciona o registro e dispara a
+                 ação de execução. Zebra striping, hover
+                 com barra lateral e responsividade nativa
+                 por prioridade de campo (colunas menos
+                 importantes somem em telas estreitas).
+    Git        : https://github.com/carameloCode/caramelo-store
+    Versão     : 1.0.0
+    ═══════════════════════════════════════════════════════
+    -->
+
+    <!-- INTERFACE -->
+    <cc:interface
+        shortDescription="Listagem com seleção de linha inteira: um clique em qualquer ponto da linha seleciona o registro e dispara a ação de execução. Visual Caramelo Store com responsividade por prioridade de campo."
+        >
+
+        <cc:attribute
+            type="com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples"
+            name="itemSelecionado"
+            required="true"
+            shortDescription="Propriedade GRAVÁVEL onde o registro clicado será armazenado pelo dataTable. Deve ser passada explicitamente pela página (expressões de escrita não funcionam via default de composite). Tipicamente: paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada"
+            />
+
+        <cc:attribute name="acaoLista"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"
+                      default="#{paginaAtual.infoPagina.acaoVinculada.acaoFormularioListarPadrao}"
+                      shortDescription="Ação de listagem que define o domínio exibido. Fonte dos defaults de grupoCampos, titulo e mensagemSemRegistro. Default: ação de listar padrão da página atual."
+                      />
+
+        <cc:attribute name="grupoCampos"
+                      type="com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.ItfGrupoCampos"
+                      default="#{cc.attrs.acaoLista.gruposDeCampos[0]}"
+                      shortDescription="Grupo de campos exibidos como colunas. A largura e a prioridade responsiva de cada coluna vêm do layout gerado (componenteVinculado.prioridade: 0 = coluna sempre visível, demais = ocultas em telas estreitas). Default: primeiro grupo de campos da acaoLista."
+                      />
+
+        <cc:attribute
+            type="java.util.List"
+            name="itens"
+            default="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadesListadas}"
+            shortDescription="Registros exibidos na listagem (somente leitura). Default: entidades listadas da página atual."
+            />
+
+        <cc:attribute
+            method-signature="void listener()"
+            name="metodo"
+            default="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
+            shortDescription="Método executado após o clique na linha, quando acaoExecucao já foi gravada em comoFormularioWeb.acaoSelecionada e o item em itemSelecionado. Default: executarAcaoSelecionada() do formulário da página."
+            />
+
+        <cc:attribute name="acaoExecucao"
+                      required="true"
+                      shortDescription="Ação do sistema disparada ao clicar na linha (ex.: FRM de edição da entidade). É gravada em comoFormularioWeb.acaoSelecionada antes da execução de 'metodo'. Único atributo funcional sem default: cada tela decide o que o clique significa."
+                      />
+
+        <cc:attribute name="mensagemSemRegistro"
+                      default="Sem #{cc.attrs.acaoLista.acaoDeGestaoEntidade.nomeTipoObjetoClasseRelacionadaPlural} para exibição."
+                      shortDescription="Mensagem exibida quando a lista está vazia. Default: 'Sem [nome plural do domínio] para exibição.'"
+                      />
+
+        <cc:attribute name="titulo"
+                      default="#{cc.attrs.acaoLista.nome}"
+                      shortDescription="Título exibido no cabeçalho. Também gera o widgetVar/slug da tabela — deve ser ÚNICO na página (duas listagens com o mesmo título colidem). Default: nome da acaoLista."
+                      />
+
+        <cc:attribute name="gitUrl"
+                      default="https://github.com/carameloCode/caramelo-store"
+                      shortDescription="Metadado Caramelo Store: endereço git de onde o componente é baixado."
+                      />
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:outputStylesheet library="carameloStore" name="listagem/listaAcaoUnica.css" />
+
+        <c:set var="layoutListagem" value="#{pgUtilLayout.gerarLayout(cc.attrs.grupoCampos, cc.attrs.acaoLista)}" />
+        <h:panelGroup>
+            <h:form>
+                <p:remoteCommand action="#{cc.attrs.metodo}" name="selecionarItem" >
+                    <f:setPropertyActionListener target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                                                 value="#{cc.attrs.acaoExecucao}" />
+
+                </p:remoteCommand>
+            </h:form>
+            <h:form id="listagemForm">
+
+                <p:dataTable
+                    styleClass="carameloStoreListaAcaoUnica"
+                    sortMode="multiple"
+                    value="#{cc.attrs.itens}"
+                    var="item"
+                    selectionMode="single"
+                    selection="#{cc.attrs.itemSelecionado}"
+                    globalFilterFunction="#{pgUtilFiltroOrdenacao.filtrarColuna}"
+                    rowKey="#{item}"
+                    paginatorPosition="bottom"
+                    emptyMessage="#{cc.attrs.mensagemSemRegistro}"
+                    paginator="true"
+                    rows="10"
+                    widgetVar="#{pgUtil.gerarNomeSlug(cc.attrs.titulo)}"
+                    resizeMode="fit"
+                    >
+                    <p:ajax event="rowSelect"
+                            onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listagemForm')}')"
+                            oncomplete="selecionarItem();"
+                            >
+
+
+                    </p:ajax>
+                    <f:facet name="header" >
+                        <div  class="container-fluid">
+                            <div class="row" >
+                                <div class="col-md-4 col-md-offset-4 " style="margin-top: 10px;margin-right: 0px " >
+                                    #{cc.attrs.titulo}
+                                </div>
+                                <div class="col-md-4 " style="margin-top: 5px; margin-bottom: 5px; " >
+                                    <p:inputText
+                                        onfocus="pesquisaDataSetComDelay(this.id, '#{pgUtil.gerarNomeSlug(cc.attrs.titulo)}')"
+                                        id="globalFilter"
+
+                                        style="width:100%; height: 35px;"
+                                        placeholder="Pesquise aqui:"/>
+                                </div>
+                            </div>
+                        </div>
+                    </f:facet>
+                    <p:columns var="coluna" value="#{cc.attrs.grupoCampos.campos}"
+                               sortBy="#{item[coluna.nomePrimeiroAtributo]}"
+                               sortFunction="#{pgUtilFiltroOrdenacao.ordernarPorColuna}"
+                               filterFunction="#{pgUtilFiltroOrdenacao.filtrarColuna}"
+                               filterStyleClass="listaComOcoesOcultaFitro"
+                               width="#{layoutListagem.getColunaByNomeCompleto(coluna.caminhoCompletoComGrupoCampo).porcentagemCalculada}%"
+                               styleClass="ui-column-p-#{layoutListagem.getColunaByNomeCompleto(coluna.caminhoCompletoComGrupoCampo).componenteVinculado.prioridade == 0
+                                                         ? 1
+                                                         : 6}"
+                               >
+                        <f:facet name="header">
+                            <h:outputText value= "#{coluna.labelAlternativo} "/>
+                        </f:facet>
+                        <center>
+                            <sb:inputSB
+
+                                registro="#{item.getCampoByNomeOuAnotacao(coluna.caminhoSemNomeClasse)}"
+                                desabilitarEdicao="true"
+                                layoutCampo="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                possuiIDOnChange="false"
+                                possuiMetodoOnChange="false"
+                                label="#{coluna.labelAlternativo}"
+                                atualizarFormOnChange="false"
+                                atualizarGrupoOnChange="false"
+                                obrigatorio="false"
+                                />
+                        </center>
+                    </p:columns>
+                </p:dataTable>
+            </h:form>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

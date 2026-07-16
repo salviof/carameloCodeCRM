@@ -159,7 +159,7 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                     consultaTodos.addCondicaoManyToManyContendoObjeto(CPChamadoCliente.atendenteresponsavel, SBCore.getUsuarioLogado());
                 }
 
-                List<ChamadoCliente> chamadosTodos = consultaTodos.gerarResultados();
+                List<ChamadoCliente> chamadosTodos = consultaTodos.resultadoRegistros();
                 setEntidadesListadas(chamadosTodos);
                 break;
             case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_AGUARDANDO_ATENDIMENTO:
@@ -172,7 +172,7 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
 //                if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
 //                    consulta.addCondicaoManyToOneIgualA(CPChamadoCliente.atendenteresponsavel, (ComoEntidadeSimples) getParametroInstanciado(prUsuario).getValor());
 //                }
-                List<ChamadoCliente> chamados = consulta.gerarResultados();
+                List<ChamadoCliente> chamados = consulta.resultadoRegistros();
                 setEntidadesListadas(chamados);
                 break;
             case MEUS_CHAMADOS_FRM_LISTAR_CHAMADOS_EM_ATENDIMENTO:

@@ -7,6 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoal.ContatoPessoal;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -29,9 +30,9 @@ public class SolicitacaoArquivoCliente extends Solicitacao {
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, obrigatorio = true)
     private CategoriaArquivoCliente categoriaArqCliente;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Contato", obrigatorio = true)
-    @ManyToOne(targetEntity = ContatoPessoal.class)
-    private ContatoPessoal contatoPessoa;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Contato", obrigatorio = true, caminhoParaLista = "pessoa.contatosProspecto")
+    @ManyToOne(targetEntity = ContatoProspecto.class)
+    private ContatoProspecto contatoPessoa;
 
     @Override
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
@@ -53,11 +54,11 @@ public class SolicitacaoArquivoCliente extends Solicitacao {
         this.categoriaArqCliente = categoriaArqCliente;
     }
 
-    public ContatoPessoal getContatoPessoa() {
+    public ContatoProspecto getContatoPessoa() {
         return contatoPessoa;
     }
 
-    public void setContatoPessoa(ContatoPessoal contatoPessoa) {
+    public void setContatoPessoa(ContatoProspecto contatoPessoa) {
         this.contatoPessoa = contatoPessoa;
     }
 

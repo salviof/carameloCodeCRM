@@ -1,0 +1,125 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:p="http://primefaces.org/ui">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="arquivo"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+
+        <h:outputStylesheet library="crmArquivo" name="arquivoDetalhe.css" />
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+            <p:fieldset id="arquivos" styleClass="Container3 PainelDetalhesArquivo CardArquivo" style="">
+
+                <!-- Botão kebab (fica visível só no hover via CSS) + menu suspenso -->
+                <h:panelGroup layout="block" styleClass="CardArquivoMenu">
+                    <p:commandButton id="btnMenuArquivo"
+                                     type="button"
+                                     icon="fa-solid fa-ellipsis-vertical"
+                                     styleClass="CardArquivoMenuBotao ui-button-flat"
+                                     title="Mais opções"/>
+
+                    <p:menu overlay="true" trigger="btnMenuArquivo" my="right top" at="right bottom"
+                            styleClass="CardArquivoMenuLista">
+                        <p:menuitem value="Baixar"
+                                    icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
+                                    onclick="window.open('#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank'); return false;"/>
+
+                        <p:menuitem value="Visualizar"
+                                    icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
+                                    onclick="PF('dlgVisualizar_#{fn:replace(cc.clientId, ':', '_')}').show(); return false;"/>
+
+                        <p:menuitem value="Excluir"
+                                    icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                                    styleClass="CardArquivoMenuItemPerigo"
+                                    ajax="true"
+                                    actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(cc.attrs.arquivo)}"
+                                    oncomplete="atualizarVisaoArquivosPessoa();">
+                            <p:confirm header="Confirmação"
+                                       message="Deseja excluir #{cc.attrs.arquivo.nome} de forma irreversível?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:menuitem>
+                    </p:menu>
+
+                    <!-- botão legado (compartilhar com cliente), mantido oculto -->
+                    <p:commandButton
+                        partialSubmit="true"
+                        rendered="false"
+                        actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
+                        icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                        oncomplete="atualizarVisaoArquivosPessoa();">
+                        <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </h:panelGroup>
+
+                <!-- Corpo do card: ícone + nome + metadados numa linha só, ao estilo Drive -->
+                <h:panelGroup layout="block" styleClass="CardArquivoCorpo">
+
+                    <h:panelGroup layout="block" styleClass="CardArquivoIcone">
+                        <i class="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="CardArquivoInfo">
+                        <p:outputLabel styleClass="CardArquivoNome FontAdamantiumBold"
+                                       value="#{arquivo.arquivo}"
+                                       title="#{arquivo.arquivo}"/>
+
+                        <h:panelGroup layout="block" styleClass="CardArquivoMeta">
+                            <crm:avatar classeEstilo="CardArquivoAvatar" id="criado_por"
+                                        usuario="#{cc.attrs.arquivo.usuarioCriou}" somenteLeitura="true"
+                                        mostrarNome="false" altura="22"/>
+                            <p:outputLabel id="dataHoraCriou" styleClass="CardArquivoData"
+                                           value="#{pgUtil.gerarDataHoraTexto(cc.attrs.arquivo.dataHoraCriacao)}"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="CardArquivoAlterado"
+                                      rendered="arquivo.dataHoraAlteracao!=null">
+                            <h:outputText value="Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por"/>
+                            <crm:avatar classeEstilo="CardArquivoAvatar" usuario="#{cc.attrs.arquivo.usuarioAlteracao}"
+                                        somenteLeitura="true"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+                <!-- Modal de visualização do arquivo -->
+                <p:dialog id="dlgVisualizar"
+                          header="#{arquivo.arquivo}"
+                          widgetVar="dlgVisualizar_#{fn:replace(cc.clientId, ':', '_')}"
+                          modal="true"
+                          dynamic="true"
+                          resizable="false"
+                          draggable="false"
+                          closeOnEscape="true"
+                          appendTo="@(body)"
+                          styleClass="ArquivoDialogVisualizar"
+                          width="900">
+                    <h:panelGroup layout="block" styleClass="ArquivoDialogVisualizarBody">
+                        <iframe src="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}"
+                                class="ArquivoDialogVisualizarIframe"
+                                title="#{arquivo.arquivo}">
+                        </iframe>
+                    </h:panelGroup>
+                </p:dialog>
+
+            </p:fieldset>
+        </h:form>
+
+    </cc:implementation>
+</ui:composition>

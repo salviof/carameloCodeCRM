@@ -12,7 +12,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConvit
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.DadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.FabUsuarioPadraoMarketingParaWeb;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.FORMULARIO_CONVIDADO_CTR_CONCLUIR;
@@ -101,8 +100,8 @@ public class PgFormularioExterno extends MB_PaginaConversation {
 
             if (codigo.getNome().startsWith(parametroCodigo.getTextoEnviadoUrl().split("-")[0])) {
                 if (!SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
-                    UsuarioCRM usuariocrm = FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro();
-                    SBCore.getControleDeSessao().logarEmailESenha(usuariocrm.getEmail(), usuariocrm.getSenha());
+                    //           UsuarioCRM usuariocrm = FabUsuarioPadraoMarketingParaWeb.USUAIRO_CONVIDADO.getRegistro();
+                    //          SBCore.getControleDeSessao().logarEmailESenha(usuariocrm.getEmail(), usuariocrm.getSenha());
                 }
 
             } else {

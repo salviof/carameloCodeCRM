@@ -21,10 +21,11 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioConvidado.UsuarioConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
 import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import jersey.repackaged.com.google.common.collect.Lists;
 import com.super_bits.editorImagem.util.UtilSBImagemEdicao;
 import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
@@ -41,6 +42,7 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.qualificadoresCDI.sessao.QlSessaoFacesContext;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.util.PgUtil;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.webSite.InfoWebApp;
@@ -484,7 +486,7 @@ public class ServicosCRM implements Serializable {
                     resposta.dispararMensagens();
                 } else {
                     if (solicitacaoEquipe != null) {
-                        ModuloCRMAtendimento.solicitacaoNotificarArquivoEquipe(solicitacaoEquipe);
+                        ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe(solicitacaoEquipe);
                     }
                 }
 
@@ -493,6 +495,10 @@ public class ServicosCRM implements Serializable {
             }
 
         }
+    }
+
+    public void atualizarIntegracao(IntegracaoLink pIntegracao) {
+        // UtilSBPersistencia.mergeRegistro(pIntegracao);
     }
 
     public void atualizarImagemProspecto(FileUploadEvent event) {
@@ -591,7 +597,7 @@ public class ServicosCRM implements Serializable {
     }
 
     public void solicitarPermissao(Pessoa p) {
-        ModuloCRMAtendimento.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
+        ModuloCRMAtendimentoSolicitacoes.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
     }
 
     public boolean isUmUsuarioAtendimentoLogado() {

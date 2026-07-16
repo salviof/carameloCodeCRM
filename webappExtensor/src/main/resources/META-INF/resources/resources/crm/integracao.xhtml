@@ -15,8 +15,7 @@
     <cc:implementation>
         <h:panelGroup layout="block" style="width: #{cc.attrs.tamanhoPixel}px;height: #{cc.attrs.tamanhoPixel}px; margin: 10px;" rendered="#{cc.attrs.integracao.temUrl}" >
             <a href="#{cc.attrs.integracao.url}" target="#{cc.attrs.integracao.nome}" >
-                <p:graphicImage url="/proxyImagem/#{cc.attrs.integracao.imagem}" style="width: 60px;height: 60px; padding: 10px" rendered="#{sessaoAtualSBWP.identificado}" />
-                <p:graphicImage url="#{cc.attrs.integracao.imagem}" style="width: 60px;height: 60px;margin: 10px" rendered="#{!sessaoAtualSBWP.identificado}" />
+                <p:graphicImage url="/proxyImagem/#{cc.attrs.integracao.imagem}" style="width: 60px;height: 60px;" rendered="#{sessaoAtualSBWP.identificado}" />
             </a>
         </h:panelGroup>
 

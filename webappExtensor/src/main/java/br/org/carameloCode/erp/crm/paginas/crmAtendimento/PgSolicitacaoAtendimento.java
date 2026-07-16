@@ -12,11 +12,15 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
+import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS;
+import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_EQUIPE;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_EQUIPE;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -28,10 +32,15 @@ import org.primefaces.event.SelectEvent;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_URL;
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.InfoParametroURL;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import java.util.List;
+import javax.inject.Inject;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -43,7 +52,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntid
 @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_MB_GESTAO)
 public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicitacao> implements ItfPaginaComModalProspecto {
 
-    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = true)
+    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false)
     private ParametroURL prPessoa;
 
     @InfoParametroURL(nome = "prContatoCliente", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ContatoProspecto.class, obrigatorio = false)
@@ -60,6 +69,51 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     private ContatoProspecto contatoCliente;
 
     private CategoriaArquivoEquipe categoriaEquipe;
+
+    private boolean prPessoaFoiDefinido;
+
+    @Inject
+    private ServicosCRM servicoCRM;
+
+    public boolean isPrPessoaFoiDefinido() {
+        return getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado();
+
+    }
+
+    @Override
+    protected void listarDados(boolean mostrarInativos) {
+
+        FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
+        ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(Solicitacao.class, getEMPagina());
+        consulta.addCondicaoNegativo(CPSolicitacao.foifinalizada);
+        switch (acao) {
+            case SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS:
+                consulta.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitado, getUsuarioEquipe());
+                break;
+            case SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA:
+                if (getPessoa() != null) {
+                    consulta.addCondicaoManyToOneIgualA(CPSolicitacao.pessoa, getPessoa());
+                }
+                break;
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS:
+                consulta.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitante, getUsuarioEquipe());
+                break;
+            default:
+                super.listarDados(mostrarInativos);
+                return;
+        }
+        setEntidadesListadas((List) consulta.gerarResultados());
+
+    }
+
+    public void realizarUpload(FileUploadEvent event) {
+        try {
+            servicoCRM.enviarArquivosEquipePessoa(event);
+            ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe((SolicitacaoArquivoEquipe) getEntidadeSelecionada());
+        } catch (Throwable t) {
+            CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Falha enviando arquivo");
+        }
+    }
 
     @Override
     protected void autoexecEntidadeNova() {
@@ -111,6 +165,9 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
             default:
                 super.autoexecEntidadeNova();
         }
+        if (getEntidadeSelecionada() != null) {
+            getEntidadeSelecionada().setUsuarioSolicitante((UsuarioCRM) CarameloCode.getUsuarioLogado());
+        }
     }
 
     private void definirPArametros() {
@@ -122,9 +179,11 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
         }
         if (getParametroInstanciado(prContatoSolicitacao).isValorDoParametroFoiConfigurado()) {
             contatoCliente = UtilSBPersistencia.loadEntidade((ContatoProspecto) getParametroInstanciado(prContatoSolicitacao).getValor(), getEMPagina());
+            pessoa = contatoCliente.getProspecto();
         }
         if (getParametroInstanciado(prSolicitacao).isValorDoParametroFoiConfigurado()) {
             setEntidadeSelecionada(UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prSolicitacao).getValor(), getEMPagina()));
+            pessoa = (((Solicitacao) getParametroInstanciado(prSolicitacao).getValor()).getPessoa());
             if (getEntidadeSelecionada() instanceof SolicitacaoArquivoEquipe) {
                 categoriaEquipe = getEntidadeSelecionada().getComoSolicitacaoArquivoEquipe().getCategoriaArqEquipe();
             }
@@ -146,6 +205,11 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     }
 
     public UsuarioCRM getUsuarioEquipe() {
+        if (!getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
+            usuarioEquipe = (UsuarioCRM) CarameloCode.getUsuarioLogado();
+        } else {
+            usuarioEquipe = (UsuarioCRM) getParametroInstanciado(prContatoUsuarioEquipe).getValor();
+        }
         return usuarioEquipe;
     }
 

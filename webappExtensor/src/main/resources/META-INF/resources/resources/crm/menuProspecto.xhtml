@@ -51,23 +51,27 @@
 
             </h:panelGroup>
         </h:form>
-        <p:sidebar widgetVar="sidebar2" dynamic="false" position="right"
+
+        <p:sidebar widgetVar="sidebar2" dynamic="false"
+                   position="#{sessaoAtualSBWP.telaUsuario.umMobile?'top':'right'}"
                    rendered="#{cc.attrs.pessoaJuridica!=null}"
+                   styleClass="sidebarProspecto"
                    showCloseIcon="true" style="background-color: #ffffff; width: 300px;" baseZIndex="999999999">
             <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" >
-                <h3>
+
                     <p:avatar label="#{cc.attrs.pessoaJuridica.nome}" styleClass="p-ml-2"   style="background-color:#4caf4f; color: #ffffff"
                               rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
                               />
 
                     <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.pessoaJuridica.imgPequena}"
                          style="
-                         min-height: 70px;
-                         max-width: 70%;
-                         max-height:  90px;
+                         #{sessaoAtualSBWP.telaUsuario.umMobile?'min-height: 30px;':'min-height: 70px;'}
+                         #{sessaoAtualSBWP.telaUsuario.umMobile?'max-width: 30%x;':'max-width: 70%;'};
+                         #{sessaoAtualSBWP.telaUsuario.umMobile?'max-height:  60px;':'max-height:  90px;'};
+
                          position: relative;
                          top: 0px;" />
-                    
+<h3>
 
                     #{cc.attrs.pessoaJuridica.nome}
                 </h3>

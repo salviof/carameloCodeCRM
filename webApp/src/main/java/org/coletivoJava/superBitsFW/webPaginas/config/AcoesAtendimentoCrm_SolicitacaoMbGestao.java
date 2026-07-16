@@ -5,8 +5,8 @@ import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormularioEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormularioEntidade;
 
 @Named
 @ApplicationScoped
@@ -15,6 +15,16 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 	public ItfAcaoFormulario getSolicitacaoMbGestao() {
 		return (ItfAcaoFormulario) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_MB_GESTAO");
+	}
+
+	public ComoAcaoControllerEntidade getSolicitacaoCtrAbrirFormularioResolucao() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmRevisarSolicitacao() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_REVISAR_SOLICITACAO");
 	}
 
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmConcederAcesso() {
@@ -32,9 +42,9 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS");
 	}
 
-	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbrtos() {
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbertos() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABRTOS");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS");
 	}
 
 	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarAcessoPessoa() {
@@ -82,14 +92,14 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_CLIENTE");
 	}
 
-	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovaSolicitacaoEquipe() {
-		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVA_SOLICITACAO_EQUIPE");
-	}
-
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoConfirmacaoEquipe() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_EQUIPE");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmEnviarConfirmacaoEquipe() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CONFIRMACAO_EQUIPE");
 	}
 
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoArquivoEquipe() {
@@ -97,19 +107,34 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_EQUIPE");
 	}
 
-	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoArquivoCliente() {
-		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE");
-	}
-
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmEnviarArquivoEquipe() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPE");
 	}
 
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoArquivoCliente() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE");
+	}
+
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoConfirmacaoCliente() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoChamado() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CHAMADO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmEnviarChamado() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CHAMADO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoPedidoAtualizarArquivo() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_PEDIDO_ATUALIZAR_ARQUIVO");
 	}
 
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmAtualizarArquivo() {
@@ -120,5 +145,15 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmRenegociaPrazo() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_RENEGOCIA_PRAZO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovoOrcamento() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ORCAMENTO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmEnviarOrcamento() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ORCAMENTO");
 	}
 }

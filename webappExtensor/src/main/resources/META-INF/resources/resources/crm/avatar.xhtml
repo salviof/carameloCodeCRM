@@ -1,3 +1,4 @@
+
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:cc="http://java.sun.com/jsf/composite"
@@ -16,11 +17,13 @@
         <cc:attribute name="mostrarNome"
                       type="java.lang.Boolean"
                       default="false" />
+        <cc:attribute name="classeEstilo"  default=" "/>
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:panelGroup layout="block"
-                      style="display:flex; align-items:center; gap:8px; position:relative;">
+        <div class="#{cc.attrs.classeEstilo}"
+             title="#{!cc.attrs.mostrarNome and cc.attrs.usuario != null ? cc.attrs.usuario.nome : ''}"
+             style="display:flex; align-items:center; gap:8px; position:relative;">
 
             <!-- FOTO REAL -->
             <h:panelGroup rendered="#{cc.attrs.usuario != null and cc.attrs.usuario.temImagemPequenaAdicionada}"
@@ -56,6 +59,6 @@
                            line-height:1;
                            " />
 
-        </h:panelGroup>
+        </div>
     </cc:implementation>
 </ui:composition>

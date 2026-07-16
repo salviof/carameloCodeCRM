@@ -155,83 +155,9 @@
 
 
             <c:forEach  items="#{pgDocumentoPessoa.entidadesListadas}" var="arquivo" >
-                <h:form>
-                    <p:confirmDialog global="true">
-                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                    </p:confirmDialog>
-                    <p:fieldset  id="arquivos" styleClass="Container3 PainelDetalhesArquivo" style="" >
-
-                        <h:panelGroup layout="block" styleClass="OrganizadorContainerDireita">
-                            <p:commandButton
-                                partialSubmit="true"
-                                process="@this"
-                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank');"
-                                icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
-                                />
-                            <p:commandButton
-
-                                partialSubmit="true"
-                                process="@this"
-                                onclick="javaScript:window.open('#{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}', '_blank');"
-                                icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
-                                />
-                            <p:commandButton
-                                partialSubmit="true"
-                                rendered="false"
-                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
-                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
-                                oncomplete="atualizarVisaoArquivosPessoa();"
-
-                                >
-                                <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-
-                            <p:commandButton
-                                partialSubmit="true"
-
-                                actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
-                                icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
-                                oncomplete="atualizarVisaoArquivosPessoa();"
-
-                                >
-                                <p:confirm header="Confirmation" message="Deseja excluir #{arquivo.nome} de forma irreversível?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-                        </h:panelGroup>
-                        <h:panelGroup layout="block" styleClass="Fleft Container12">
-                            <p:outputLabel  styleClass="PainelDetalhesArquivoNome FontAdamantiumBold" value="#{arquivo.arquivo}" style=""/>
-                        </h:panelGroup>
-                        <p:panelGrid columns="3" styleClass=""  style="width: 100%;" >
-
-                            <h:panelGroup layout="block" >
-
-
-                                <i class="Fs50 #{arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
-
-                            </h:panelGroup>
-                            <h:panelGroup layout="block" >
-                                #{arquivo.usuarioCriou.nome}
-                                <crm:avatar  id="criado_por" usuario="#{arquivo.usuarioCriou}" somenteLeitura="true" />
-
-                            </h:panelGroup>
-
-                            <h:panelGroup layout="block" >
-
-
-                                <p:outputLabel id="dataHoraCriou" value="#{pgUtil.gerarDataHoraTexto(arquivo.dataHoraCriacao)}" />
-
-                            </h:panelGroup>
-
-
-                        </p:panelGrid>
-
-
-                        <h:panelGroup layout="block" style="width: 100%;" rendered="arquivo.dataHoraAlteracao!=null">
-                            *    Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por:      <crm:avatar usuario="#{arquivo.usuarioAlteracao}" somenteLeitura="true" />
-                        </h:panelGroup>
-
-                    </p:fieldset>
-                </h:form>
+                <crmArquivo:arquivoDetalhe
+                    arquivo="#{arquivo}"
+                    />
 
             </c:forEach>
 

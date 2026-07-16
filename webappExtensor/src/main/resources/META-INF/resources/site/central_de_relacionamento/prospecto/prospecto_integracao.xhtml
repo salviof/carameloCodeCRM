@@ -19,8 +19,10 @@
 
             <p:graphicImage url="#{item.imagem}" style="max-width:100px;"    />
             <h:form>
-                <SBInput:input registro="#{item.getCampoInstanciadoByNomeOuAnotacao('url')}" layout="#{layoutsComponenteSB.layoutCampo.resumido}"   />
-                <p:commandButton value="Atualizar" update="@form" />
+                <SBInput:input registro="#{item.getCampoInstanciadoByNomeOuAnotacao('url')}" layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                               idAtualizarOnChange="@form"
+                               />
+                <p:commandButton value="Atualizar" update="@form" actionListener="#{servicosCRM.atualizarIntegracao(item)}" />
             </h:form>
         </c:forEach>
 

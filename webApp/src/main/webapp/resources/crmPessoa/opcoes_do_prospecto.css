@@ -1,0 +1,755 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ============================================================
+   ESCOPO GERAL
+   Tudo desta tela vive dentro de .DashboardVisaoGeralProspecto.
+   O wrapper tambem e a ancora (position:relative) da barra de
+   acoes rapidas e o dono das variaveis de tema.
+   ============================================================ */
+.DashboardVisaoGeralProspecto {
+    --cor-primaria: #60a36c;        /* verde Caramelo */
+    --cor-primaria-escura: #406a47;
+    --cor-texto: #2c3e50;
+    --cor-borda: #d1d1d1;
+    --cor-borda-suave: #e9ecef;
+    --cor-texto-suave: #6c757d;
+
+    position: relative;
+    font-family: "Roboto", sans-serif;
+}
+
+/* ============================================================
+   BARRA DE ACOES RAPIDAS (substitui .AcoesRapidasLead)
+   Desktop: flutua sobre a linha dos cabecalhos das abas.
+   Mobile/telas medias: vira uma linha normal acima das abas.
+   ============================================================ */
+/* A barra e realocada por script para dentro do .ui-tabs, logo
+   depois da .ui-tabs-nav. O .ui-tabs e a ancora do absolute. */
+.DashboardVisaoGeralProspecto .ui-tabs {
+    position: relative;
+}
+
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+    display: flex;
+    align-items: center;      /* alinha integracoes e acoes na mesma linha media */
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: absolute;
+    top: 10px;                /* respiro no topo */
+    right: 16px;
+    max-width: 45%;
+    z-index: 100;
+}
+
+/* h:form nao pode quebrar o flex: os filhos viram itens diretos */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead form,
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .formAcaoRapida {
+    display: contents;
+}
+
+/* --- normalizacao dos icones de integracao (crm:integracao) ---
+   o componente traz wrappers com Container floats do grid CRC;
+dentro da barra eles precisam se comportar como itens flex
+simples, centralizados verticalmente e sem largura de grid.  */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead > *,
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead a {
+    display: inline-flex;
+    align-items: center;
+}
+
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead [class*="Container"] {
+    width: auto !important;
+    float: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    margin: 0 !important;
+}
+
+/* imagens de integracao: tratadas como avatar circular.
+   As imagens de integracao sao garantidamente quadradas; o circulo
+   tem tamanho fixo (36px, harmonizando com os botoes de 40px),
+   padding interno como respiro e object-fit:contain para exibir a
+   imagem inteira, sem recorte nem distorcao. Os !important vencem
+   dimensoes inline aplicadas pelo crm:integracao (tamanhoPixel). */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead img {
+    display: block;
+    width: 36px !important;
+    height: 36px !important;
+    box-sizing: border-box;
+    border-radius: 50%;        /* circular, estilo avatar */
+    background: #ffffff;
+    border: 1px solid var(--cor-borda-suave);
+    object-fit: cover;         /* preenche o circulo inteiro; */
+    object-position: center;   /* recorta pelas bordas, centro intacto */
+}
+
+/* reserva espaco na linha das abas para a barra nao cobrir a 4a aba */
+.DashboardVisaoGeralProspecto .ui-tabs > .ui-tabs-nav {
+    padding-right: 46%;
+}
+
+.DashboardVisaoGeralProspecto .separadorAcoesRapidas {
+    width: 1px;
+    height: 26px;
+    background: var(--cor-borda);
+    margin: 0 2px;
+    align-self: center;
+}
+
+/* botao redondo padrao das acoes rapidas (alvo de toque >= 40px) */
+.DashboardVisaoGeralProspecto .btnAcaoRapida {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f3f5;
+    color: var(--cor-texto) !important;
+    border: 1px solid var(--cor-borda-suave);
+    font-size: 1.15rem;
+    text-decoration: none !important;
+    transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.DashboardVisaoGeralProspecto .btnAcaoRapida:hover {
+    background: #e2e6ea;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+}
+
+/* variante primaria (Nova atividade) */
+.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria {
+    background: var(--cor-primaria);
+    color: #ffffff !important;
+    border-color: var(--cor-primaria);
+}
+
+.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria:hover {
+    background: var(--cor-primaria-escura);
+}
+
+/* badge sobreposto (p:badge gera .ui-overlay-badge > .ui-badge) */
+.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .ui-overlay-badge .ui-badge {
+    font-size: .68rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    line-height: 1.15rem;
+}
+
+/* em telas ate 1199px a barra sai do absolute e entra no fluxo.
+   Como foi realocada para depois da .ui-tabs-nav, ela aparece
+   ABAIXO do menu de abas e ACIMA do conteudo, como uma toolbar
+   do registro. Fundo branco + borda eliminam a faixa cinza que
+   o fundo da pagina criava atras dela. */
+@media (max-width: 1199px) {
+    .DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+        position: static;
+        max-width: 100%;
+        padding: 10px 14px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--cor-borda-suave);
+    }
+
+    /* integracoes a esquerda, acoes a direita: o separador vira
+       um espacador flexivel invisivel entre os dois grupos */
+    .DashboardVisaoGeralProspecto .separadorAcoesRapidas {
+        margin-right: auto;
+        background: transparent;
+    }
+
+    .DashboardVisaoGeralProspecto .ui-tabs > .ui-tabs-nav {
+        padding-right: 0;
+    }
+}
+
+/* ============================================================
+   LAYOUT DOS CARDS DO CLIENTE
+   ============================================================ */
+.container-cards-cliente {
+    font-family: "Roboto", sans-serif;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 48px;
+    gap: 32px;
+}
+
+/* Layout principal do card */
+.card-cliente {
+    width: 100%;
+    padding: 32px;
+    border: 1px solid var(--cor-borda, #d1d1d1);
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Cabeçalho do card - título e imagem lado a lado */
+.card-cliente-title-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.card-cliente-title-content h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex: 1;
+}
+
+.container-imagem-edicao {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.botao-editar-imagem-link {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.container-imagem-edicao:hover .botao-editar-imagem-link {
+    opacity: 1;
+}
+.container-imagem-edicao:hover .botao-editar-imagem {
+    opacity: 1;
+}
+
+.container-imagem-edicao:hover .img-prospecto {
+    opacity: 0.9;
+}
+
+.img-prospecto {
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    object-fit: contain;     /* mantém proporção e recorta se necessário */
+    object-position: center; /* centraliza o recorte */
+}
+
+/* Conteúdo principal - informações e tags
+   (ESCOPADO: antes .card-conteudo colidia com o .card-conteudo
+   dos cards de dashboard, e a definição de lá vencia) */
+.card-cliente .card-conteudo {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Lado esquerdo - informações */
+.card-cliente-infos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.text-informacao {
+    color: #2c3e50;
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 2px 0;
+}
+
+/* Lado direito - tags */
+.card-lado-direito {
+    width: 300px;
+    min-width: 250px;
+}
+
+/* --- grade interna do card de resumo (.card-cliente--resumo) ---
+   O p:card renderiza .ui-card > .ui-card-body > .ui-card-content;
+   os filhos (titulo, conteudo e lado direito) viram areas de uma
+   grade: titulo e infos a esquerda, coluna do logo/tags/integracoes
+   a direita ocupando a altura toda. Elimina o vao vertical que o
+   logo criava sob o titulo e traz o lado direito para... a direita. */
+.card-cliente--resumo .ui-card-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-areas:
+        "titulo   lado"
+        "conteudo lado";
+    column-gap: 32px;
+    align-items: start;
+}
+
+.card-cliente--resumo .card-cliente-title-content {
+    grid-area: titulo;
+    margin-bottom: 12px;
+}
+
+.card-cliente--resumo .card-conteudo {
+    grid-area: conteudo;
+}
+
+.card-cliente--resumo .card-lado-direito {
+    grid-area: lado;
+    width: auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* integracoes na coluna direita: mesmo tratamento de avatar
+   circular usado na barra de acoes rapidas */
+.card-cliente--resumo .integracoes-lead {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.card-cliente--resumo .integracoes-lead img {
+    display: block;
+    width: 36px !important;
+    height: 36px !important;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid var(--cor-borda-suave);
+    object-fit: cover;
+    object-position: center;
+}
+
+/* mobile: coluna unica — titulo, depois logo/tags, depois infos */
+@media (max-width: 768px) {
+    .card-cliente--resumo .ui-card-content {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "titulo"
+            "lado"
+            "conteudo";
+        column-gap: 0;
+        row-gap: 16px;
+    }
+}
+
+/* Painel de observação */
+.panel-observacao {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px !important;
+    border: 1px solid #e9ecef !important;
+    margin-top: 24px;
+}
+
+/* Header verde dos paineis
+   (ESCOPADO: antes .ui-panel .ui-panel-titlebar pintava TODOS os
+   paineis da página, inclusive de dialogs de outros contextos) */
+.DashboardVisaoGeralProspecto .ui-panel .ui-panel-titlebar {
+    background-color: var(--cor-primaria) !important; /* verde Caramelo */
+    color: white !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 12px 16px !important;
+}
+
+.header-observacao {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* Texto da observação */
+.texto-observacao {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    word-wrap: break-word; /* Quebra palavras muito longas */
+    word-break: break-word; /* Quebra palavras */
+    white-space: pre-wrap; /* Mantém quebras de linha mas quebra se necessário */
+    overflow-wrap: break-word; /* Quebra palavras longas */
+    display: block;
+    width: 100%;
+}
+
+.texto-vazio {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Área do botão */
+.area-botao {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 16px;
+}
+
+/* Botão editar */
+.btn-editar {
+    background-color: var(--cor-primaria) !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600 !important;
+    border: none !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: var(--cor-primaria-escura) !important;
+}
+
+/* Switch de privacidade */
+.DashboardVisaoGeralProspecto .ui-toggleswitch {
+    margin-left: 8px;
+}
+
+
+/* Links (escopado para não vazar para o restante da página) */
+.DashboardVisaoGeralProspecto .ui-link {
+    color: #70bf82 !important;
+    text-decoration: none !important;
+}
+
+.DashboardVisaoGeralProspecto .ui-link:hover {
+    text-decoration: underline !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container-cards-cliente {
+        padding: 24px;
+        gap: 24px;
+        flex-direction: column;
+    }
+
+    .card-cliente {
+        padding: 24px;
+    }
+
+    .card-cliente-title-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .img-prospecto {
+        width: 100px;
+        height: 100px;
+    }
+
+    .card-cliente .card-conteudo {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .card-lado-direito {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .panel-observacao {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-cards-cliente {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .card-cliente {
+        padding: 16px;
+    }
+
+    .card-cliente-title-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .img-prospecto {
+        width: 80px;
+        height: 80px;
+    }
+
+    .text-informacao {
+        font-size: 0.9rem;
+    }
+}
+
+/* ============================================================
+   CARDS DE DASHBOARD MODERNOS
+   ============================================================ */
+.cards-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* h:form dentro do grid não pode virar célula: os filhos (cards)
+   passam a ser itens diretos do grid. Corrige o card "Nova
+   atividade" isolado no canto direito. */
+.cards-dashboard > form {
+    display: contents;
+}
+
+/* (variante .cards-dashboard--componente promovida para o
+   dashboard.css do componente — ver secao VARIANTE FLUIDA) */
+
+
+.card-moderno {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-moderno::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.card-moderno:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: #3498db;
+}
+
+.card-moderno.historico::before {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.card-moderno.arquivos::before {
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.card-moderno.orcamentos::before {
+    background: linear-gradient(90deg, #27ae60, #229954);
+}
+
+.card-moderno.email::before {
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+}
+
+.card-moderno.solicitacoes::before {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+}
+.card-moderno.chamados::before {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* (ESCOPADO — ver comentário em .card-cliente .card-conteudo) */
+.card-moderno .card-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-icone {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.card-icone.historico {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.card-icone.arquivos {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.card-icone.orcamentos {
+    background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.card-icone.email {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.card-icone.solicitacoes {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+.card-icone.chamados {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-valor {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1;
+}
+
+.card-descricao {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .cards-dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 15px 0;
+    }
+
+    .card-moderno {
+        padding: 15px;
+    }
+
+    .card-icone {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .card-valor {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-dashboard {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+
+.card-usuario {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.info-usuario {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.dados-usuario {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.texto-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nome-usuario {
+    font-weight: bold;
+}
+
+.botoes-acao {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.botao-acao {
+    width: 35px;
+    height: 35px;
+    white-space: nowrap;
+}
+
+/* Responsivo para mobile */
+@media (max-width: 768px) {
+    .card-usuario {
+        flex-direction: column;
+        align-items: start;
+        gap: 12px;
+    }
+
+    .botoes-acao {
+        align-items: center;
+    }
+
+    .texto-ellipsis {
+        max-width: 100%;
+    }
+}
+.card-contatos-titulo {
+    display: flex;
+    width: 100%;
+    margin-bottom: 32px;
+    justify-content: space-between;
+    align-items: center;
+}
+.botoes-container {
+    display: flex;
+    justify-content: end;
+    flex-direction: column; /* coloca um abaixo do outro */
+    gap: 10px;              /* espaçamento entre eles */
+
+}
+
+.botoes-container .badge-wrapper {
+    display: block;
+}
+.botoes-container .ui-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listagem-container-content {
+    width: 100%;
+}

@@ -22,6 +22,11 @@ public class AcoesAdminTools_TipoNotificacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_FRM_LISTAR");
 	}
 
+	public ItfAcaoFormularioEntidade getTipoNotificacaoFrmNovo() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_FRM_NOVO");
+	}
+
 	public ItfAcaoFormularioEntidade getTipoNotificacaoFrmEditar() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_FRM_EDITAR");

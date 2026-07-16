@@ -7,6 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoFabricaObjetos;
@@ -52,7 +53,11 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(id = 1000015, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar solicitação arquivo Equipe")
     NOTIFICACAO_SOLICITACAO_EQUIPE_ARQUIVO,
     @InfoObjetoDaFabrica(id = 1000016, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar atendimento à solicitação arquivo Equipe")
-    NOTIFICACAO_SOLICITACAO_EQUIPE_ARQUIVO_ENVIO,;
+    NOTIFICACAO_SOLICITACAO_EQUIPE_ARQUIVO_ENVIO,
+    @InfoObjetoDaFabrica(id = 1000017, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar solicitação arquivo ao Cliente")
+    NOTIFICACAO_SOLICITACAO_ARQUIVO_DA_EQUIPE_AO_CLIENTE,
+    @InfoObjetoDaFabrica(id = 1000018, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar solicitação confirmação ao Cliente")
+    NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE;
 
     public TiponotificacaoCRM getRegistro() {
         TiponotificacaoCRM tipoCRM = (TiponotificacaoCRM) ComoFabricaComPersistencia.super.getRegistro();
@@ -160,6 +165,31 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
                 tipoCRM.setNomeEntidadeReferencia(SolicitacaoArquivoEquipe.class.getSimpleName());
                 tipoCRM.setNotificarViaMenu(true);
                 tipoCRM.setNotificarViaMatrix(true);
+                tipoCRM.setNotificarViaEmail(true);
+                break;
+            case NOTIFICACAO_SOLICITACAO_ARQUIVO_DA_EQUIPE_AO_CLIENTE:
+                tipoCRM.setAssunto("[usuarioSolicitante.nome] solicita um arquivo em [categoriaArqCliente.nome] ");
+                tipoCRM.setConteudoHTML("Oi, [contatoPessoa.nome], [usuarioSolicitante.nome] solicita um arquivo em [categoriaArqCliente.nome], com essas caracteristcas: \" <blockquote>\n"
+                        + "  <p>[observacao]</p>\n" + "</blockquote> "
+                        + " O arquivo deve ser enviado até dia <h2> [dataHoraDataProgramada] </h2> "
+                        + "<p> Caso existam impedimentos para o envio do arquivo, entre em contato com <h2> [usuarioSolicitante.nome]</h2>, e estabeleça novas datas para ajustarmos nosso planejamento.</p>"
+                        + " <p>  para  fazer o upload clique em: [link:FabAcaoCRMCliente.DOCUMENTOS_FRM_LISTAR_ARQUIVOS_PASTA] </p>");
+                tipoCRM.setNomeEntidadeReferencia(SolicitacaoArquivoCliente.class.getSimpleName());
+                tipoCRM.setNotificarViaMenu(true);
+                tipoCRM.setNotificarViaTelaDeBLoqueio(true);
+                tipoCRM.setNotificarViaSMS(true);
+                tipoCRM.setNotificarViaMatrix(false);
+                tipoCRM.setNotificarViaEmail(true);
+                break;
+            case NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE:
+                tipoCRM.setAssunto("[usuarioSolicitante.nome] solicita uma confirmação");
+                tipoCRM.setConteudoHTML("Oi, [contatoPessoa.nome], [usuarioSolicitante.nome] Solicita uma resposta sobre essa questão: \" <blockquote>\n"
+                        + "  <p>[observacao]</p>\n" + "</blockquote> </p>");
+                tipoCRM.setNomeEntidadeReferencia(SolicitacaoArquivoCliente.class.getSimpleName());
+                tipoCRM.setNotificarViaMenu(true);
+                tipoCRM.setNotificarViaTelaDeBLoqueio(true);
+                tipoCRM.setNotificarViaSMS(true);
+                tipoCRM.setNotificarViaMatrix(false);
                 tipoCRM.setNotificarViaEmail(true);
                 break;
 

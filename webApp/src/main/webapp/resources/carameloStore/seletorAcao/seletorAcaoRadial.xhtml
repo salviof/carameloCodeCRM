@@ -1,0 +1,186 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--
+    ═══════════════════ CARAMELO STORE ═══════════════════
+    Componente : seletorAcaoRadial
+    Categoria  : seletorAcaoLinkSimples
+    Descrição  : Botão de ação padrão que, ao receber hover
+                 (ou primeiro toque no mobile), expande as
+                 demais ações em leque (arco) ou radial 360°.
+                 O footprint no layout é sempre o do botão
+                 padrão; as opções aparecem como overlay.
+    Git        : https://github.com/carameloCode/caramelo-store
+    Versão     : 1.3.0
+    ═══════════════════════════════════════════════════════
+    -->
+
+    <!-- INTERFACE -->
+    <cc:interface shortDescription="Seletor de ações com expansão radial/arco. Caramelo Store - seletorAcaoLinkSimples.">
+
+        <cc:attribute name="metodo" method-signature="void listener()"
+                      required="true"
+                      shortDescription="Metodo que será chamado ao selecionar uma ação"
+                      />
+
+        <cc:attribute name="opcoes" required="true"
+                      shortDescription="Lista de ações (ComoAcaoDoSistema). A ação padrão vira o botão principal; as demais expandem ao redor."
+                      />
+
+        <cc:attribute name="opcaoSelecionada"
+                      required="true"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"
+                      shortDescription="Bean onde a ação selecionada será armazenada"
+                      />
+
+        <cc:attribute name="update"
+                      default="#{null}" />
+
+        <cc:attribute name="modo"
+                      default="arco"
+                      shortDescription="Forma de expansão das opções: 'arco' (leque superior, recomendado para rótulos longos) ou 'radial' (360°)."
+                      />
+
+        <cc:attribute name="raio"
+                      default="90"
+                      shortDescription="Distância (px) entre o botão padrão e as opções expandidas."
+                      />
+
+        <cc:attribute name="indexAcaoPadrao"
+                      default="0"
+                      shortDescription="Índice, dentro de 'opcoes', da ação exibida como botão principal."
+                      />
+
+        <cc:attribute name="limiteLeque"
+                      default="5"
+                      shortDescription="Quantidade máxima de opções exibidas em leque/radial. Acima disso, o componente degrada automaticamente para uma lista vertical compacta."
+                      />
+
+        <cc:attribute name="memorizarUltimaAcao"
+                      default="false"
+                      shortDescription="Se true, memoriza (via localStorage, por página) a última ação usada e a promove a botão principal nas próximas visitas. Opt-in: quebra a previsibilidade entre usuários em troca de menos cliques em telas de uso repetitivo."
+                      />
+
+        <cc:attribute name="gitUrl"
+                      default="https://github.com/carameloCode/caramelo-store"
+                      shortDescription="Metadado Caramelo Store: endereço git de onde o componente é baixado."
+                      />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:outputStylesheet library="carameloStore" name="seletorAcao/seletorAcaoRadial.css"  />
+        <h:outputScript     library="carameloStore" name="seletorAcao/seletorAcaoRadial.js"  target="head" />
+
+        <h:panelGroup id="raiz" styleClass="SbBotoesDeEscolha crc-sar" layout="block">
+            <f:passThroughAttribute name="marcador" value="inputFormulario" />
+            <f:passThroughAttribute name="data-crc-componente" value="seletorAcaoRadial" />
+            <f:passThroughAttribute name="data-crc-modo" value="#{cc.attrs.modo}" />
+            <f:passThroughAttribute name="data-crc-raio" value="#{cc.attrs.raio}" />
+            <f:passThroughAttribute name="data-crc-limite" value="#{cc.attrs.limiteLeque}" />
+            <f:passThroughAttribute name="data-crc-memorizar" value="#{cc.attrs.memorizarUltimaAcao}" />
+
+            <p:blockUI
+                rendered="#{pgUtil.getNomeIdPFieldSetPai(component)!=null}"
+                block="#{pgUtil.getNomeIdPFieldSetPai(component)}"
+                widgetVar="#{pgUtil.getNomeIdPainelGroupInputSB(component)}#{pgUtil.getNomeIdPFieldSetPai(component)}"
+                >
+                <div style="
+                     z-index: 10000;
+                     position: absolute;
+                     margin-top: 0px;
+                     width: 200px;
+                     border: none !important;     padding: 0 !important;
+                     margin-left: 0px; "
+                     class="OrganizadorContainer"
+                     >
+                    <p:graphicImage name="recursos/img/preloader.gif" library="SBComp"/>
+                </div>
+            </p:blockUI>
+
+            <!-- Botão principal: a ação padrão, sempre visível e ocupando o footprint fixo -->
+            <ui:repeat value="#{cc.attrs.opcoes}" var="opc" varStatus="rec">
+
+                <p:commandButton
+                    rendered="#{rec.index eq cc.attrs.indexAcaoPadrao}"
+                    styleClass="crc-sar-main"
+                    value="#{opc.nomeAcao}"
+                    icon="#{opc.iconeAcao}"
+                    title="#{opc.nomeAcao}"
+                    onstart="PF('#{pgUtil.getNomeIdPainelGroupInputSB(component)}#{pgUtil.getNomeIdPFieldSetPai(component)}').show();"
+                    oncomplete="acoesPosAjax()"
+                    action="#{cc.attrs.metodo}"
+                    update="#{pgUtil.gerarCaminhoCompletoID(cc.attrs.update)}"
+                    >
+                    <f:passThroughAttribute name="aria-haspopup" value="true" />
+                    <f:passThroughAttribute name="aria-expanded" value="false" />
+                    <f:passThroughAttribute name="aria-controls" value="#{cc.clientId}:opcoes" />
+                    <f:passThroughAttribute name="data-crc-acao" value="#{opc.nomeAcao}" />
+                    <f:setPropertyActionListener
+                        target="#{cc.attrs.opcaoSelecionada}"
+                        value="#{opc}"/>
+                    <p:ajax event="dialogReturn"
+                            rendered="#{opc.acaoTemModal}"
+                            update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                            oncomplete="acoesPosAjax()"
+                            listener="#{paginaAtual.infoPagina.metodoRespostaModal}"
+                            />
+                </p:commandButton>
+
+            </ui:repeat>
+
+            <!-- Badge: indica quantas ações adicionais estão ocultas no leque -->
+            <h:panelGroup rendered="#{cc.attrs.opcoes.size() gt 1}"
+                          styleClass="crc-sar-badge">
+                <f:passThroughAttribute name="title"
+                                        value="+#{cc.attrs.opcoes.size() - 1} opções" />
+                <f:passThroughAttribute name="aria-hidden" value="true" />
+                +#{cc.attrs.opcoes.size() - 1}
+            </h:panelGroup>
+
+            <!-- Opções expandidas: overlay posicionado pelo JS ao redor do botão principal -->
+            <h:panelGroup id="opcoes" layout="block" styleClass="crc-sar-opcoes">
+                <f:passThroughAttribute name="role" value="menu" />
+                <f:passThroughAttribute name="aria-hidden" value="true" />
+                <f:passThroughAttribute name="aria-label" value="Ações adicionais" />
+                <ui:repeat value="#{cc.attrs.opcoes}" var="opc" varStatus="rec">
+
+                    <p:commandButton
+                        rendered="#{rec.index ne cc.attrs.indexAcaoPadrao}"
+                        styleClass="crc-sar-opt"
+                        value="#{opc.nomeAcao}"
+                        icon="#{opc.iconeAcao}"
+                        title="#{opc.nomeAcao}"
+                        tabindex="-1"
+                        onstart="PF('#{pgUtil.getNomeIdPainelGroupInputSB(component)}#{pgUtil.getNomeIdPFieldSetPai(component)}').show();"
+                        oncomplete="acoesPosAjax()"
+                        action="#{cc.attrs.metodo}"
+                        update="#{pgUtil.gerarCaminhoCompletoID(cc.attrs.update)}"
+                        >
+                        <f:passThroughAttribute name="role" value="menuitem" />
+                        <f:passThroughAttribute name="data-crc-acao" value="#{opc.nomeAcao}" />
+                        <f:setPropertyActionListener
+                            target="#{cc.attrs.opcaoSelecionada}"
+                            value="#{opc}"/>
+                        <p:ajax event="dialogReturn"
+                                rendered="#{opc.acaoTemModal}"
+                                update="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
+                                oncomplete="acoesPosAjax()"
+                                listener="#{paginaAtual.infoPagina.metodoRespostaModal}"
+                                />
+                    </p:commandButton>
+
+                </ui:repeat>
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

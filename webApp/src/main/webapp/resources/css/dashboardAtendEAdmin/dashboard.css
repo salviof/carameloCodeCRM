@@ -49,9 +49,15 @@
 
 .cards-dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    /* grade fluida: piso de 400px para o texto caber, e o
+       min(100%, ...) deixa a celula encolher quando o proprio
+       container for mais estreito — dispensa media queries.
+       !important vence redefinicoes desta classe em outros
+       arquivos (opcoes_do_prospecto.css, prospecto.css). */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)) !important;
+    gap: 16px;
     padding: 20px 0;
+    align-items: stretch;
 }
 
 .card-moderno {
@@ -388,7 +394,6 @@
 
 @media (max-width: 768px) {
     .cards-dashboard {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 15px;
         padding: 15px 0;
     }
@@ -410,7 +415,129 @@
 
 @media (max-width: 480px) {
     .cards-dashboard {
-        grid-template-columns: 1fr;
         gap: 12px;
     }
+}
+
+/* ============================================
+   COMPORTAMENTO FLUIDO (padrao de .cards-dashboard)
+   Antes era a variante opt-in "cards-dashboard componente";
+   promovido a padrao da classe base. A classe extra que ainda
+   existir em wrappers antigos e inofensiva e pode ser removida
+   aos poucos.
+
+   Resolve dois problemas do card nesse contexto:
+   1. O componente aplica INLINE min-width:420px no desktop
+      (decidido no servidor), que estoura celulas estreitas;
+   2. A base .cards-dashboard e suas media queries (768/480px)
+      disputam a cascata e causam saltos de layout.
+
+   A declaracao de colunas cobre todas as larguras sozinha:
+   piso de 400px para o texto caber, e min(100%, ...) deixa a
+   celula encolher quando o proprio container for mais estreito
+   que isso — media queries desnecessarias.
+   ============================================ */
+
+/* h:form dentro do grid nao pode virar celula: os filhos
+   (cards) passam a ser itens diretos do grid */
+.cards-dashboard > form {
+    display: contents;
+}
+
+/* vence o min/max-width inline do componente: o card obedece
+   a celula do grid */
+.cards-dashboard .card-moderno {
+    min-width: 0 !important;
+    /* teto de largura NO CARD (nao na trilha do grid): as colunas
+       1fr continuam iguais e preenchendo a linha inteira, e o card
+       se centraliza na propria celula — distribuicao simetrica em
+       qualquer largura, sem afetar a logica de quebra de colunas.
+       O !important tambem vence o max-width:600px inline do
+       componente. */
+    max-width: 560px !important;
+    margin-inline: auto;
+    width: auto !important;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* o link ocupa a celula inteira, e vira um "container" cujo
+   tamanho os filhos podem consultar via @container */
+.cards-dashboard > a,
+.cards-dashboard a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    container-type: inline-size;
+}
+
+/* doma o conteudo interno para caber no piso de 400px:
+   icone menor que os 90px inline e fontes um degrau abaixo
+   (especificidade maior que .Fs24/.Fs30 vence os !important) */
+.cards-dashboard .card-icone {
+    min-width: 64px !important;
+    min-height: 64px !important;
+    width: 64px;
+    height: 64px;
+}
+
+.cards-dashboard .card-icone i {
+    font-size: 32px !important;
+}
+
+.cards-dashboard .card-valor {
+    font-size: 26px !important;
+}
+
+.cards-dashboard .card-titulo {
+    font-size: 21px !important;
+    white-space: normal;      /* titulo pode quebrar linha */
+    line-height: 1.25;
+}
+
+/* --- layout adaptativo do card (container query) ---
+   Quando o CARD (nao a tela) ficar estreito, o conteudo se
+   rearranja: icone a esquerda + numero grande a direita na
+   primeira linha, e o titulo desce ocupando toda a largura.
+   O texto nunca corta, em qualquer numero de colunas.
+   (Navegadores antigos ignoram o bloco e mantem o layout atual.) */
+@container (max-width: 419px) {
+    .cards-dashboard .card-conteudo {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 6px;
+    }
+
+    /* promove valor e titulo a itens diretos do flex do card */
+    .cards-dashboard .card-info {
+        display: contents;
+    }
+
+    .cards-dashboard .card-icone {
+        min-width: 52px !important;
+        min-height: 52px !important;
+        width: 52px;
+        height: 52px;
+    }
+
+    .cards-dashboard .card-icone i {
+        font-size: 26px !important;
+    }
+
+    .cards-dashboard .card-valor {
+        font-size: 40px !important;
+        flex: 1;               /* ocupa o espaco entre o icone e a borda */
+        text-align: center;    /* e centraliza o numero nesse espaco */
+        align-self: center;
+    }
+
+    .cards-dashboard .card-titulo {
+        flex-basis: 100%;
+        width: 100%;
+        text-align: center;
+        margin: 4px 0 0 0 !important;
+    }
+}
+.ui-tabs-panels {
+    background-color: #f6f9f2!important;
 }

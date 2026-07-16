@@ -1,0 +1,193 @@
+/* ============================================================
+   Caramelo Store — listaAcaoUnica.css
+   Local: resources/carameloStore/listagem/listaAcaoUnica.css
+   Componente: listagem com seleção de linha inteira (ação única)
+   Classe pai: .carameloStoreListaAcaoUnica (aplicar no p:dataTable
+   via styleClass)
+   ============================================================ */
+
+.carameloStoreListaAcaoUnica {
+    /* Paleta neutra — ajuste fino em um lugar só */
+    --cs-lau-linha-par:        #ffffff;
+    --cs-lau-linha-impar:      #f6f7f8;   /* cinza quase branco */
+    --cs-lau-hover:            #dbe7f3;   /* azul acinzentado com presença */
+    --cs-lau-hover-txt:        #1f2c3a;   /* texto escurece no hover */
+    --cs-lau-acento:           #3d6a99;   /* azul ardósia (barra/foco) */
+    --cs-lau-selecionada:      #c9dcef;
+    --cs-lau-selecionada-txt:  #1f2c3a;
+    --cs-lau-texto:            #45494d;
+    --cs-lau-header-fundo:     #f1f3f5;
+    --cs-lau-header-texto:     #3d4348;
+    --cs-lau-borda:            #e3e6e9;
+    --cs-lau-altura-linha:     52px;
+    --cs-lau-fonte:            17px;      /* corpo das células */
+    --cs-lau-fonte-header:     14.5px;
+    --cs-lau-transicao:        .18s ease-in-out;
+}
+
+/* ------------------------------------------------------------
+   1. Linha inteira clicável
+      O DataTable do PrimeFaces ignora cliques originados em
+      inputs, links e widgets dentro da linha. Como nesta
+      listagem NADA dentro da célula é interativo, tornamos
+      TODO o conteúdo das células transparente ao clique:
+      o evento nasce direto no <td> e o rowSelect dispara
+      em qualquer ponto da linha.
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica tbody tr > td * {
+    pointer-events: none !important;
+}
+
+/* Inputs desabilitados herdam o visual de texto comum */
+.carameloStoreListaAcaoUnica tbody .ui-inputfield {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--cs-lau-texto) !important;
+    opacity: 1 !important;
+    font-size: var(--cs-lau-fonte) !important;
+}
+
+/* ------------------------------------------------------------
+   2. Linhas maiores e zebra striping
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica tbody tr {
+    height: var(--cs-lau-altura-linha);
+    cursor: pointer;
+    transition: background-color var(--cs-lau-transicao),
+        box-shadow var(--cs-lau-transicao);
+}
+
+.carameloStoreListaAcaoUnica tbody tr > td {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    vertical-align: middle !important;
+    border-color: var(--cs-lau-borda) !important;
+    font-size: var(--cs-lau-fonte) !important;
+}
+
+/* O inputSB renderiza ui-outputlabel (modo leitura) ou ui-inputfield;
+   ambos têm font-size próprio no tema e não herdam do td.
+   Seletores espelham o DOM real (.inputCampo/.inputCampoResumido)
+   com especificidade alta para vencer o SBInputs.css */
+.carameloStoreListaAcaoUnica tbody tr > td .ui-outputlabel,
+.carameloStoreListaAcaoUnica tbody tr > td .ui-outputlabel-label,
+.carameloStoreListaAcaoUnica tbody tr > td label,
+.carameloStoreListaAcaoUnica tbody tr > td span,
+.carameloStoreListaAcaoUnica.ui-datatable tbody td .inputCampo label,
+.carameloStoreListaAcaoUnica.ui-datatable tbody td .inputCampo .ui-outputlabel-label,
+.carameloStoreListaAcaoUnica.ui-datatable tbody td .inputCampoResumido label,
+.carameloStoreListaAcaoUnica.ui-datatable tbody td .inputCampoResumido .ui-outputlabel-label {
+    font-size: var(--cs-lau-fonte) !important;
+    line-height: 1.4 !important;
+    color: inherit;
+}
+
+/* Zebra: sobrescreve o even/odd do tema PrimeFaces */
+.carameloStoreListaAcaoUnica tbody tr.ui-datatable-even {
+    background: var(--cs-lau-linha-par);
+}
+
+.carameloStoreListaAcaoUnica tbody tr.ui-datatable-odd {
+    background: var(--cs-lau-linha-impar);
+}
+
+/* ------------------------------------------------------------
+   3. Hover: affordance clara de clique
+      Barra ardósia à esquerda (via inset shadow no 1º td,
+      imune a border-collapse) + fundo levemente escurecido
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica tbody tr.ui-datatable-even:hover,
+.carameloStoreListaAcaoUnica tbody tr.ui-datatable-odd:hover,
+.carameloStoreListaAcaoUnica tbody tr.ui-state-hover {
+    background: var(--cs-lau-hover) !important;
+    color: var(--cs-lau-hover-txt) !important;
+    box-shadow: 0 3px 10px rgba(31, 44, 58, .18);
+    position: relative;   /* garante a sombra por cima das linhas vizinhas */
+    z-index: 1;
+}
+
+.carameloStoreListaAcaoUnica tbody tr:hover > td:first-child,
+.carameloStoreListaAcaoUnica tbody tr.ui-state-hover > td:first-child {
+    box-shadow: inset 6px 0 0 var(--cs-lau-acento);
+}
+
+/* Texto dos campos acompanha o escurecimento no hover */
+.carameloStoreListaAcaoUnica tbody tr:hover .ui-inputfield,
+.carameloStoreListaAcaoUnica tbody tr.ui-state-hover .ui-inputfield {
+    color: var(--cs-lau-hover-txt) !important;
+}
+
+/* Micro-deslocamento do conteúdo: reforça que a linha "responde" */
+.carameloStoreListaAcaoUnica tbody tr > td:first-child {
+    transition: padding-left var(--cs-lau-transicao);
+}
+
+.carameloStoreListaAcaoUnica tbody tr:hover > td:first-child,
+.carameloStoreListaAcaoUnica tbody tr.ui-state-hover > td:first-child {
+    padding-left: 14px !important;
+}
+
+/* ------------------------------------------------------------
+   4. Linha selecionada
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica tbody tr.ui-state-highlight {
+    background: var(--cs-lau-selecionada) !important;
+    color: var(--cs-lau-selecionada-txt) !important;
+}
+
+.carameloStoreListaAcaoUnica tbody tr.ui-state-highlight > td:first-child {
+    box-shadow: inset 6px 0 0 var(--cs-lau-acento);
+}
+
+.carameloStoreListaAcaoUnica tbody tr.ui-state-highlight .ui-inputfield {
+    color: var(--cs-lau-selecionada-txt) !important;
+}
+
+/* ------------------------------------------------------------
+   5. Acessibilidade: navegação por teclado
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica tbody tr:focus,
+.carameloStoreListaAcaoUnica tbody tr.ui-state-focus {
+    outline: 2px solid var(--cs-lau-acento);
+    outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carameloStoreListaAcaoUnica tbody tr {
+        transition: none;
+    }
+}
+
+/* ------------------------------------------------------------
+   6. Cabeçalho da tabela
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica thead th {
+    background: var(--cs-lau-header-fundo) !important;
+    color: var(--cs-lau-header-texto) !important;
+    font-weight: 600;
+    font-size: var(--cs-lau-fonte-header) !important;
+    letter-spacing: .02em;
+    border-color: var(--cs-lau-borda) !important;
+    padding: 10px 8px !important;
+}
+
+/* Header do dataTable (título + pesquisa) */
+.carameloStoreListaAcaoUnica .ui-datatable-header {
+    background: #fbfcfd !important;
+    border-color: var(--cs-lau-borda) !important;
+}
+
+/* ------------------------------------------------------------
+   7. Paginador coerente com a paleta
+   ------------------------------------------------------------ */
+.carameloStoreListaAcaoUnica .ui-paginator {
+    background: #fbfcfd !important;
+    border-color: var(--cs-lau-borda) !important;
+}
+
+.carameloStoreListaAcaoUnica .ui-paginator .ui-paginator-page.ui-state-active {
+    background: var(--cs-lau-acento) !important;
+    border-color: var(--cs-lau-acento) !important;
+    color: #ffffff !important;
+}

@@ -42,7 +42,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
     @Override
     protected void configAmbienteDesevolvimento() {
         SBCore.configurar(new ConfigCoreWebAppCrmCarameloCode(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, true);
+        SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
         try {
             SBWebPaginas.configurar(new ConfigWP_CRM_CarameloCode());
         } catch (IOException ex) {

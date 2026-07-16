@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabTipoSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAcessoCard;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoOrcamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
@@ -21,6 +21,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.T
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -37,6 +38,40 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
  * @author salvio
  */
 public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersistencia {
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO)
+    public static ItfRespostaAcaoDoSistema solicitacaoEnviarArquivoEquipe(Solicitacao pSOlicitacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSOlicitacao), pSOlicitacao) {
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                Solicitacao solicitacao = loadEntidade(pSOlicitacao);
+
+                if (solicitacao instanceof SolicitacaoArquivoCliente) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPE.getRegistro().getComoFormulario());
+                }
+                if (solicitacao instanceof SolicitacaoArquivoEquipe) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPE.getRegistro().getComoFormulario());
+                }
+                if (solicitacao instanceof SolicitacaoChamado) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE.getRegistro().getComoFormulario());
+                }
+                if (solicitacao instanceof SolicitacaoOrcamento) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ORCAMENTO.getRegistro().getComoFormulario());
+                }
+
+                if (solicitacao instanceof SolicitacaoConfirmacaoCliente) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CONFIRMACAO_EQUIPE.getRegistro().getComoFormulario());
+                }
+
+                if (solicitacao instanceof SolicitacaoAcessoCard) {
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_CONCEDER_ACESSO.getRegistro().getComoFormulario());
+                }
+
+            }
+        }.getResposta();
+
+    }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_ENVIAR_ARQUIVO_EQUIPE)
     public static ItfRespostaAcaoDoSistema solicitacaoEnviarArquivoEquipe(SolicitacaoArquivoEquipe pSOlicitacao) {
@@ -72,6 +107,79 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
         }
                 .getResposta();
 
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_CLIENTE)
+    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarConfirmacaoCliente(final SolicitacaoConfirmacaoCliente pSolicitacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pSolicitacao.getContatoPessoa() == null) {
+                    throw new ErroRegraDeNegocio("Defina o contato responsável");
+                }
+                ContatoProspecto ct = UtilSBPersistencia.loadEntidade(pSolicitacao.getContatoPessoa(), getEm());
+
+                if (ct.getCPinst("usuarioVinculado").getValor() == null) {
+                    throw new ErroRegraDeNegocio("O contato não tem um usuário vincolado, verifique se o e-mail foi definido");
+                }
+                if (ct.getUsuarioVinculado().getId() == null) {
+                    ct.setUsuarioVinculado(atualizarEntidade(ct.getUsuarioVinculado()));
+                }
+                pSolicitacao.setUsuarioSolicitado(ct.getUsuarioVinculado());
+                SolicitacaoConfirmacaoCliente solicitacaoCriada = atualizarEntidade(pSolicitacao);
+                setRetorno(pSolicitacao);
+                NotificacaoSB notificacao;
+                try {
+                    notificacao = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE.getRegistro(getEm()),
+                            pSolicitacao.getUsuarioSolicitado(), solicitacaoCriada);
+                    solicitacaoCriada.setCodigoSelo(notificacao.getCodigoSeloComunicacao());
+
+                } catch (ErroGerandoNotificacao ex) {
+                    throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
+                }
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+
+            }
+        }.getResposta();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_CLIENTE)
+    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarArquivoCliente(final SolicitacaoArquivoCliente pSolicitacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pSolicitacao.getContatoPessoa() == null) {
+                    throw new ErroRegraDeNegocio("Defina o contato responsável");
+                }
+                ContatoProspecto ct = UtilSBPersistencia.loadEntidade(pSolicitacao.getContatoPessoa(), getEm());
+
+                if (ct.getCPinst("usuarioVinculado").getValor() == null) {
+                    throw new ErroRegraDeNegocio("O contato não tem um usuário vincolado, verifique se o e-mail foi definido");
+                }
+                if (ct.getUsuarioVinculado().getId() == null) {
+                    ct.setUsuarioVinculado(atualizarEntidade(ct.getUsuarioVinculado()));
+                }
+                pSolicitacao.setUsuarioSolicitado(ct.getUsuarioVinculado());
+                SolicitacaoArquivoCliente solicitacaoCriada = atualizarEntidade(pSolicitacao);
+                setRetorno(pSolicitacao);
+                NotificacaoSB notificacao;
+                try {
+                    notificacao = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICACAO_SOLICITACAO_ARQUIVO_DA_EQUIPE_AO_CLIENTE.getRegistro(getEm()),
+                            pSolicitacao.getUsuarioSolicitado(), solicitacaoCriada);
+                    solicitacaoCriada.setCodigoSelo(notificacao.getCodigoSeloComunicacao());
+
+                } catch (ErroGerandoNotificacao ex) {
+                    throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
+                }
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+
+            }
+        }.getResposta();
     }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_EQUIPE)
@@ -175,31 +283,6 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 if (pSolicitacao.getObservacao() == null || pSolicitacao.getObservacao().length() < 10) {
                     throw new ErroRegraDeNegocio("Descreva melhor sua solicitação");
                 }
-
-                atualizarEntidade(pSolicitacao);
-                addAviso("A solicitação foi enviada para " + pSolicitacao.getUsuarioSolicitado().getNome());
-
-            }
-        }.getResposta();
-    }
-
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_CLIENTE)
-    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarArquivoCliente(final SolicitacaoArquivoCliente pSolicitacao) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-
-                atualizarEntidade(pSolicitacao);
-
-            }
-        }.getResposta();
-    }
-
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPE)
-    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarConfirmacaoCliente(SolicitacaoConfirmacaoCliente pSolicitacao) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
 
                 atualizarEntidade(pSolicitacao);
                 addAviso("A solicitação foi enviada para " + pSolicitacao.getUsuarioSolicitado().getNome());

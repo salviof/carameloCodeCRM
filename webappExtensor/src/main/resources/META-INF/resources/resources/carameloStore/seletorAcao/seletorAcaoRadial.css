@@ -1,0 +1,225 @@
+/* ═══════════════════ CARAMELO STORE ═══════════════════
+   Componente : seletorAcaoRadial (CSS)
+   Categoria  : seletorAcaoLinkSimples
+   Git        : https://github.com/carameloCode/caramelo-store
+   Versão     : 1.1.0
+   ═══════════════════════════════════════════════════════ */
+
+.crc-sar {
+    position: relative;
+    display: inline-block;
+
+    /* Ajuste fino */
+    --crc-sar-z: 10500;
+    --crc-sar-duracao: .28s;
+    --crc-sar-stagger: 30ms;
+    --crc-sar-altura: 44px;       /* altura mínima dos botões */
+    --crc-sar-fonte: 1.05em;
+    --crc-sar-max-rotulo: 240px;  /* rótulos maiores ganham ellipsis + tooltip */
+
+    /* Tokens de tema — sobrescreva no dark mode ou nas famílias de cor */
+    --crc-sar-superficie: #fff;
+    --crc-sar-anel: rgba(0, 0, 0, .07);
+    --crc-sar-foco: #4c8dff;
+    --crc-sar-backdrop: rgba(0, 0, 0, .35);
+    --crc-sar-badge-bg: #eceff2;
+    --crc-sar-badge-cor: #5c6670;
+    --crc-sar-badge-borda: #fff;
+}
+
+/* Âncora invisível no centro do botão principal.
+   As opções são posicionadas a partir deste ponto. */
+.crc-sar-opcoes {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* ── Botão principal ─────────────────────────────────── */
+.crc-sar .crc-sar-main.ui-button,
+.crc-sar .crc-sar-main {
+    position: relative;
+    z-index: calc(var(--crc-sar-z) + 1);
+    border-radius: 24px;
+    white-space: nowrap;
+    min-height: var(--crc-sar-altura);
+    font-size: var(--crc-sar-fonte);
+}
+
+.crc-sar.crc-sar-aberto .crc-sar-main {
+    box-shadow: 0 0 0 4px var(--crc-sar-anel);
+}
+
+/* ── Opções (estado fechado) ─────────────────────────── */
+.crc-sar .crc-sar-opt.ui-button,
+.crc-sar .crc-sar-opt {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    margin: 0;
+    white-space: nowrap;
+    border-radius: 22px;
+    z-index: var(--crc-sar-z);
+    min-height: var(--crc-sar-altura);
+    font-size: var(--crc-sar-fonte);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(.4);
+    /* Overshoot leve: a sensação de "mola" na expansão */
+    transition:
+        transform var(--crc-sar-duracao) cubic-bezier(.34, 1.4, .44, 1),
+        opacity .18s ease-out;
+    will-change: transform, opacity;
+}
+
+/* Miolo do botão PrimeFaces: área de clique generosa +
+   ellipsis em rótulos longos (o title vira tooltip nativo).
+   O padding-left fica com o tema, preservando o ícone.   */
+.crc-sar .crc-sar-main .ui-button-text,
+.crc-sar .crc-sar-opt .ui-button-text {
+    display: block;
+    max-width: var(--crc-sar-max-rotulo);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top: .65em;
+    padding-bottom: .65em;
+    padding-right: 1.4em;
+}
+
+/* ── Opções (estado aberto) ──────────────────────────── */
+/* --crc-x e --crc-y são calculados pelo seletorAcaoRadial.js
+   nos modos arco, radial e lista.                          */
+.crc-sar.crc-sar-aberto .crc-sar-opt {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(calc(-50% + var(--crc-x, 0px)),
+        calc(-50% + var(--crc-y, 0px))) scale(1);
+}
+
+.crc-sar.crc-sar-aberto .crc-sar-opt:hover,
+.crc-sar.crc-sar-aberto .crc-sar-opt:focus {
+    transform: translate(calc(-50% + var(--crc-x, 0px)),
+        calc(-50% + var(--crc-y, 0px))) scale(1.06);
+}
+
+/* ── Feedback de seleção ─────────────────────────────── */
+/* Ao clicar numa opção: as irmãs somem na hora e a
+   escolhida ganha um anel de confirmação antes do ajax.  */
+.crc-sar.crc-sar-aberto .crc-sar-opt.crc-sar-some {
+    opacity: 0;
+    transition: opacity .12s ease-out;
+}
+
+.crc-sar.crc-sar-aberto .crc-sar-opt.crc-sar-escolhida {
+    box-shadow: 0 0 0 4px var(--crc-sar-anel);
+}
+
+/* ── Foco visível (navegação por teclado) ────────────── */
+.crc-sar .crc-sar-main:focus-visible,
+.crc-sar .crc-sar-opt:focus-visible {
+    outline: 2px solid var(--crc-sar-foco);
+    outline-offset: 2px;
+}
+
+/* ── Badge de contagem ───────────────────────────────── */
+.crc-sar .crc-sar-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 11px;
+    background: var(--crc-sar-badge-bg);
+    color: var(--crc-sar-badge-cor);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    border: 2px solid var(--crc-sar-badge-borda);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+    z-index: calc(var(--crc-sar-z) + 2);
+    pointer-events: none;
+    transition: transform .2s ease-out, opacity .2s ease-out;
+}
+
+.crc-sar.crc-sar-aberto .crc-sar-badge {
+    opacity: 0;
+    transform: scale(.5);
+}
+
+/* ── Bottom sheet (viewport estreita) ────────────────── */
+/* O JS adiciona .crc-sar-sheet quando a tela é pequena:
+   as opções deixam o leque e sobem como folha inferior.  */
+.crc-sar.crc-sar-sheet .crc-sar-opcoes {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    background: var(--crc-sar-superficie);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, .18);
+    z-index: calc(var(--crc-sar-z) + 3);
+    transform: translateY(105%);
+    transition: transform .3s cubic-bezier(.32, .72, .24, 1);
+    visibility: hidden;
+    pointer-events: auto;
+}
+
+/* "Puxador" decorativo, convenção de bottom sheet */
+.crc-sar.crc-sar-sheet .crc-sar-opcoes::before {
+    content: "";
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, .15);
+    margin: 0 auto 6px;
+}
+
+.crc-sar.crc-sar-sheet.crc-sar-aberto .crc-sar-opcoes {
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.crc-sar.crc-sar-sheet .crc-sar-opt,
+.crc-sar.crc-sar-sheet .crc-sar-opt.ui-button {
+    position: static !important;
+    transform: none !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Backdrop escurecendo a página atrás do sheet */
+.crc-sar.crc-sar-sheet.crc-sar-aberto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: var(--crc-sar-backdrop);
+    z-index: calc(var(--crc-sar-z) + 2);
+}
+
+/* ── Acessibilidade ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .crc-sar .crc-sar-opt {
+        transition: opacity .15s ease-out;
+        transform: translate(calc(-50% + var(--crc-x, 0px)),
+            calc(-50% + var(--crc-y, 0px))) scale(1);
+    }
+    .crc-sar.crc-sar-sheet .crc-sar-opcoes {
+        transition: none;
+    }
+}

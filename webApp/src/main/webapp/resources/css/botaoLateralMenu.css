@@ -356,3 +356,14 @@ body .ui-overlay-badge .ui-badge {
     margin: 0;
 }
 
+/* modo top no mobile: altura de verdade + scroll interno,
+   para o conteúdo não vazar da caixa */
+@media (max-width: 800px) {
+    .sidebarProspecto.ui-sidebar-top {
+        height: auto !important;     /* cresce conforme o conteúdo */
+        max-height: 95vh;            /* teto: nunca engole a tela toda */
+        width: 100% !important;
+        overflow-y: auto;            /* scroll só se passar do teto */
+        border-radius: 0 0 16px 16px;
+    }
+}
