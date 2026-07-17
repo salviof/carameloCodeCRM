@@ -37,7 +37,8 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
 @InfoObjetoSB(tags = "Solicitação confirnação cliente", plural = "Solicitações de confirmações de cliente")
 public class SolicitacaoConfirmacaoCliente extends Solicitacao {
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Contato", obrigatorio = true, caminhoParaLista = "pessoa.contatosProspecto")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA,
+            label = "Contato", obrigatorio = true, caminhoParaLista = "pessoa.contatosProspecto")
     @ManyToOne(targetEntity = ContatoProspecto.class)
     private ContatoProspecto contatoPessoa;
 
@@ -47,7 +48,8 @@ public class SolicitacaoConfirmacaoCliente extends Solicitacao {
     private String descricaoConfirmacao;
 
     @Enumerated(EnumType.STRING)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, nomeOrigem = "Tipo Questão")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA,
+            nomeOrigem = "Tipo Questão", obrigatorio = true)
     private FabTipoComunicacao fabTipoComunicacao = FabTipoComunicacao.NOTIFICAR;
 
     @Transient

@@ -5,8 +5,8 @@ import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormularioEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
 
 @Named
 @ApplicationScoped
@@ -15,6 +15,26 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 	public ItfAcaoFormulario getSolicitacaoMbGestao() {
 		return (ItfAcaoFormulario) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_MB_GESTAO");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovaNotificacaoCliente() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVA_NOTIFICACAO_CLIENTE");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmNovaNotificacaoEquipe() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVA_NOTIFICACAO_EQUIPE");
+	}
+
+	public ComoAcaoControllerEntidade getSolicitacaoCtrSolicitarCriacaoOrcamento() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICITAR_CRIACAO_ORCAMENTO");
+	}
+
+	public ComoAcaoControllerEntidade getSolicitacaoCtrSolicitarAberturaChamado() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICITAR_ABERTURA_CHAMADO");
 	}
 
 	public ComoAcaoControllerEntidade getSolicitacaoCtrAbrirFormularioResolucao() {
@@ -45,6 +65,16 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbertos() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbertosCliente() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE");
+	}
+
+	public ItfAcaoFormularioEntidade getSolicitacaoFrmListarMeusPedidosAbertosEquipe() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE");
 	}
 
 	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarAcessoPessoa() {

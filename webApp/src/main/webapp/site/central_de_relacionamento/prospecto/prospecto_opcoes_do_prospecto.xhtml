@@ -196,27 +196,7 @@
 
                             <h:panelGroup styleClass="listagem-container-content">
                                 <h:panelGroup styleClass="botoes-container Fright">
-                                    <h:panelGroup styleClass="badge-wrapper">
-                                        <p:badge
-                                            value="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor}"
-                                            severity="info">
 
-                                            <h:form>
-                                                <p:commandButton
-                                                    actionListener="#{servicosCRM.exibirModalProspecto(pgProspecto.entidadeSelecionada,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos)}"
-                                                    value="Editar Contatos"
-                                                    icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos.icone}">
-                                                    <p:ajax event="click" listener="#{pgProspecto.onModalProspectoOpen}"/>
-                                                    <p:ajax event="dialogReturn"
-                                                            listener="#{pgProspecto.onModalProspectoClose}"
-                                                            onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
-                                                            oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
-                                                            update="#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}"/>
-                                                </p:commandButton>
-                                            </h:form>
-
-                                        </p:badge>
-                                    </h:panelGroup>
                                     <h:form>
 
                                         <p:commandButton
@@ -232,6 +212,7 @@
                                         </p:commandButton>
 
                                     </h:form>
+
                                 </h:panelGroup>
 
 
@@ -266,7 +247,6 @@
                 </p:tab>
                 <p:tab>
                     <f:facet name="title">
-
                         <h:panelGroup  styleClass="Fs24 fa fa-play-circle-o" layout="block">
                             <p:outputLabel
                                 styleClass="Fs24 "
@@ -279,11 +259,7 @@
 
                             <p:tooltip for="@(.fa-play-circle-o)" value="Atividades em andamento (Chamados, solicitações, e Agenda)" position="bottom"/>
                         </h:panelGroup>
-
-
-
                     </f:facet>
-
                     <crmPessoa:dashboardInteracao pessoa="#{pgProspecto.prospecto}"/>
                 </p:tab>
             </p:tabView>

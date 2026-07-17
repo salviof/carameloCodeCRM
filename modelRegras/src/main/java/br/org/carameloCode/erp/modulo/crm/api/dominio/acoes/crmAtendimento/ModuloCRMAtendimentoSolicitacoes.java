@@ -61,6 +61,10 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
 
                 if (solicitacao instanceof SolicitacaoConfirmacaoCliente) {
+                    throw new ErroRegraDeNegocio("O cliente deve confirmar essa ação");
+                }
+
+                if (solicitacao instanceof SolicitacaoConfirmacaoEquipe) {
                     setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CONFIRMACAO_EQUIPE.getRegistro().getComoFormulario());
                 }
 

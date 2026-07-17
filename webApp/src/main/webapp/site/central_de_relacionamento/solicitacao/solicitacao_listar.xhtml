@@ -11,11 +11,11 @@
     </ui:define>
     <ui:define name="conteudo" >
         <CRCListagem:listaAcaoUnica
-            acaoExecucao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrAbrirFormularioResolucao}"
+            acaoExecucao="#{pgSolicitacaoAtendimento.acaoUnicaListagem}"
             itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
 
             />
-
+        #{pgSolicitacaoAtendimento}
 
 
     </ui:define>

@@ -173,7 +173,7 @@ simples, centralizados verticalmente e sem largura de grid.  */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 48px;
+
     gap: 32px;
 }
 

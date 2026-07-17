@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 public class SolicitacaoOrcamento extends Solicitacao {
 
     @ManyToOne(targetEntity = Orcamento.class)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "pessoa.orcamentos")
     private Orcamento orcamento;
 
     public SolicitacaoOrcamento() {

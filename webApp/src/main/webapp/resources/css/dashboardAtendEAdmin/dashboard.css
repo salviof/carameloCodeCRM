@@ -482,7 +482,7 @@
 }
 
 .cards-dashboard .card-icone i {
-    font-size: 32px !important;
+    font-size: 32px;
 }
 
 .cards-dashboard .card-valor {
@@ -540,4 +540,25 @@
 }
 .ui-tabs-panels {
     background-color: #f6f9f2!important;
+}
+
+
+.icone-composto {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+}
+
+.icone-composto .icone-badge {
+    position: absolute;
+    bottom: -0.35em;
+    right: -0.1em;
+    font-size: 1.2em!important; /* aqui você controla o tamanho do badge */
+    color:#3e3131;
+}
+
+
+.icone-composto .icone-base {
+
+    font-size: 2em!important; /* aqui você controla o tamanho do badge */
 }

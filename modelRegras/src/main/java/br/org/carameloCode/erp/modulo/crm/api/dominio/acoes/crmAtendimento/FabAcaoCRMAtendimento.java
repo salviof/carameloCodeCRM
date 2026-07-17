@@ -703,7 +703,15 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     DADO_CRM_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(entidade = Solicitacao.class, precisaPermissao = true, utilizarMesmoFormEdicao = false)
     SOLICITACAO_MB_GESTAO,
-    @InfoTipoAcaoController(nomeAcao = "Criar resolução", icone = "fa-solid fa-clipboard-list")
+    @InfoTipoAcaoFormulario(nomeAcao = "Nova solicitação ao Cliente", icone = "fa-solid fa-bell")
+    SOLICITACAO_FRM_NOVA_NOTIFICACAO_CLIENTE,
+    @InfoTipoAcaoFormulario(nomeAcao = "Nova solicitação à equipe", icone = "fa-solid fa-bell")
+    SOLICITACAO_FRM_NOVA_NOTIFICACAO_EQUIPE,
+    @InfoTipoAcaoController(nomeAcao = "Solicitar orçamento", icone = "fa-solid fa-file-invoice-dollar")
+    SOLICITACAO_CTR_SOLICITAR_CRIACAO_ORCAMENTO,
+    @InfoTipoAcaoController(nomeAcao = "Solicitação abertura chamado", icone = "fa-solid fa-clipboard-list")
+    SOLICITACAO_CTR_SOLICITAR_ABERTURA_CHAMADO,
+    @InfoTipoAcaoController(nomeAcao = "Criar resolução", icone = "fa-solid fa-headset")
     SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Revisar solicitação", icone = "fa-solid fa-clipboard-check")
     SOLICITACAO_FRM_REVISAR_SOLICITACAO,
@@ -715,6 +723,10 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS,
     @InfoTipoAcaoFormulario(nomeAcao = "Meus pedidos", icone = "fa-solid fa-paper-plane")
     SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS,
+    @InfoTipoAcaoFormulario(nomeAcao = "Meus pedidos à clientes", icone = "fa-solid fa-paper-plane")
+    SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE,
+    @InfoTipoAcaoFormulario(nomeAcao = "Meus pedidos à equipe", icone = "fa-solid fa-paper-plane")
+    SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE,
     @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa-solid fa-hand", nomeAcao = "Solicitar acesso ao Cartão")
     SOLICITACAO_CTR_SOLICIATAR_ACESSO_PESSOA,
     @InfoTipoAcaoController(entidade = SolicitacaoAcessoCard.class, icone = "fa-solid fa-thumbs-up", nomeAcao = "Conceder")

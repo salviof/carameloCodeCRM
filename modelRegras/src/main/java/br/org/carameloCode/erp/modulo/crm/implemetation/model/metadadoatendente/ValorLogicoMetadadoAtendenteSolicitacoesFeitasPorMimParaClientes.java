@@ -27,10 +27,10 @@ public class ValorLogicoMetadadoAtendenteSolicitacoesFeitasPorMimParaClientes
             String jpql = "SELECT COUNT(s) FROM Solicitacao s "
                     + "WHERE s.usuarioSolicitante = :usuarioLogado "
                     + "AND s.foiFinalizada = false "
-                    + "AND s.tipoEntitySoliciatacao IN ('SolicitacaoArquivoCliente', 'SolicitacaoArquivoCliente')";
+                    + "AND s.tipoEntitySoliciatacao IN ('SolicitacaoArquivoCliente', 'SolicitacaoConfirmacaoCliente')";
 
             Long quantidade = em.createQuery(jpql, Long.class)
-                    .setParameter("usuarioLogado", CarameloCode.getUsuarioLogado())
+                    .setParameter("usuarioLogado", getMetadadoAtendente().getUsuario())
                     .getSingleResult();
             getMetadadoAtendente().setSolicitacoesFeitasPorMimParaClientes(quantidade.intValue());
         } finally {

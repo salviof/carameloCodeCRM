@@ -12,6 +12,9 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
+import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS;
+import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE;
+import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_SOLICITACOES_PESSOA;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_ARQUIVO_CLIENTE;
@@ -21,6 +24,8 @@ import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendiment
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoCliente;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -34,10 +39,13 @@ import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosU
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormularioEntidade;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
@@ -75,9 +83,48 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     @Inject
     private ServicosCRM servicoCRM;
 
+    private ComoAcaoDoSistema acaoUnicaListagem;
+
+    @PostConstruct
+    public void inicio() {
+        definirPArametros();
+        definirAcoesDisponiveis();
+    }
+
+    public void definirAcoesDisponiveis() {
+        acaoUnicaListagem = FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO.getRegistro();
+        FabAcaoCRMAtendimento acao = getEnumAcaoAtual();
+        switch (acao) {
+            case SOLICITACAO_FRM_LISTAR_MINHAS_PENDENCIAS_ABERTAS:
+                acaoUnicaListagem = FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO.getRegistro();
+                break;
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS:
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE:
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE:
+                acaoUnicaListagem = FabAcaoCRMAtendimento.SOLICITACAO_FRM_REVISAR_SOLICITACAO.getRegistro();
+                break;
+            case SOLICITACAO_FRM_NOVA_NOTIFICACAO_CLIENTE:
+            case SOLICITACAO_FRM_NOVA_NOTIFICACAO_EQUIPE:
+                acaoUnicaListagem = FabAcaoCRMAtendimento.SOLICITACAO_FRM_REVISAR_SOLICITACAO.getRegistro();
+                break;
+
+            default:
+                return;
+        }
+    }
+
     public boolean isPrPessoaFoiDefinido() {
         return getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado();
 
+    }
+
+    public ComoAcaoDoSistema getAcaoUnicaListagem() {
+        return acaoUnicaListagem;
+    }
+
+    @Override
+    public List<ItfAcaoFormularioEntidade> getAcoesNovoRegistro() {
+        return super.getAcoesNovoRegistro(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     @Override
@@ -96,14 +143,39 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
                 }
                 break;
             case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS:
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE:
+            case SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE:
                 consulta.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitante, getUsuarioEquipe());
+
                 break;
+
             default:
                 super.listarDados(mostrarInativos);
                 return;
         }
-        setEntidadesListadas((List) consulta.gerarResultados());
+        if (acao.equals(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE)
+                || acao.equals(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE)) {
+            List<Solicitacao> listaCompleta = consulta.gerarResultados();
+            List listaTipo = new ArrayList();
+            if (acao.equals(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE)) {
+                listaCompleta.stream().filter(it
+                        -> (!(it.getTipoEntitySoliciatacao().equals(SolicitacaoArquivoCliente.class.getSimpleName())
+                        || it.getTipoEntitySoliciatacao().equals(SolicitacaoConfirmacaoCliente.class.getSimpleName())))
+                ).forEach(listaTipo::add);
 
+            }
+            if (acao.equals(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE)) {
+                listaCompleta.stream().filter(it
+                        -> (it.getTipoEntitySoliciatacao().equals(SolicitacaoArquivoCliente.class.getSimpleName())
+                        || it.getTipoEntitySoliciatacao().equals(SolicitacaoConfirmacaoCliente.class.getSimpleName()))
+                ).forEach(listaTipo::add);
+            }
+            setEntidadesListadas(listaTipo);
+            return;
+        } else {
+
+            setEntidadesListadas((List) consulta.gerarResultados());
+        }
     }
 
     public void realizarUpload(FileUploadEvent event) {
@@ -198,12 +270,6 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
         }
     }
 
-    @PostConstruct
-    public void inicio() {
-        definirPArametros();
-
-    }
-
     public UsuarioCRM getUsuarioEquipe() {
         if (!getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
             usuarioEquipe = (UsuarioCRM) CarameloCode.getUsuarioLogado();
@@ -227,6 +293,13 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     }
 
     public Pessoa getPessoa() {
+
+        if (getEntidadeSelecionada() != null) {
+            if (getEntidadeSelecionada().getPessoa() != null) {
+                pessoa = getEntidadeSelecionada().getPessoa();
+            }
+        }
+
         return pessoa;
     }
 

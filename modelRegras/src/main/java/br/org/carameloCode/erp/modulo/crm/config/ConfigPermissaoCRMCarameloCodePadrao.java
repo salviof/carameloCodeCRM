@@ -74,8 +74,11 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             ModuloAgendamentoPublico.class, ModuloAgendamentoPublicoPluginCRM.class,
             ModuloCrmAgenda.class,
             ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class,
-            ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class
-        });
+            ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class,});
+    }
+
+    public ConfigPermissaoCRMCarameloCodePadrao(Class[] pClassesControllers) {
+        super(pClassesControllers);
     }
 
     @Override

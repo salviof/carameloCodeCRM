@@ -10,7 +10,7 @@
 
             <CRM:menuProspecto
                 pessoaJuridica="#{pgSolicitacaoAtendimento.pessoa}"
-                rendered="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
+                rendered="#{pgSolicitacaoAtendimento.pessoa!=null}"
                 />
 
         </h:panelGroup>

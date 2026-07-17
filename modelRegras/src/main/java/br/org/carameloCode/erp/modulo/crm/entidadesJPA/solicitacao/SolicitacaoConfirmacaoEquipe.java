@@ -4,6 +4,10 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
@@ -17,6 +21,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
  *
@@ -51,6 +57,14 @@ public class SolicitacaoConfirmacaoEquipe extends Solicitacao {
         } else {
             return fabTipoComunicacao.getRegistro();
         }
+
+    }
+
+    @Override
+    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
+        setUsuarioSolicitante((UsuarioCRM) CarameloCode.getUsuarioLogado());
 
     }
 

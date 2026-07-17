@@ -29,7 +29,7 @@
             <h:form>
                 <h:panelGroup styleClass="cards-dashboard" layout="block" style="margin-top: 10px;">
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="1"
+                        codigoestilo="2"
                         icone="fa fa-globe"
                         titulo="Origens Publicas"
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeuDashboardMbGestao.meuDashboardFrmOrigensPublica,cc.attrs.dadosDeLead.usuario)}"
@@ -38,7 +38,7 @@
 
 
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="1"
+                        codigoestilo="2"
                         icone="fa fa-heart"
                         titulo="Origens Privadas"
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeuDashboardMbGestao.meuDashboardFrmOrigensPrivadas,cc.attrs.dadosDeLead.usuario)}"
@@ -46,8 +46,8 @@
                         />
 
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        codigoestilo="1"
-                        icone="fa fa-handshake-o"
+                        codigoestilo="2"
+                        icone="fa fa-hand-holding"
                         titulo="Origens Compartilhadas"
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeuDashboardMbGestao.meuDashboardFrmOrigensCompartilhadas,cc.attrs.dadosDeLead.usuario)}"
                         valor="#{cc.attrs.dadosDeLead.getCampoInstanciadoByNomeOuAnotacao('origensPrivadasCompatilhadas').valor.size()}"/>

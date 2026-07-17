@@ -31,7 +31,7 @@
                 <h:panelGroup styleClass="cards-dashboard">
                     <crmDashBoard:dashBoardIconeValorTituloLink
                         codigoestilo="2"
-                        rendered="#{paginaAtual.usuarioCrmLogado.caixaPostalPrincipal!=null}"
+
                         url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmListarRecebido, cc.attrs.dadosDeLead.usuario)}"
                         icone="fa-envelope-o"
                         titulo="Caixa de entrada #{cc.attrs.dadosDeLead.usuario.caixaPostalPrincipal.email}"
@@ -46,10 +46,9 @@
                         />
 
                     <crmDashBoard:dashBoardIconeValorTituloLink
-                        rendered="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada.size()>0}"
                         codigoestilo="2"
                         icone="fa-exclamation-triangle "
-                        url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarAtividadesPendentes, cc.attrs.dadosDeLead.usuario)}"
+                        url="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada.size()>0?pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListarAtividadesPendentes, cc.attrs.dadosDeLead.usuario):'#'}"
                         titulo="Atividades em aberto"
                         valor="#{paginaAtual.usuarioCrmLogado.atividadeNaoFinalizada.size()}"
                         />
