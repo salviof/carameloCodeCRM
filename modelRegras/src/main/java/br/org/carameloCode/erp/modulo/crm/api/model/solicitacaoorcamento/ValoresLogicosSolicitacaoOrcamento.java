@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoOrcamento.class)
 public enum ValoresLogicosSolicitacaoOrcamento {
-	NOME, STATUS, LINKCONVITE, EMATRASO
+	NOME, STATUS, LINKCONVITE, EMATRASO, NOTIFICACAO
 }

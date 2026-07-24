@@ -30,7 +30,7 @@
                 <crmDashBoard:dashSolicitacaoRecebidaIconeValorTituloLink
                     codigoestilo="5"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMinhasPendenciasAbertas,cc.attrs.usuario)}"
-                    icone="fa fa-users"
+                    icone="fa fa-handshake-angle"
                     titulo="PARA mim"
                     valor="#{cc.attrs.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasParaMim').valor}"
                     />
@@ -38,7 +38,7 @@
                 <crmDashBoard:dashSolicitacaoFeitaIconeValorTituloLink
                     codigoestilo="5"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbertosEquipe,cc.attrs.usuario)}"
-                    icone="fa fa-users"
+                    icone="fa fa-people-carry-box"
                     titulo=" feitas para equipe"
                     valor="#{cc.attrs.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimEquipe').valor}"
                     />

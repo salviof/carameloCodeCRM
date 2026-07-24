@@ -19,6 +19,13 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCat
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivocliente.CPCategoriaArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoarquivoequipe.CPSolicitacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
@@ -30,11 +37,13 @@ import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosU
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.ParametroURL;
 import javax.faces.event.AjaxBehaviorEvent;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import jersey.repackaged.com.google.common.collect.Lists;
 
 /**
  *
@@ -76,6 +85,34 @@ public class PgDocumentoPessoa
 
     private List<SubPastaEquipe> subPastasEquipe;
     private List<SubpastaCliente> subPastasCliente;
+
+    private boolean ignorarNotificacao = false;
+
+    public boolean isTemNotificacao() {
+        if (categoriaArquivoEquipe != null) {
+            return categoriaArquivoEquipe.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
+        }
+        if (categoriaArquivoCliente != null) {
+            return categoriaArquivoCliente.getCPinst(CPCategoriaArquivoCliente.temsolicitacaoparamim).getValorComoBoolean();
+        }
+        return false;
+
+    }
+
+    public boolean isMostrarModalSolicitacao() {
+        if (ignorarNotificacao) {
+            return false;
+        }
+        return isTemNotificacao();
+    }
+
+    public boolean isIgnorarNotificacao() {
+        return ignorarNotificacao;
+    }
+
+    public void setIgnorarNotificacao(boolean ignorarNotificacao) {
+        this.ignorarNotificacao = ignorarNotificacao;
+    }
 
     @PostConstruct
     public void inicio() {

@@ -7,9 +7,11 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
  *
@@ -26,6 +28,13 @@ public class SolicitacaoAtualizacaoArquivoEquipe extends Solicitacao {
     @ManyToOne(targetEntity = ArquivoAnexado.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ARQUIVO_DE_ENTIDADE)
     private ArquivoAnexado arquivo;
+
+    @Override
+    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = ArquivoAnexado.class)
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        super.prepararNovoObjeto(parametros);
+
+    }
 
     public ArquivoAnexado getArquivo() {
         return arquivo;

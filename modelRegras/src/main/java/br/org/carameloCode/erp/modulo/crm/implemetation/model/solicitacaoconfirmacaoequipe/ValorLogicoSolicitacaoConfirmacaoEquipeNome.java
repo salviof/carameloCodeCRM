@@ -5,6 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoconfirmacaoequipe.ValorLogicoSolicitacaoConfirmacaoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoconfirmacaoequipe.ValoresLogicosSolicitacaoConfirmacaoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe;
 
 @ValorLogicoSolicitacaoConfirmacaoEquipe(calculo = ValoresLogicosSolicitacaoConfirmacaoEquipe.NOME)
 public class ValorLogicoSolicitacaoConfirmacaoEquipeNome
@@ -21,7 +22,7 @@ public class ValorLogicoSolicitacaoConfirmacaoEquipeNome
         return getSolicitacao().getNome();
     }
 
-    public SolicitacaoAcessoCard getSolicitacao() {
-        return (SolicitacaoAcessoCard) getCampoInst().getObjetoDoAtributo();
+    public SolicitacaoConfirmacaoEquipe getSolicitacao() {
+        return (SolicitacaoConfirmacaoEquipe) getCampoInst().getObjetoDoAtributo();
     }
 }

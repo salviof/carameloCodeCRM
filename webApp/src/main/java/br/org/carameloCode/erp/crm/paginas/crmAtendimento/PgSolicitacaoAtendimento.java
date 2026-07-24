@@ -24,6 +24,8 @@ import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendiment
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoCliente;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
@@ -45,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import com.super_bits.modulosSB.webPaginas.util.UtilSBWP_JSFTools;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -72,6 +75,12 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     @InfoParametroURL(nome = "prSolicitacao", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Solicitacao.class, representaEntidadePrincipalMB = true, obrigatorio = false)
     private ParametroURL prSolicitacao;
 
+    @InfoParametroURL(nome = "prArquivo", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ArquivoAnexado.class, representaEntidadePrincipalMB = true, obrigatorio = false)
+    private ParametroURL prArquivoSelecionado;
+
+    @InfoParametroURL(nome = "prChamado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ChamadoCliente.class, representaEntidadePrincipalMB = true, obrigatorio = false)
+    private ParametroURL prChamado;
+
     private Pessoa pessoa;
     private UsuarioCRM usuarioEquipe;
     private ContatoProspecto contatoCliente;
@@ -82,6 +91,14 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
 
     @Inject
     private ServicosCRM servicoCRM;
+    private ArquivoAnexado arquivoSelecionado;
+
+    public ArquivoAnexado getArquivoSelecionado() {
+        if (getParametroInstanciado(prArquivoSelecionado).isValorDoParametroFoiConfigurado()) {
+            arquivoSelecionado = (ArquivoAnexado) getParametroInstanciado(prArquivoSelecionado).getValor();
+        }
+        return arquivoSelecionado;
+    }
 
     private ComoAcaoDoSistema acaoUnicaListagem;
 
@@ -111,6 +128,11 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
             default:
                 return;
         }
+    }
+
+    public boolean isPrChamadoDefinido() {
+        return getParametroInstanciado(prChamado).isValorDoParametroFoiConfigurado();
+
     }
 
     public boolean isPrPessoaFoiDefinido() {
@@ -231,8 +253,44 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
                     Logger.getLogger(PgSolicitacaoAtendimento.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
             break;
+            case SOLICITACAO_FRM_NOVO_PEDIDO_ATUALIZAR_ARQUIVO: {
+                try {
+                    if (!getParametroInstanciado(prArquivoSelecionado).isValorDoParametroFoiConfigurado()) {
+                        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
+                            String url = CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.PROSPECTO_FRM_ARQUIVOS, getParametroInstanciado(prPessoa).getValor());
+                            UtilSBWP_JSFTools.vaParaPagina(url);
+                            return;
+                        }
+
+                    }
+                    setEntidadeSelecionada((Solicitacao) acao.getRegistro().getComoAcaoDeEntidade().getClasseRelacionada().newInstance());
+
+                    arquivoSelecionado = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prArquivoSelecionado).getValor(), getEMPagina());
+
+                    try {
+                        getEntidadeSelecionada().prepararNovoObjeto(arquivoSelecionado);
+                        if (getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
+                            getEntidadeSelecionada().setUsuarioSolicitado((UsuarioCRM) getParametroInstanciado(prContatoUsuarioEquipe).getValor());
+                        } else {
+                            if (arquivoSelecionado.getUsuarioCriou() != null) {
+                                if (arquivoSelecionado.getUsuarioCriou() instanceof UsuarioCRM) {
+                                    if (!arquivoSelecionado.getUsuarioCriou().equals(CarameloCode.getUsuarioLogado())) {
+                                        getEntidadeSelecionada().setUsuarioSolicitado((UsuarioCRM) arquivoSelecionado.getUsuarioCriou());
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (ErroPreparandoObjeto ex) {
+                        Logger.getLogger(PgSolicitacaoAtendimento.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(PgSolicitacaoAtendimento.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            }
 
             default:
                 super.autoexecEntidadeNova();

@@ -4,6 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
@@ -39,12 +40,16 @@ public class DocsEquipeDaCategoria extends EntidadeSimples {
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int quantidade;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    private boolean temSolicitacaoParaMim;
+
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = CategoriaArquivoEquipe.class)
     public void preparacaoObjeto(CategoriaArquivoEquipe pCategoria) {
         categoria = pCategoria;
         nome = pCategoria.getNome();
         icone = pCategoria.getIcone();
         id = pCategoria.getId();
+        temSolicitacaoParaMim = pCategoria.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
 
     }
 
@@ -97,6 +102,10 @@ public class DocsEquipeDaCategoria extends EntidadeSimples {
 
     public void setIcone(String icone) {
         this.icone = icone;
+    }
+
+    public boolean isTemSolicitacaoParaMim() {
+        return temSolicitacaoParaMim;
     }
 
 }

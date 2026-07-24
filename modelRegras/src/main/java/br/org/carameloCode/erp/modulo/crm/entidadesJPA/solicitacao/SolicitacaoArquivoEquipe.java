@@ -50,6 +50,7 @@ public class SolicitacaoArquivoEquipe extends Solicitacao {
         String emailusrpr = userPr.getEmail();
         setUsuarioSolicitado(userPr);
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
+        setStatus(FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
     }
 
     public SolicitacaoArquivoEquipe() {

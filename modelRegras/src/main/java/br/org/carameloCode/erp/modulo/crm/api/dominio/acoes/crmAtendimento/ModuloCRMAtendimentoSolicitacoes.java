@@ -1,6 +1,8 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabTipoSolicitacao;
@@ -54,7 +56,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                     setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ARQUIVO_EQUIPE.getRegistro().getComoFormulario());
                 }
                 if (solicitacao instanceof SolicitacaoChamado) {
-                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_NOVO_CONFIRMACAO_CLIENTE.getRegistro().getComoFormulario());
+                    setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_CHAMADO.getRegistro().getComoFormulario());
                 }
                 if (solicitacao instanceof SolicitacaoOrcamento) {
                     setProximoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_ENVIAR_ORCAMENTO.getRegistro().getComoFormulario());
@@ -74,6 +76,61 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
 
             }
         }.getResposta();
+
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICITAR_ABERTURA_CHAMADO)
+    public static ItfRespostaAcaoDoSistema solicitacaoChamadoEquipe(SolicitacaoChamado pSOlicitacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSOlicitacao), pSOlicitacao) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                if (pSOlicitacao.getPessoa() == null || pSOlicitacao.getPessoa().getContatoPrincipal() == null || pSOlicitacao.getPessoa().getContatoPrincipal().getUsuarioVinculado() == null) {
+                    throw new ErroRegraDeNegocio("O Cliente não possui um usuário válido, verifique o email e telefone do contato");
+                }
+
+                if (pSOlicitacao.getChamado() == null) {
+                    ChamadoCliente novoChamado = new ChamadoCliente();
+                    novoChamado.setDescricao("Chamado criado a pedido de  " + pSOlicitacao.getUsuarioSolicitante().getNome() + " sobre: " + pSOlicitacao.getObservacao());
+                    novoChamado.setTipoChamado(pSOlicitacao.getTipoChamado());
+                    novoChamado.setPessoa(pSOlicitacao.getPessoa());
+                    novoChamado.setUsuarioCliente(pSOlicitacao.getPessoa().getContatoPrincipal().getUsuarioVinculado());
+
+                    novoChamado.setUsuarioCriou(pSOlicitacao.getUsuarioSolicitado());
+                    novoChamado.setStatus(FabStatusChamado.AGUARDANDO_ATENDIMENTO.getRegistro());
+                    ItfRespostaAcaoDoSistema respChamado = ModuloCRMAtendimentoChamado.chamadocriar(novoChamado);
+                    if (!respChamado.isSucesso()) {
+                        throw new ErroRegraDeNegocio("Falha criando chamado, " + respChamado.getMensagens().get(0).getMenssagem());
+                    }
+                    novoChamado = (ChamadoCliente) respChamado.getRetorno();
+                    pSOlicitacao.setChamado(novoChamado);
+                }
+                pSOlicitacao.setFoiFinalizada(false);
+                pSOlicitacao.setFoiAtendida(false);
+                pSOlicitacao.setFoiRecebida(false);
+                SolicitacaoChamado solicitacaoChamado = atualizarEntidade(pSOlicitacao);
+
+                NotificacaoSB notificacao;
+                try {
+                    notificacao = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICACAO_SOLICITACAO_EQUIPE_CHAMADO.getRegistro(getEm()),
+                            solicitacaoChamado.getUsuarioSolicitado(), solicitacaoChamado);
+                    solicitacaoChamado.setCodigoSelo(notificacao.getCodigoSeloComunicacao());
+
+                } catch (ErroGerandoNotificacao ex) {
+                    throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
+                }
+
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
+
+            }
+        }
+                .getResposta();
 
     }
 
@@ -106,6 +163,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 SBCore.getServicoComunicacao().
                         responderComunicacao(solicitacao.getCodigoSelo(), dialogo.getRepostasPossiveis().stream().filter(rp -> rp.getTipoResposta().isRespostasPosiva()).findFirst().get(),
                                 ERPTipoCanalComunicacao.INTRANET_MENU);
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
 
             }
         }
@@ -147,7 +205,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                     throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
                 }
                 adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
-
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE, CarameloCode.getUsuarioLogado()));
             }
         }.getResposta();
     }
@@ -181,6 +239,23 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                     throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
                 }
                 adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_CLIENTE, CarameloCode.getUsuarioLogado()));
+            }
+        }.getResposta();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPE)
+    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarArquivoEqipe(SolicitacaoConfirmacaoEquipe pSolicitacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pSolicitacao.getObservacao() == null || pSolicitacao.getObservacao().length() < 10) {
+                    throw new ErroRegraDeNegocio("Descreva melhor sua solicitação");
+                }
+
+                atualizarEntidade(pSolicitacao);
+                addAviso("A solicitação foi enviada para " + pSolicitacao.getUsuarioSolicitado().getNome());
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
 
             }
         }.getResposta();
@@ -236,14 +311,13 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                     throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
                 }
                 adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
-
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
             }
         }.getResposta();
     }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ACESSO_PESSOA)
-    public static ItfRespostaAcaoDoSistema
-            solicitacaoSolicitarAcessoCArd(final Pessoa pPessoa) {
+    public static ItfRespostaAcaoDoSistema solicitarAcessoPessoa(final Pessoa pPessoa) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPessoa), pPessoa) {
             @Override
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
@@ -274,22 +348,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
                 atualizarEntidadeConfigRetorno(solicitacao);
                 addAviso("A solicitação foi enviada para " + solicitacao.getUsuarioSolicitado().getNome());
-
-            }
-        }.getResposta();
-    }
-
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPE)
-    public static ItfRespostaAcaoDoSistema solicitacaoSolicitarArquivoEqipe(SolicitacaoConfirmacaoEquipe pSolicitacao) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                if (pSolicitacao.getObservacao() == null || pSolicitacao.getObservacao().length() < 10) {
-                    throw new ErroRegraDeNegocio("Descreva melhor sua solicitação");
-                }
-
-                atualizarEntidade(pSolicitacao);
-                addAviso("A solicitação foi enviada para " + pSolicitacao.getUsuarioSolicitado().getNome());
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
 
             }
         }.getResposta();

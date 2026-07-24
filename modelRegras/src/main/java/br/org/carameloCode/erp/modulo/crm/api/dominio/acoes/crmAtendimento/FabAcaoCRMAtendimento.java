@@ -675,6 +675,8 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER,
     @InfoTipoAcaoFormulario(nomeAcao = "Definir atendimento", icone = "fa fa-handshake-o")
     MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Atender solicitação", icone = "fa fa-handshake-o")
+    MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER_SOLICITACAO_ABRIR,
     @InfoTipoAcaoController(nomeAcao = "Definir Responsável", icone = "fa fa-share")
     MEUS_CHAMADOS_CTR_DEFINIR_RESPONSAVEL,
     @InfoTipoAcaoController(nomeAcao = "Assumir chamado", icone = "fa fa-hand-rock-o")

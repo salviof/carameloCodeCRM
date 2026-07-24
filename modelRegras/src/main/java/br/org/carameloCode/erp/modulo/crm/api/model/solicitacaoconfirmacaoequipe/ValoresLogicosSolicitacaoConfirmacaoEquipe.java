@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoConfirmacaoEquipe.class)
 public enum ValoresLogicosSolicitacaoConfirmacaoEquipe {
-	DESCRICAOCONFIRMACAO, RESPOSTASPOSSIVEIS, NOME, STATUS, LINKCONVITE, EMATRASO
+	DESCRICAOCONFIRMACAO, RESPOSTASPOSSIVEIS, NOME, STATUS, LINKCONVITE, EMATRASO, NOTIFICACAO
 }

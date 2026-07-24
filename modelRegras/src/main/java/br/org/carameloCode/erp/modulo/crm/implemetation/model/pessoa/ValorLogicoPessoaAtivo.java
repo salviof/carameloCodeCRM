@@ -18,7 +18,7 @@ public class ValorLogicoPessoaAtivo extends ValorLogicoCalculoGenerico {
         if (getPessoa().getRelacionamento() == null) {
             getPessoa().setAtivo(false);
         }
-        if (getPessoa().getRelacionamento().getPeso() > 0) {
+        if (getPessoa().getRelacionamento().getPeso() <= 0) {
             getPessoa().setAtivo(false);
         } else {
             getPessoa().setAtivo(true);

@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = CategoriaArquivoEquipe.class)
 public enum ValoresLogicosCategoriaArquivoEquipe {
-	DOCUMENTOSPORCATEGORIA
+	TEMSOLICITACAOPARAMIM
 }

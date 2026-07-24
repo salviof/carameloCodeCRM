@@ -65,7 +65,7 @@ public class SolicitacaoConfirmacaoEquipe extends Solicitacao {
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
         setUsuarioSolicitante((UsuarioCRM) CarameloCode.getUsuarioLogado());
-
+        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_CONFIRMACAO_EQUIPE.getRegistro());
     }
 
     public String getDescricaoConfirmacao() {

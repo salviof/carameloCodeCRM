@@ -23,6 +23,10 @@
                                 desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}" />
 
+                <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoChamado')}"
+                                desabilitarEdicao="#{pgSolicitacaoAtendimento.prChamadoDefinido}"
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
                 <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitado')}"
 
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}" />

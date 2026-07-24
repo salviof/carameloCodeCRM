@@ -17,7 +17,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
  *
  * @author salvio
  */
-@InfoFabricaObjetos(manterSempreValorDaFabricaEmBanco = true)
+@InfoFabricaObjetos(manterSempreValorDaFabricaEmBanco = false)
 public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
 
     @InfoObjetoDaFabrica(id = 1000000, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar Cliente chamado em atendimento ")
@@ -57,7 +57,9 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(id = 1000017, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar solicitação arquivo ao Cliente")
     NOTIFICACAO_SOLICITACAO_ARQUIVO_DA_EQUIPE_AO_CLIENTE,
     @InfoObjetoDaFabrica(id = 1000018, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar solicitação confirmação ao Cliente")
-    NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE;
+    NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE,
+    @InfoObjetoDaFabrica(id = 1000019, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificação de chamado")
+    NOTIFICACAO_SOLICITACAO_EQUIPE_CHAMADO;
 
     public TiponotificacaoCRM getRegistro() {
         TiponotificacaoCRM tipoCRM = (TiponotificacaoCRM) ComoFabricaComPersistencia.super.getRegistro();
@@ -190,6 +192,20 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
                 tipoCRM.setNotificarViaTelaDeBLoqueio(true);
                 tipoCRM.setNotificarViaSMS(true);
                 tipoCRM.setNotificarViaMatrix(false);
+                tipoCRM.setNotificarViaEmail(true);
+                break;
+            case NOTIFICACAO_SOLICITACAO_EQUIPE_CHAMADO:
+                tipoCRM.setAssunto("[usuarioSolicitante.nome] solicita atendimento do chamado [chamado.id]");
+                tipoCRM.setConteudoHTML("Olá, [contatoPessoa.nome], [usuarioSolicitante.nome] Solicita sua interação em relação ao chamado [chamado.resumoDescricao], \" <blockquote>\n"
+                        + "  <p>[observacao]</p>\n" + "</blockquote> </p>"
+                        + "para interagir com o chamado acesse: [link:FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO]"
+                        + ""
+                        + "");
+                tipoCRM.setNomeEntidadeReferencia(SolicitacaoArquivoCliente.class.getSimpleName());
+                tipoCRM.setNotificarViaMenu(true);
+                tipoCRM.setNotificarViaTelaDeBLoqueio(true);
+                tipoCRM.setNotificarViaSMS(true);
+                tipoCRM.setNotificarViaMatrix(true);
                 tipoCRM.setNotificarViaEmail(true);
                 break;
 

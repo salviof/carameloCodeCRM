@@ -4,6 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente;
@@ -38,13 +39,20 @@ public class DocsClienteDaCategoria {
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int quantidade;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    private boolean temSolicitacaoParaMim;
+
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = CategoriaArquivoEquipe.class)
     public void preparacaoObjeto(CategoriaArquivoCliente pCategoria) {
         categoria = pCategoria;
         nome = pCategoria.getNome();
         icone = pCategoria.getIcone();
         id = pCategoria.getId();
+        temSolicitacaoParaMim = pCategoria.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
+    }
 
+    public boolean isTemSolicitacaoParaMim() {
+        return temSolicitacaoParaMim;
     }
 
     public Long getId() {

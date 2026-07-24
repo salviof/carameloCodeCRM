@@ -8,6 +8,7 @@ import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.subpasta.SubpastaCliente;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -50,6 +52,11 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM {
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     @OneToMany(mappedBy = "categoriaCliente", targetEntity = SubpastaCliente.class)
     private List<SubpastaCliente> subpastasPrivadas;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @Transient
+    @InfoCampoValorLogico(nomeCalculo = "Tem solicitação para mim?")
+    private boolean temSolicitacaoParaMim;
 
     public Long getId() {
         return id;
@@ -105,6 +112,14 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM {
 
     public void setSubpastasPrivadas(List<SubpastaCliente> subpastasPrivadas) {
         this.subpastasPrivadas = subpastasPrivadas;
+    }
+
+    public boolean isTemSolicitacaoParaMim() {
+        return temSolicitacaoParaMim;
+    }
+
+    public void setTemSolicitacaoParaMim(boolean temSolicitacaoParaMim) {
+        this.temSolicitacaoParaMim = temSolicitacaoParaMim;
     }
 
 }

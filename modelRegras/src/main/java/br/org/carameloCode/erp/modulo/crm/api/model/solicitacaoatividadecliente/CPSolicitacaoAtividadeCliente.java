@@ -5,7 +5,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoAtividadeCliente.class)
 public enum CPSolicitacaoAtividadeCliente {
-	_CONTATOPESSOA;
+	_CONTATOPESSOA, _TIPOATIVIDADE;
 
 	public static final String contatopessoa = "contatoPessoa";
+	public static final String tipoatividade = "tipoAtividade";
 }

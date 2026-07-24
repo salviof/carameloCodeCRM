@@ -2,6 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
@@ -76,11 +77,11 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
     private Date dataUltimaResposta;
 
     @ManyToOne(targetEntity = UsuarioCRM.class, optional = false)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.REG_USUARIO_INSERCAO, obrigatorio = true, somenteLeitura = true)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.REG_USUARIO_INSERCAO, obrigatorio = true, somenteLeitura = true, label = "Usuário solicitante")
     private UsuarioCRM usuarioSolicitante;
 
     @ManyToOne(targetEntity = UsuarioCRM.class, optional = false)
-    @InfoCampo(obrigatorio = true, somenteLeitura = true)
+    @InfoCampo(obrigatorio = true, somenteLeitura = true, label = "Usuário Solicitado")
     private UsuarioCRM usuarioSolicitado;
 
     @Column(nullable = false, updatable = false, insertable = false)
@@ -125,6 +126,11 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String codigoSelo;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampoValorLogico(nomeCalculo = "Notificação Vinculada", atualizarSempreQueSalvar = false)
+    private NotificacaoSB notificacao;
 
     public Long getId() {
         return id;
@@ -490,6 +496,14 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
 
     public void setEmAtraso(boolean emAtraso) {
         this.emAtraso = emAtraso;
+    }
+
+    public NotificacaoSB getNotificacao() {
+        return notificacao;
+    }
+
+    public void setNotificacao(NotificacaoSB notificacao) {
+        this.notificacao = notificacao;
     }
 
 }

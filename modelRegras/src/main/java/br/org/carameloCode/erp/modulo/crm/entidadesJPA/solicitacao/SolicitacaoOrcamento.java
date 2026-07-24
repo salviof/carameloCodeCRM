@@ -5,11 +5,16 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
  *
@@ -22,6 +27,17 @@ public class SolicitacaoOrcamento extends Solicitacao {
     @ManyToOne(targetEntity = Orcamento.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "pessoa.orcamentos")
     private Orcamento orcamento;
+
+    @Override
+    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
+        UsuarioCRM userPr = getParametroInicialEnviado(UsuarioCRM.class, parametros);
+        String emailusrpr = userPr.getEmail();
+        setUsuarioSolicitado(userPr);
+        setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
+
+    }
 
     public SolicitacaoOrcamento() {
         setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_ORCAMENTO.getRegistro());

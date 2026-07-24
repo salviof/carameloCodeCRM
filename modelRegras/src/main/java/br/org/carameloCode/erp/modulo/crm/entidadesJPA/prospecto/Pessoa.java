@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoEntidadeVinculadoChat;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.FabStatusAtividade;
@@ -68,6 +69,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.Where;
@@ -384,6 +386,10 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
     @OneToMany(mappedBy = "prospectoEmpresa", targetEntity = AtividadeCRM.class)
     @Where(clause = "statusAtividade_id =  " + FabStatusAtividade.idEmAndamento + " and tipoEntidade='AtividadeCRM'")
     private List<AtividadeCRM> atividadesEmAndamento;
+
+    @OneToMany(mappedBy = "pessoaRelacionada", targetEntity = ReservaHorarioCRM.class)
+    @Where(clause = "status_id = " + FabStatusReservaHorario.ID_AGENDADO + " OR status_id = " + FabStatusReservaHorario.ID_CONFIRMADO)
+    private List<ReservaHorarioCRM> reservasAtivas;
 
     @ListaProspectos(lista = ListasProspectos.DADOS_NAO_COLETADOS)
     @Transient
@@ -1355,6 +1361,14 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     public List<MensagemMktWhatsapp> getMensagensMkt() {
         return mensagensMkt;
+    }
+
+    public List<ReservaHorarioCRM> getReservasAtivas() {
+        return reservasAtivas;
+    }
+
+    public void setReservasAtivas(List<ReservaHorarioCRM> reservasAtivas) {
+        this.reservasAtivas = reservasAtivas;
     }
 
 }

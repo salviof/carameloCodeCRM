@@ -2,18 +2,86 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRCInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
     xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
-    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:define name="conteudo">
-        <SBFormulario:camposDaAcao
-            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
-            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-            />
+
+
+        <p:fieldset legend="Relatório " styleClass="Container12" >
+            <f:facet name="legend" >
+                <CRCInput:input
+                    registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoSolicitacao')}"
+                    desabilitarEdicao="true"
+                    layout ="#{layoutsComponenteSB.layoutCampo.resumido}"
+                    />
+            </f:facet>
+
+            <h:panelGroup layout="block" styleClass="Container12"  >
+
+
+
+                <h:panelGroup layout="block" styleClass="Container6" >
+                    <CCRM:avatar somenteLeitura="true" usuario="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante}" />
+                    <CRCInput:input
+                        label="Usuaŕio solicitante"
+                        registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitante')}"
+                        desabilitarEdicao="true"
+                        layout ="#{layoutsComponenteSB.layoutCampo.superior}"
+                        />
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="Container6" >
+                    <CCRM:avatar somenteLeitura="true" usuario="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitado}" />
+                    <CRCInput:input
+                        label="Usuaŕio Solicitado:"
+                        registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitado')}"
+                        desabilitarEdicao="true"
+                        layout ="#{layoutsComponenteSB.layoutCampo.superior}"
+                        />
+                </h:panelGroup>
+
+
+
+                <h:panelGroup layout="block" styleClass="Container12" >
+
+                    <p:staticMessage summary="#{pgSolicitacaoAtendimento.entidadeSelecionada.assunto}" severity="info" detail="#{pgSolicitacaoAtendimento.entidadeSelecionada.mensagem}" />
+
+
+                </h:panelGroup>
+
+
+
+
+                <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
+                    <h:panelGroup layout="block" styleClass="Container6" >
+                        <p:fieldset legend="Detalhes da solicitação" >
+
+
+                        </p:fieldset>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="Container6" >
+                        <p:fieldset legend="Dados de notificação" >
+                            #{pgSolicitacaoAtendimento.entidadeSelecionada}
+
+                        </p:fieldset>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+
+            </h:panelGroup>
+        </p:fieldset>
+
+
+
     </ui:define>
     <ui:define name="botoesDeAcao">
+
 
         <SBPaginaAtual:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrSoliciatarArquivoCliente}" />
 

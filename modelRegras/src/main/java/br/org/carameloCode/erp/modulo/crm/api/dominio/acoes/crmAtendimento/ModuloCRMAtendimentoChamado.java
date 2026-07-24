@@ -107,7 +107,7 @@ public class ModuloCRMAtendimentoChamado extends ControllerAbstratoSBPersistenci
     }
 
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_CRIAR_CHAMADO)
-    public static ItfRespostaAcaoDoSistema chamadocruar(ChamadoCliente pChamado) {
+    public static ItfRespostaAcaoDoSistema chamadocriar(ChamadoCliente pChamado) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(ChamadoCliente.class), (ComoEntidadeSimples) chamadoSalvarMerge(pChamado).getRetorno()) {
             @Override

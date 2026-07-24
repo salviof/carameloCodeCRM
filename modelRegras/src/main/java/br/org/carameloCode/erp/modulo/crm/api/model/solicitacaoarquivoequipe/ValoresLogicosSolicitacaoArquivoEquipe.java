@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = SolicitacaoArquivoEquipe.class)
 public enum ValoresLogicosSolicitacaoArquivoEquipe {
-	LINKEQUIPEVERARQUIVO, NOME, STATUS, LINKCONVITE, EMATRASO
+	LINKEQUIPEVERARQUIVO, NOME, STATUS, LINKCONVITE, EMATRASO, NOTIFICACAO
 }

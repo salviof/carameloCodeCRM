@@ -62,17 +62,15 @@
                 titulo="Solicitações"
                 valor="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
                 />
-
-            <!-- Sempre visivel: o proprio componente aplica o visual de
-                 desativado quando valor == 0, e o dialog ja trata a lista
-                 vazia com a mensagem de aviso. -->
             <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="2"
-                icone="fa fa-play-circle-o"
-                url="javascript:abrirResumoAtividadesLead();"
-                titulo="Continuar atividade"
-                valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+                codigoestilo="4"
+                icone="fa fa-calendar-days"
+                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral)}"
+                titulo="Agenda"
+                valor="#{cc.attrs.pessoa.reservasAtivas.size()}"
                 />
+
+
 
             <crmDashBoard:dashBoardIconeTextoTituloLink
                 texto=""
@@ -82,6 +80,16 @@
                 titulo="Nova atividade"
                 valor="1"
                 />
+
+            <crmDashBoard:dashBoardIconeValorTituloLink
+                codigoestilo="2"
+                icone="fa fa-play-circle-o"
+                url="javascript:abrirResumoAtividadesLead();"
+                titulo="Continuar atividade"
+                valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+                />
+
+
 
         </h:panelGroup>
 

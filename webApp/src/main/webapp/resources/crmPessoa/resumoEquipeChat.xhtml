@@ -55,7 +55,7 @@
                             rendered="#{servicosCRM.isUsuarioTemPermissao(cc.attrs.pessoa) and  (pgProspecto.prospecto.usuarioResponsavel ne paginaAtual.usuarioCrmLogado)}"
                             styleClass="btnIconeENome botao"
                             update="@form"
-                            icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAssumir.icone}"
+                            icon="Fs20 #{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAssumir.icone}"
                             value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrAssumir.nome}"
                             action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"  >
                             <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}"
@@ -64,27 +64,7 @@
                         </p:commandButton>
                     </p:panel>
                 </h:panelGroup>
-                <h:panelGroup
-                    style="display: flex; justify-content: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6">
-                    <p:commandButton
-                        icon="pi pi-comments"
-                        value="Abrir chat debate interno"
-                        style="background-color: #60a36c; color: white; border: none; margin-right: 4px"
-                        actionListener="#{servicosCRM.abrirPaginaDeProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatEquipe)}"
-                        immediate="true"
-                        ajax="false"/>
-                    <p:commandButton
-                        icon="pi pi-pencil"
-                        value="Editar Equipe"
-                        style="background-color: #60a36c; color: white; border: none;"
-                        rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}"
-                        actionListener="#{servicosCRM.exibirModalProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmCompartilharProspecto)}"
-                        update="@form">
-                        <p:ajax event="click" listener="#{paginaAtual.comoPaginaComModal.onModalProspectoOpen}"/>
-                        <p:ajax event="dialogReturn"
-                                listener="#{paginaAtual.comoPaginaComModal.onModalProspectoClose}"/>
-                    </p:commandButton>
-                </h:panelGroup>
+
                 <!-- Lista de Usuários Responsáveis -->
                 <p:fieldset legend="Time Responsável (#{cc.attrs.pessoa.usuariosResponsaveis.size()})" toggleable="true"
                             style="margin-top: 20px;">
@@ -219,10 +199,32 @@
                     <!--                        </p:panel>-->
                     <!--                    </p:dataList>-->
                 </p:fieldset>
-
                 <!-- Botão Chat -->
 
             </p:card>
+            <h:panelGroup
+                styleClass="Container12 OrganizadorContainerDireita" >
+
+                <p:commandButton
+                    icon="Fs20 pi pi-comments"
+                    value="Abrir chat debate interno"
+                    styleClass="Fs20"
+                    style="background-color: #60a36c; color: white; border: none; margin-right: 4px; height: 60px"
+                    actionListener="#{servicosCRM.abrirPaginaDeProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatEquipe)}"
+                    immediate="true"
+                    ajax="false"/>
+                <p:commandButton
+                    icon="pi pi-pencil"
+                    value="Editar Equipe"
+                    style="background-color: #60a36c; color: white; border: none;"
+                    rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('atendenteLogadoResponsavelPrincipal').valorComoBoolean}"
+                    actionListener="#{servicosCRM.exibirModalProspecto(cc.attrs.pessoa,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmCompartilharProspecto)}"
+                    update="@form">
+                    <p:ajax event="click" listener="#{paginaAtual.comoPaginaComModal.onModalProspectoOpen}"/>
+                    <p:ajax event="dialogReturn"
+                            listener="#{paginaAtual.comoPaginaComModal.onModalProspectoClose}"/>
+                </p:commandButton>
+            </h:panelGroup>
         </h:form>
     </cc:implementation>
 </ui:composition>

@@ -310,7 +310,7 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
                 }
             }
         }
-        return true;
+        return false;
     }
 
     @Override

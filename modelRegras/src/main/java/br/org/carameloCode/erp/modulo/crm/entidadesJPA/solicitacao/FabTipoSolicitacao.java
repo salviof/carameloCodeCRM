@@ -13,57 +13,30 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
  */
 public enum FabTipoSolicitacao implements ComoFabricaComPersistencia {
 
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 1, nomeObjeto = "Solicitação de acesso")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 1, icone = "fa fa-unlock", nomeObjeto = "Solicitação de acesso")
     SOLICITACAO_ACESSO,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 2, nomeObjeto = "Solicitação de atividade")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 2, icone = "fa fa-list-check", nomeObjeto = "Solicitação de atividade")
     SOLICITACAO_ATIVIDADE_EQUIPE,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 3, nomeObjeto = "Solicitação colaboração")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 3, icone = "fa fa-handshake", nomeObjeto = "Solicitação colaboração")
     SOLICITACAO_ATIVIDADE_CLIENTE,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 4, nomeObjeto = "Solicitação doc Equipe")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 4, icone = "fa fa-file-circle-plus", nomeObjeto = "Solicitação doc Equipe")
     SOLICITACAO_NOVO_DOCUMENTO_EQUIPE,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 5, nomeObjeto = "Solicitação Doc Cliente")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 5, icone = "fa fa-file-contract", nomeObjeto = "Solicitação Doc Cliente")
     SOLICITACAO_NOVO_DOCUMENTO_CLIENTE,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 6, nomeObjeto = "Solicitação Atualização Doc.")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 6, icone = "fa fa-file-pen", nomeObjeto = "Solicitação Atualização Doc.")
     SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 7, nomeObjeto = "Solicitação Ref Chamado")
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 7, icone = "fa fa-ticket", nomeObjeto = "Solicitação Ref Chamado")
     SOLICITACAO_CHAMADO,
-    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 8, nomeObjeto = "Solicitação Ref Orçamento")
-    SOLICITACAO_ORCAMENTO;
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 8, icone = "fa fa-receipt", nomeObjeto = "Solicitação Ref Orçamento")
+    SOLICITACAO_ORCAMENTO,
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 9, icone = "fa fa-circle-check", nomeObjeto = "Solicitação Confirmação Equipe")
+    SOLICITACAO_CONFIRMACAO_EQUIPE,
+    @InfoObjetoDaFabrica(classeObjeto = TipoSolicitacao.class, id = 10, icone = "fa fa-circle-notch", nomeObjeto = "Solicitação Confirmação Cliente")
+    SOLICITACAO_CONFIRMACAO_CLIENTE;
 
     @Override
     public TipoSolicitacao getRegistro() {
-        TipoSolicitacao tipoSolicitacao = (TipoSolicitacao) ComoFabricaComPersistencia.super.getRegistro(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        switch (this) {
-
-            case SOLICITACAO_ACESSO:
-                tipoSolicitacao.setIcone("fa fa-share-alt");
-                break;
-            case SOLICITACAO_NOVO_DOCUMENTO_EQUIPE:
-                tipoSolicitacao.setIcone("fa fa-file");
-                break;
-            case SOLICITACAO_NOVO_DOCUMENTO_CLIENTE:
-                tipoSolicitacao.setIcone("fa fa-file");
-                break;
-            case SOLICITACAO_CHAMADO:
-                tipoSolicitacao.setIcone("fa fa-ticket");
-                break;
-            case SOLICITACAO_ORCAMENTO:
-                tipoSolicitacao.setIcone("fa fa-money");
-                break;
-            case SOLICITACAO_ATIVIDADE_EQUIPE:
-                tipoSolicitacao.setIcone("fa fa-pencil");
-                break;
-            case SOLICITACAO_ATIVIDADE_CLIENTE:
-                tipoSolicitacao.setIcone("fa fa-pencil");
-                break;
-            case SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE:
-                tipoSolicitacao.setIcone("fa fa-upload");
-                break;
-            default:
-                throw new AssertionError();
-        }
-
-        return tipoSolicitacao;
+        return (TipoSolicitacao) ComoFabricaComPersistencia.super.getRegistro(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     public Solicitacao getDominioEstrategia() {
@@ -92,6 +65,11 @@ public enum FabTipoSolicitacao implements ComoFabricaComPersistencia {
 
             case SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE:
                 return new SolicitacaoAtualizacaoArquivoEquipe();
+            case SOLICITACAO_CONFIRMACAO_EQUIPE:
+                return new SolicitacaoConfirmacaoEquipe();
+
+            case SOLICITACAO_CONFIRMACAO_CLIENTE:
+                return new SolicitacaoConfirmacaoCliente();
 
             default:
                 throw new AssertionError();

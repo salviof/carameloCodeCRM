@@ -68,7 +68,7 @@
 
                     >
                     <f:attribute name="pessoa"  value="#{pgSolicitacaoAtendimento.pessoa}" />
-                    <f:attribute name="categoriaEquipe"  value="#{pgSolicitacaoAtendimento.categoriaEquipe}" />
+                    <f:attribute name="categoriaEquipe"  value="#{pgSolicitacaoAtendimento.entidadeSelecionada.categoriaArqEquipe}" />
                     <f:attribute name="solicitacaoArquivoEquipe"  value="#{pgSolicitacaoAtendimento.entidadeSelecionada}" />
                 </p:fileUpload>
             </h:form>
@@ -83,7 +83,7 @@
         <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
         <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
         <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
-
+            [#{pgSolicitacaoAtendimento.entidadeSelecionada.categoriaArqEquipe.nome}]
 
 
 

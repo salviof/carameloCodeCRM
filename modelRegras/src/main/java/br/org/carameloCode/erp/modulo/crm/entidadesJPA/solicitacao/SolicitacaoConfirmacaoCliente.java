@@ -76,7 +76,7 @@ public class SolicitacaoConfirmacaoCliente extends Solicitacao {
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
-
+        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_CONFIRMACAO_CLIENTE.getRegistro());
     }
 
     @Override

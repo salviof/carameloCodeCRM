@@ -62,7 +62,6 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente</class>
-        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexadoEmail.ArquivoAnexadoEmailRecebido</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexadoEmailEmConteudo.ArquivoAnexadoEmailEmConteudo</class>
@@ -191,6 +190,7 @@
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPresencial</class>
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado</class>
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>

@@ -44,6 +44,7 @@ public class ValorLogicoPessoaDocClienteCategorias
 
                             List<ArquivoCliente> arquivos = consulta.resultadoRegistros();
                             DocsClienteDaCategoria novoDocCat = new DocsClienteDaCategoria();
+                            novoDocCat.preparacaoObjeto(cat);
                             novoDocCat.setArquivoAnexado(arquivos);
                             novoDocCat.setQuantidade(arquivos.size());
                             novoDocCat.setId((long) Long.valueOf(getPessoa().getId()).toString().concat(cat.getNome()).hashCode());

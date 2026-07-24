@@ -597,7 +597,8 @@ public class ServicosCRM implements Serializable {
     }
 
     public void solicitarPermissao(Pessoa p) {
-        ModuloCRMAtendimentoSolicitacoes.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
+        ItfRespostaAcaoDoSistema respSolicitacao = ModuloCRMAtendimentoSolicitacoes.solicitarAcessoPessoa(p).dispararMensagens();
+        respSolicitacao.dispararMensagens();
     }
 
     public boolean isUmUsuarioAtendimentoLogado() {

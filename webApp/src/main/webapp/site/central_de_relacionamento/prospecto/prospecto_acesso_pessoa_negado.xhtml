@@ -46,10 +46,10 @@
 
                                     <h:panelGroup layout="block" styleClass="Container3 Fright" >
                                         <h:form>
-
                                             <SBAcaoNav:botaoDeAcao_Pagina_Entidade
                                                 acao="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoCtrSolicitarAcesso}"
                                                 tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+
                                                 update="@form"
                                                 javaScriptOncomplete="#{pgUtilTelefone.gerarJavascriptWhatsqpp(pgProspecto.entidadeSelecionada.usuarioResponsavel.telefone,
                                                                         'Por favor, libere meu acesso ao lead, '.concat(pgProspecto.entidadeSelecionada.nome).concat(' Acesse via:').concat(pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto, pgProspecto.entidadeSelecionada)))}"
