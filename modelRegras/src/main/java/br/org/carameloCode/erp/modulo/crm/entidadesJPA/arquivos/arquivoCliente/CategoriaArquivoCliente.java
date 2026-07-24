@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ComoPasta;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.subpasta.SubpastaCliente;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -26,7 +27,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @InfoObjetoSB(plural = "Diretório de arquivos", tags = "Diretório de cliente", icone = "fa fa-folder-o", modulo = ERPCrm.NOME_MODULO_ERP)
-public class CategoriaArquivoCliente extends EntidadeSimplesORM {
+public class CategoriaArquivoCliente extends EntidadeSimplesORM implements ComoPasta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +58,9 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM {
     @Transient
     @InfoCampoValorLogico(nomeCalculo = "Tem solicitação para mim?")
     private boolean temSolicitacaoParaMim;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.COR)
+    private String cor;
 
     public Long getId() {
         return id;
@@ -98,16 +102,8 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM {
         this.pastaPai = pastaPai;
     }
 
-    public List<CategoriaArquivoCliente> getSubPastas() {
-        return subPastas;
-    }
-
     public void setSubPastas(List<CategoriaArquivoCliente> subPastas) {
         this.subPastas = subPastas;
-    }
-
-    public List<SubpastaCliente> getSubpastasPrivadas() {
-        return subpastasPrivadas;
     }
 
     public void setSubpastasPrivadas(List<SubpastaCliente> subpastasPrivadas) {
@@ -120,6 +116,27 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM {
 
     public void setTemSolicitacaoParaMim(boolean temSolicitacaoParaMim) {
         this.temSolicitacaoParaMim = temSolicitacaoParaMim;
+    }
+
+    public CategoriaArquivoCliente() {
+    }
+
+    public List<CategoriaArquivoCliente> getSubPastas() {
+        return subPastas;
+    }
+
+    public List<SubpastaCliente> getSubpastasPrivadas() {
+        return subpastasPrivadas;
+    }
+
+    @Override
+    public String getCor() {
+        return cor;
+    }
+
+    @Override
+    public int getQuantidade() {
+        return 0;
     }
 
 }

@@ -7,6 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ComoPasta;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author salvio
  */
 @InfoObjetoSB(tags = "Documento da Categoria", plural = "Documentos cliente da categoria")
-public class DocsEquipeDaCategoria extends EntidadeSimples {
+public class DocsEquipeDaCategoria extends EntidadeSimples implements ComoPasta {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private Long id;
@@ -106,6 +107,16 @@ public class DocsEquipeDaCategoria extends EntidadeSimples {
 
     public boolean isTemSolicitacaoParaMim() {
         return temSolicitacaoParaMim;
+    }
+
+    @Override
+    public boolean isCompartilharComConvidados() {
+        return categoria.isCompartilharComConvidados();
+    }
+
+    @Override
+    public String getCor() {
+        return categoria.getCor();
     }
 
 }

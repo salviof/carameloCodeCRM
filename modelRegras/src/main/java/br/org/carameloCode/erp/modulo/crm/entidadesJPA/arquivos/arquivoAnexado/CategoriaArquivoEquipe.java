@@ -26,7 +26,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @InfoObjetoSB(plural = "Diretórios de arquivo Interno", tags = "Diretório de arquivos internos", icone = "fa fa-folder-o", modulo = ERPCrm.NOME_MODULO_ERP)
-public class CategoriaArquivoEquipe extends EntidadeSimplesORM {
+public class CategoriaArquivoEquipe extends EntidadeSimplesORM implements ComoPasta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,22 +58,30 @@ public class CategoriaArquivoEquipe extends EntidadeSimplesORM {
     @InfoCampoValorLogico(nomeCalculo = "Tem solicitação para mim?")
     private boolean temSolicitacaoParaMim;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.COR)
+    private String cor;
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    @Override
     public String getIcone() {
         return icone;
     }
@@ -82,6 +90,7 @@ public class CategoriaArquivoEquipe extends EntidadeSimplesORM {
         this.icone = icone;
     }
 
+    @Override
     public boolean isCompartilharComConvidados() {
         return compartilharComConvidados;
     }
@@ -98,10 +107,6 @@ public class CategoriaArquivoEquipe extends EntidadeSimplesORM {
         this.pastaPai = pastaPai;
     }
 
-    public List<CategoriaArquivoEquipe> getSubPastas() {
-        return subPastas;
-    }
-
     public void setSubPastas(List<CategoriaArquivoEquipe> subPastas) {
         this.subPastas = subPastas;
     }
@@ -114,12 +119,27 @@ public class CategoriaArquivoEquipe extends EntidadeSimplesORM {
         this.subpastasPrivadas = subpastasPrivadas;
     }
 
+    @Override
     public boolean isTemSolicitacaoParaMim() {
         return temSolicitacaoParaMim;
     }
 
     public void setTemSolicitacaoParaMim(boolean temSolicitacaoParaMim) {
         this.temSolicitacaoParaMim = temSolicitacaoParaMim;
+    }
+
+    @Override
+    public String getCor() {
+        return cor;
+    }
+
+    public List<CategoriaArquivoEquipe> getSubPastas() {
+        return subPastas;
+    }
+
+    @Override
+    public int getQuantidade() {
+        return 0;
     }
 
 }

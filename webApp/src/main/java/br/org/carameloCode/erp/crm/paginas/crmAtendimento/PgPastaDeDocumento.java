@@ -62,6 +62,13 @@ public class PgPastaDeDocumento extends MB_paginaCadastroEntidades<SubPastaPriva
 
     private Pessoa pessoa;
 
+    public Pessoa getPessoa() {
+        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
+            pessoa = (Pessoa) getParametroInstanciado(prPessoa).getValor();
+        }
+        return pessoa;
+    }
+
     @PostConstruct
     public void inicio() {
 

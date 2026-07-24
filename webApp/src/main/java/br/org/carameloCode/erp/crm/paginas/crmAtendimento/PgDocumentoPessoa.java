@@ -88,7 +88,30 @@ public class PgDocumentoPessoa
 
     private boolean ignorarNotificacao = false;
 
-    public boolean isTemNotificacao() {
+    private List<SolicitacaoArquivoCliente> solicitacoesPastaCliente;
+    private List<SolicitacaoArquivoCliente> solicitacoesPastaEquipe;
+
+    public List<SolicitacaoArquivoCliente> getSolicitacoesPastaCliente() {
+
+        return solicitacoesPastaCliente;
+    }
+
+    public List<SolicitacaoArquivoCliente> getSolicitacoesPastaEquipe() {
+        if (categoriaArquivoEquipe.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean() && (solicitacoesPastaEquipe == null || solicitacoesPastaEquipe.isEmpty())) {
+            ConsultaDinamicaDeEntidade pesquisaSolicitacao = new ConsultaDinamicaDeEntidade(SolicitacaoArquivoEquipe.class, getEMPagina());
+            pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacao.status, FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
+            if (getCategoriaArquivoEquipe() != null) {
+
+                pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacaoArquivoEquipe.categoriaarqequipe, getCategoriaArquivoEquipe());
+            }
+
+            pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitado, CarameloCode.getUsuarioLogado());
+            solicitacoesPastaEquipe = pesquisaSolicitacao.gerarResultados();
+        }
+        return solicitacoesPastaEquipe;
+    }
+
+    public boolean isTemSolicitacao() {
         if (categoriaArquivoEquipe != null) {
             return categoriaArquivoEquipe.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
         }
@@ -103,7 +126,7 @@ public class PgDocumentoPessoa
         if (ignorarNotificacao) {
             return false;
         }
-        return isTemNotificacao();
+        return isTemSolicitacao();
     }
 
     public boolean isIgnorarNotificacao() {

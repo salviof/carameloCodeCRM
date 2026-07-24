@@ -4,20 +4,21 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoconfirmacaoequipe.ValorLogicoSolicitacaoConfirmacaoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoconfirmacaoequipe.ValoresLogicosSolicitacaoConfirmacaoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe;
+import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoSolicitacaoConfirmacaoEquipe(calculo = ValoresLogicosSolicitacaoConfirmacaoEquipe.STATUS)
 public class ValorLogicoSolicitacaoConfirmacaoEquipeStatus
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoSolicitacaoStatus {
 
-	public ValorLogicoSolicitacaoConfirmacaoEquipeStatus(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoConfirmacaoEquipeStatus(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public SolicitacaoConfirmacaoEquipe getSolicitacaoConfirmacaoEquipe() {
-		return (SolicitacaoConfirmacaoEquipe) getCampoInst()
-				.getObjetoRaizDoAtributo();
-	}
+    public SolicitacaoConfirmacaoEquipe getSolicitacaoConfirmacaoEquipe() {
+        return (SolicitacaoConfirmacaoEquipe) getCampoInst()
+                .getObjetoRaizDoAtributo();
+    }
 }

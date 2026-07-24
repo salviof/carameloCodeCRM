@@ -33,7 +33,7 @@ public class SolicitacaoAtualizacaoArquivoEquipe extends Solicitacao {
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = ArquivoAnexado.class)
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         super.prepararNovoObjeto(parametros);
-
+        setStatus(FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
     }
 
     public ArquivoAnexado getArquivo() {

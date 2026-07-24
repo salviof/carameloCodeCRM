@@ -4,18 +4,19 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoacessocard.ValorLogicoSolicitacaoAcessoCard;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoacessocard.ValoresLogicosSolicitacaoAcessoCard;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAcessoCard;
+import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoSolicitacaoAcessoCard(calculo = ValoresLogicosSolicitacaoAcessoCard.STATUS)
 public class ValorLogicoSolicitacaoAcessoCardStatus
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoSolicitacaoStatus {
 
-	public ValorLogicoSolicitacaoAcessoCardStatus(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoAcessoCardStatus(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public SolicitacaoAcessoCard getSolicitacaoAcessoCard() {
-		return (SolicitacaoAcessoCard) getCampoInst().getObjetoRaizDoAtributo();
-	}
+    public SolicitacaoAcessoCard getSolicitacaoAcessoCard() {
+        return (SolicitacaoAcessoCard) getCampoInst().getObjetoRaizDoAtributo();
+    }
 }

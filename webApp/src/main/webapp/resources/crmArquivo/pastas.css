@@ -1,0 +1,324 @@
+/* =========================================================
+   pastas.css — library: crmArquivo
+   Navegação e gestão de pastas de documentos (CRM / Arquivo)
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. Ícone composto: categoria dentro da pasta
+   --------------------------------------------------------- */
+
+.crcPastaIcone {
+    --crcPastaIcone-escala: 0.38;   /* tamanho do ícone interno x pasta */
+    --crcPastaIcone-topo:   62%;    /* posição vertical dentro da pasta */
+    --crcPastaIcone-esq:    50%;    /* posição horizontal */
+    --crcPastaIcone-cor:    #ffffff;
+
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.crcPastaIcone .crcPastaIcone-base {
+    display: block;
+    font-size: 1em;   /* herda do Fs30 / Fs40 / Fs50 do wrapper */
+}
+
+.crcPastaIcone .crcPastaIcone-interno {
+    position: absolute;
+    left: var(--crcPastaIcone-esq);
+    top:  var(--crcPastaIcone-topo);
+    transform: translate(-50%, -50%);
+    font-size: calc(1em * var(--crcPastaIcone-escala));
+    color: var(--crcPastaIcone-cor);
+    pointer-events: none;
+}
+
+/* variante fa-folder-open: o corpo do glifo é mais baixo e inclinado */
+.crcPastaIcone--aberta {
+    --crcPastaIcone-escala: 0.32;
+    --crcPastaIcone-topo:   70%;
+    --crcPastaIcone-esq:    56%;
+}
+
+/* ---------------------------------------------------------
+   2. Alerta de solicitação (cobre o badge de quantidade)
+   --------------------------------------------------------- */
+
+.crcPasta {
+    --crcPasta-alerta-cor:   #d9534f;
+    --crcPasta-alerta-folga: 4px;
+}
+
+.crcPasta .crcPastaAlerta {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    width:  calc(1.5rem + var(--crcPasta-alerta-folga));
+    height: calc(1.5rem + var(--crcPasta-alerta-folga));
+    border-radius: 50%;
+    background: var(--crcPasta-alerta-cor);
+    color: #fff;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+    animation: crcPastaAlertaPulso 2s ease-out infinite;
+}
+
+.crcPasta:has(.ui-badge-lg) .crcPastaAlerta {
+    width:  calc(1.875rem + var(--crcPasta-alerta-folga));
+    height: calc(1.875rem + var(--crcPasta-alerta-folga));
+    font-size: 1.1rem;
+}
+
+.crcPasta:has(.ui-badge-xl) .crcPastaAlerta {
+    width:  calc(2.25rem + var(--crcPasta-alerta-folga));
+    height: calc(2.25rem + var(--crcPasta-alerta-folga));
+    font-size: 1.35rem;
+}
+
+@keyframes crcPastaAlertaPulso {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(217, 83, 79, .55);
+    }
+    50%      {
+        box-shadow: 0 0 0 6px rgba(217, 83, 79, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .crcPasta .crcPastaAlerta {
+        animation: none;
+    }
+}
+
+/* ---------------------------------------------------------
+   3. Botão "nova subpasta"
+   --------------------------------------------------------- */
+
+.crcNovaPasta {
+    --crcNovaPasta-cor: #8a94a6;
+
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    color: var(--crcNovaPasta-cor);
+    cursor: pointer;
+    transition: color .15s ease, transform .15s ease;
+}
+
+.crcNovaPasta:hover {
+    --crcNovaPasta-cor: #2e7d32;
+    transform: translateY(-2px);
+}
+
+.crcNovaPasta .crcNovaPasta-base {
+    display: block;
+    font-size: 1em;
+}
+
+
+
+/* ---------------------------------------------------------
+   4. Área de upload / drop
+   --------------------------------------------------------- */
+
+/* o uploader precisa preencher todo o retângulo tracejado
+   para o drop pegar embaixo da ilustração */
+.inputDropArquivo .ui-fileupload-content {
+    min-height: 280px;
+}
+
+/* a ilustração é decorativa e está sobreposta ao uploader:
+   sem isto ela intercepta o arraste em quase toda a área */
+.crcAreaUploadIlustracao {
+    pointer-events: none;
+}
+
+/* feedback visual durante o arraste */
+.inputDropArquivo.ui-state-drag,
+.inputDropArquivo .ui-fileupload-content.ui-state-drag {
+    border-color: #2e7d32 !important;
+    background: rgba(46, 125, 50, .06);
+}
+
+/* ---------------------------------------------------------
+   5. Cartão de solicitações da pasta
+   --------------------------------------------------------- */
+
+.crcSolicitacoes {
+    --crcSol-cor:     #b7791f;   /* âmbar do texto/borda */
+    --crcSol-fundo:   #fffbeb;
+    --crcSol-borda:   #f6e0a8;
+
+    max-width: 760px;
+    margin: 24px auto;
+    border: 1px solid var(--crcSol-borda);
+    border-left: 5px solid var(--crcSol-cor);
+    border-radius: 10px;
+    background: var(--crcSol-fundo);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+/* cabeçalho */
+.crcSolicitacoes-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--crcSol-borda);
+}
+
+.crcSolicitacoes-head-icone {
+    font-size: 26px;
+    color: var(--crcSol-cor);
+    flex-shrink: 0;
+}
+
+.crcSolicitacoes-head-txt {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    flex: 1 1 auto;
+}
+
+.crcSolicitacoes-head-txt strong {
+    color: var(--crcSol-cor);
+    font-size: 16px;
+    letter-spacing: .3px;
+}
+
+.crcSolicitacoes-head-txt span {
+    color: #8a6d3b;
+    font-size: 13px;
+}
+
+.crcSolicitacoes-head-acao {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* botão ignorar mais discreto (ghost), não competindo com o Atender */
+.crcSolicitacoes-ignorar.ui-button {
+    background: transparent;
+    border: 1px solid #d9534f;
+    color: #d9534f;
+    border-radius: 8px;
+    transition: background .15s ease, color .15s ease;
+}
+
+.crcSolicitacoes-ignorar.ui-button:hover {
+    background: #d9534f;
+    color: #fff;
+}
+
+/* lista de itens */
+.crcSolicitacoes-lista {
+    padding: 8px 20px 16px;
+}
+
+.crcSolicitacoes-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--crcSol-borda);
+}
+
+.crcSolicitacoes-item:last-child {
+    border-bottom: 0;
+}
+
+.crcSolicitacoes-atender {
+    flex: 1 1 auto;
+}
+
+.crcSolicitacoes-de {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    color: #6b7280;
+}
+
+.crcSolicitacoes-de-rotulo {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* mobile: empilha */
+@media (max-width: 560px) {
+    .crcSolicitacoes-head,
+    .crcSolicitacoes-item {
+        flex-wrap: wrap;
+    }
+    .crcSolicitacoes-head-acao {
+        width: 100%;
+    }
+    .crcSolicitacoes-ignorar.ui-button {
+        width: 100%;
+    }
+}
+/* ---------------------------------------------------------
+   3. Botão "nova subpasta" (pasta vazada + sinal de +)
+   --------------------------------------------------------- */
+/* ---------------------------------------------------------
+   3. Botão "nova subpasta" (pasta vazada + sinal de +)
+   --------------------------------------------------------- */
+
+.BtnNovaPasta {
+    display: inline-block;
+    line-height: 0;             /* tira o baseline extra do <a> */
+    text-decoration: none;
+}
+
+.crcNovaPasta {
+    --crcNovaPasta-cor:      #5a6474;   /* cor da pasta */
+    --crcNovaPasta-mais-cor: #2e7d32;   /* cor do + */
+    --crcNovaPasta-mais-escala: 0.62;   /* tamanho do + x pasta */
+    --crcNovaPasta-mais-topo:   58%;    /* posição vertical do + dentro da pasta */
+    --crcNovaPasta-mais-esq:    52%;    /* posição horizontal */
+
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    font-size: 42px;            /* tamanho da pasta inteira */
+    color: var(--crcNovaPasta-cor);
+    cursor: pointer;
+    transition: color .15s ease, transform .15s ease;
+}
+
+.BtnNovaPasta:hover .crcNovaPasta {
+    --crcNovaPasta-cor: #2e7d32;
+    transform: translateY(-2px);
+}
+
+.crcNovaPasta .crcNovaPasta-base {
+    display: block;
+    font-size: 1em;
+}
+
+.crcNovaPasta .crcNovaPasta-mais {
+    position: absolute;
+    left: var(--crcNovaPasta-mais-esq);
+    top:  var(--crcNovaPasta-mais-topo);
+    transform: translate(-50%, -50%);
+    font-size: calc(1em * var(--crcNovaPasta-mais-escala));
+    color: var(--crcNovaPasta-mais-cor);
+    pointer-events: none;
+
+    /* blindagem: garante o glyph do FA6 mesmo se a classe não mapear */
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;   /* solid */
+    font-style: normal !important;
+}
+
+.crcNovaPasta .crcNovaPasta-mais::before {
+    content: "\2b";   /* + do FA6 (fa-plus) */
+}

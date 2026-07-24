@@ -5,6 +5,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabTipoSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAcessoCard;
@@ -19,6 +20,7 @@ import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
@@ -157,12 +159,17 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
 
                 solicitacao.setFoiFinalizada(true);
-                solicitacao.setFoiFinalizada(true);
+                solicitacao.setFoiAtendida(true);
+                solicitacao.setStatus(FabStatusSolicitacao.FINALIZADO.getRegistro());
                 atualizarEntidade(solicitacao);
                 ComoDialogo dialogo = CarameloCode.getServicoComunicacao().getArmazenamento().getDialogoAtivoByCodigoSelo(solicitacao.getCodigoSelo());
-                SBCore.getServicoComunicacao().
-                        responderComunicacao(solicitacao.getCodigoSelo(), dialogo.getRepostasPossiveis().stream().filter(rp -> rp.getTipoResposta().isRespostasPosiva()).findFirst().get(),
-                                ERPTipoCanalComunicacao.INTRANET_MENU);
+                try {
+                    SBCore.getServicoComunicacao().
+                            responderComunicacao(solicitacao.getCodigoSelo(), dialogo.getRepostasPossiveis().stream().filter(rp -> rp.getTipoResposta().isRespostasPosiva()).findFirst().get(),
+                                    ERPTipoCanalComunicacao.INTRANET_MENU);
+                } catch (Throwable t) {
+
+                }
                 setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
 
             }
@@ -366,6 +373,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
                 solicitacao.setFoiFinalizada(true);
                 solicitacao.setFoiAtendida(true);
+                solicitacao.setStatus(FabStatusSolicitacao.FINALIZADO.getRegistro());
                 atualizarEntidade(solicitacao);
                 Pessoa pessoa = loadEntidade(pSolicitacao.getPessoa());
                 pessoa.getUsuariosResponsaveis().add(solicitacao.getUsuarioSolicitante());
@@ -386,6 +394,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
                 solicitacao.setFoiFinalizada(true);
                 solicitacao.setFoiAtendida(false);
+                solicitacao.setStatus(FabStatusSolicitacao.RECUSADO.getRegistro());
                 atualizarEntidade(solicitacao);
             }
         }.getResposta();

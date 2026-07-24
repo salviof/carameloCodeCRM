@@ -4,20 +4,21 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatividadeequipe.ValorLogicoSolicitacaoAtividadeEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatividadeequipe.ValoresLogicosSolicitacaoAtividadeEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtividadeEquipe;
+import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoSolicitacaoAtividadeEquipe(calculo = ValoresLogicosSolicitacaoAtividadeEquipe.STATUS)
 public class ValorLogicoSolicitacaoAtividadeEquipeStatus
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoSolicitacaoStatus {
 
-	public ValorLogicoSolicitacaoAtividadeEquipeStatus(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoAtividadeEquipeStatus(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public SolicitacaoAtividadeEquipe getSolicitacaoAtividadeEquipe() {
-		return (SolicitacaoAtividadeEquipe) getCampoInst()
-				.getObjetoRaizDoAtributo();
-	}
+    public SolicitacaoAtividadeEquipe getSolicitacaoAtividadeEquipe() {
+        return (SolicitacaoAtividadeEquipe) getCampoInst()
+                .getObjetoRaizDoAtributo();
+    }
 }

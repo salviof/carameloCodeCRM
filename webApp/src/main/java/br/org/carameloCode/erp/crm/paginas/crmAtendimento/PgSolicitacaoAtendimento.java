@@ -81,6 +81,9 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     @InfoParametroURL(nome = "prChamado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ChamadoCliente.class, representaEntidadePrincipalMB = true, obrigatorio = false)
     private ParametroURL prChamado;
 
+    @InfoParametroURL(nome = "catEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = CategoriaArquivoEquipe.class, representaEntidadePrincipalMB = true, obrigatorio = false)
+    private ParametroURL prCategoriaEquipe;
+
     private Pessoa pessoa;
     private UsuarioCRM usuarioEquipe;
     private ContatoProspecto contatoCliente;
@@ -244,7 +247,7 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
                     }
                     {
                         try {
-                            getEntidadeSelecionada().prepararNovoObjeto(pessoa, usuarioEquipe);
+                            getEntidadeSelecionada().prepararNovoObjeto(pessoa, CarameloCode.getUsuarioLogado());
                         } catch (ErroPreparandoObjeto ex) {
                             Logger.getLogger(PgSolicitacaoAtendimento.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -362,6 +365,9 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     }
 
     public CategoriaArquivoEquipe getCategoriaEquipe() {
+        if (categoriaEquipe == null && getParametroInstanciado(prCategoriaEquipe).isValorDoParametroFoiConfigurado()) {
+            categoriaEquipe = (CategoriaArquivoEquipe) getParametroInstanciado(prCategoriaEquipe).getValor();
+        }
         return categoriaEquipe;
     }
 

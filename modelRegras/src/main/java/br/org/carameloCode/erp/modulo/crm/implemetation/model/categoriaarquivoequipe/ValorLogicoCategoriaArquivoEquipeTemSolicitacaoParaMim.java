@@ -8,14 +8,12 @@ import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoarquivoequipe.CPS
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
-import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.slf4j.helpers.Util;
 
 @ValorLogicoCategoriaArquivoEquipe(calculo = ValoresLogicosCategoriaArquivoEquipe.TEMSOLICITACAOPARAMIM)
 public class ValorLogicoCategoriaArquivoEquipeTemSolicitacaoParaMim

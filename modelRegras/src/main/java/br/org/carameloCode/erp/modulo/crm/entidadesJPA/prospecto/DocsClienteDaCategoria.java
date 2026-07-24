@@ -6,6 +6,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ComoPasta;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
@@ -13,6 +14,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ import java.util.List;
  * @author salvio
  */
 @InfoObjetoSB(tags = "Documento da Categoria", plural = "Documentos cliente da categoria")
-public class DocsClienteDaCategoria {
+public class DocsClienteDaCategoria extends EntidadeSimples implements ComoPasta {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private Long id;
@@ -104,6 +106,16 @@ public class DocsClienteDaCategoria {
 
     public void setIcone(String icone) {
         this.icone = icone;
+    }
+
+    @Override
+    public boolean isCompartilharComConvidados() {
+        return categoria.isCompartilharComConvidados();
+    }
+
+    @Override
+    public String getCor() {
+        return categoria.getCor();
     }
 
 }

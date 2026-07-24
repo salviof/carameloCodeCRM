@@ -4,20 +4,21 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValorLogicoSolicitacaoAtualizacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValoresLogicosSolicitacaoAtualizacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtualizacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoSolicitacaoAtualizacaoArquivoEquipe(calculo = ValoresLogicosSolicitacaoAtualizacaoArquivoEquipe.STATUS)
 public class ValorLogicoSolicitacaoAtualizacaoArquivoEquipeStatus
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoSolicitacaoStatus {
 
-	public ValorLogicoSolicitacaoAtualizacaoArquivoEquipeStatus(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoSolicitacaoAtualizacaoArquivoEquipeStatus(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public SolicitacaoAtualizacaoArquivoEquipe getSolicitacaoAtualizacaoArquivoEquipe() {
-		return (SolicitacaoAtualizacaoArquivoEquipe) getCampoInst()
-				.getObjetoRaizDoAtributo();
-	}
+    public SolicitacaoAtualizacaoArquivoEquipe getSolicitacaoAtualizacaoArquivoEquipe() {
+        return (SolicitacaoAtualizacaoArquivoEquipe) getCampoInst()
+                .getObjetoRaizDoAtributo();
+    }
 }
