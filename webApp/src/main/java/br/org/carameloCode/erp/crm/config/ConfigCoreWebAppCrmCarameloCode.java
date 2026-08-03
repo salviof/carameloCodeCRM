@@ -74,7 +74,8 @@ public class ConfigCoreWebAppCrmCarameloCode extends ConfiguradorCoreDeProjetoWe
             FabAcaoCRMConvidado.class,
             FabAcaoNotificacaoPadraoSB.class,
             FabAcaoCRMIA.class,
-            FabAcaoAdminAgenda.class
+            FabAcaoAdminAgenda.class,
+            FabAcaoNotificacaoPadraoSB.class
         });
         MapaObjetosProjetoAtual.adcionarObjeto(TipoCredencialSocial.class);
         MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);

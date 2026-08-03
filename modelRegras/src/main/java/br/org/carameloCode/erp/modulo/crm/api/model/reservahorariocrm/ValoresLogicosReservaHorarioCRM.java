@@ -5,5 +5,5 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ReservaHorarioCRM.class)
 public enum ValoresLogicosReservaHorarioCRM {
-	DESCRICAO, VALORRESERVA, CODIGORESERVA, DISPONIVELPARACONFIRMACAO
+	DESCRICAO, VALORRESERVA, CHAVEPIX, FOIPAGO, CODIGORESERVA, DISPONIVELPARACONFIRMACAO
 }

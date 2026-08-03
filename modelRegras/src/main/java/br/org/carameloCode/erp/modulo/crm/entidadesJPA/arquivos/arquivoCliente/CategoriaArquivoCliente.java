@@ -139,4 +139,9 @@ public class CategoriaArquivoCliente extends EntidadeSimplesORM implements ComoP
         return 0;
     }
 
+    @Override
+    public boolean isPastaDoCliente() {
+        return true;
+    }
+
 }

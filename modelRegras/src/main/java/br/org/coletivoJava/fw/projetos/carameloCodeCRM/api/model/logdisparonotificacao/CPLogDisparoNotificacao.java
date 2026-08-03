@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = LogDisparoNotificacao.class)
 public enum CPLogDisparoNotificacao {
-	_ID, _NOTIFICACAO, _TIPOTRANSPORTE, _FOIENVIADO, _FOILIDO, _DATAHORADISPARO, _CODIGOREGISTROENVIO, _RECIBOENTREGA, _RECIBOLEITURA;
+	_ID, _NOTIFICACAO, _TIPOTRANSPORTE, _FOIENVIADO, _FOILIDO, _DATAHORADISPARO, _CODIGOREGISTROENVIO, _RECIBOENTREGA, _RECIBOLEITURA, _TIPOENTIDADE;
 
 	public static final String id = "id";
 	public static final String notificacao = "notificacao";
@@ -16,4 +16,5 @@ public enum CPLogDisparoNotificacao {
 	public static final String codigoregistroenvio = "codigoRegistroEnvio";
 	public static final String reciboentrega = "reciboEntrega";
 	public static final String reciboleitura = "reciboLeitura";
+	public static final String tipoentidade = "tipoEntidade";
 }

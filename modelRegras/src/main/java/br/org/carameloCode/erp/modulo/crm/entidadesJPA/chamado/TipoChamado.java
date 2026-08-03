@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado;
 
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -24,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 /**
@@ -59,6 +61,10 @@ public class TipoChamado extends EntidadeSimplesORM {
     )
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Dados do chamado")
     private List<TipoDadoCRM> tipoDados;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = TipoAgendamentoAtdmPublico.class)
+    private TipoAgendamentoAtdmPublico tipoAgendamentoVinculado;
 
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
@@ -139,6 +145,14 @@ public class TipoChamado extends EntidadeSimplesORM {
 
     public void setPodeClienteCriar(boolean podeClienteCriar) {
         this.podeClienteCriar = podeClienteCriar;
+    }
+
+    public TipoAgendamentoAtdmPublico getTipoAgendamentoVinculado() {
+        return tipoAgendamentoVinculado;
+    }
+
+    public void setTipoAgendamentoVinculado(TipoAgendamentoAtdmPublico tipoAgendamentoVinculado) {
+        this.tipoAgendamentoVinculado = tipoAgendamentoVinculado;
     }
 
 }

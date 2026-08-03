@@ -10,6 +10,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.servico.ServicoOferecido;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.Casa_Nova.mktFaturamento.api.objetos.orcamento.ItfOrcamentoFaturaMkt;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -115,8 +116,14 @@ public class Orcamento extends EntidadeORMNormal {
     @Override
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = Pessoa.class)
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
-        if (parametros.length > 0) {
-            setPessoa((Pessoa) parametros[0]);
+        try {
+            if (parametros.length > 0) {
+                setPessoa((Pessoa) parametros[0]);
+            }
+            dataHoraCriacao = new Date();
+            usuariocriou = (UsuarioCRM) CarameloCode.getUsuarioLogado();
+        } catch (Throwable t) {
+            throw new ErroPreparandoObjeto(this, t);
         }
     }
 

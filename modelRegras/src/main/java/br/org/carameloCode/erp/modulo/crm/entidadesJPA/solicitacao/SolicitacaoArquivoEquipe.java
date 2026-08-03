@@ -46,11 +46,16 @@ public class SolicitacaoArquivoEquipe extends Solicitacao {
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
-        UsuarioCRM userPr = getParametroInicialEnviado(UsuarioCRM.class, parametros);
-        String emailusrpr = userPr.getEmail();
-        setUsuarioSolicitado(userPr);
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
         setStatus(FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
+        try {
+            UsuarioCRM userPr = getParametroInicialEnviado(UsuarioCRM.class, parametros);
+            String emailusrpr = userPr.getEmail();
+            setUsuarioSolicitado(userPr);
+
+        } catch (Throwable t) {
+            //usuario solicitado é opcional
+        }
     }
 
     public SolicitacaoArquivoEquipe() {

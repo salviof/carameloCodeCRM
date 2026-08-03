@@ -19,9 +19,9 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
  */
 @InfoObjetoSB(tags = "Solicitação atualização de arquivo", plural = "SOlicitações de atualização de arquivos")
 @Entity
-public class SolicitacaoAtualizacaoArquivoEquipe extends Solicitacao {
+public class SolicitArqAtualizacaoEqp extends Solicitacao {
 
-    public SolicitacaoAtualizacaoArquivoEquipe() {
+    public SolicitArqAtualizacaoEqp() {
         setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE.getRegistro());
     }
 
@@ -34,6 +34,9 @@ public class SolicitacaoAtualizacaoArquivoEquipe extends Solicitacao {
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         super.prepararNovoObjeto(parametros);
         setStatus(FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
+        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE.getRegistro());
+        setArquivo(getParametroInicialEnviado(ArquivoAnexado.class, parametros));
+        setPessoa(arquivo.getProspecto());
     }
 
     public ArquivoAnexado getArquivo() {

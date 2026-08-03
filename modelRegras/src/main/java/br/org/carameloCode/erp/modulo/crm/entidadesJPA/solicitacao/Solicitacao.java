@@ -506,4 +506,28 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
         this.notificacao = notificacao;
     }
 
+    private boolean umaComunicacaoPersonalizada = true;
+
+    private String urlRespostaPersonalizada;
+
+    public boolean isUmaComunicacaoPersonalizada() {
+        return umaComunicacaoPersonalizada;
+    }
+
+    public void setUmaComunicacaoPersonalizada(boolean umaComunicacaoPersonalizada) {
+        this.umaComunicacaoPersonalizada = umaComunicacaoPersonalizada;
+    }
+
+    public String getUrlRespostaPersonalizada() {
+        return urlRespostaPersonalizada;
+    }
+
+    public void setUrlRespostaPersonalizada(String urlRespostaPersonalizada) {
+        this.urlRespostaPersonalizada = urlRespostaPersonalizada;
+    }
+
+    public SolicitArqAtualizacaoEqp getComoSolicitacaoAtualizacao() {
+        return (SolicitArqAtualizacaoEqp) this;
+    }
+
 }

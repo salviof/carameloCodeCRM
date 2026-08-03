@@ -19,22 +19,23 @@ public class ValorLogicoSolicitacaoConfirmacaoEquipeDescricaoConfirmacao
     @Override
     public Object getValor(Object... pEntidade) {
         StringBuilder pretexto = new StringBuilder();
-        if (getSolicitacaoConfirmacaoEquipe().getTipoRespostaSelecionada() != null) {
-            pretexto.append(getSolicitacaoConfirmacaoEquipe().getTipoRespostaSelecionada().getNome());
-            pretexto.append("; ");
-            String texto;
-            if (getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao() != null) {
-                if (!getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao().contains("; ")) {
-                    texto = pretexto.toString() + getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao();
+        if (!getSolicitacaoConfirmacaoEquipe().isFoiFinalizada()) {
+            if (getSolicitacaoConfirmacaoEquipe().getTipoRespostaSelecionada() != null) {
+                pretexto.append(getSolicitacaoConfirmacaoEquipe().getTipoRespostaSelecionada().getNome());
+                pretexto.append("; ");
+                String texto;
+                if (getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao() != null) {
+                    if (!getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao().contains("; ")) {
+                        texto = pretexto.toString() + getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao();
+                    } else {
+                        texto = getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao();
+                    }
                 } else {
-                    texto = getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao();
+                    texto = pretexto.toString();
                 }
-            } else {
-                texto = pretexto.toString();
+                getSolicitacaoConfirmacaoEquipe().setDescricaoConfirmacao(texto);
             }
-            getSolicitacaoConfirmacaoEquipe().setDescricaoConfirmacao(texto);
         }
-
         return getSolicitacaoConfirmacaoEquipe().getDescricaoConfirmacao();
     }
 

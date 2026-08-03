@@ -97,6 +97,16 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQUIVO_EQUIPE");
 	}
 
+	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarArqAtualizacaoEquipe() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_ARQ_ATUALIZACAO_EQUIPE");
+	}
+
+	public ComoAcaoControllerEntidade getSolicitacaoCtrEnviarArquivoVersaoAtualizada() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_ENVIAR_ARQUIVO_VERSAO_ATUALIZADA");
+	}
+
 	public ComoAcaoControllerEntidade getSolicitacaoCtrEnviarArquivoEquipe() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_ENVIAR_ARQUIVO_EQUIPE");
@@ -115,6 +125,11 @@ public class AcoesAtendimentoCrm_SolicitacaoMbGestao implements Serializable {
 	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarConfirmacaoEquipe() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_SOLICIATAR_CONFIRMACAO_EQUIPE");
+	}
+
+	public ComoAcaoControllerEntidade getSolicitacaoCtrConfirmacaoEquipe() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.SOLICITACAO_CTR_CONFIRMACAO_EQUIPE");
 	}
 
 	public ComoAcaoControllerEntidade getSolicitacaoCtrSoliciatarConfirmacaoCliente() {

@@ -118,4 +118,9 @@ public class DocsClienteDaCategoria extends EntidadeSimples implements ComoPasta
         return categoria.getCor();
     }
 
+    @Override
+    public boolean isPastaDoCliente() {
+        return true;
+    }
+
 }

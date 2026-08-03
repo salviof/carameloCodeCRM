@@ -356,14 +356,358 @@ body .ui-overlay-badge .ui-badge {
     margin: 0;
 }
 
+/* ==== Estrutura vertical do sidebar: cabeçalho + botões fixos, abas ocupando o resto ==== */
+.sidebarProspecto.ui-sidebar {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* o conteúdo interno do sidebar também precisa ser flex para a aba esticar */
+.sidebarProspecto > .ui-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/* blocos de altura fixa (cabeçalho, botões, atividade em andamento) */
+.sidebarProspecto .cabecalhoProspecto,
+.sidebarProspecto .fieldsetAcoesProspecto {
+    flex: 0 0 auto;
+}
+
+/* a tabView consome toda a altura restante */
+.sidebarProspecto .abasProspecto.ui-tabs {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    border: none;
+    padding: 0;
+}
+
+.sidebarProspecto .abasProspecto > .ui-tabs-nav {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.sidebarProspecto .abasProspecto > .ui-tabs-panels {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 8px;
+}
+
+/* NÃO declarar "display" aqui: quem liga/desliga o painel é o PrimeFaces
+   (ui-helper-hidden). Uma regra de display com esta especificidade venceria
+   a classe do PF e o painel inativo voltaria a ocupar espaço depois da
+   primeira troca de aba. Como item flex, o painel visível já estica. */
+.sidebarProspecto .abasProspecto > .ui-tabs-panels > .ui-tabs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0;
+}
+
+/* wrappers internos repassam a altura para o conteúdo real da aba;
+   usam height:100% (e não flex) porque o painel do PF é display:block */
+.sidebarProspecto .conteudoAbaProspecto {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* listas de seleção das abas (ações e atividades) esticam até o fim */
+.sidebarProspecto .listaSelecaoProspecto.ui-selectonelistbox {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    max-height: none;
+}
+
+.sidebarProspecto .listaSelecaoProspecto .ui-selectlistbox-filter-container {
+    flex: 0 0 auto;
+}
+
+.sidebarProspecto .listaSelecaoProspecto .ui-selectlistbox-listcontainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+}
+
+.sidebarProspecto .listaSelecaoProspecto .ui-selectlistbox-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    height: auto;
+    overflow-y: auto;
+}
+
+/* ==== Cabeçalho do sidebar: logo + nome da empresa ==== */
+.cabecalhoProspecto {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 4px 14px 4px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+}
+
+.cabecalhoProspecto:hover,
+.cabecalhoProspecto:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+.cabecalhoProspectoLogo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+.cabecalhoProspectoImagem {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.cabecalhoProspecto .cabecalhoProspectoAvatar {
+    width: 100%;
+    height: 100%;
+    background-color: #4caf4f;
+    color: #ffffff;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.cabecalhoProspecto .cabecalhoProspectoAvatar .ui-avatar-text {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.1;
+    padding: 0 4px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.cabecalhoProspecto .cabecalhoProspectoNome {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: .01em;
+    color: #263238;
+    word-break: break-word;
+    hyphens: auto;
+    /* limita a 3 linhas em nomes muito longos */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color .15s ease;
+}
+
+.cabecalhoProspecto:hover .cabecalhoProspectoNome,
+.cabecalhoProspecto:focus .cabecalhoProspectoNome {
+    color: #0288D1;
+}
+
+@media (max-width: 800px) {
+    .cabecalhoProspecto {
+        gap: 10px;
+        padding: 8px 4px 10px 4px;
+    }
+    .cabecalhoProspectoLogo {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+    }
+    .cabecalhoProspecto .cabecalhoProspectoAvatar .ui-avatar-text {
+        font-size: 11px;
+    }
+    .cabecalhoProspecto .cabecalhoProspectoNome {
+        font-size: 15px;
+        -webkit-line-clamp: 2;
+    }
+}
+
+/* ==== Botões quadrados de ação do prospecto (fieldset final) ==== */
+.fieldsetAcoesProspecto {
+    margin-top: 10px;
+}
+
+.fieldsetAcoesProspecto .ui-fieldset-content {
+    padding: 10px;
+}
+
+.gradeAcoesProspecto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspecto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    aspect-ratio: 1 / 1;
+    min-height: 78px;
+    padding: 6px 4px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    background: #ffffff;
+    color: #37474f;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspectoIcone {
+    font-size: 24px;
+    line-height: 1;
+    color: inherit;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspectoTexto {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: inherit;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspecto:hover,
+.gradeAcoesProspecto .botaoAcaoProspecto:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspecto:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+/* cor de identidade por ação */
+.gradeAcoesProspecto .botaoAcaoProspectoDetalhes {
+    color: #0277BD;
+    border-color: rgba(2, 119, 189, 0.25);
+}
+.gradeAcoesProspecto .botaoAcaoProspectoDetalhes:hover,
+.gradeAcoesProspecto .botaoAcaoProspectoDetalhes:focus {
+    background: #0288D1;
+    border-color: #0288D1;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspectoChat {
+    color: #2E7D32;
+    border-color: rgba(46, 125, 50, 0.25);
+}
+.gradeAcoesProspecto .botaoAcaoProspectoChat:hover,
+.gradeAcoesProspecto .botaoAcaoProspectoChat:focus {
+    background: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspectoArquivos {
+    color: #EF6C00;
+    border-color: rgba(239, 108, 0, 0.25);
+}
+.gradeAcoesProspecto .botaoAcaoProspectoArquivos:hover,
+.gradeAcoesProspecto .botaoAcaoProspectoArquivos:focus {
+    background: #FB8C00;
+    border-color: #FB8C00;
+}
+
+.gradeAcoesProspecto .botaoAcaoProspectoOrcamentos {
+    color: #4527A0;
+    border-color: rgba(69, 39, 160, 0.25);
+}
+.gradeAcoesProspecto .botaoAcaoProspectoOrcamentos:hover,
+.gradeAcoesProspecto .botaoAcaoProspectoOrcamentos:focus {
+    background: #673AB7;
+    border-color: #673AB7;
+}
+
+/* mobile: botões compactos, somente ícone (o rótulo fica só para leitores de tela) */
+@media (max-width: 800px) {
+    .gradeAcoesProspecto {
+        grid-template-columns: repeat(auto-fill, 52px);
+        justify-content: center;
+        gap: 8px;
+    }
+    .gradeAcoesProspecto .botaoAcaoProspecto {
+        gap: 0;
+        min-height: 52px;
+        padding: 4px;
+        border-radius: 12px;
+    }
+    .gradeAcoesProspecto .botaoAcaoProspectoIcone {
+        font-size: 22px;
+    }
+    .gradeAcoesProspecto .botaoAcaoProspectoTexto {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
 /* modo top no mobile: altura de verdade + scroll interno,
    para o conteúdo não vazar da caixa */
 @media (max-width: 800px) {
     .sidebarProspecto.ui-sidebar-top {
-        height: auto !important;     /* cresce conforme o conteúdo */
-        max-height: 95vh;            /* teto: nunca engole a tela toda */
+        height: 95vh !important;     /* usa toda a altura disponível da tela */
+        max-height: 95vh;
         width: 100% !important;
-        overflow-y: auto;            /* scroll só se passar do teto */
+        overflow: hidden;            /* o scroll acontece dentro da aba */
         border-radius: 0 0 16px 16px;
     }
 }

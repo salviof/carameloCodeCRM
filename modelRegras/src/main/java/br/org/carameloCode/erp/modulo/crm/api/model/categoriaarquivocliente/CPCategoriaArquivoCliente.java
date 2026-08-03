@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = CategoriaArquivoCliente.class)
 public enum CPCategoriaArquivoCliente {
-	_ID, _NOME, _ICONE, _COMPARTILHARCOMCONVIDADOS, _PASTAPAI, _SUBPASTAS, _SUBPASTASPRIVADAS, _TEMSOLICITACAOPARAMIM;
+	_ID, _NOME, _ICONE, _COMPARTILHARCOMCONVIDADOS, _PASTAPAI, _SUBPASTAS, _SUBPASTASPRIVADAS, _TEMSOLICITACAOPARAMIM, _COR;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -15,4 +15,5 @@ public enum CPCategoriaArquivoCliente {
 	public static final String subpastas = "subPastas";
 	public static final String subpastasprivadas = "subpastasPrivadas";
 	public static final String temsolicitacaoparamim = "temSolicitacaoParaMim";
+	public static final String cor = "cor";
 }

@@ -1,0 +1,56 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet library="crmPessoa" name="opcoes_do_prospecto.css" />
+        <h:panelGroup layout="block"
+                      id="barraAcoesRapidas"
+                      styleClass="BarraAcoesRapidasLead" rendered="#{cc.attrs.pessoa!=null}">
+            <p:badge value="#{cc.attrs.pessoa.chamadosAbertos.size()}"
+                     severity="info">
+                <p:link
+                    href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa)}"
+                    styleClass="btnAcaoRapida"
+                    title="Chamados em atendimento">
+                    <i class="fa fa-life-ring"></i>
+                </p:link>
+            </p:badge>
+
+            <!-- SOLICITACOES -->
+            <p:badge value="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
+                     severity="warning">
+                <p:link
+                    href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
+                    styleClass="btnAcaoRapida"
+                    title="Solicitações da pessoa">
+                    <i class="fa fa-hand-paper-o"></i>
+                </p:link>
+            </p:badge>
+
+
+            <!-- NOVA ATIVIDADE -->
+
+
+            <p:link
+                href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade, cc.attrs.pessoa)}"
+                styleClass="btnAcaoRapida btnAcaoRapida-primaria"
+                title="Nova Atividade">
+                <i class="pi pi-play"></i>
+            </p:link>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

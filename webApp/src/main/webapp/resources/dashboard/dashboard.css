@@ -60,7 +60,29 @@
     align-items: stretch;
 }
 
+/* o <a> do p:link é inline por natureza e encolhia até o
+   conteúdo — por isso cada card ficava do tamanho do próprio
+   texto. Como bloco de 100%, ele entrega ao card a largura
+   inteira do container onde o componente foi inserido.
+   O container-type permite ao card se adaptar à PRÓPRIA
+   largura (ver container query abaixo), e não à da tela. */
+.card-link {
+    display: block;
+    width: 100%;
+    container-type: inline-size;
+}
+
+.card-link,
+.card-link:hover,
+.card-link:focus {
+    text-decoration: none !important;
+}
+
 .card-moderno {
+    /* largura vem do container, não do conteúdo: dois
+       componentes lado a lado ficam sempre do mesmo tamanho */
+    width: 100%;
+    box-sizing: border-box;
     background: #FFFFFF;
     border: 1px solid #e9ecef;
     border-radius: 12px;
@@ -118,6 +140,53 @@
     font-size: 0.8rem;
     color: #6c757d;
     margin-top: 2px;
+}
+
+/* --- card estreito, em qualquer contexto (container query) ---
+   Antes o min-width:420px inline garantia espaço para o conteúdo;
+   agora que a largura é a do container, o card pode ficar estreito
+   (ex.: Container3 numa tela média). Nesse caso o conteúdo se
+   rearranja: ícone à esquerda + valor/texto à direita na primeira
+   linha, e o título desce ocupando a largura toda — nada corta.
+   Os !important vencem o min-width inline do ícone e as classes
+   Fs* do componente. (Navegadores antigos ignoram o bloco e
+   mantêm o layout em linha única.) */
+@container (max-width: 419px) {
+    .card-moderno .card-conteudo {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 6px;
+    }
+
+    /* promove valor e título a itens diretos do flex do card */
+    .card-moderno .card-info {
+        display: contents;
+    }
+
+    .card-moderno .card-icone {
+        min-width: 52px !important;
+        min-height: 52px !important;
+        width: 52px;
+        height: 52px;
+    }
+
+    .card-moderno .card-icone i {
+        font-size: 26px !important;
+    }
+
+    .card-moderno .card-valor {
+        font-size: 32px !important;
+        flex: 1;               /* ocupa o espaço entre o ícone e a borda */
+        text-align: center;
+        align-self: center;
+    }
+
+    .card-moderno .card-titulo {
+        flex-basis: 100%;
+        width: 100%;
+        text-align: center;
+        margin: 4px 0 0 0 !important;
+    }
 }
 
 /* ============================================
@@ -361,6 +430,146 @@
 }
 
 /* ============================================
+   ATALHO "+" DE NOVO REGISTRO (card cinza)
+   Classe card-com-novo, aplicada pelo componente
+   quando exibirBotaoNovoCasoZero=true E o card
+   está zerado. O card segue cinza/apagado; o que
+   muda é COMO ele apaga.
+
+   Por que nao dá para so somar o "+" ao card-zerado:
+   ali o apagamento vem de opacity no card, e opacity
+   do pai abate os filhos — o selo sairia lavado junto
+   e nenhum filho consegue desfazer isso.
+   Solucao: aqui o apagamento vem de um veu branco em
+   ::before (pintado depois do conteudo, antes do selo),
+   e o grayscale continua no card. Resultado visual
+   igual ao card-zerado, mas com o "+" nitido por cima.
+   ============================================ */
+
+.card-moderno.card-zerado.card-com-novo {
+    filter: grayscale(1);
+    opacity: 1;               /* o veu abaixo faz o papel do opacity */
+    cursor: pointer;          /* aqui SEMPRE dá para clicar */
+}
+
+.card-moderno.card-zerado.card-com-novo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255,255,255,0.58);
+    z-index: 1;
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+/* hover/foco: o card volta parcialmente a vida, como no
+   card-zerado comum (4 classes vencem a regra de 3 de lá) */
+.card-moderno.card-zerado.card-com-novo:hover {
+    filter: grayscale(0.6);
+    opacity: 1;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-moderno.card-zerado.card-com-novo:hover::before {
+    background: rgba(255,255,255,0.28);
+}
+
+/* ---- o selo ----
+   canto superior direito: fora do caminho do icone
+   principal (à esquerda) e sem roubar largura do texto,
+   que pode crescer por baixo dele. Sempre visivel, ja que
+   hover-only nao existe no mobile. Sem pointer-events:
+   quem recebe o clique é o card inteiro, que já é o link. */
+.card-novo-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    color: #4A4A4A;
+    border: 1px solid #B9B9B9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+    font-size: 15px;
+    line-height: 1;
+    pointer-events: none;
+    transition: transform 0.25s ease, background 0.25s ease,
+        color 0.25s ease, border-color 0.25s ease;
+}
+
+/* anel pulsante lento: chama o olho sem hover e sem poluir */
+.card-novo-badge::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    bottom: -4px;
+    left: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(74,74,74,0.5);
+    animation: cardNovoPulso 2.4s ease-out infinite;
+}
+
+@keyframes cardNovoPulso {
+    0%   {
+        transform: scale(0.86);
+        opacity: 0.6;
+    }
+    70%  {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+}
+
+/* desktop: hover no card destaca o selo */
+.card-moderno.card-com-novo:hover .card-novo-badge {
+    transform: scale(1.14);
+    background: #3E3131;
+    color: #FFFFFF;
+    border-color: #3E3131;
+}
+
+/* touch: feedback imediato ao tocar em qualquer parte do card */
+.card-moderno.card-com-novo:active .card-novo-badge {
+    transform: scale(0.94);
+    background: #3E3131;
+    color: #FFFFFF;
+    border-color: #3E3131;
+}
+
+/* alvo um pouco maior no mobile, onde o card é mais estreito */
+@media (max-width: 768px) {
+    .card-novo-badge {
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-novo-badge::after {
+        animation: none;
+        opacity: 0.45;
+    }
+}
+
+/* ============================================
    ANIMAÇÃO DE "ACENDER"
    Disparada via JS quando o valor sai de 0
    ============================================ */
@@ -562,3 +771,4 @@
 
     font-size: 2em!important; /* aqui você controla o tamanho do badge */
 }
+

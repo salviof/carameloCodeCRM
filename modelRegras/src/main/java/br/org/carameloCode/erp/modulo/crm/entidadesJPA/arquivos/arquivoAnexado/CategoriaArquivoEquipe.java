@@ -142,4 +142,9 @@ public class CategoriaArquivoEquipe extends EntidadeSimplesORM implements ComoPa
         return 0;
     }
 
+    @Override
+    public boolean isPastaDoCliente() {
+        return false;
+    }
+
 }

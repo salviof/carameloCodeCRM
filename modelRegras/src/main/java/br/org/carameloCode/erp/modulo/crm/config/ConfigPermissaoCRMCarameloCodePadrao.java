@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.config;
 
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
 import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
@@ -94,6 +95,9 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
                 }
 
                 if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoCRMAtendimento.SOLICITACAO_MB_GESTAO.getRegistro())) {
+                    UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
+                }
+                if (acP.getAcaoDeGestaoEntidade().equals(FabAcaoAgendaMentoPublico.MINHA_DISPONIBILIDADE_MB_GESTAO.getRegistro())) {
                     UtilSBControllerAcessosModel.adicionarPermissao(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro(), acP);
                 }
 

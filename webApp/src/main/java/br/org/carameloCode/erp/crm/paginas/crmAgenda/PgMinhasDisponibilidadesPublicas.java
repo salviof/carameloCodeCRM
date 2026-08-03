@@ -19,7 +19,9 @@ import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.InfoAcaoAgendamentoPublico;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormularioEntidade;
 
 /**
  *
@@ -33,7 +35,7 @@ public class PgMinhasDisponibilidadesPublicas extends MB_paginaCadastroEntidades
 
     @Override
     protected void autoexecEntidadeNova() {
-        super.autoexecEntidadeNova(); //To change body of generated methods, choose Tools | Templates.
+        setEntidadeSelecionada(new DisponibilidadeAtdmtPublico());
         getEntidadeSelecionada().setUsuarioResponsavel(UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina()));
         getEntidadeSelecionada().setAtendentesDisponiveis(new ArrayList<>());
         getEntidadeSelecionada().getAtendentesDisponiveis().add(UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina()));
@@ -42,6 +44,11 @@ public class PgMinhasDisponibilidadesPublicas extends MB_paginaCadastroEntidades
     public void editarEntidade() {
         setAcaoSelecionada(FabAcaoAgendaMentoPublico.MINHA_DISPONIBILIDADE_FRM_EDITAR.getRegistro());
         executarAcaoSelecionada();
+    }
+
+    @Override
+    public List<ItfAcaoFormularioEntidade> getAcoesNovoRegistro() {
+        return super.getAcoesNovoRegistro(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     @Override

@@ -42,6 +42,7 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoP
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
@@ -69,12 +70,44 @@ public class PgMinhasReservas
     @InfoParametroURL(nome = "reserva", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ReservaHorario.class, obrigatorio = false, representaEntidadePrincipalMB = true)
     private ParametroURL prReserva;
 
+    @InfoParametroURL(nome = "tipoReserva", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = TipoAgendamentoAtdmPublico.class, obrigatorio = false)
+    private ParametroURL prTipoReserva;
+
     private UsuarioCRM usuario;
 
     private ScheduleModel agendaReservas;
     private EscopoPesquisaMelhorHorario escopoPesquisa;
     private List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis;
     private HorarioDisponivelAtendimentoPublico horarioDisponivelSelecionado;
+
+    private TipoAgendamentoAtdmPublico tipoReserva;
+    private List<TipoAgendamentoAtdmPublico> tiposReserva;
+
+    public TipoAgendamentoAtdmPublico getTipoReserva() {
+
+        if (tipoReserva == null) {
+
+            if (getHorarioDisponivelSelecionado() != null) {
+                if (getHorarioDisponivelSelecionado().getTipoAgendamento() != null) {
+                    tipoReserva = getHorarioDisponivelSelecionado().getTipoAgendamento();
+                }
+                if (tipoReserva == null) {
+                    if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
+                        tipoReserva = (TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor();
+                    }
+                }
+            }
+
+        }
+        return tipoReserva;
+    }
+
+    public List<TipoAgendamentoAtdmPublico> getTiposReserva() {
+        if (tiposReserva == null || tiposReserva.isEmpty()) {
+            tiposReserva = UtilSBPersistencia.getListaTodos(TipoAgendamentoAtdmPublico.class, getEMPagina());
+        }
+        return tiposReserva;
+    }
 
     @Override
     public ReservaHorarioCRM getEntidadeSelecionada() {
@@ -93,19 +126,21 @@ public class PgMinhasReservas
 
     @Override
     protected void autoexecEntidadeNova() {
-        if (getHorarioDisponivelSelecionado() != null) {
-            if (getHorarioDisponivelSelecionado().getTipoAgendamento().isUmAtendimentoRemoto()) {
+        if (getTipoReserva() != null) {
+            if (getTipoReserva().isUmAtendimentoRemoto()) {
                 setEntidadeSelecionada(new ReservaHoraRemotoVideo());
             } else {
                 setEntidadeSelecionada(new ReservaHoraPresencial());
             }
+            getEntidadeSelecionada().setAtendenteResponsavel(getUsuario());
             try {
-                getEntidadeSelecionada().prepararNovoObjeto(getHorarioDisponivelSelecionado());
+                if (getHorarioDisponivelSelecionado() != null) {
+                    getEntidadeSelecionada().prepararNovoObjeto(getHorarioDisponivelSelecionado());
+                }
+
             } catch (ErroPreparandoObjeto ex) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha definindo parametros iniciais da reserva a partir dos horarios disponíveis", ex);
             }
-        } else {
-            setEntidadeSelecionada(null);
         }
 
     }

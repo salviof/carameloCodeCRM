@@ -14,10 +14,12 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Notif
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.ComoTipoComunicCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
@@ -35,7 +37,7 @@ public class ServicoNotificacao {
 
     public static boolean notificarReservaCliente(FabTipoNotificacao pTipo, ReservaHorarioCRM pReserva) {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+        ComoTipoComunicCRM tipoNotificacao = pTipo.getRegistro();
 
         try {
 
@@ -48,7 +50,7 @@ public class ServicoNotificacao {
                 contatos.add(p.getContatoPrincipal());
             }
             for (ContatoProspecto usuario : p.getContatosProspecto()) {
-                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
                 notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
                 return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
             }
@@ -63,7 +65,7 @@ public class ServicoNotificacao {
 
     public static boolean notificarReservaAtendente(FabTipoNotificacao pTipo, ReservaHorarioCRM pReserva) {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+        ComoTipoComunicCRM tipoNotificacao = pTipo.getRegistro();
 
         try {
 
@@ -76,7 +78,7 @@ public class ServicoNotificacao {
                 contatos.add(p.getContatoPrincipal());
             }
             for (ContatoProspecto usuario : p.getContatosProspecto()) {
-                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao(tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
                 notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
                 return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
             }
@@ -95,7 +97,7 @@ public class ServicoNotificacao {
 
     public static boolean notificarChamadoAtendente(FabTipoNotificacao pTipo, ChamadoCliente pChamado, boolean pNotificarResponsavelCliente, boolean pNotificarAtendenteAnterior, boolean pNotificarOutrosAtendentes, boolean pNotificarResponsavel) {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+        ComoTipoComunicCRM tipoNotificacao = pTipo.getRegistro();
 
         try {
 
@@ -146,7 +148,7 @@ public class ServicoNotificacao {
 
             boolean notificado = false;
             for (UsuarioCRM usr : atendentes) {
-                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao(tipoNotificacao, usr, chamado);
+                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, usr, chamado);
                 notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
                 ItfRespostaAcaoDoSistema respNotificado = ModuloNotificacao.notificacaoRegistrar(notificacao);
                 if (respNotificado.isSucesso()) {
@@ -164,7 +166,7 @@ public class ServicoNotificacao {
 
     public static boolean notificarChamadoCliente(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+        ComoTipoComunicCRM tipoNotificacao = pTipo.getRegistro();
 
         try {
 
@@ -179,7 +181,7 @@ public class ServicoNotificacao {
 
             UsuarioCrmCliente usuario = chamado.getUsuarioCliente();
 
-            NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao(tipoNotificacao, usuario, pChamado);
+            NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, usuario, pChamado);
 
             notificacao.setCodigoEntidadeRelacionada(chamado.getId().toString());
             return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
@@ -198,7 +200,7 @@ public class ServicoNotificacao {
             ChamadoCliente chamado = UtilSBPersistencia.loadEntidade(pChamado, em);
             NotificacaoSB notificacao;
             try {
-                notificacao = NOTIFICACAO_SRV.gerarNotificacao(tipoNotificacao.getRegistro(), pChamado.getUsuarioCliente(), pChamado);
+                notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao.getRegistro(), pChamado.getUsuarioCliente(), pChamado);
             } catch (Throwable ex) {
                 return false;
             }
@@ -213,7 +215,7 @@ public class ServicoNotificacao {
     public static boolean notificacarChamadoResponsaveis(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {
 
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        TiponotificacaoCRM tipoNotificacao = pTipo.getRegistro();
+        TiponotificacaoCRM tipoNotificacao = (TiponotificacaoCRM) pTipo.getRegistro();
 
         try {
 

@@ -13,7 +13,7 @@
         itens="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadesListadas}"
         metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
         opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
-        rendered="#{paginaAtual.sessao.telaUsuario.umMobile and paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size()>1}"
+        rendered="#{paginaAtual.sessao.telaUsuario.umMobile and paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size() gt 1}"
         titulo="Listagem de  #{paginaAtual.infoPagina.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
         />
 
@@ -27,14 +27,14 @@
         itens="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadesListadas}"
         metodo="#{paginaAtual.infoPagina.comoPaginaEntidade.executarAcao(item)}"
         opcoes="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros}"
-        rendered="#{!paginaAtual.sessao.telaUsuario.umMobile and paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size()>1}"
+        rendered="#{!paginaAtual.sessao.telaUsuario.umMobile and paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size() gt 1}"
         titulo="Listagem de  #{paginaAtual.infoPagina.acaoVinculada.acaoFormularioListarPadrao.comoFormularioEntidade.nomeTipoObjetoClasseRelacionadaPlural}"
         />
 
     <CRCListagem:listaAcaoUnica
-        acaoExecucao="#{acoesCarameloDev_CrudExemploMbGestao.crudExemploFrmEditar}"
+        acaoExecucao="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros[0]}"
         itemSelecionado="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-        rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size()<2}"
+        rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.acoesRegistros.size() lt 2}"
         />
 
 

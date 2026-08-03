@@ -698,7 +698,7 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
                 ReservaHorario reserva = loadEntidade(pReserva);
                 reserva.setStatus(FabStatusReservaHorario.CONFIRMADO.getRegistro());
                 try {
-                    ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_CONFIRMOU, pReserva);
+                    ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_SOLICITACAO_CONFIRMADA_CLIENTE, pReserva);
                 } catch (Throwable t) {
 
                 }

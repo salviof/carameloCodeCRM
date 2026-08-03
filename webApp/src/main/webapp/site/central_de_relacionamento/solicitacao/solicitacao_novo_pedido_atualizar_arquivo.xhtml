@@ -16,20 +16,19 @@
     <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
         <h:form >
 
-            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('categoriaArqEquipe')}"
-                            desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
-                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
-            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('categoriaArqEquipe')}"
-                            desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
+
+            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('arquivo')}"
+                            desabilitarEdicao="true"
+
                             layout="#{layoutsComponenteSB.layoutCampo.superior}" />
             <h:panelGroup styleClass="Container12" layout="block">
 
                 <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"
-                                desabilitarEdicao="#{pgSolicitacaoAtendimento.prPessoaFoiDefinido}"
+
+                                desabilitarEdicao="true"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}" />
 
                 <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('usuarioSolicitado')}"
-
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}" />
 
                 <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
@@ -38,7 +37,7 @@
                 <SBInput:input registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dataHoraDataProgramada')}" layout="#{layoutsComponenteSB.layoutCampo.superior}" />
             </h:panelGroup>
             <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin: 30px;">
-                <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrSoliciatarArquivoEquipe}" />
+                <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrSoliciatarArqAtualizacaoEquipe}" />
             </h:panelGroup>
         </h:form>
     </h:panelGroup>

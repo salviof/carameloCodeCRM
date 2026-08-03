@@ -11,4 +11,10 @@ public class ValorLogicoSolicitacaoNome extends ValorLogicoCalculoGenerico {
     public ValorLogicoSolicitacaoNome(ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
+
+    @Override
+    public Object getValor(Object... pEntidade) {
+        return super.getValor(pEntidade); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
 }

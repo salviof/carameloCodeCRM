@@ -14,9 +14,10 @@
         <SBReserva:reservaPresencialEdicao
             reserva="#{pgReservasCliente.entidadeSelecionada}"
             bloquearEdicaoCliente="true"
+            rendered="#{pgReservasCliente.entidadeSelecionada !=null and pgReservasCliente.entidadeSelecionada.tipoAgendamento !=null and !pgReservasCliente.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}"
             />
 
-        <p:commandButton update="@form" process="@this" />
+
 
     </ui:define>
     <ui:define name="botoesDeAcao">

@@ -1,0 +1,42 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+
+
+    <cc:interface>
+        <cc:attribute name="tiposDisponiveis" type="java.util.List" required="true"/>
+
+        <cc:attribute name="acaoAgendaRemota"     type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema" required="true" />
+        <cc:attribute name="acaoAgendaPresencial" type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema" required="true" />
+        <cc:attribute name="atendente" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM" required="true" />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
+
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
+            <c:forEach items="#{cc.attrs.tiposDisponiveis}"
+                       var="tipoAgenda"
+                       >
+                <p:link href="#{pgUtilAcoes.getUrlAcao(tipoAgenda.umAtendimentoRemoto?cc.attrs.acaoAgendaRemota:cc.attrs.acaoAgendaPresencial, cc.attrs.atendente,tipoAgenda)}" >
+                    <crmAgenda:tipoReserva  tipoAgendamento="#{tipoAgenda}" atendente="#{cc.attrs.atendente}" />
+                </p:link>
+            </c:forEach>
+
+        </h:panelGroup>
+
+
+
+    </cc:implementation>
+</ui:composition>

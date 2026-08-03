@@ -29,7 +29,7 @@
     position: relative;
 }
 
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+.BarraAcoesRapidasLead {
     display: flex;
     align-items: center;      /* alinha integracoes e acoes na mesma linha media */
     justify-content: flex-end;
@@ -43,8 +43,8 @@
 }
 
 /* h:form nao pode quebrar o flex: os filhos viram itens diretos */
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead form,
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .formAcaoRapida {
+.BarraAcoesRapidasLead form,
+.BarraAcoesRapidasLead .formAcaoRapida {
     display: contents;
 }
 
@@ -52,13 +52,13 @@
    o componente traz wrappers com Container floats do grid CRC;
 dentro da barra eles precisam se comportar como itens flex
 simples, centralizados verticalmente e sem largura de grid.  */
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead > *,
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead a {
+.BarraAcoesRapidasLead > *,
+.BarraAcoesRapidasLead a {
     display: inline-flex;
     align-items: center;
 }
 
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead [class*="Container"] {
+.BarraAcoesRapidasLead [class*="Container"] {
     width: auto !important;
     float: none !important;
     display: inline-flex !important;
@@ -72,7 +72,7 @@ simples, centralizados verticalmente e sem largura de grid.  */
    padding interno como respiro e object-fit:contain para exibir a
    imagem inteira, sem recorte nem distorcao. Os !important vencem
    dimensoes inline aplicadas pelo crm:integracao (tamanhoPixel). */
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead img {
+.BarraAcoesRapidasLead img {
     display: block;
     width: 36px !important;
     height: 36px !important;
@@ -98,7 +98,7 @@ simples, centralizados verticalmente e sem largura de grid.  */
 }
 
 /* botao redondo padrao das acoes rapidas (alvo de toque >= 40px) */
-.DashboardVisaoGeralProspecto .btnAcaoRapida {
+.BarraAcoesRapidasLead .btnAcaoRapida {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -113,25 +113,25 @@ simples, centralizados verticalmente e sem largura de grid.  */
     transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
-.DashboardVisaoGeralProspecto .btnAcaoRapida:hover {
+.BarraAcoesRapidasLead .btnAcaoRapida:hover {
     background: #e2e6ea;
     transform: translateY(-2px);
     box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
 }
 
 /* variante primaria (Nova atividade) */
-.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria {
+.BarraAcoesRapidasLead .btnAcaoRapida-primaria {
     background: var(--cor-primaria);
     color: #ffffff !important;
     border-color: var(--cor-primaria);
 }
 
-.DashboardVisaoGeralProspecto .btnAcaoRapida-primaria:hover {
+.BarraAcoesRapidasLead .btnAcaoRapida-primaria:hover {
     background: var(--cor-primaria-escura);
 }
 
 /* badge sobreposto (p:badge gera .ui-overlay-badge > .ui-badge) */
-.DashboardVisaoGeralProspecto .BarraAcoesRapidasLead .ui-overlay-badge .ui-badge {
+.BarraAcoesRapidasLead .ui-overlay-badge .ui-badge {
     font-size: .68rem;
     min-width: 1.15rem;
     height: 1.15rem;
@@ -144,7 +144,7 @@ simples, centralizados verticalmente e sem largura de grid.  */
    do registro. Fundo branco + borda eliminam a faixa cinza que
    o fundo da pagina criava atras dela. */
 @media (max-width: 1199px) {
-    .DashboardVisaoGeralProspecto .BarraAcoesRapidasLead {
+    .BarraAcoesRapidasLead {
         position: static;
         max-width: 100%;
         padding: 10px 14px;
@@ -752,4 +752,44 @@ simples, centralizados verticalmente e sem largura de grid.  */
 
 .listagem-container-content {
     width: 100%;
+}
+
+/* ============================================================
+   ESTADO VAZIO DA LISTA DE CONTATOS
+   Aviso + atalho "Novo Contato" exibidos quando o lead nao
+   possui nenhum contato cadastrado.
+   ============================================================ */
+.aviso-sem-contatos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 8px 0 16px;
+    text-align: center;
+}
+
+.aviso-sem-contatos .ui-message {
+    width: 100%;
+    margin: 0;
+}
+
+/* h:form nao pode quebrar o flex: o botao vira item direto */
+.aviso-sem-contatos form {
+    display: contents;
+}
+
+.btn-novo-contato {
+    background-color: var(--cor-primaria, #60a36c) !important;
+    border-color: var(--cor-primaria, #60a36c) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600 !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn-novo-contato:hover {
+    background-color: var(--cor-primaria-escura, #406a47) !important;
+    border-color: var(--cor-primaria-escura, #406a47) !important;
 }

@@ -34,26 +34,33 @@
                                          label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoEquipe.nomeAcao}"
                                          descricao=""/>
                 </h:panelGroup>
-                <h:panelGroup layout="block" id="areav2"  styleClass="Container6" >
-                    <h:panelGroup styleClass="Container3"  layout="block">
-                        <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe.icone}"
-                                             label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe.nomeAcao}"
-                                             descricao=""/>
-                    </h:panelGroup>
 
-                    <h:panelGroup styleClass="Container3"  layout="block">
-                        <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmAtualizarArquivo,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmAtualizarArquivo.icone}"
-                                             label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmAtualizarArquivo.nomeAcao}"
-                                             descricao=""/>
-                    </h:panelGroup>
+                <h:panelGroup styleClass="Container3"  layout="block">
+                    <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoPedidoAtualizarArquivo,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoEquipe.icone}"
+                                         label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoPedidoAtualizarArquivo.nomeAcao}"
+                                         descricao=""/>
+                </h:panelGroup>
 
+                <h:panelGroup styleClass="Container3"  layout="block">
+                    <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe.icone}"
+                                         label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoEquipe.nomeAcao}"
+                                         descricao=""/>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="Container3"  layout="block">
+                    <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoChamado,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoEquipe.icone}"
+                                         label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoEquipe.nomeAcao}"
+                                         descricao=""/>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="Container3"  layout="block">
+                    <crm:botaoGrandeLink url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoOrcamento,pgSolicitacaoAtendimento.pessoa,pgSolicitacaoAtendimento.usuarioEquipe)}" icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoOrcamento.icone}"
+                                         label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoOrcamento.nomeAcao}"
+                                         descricao=""/>
                 </h:panelGroup>
 
 
-                <p:blockUI block="areav2"  blocked="true" >
-                    <p:outputLabel value="EM BREVE !" styleClass="FontAdamantiumBold Fs50" style="color: black;margin-top: -60px;"  />
 
-                </p:blockUI>
             </h:panelGroup>
 
 

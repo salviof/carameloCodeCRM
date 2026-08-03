@@ -38,16 +38,16 @@
                 <div class="quebraBlocoComEspacoVertical2" ></div>
 
 
-                <crmDashBoard:dashBoardIconeTextoTituloLink container="Container5"
-                                                            url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ChamadoMbGestao.chamadoFrmListar)}"
-                                                            icone="fa fa-life-ring"
-                                                            titulo="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
-                                                                      .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor==0?'Novo Chamado':'Chamado'}#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
-                                                                      .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>1?'s':''}"
-                                                            valor="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
-                                                                     .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?'3':'1'}"
-                                                            texto="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
-                                                                     .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?pgDashboardCliente.usuarioLogado.metadados.chamadosAbertos:'Abrir Chamado'}" codigoestilo="3" />
+                <crmDashBoard:dashBoardIconeTextoTituloLink 
+                    url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ChamadoMbGestao.chamadoFrmListar)}"
+                    icone="fa fa-life-ring"
+                    titulo="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                              .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor==0?'Novo Chamado':'Chamado'}#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                              .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>1?'s':''}"
+                    valor="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                             .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?'3':'1'}"
+                    texto="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
+                             .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?pgDashboardCliente.usuarioLogado.metadados.chamadosAbertos:'Abrir Chamado'}" codigoestilo="3" />
 
                 <crmDashBoard:dashBoardIconeTextoTituloLink container="Container5"
                                                             url="#{pgDashboardCliente.urlAgenda}"

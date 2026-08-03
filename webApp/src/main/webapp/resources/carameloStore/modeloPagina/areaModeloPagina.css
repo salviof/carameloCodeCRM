@@ -1,0 +1,255 @@
+/* ============================================================
+   Caramelo Store — areaModeloPagina.css
+   Local: resources/carameloStore/modeloPagina/areaModeloPagina.css
+   Componente: área pontilhada que revela todo o espaço reservado
+   à área de um template de página, com o nome da área centralizado.
+   Classe pai: .AreaDoModelo
+   ============================================================ */
+.AreaDoModelo {
+    /* Medidas — ajuste fino em um lugar só.
+       As cores vêm dos modificadores --geral / --subpagina abaixo. */
+    --am-borda-hover:      #3d6a99;   /* azul ardósia no hover          */
+    --am-texto-hover:      #1f2c3a;
+    --am-raio:             10px;
+    --am-altura-min:       3px;
+    --am-transicao:        .18s ease-in-out;
+
+    /* fallback neutro caso nenhum modificador seja aplicado */
+    --am-borda:            #9db4c7;
+    --am-fundo-listra:     rgba(157, 180, 199, .12);
+    --am-texto:            #5c6b78;
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: var(--am-altura-min);
+    height: 100%;
+    padding: 1px;
+    border: 2px dashed var(--am-borda);
+    border-radius: var(--am-raio);
+    /* Sem camada de cor sólida por baixo: as listras alternam entre
+       a cor com alpha e transparência total, então o fundo real da
+       página (imagem, gradiente ou cor do tema) continua visível. */
+    background:
+        repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 12px,
+        var(--am-fundo-listra) 12px,
+        var(--am-fundo-listra) 24px);
+    color: var(--am-texto);
+    text-align: center;
+    transition: border-color var(--am-transicao),
+        color var(--am-transicao);
+}
+
+.AreaDoModelo:hover {
+    border-color: var(--am-borda-hover);
+    color: var(--am-texto-hover);
+}
+
+/* ------------------------------------------------------------
+   Modificadores por tipo de modelo (#{cc.attrs.modelo.umaSubPagina})
+
+   Modelo GERAL: o template da página como um todo. Normalmente
+   fica "por baixo", servindo de moldura para as subpáginas —
+   por isso um z-index menor. Paleta azul ardósia.
+
+   SUBPÁGINA: a área de conteúdo que se sobrepõe ao modelo geral.
+   z-index maior para ficar por cima. Paleta âmbar, para
+   destacar visualmente de dentro do modelo geral.
+   ------------------------------------------------------------ */
+/* O modelo geral é a moldura: a subpágina é renderizada DENTRO da
+   mesma div que contém este rótulo. Por isso o tracejado do modelo
+   geral não fica no próprio componente (que só desenharia a faixa
+   do rótulo) e sim na div imediatamente acima — assim ele revela a
+   área realmente ocupada pelo modelo, com a subpágina lá dentro.
+
+   O :has(> ...) alcança esse pai sem precisar tocar no XHTML da
+   página. Veja o @supports no fim do arquivo para o fallback em
+   navegadores sem :has(). */
+:has(> .AreaDoModelo--geral) {
+    --am-borda:        #9db4c7;   /* azul acinzentado */
+    --am-borda-hover:  #3d6a99;
+    --am-fundo-listra: rgba(61, 106, 153, .12);
+    --am-raio:         10px;
+    --am-altura-min:   140px;
+    --am-transicao:    .18s ease-in-out;
+
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+    min-height: var(--am-altura-min);
+    border: 2px dashed var(--am-borda);
+    border-radius: var(--am-raio);
+    /* listra com alpha ↔ listra transparente: preserva o fundo do
+       conteúdo que já vive nesta div (a subpágina) */
+    background:
+        repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 12px,
+        var(--am-fundo-listra) 12px,
+        var(--am-fundo-listra) 24px);
+    transition: border-color var(--am-transicao);
+}
+
+:has(> .AreaDoModelo--geral):hover {
+    border-color: var(--am-borda-hover);
+}
+
+/* Quem pinta é o pai; aqui sobra só o rótulo, como uma faixa no
+   topo da área. Sem min-height/padding grandes para não empurrar
+   a subpágina para baixo. */
+.AreaDoModelo--geral {
+    /* Mesma paleta do pai. Repetida aqui porque o fallback
+       @supports (sem :has) pinta neste elemento. */
+    --am-borda:        #9db4c7;
+    --am-borda-hover:  #3d6a99;
+    --am-fundo-listra: rgba(61, 106, 153, .12);
+    --am-texto:        #3d5266;
+    --am-texto-hover:  #1f2c3a;
+
+    justify-content: flex-start;
+    min-height: 0;
+    height: auto;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--am-texto);
+    /* acima da camada da subpágina (z-index: 2), para que a faixa
+       e seu botão nunca fiquem cobertos */
+    position: relative;
+    z-index: 3;
+}
+
+:has(> .AreaDoModelo--geral):hover > .AreaDoModelo--geral {
+    color: var(--am-texto-hover);
+}
+
+/* Rótulo do modelo geral em linha (faixa), não em bloco centralizado */
+.AreaDoModelo--geral .AreaDoModelo-rotulo {
+    flex-direction: row;
+    align-items: center;
+}
+
+.AreaDoModelo--geral .AreaDoModelo-icone {
+    font-size: 18px;
+}
+
+.AreaDoModelo--geral .AreaDoModelo-nome {
+    font-size: 14px;
+    text-align: left;
+}
+
+.AreaDoModelo--subpagina {
+    --am-borda:        #d9a441;   /* âmbar */
+    --am-borda-hover:  #b9822a;
+    --am-fundo-listra: rgba(217, 164, 65, .16);
+    --am-texto:        #7a5a1e;
+    --am-texto-hover:  #4d3811;
+    position: relative;
+    z-index: 2;
+}
+
+/* Rótulo centralizado: ícone + nome da área */
+.AreaDoModelo-rotulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    pointer-events: none;   /* o pontilhado é só visual */
+}
+
+/* O pointer-events:none acima vale só para a parte decorativa
+   (ícone + nome). As ações vivem em um bloco próprio, que é
+   religado por inteiro — inclusive wrappers, spans e ícones que
+   o botão renderiza — para o clique nunca cair no vazio.
+   position/z-index garantem que nenhuma camada vizinha (ex.: a
+   área da subpágina) fique por cima do botão. */
+.AreaDoModelo-acoes,
+.AreaDoModelo-acoes * {
+    pointer-events: auto;
+}
+
+.AreaDoModelo-acoes {
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* O form do JSF é só um contêiner: não deve criar espaçamento
+   nem quebrar a faixa do rótulo. */
+.AreaDoModelo-acoes form {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.AreaDoModelo-icone {
+    font-size: 26px;
+    opacity: .55;
+    line-height: 1;
+}
+
+.AreaDoModelo-nome {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+/* ------------------------------------------------------------
+   Fallback: sem :has() não dá para estilizar a div pai, então o
+   modelo geral volta a desenhar o tracejado em si mesmo — perde
+   o enquadramento da subpágina, mas a área continua visível.
+   ------------------------------------------------------------ */
+@supports not selector(:has(*)) {
+    .AreaDoModelo--geral {
+        justify-content: center;
+        min-height: var(--am-altura-min);
+        height: 100%;
+        padding: 16px;
+        border: 2px dashed var(--am-borda);
+        border-radius: var(--am-raio);
+        background:
+            repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 12px,
+            var(--am-fundo-listra) 12px,
+            var(--am-fundo-listra) 24px);
+        position: relative;
+        z-index: 1;
+    }
+
+    .AreaDoModelo--geral:hover {
+        border-color: var(--am-borda-hover);
+        color: var(--am-texto-hover);
+    }
+
+    .AreaDoModelo--geral .AreaDoModelo-rotulo {
+        flex-direction: column;
+    }
+
+    .AreaDoModelo--geral .AreaDoModelo-icone {
+        font-size: 26px;
+    }
+
+    .AreaDoModelo--geral .AreaDoModelo-nome {
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .AreaDoModelo {
+        transition: none;
+    }
+}

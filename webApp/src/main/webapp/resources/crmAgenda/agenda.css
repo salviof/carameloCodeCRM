@@ -544,4 +544,224 @@ body .ui-datepicker {
     z-index: 10000 !important;
 }
 
+/* =========================================================
+   COMPONENTE: crmAgenda/tipoReserva.xhtml
+   Raiz: .TipoAgendamento — todos os seletores partem dela.
+   Ordem do cartão: título > atendente > infos > descrição > local.
+   Cada faixa tem altura reservada, então todos os cartões
+   ficam exatamente do mesmo tamanho.
+   ========================================================= */
+.TipoAgendamento {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: top;
+    gap: 12px;
+    width: 300px;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 8px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    color: #343a40;
+    text-align: left;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Faixa superior de identidade visual */
+.TipoAgendamento::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #60a36c;
+}
+
+/* --- TÍTULO: ícone + nome (2 linhas reservadas) --- */
+.TipoAgendamento .TipoAgendamentoCabecalho {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+}
+
+.TipoAgendamento .TipoAgendamentoIcone {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #60a36c;
+    color: #ffffff;
+    font-size: 1.15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.TipoAgendamento .TipoAgendamentoNome {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.2;
+    max-height: 2.4em;
+    color: #343a40;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- ATENDENTE: avatar + nome --- */
+.TipoAgendamento .TipoAgendamentoAtendente {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 4px;
+    font-size: 0.85em;
+    color: #495057;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.TipoAgendamento .TipoAgendamentoAtendente img {
+    border-radius: 50%;
+    object-fit: cover;
+    flex: 0 0 auto;
+}
+
+/* --- INFOS: três blocos de largura igual, altura fixa --- */
+.TipoAgendamento .TipoAgendamentoInfos {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.TipoAgendamento .TipoAgendamentoInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 66px;
+    padding: 6px 4px;
+    box-sizing: border-box;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 0.72em;
+    font-weight: 600;
+    color: #495057;
+    text-align: center;
+    line-height: 1.2;
+    overflow: hidden;
+}
+
+.TipoAgendamento .TipoAgendamentoInfoIcone {
+    color: #487750;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.TipoAgendamento .TipoAgendamentoInfoTexto {
+    display: block;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.TipoAgendamento .TipoAgendamentoInfoModalidade {
+    cursor: help;
+}
+
+/* --- DESCRIÇÃO: espaço fixo de 3 linhas, quebra dentro da largura --- */
+.TipoAgendamento .TipoAgendamentoDescricao {
+    flex: 0 0 auto;
+    height: 4.2em;
+    font-size: 0.88em;
+    line-height: 1.4;
+    color: #6c757d;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- LOCAL: ancorado no rodapé do cartão --- */
+.TipoAgendamento .TipoAgendamentoLocal {
+    flex: 0 0 auto;
+    margin-top: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border-top: 1px dashed #e9ecef;
+    padding-top: 10px;
+    font-size: 0.82em;
+    color: #495057;
+    line-height: 1.4;
+}
+
+.TipoAgendamento .TipoAgendamentoLocalIcone {
+    flex: 0 0 auto;
+    color: #487750;
+    margin-top: 2px;
+}
+
+.TipoAgendamento .TipoAgendamentoLocalEndereco {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 4.2em;
+    overflow: hidden;
+}
+
+.TipoAgendamento .TipoAgendamentoLocalLinha {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.TipoAgendamento .TipoAgendamentoLocalCep {
+    color: #6c757d;
+}
+
+/* --- Quando o componente é envolvido por uma <a> (existe ação) --- */
+a .TipoAgendamento {
+    cursor: pointer;
+    color: #343a40;
+    text-decoration: none;
+}
+
+a:hover .TipoAgendamento {
+    border-color: #60a36c;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+a:focus .TipoAgendamento {
+    outline: 2px solid #60a36c;
+    outline-offset: 2px;
+}
+
+/* --- Responsividade: em telas estreitas o cartão ocupa a largura útil --- */
+@media (max-width: 360px) {
+    .TipoAgendamento {
+        width: 100%;
+        margin: 8px 0;
+        padding: 16px;
+    }
+}
 

@@ -2,7 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacaoatuali
 
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValorLogicoSolicitacaoAtualizacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValoresLogicosSolicitacaoAtualizacaoArquivoEquipe;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtualizacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitArqAtualizacaoEqp;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
@@ -16,8 +16,8 @@ public class ValorLogicoSolicitacaoAtualizacaoArquivoEquipeNotificacao
         super(pCampo);
     }
 
-    public SolicitacaoAtualizacaoArquivoEquipe getSolicitacaoAtualizacaoArquivoEquipe() {
-        return (SolicitacaoAtualizacaoArquivoEquipe) getCampoInst()
+    public SolicitArqAtualizacaoEqp getSolicitacaoAtualizacaoArquivoEquipe() {
+        return (SolicitArqAtualizacaoEqp) getCampoInst()
                 .getObjetoRaizDoAtributo();
     }
 }

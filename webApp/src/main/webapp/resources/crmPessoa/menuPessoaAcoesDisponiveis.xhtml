@@ -17,10 +17,11 @@
 
 
 
-        <h:form>
-            <h:panelGroup layout="block" style="width: 100%;" >
+        <h:form styleClass="conteudoAbaProspecto">
+            <h:panelGroup layout="block" styleClass="conteudoAbaProspecto" style="width: 100%;" >
                 <p:selectOneListbox id="selecaoAcaoPEssoa" converter="conversorGenerico"
                                     value="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                                    styleClass="listaSelecaoProspecto"
                                     var="acaoPessoa" filter="true" filterMatchMode="contains" style="width: 100%;">
                     <f:selectItems value="#{servicosCRM.acoesDeProspecto}" var="acaoPessoa" itemLabel="#{acaoPessoa.nome}" itemValue="#{acaoPessoa}"/>
                     <p:column width="30px" >

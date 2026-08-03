@@ -1,4 +1,3 @@
-
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -33,68 +32,13 @@
                  Desktop: posicionada sobre a linha dos cabecalhos (CSS).
                  Mobile:  vira uma linha normal acima das abas.
                  ============================================================ -->
-            <h:panelGroup layout="block"
-                          id="barraAcoesRapidas"
-                          styleClass="BarraAcoesRapidasLead">
 
-                <!-- Integracoes (mesmo conteudo do antigo facet actions) -->
-                <c:forEach
-                    items="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
-                    var="integracao">
-                    <crm:integracao integracao="#{integracao}" tamanhoPixel="25"/>
-                </c:forEach>
+            <crmPessoa:acaoRapidaProspectoFull
+                pessoa="#{pgProspecto.prospecto}"
+                />
 
-                <!-- separador visual entre integracoes e acoes internas -->
-                <span class="separadorAcoesRapidas"></span>
 
-                <!-- CHAMADOS -->
-                <p:badge value="#{pgProspecto.prospecto.chamadosAbertos.size()}"
-                         severity="info">
-                    <p:link
-                        href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, pgProspecto.prospecto)}"
-                        styleClass="btnAcaoRapida"
-                        title="Chamados em atendimento">
-                        <i class="fa fa-life-ring"></i>
-                    </p:link>
-                </p:badge>
 
-                <!-- SOLICITACOES -->
-                <p:badge value="#{pgProspecto.prospecto.solicitacoesAbertas.size()}"
-                         severity="warning">
-                    <p:link
-                        href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, pgProspecto.prospecto)}"
-                        styleClass="btnAcaoRapida"
-                        title="Solicitações da pessoa">
-                        <i class="fa fa-hand-paper-o"></i>
-                    </p:link>
-                </p:badge>
-
-                <!-- ATIVIDADES (leva para a aba Atividades) -->
-                <p:badge value="#{pgProspecto.somaTotalInteracoes}"
-                         severity="success">
-                    <p:link href="#"
-                            onclick="PF('abasLead').select(3); return false;"
-                            styleClass="btnAcaoRapida"
-                            title="Atividades em andamento">
-                        <i class="fa fa-play-circle-o"></i>
-                    </p:link>
-                </p:badge>
-
-                <!-- NOVA ATIVIDADE -->
-                <h:form styleClass="formAcaoRapida">
-                    <p:commandLink
-                        process="@this"
-                        action="#{paginaAtual.infoPagina.executarAcaoSelecionada}"
-                        styleClass="btnAcaoRapida btnAcaoRapida-primaria"
-                        title="Nova atividade">
-                        <f:setPropertyActionListener
-                            target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-                            value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}"/>
-                        <i class="pi pi-play"></i>
-                    </p:commandLink>
-                </h:form>
-
-            </h:panelGroup>
 
             <p:tabView id="dadosDaEmpresa"
                        cache="false"
@@ -120,63 +64,13 @@
                         </h:panelGroup>
                     </f:facet>
 
+                    <ui:include src="prospecto_tabVisaoGeral.xhtml" />
+
                     <script>
                         setTimeout(ajusteTelainicial, 300);
                     </script>
 
 
-                    <h:panelGroup styleClass="container-cards-cliente">
-                        <p:card styleClass="card-cliente card-cliente--resumo" >
-
-                            <crmPessoa:resumoPessoa pessoa="#{pgProspecto.prospecto}" />
-
-
-                            <!-- coluna direita: logo, tags e integracoes como
-                                 unidade vertical (posicionada via grid no CSS) -->
-                            <div class="card-lado-direito">
-
-                                <div class="container-imagem-edicao">
-                                    <p:graphicImage styleClass="img-prospecto"
-                                                    url="#{pgProspecto.prospecto.imgPequena}"/>
-                                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmEncontrarLogomarca,pgProspecto.entidadeSelecionada)}"
-                                            styleClass="botao-editar-imagem-link"
-                                            title="Alterar imagem">
-                                        <i class="pi pi-pencil" style="font-size: 1rem;"></i>
-                                    </p:link>
-                                </div>
-
-                                <crmPessoa:tagsVisaoGrande pessoa="#{pgProspecto.prospecto}"/>
-
-                                <h:panelGroup
-                                    rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor.size()>0}"
-                                    layout="block"
-                                    styleClass="integracoes-lead">
-                                    <c:forEach
-                                        items="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
-                                        var="integracao">
-                                        <crm:integracao integracao="#{integracao}" tamanhoPixel="25"
-                                                        rendered="#{integracao.nome ne 'CRM'}"/>
-                                    </c:forEach>
-                                </h:panelGroup>
-                            </div>
-                            <crmPessoa:observacao pessoa="#{pgProspecto.prospecto}" />
-                        </p:card>
-
-                        <p:card styleClass="card-cliente">
-
-
-                            <h:panelGroup styleClass="" id="reponsaveis" layout="block">
-                                <crmPessoa:resumoEquipeChat
-                                    pessoa="#{pgProspecto.prospecto}"/>
-                            </h:panelGroup>
-
-                        </p:card>
-                    </h:panelGroup>
-
-                    <crmPessoa:dashboardPosAtendimento
-                        pessoa="#{pgProspecto.prospecto}"
-                        rendered="#{pgProspecto.prospecto.meta.cliente}"
-                        />
                 </p:tab>
                 <p:tab >
                     <f:facet name="title"   >
@@ -189,41 +83,10 @@
                             <p:tooltip for="@(.fa-user)" value="Contatos do Lead, abertura de chamados, e ações de contato" position="bottom"/>
                         </h:panelGroup>
                     </f:facet>
+                    <ui:include src="prospecto_tabContatos.xhtml" />
 
 
-                    <h:panelGroup styleClass="container-cards-cliente" id="contatosDoLead">
-                        <p:card styleClass="card-cliente">
 
-                            <h:panelGroup styleClass="listagem-container-content">
-                                <h:panelGroup styleClass="botoes-container Fright">
-
-                                    <h:form>
-
-                                        <p:commandButton
-                                            action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"
-                                            value="Chat, atendimento ao Cliente"
-                                            style="width: 300px;"
-                                            icon="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente.icone}"
-                                            >
-
-
-                                            <f:setPropertyActionListener target="#{pgProspecto.acaoSelecionada}"
-                                                                         value="#{acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente}"/>
-                                        </p:commandButton>
-
-                                    </h:form>
-
-                                </h:panelGroup>
-
-
-                                <crmPessoa:menuPessoaAcoesDeContatoDisponiveis
-
-                                    pessoa="#{pgProspecto.entidadeSelecionada}"
-                                    rendered="#{pgProspecto.entidadeSelecionada.contatosProspecto.size()!=0}"
-                                    />
-                            </h:panelGroup>
-                        </p:card>
-                    </h:panelGroup>
                 </p:tab>
                 <p:tab title="Arquivo">
                     <f:facet name="title"   >
@@ -240,10 +103,9 @@
 
 
                     </f:facet>
-                    <crmPessoa:dashboardTrabalhoRealizado
-                        pessoa="#{pgProspecto.prospecto}"
 
-                        />
+                    <ui:include src="prospecto_tabArquivo.xhtml" />
+
                 </p:tab>
                 <p:tab>
                     <f:facet name="title">
@@ -260,7 +122,9 @@
                             <p:tooltip for="@(.fa-play-circle-o)" value="Atividades em andamento (Chamados, solicitações, e Agenda)" position="bottom"/>
                         </h:panelGroup>
                     </f:facet>
-                    <crmPessoa:dashboardInteracao pessoa="#{pgProspecto.prospecto}"/>
+
+                    <ui:include src="prospecto_tabAtividade.xhtml" />
+
                 </p:tab>
             </p:tabView>
 

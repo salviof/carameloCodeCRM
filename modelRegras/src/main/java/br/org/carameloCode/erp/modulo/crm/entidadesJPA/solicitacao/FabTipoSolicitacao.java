@@ -64,7 +64,7 @@ public enum FabTipoSolicitacao implements ComoFabricaComPersistencia {
                 return new SolicitacaoAtividadeEquipe();
 
             case SOLICITACAO_ATUALIZAR_DOCUMENTO_EQUIPE:
-                return new SolicitacaoAtualizacaoArquivoEquipe();
+                return new SolicitArqAtualizacaoEqp();
             case SOLICITACAO_CONFIRMACAO_EQUIPE:
                 return new SolicitacaoConfirmacaoEquipe();
 

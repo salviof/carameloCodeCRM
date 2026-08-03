@@ -19,6 +19,8 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoP
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.estadoFormulario.FabEstadoFormulario;
 
 /**
  *
@@ -35,8 +37,12 @@ public enum FabAcaoCrmAtendimentoAgenda implements ComoFabricaDeAcoesPersistenci
     MINHA_AGENDA_CTR_ESCOPO_RESERVA_CLIENTE_SALVAR_MERGE,
     @InfoTipoAcaoFormulario(icone = "fa fa-calendar", nomeAcao = "Reservas")
     MINHA_AGENDA_FRM_VISAO_GERAL,
-    @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Nova Reseva")
+    @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Nova Reseva", entidade = ReservaHorarioCRM.class, estadoFormulario = FabEstadoFormulario.NOVO)
     MINHA_AGENDA_FRM_NOVA_RESERVA,
+    @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Nova Reseva Local", entidade = ReservaHoraPresencial.class, estadoFormulario = FabEstadoFormulario.NOVO)
+    MINHA_AGENDA_FRM_NOVA_RESERVA_NO_LOCAL,
+    @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Nova Reseva Encontro Remoto", entidade = ReservaHoraRemotoVideo.class, estadoFormulario = FabEstadoFormulario.NOVO)
+    MINHA_AGENDA_FRM_NOVA_RESERVA_CONFERENCIA,
     @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Detalhes da reserva", campos = {}, entidade = ReservaHoraPresencial.class)
     MINHA_AGENDA_FRM_EDITAR_RESERVA_NO_LOCAL,
     @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Detalhes da reserva", campos = {}, entidade = ReservaHoraRemotoVideo.class)

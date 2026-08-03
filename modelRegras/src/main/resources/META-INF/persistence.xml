@@ -22,7 +22,6 @@
         <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistema</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistemaNativo</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ConfiguracaoDePermissao</class>
-
         <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro</class>
@@ -49,7 +48,6 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtividadeCliente</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtividadeEquipe</class>
-        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtualizacaoArquivoEquipe</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoChamado</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoCliente</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe</class>
@@ -72,11 +70,14 @@
         <class>br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel</class>
         <class>br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.LinkEntidadesSistemasERP</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.ReciboEntrega</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.StatusNotificacao</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.ProgDisparoNotificacao</class>
         <class>br.org.carameloCode.erp.modulo.crm.implemetation.model.integracao.IntegracaoManual</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoServico</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoCRM</class>
@@ -155,6 +156,7 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.historicoRelacionamento.HistoricoRelacionamento</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoaJuridica.CotatoPessoaJuridica</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM</class>
+        <class>Tiponbr.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TipoNtfrCRMUsrToUsr</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.contrato.Proposta</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.zonaRelacionamento.ResultadoTipoRelacionamento</class>
@@ -190,7 +192,7 @@
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPresencial</class>
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado</class>
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico</class>
-
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitArqAtualizacaoEqp</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>

@@ -3,7 +3,7 @@ package br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacaoatuali
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValorLogicoSolicitacaoAtualizacaoArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoatualizacaoarquivoequipe.ValoresLogicosSolicitacaoAtualizacaoArquivoEquipe;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtualizacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitArqAtualizacaoEqp;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.solicitacao.ValorLogicoSolicitacaoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
@@ -17,8 +17,8 @@ public class ValorLogicoSolicitacaoAtualizacaoArquivoEquipeStatus
         super(pCampo);
     }
 
-    public SolicitacaoAtualizacaoArquivoEquipe getSolicitacaoAtualizacaoArquivoEquipe() {
-        return (SolicitacaoAtualizacaoArquivoEquipe) getCampoInst()
+    public SolicitArqAtualizacaoEqp getSolicitacaoAtualizacaoArquivoEquipe() {
+        return (SolicitArqAtualizacaoEqp) getCampoInst()
                 .getObjetoRaizDoAtributo();
     }
 }

@@ -62,6 +62,11 @@ public class AcoesAtendimentoCrm_MeusChamadosMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO");
 	}
 
+	public ItfAcaoFormularioEntidade getMeusChamadosFrmChamadosAtenderSolicitacaoAbrir() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER_SOLICITACAO_ABRIR");
+	}
+
 	public ComoAcaoControllerEntidade getMeusChamadosCtrDefinirResponsavel() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.MEUS_CHAMADOS_CTR_DEFINIR_RESPONSAVEL");

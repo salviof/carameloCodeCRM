@@ -14,6 +14,7 @@
     <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
         <h:form >
             <p:selectOneListbox id="advanced" value="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('categoriaArqEquipe').valor}"
+                                disabled="#{pgSolicitacaoAtendimento.categoriaEquipe!=null}"
                                 converter="conversorGenerico" style="width: 100%;"
                                 validator="org.super_bits.view.validadores.beanSimples"
                                 var="categoria" filter="true" filterMatchMode="contains" >

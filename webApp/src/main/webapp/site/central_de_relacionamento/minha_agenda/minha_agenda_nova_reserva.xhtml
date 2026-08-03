@@ -8,7 +8,8 @@
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
     <ui:define name="conteudo">
         <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
         <p:fieldset legend="Escopo da pesquisa " >
@@ -55,35 +56,10 @@
                 </h:form>
             </h:panelGroup>
             <c:forEach items="#{pgMinhasReservas.horariosDisponiveisAtendimentoPublico}" var="horario" >
-                <h:panelGroup styleClass="Container3 dashboard "  layout="block"  style="margin: 10px;" >
-                    <div class="ui-g card colorbox colorbox-4">
-                        <div class="ui-g-4">
-                            <div class="Fright Fs18" style="color: #ffffff" >
-                                <SBCrm:avatar altura="200"   somenteLeitura="true"
-                                              usuario="#{horario.usuarioResponsavel}" />
-                                #{horario.usuarioResponsavel.nome}
-                            </div>
-                            <i>
-                                <h:form>
-                                    <p:commandButton
-                                        styleClass="botaoReservar"
-                                        icon="Fs24 fa fa-ticket"
-                                        action="#{servicoCrmReserva.reservarHorario(horario)}"
-                                        update="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}"
-                                        value="RESERVAR"/>
-                                </h:form>
-                            </i>
-                        </div>
-                        <div class="ui-g-8">
-                            <span class="colorbox-name">
-                                #{horario.tipoAgendamento.nome} <br/>
-                                <b>#{pgUtil.gerarDataTextoExtenso(horario.dataHoraIicialAtendente)} </b> <br/>
-                            </span>
-                            <span class="colorbox-count"> #{pgUtil.gerarHoraTextoSimples(horario.dataHoraIicialAtendente)}-#{pgUtil.gerarHoraTextoSimples(horario.datahoraFinalAtendente)}</span>
-                        </div>
 
-                    </div>
-                </h:panelGroup>
+                <crmAgenda:horarioDisponivel  horarioDisponivel="#{horario}" />
+
+
             </c:forEach>
         </h:panelGroup>
 

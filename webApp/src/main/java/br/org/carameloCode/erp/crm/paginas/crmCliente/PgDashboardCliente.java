@@ -32,6 +32,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 
 /**
  *
@@ -118,7 +120,7 @@ public class PgDashboardCliente extends MB_paginaCadastroEntidades<UsuarioCrmCli
             String urlNovareserva = MapaDeFormularios.getUrlFormulario(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS.getRegistro());
             return urlNovareserva;
         } else {
-            if (reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
+            if (reserva instanceof ReservaHoraRemotoVideo) {
                 String urlReserva = MapaDeFormularios.getUrlFormulario(FabAcaoCRMCliente.RESERVAS_FRM_VISUALIZAR_REMOTO.getRegistro(), reserva);
                 return urlReserva;
             } else {

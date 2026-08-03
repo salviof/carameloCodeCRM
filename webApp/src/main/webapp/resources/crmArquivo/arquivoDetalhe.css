@@ -185,6 +185,24 @@
     color: #e5484d !important;
 }
 
+/* botão real de "Atualizar": fica fora de vista, é acionado pelo item do menu.
+   Usa position absoluta em vez de display:none para o widget continuar existindo
+   e o clique programático do PrimeFaces funcionar normalmente */
+.CardArquivoBotaoOculto.ui-button {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* ---------- em telas pequenas, empilha ícone/texto ---------- */
 
 @media (max-width: 480px) {

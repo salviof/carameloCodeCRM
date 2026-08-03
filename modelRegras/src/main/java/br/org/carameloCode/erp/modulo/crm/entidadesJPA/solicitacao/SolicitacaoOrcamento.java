@@ -4,6 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -31,11 +32,35 @@ public class SolicitacaoOrcamento extends Solicitacao {
     @Override
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
-        setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
-        UsuarioCRM userPr = getParametroInicialEnviado(UsuarioCRM.class, parametros);
-        String emailusrpr = userPr.getEmail();
-        setUsuarioSolicitado(userPr);
+
+        try {
+            setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
+        } catch (Throwable t) {
+
+        }
+        try {
+            UsuarioCRM userPr = getParametroInicialEnviado(UsuarioCRM.class, parametros);
+            setUsuarioSolicitado(userPr);
+        } catch (Throwable t) {
+
+        }
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
+        try {
+
+            Orcamento orcamento = getParametroInicialEnviado(Orcamento.class, parametros);
+            setOrcamento(orcamento);
+            if (getPessoa() == null) {
+                if (((Orcamento) (getPessoa().getCPinst(CPPessoa.ultimoorcamento).getValor())).getId() != null) {
+                    setOrcamento(getPessoa().getUltimoOrcamento());
+                }
+            }
+        } catch (Throwable t) {
+            if (getPessoa() != null) {
+                if (((Orcamento) (getPessoa().getCPinst(CPPessoa.ultimoorcamento).getValor())).getId() != null) {
+                    setOrcamento(getPessoa().getUltimoOrcamento());
+                }
+            }
+        }
 
     }
 

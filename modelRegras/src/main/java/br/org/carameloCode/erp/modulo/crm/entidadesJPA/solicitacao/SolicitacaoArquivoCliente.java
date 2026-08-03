@@ -38,7 +38,6 @@ public class SolicitacaoArquivoCliente extends Solicitacao {
     @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
-
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
     }
 

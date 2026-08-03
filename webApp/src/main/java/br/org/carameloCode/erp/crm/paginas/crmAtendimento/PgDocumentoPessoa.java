@@ -56,7 +56,7 @@ import jersey.repackaged.com.google.common.collect.Lists;
 public class PgDocumentoPessoa
         extends MB_paginaCadastroEntidades<ArquivoAnexado> implements ItfPaginaComModalProspecto {
 
-    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class)
+    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false)
     private ParametroURL prPessoa;
 
     @InfoParametroURL(nome = "prCatEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = CategoriaArquivoCliente.class, obrigatorio = false)
@@ -70,6 +70,9 @@ public class PgDocumentoPessoa
 
     @InfoParametroURL(nome = "prSubPastaEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = SubPastaEquipe.class, obrigatorio = false)
     private ParametroURL prsubPastaEquipe;
+
+    @InfoParametroURL(nome = "prArquivo", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ArquivoAnexado.class, obrigatorio = false, representaEntidadePrincipalMB = true)
+    private ParametroURL prArquivo;
 
     private Pessoa pessoa;
 
@@ -139,6 +142,18 @@ public class PgDocumentoPessoa
 
     @PostConstruct
     public void inicio() {
+
+        if (getParametroInstanciado(prArquivo).isValorDoParametroFoiConfigurado()) {
+            ArquivoAnexado arq = (ArquivoAnexado) getParametroInstanciado(prArquivo).getValor();
+            pessoa = UtilSBPersistencia.loadEntidade(arq.getProspecto(), getEMPagina());
+            if (arq instanceof ArquivoCliente) {
+                categoriaArquivoCliente = UtilSBPersistencia.loadEntidade(((ArquivoCliente) arq).getCategoriaArqCli(), getEMPagina());
+            } else {
+                categoriaArquivoEquipe = UtilSBPersistencia.loadEntidade(arq.getCategoriaArqEquipe(), getEMPagina());
+            }
+
+        }
+
         if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
             pessoa = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prPessoa).getValor(), getEMPagina());
         }

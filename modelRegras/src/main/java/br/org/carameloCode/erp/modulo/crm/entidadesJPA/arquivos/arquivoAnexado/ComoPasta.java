@@ -35,4 +35,6 @@ public interface ComoPasta extends ComoTemIcone, ComoTemCor, ComoTemIDUnico, Com
 
     public boolean isTemSolicitacaoParaMim();
 
+    public boolean isPastaDoCliente();
+
 }

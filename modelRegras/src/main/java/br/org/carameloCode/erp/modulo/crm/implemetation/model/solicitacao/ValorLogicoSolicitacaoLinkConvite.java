@@ -13,4 +13,5 @@ public class ValorLogicoSolicitacaoLinkConvite
     public ValorLogicoSolicitacaoLinkConvite(ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
+
 }

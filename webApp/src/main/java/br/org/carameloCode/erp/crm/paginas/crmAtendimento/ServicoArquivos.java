@@ -4,9 +4,12 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.arquivoanexado.CPArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivocliente.CPCategoriaArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ArquivoAnexado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.CategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoAnexado.ComoPasta;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.CategoriaArquivoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsClienteDaCategoria;
@@ -75,6 +78,44 @@ public class ServicoArquivos {
 
         }
         return categoriasCliente;
+    }
+
+    private ComoPasta pastaAtual = null;
+
+    public synchronized ComoPasta getDadosCategoria(ArquivoAnexado pArquivo) {
+        if (pastaAtual != null) {
+            return pastaAtual;
+        }
+        if (pArquivo instanceof ArquivoCliente) {
+            ArquivoCliente arqCli = (ArquivoCliente) pArquivo;
+            ConsultaDinamicaDeEntidade consulta = UtilSBPersistencia.gerarConsultaDeEntidade(ArquivoCliente.class, em);
+            consulta.addCondicaoManyToOneIgualA("prospecto", pArquivo.getProspecto());
+            consulta.addCondicaoManyToOneIgualA("categoriaArqCli", pArquivo.getCategoriaArqEquipe());
+
+            List<ArquivoCliente> arquivos = consulta.resultadoRegistros();
+            DocsClienteDaCategoria novoDocCat = new DocsClienteDaCategoria();
+            novoDocCat.setArquivoAnexado(arquivos);
+            novoDocCat.setQuantidade(arquivos.size());
+            novoDocCat.setId((long) String.valueOf(arqCli.getCategoriaArqCli().getId()).concat(arqCli.getCategoriaArqCli().getNome()).hashCode());
+            novoDocCat.setNome(pArquivo.getCategoriaArqEquipe().getNome());
+            novoDocCat.setCategoria(arqCli.getCategoriaArqCli());
+            novoDocCat.setIcone(arqCli.getCategoriaArqCli().getIcone());
+            return novoDocCat;
+        } else {
+            ConsultaDinamicaDeEntidade consulta = UtilSBPersistencia.gerarConsultaDeEntidade(ArquivoAnexado.class, em);
+            consulta.addCondicaoManyToOneIgualA("prospecto", pArquivo.getProspecto());
+            consulta.addCondicaoManyToOneIgualA(CPArquivoAnexado.categoriaarqequipe, pArquivo.getCategoriaArqEquipe());
+
+            List<ArquivoAnexado> arquivos = consulta.resultadoRegistros();
+            DocsEquipeDaCategoria novoDocCat = new DocsEquipeDaCategoria();
+            novoDocCat.setArquivoAnexado(arquivos);
+            novoDocCat.setQuantidade(arquivos.size());
+            novoDocCat.setId((long) String.valueOf(pArquivo.getCategoriaArqEquipe().getId()).concat(pArquivo.getCategoriaArqEquipe().getNome()).hashCode());
+            novoDocCat.setNome(pArquivo.getCategoriaArqEquipe().getNome());
+            novoDocCat.setCategoria(pArquivo.getCategoriaArqEquipe());
+            novoDocCat.setIcone(pArquivo.getCategoriaArqEquipe().getIcone());
+            return novoDocCat;
+        }
     }
 
     public synchronized List<DocsEquipeDaCategoria> getDadosCategoriaEquipe(CategoriaArquivoEquipe pCategora, Pessoa p) {

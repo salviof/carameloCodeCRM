@@ -96,16 +96,13 @@
 
                                 <!-- Botões de ação -->
                                 <h:panelGroup styleClass="botoes-acao">
-                                    <p:link
-                                        href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa,cc.attrs.pessoa,usuario)}"
-                                        style="background-color: #95a5a6; color: white; border: none; width: 35px; height: 35px;
-                                        display: flex; align-items: center; justify-content: center;
-                                        text-decoration: none; border-radius: 3px"
-                                        title="Enviar solicitação">
-                                        <i class="pi pi-send" style="font-size: 1rem; color: white !important;"/>
-                                    </p:link>
+                                    <p:button href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa,cc.attrs.pessoa,usuario)}"
+                                              icon="fa fa-hand-paper-o"
+                                              title="Solicitar Ajuda"
+                                              />
+
                                     <p:commandButton
-                                        icon="pi pi-share-alt"
+                                        icon="fa-solid fa-table-tennis-paddle-ball"
                                         title="Passar a bola"
                                         styleClass="botao-acao"
                                         rendered="#{sessaoAtualSBWP.usuario.equals(cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('usuarioResponsavel').valor) and !usuario.equals(cc.attrs.pessoa.usuarioResponsavel)}"
@@ -115,7 +112,7 @@
                                         <p:confirm
                                             header="Passar a bola para #{usuario.nome}?"
                                             message="Você perderá o poder de gerir os responsáveis ao fazer esta alteração."
-                                            icon="pi pi-info-circle"/>
+                                            icon="fa-solid fa-table-tennis-paddle-ball"/>
 
                                         <f:setPropertyActionListener
                                             target="#{cc.attrs.pessoa.usuarioResponsavel}"

@@ -55,8 +55,9 @@
                         update="@form"
 
                         >
-
-                        <f:setPropertyActionListener target="#{pgSolicitacaoAtendimento.entidadeSelecionada.respostaEscolhida}"
+                        <f:setPropertyActionListener target="#{pgSolicitacaoAtendimento.acaoSelecionada}"
+                                                     value="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrConfirmacaoEquipe}"  />
+                        <f:setPropertyActionListener target="#{pgSolicitacaoAtendimento.entidadeSelecionada.tipoRespostaSelecionada}"
                                                      value="#{resp}"  />
                     </p:commandButton>
                 </h:panelGroup>

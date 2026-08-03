@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = Solicitacao.class)
 public enum CPSolicitacao {
-	_ID, _NOME, _TIPOSOLICITACAO, _DATAHORASOLICITACAO, _DATAHORADATAPROGRAMADA, _DATAULTIMARESPOSTA, _USUARIOSOLICITANTE, _USUARIOSOLICITADO, _TIPOENTITYSOLICIATACAO, _STATUS, _PESSOA, _LINKCONVITE, _OBSERVACAO, _FOIFINALIZADA, _FOIATENDIDA, _FOIREAGEDADO, _FOIRECEBIDA, _EMATRASO, _CODIGOSELO, _NOTIFICACAO, _DESTINATARIO, _RESPOSTA, _RESPOSTAS, _TRANSPORTES;
+	_ID, _NOME, _TIPOSOLICITACAO, _DATAHORASOLICITACAO, _DATAHORADATAPROGRAMADA, _DATAULTIMARESPOSTA, _USUARIOSOLICITANTE, _USUARIOSOLICITADO, _TIPOENTITYSOLICIATACAO, _STATUS, _PESSOA, _LINKCONVITE, _OBSERVACAO, _FOIFINALIZADA, _FOIATENDIDA, _FOIREAGEDADO, _FOIRECEBIDA, _EMATRASO, _CODIGOSELO, _NOTIFICACAO, _DESTINATARIO, _RESPOSTA, _RESPOSTAS, _TRANSPORTES, _UMACOMUNICACAOPERSONALIZADA, _URLRESPOSTAPERSONALIZADA;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -31,4 +31,6 @@ public enum CPSolicitacao {
 	public static final String resposta = "resposta";
 	public static final String respostas = "respostas";
 	public static final String transportes = "transportes";
+	public static final String umacomunicacaopersonalizada = "umaComunicacaoPersonalizada";
+	public static final String urlrespostapersonalizada = "urlRespostaPersonalizada";
 }

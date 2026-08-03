@@ -28,14 +28,69 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoP
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 
 /**
  *
  * @author sfurbino
  */
 public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
+
+    @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_CTR_ENVIAR_LINK_REUNIAO)
+    public static ItfRespostaAcaoDoSistema pessoaConverter(ReservaHoraRemotoVideo pReserval) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pReserval), pReserval) {
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                ReservaHoraRemotoVideo reserva = loadEntidade(pReserval);
+                reserva.setLinkConferencia(pReserval.getComoReservaVideoConferencia().getLinkConferencia());
+                boolean resultado = false;
+
+                if (reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
+                    throw new ErroRegraDeNegocio("O compromisso não é do tipo Remoto");
+                }
+                if (UtilCRCStringValidador.isNuloOuEmbranco(reserva.getComoReservaVideoConferencia().getLinkConferencia())) {
+                    throw new ErroRegraDeNegocio("Insira o link da conferência");
+                }
+                reserva.setStatus(FabStatusReservaHorario.CONFIRMADO.getRegistro());
+                reserva = atualizarEntidade(reserva);
+                boolean notificacao = false;
+                String frase = "A reunião agendada com " + reserva.getAtendenteResponsavel().getNome() + " iniciou, segue o link para acesso: ";
+                String telefone = (String) reserva.getAtendidoResponsavel().getContatoClienteVinculado().getCampoInstanciadoByNomeOuAnotacao(CPContatoProspecto.celularformatointernacional).getValor();
+                if (!UtilCRCStringValidador.isNuloOuEmbranco(telefone)) {
+                    ItfRespostaWebServiceSimples resposta = FabIntegracaoSMS.ENVIAR_MENSAGEM.getAcao(telefone, frase + reserva.getComoReservaVideoConferencia().getLinkConferencia()).getResposta();
+                    String respostaStr = resposta.getRespostaTexto();
+                    notificacao = resposta.isSucesso();
+                    if (!resposta.isSucesso()) {
+                        addAlerta("Falha enviando SMS para " + telefone + " - Erro:" + respostaStr);
+
+                    }
+                }
+
+                String conteudoemail = frase + "<center><h1><a href='" + reserva.getComoReservaVideoConferencia().getLinkConferencia() + "' target='cndConferencia'> " + reserva.getComoReservaVideoConferencia().getLinkConferencia() + " </a></h1></center>";
+
+                if (!UtilCRCStringValidador.isNuloOuEmbranco(reserva.getAtendidoResponsavel().getContatoClienteVinculado().getEmail())) {
+                    try {
+                        notificacao = ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto().enviarEMailAplicandoModeloAssinatura(SBCore.getUsuarioLogado(), reserva.getAtendidoResponsavel().getContatoClienteVinculado(), "O Link para sua reunião está pronto", conteudoemail);
+                    } catch (ErroEnvioEmail ex) {
+                        addAviso("Falha enviando email" + ex.getMensagemUsuario());
+                    }
+
+                }
+                if (!notificacao) {
+                    throw new ErroRegraDeNegocio(reserva.getAtendidoResponsavel().getContatoClienteVinculado() + " está incontactavel por aqui, houve falha tentando enviar e-mail e sms");
+                }
+                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_VER_RESERVA.getRegistro().getComoFormulario());
+
+            }
+        }.getResposta();
+    }
 
     @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_CTR_SALVAR_RESERVA_MERGE)
     public static ItfRespostaAcaoDoSistema reservaAtendimento(ReservaHorario pReserva) {
@@ -83,7 +138,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                 removerEntidade(pReserva);
 
                 MapaHorariosDisponiveis.loadReservasEDisponibilidadesPersistidos();
-                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_VER_RESERVA.getRegistro().getComoFormulario());
+                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_VISAO_GERAL.getRegistro().getComoFormulario());
             }
         }.getResposta();
 

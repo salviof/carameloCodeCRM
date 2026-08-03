@@ -62,21 +62,22 @@ public class SolicitacaoConfirmacaoCliente extends Solicitacao {
     private List<TipoRespostaComunicacao> respostasPossiveis;
 
     @Override
+    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
+        setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
+        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_CONFIRMACAO_CLIENTE.getRegistro());
+    }
+
+    @Override
     public ComoTipoComunicacao getTipoComunicacao() {
+
         if (fabTipoComunicacao == null) {
             return super.getTipoComunicacao(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
         } else {
             return fabTipoComunicacao.getRegistro();
         }
 
-    }
-
-    @Override
-    @InfoPreparacaoObjeto(classesPrConstructorPrincipal = {Pessoa.class, UsuarioCRM.class})
-    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
-        setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
-        setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
-        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_CONFIRMACAO_CLIENTE.getRegistro());
     }
 
     @Override

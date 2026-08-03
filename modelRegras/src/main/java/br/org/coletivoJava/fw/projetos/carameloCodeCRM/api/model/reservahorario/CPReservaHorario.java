@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ReservaHorario.class)
 public enum CPReservaHorario {
-	_ID, _DESCRICAO, _INICIORESERVAATENDENTE, _FINALRESERVAATENDENTE, _ESCOPOORIGEM, _VALORRESERVA, _TIPORESERVAHORARIO, _CODIGORESERVA, _STATUS, _ATENDIDORESPONSAVEL, _ATENDIDOS, _ATENDENTES, _ATENDENTERESPONSAVEL, _TIPOAGENDAMENTO, _DISPONIVELPARACONFIRMACAO, _ATIVO, _DADOSCONTATOACESSOANONIMO;
+	_ID, _DESCRICAO, _INICIORESERVAATENDENTE, _FINALRESERVAATENDENTE, _ESCOPOORIGEM, _VALORRESERVA, _CHAVEPIX, _FOIPAGO, _TIPORESERVAHORARIO, _CODIGORESERVA, _STATUS, _ATENDIDORESPONSAVEL, _ATENDIDOS, _ATENDENTES, _ATENDENTERESPONSAVEL, _TIPOAGENDAMENTO, _DISPONIVELPARACONFIRMACAO, _ATIVO, _DADOSCONTATOACESSOANONIMO;
 
 	public static final String id = "id";
 	public static final String descricao = "descricao";
@@ -13,6 +13,8 @@ public enum CPReservaHorario {
 	public static final String finalreservaatendente = "finalReservaAtendente";
 	public static final String escopoorigem = "escopoOrigem";
 	public static final String valorreserva = "valorReserva";
+	public static final String chavepix = "chavePix";
+	public static final String foipago = "foiPago";
 	public static final String tiporeservahorario = "tipoReservaHorario";
 	public static final String codigoreserva = "codigoReserva";
 	public static final String status = "status";

@@ -1,0 +1,68 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:panelGroup layout="block"
+                      id="barraAcoesRapidas"
+                      styleClass="BarraAcoesRapidasLead">
+            <p:badge value="#{cc.attrs.pessoa.chamadosAbertos.size()}"
+                     severity="info">
+                <p:link
+                    href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa)}"
+                    styleClass="btnAcaoRapida"
+                    title="Chamados em atendimento">
+                    <i class="fa fa-life-ring"></i>
+                </p:link>
+            </p:badge>
+
+            <!-- SOLICITACOES -->
+            <p:badge value="#{pgProspecto.prospecto.solicitacoesAbertas.size()}"
+                     severity="warning">
+                <p:link
+                    href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
+                    styleClass="btnAcaoRapida"
+                    title="Solicitações da pessoa">
+                    <i class="fa fa-hand-paper-o"></i>
+                </p:link>
+            </p:badge>
+
+            <!-- ATIVIDADES (leva para a aba Atividades) -->
+            <p:badge value="#{pgProspecto.somaTotalInteracoes}"
+                     severity="success">
+                <p:link href="#"
+                        onclick="PF('abasLead').select(3); return false;"
+                        styleClass="btnAcaoRapida"
+                        title="Atividades em andamento">
+                    <i class="fa fa-play-circle-o"></i>
+                </p:link>
+            </p:badge>
+
+            <!-- NOVA ATIVIDADE -->
+            <h:form styleClass="formAcaoRapida">
+                <p:commandLink
+                    process="@this"
+                    action="#{paginaAtual.infoPagina.executarAcaoSelecionada}"
+                    styleClass="btnAcaoRapida btnAcaoRapida-primaria"
+                    title="Nova atividade">
+                    <f:setPropertyActionListener
+                        target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                        value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}"/>
+                    <i class="pi pi-play"></i>
+                </p:commandLink>
+            </h:form>
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

@@ -1,0 +1,119 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <!-- INTERFACE -->
+
+
+    <cc:interface>
+        <cc:attribute name="tipoAgendamento" type="br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico" required="true"/>
+        <cc:attribute name="styleClass" type="java.lang.String" required="false" default=""/>
+        <cc:attribute name="atendente" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
+
+        <h:panelGroup layout="block"
+                      styleClass="TipoAgendamento #{cc.attrs.tipoAgendamento.umAtendimentoRemoto?'TipoAgendamentoRemoto':'TipoAgendamentoPresencial'} #{cc.attrs.styleClass}">
+
+            <!-- TÍTULO: ícone + nome -->
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoCabecalho">
+
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoIcone">
+                    <span class="#{empty cc.attrs.tipoAgendamento.icone?'fa fa-calendar-check-o':cc.attrs.tipoAgendamento.icone}"/>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoNome"
+                              pt:title="#{cc.attrs.tipoAgendamento.nome}">
+                    #{cc.attrs.tipoAgendamento.nome}
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <!-- ATENDENTE: foto + nome, logo abaixo do título -->
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoAtendente">
+                <crm:avatar usuario="#{cc.attrs.atendente}" somenteLeitura="true" altura="30" mostrarNome="true"
+                            rendered="#{not empty cc.attrs.atendente}"/>
+            </h:panelGroup>
+
+            <!-- INFORMAÇÕES: modalidade, duração e valor -->
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoInfos">
+
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoInfo TipoAgendamentoInfoModalidade"
+                              id="tipoEncontro">
+                    <span class="TipoAgendamentoInfoIcone #{cc.attrs.tipoAgendamento.umAtendimentoRemoto?'fa fa-video-camera':'fa fa-handshake-o'}"/>
+                    <span class="TipoAgendamentoInfoTexto">
+                        #{cc.attrs.tipoAgendamento.umAtendimentoRemoto?'VÍDEO':'PRESENCIAL'}
+                    </span>
+                </h:panelGroup>
+                <p:tooltip for="tipoEncontro"
+                           value="#{cc.attrs.tipoAgendamento.umAtendimentoRemoto?'Atendimento realizado remotamente por vídeo conferência':'Atendimento realizado presencialmente no local informado'}"/>
+
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoInfo TipoAgendamentoInfoDuracao"
+                              id="duracaoAtendimento">
+                    <span class="TipoAgendamentoInfoIcone fa fa-clock-o"/>
+                    <span class="TipoAgendamentoInfoTexto">
+                        #{cc.attrs.tipoAgendamento.minutosProgramadosAtendimento} min
+                    </span>
+                </h:panelGroup>
+                <p:tooltip for="duracaoAtendimento"
+                           value="Duração prevista de #{cc.attrs.tipoAgendamento.minutosProgramadosAtendimento} minutos"/>
+
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoInfo TipoAgendamentoInfoValor"
+                              id="valorAtendimento">
+                    <span class="TipoAgendamentoInfoIcone fa-solid fa-dollar-sign"/>
+                    <span class="TipoAgendamentoInfoTexto">
+                        #{cc.attrs.tipoAgendamento.valorReuniao gt 0?cc.attrs.tipoAgendamento.getCampoInstanciadoByNomeOuAnotacao('valorReuniao').valorTextoFormatado:'Gratuito'}
+                    </span>
+                </h:panelGroup>
+                <p:tooltip for="valorAtendimento"
+                           value="#{cc.attrs.tipoAgendamento.valorReuniao gt 0?'Valor estimado do atendimento':'Sem custos extras'}"/>
+
+            </h:panelGroup>
+
+            <!-- DESCRIÇÃO: espaço fixo para até 3 linhas -->
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoDescricao"
+                          pt:title="#{cc.attrs.tipoAgendamento.descricao}">
+                #{cc.attrs.tipoAgendamento.descricao}
+            </h:panelGroup>
+
+            <!-- LOCAL DO ATENDIMENTO -->
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoLocal"
+                          rendered="#{not cc.attrs.tipoAgendamento.umAtendimentoRemoto}">
+                <span class="TipoAgendamentoLocalIcone fa fa-map-marker"/>
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalEndereco">
+                    <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalLinha"
+                                  pt:title="#{cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.logradouro}">
+                        #{cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.logradouro}
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalLinha"
+                                  pt:title="#{cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.complemento}"
+                                  rendered="#{not empty cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.complemento}">
+                        #{cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.complemento}
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalLinha TipoAgendamentoLocalCep">
+                        #{cc.attrs.tipoAgendamento.comoReservaPresencial.localPadraoReuniao.cep}
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="TipoAgendamentoLocal"
+                          rendered="#{cc.attrs.tipoAgendamento.umAtendimentoRemoto}">
+                <span class="TipoAgendamentoLocalIcone fa fa-video-camera"/>
+                <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalEndereco">
+                    <h:panelGroup layout="block" styleClass="TipoAgendamentoLocalLinha">
+                        A reunião será realizada pelo Google Meet
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

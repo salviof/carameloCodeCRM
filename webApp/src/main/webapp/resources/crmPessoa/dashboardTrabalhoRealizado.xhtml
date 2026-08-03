@@ -12,37 +12,37 @@
     </cc:interface>
 
     <cc:implementation>
+        <p:fieldset >
+            <h:panelGroup layout="block" styleClass="cards-dashboard">
 
-        <h:panelGroup layout="block" styleClass="cards-dashboard">
+                <!-- Historico de atividades (antes: azul / pi-history) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="5"
+                    icone="fa fa-history"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades, cc.attrs.pessoa)}"
+                    titulo="Todas as atividades"
+                    valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAtividades').valor}"
+                    />
 
-            <!-- Historico de atividades (antes: azul / pi-history) -->
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="5"
-                icone="fa fa-history"
-                url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades, cc.attrs.pessoa)}"
-                titulo="Todas as atividades"
-                valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAtividades').valor}"
-                />
+                <!-- Arquivos (antes: vermelho / pi-file-pdf) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="1"
+                    icone="fa fa-file-pdf-o"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos, cc.attrs.pessoa)}"
+                    titulo="Arquivos e documentos"
+                    valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAnexos').valor}"
+                    />
 
-            <!-- Arquivos (antes: vermelho / pi-file-pdf) -->
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="1"
-                icone="fa fa-file-pdf-o"
-                url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos, cc.attrs.pessoa)}"
-                titulo="Arquivos e documentos"
-                valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAnexos').valor}"
-                />
+                <!-- Orcamentos (antes: verde / pi-shopping-cart) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="2"
+                    icone="fa fa-shopping-cart"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa, cc.attrs.pessoa)}"
+                    titulo="Orçamentos aprovados"
+                    valor="#{cc.attrs.pessoa.orcamentos.size()}"
+                    />
 
-            <!-- Orcamentos (antes: verde / pi-shopping-cart) -->
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="2"
-                icone="fa fa-shopping-cart"
-                url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa, cc.attrs.pessoa)}"
-                titulo="Orçamentos aprovados"
-                valor="#{cc.attrs.pessoa.orcamentos.size()}"
-                />
-
-        </h:panelGroup>
-
+            </h:panelGroup>
+        </p:fieldset>
     </cc:implementation>
 </ui:composition>

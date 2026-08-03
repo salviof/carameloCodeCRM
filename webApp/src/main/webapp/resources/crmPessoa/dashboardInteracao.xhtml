@@ -11,7 +11,9 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <cc:interface>
-        <cc:attribute name="pessoa" required="true"/>
+        <cc:attribute name="pessoa" required="true"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa"
+                      />
     </cc:interface>
 
     <cc:implementation>
@@ -20,79 +22,88 @@
              Acoes que nao sao navegacao por URL, expostas como
              remoteCommand para os cards chamarem via javascript:
              ============================================================ -->
-        <h:form>
-            <p:remoteCommand name="abrirResumoAtividadesLead"
-                             process="@this"
-                             update="#{pgUtil.gerarCaminhoCompletoID('dlgResumoAtividades')}"
-                             oncomplete="PF('dlgResumoAtividadesWidget').show(); desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"/>
-        </h:form>
+        <p:fieldset >
+            <h:form>
+                <p:remoteCommand name="abrirResumoAtividadesLead"
+                                 process="@this"
+                                 update="#{pgUtil.gerarCaminhoCompletoID('dlgResumoAtividades')}"
+                                 oncomplete="PF('dlgResumoAtividadesWidget').show(); desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"/>
+            </h:form>
 
-        <h:form id="frmNovaAtividade">
-            <p:remoteCommand name="novaAtividadeLead"
-                             process="@this"
-                             update="@form"
-                             oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"
-                             action="#{paginaAtual.infoPagina.executarAcaoSelecionada}">
-                <f:setPropertyActionListener
-                    target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-                    value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}"/>
-            </p:remoteCommand>
-        </h:form>
+            <h:form id="frmNovaAtividade">
+                <p:remoteCommand name="novaAtividadeLead"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"
+                                 action="#{paginaAtual.infoPagina.executarAcaoSelecionada}">
+                    <f:setPropertyActionListener
+                        target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+                        value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}"/>
+                </p:remoteCommand>
+            </h:form>
 
-        <!-- ============================================================
-             Cards padronizados com o mesmo componente do dashboard.
-             O wrapper cards-dashboard componente neutraliza o grid
-             CRC (Container*/floats) que o componente traz e impoe um
-             CSS Grid responsivo que quebra linha em qualquer zoom.
-             ============================================================ -->
-        <h:panelGroup layout="block" id="cardsInteracao" styleClass="cards-dashboard cards-dashboard--componente">
+            <!-- ============================================================
+                 Cards padronizados com o mesmo componente do dashboard.
+                 O wrapper cards-dashboard componente neutraliza o grid
+                 CRC (Container*/floats) que o componente traz e impoe um
+                 CSS Grid responsivo que quebra linha em qualquer zoom.
+                 ============================================================ -->
+            <h:panelGroup layout="block" id="cardsInteracao" styleClass="cards-dashboard cards-dashboard--componente">
 
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="1"
-                icone="fa fa-life-ring"
-                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                titulo="Chamados"
-                valor="#{cc.attrs.pessoa.chamadosAbertos.size()}"
-                />
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="1"
+                    icone="fa fa-life-ring"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                    titulo="Chamados"
+                    valor="#{cc.attrs.pessoa.chamadosAbertos.size()}"
+                    exibirBotaoNovoCasoZero="true"
 
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="3"
-                icone="fa fa-hand-paper-o"
-                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
-                titulo="Solicitações"
-                valor="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
-                />
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="4"
-                icone="fa fa-calendar-days"
-                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral)}"
-                titulo="Agenda"
-                valor="#{cc.attrs.pessoa.reservasAtivas.size()}"
-                />
+                    />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="3"
+                    icone="fa fa-hand-paper-o"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
+                    titulo="Solicitações"
+                    valor="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
 
 
-
-            <crmDashBoard:dashBoardIconeTextoTituloLink
-                texto=""
-                codigoestilo="2"
-                icone="fa fa-play"
-                url="javascript:novaAtividadeLead();"
-                titulo="Nova atividade"
-                valor="1"
-                />
-
-            <crmDashBoard:dashBoardIconeValorTituloLink
-                codigoestilo="2"
-                icone="fa fa-play-circle-o"
-                url="javascript:abrirResumoAtividadesLead();"
-                titulo="Continuar atividade"
-                valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
-                />
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="4"
+                    icone="fa fa-calendar-days"
+                    url="#{cc.attrs.pessoa.reservasAtivas.size() == 0 ?pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor):pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral)}"
+                    titulo="Agenda"
+                    valor="#{cc.attrs.pessoa.reservasAtivas.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
 
 
 
-        </h:panelGroup>
+                <crmDashBoard:dashBoardIconeTextoTituloLink
+                    texto=""
+                    codigoestilo="2"
+                    icone="fa fa-play"
+                    url="javascript:novaAtividadeLead();"
+                    titulo="Nova atividade"
+                    valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
 
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="2"
+                    icone="fa fa-play-circle-o"
+                    url="javascript:abrirResumoAtividadesLead();"
+                    titulo="Continuar atividade"
+                    valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+
+                    />
+
+
+
+            </h:panelGroup>
+        </p:fieldset>
         <p:dialog id="dlgResumoAtividades"
                   widgetVar="dlgResumoAtividadesWidget"
                   header="Atividades em andamento"
@@ -117,5 +128,6 @@
                 </div>
             </h:panelGroup>
         </p:dialog>
+
     </cc:implementation>
 </ui:composition>
