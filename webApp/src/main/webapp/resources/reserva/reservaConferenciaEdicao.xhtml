@@ -32,6 +32,23 @@
                                    />
 
                 </h:panelGroup>
+
+                <SBInput:input registro="#{pgMinhasReservas.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('tipoAgendamento')}"
+                               layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                               desabilitarEdicao="true"
+                               />
+
+                <SBInput:input registro="#{pgMinhasReservas.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('inicioReservaAtendente')}"
+                               layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                               idAtualizarOnChange="@this"
+                               />
+
+                <SBInput:input registro="#{pgMinhasReservas.novaReserva.getCampoInstanciadoByNomeOuAnotacao('finalReservaAtendente')}"
+                               layout="#{layoutsComponenteSB.layoutCampo.esquerda}"
+                               />
+
+
+
                 <h:panelGroup styleClass="Container6 " id="contatosConvidados"  layout="block" rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('pessoaRelacionada').valor!=null}">
                     <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('contatosAtendidos')}"
                                    label="Contatos Convidados"

@@ -76,7 +76,7 @@ public class PgMinhasReservas
     private UsuarioCRM usuario;
 
     private ScheduleModel agendaReservas;
-    private EscopoPesquisaMelhorHorario escopoPesquisa;
+
     private List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis;
     private HorarioDisponivelAtendimentoPublico horarioDisponivelSelecionado;
 
@@ -91,10 +91,10 @@ public class PgMinhasReservas
                 if (getHorarioDisponivelSelecionado().getTipoAgendamento() != null) {
                     tipoReserva = getHorarioDisponivelSelecionado().getTipoAgendamento();
                 }
-                if (tipoReserva == null) {
-                    if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
-                        tipoReserva = (TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor();
-                    }
+            }
+            if (tipoReserva == null) {
+                if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
+                    tipoReserva = (TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor();
                 }
             }
 
@@ -132,6 +132,7 @@ public class PgMinhasReservas
             } else {
                 setEntidadeSelecionada(new ReservaHoraPresencial());
             }
+            getEntidadeSelecionada().setTipoAgendamento(getTipoReserva());
             getEntidadeSelecionada().setAtendenteResponsavel(getUsuario());
             try {
                 if (getHorarioDisponivelSelecionado() != null) {

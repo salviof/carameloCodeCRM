@@ -47,6 +47,7 @@ public class PgColaboradoresComAgenda extends MB_paginaCadastroEntidades<Disponi
         getAcoesRegistros().clear();
         adicionarAcaoDeEntidade(FabAcaoAdminAgenda.AGENDA_ADMIN_DIPONIBILIDADES_FRM_LISTAR_DISPONIBILIDADES);
         adicionarAcaoDeEntidade(FabAcaoAdminAgenda.RESERVAS_ADMIN_MB_GESTAO);
+        adicionarAcaoDeEntidade(FabAcaoAdminAgenda.MINHA_AGENDA_FRM_ESCOPO_RESERVA_CLIENTE);
     }
 
 }

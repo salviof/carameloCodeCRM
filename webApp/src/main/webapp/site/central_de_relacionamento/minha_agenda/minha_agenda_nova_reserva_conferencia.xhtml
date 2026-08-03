@@ -9,7 +9,8 @@
     xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
 
     xmlns:p="http://primefaces.org/ui"
-    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
 
     <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
     <div class="">
@@ -56,8 +57,18 @@
         <div class="ContainerIndent">
 
             <h:form>
-                <SBReserva:reservaConferencia reserva="#{pgMinhasReservas.entidadeSelecionada}" />
 
+
+
+                <h:panelGroup styleClass="Container5"  layout="block">
+                    <SBReserva:reservaConferenciaEdicao reserva="#{pgMinhasReservas.entidadeSelecionada}" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento!=null}" />
+                </h:panelGroup>
+                <h:panelGroup styleClass="Container5"  layout="block">
+                    <crmAgenda:pesquisaHorariosLivres rendered="false" agendaDiponibilidade="#{null}" areaAtualizacao="@form"/>
+                    asdasd
+
+
+                </h:panelGroup>
 
                 <p:fieldset  styleClass="Container3 Fright">
                     <h:panelGroup class="Container12" layout="block" >
