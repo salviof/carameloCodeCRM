@@ -14,47 +14,72 @@
 
     </cc:interface>
     <cc:implementation>
-        <p:fieldset styleClass="Container12" legend="Link de acesso direto para o cliente, (usar para compartilhar manualmente)" id="linkAcessoRapido" >
-            <h:form >
-                <h:panelGroup layout="block" styleClass="Container4" >
-                    <SBCRM:botaoGrande
-                        acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrGerarCodigoAcesso}"
-                        atualizar="#{pgUtil.gerarCaminhoCompletoID('linkAcessoRapido')}"
+        <p:fieldset styleClass="Container12 ChamadoLinkFieldset" id="linkAcessoRapido" >
+            <f:facet name="legend">
+                <span class="ChamadoLinkLegenda">
+                    <i class="fa-solid fa-link ChamadoLinkLegendaIcone"></i>
+                    Link de acesso do cliente
+                </span>
+            </f:facet>
 
-                        />
-                </h:panelGroup>
-                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken!=null}" styleClass="Container8" >
-                    <p:outputLabel value="#{pgMeusChamadosAtd.urlAcessoDireto}" style="width: 200px"  />
-                    <h:panelGroup layout="block" styleClass="Container12" >
+            <h:form styleClass="ChamadoLinkForm" >
 
-                        <p:button icon="fa fa fa-whatsapp"
-                                  style="margin: 5px;"
+                <!-- Já existe um link válido: endereço, validade e formas de compartilhar -->
+                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken!=null}" styleClass="ChamadoLinkAtivo" >
+
+                    <h:panelGroup layout="block" styleClass="ChamadoLinkEndereco" >
+                        <i class="fa-solid fa-globe ChamadoLinkEnderecoIcone"></i>
+                        <p:outputLabel value="#{pgMeusChamadosAtd.urlAcessoDireto}"
+                                       styleClass="ChamadoLinkUrl"
+                                       title="#{pgMeusChamadosAtd.urlAcessoDireto}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="ChamadoLinkCompartilhar" >
+
+                        <p:button icon="fab fa-whatsapp"
+                                  value="WhatsApp"
+                                  title="Enviar o link pelo WhatsApp do cliente"
+                                  styleClass="ChamadoLinkBotao ChamadoLinkBotaoWhatsapp"
                                   onclick="#{pgUtilTelefone.gerarJavascriptWhatsqpp(pgMeusChamadosAtd.entidadeSelecionada.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.celular,
                                              pgUtil.saudacao.concat(pgMeusChamadosAtd.entidadeSelecionada.usuarioCliente.nome)
                                              .concat(', atualizei o seu chamado, utilize este link para interagir:  ').concat(pgMeusChamadosAtd.urlAcessoDireto)
                                              )}"
                                   href="#" />
 
-                        <p:button icon="fa fa-copy"
+                        <p:button icon="fa-regular fa-copy"
+                                  value="Copiar link"
                                   id="copiarLinkChamado"
-                                  style="margin: 5px;"
-                                  onclick="alert('#{pgMeusChamadosAtd.urlAcessoDireto} copiado com sucesso')"
+                                  title="Copiar o link para a área de transferência"
+                                  styleClass="ChamadoLinkBotao ChamadoLinkBotaoCopiar"
+                                  onclick="return false;"
                                   href="#" >
                             <pe:clipboard trigger="copiarLinkChamado" action="copy"
-
                                           text="#{pgMeusChamadosAtd.urlAcessoDireto}"  />
                         </p:button>
 
-                        Valido até:#{pgUtil.gerarDataTexto(pgMeusChamadosAtd.ultimoToken.validade)}
+                        <h:panelGroup layout="block" styleClass="ChamadoLinkValidade" >
+                            <i class="fa-regular fa-clock ChamadoLinkValidadeIcone"></i>
+                            Válido até #{pgUtil.gerarDataTexto(pgMeusChamadosAtd.ultimoToken.validade)}
+                        </h:panelGroup>
 
                     </h:panelGroup>
 
                 </h:panelGroup>
-                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken==null}" >
-                    Sem telefone
 
+                <!-- Ainda não há link gerado -->
+                <h:panelGroup layout="block" rendered="#{pgMeusChamadosAtd.ultimoToken==null}" styleClass="ChamadoLinkVazio" >
+                    <i class="fa-solid fa-link-slash ChamadoLinkVazioIcone"></i>
+                    <span class="ChamadoLinkVazioTexto">
+                        Nenhum link ativo. Gere um link para o cliente acompanhar e responder o chamado.
+                    </span>
                 </h:panelGroup>
 
+                <h:panelGroup layout="block" styleClass="ChamadoLinkGerar"  >
+                    <SBCRM:botaoGrande
+                        acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrGerarCodigoAcesso}"
+                        atualizar="#{pgUtil.gerarCaminhoCompletoID('linkAcessoRapido')}"
+                        />
+                </h:panelGroup>
 
             </h:form>
 

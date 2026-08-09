@@ -30,6 +30,7 @@ import jersey.repackaged.com.google.common.collect.Lists;
 import com.super_bits.editorImagem.util.UtilSBImagemEdicao;
 import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoEntityManager;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCBytes;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringNomeArquivosEDiretorios;
@@ -486,7 +487,9 @@ public class ServicosCRM implements Serializable {
                     resposta.dispararMensagens();
                 } else {
                     if (solicitacaoEquipe != null) {
-                        ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe(solicitacaoEquipe);
+                        if (ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe(solicitacaoEquipe).isSucesso()) {
+                            UtilSBWP_JSFTools.vaParaPagina(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.DOCUMENTOS_PESSOA_FRM_LISTAR_ARQUIVOS_PASTA_EQUIPE, solicitacaoEquipe.getPessoa(), solicitacaoEquipe.getCategoriaArqEquipe()));
+                        }
                     }
                 }
 
@@ -597,7 +600,8 @@ public class ServicosCRM implements Serializable {
     }
 
     public void solicitarPermissao(Pessoa p) {
-        ModuloCRMAtendimentoSolicitacoes.solicitacaoSolicitarAcessoCArd(p).dispararMensagens();
+        ItfRespostaAcaoDoSistema respSolicitacao = ModuloCRMAtendimentoSolicitacoes.solicitarAcessoPessoa(p).dispararMensagens();
+        respSolicitacao.dispararMensagens();
     }
 
     public boolean isUmUsuarioAtendimentoLogado() {

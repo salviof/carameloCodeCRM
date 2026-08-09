@@ -16,12 +16,53 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
-                         descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "
-                         rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}"
-                         severity="info"
-                         />
-        <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido" style="" layout="block">
+        <!-- SEM CONTATOS: aviso + atalho para cadastrar o primeiro contato,
+             para o componente nao ficar vazio quando nao ha nada a listar -->
+        <h:panelGroup layout="block" styleClass="aviso-sem-contatos"
+                      rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}">
+            <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
+                             descubra quem é o responsável pela empresa e envie e envie um documento personalizado ou apresentação da empresa para iniciar uma negociação. "
+                             severity="info"
+                             />
+            <h:form>
+                <p:commandButton
+                    actionListener="#{servicosCRM.exibirModalProspecto(pgProspecto.entidadeSelecionada,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos)}"
+                    value="Novo Contato"
+                    styleClass="btn-novo-contato"
+                    icon="fa fa-user-plus">
+                    <p:ajax event="click" listener="#{pgProspecto.onModalProspectoOpen}"/>
+                    <p:ajax event="dialogReturn"
+                            listener="#{pgProspecto.onModalProspectoClose}"
+                            onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
+                            oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
+                            update="#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}"/>
+                </p:commandButton>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor>0}" styleClass="Container12 OrganizadorContainerExpandido" style="" layout="block">
+            <h:panelGroup styleClass="Container6" style="" layout="block">
+                <h:panelGroup styleClass="badge-wrapper Fright" style="margin: 3px;">
+                    <p:badge
+                        value="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor}"
+                        severity="info">
+
+                        <h:form>
+                            <p:commandButton
+                                actionListener="#{servicosCRM.exibirModalProspecto(pgProspecto.entidadeSelecionada,acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos)}"
+                                value="Editar Contatos"
+                                icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatos.icone}">
+                                <p:ajax event="click" listener="#{pgProspecto.onModalProspectoOpen}"/>
+                                <p:ajax event="dialogReturn"
+                                        listener="#{pgProspecto.onModalProspectoClose}"
+                                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
+                                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}')"
+                                        update="#{pgUtil.gerarCaminhoCompletoID('contatosDoLead')}"/>
+                            </p:commandButton>
+                        </h:form>
+
+                    </p:badge>
+                </h:panelGroup>
+            </h:panelGroup>
             <h:form>
                 <p:remoteCommand action="#{servicoCRMContato.irParaAcaoSelecionada()}"
                                  process="@form"
@@ -56,12 +97,29 @@
                         <p:column>
                             <h:panelGroup rendered="#{contato.possuiEmail}" style="width: 200px;">
                                 <h:outputText value="#{contato.email}" style="margin-left: 5px"/>
+                                <h:panelGroup styleClass="" style="margin-left: 3px;" rendered="#{servicoCRMContato.contatoSelecionado.email!=null}">
+                                    <p:button id="copiarEmail" icon="fa fa-copy" href="#" widgetVar="copiarEmailBtn"/>
+                                    <pe:clipboard trigger="copiarEmail" action="copy" onsuccess="msgEmailCopiaOK();"
+                                                  text="#{servicoCRMContato.contatoSelecionado.email}"
+                                                  widgetVar="copiarEmailAct"
+                                                  />
+
+                                </h:panelGroup>
                             </h:panelGroup>
                         </p:column>
 
                         <p:column>
-                            <h:panelGroup rendered="#{contato.possuiTelefone}" styleClass="Fright">
+                            <h:panelGroup rendered="#{contato.possuiTelefone}" styleClass="">
                                 <h:outputText value="#{contato.celular}" style="margin-left: 5px;width: 200px;"/>
+                            </h:panelGroup>
+                            <h:panelGroup
+                                styleClass=""
+                                style="margin-left: 3px;"
+                                rendered="#{!pgUtil.isNuloOuEmbranco(servicoCRMContato.contatoSelecionado.celular)}">
+                                <p:button id="copiarTelefone" icon="fa fa-copy" href="#" widgetVar="copiarTelBtn"/>
+                                <pe:clipboard trigger="copiarTelefone" action="copy"
+                                              onsuccess="msgTelefoneCopiaOK();"
+                                              text="#{pgUtilTelefone.gerarNumeroInternacional(servicoCRMContato.contatoSelecionado.celular)}"/>
                             </h:panelGroup>
                         </p:column>
 
@@ -83,83 +141,13 @@
                                          update="@form"
                                          />
                     </p:fragment>
-                    <p:panelGrid columns="2" style="width: 100%;" columnClasses="FLeft,OrganizadorContainer">
-                        <h:panelGroup styleClass="" rendered="#{servicoCRMContato.contatoSelecionado.email!=null}">
-                            <a href="#" class="FontAdamantiumBold Fs16"
-                               onclick="document.getElementById(PF('copiarEmailBtn').id).click();">   #{servicoCRMContato.contatoSelecionado.email} </a>
-                        </h:panelGroup>
-                        <h:panelGroup styleClass="" rendered="#{servicoCRMContato.contatoSelecionado.email!=null}">
-                            <p:button id="copiarEmail" icon="fa fa-copy" href="#" widgetVar="copiarEmailBtn"/>
-                            <pe:clipboard trigger="copiarEmail" action="copy" onsuccess="msgEmailCopiaOK();"
-                                          text="#{servicoCRMContato.contatoSelecionado.email}"
-                                          widgetVar="copiarEmailAct"
-                                          />
 
-                        </h:panelGroup>
-                        <h:panelGroup
-                            rendered="#{!pgUtil.isNuloOuEmbranco(servicoCRMContato.contatoSelecionado.celular)}">
-                            <a href="#" class="FontAdamantiumBold Fs16"
-                               onclick="document.getElementById(PF('copiarTelBtn').id).click();">#{servicoCRMContato.contatoSelecionado.celular}</a>
-                        </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="" style="">
 
-                        <h:panelGroup
-                            rendered="#{!pgUtil.isNuloOuEmbranco(servicoCRMContato.contatoSelecionado.celular)}">
-                            <p:button id="copiarTelefone" icon="fa fa-copy" href="#" widgetVar="copiarTelBtn"/>
-                            <pe:clipboard trigger="copiarTelefone" action="copy"
-                                          onsuccess="msgTelefoneCopiaOK();"
-                                          text="#{pgUtilTelefone.gerarNumeroInternacional(servicoCRMContato.contatoSelecionado.celular)}"/>
-                        </h:panelGroup>
-
-                    </p:panelGrid>
-                    <h:panelGroup layout="block" styleClass="" style="margin-top: 9px;">
-                        <!--                        <h:panelGroup layout="block" styleClass="Container6">-->
-
-                        <!--                            <h:panelGroup layout="block" styleClass="Container12" style="margin-bottom: 5px;">-->
-                        <!--                                <span class="fa fa-hand-paper-o Fs40"/> Solicitações-->
-                        <!--                            </h:panelGroup>-->
-
-                        <!--                            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"-->
-                        <!--                                          id="acaoPedidosCliente" style="height: 200px;">-->
-                        <!--                                <crm:botaoGrandeLink-->
-                        <!--                                        url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoCliente,pgProspecto.entidadeSelecionada,usuario)}"-->
-                        <!--                                        icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoCliente.icone}"-->
-                        <!--                                        label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoCliente.nomeAcao}"-->
-                        <!--                                        descricao=""/>-->
-                        <!--                                <crm:botaoGrandeLink-->
-                        <!--                                        url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoCliente,pgProspecto.entidadeSelecionada,usuario)}"-->
-                        <!--                                        icone="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoConfirmacaoCliente.icone}"-->
-                        <!--                                        label="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoCliente.nomeAcao}"-->
-                        <!--                                        descricao=""/>-->
-                        <!--                            </h:panelGroup>-->
-                        <!--                            <script>-->
-                        <!--                                setTimeout(() => {-->
-                        <!--                                    PF("emDesenvolvimento").show();-->
-                        <!--                                }, "1000");-->
-                        <!--                            </script>-->
-
-                        <!--                        </h:panelGroup>-->
-
-                        <!--                        <h:panelGroup layout="block"-->
-                        <!--                                      style="border-left: 6px solid green;  height: 169px;width: 6px; left: 390px;"-->
-                        <!--                                      styleClass="somenteDesktop"/>-->
-
-                        <!--                        <h:panelGroup layout="block" styleClass="Container3">-->
-
-                        <!--                            <h:panelGroup layout="block" styleClass="Container12" style="margin-bottom: 5px;">-->
-                        <!--                                <span class="fa  fa-life-ring Fs40"/> Chamados-->
-                        <!--                            </h:panelGroup>-->
-                        <!--                            <crm:botaoGrandeLink-->
-                        <!--                                    rendered="#{servicoCRMContato.contatoSelecionado!=null}"-->
-                        <!--                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"-->
-                        <!--                                    icone="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosMbGestao.icone}"-->
-                        <!--                                    label="Novo Chamado para #{servicoCRMContato.contatoSelecionado.nome}"-->
-                        <!--                                    descricao=""/>-->
-
-                        <!--                        </h:panelGroup>-->
                         <h:panelGroup layout="block" style="" styleClass="Container12">
 
 
-                            <h:panelGroup layout="block" style="" styleClass="Container5">
+                            <h:panelGroup layout="block" style="" styleClass="Container3">
                                 <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
                                     <span class="fa fa-life-ring"/> Chamados
                                 </h:panelGroup>
@@ -170,7 +158,7 @@
                                     label="Novo Chamado para #{servicoCRMContato.contatoSelecionado.nome}"
                                     descricao=""/>
                             </h:panelGroup>
-                            <h:panelGroup layout="block" style="" styleClass="Container5">
+                            <h:panelGroup layout="block" style="" styleClass="Container3">
                                 <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
                                     <span class="fa fa-calendar-plus-o"/> Agenda
                                 </h:panelGroup>
@@ -179,9 +167,21 @@
 
                                 <crm:botaoGrandeLink
                                     rendered="#{servicoCRMContato.contatoSelecionado!=null}"
-                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,sessaoAtualSBWP.usuario ,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
                                     icone="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo.icone}"
                                     label="Marcar reunião com #{servicoCRMContato.contatoSelecionado.nome}"
+                                    descricao=""/>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" style="" styleClass="Container3">
+                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
+                                    <span class="fa fa-hand-paper-o"/> Solicitações
+                                </h:panelGroup>
+                                <crm:botaoGrandeLink
+                                    rendered="#{servicoCRMContato.contatoSelecionado!=null}"
+                                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaNotificacaoCliente,cc.attrs.pessoa,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                                    icone="fa fa-hand-paper-o"
+                                    label="Fazer uma solicitação para #{servicoCRMContato.contatoSelecionado.nome}"
                                     descricao=""/>
                             </h:panelGroup>
                         </h:panelGroup>

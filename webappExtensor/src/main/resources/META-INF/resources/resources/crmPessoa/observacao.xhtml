@@ -1,0 +1,95 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+
+
+        <h:panelGroup layout="block" styleClass="Container12" >
+            <h:form id="formObservacao" style="margin-top: 16px">
+                <p:panel header="Observação" styleClass="panel-observacao Container12">
+
+                    <f:facet name="header">
+                        <div class="header-observacao container-imagem-edicao">
+                            <i class="pi pi-info-circle " style="margin-right:6px;"></i>
+                            Observação
+                            <p:link href="#"
+                                    styleClass="botao-editar-imagem-link"
+                                    onclick="PF('dlgObs').show();"
+                                    style="font-size: 2rem;margin-top: 10px;"
+                                    title="Editar observação">
+                                <i class="pi pi-pencil" style="color: #FFFFFF; font-size: 1.2rem;"></i>
+                            </p:link>
+                        </div>
+                    </f:facet>
+
+                    <h:panelGroup
+                        rendered="#{not empty pgProspecto.entidadeSelecionada.observacao}">
+                        <h:outputText value="#{pgProspecto.entidadeSelecionada.observacao}"
+                                      styleClass="texto-observacao"
+                                      escape="false"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{empty pgProspecto.entidadeSelecionada.observacao}">
+                        <i class="texto-vazio">Nenhuma observação cadastrada.</i>
+                    </h:panelGroup>
+
+                    <div class="area-botao">
+
+
+
+                    </div>
+
+                </p:panel>
+                <p:dialog header="Editar Observação"
+                          widgetVar="dlgObs"
+                          modal="true"
+                          width="100%"
+                          responsive="true"
+                          closable="true">
+
+                    <h:panelGroup id="obsPanel" styleClass="OrganizadorContainer Container12" style="padding: -10px;" layout="block">
+
+                        <!-- CAMPO PERSONALIZADO (textarea) -->
+
+                        <SBInput:input
+                            registro="#{pgProspecto.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('observacao')}"
+                            layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                            />
+
+                        <!-- BOTÕES -->
+                        <p:separator/>
+
+                        <p:commandButton value="Salvar"
+                                         icon="pi pi-check"
+                                         actionListener="#{pgProspecto.atualizarObservacao()}"
+                                         update="formObservacao"
+                                         oncomplete="PF('dlgObs').hide(); atualizarAreaByID('dadosDaEmpresa');"
+                                         styleClass="p-button-success"/>
+
+                        <p:commandButton value="Cancelar"
+                                         icon="pi pi-times"
+                                         onclick="PF('dlgObs').hide();
+                                                 return false;"
+                                         styleClass="p-button-secondary"
+                                         style="margin-left:8px"/>
+                    </h:panelGroup>
+
+                </p:dialog>
+            </h:form>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

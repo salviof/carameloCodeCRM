@@ -35,7 +35,7 @@ public class ServicoCrmReserva implements Serializable {
 
     private ItfPaginaListaDeHorariosDisponiveis getPaginaDeAgendamento() {
         try {
-            if (paginaAtual.getInfoPagina() instanceof ItfPaginaListaDeHorariosDisponiveis) {
+            if (!(paginaAtual.getInfoPagina() instanceof ItfPaginaListaDeHorariosDisponiveis)) {
                 throw new UnsupportedOperationException("A Pagina atual não implementa: " + ItfPaginaListaDeHorariosDisponiveis.class.getSimpleName());
             }
         } catch (Throwable t) {
@@ -47,14 +47,16 @@ public class ServicoCrmReserva implements Serializable {
     public AgendaDisponibilidade getAgendaDisponibilidade() {
         if (agendaDisponibilidade == null) {
             if (agendaDisponibilidade == null) {
-                agendaDisponibilidade = new AgendaDisponibilidade();
-                agendaDisponibilidade.setEscopo(getPaginaDeAgendamento().getEscopoPesquisa());
+                agendaDisponibilidade = new AgendaDisponibilidade(getPaginaDeAgendamento().getEscopoPesquisa(), getPaginaDeAgendamento().getUsuarioAtendente(), getPaginaDeAgendamento().getUsuarioAtendedido());
+
             } else {
                 if (!agendaDisponibilidade.getEscopo().equals(getPaginaDeAgendamento().getEscopoPesquisa())) {
                     agendaDisponibilidade.setEscopo(getPaginaDeAgendamento().getEscopoPesquisa());
                 }
             }
+            agendaDisponibilidade.setTipoAgendamento(getPaginaDeAgendamento().getTipoAgendamento());
         }
+        getPaginaDeAgendamento().setAgendaDisponibilidade(agendaDisponibilidade);
         return agendaDisponibilidade;
     }
 

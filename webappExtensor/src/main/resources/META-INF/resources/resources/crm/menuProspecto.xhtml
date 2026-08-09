@@ -25,7 +25,10 @@
 
         <h:form rendered="#{cc.attrs.pessoaJuridica!=null}">
 
-            <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
+            <h:outputStylesheet  name="menuProspecto.css" library="crm"  />
+
+
+
             <h:panelGroup layout="block"  styleClass="botaoLateralMenuPessoaJuridica" style="border-radius: 30px;">
                 <p:commandLink  type="button" onclick="PF('sidebar2').show();" styleClass="p-mr-2" >
                     <h:panelGroup layout="span" rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
@@ -57,34 +60,59 @@
                    rendered="#{cc.attrs.pessoaJuridica!=null}"
                    styleClass="sidebarProspecto"
                    showCloseIcon="true" style="background-color: #ffffff; width: 300px;" baseZIndex="999999999">
-            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" >
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}"
+                    styleClass="cabecalhoProspecto" title="#{cc.attrs.pessoaJuridica.nome}" >
 
-                    <p:avatar label="#{cc.attrs.pessoaJuridica.nome}" styleClass="p-ml-2"   style="background-color:#4caf4f; color: #ffffff"
+                <span class="cabecalhoProspectoLogo">
+                    <p:avatar label="#{cc.attrs.pessoaJuridica.nomeCurto}" styleClass="cabecalhoProspectoAvatar"
+                              shape="circle" size="large"
                               rendered="#{!cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}"
                               />
 
-                    <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.pessoaJuridica.imgPequena}"
-                         style="
-                         #{sessaoAtualSBWP.telaUsuario.umMobile?'min-height: 30px;':'min-height: 70px;'}
-                         #{sessaoAtualSBWP.telaUsuario.umMobile?'max-width: 30%x;':'max-width: 70%;'};
-                         #{sessaoAtualSBWP.telaUsuario.umMobile?'max-height:  60px;':'max-height:  90px;'};
+                    <ui:fragment rendered="#{cc.attrs.pessoaJuridica.temImagemPequenaAdicionada}">
+                        <img class="cabecalhoProspectoImagem" alt="#{cc.attrs.pessoaJuridica.nome}"
+                             src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{cc.attrs.pessoaJuridica.imgPequena}" />
+                    </ui:fragment>
+                </span>
 
-                         position: relative;
-                         top: 0px;" />
-<h3>
-
+                <h3 class="cabecalhoProspectoNome">
                     #{cc.attrs.pessoaJuridica.nome}
                 </h3>
             </p:link>
-            <p:tabView >
-            <p:tab title="Manutenção" >
-                    <crmPessoa:menuPessoaAcoesDisponiveis pessoa="#{cc.attrs.pessoaJuridica}" />
+
+             <p:fieldset styleClass="fieldsetAcoesProspecto" >
+
+                <div class="gradeAcoesProspecto">
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoDetalhes" role="button" title="Detalhes" >
+                        <i class="fa fa-id-card-o botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Detalhes</span>
+                    </a>
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoChat" role="button" title="Chat" >
+                        <i class="fa fa-comments botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Chat</span>
+                    </a>
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoArquivos" role="button" title="Arquivos" >
+                        <i class="fa fa-files-o botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Arquivos</span>
+                    </a>
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoOrcamentos" role="button" title="Orçamentos" >
+                        <i class="fa fa-money botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Orçamentos</span>
+                    </a>
+                </div>
+
+            <crmPessoa:acaoRapidaProspectoMin pessoa="#{cc.attrs.pessoaJuridica}" />
+            </p:fieldset>
+            <p:tabView styleClass="abasProspecto" >
+            <p:tab title="Arquivo" >
+                <crmPessoa:menuPessoaAcoesDisponiveis pessoa="#{cc.attrs.pessoaJuridica}" />
             </p:tab>
             <p:tab title="Atividades" >
-                <h:form rendered="#{!cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}" >
-                <h:panelGroup layout="block" style="width: 100%;" >
+                <h:form styleClass="conteudoAbaProspecto" rendered="#{!cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}" >
+                <h:panelGroup layout="block" styleClass="conteudoAbaProspecto" >
                     <p:selectOneListbox id="selecaoAtividadePessoa" value="#{servicosCRM.tipoAtividadeSelecionada}" converter="conversorGenerico"
-                                        var="atividade" filter="true" filterMatchMode="contains" style="width: 100%;"
+                                        var="atividade" filter="true" filterMatchMode="contains"
+                                        styleClass="listaSelecaoProspecto"
 
 
                                         >
@@ -112,30 +140,7 @@
 
             </p:tabView>
 
-            <h:panelGroup styleClass="Container12 " rendered="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}">
-                <crm:botaoEditarAtividade  atividade="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor}"/>
-            </h:panelGroup>
-
-            <p:fieldset style="margint-top:10px;" >
-
-                <div class="OrganizadorContainer" style="m">
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-id-card-o"></span> <br/>Detalhes</a>
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px; " ><span class="fa fa-comments"></span> <br/>Chat</a>
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-files-o"></span> <br/>Arquivos</a>
-
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa,cc.attrs.pessoaJuridica)}" class="btn btn-info btn-lg" role="button" style="width:100px;height:80px; margin-bottom:10px;" ><span class="fa fa-money"></span> <br/>Negócios</a>
-
-                </div>
-
-
-            </p:fieldset>
-            <h:form>
-                <crm:opcoesProspectoQuantidades
-                    empresa="#{cc.attrs.pessoaJuridica}"
-                    javascriptOnclick="PF('sidebar2').hide();"
-                    rendered="false"
-                    />
-            </h:form>
+            
             <p:blockUI block="@parent"
                        widgetVar="empresablkcmd#{cc.attrs.pessoaJuridica.id}"
                        >

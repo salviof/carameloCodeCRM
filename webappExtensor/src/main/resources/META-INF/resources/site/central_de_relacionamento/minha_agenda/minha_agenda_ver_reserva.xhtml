@@ -43,9 +43,9 @@
             </p:fieldset>
             <p:fieldset  legend="Opções">
                 <p:outputLabel value="#{pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia}"  rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto and pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia != null}"/>
-                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" >
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"  >
                     <h:panelGroup layout="block" styleClass="Container3" >
-                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmDefinirUrlReuniao}" />
+                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmDefinirUrlReuniao}" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" />
                     </h:panelGroup>
                     <h:panelGroup layout="block" styleClass="Container3" >
                         <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrRemover}" />

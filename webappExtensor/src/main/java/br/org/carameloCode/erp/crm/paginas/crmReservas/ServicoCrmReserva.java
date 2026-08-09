@@ -13,7 +13,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
@@ -25,6 +28,37 @@ public class ServicoCrmReserva implements Serializable {
 
     @Inject
     private ItfPaginaAtual paginaAtual;
+
+    private AgendaDisponibilidade agendaDisponibilidade;
+
+    private ItfPaginaListaDeHorariosDisponiveis paginaDeAgendamento;
+
+    private ItfPaginaListaDeHorariosDisponiveis getPaginaDeAgendamento() {
+        try {
+            if (!(paginaAtual.getInfoPagina() instanceof ItfPaginaListaDeHorariosDisponiveis)) {
+                throw new UnsupportedOperationException("A Pagina atual não implementa: " + ItfPaginaListaDeHorariosDisponiveis.class.getSimpleName());
+            }
+        } catch (Throwable t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha lendo pagina atual comom " + ItfPaginaListaDeHorariosDisponiveis.class.getSimpleName(), t);
+        }
+        return (ItfPaginaListaDeHorariosDisponiveis) paginaAtual.getInfoPagina();
+    }
+
+    public AgendaDisponibilidade getAgendaDisponibilidade() {
+        if (agendaDisponibilidade == null) {
+            if (agendaDisponibilidade == null) {
+                agendaDisponibilidade = new AgendaDisponibilidade(getPaginaDeAgendamento().getEscopoPesquisa(), getPaginaDeAgendamento().getUsuarioAtendente(), getPaginaDeAgendamento().getUsuarioAtendedido());
+
+            } else {
+                if (!agendaDisponibilidade.getEscopo().equals(getPaginaDeAgendamento().getEscopoPesquisa())) {
+                    agendaDisponibilidade.setEscopo(getPaginaDeAgendamento().getEscopoPesquisa());
+                }
+            }
+            agendaDisponibilidade.setTipoAgendamento(getPaginaDeAgendamento().getTipoAgendamento());
+        }
+        getPaginaDeAgendamento().setAgendaDisponibilidade(agendaDisponibilidade);
+        return agendaDisponibilidade;
+    }
 
     public void reservarHorario(HorarioDisponivelAtendimentoPublico pHorarioDisponivel) {
 

@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = TipoChamado.class)
 public enum CPTipoChamado {
-	_ID, _NOME, _DESCRICAO, _RESPONSAVEIS, _TIPODADOS, _TIPOAGENDAMENTOVINCULADO, _RESPONSAVEISDISPONIVEIS, _PODECLIENTECRIAR, _ATIVO;
+	_ID, _NOME, _DESCRICAO, _RESPONSAVEIS, _TIPODADOS, _TIPOAGENDAMENTOVINCULADO, _METASRELACIONAMENTO, _TIPORELACIONAMENTODISPONIVEL, _RESPONSAVEISDISPONIVEIS, _PODECLIENTECRIAR, _ATIVO;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -13,6 +13,8 @@ public enum CPTipoChamado {
 	public static final String responsaveis = "responsaveis";
 	public static final String tipodados = "tipoDados";
 	public static final String tipoagendamentovinculado = "tipoAgendamentoVinculado";
+	public static final String metasrelacionamento = "metasRelacionamento";
+	public static final String tiporelacionamentodisponivel = "tipoRelacionamentoDisponivel";
 	public static final String responsaveisdisponiveis = "responsaveisDisponiveis";
 	public static final String podeclientecriar = "podeClienteCriar";
 	public static final String ativo = "ativo";

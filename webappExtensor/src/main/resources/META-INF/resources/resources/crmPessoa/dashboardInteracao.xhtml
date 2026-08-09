@@ -1,7 +1,9 @@
+
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:cc="http://java.sun.com/jsf/composite"
     xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
@@ -9,130 +11,99 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <cc:interface>
-        <cc:attribute name="pessoa" required="true"/>
+        <cc:attribute name="pessoa" required="true"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa"
+                      />
     </cc:interface>
 
     <cc:implementation>
 
-
-        <div class="cards-dashboard">
-
-            <!-- Card  -->
-            <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                    style="text-decoration: none;">
-                <div class="card-moderno chamados">
-                    <div class="card-conteudo">
-                        <div class="card-icone chamados">
-                            <i class="fa fa-life-ring "></i>
-                        </div>
-                        <div class="card-info">
-                            <div class="card-titulo">Chamado</div>
-                            <div class="card-valor">#{pgProspecto.prospecto.chamadosAbertos.size()}</div>
-                        </div>
-                    </div>
-                </div>
-            </p:link>
-
-            <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa,cc.attrs.pessoa)}"
-                    style="text-decoration: none;">
-                <div class="card-moderno solicitacoes">
-                    <div class="card-conteudo">
-                        <div class="card-icone solicitacoes">
-                            <i class="pi pi-send"></i>
-                        </div>
-                        <div class="card-info">
-                            <div class="card-titulo">Solicitações</div>
-                            <div class="card-valor">#{pgProspecto.prospecto.solicitacoesAbertas.size()}</div>
-                        </div>
-                    </div>
-                </div>
-            </p:link>
+        <!-- ============================================================
+             Acoes que nao sao navegacao por URL, expostas como
+             remoteCommand para os cards chamarem via javascript:
+             ============================================================ -->
+        <p:fieldset >
             <h:form>
-                <p:commandLink process="@this"
-                               rendered="#{pgProspecto.prospecto.atividadesEmAndamento.size() gt 1}"
-                               update="#{pgUtil.gerarCaminhoCompletoID('dlgResumoAtividades')}"
-                               oncomplete="PF('dlgResumoAtividadesWidget').show()"
-                               style="text-decoration: none;">
-                    <div class="card-moderno orcamentos">
-                        <div class="card-conteudo">
-                            <div class="card-icone orcamentos">
-                                <i class="pi pi-file"></i>
-                            </div>
-                            <div class="card-info">
-                                <div class="card-titulo">Continuar atividade</div>
-                                <div class="card-valor">#{pgProspecto.prospecto.atividadesEmAndamento.size()}</div>
-                            </div>
-                        </div>
-                    </div>
-                </p:commandLink>
-
-                <p:commandLink process="@this"
-                               rendered="#{pgProspecto.prospecto.atividadesEmAndamento.size() eq 1}"
-                               action="#{servicosCRM.continuarAtividade(pgProspecto.prospecto.atividadesEmAndamento[0])}"
-
-                               style="text-decoration: none;">
-                    <div class="card-moderno orcamentos">
-                        <div class="card-conteudo">
-
-                            <div class="card-icone orcamentos">
-                                <i class="#{pgProspecto.prospecto.atividadesEmAndamento[0].tipoAtividade.icone}"></i>
-
-                            </div>
-                            <div class="card-info">
-                                <div class="card-titulo">Continuar #{pgProspecto.prospecto.atividadesEmAndamento[0].tipoAtividade.nome}</div>
-                                <p:panelGrid columns="2" >
-                                    <h:panelGroup layout="block" styleClass="card-valor" style="font-size: 14px;" >
-                                        #{pgUtilDataHoraFormato.getDataHoraSimplificado(pgProspecto.prospecto.atividadesEmAndamento[0].dataHoraInicioAtividade)}
-                                    </h:panelGroup>
-
-                                </p:panelGrid>
-
-                            </div>
-                        </div>
-                    </div>
-                </p:commandLink>
-
+                <p:remoteCommand name="abrirResumoAtividadesLead"
+                                 process="@this"
+                                 update="#{pgUtil.gerarCaminhoCompletoID('dlgResumoAtividades')}"
+                                 oncomplete="PF('dlgResumoAtividadesWidget').show(); desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"/>
             </h:form>
+
             <h:form id="frmNovaAtividade">
-
-                <p:commandLink
-                    process="@this"
-                    update="@form"
-                    action="#{paginaAtual.infoPagina.executarAcaoSelecionada}"
-                    style="text-decoration: none;">
-
+                <p:remoteCommand name="novaAtividadeLead"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('cardsInteracao')}');"
+                                 action="#{paginaAtual.infoPagina.executarAcaoSelecionada}">
                     <f:setPropertyActionListener
                         target="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
-                        value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}" />
-
-                    <div class="card-moderno orcamentos">
-                        <div class="card-conteudo">
-                            <div class="card-icone orcamentos">
-                                <i class="pi pi-play"></i>
-                            </div>
-                            <div class="card-info">
-                                <div class="card-titulo">Nova atividade</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </p:commandLink>
-
+                        value="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade}"/>
+                </p:remoteCommand>
             </h:form>
 
+            <!-- ============================================================
+                 Cards padronizados com o mesmo componente do dashboard.
+                 O wrapper cards-dashboard componente neutraliza o grid
+                 CRC (Container*/floats) que o componente traz e impoe um
+                 CSS Grid responsivo que quebra linha em qualquer zoom.
+                 ============================================================ -->
+            <h:panelGroup layout="block" id="cardsInteracao" styleClass="cards-dashboard cards-dashboard--componente">
 
-            <!--            <p:fieldset styleClass="Container12" legend="Nova Atividade" toggleable="true">-->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="1"
+                    icone="fa fa-life-ring"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                    titulo="Chamados"
+                    valor="#{cc.attrs.pessoa.chamadosAbertos.size()}"
+                    exibirBotaoNovoCasoZero="true"
 
-            <!--                <p:fieldset styleClass="Container12">-->
-            <!--                    <crmPessoa:resumoEstagioRelacionamento-->
-            <!--                            pessoa="#{pgProspecto.prospecto}"-->
-            <!--                    />-->
-            <!--                </p:fieldset>-->
-            <!--            </p:fieldset>-->
+                    />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="3"
+                    icone="fa fa-hand-paper-o"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
+                    titulo="Solicitações"
+                    valor="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
+
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="4"
+                    icone="fa fa-calendar-days"
+                    url="#{cc.attrs.pessoa.reservasAtivas.size() == 0 ?pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor):pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral)}"
+                    titulo="Agenda"
+                    valor="#{cc.attrs.pessoa.reservasAtivas.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
 
 
 
-        </div>
+                <crmDashBoard:dashBoardIconeTextoTituloLink
+                    texto=""
+                    codigoestilo="2"
+                    icone="fa fa-play"
+                    url="javascript:novaAtividadeLead();"
+                    titulo="Nova atividade"
+                    valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+                    exibirBotaoNovoCasoZero="true"
+                    />
+
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="2"
+                    icone="fa fa-play-circle-o"
+                    url="javascript:abrirResumoAtividadesLead();"
+                    titulo="Continuar atividade"
+                    valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+
+                    />
+
+
+
+            </h:panelGroup>
+        </p:fieldset>
         <p:dialog id="dlgResumoAtividades"
                   widgetVar="dlgResumoAtividadesWidget"
                   header="Atividades em andamento"
@@ -157,5 +128,6 @@
                 </div>
             </h:panelGroup>
         </p:dialog>
+
     </cc:implementation>
 </ui:composition>

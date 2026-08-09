@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Solicitação de atualização de arquivo
+   Estilo próprio da página solicitacao_atualizar_arquivo.xhtml
+   Paleta base do CRC: destaque #439fe0 · texto #666f77 · borda #e0e0e0
+   ========================================================================== */
+
+.AtualizarArquivoPagina {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.AtualizarArquivoPagina:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* --------------------------------------------------------------------------
+   Cabeçalho
+   -------------------------------------------------------------------------- */
+
+.AtualizarArquivoCabecalho {
+    display: flex;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    background: #ffffff;
+    border: solid 1px #e0e0e0;
+    border-left: solid 5px #439fe0;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.AtualizarArquivoCabecalhoIcone {
+    flex: 0 0 auto;
+    margin-right: 16px;
+    font-size: 46px;
+    line-height: 1;
+    color: #439fe0;
+}
+
+.AtualizarArquivoCabecalhoTextos {
+    flex: 1 1 auto;
+    min-width: 0px;
+}
+
+.AtualizarArquivoTitulo {
+    display: block;
+    line-height: 130%;
+    font-size: 22px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.AtualizarArquivoSubtitulo {
+    margin-top: 8px;
+}
+
+.AtualizarArquivoLinhaInfo {
+    display: block;
+    font-size: 14px;
+    line-height: 175%;
+    color: #666f77;
+}
+
+.AtualizarArquivoLinhaInfoIcone {
+    margin-right: 7px;
+    color: #9ec9e8;
+}
+
+.AtualizarArquivoEquipe:not(:empty) {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: solid 1px #f0f0f0;
+}
+
+/* --------------------------------------------------------------------------
+   Corpo: solicitante | arquivo + ação
+   -------------------------------------------------------------------------- */
+
+.AtualizarArquivoCorpo {
+    align-items: stretch;
+    box-sizing: border-box;
+    margin-bottom: 18px;
+}
+
+.AtualizarArquivoCorpo > .Container5,
+.AtualizarArquivoCorpo > .Container7 {
+    box-sizing: border-box;
+    float: none;
+}
+
+/* ---- coluna do solicitante ---- */
+
+.AtualizarArquivoSolicitante {
+    padding-right: 18px;
+}
+
+.AtualizarArquivoAvatar {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+/* substitui o posicionamento por margens negativas: a "mão" fica ancorada
+   no canto do avatar independente da altura da imagem */
+/* centralização por flex (e não por line-height, que o .fa do Font Awesome
+   sobrescreve com line-height: 1) */
+.AtualizarArquivoMao {
+    position: absolute;
+    right: -8px;
+    bottom: -4px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    line-height: 1;
+    font-size: 27px;
+    color: #ffffff;
+    background: #439fe0;
+    border: solid 2px #ffffff;
+    border-radius: 50%;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.AtualizarArquivoObservacao {
+    position: relative;
+    box-sizing: border-box;
+    padding: 16px 18px 16px 46px;
+    background: #f7fafc;
+    border: dashed 1px #cfe3f3;
+    border-radius: 10px;
+}
+
+.AtualizarArquivoObservacaoIcone {
+    position: absolute;
+    top: 16px;
+    left: 18px;
+    font-size: 18px;
+    color: #9ec9e8;
+}
+
+.AtualizarArquivoObservacaoTexto {
+    display: block;
+    font-size: 17px;
+    line-height: 150%;
+    font-style: italic;
+    color: #4a5560;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* ---- coluna do arquivo + ação ---- */
+
+.AtualizarArquivoArquivo {
+    align-items: stretch;
+}
+
+/* o card do arquivoDetalhe nasce como Container3 (25% da coluna): aqui ele
+   ocupa o espaço disponível ao lado do bloco de ação */
+.AtualizarArquivoArquivo .PainelDetalhesArquivo {
+    width: auto !important;
+    float: none !important;
+    flex: 1 1 300px;
+    min-width: 270px;
+    margin: 0px 18px 0px 0px !important;
+}
+
+.AtualizarArquivoAcaoForm {
+    display: flex;
+    flex: 1 1 260px;
+    min-width: 250px;
+}
+
+.AtualizarArquivoAcao.ui-fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(160deg, #ffffff 0%, #f2f9ff 100%);
+    border: solid 1px #cfe3f3;
+    border-radius: 12px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.AtualizarArquivoAcao .ui-fieldset-content {
+    padding: 0px;
+}
+
+.AtualizarArquivoAcaoTitulo {
+    font-size: 17px;
+    line-height: 130%;
+    color: #439fe0;
+}
+
+.AtualizarArquivoAcaoAjuda {
+    margin: 6px 0px 16px 0px;
+    font-size: 13px;
+    line-height: 150%;
+    color: #7a838b;
+}
+
+/* --------------------------------------------------------------------------
+   Botão de atualização em destaque
+   -------------------------------------------------------------------------- */
+
+.AtualizarArquivoBotao.ui-button {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 16px 22px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4fb0f0 0%, #2f7fb8 100%);
+    border: 0px;
+    border-radius: 10px;
+    animation: AtualizarArquivoPulso 2.6s ease-out infinite;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.AtualizarArquivoBotao.ui-button .ui-button-text {
+    padding: 0px;
+    font-family: 'latobold', sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.AtualizarArquivoBotao.ui-button .ui-icon,
+.AtualizarArquivoBotao.ui-button .ui-button-icon-left {
+    margin-right: 9px;
+    font-size: 19px;
+    color: #ffffff;
+}
+
+.AtualizarArquivoBotao.ui-button:hover,
+.AtualizarArquivoBotao.ui-button:focus {
+    color: #ffffff;
+    animation: none;
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0px 10px 22px rgba(67, 159, 224, 0.55);
+}
+
+.AtualizarArquivoBotao.ui-button:active {
+    transform: translateY(0px);
+    filter: brightness(0.96);
+}
+
+@keyframes AtualizarArquivoPulso {
+    0% {
+        box-shadow: 0px 6px 16px rgba(67, 159, 224, 0.45), 0px 0px 0px 0px rgba(67, 159, 224, 0.5);
+    }
+    70% {
+        box-shadow: 0px 6px 16px rgba(67, 159, 224, 0.45), 0px 0px 0px 16px rgba(67, 159, 224, 0);
+    }
+    100% {
+        box-shadow: 0px 6px 16px rgba(67, 159, 224, 0.45), 0px 0px 0px 0px rgba(67, 159, 224, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .AtualizarArquivoBotao.ui-button {
+        animation: none;
+        box-shadow: 0px 6px 16px rgba(67, 159, 224, 0.45);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Seção de arquivos da categoria
+   -------------------------------------------------------------------------- */
+
+.AtualizarArquivoSecaoCategoria.ui-fieldset {
+    box-sizing: border-box;
+    padding: 0px;
+    border: 0px;
+    background: transparent;
+}
+
+.AtualizarArquivoSecaoCategoria .ui-fieldset-content:empty {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Responsivo
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .AtualizarArquivoSolicitante {
+        padding-right: 0px;
+        margin-bottom: 18px;
+    }
+
+    .AtualizarArquivoArquivo .PainelDetalhesArquivo {
+        margin: 0px 0px 18px 0px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .AtualizarArquivoCabecalho {
+        flex-direction: column;
+        padding: 16px;
+    }
+
+    .AtualizarArquivoCabecalhoIcone {
+        margin: 0px 0px 10px 0px;
+        font-size: 38px;
+    }
+
+    .AtualizarArquivoTitulo {
+        font-size: 19px;
+    }
+
+    .AtualizarArquivoAvatar {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .AtualizarArquivoMao {
+        right: auto;
+        left: 50%;
+        margin-left: 24px;
+    }
+
+    .AtualizarArquivoObservacaoTexto {
+        font-size: 15px;
+    }
+}

@@ -2,22 +2,76 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
-    xmlns:SBAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
+    xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo">
-        <h:form>
 
+        <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
 
-            <SBAgenda:escolhaTipoReserva agenda="#{pgReservasCliente.agendaDisponivel}"
-                                         metodo="#{pgReservasCliente.atualizarTelaSelecao()}"
-                                         tiposDisponiveis="#{pgReservasCliente.tiposDisponiveis}"
-                                         />
+        <h:panelGroup styleClass="Container12 OrganizadorContainer ReservaClienteEscolhaTipoAtendimento" layout="block" >
 
+            <!-- CABEÇALHO: título da etapa + quem vai atender -->
+            <h:panelGroup styleClass="Container12 ReservaClienteCabecalho" layout="block" >
 
-        </h:form>
+                <h:panelGroup styleClass="ReservaClienteTitulo" layout="block" >
+                    <h1> Escolha o tipo de agendamento </h1>
+                    <h:panelGroup styleClass="ReservaClienteSubtitulo" layout="block" >
+                        Escolha abaixo a modalidade de encontro que melhor atende você.
+                        Em seguida você define o dia e o horário.
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="ReservaDetalhesAtendente" layout="block" >
+
+                    <h:panelGroup styleClass="ReservaDetalhesAtendenteFoto" layout="block" >
+                        <h:panelGroup rendered="#{not empty pgReservasCliente.usuarioAtendente.imgPequena}" >
+                            <img src="#{pgReservasCliente.usuarioAtendente.imgPequena}"
+                                 alt="#{pgReservasCliente.usuarioAtendente.nome}" />
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{empty pgReservasCliente.usuarioAtendente.imgPequena}" >
+                            <span class="fa-solid fa-user"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="ReservaDetalhesAtendenteDados" layout="block" >
+                        <h:panelGroup styleClass="ReservaDetalhesAtendenteRotulo" layout="block" >
+                            Você será atendido por
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="ReservaDetalhesAtendenteNome" layout="block" >
+                            #{pgReservasCliente.usuarioAtendente.nome}
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="ReservaDetalhesAtendentePapel" layout="block"
+                                      rendered="#{pgReservasCliente.umAtendidoConsultorVendas}" >
+                            <span class="ReservaDetalhesAtendentePapelIcone fa-solid fa-briefcase"/>
+                            Seu consultor de serviços
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="ReservaDetalhesAtendentePapel" layout="block"
+                                      rendered="#{pgReservasCliente.umAtendidoGestorDeContrato}" >
+                            <span class="ReservaDetalhesAtendentePapelIcone fa-solid fa-user-tie"/>
+                            Seu gestor de projeto
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <!-- TIPOS DISPONÍVEIS: grade de cartões em largura total -->
+            <h:panelGroup styleClass="Container12 ReservaClienteListaTipos" layout="block" >
+                <h:form>
+                    <crmAgenda:escolhaTipoReservaDisponibilidade
+                        agenda="#{servicoCrmReserva.agendaDisponibilidade}"
+                        metodo="#{pgReservasCliente.atualizarTelaSelecao()}"
+                        atendente="#{pgReservasCliente.usrAtendenteSelecionado}"
+                        tiposDisponiveis="#{pgReservasCliente.tiposDisponiveis}"
+                        />
+                </h:form>
+            </h:panelGroup>
+
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

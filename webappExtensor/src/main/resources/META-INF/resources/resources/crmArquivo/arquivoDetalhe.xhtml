@@ -8,7 +8,8 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
     xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="arquivo"
@@ -45,6 +46,14 @@
                                     icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
                                     onclick="PF('dlgVisualizar_#{fn:replace(cc.clientId, ':', '_')}').show(); return false;"/>
 
+                        <!-- "Atualizar" tem forma de chamada própria (modal de envio de arquivo +
+                             dialogReturn), por isso o item do menu apenas dispara o commandButton
+                             oculto declarado logo abaixo, preservando os listeners originais -->
+                        <p:menuitem value="Atualizar"
+                                    icon="#{iconeIconeFontAwesome.REG_ATUALIZAR.tagHtml}"
+                                    onclick="PF('btnAtualizarArquivo_#{fn:replace(cc.clientId, ':', '_')}').jq.trigger('click'); return false;"/>
+
+
                         <p:menuitem value="Excluir"
                                     icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
                                     styleClass="CardArquivoMenuItemPerigo"
@@ -55,17 +64,34 @@
                                        message="Deseja excluir #{cc.attrs.arquivo.nome} de forma irreversível?"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:menuitem>
-                    </p:menu>
 
-                    <!-- botão legado (compartilhar com cliente), mantido oculto -->
-                    <p:commandButton
-                        partialSubmit="true"
-                        rendered="false"
-                        actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(arquivo)}"
-                        icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
-                        oncomplete="atualizarVisaoArquivosPessoa();">
-                        <p:confirm header="Confirmation" message="Deseja compartilhar com o cliente  o arquivo #{arquivo.nome} ?" icon="pi pi-exclamation-triangle"/>
+                        <p:menuitem icon="fa fa-hand"
+                                    value="Solicitar Arquivo Atualizado"
+                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoPedidoAtualizarArquivo, cc.attrs.arquivo,cc.attrs.arquivo.prospecto)}"
+                                    >
+
+
+                        </p:menuitem>
+
+                    </p:menu>
+                    <p:commandButton id="btnAtualizarArquivo"
+                                     widgetVar="btnAtualizarArquivo_#{fn:replace(cc.clientId, ':', '_')}"
+                                     value="Atualizar"
+                                     styleClass="CardArquivoBotaoOculto"
+                                     actionListener="#{pgUtil.exibirModalEnvioArquivo()}"
+                                     partialSubmit="true"
+                                     process="#{pgUtil.getNomeIdPainelDoComponente(component)}"
+                                     icon="#{iconeIconeFontAwesome.REG_ATUALIZAR.tagHtml}"
+                                     >
+                        <f:setPropertyActionListener target="#{paginaAtual.infoPagina.comoPaginaDeGestao.campoInstSelecionado}"
+                                                     value="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo')}" />
+                        <p:ajax event="dialogReturn"
+                                listener="#{pgUtil.atualizaTelaPorID(pgUtil.getNomeIdPFieldSetPai(component))}"
+                                update="#{pgUtil.getNomeIdPFieldSetPai(component)}"/>
+
+
                     </p:commandButton>
+
                 </h:panelGroup>
 
                 <!-- Corpo do card: ícone + nome + metadados numa linha só, ao estilo Drive -->

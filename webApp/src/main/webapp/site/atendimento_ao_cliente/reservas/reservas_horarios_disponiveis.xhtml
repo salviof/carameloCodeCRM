@@ -16,21 +16,21 @@
         <h:outputStylesheet name="botaoLateralMenu.css" library="css" />
         <SBFormulario:irParaTopoERodape />
 
-        <sb:parametroMetodo nome="prMetodo" valor="#{cc.attrs.metodo}" />
+
         <SBCRM_AGENDA:dataDisponivel
 
-            areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{pgReservasCliente.agendaDisponivel}"
+            areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
 
 
             />
 
 
-        <h:panelGroup id="painelHorariosDisponives" layout="block">
+        <h:panelGroup id="painelHorariosDisponives" layout="block" rendered="#{servicoCrmReserva.agendaDisponibilidade.temAgenda}">
 
             <SBCRM_AGENDA:horariosDisponiveis
-                horariosDisponiveis="#{pgReservasCliente.agendaDisponivel.horariosDisponiveis}"
+                horariosDisponiveis="#{servicoCrmReserva.agendaDisponibilidade.horariosDisponiveis}"
 
-                rendered="#{pgReservasCliente.agendaDisponivel.horariosDisponiveis.size()>0}"
+
                 />
         </h:panelGroup>
 

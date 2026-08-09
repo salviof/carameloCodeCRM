@@ -167,11 +167,12 @@
 
                                 <crm:botaoGrandeLink
                                     rendered="#{servicoCRMContato.contatoSelecionado!=null}"
-                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
+                                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,sessaoAtualSBWP.usuario ,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
                                     icone="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo.icone}"
                                     label="Marcar reunião com #{servicoCRMContato.contatoSelecionado.nome}"
                                     descricao=""/>
                             </h:panelGroup>
+
                             <h:panelGroup layout="block" style="" styleClass="Container3">
                                 <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
                                     <span class="fa fa-hand-paper-o"/> Solicitações

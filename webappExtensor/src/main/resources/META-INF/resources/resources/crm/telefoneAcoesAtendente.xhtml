@@ -15,6 +15,16 @@
     <cc:implementation>
         <h:panelGroup layout="block" rendered="#{pgUtilTelefone.gerarNumeroInternacional(cc.attrs.telefone)!=null}" >
             <p:outputLabel value="#{cc.attrs.telefone}" style="width: 200px"  />
+            <p:button icon="fa fa-copy"
+                      id="copiarTelefone"
+                      style="margin: 5px;"
+                      title="Copiar"
+                      onclick="return false;"
+                      href="#" >
+                <pe:clipboard trigger="copiarTelefone" action="copy"
+
+                              text="#{cc.attrs.telefone}"  />
+            </p:button>
             <p:button icon="fa fa-phone"
                       style="margin: 5px;"
                       href="tel://'#{pgUtilTelefone.gerarNumeroInternacional(cc.attrs.telefone)}" />
@@ -23,15 +33,6 @@
                       onclick="#{pgUtilTelefone.gerarJavascriptWhatsqpp(cc.attrs.telefone,'Olá, ')}"
 
                       />
-            <p:button icon="fa fa-copy"
-                      id="copiarTelefone"
-                      style="margin: 5px;"
-                      onclick="alert('#{cc.attrs.telefone} copiado com sucesso')"
-                      href="#" >
-                <pe:clipboard trigger="copiarTelefone" action="copy"
-
-                              text="#{cc.attrs.telefone}"  />
-            </p:button>
 
 
 

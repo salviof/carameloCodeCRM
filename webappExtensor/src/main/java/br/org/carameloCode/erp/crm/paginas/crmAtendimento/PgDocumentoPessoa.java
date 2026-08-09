@@ -19,6 +19,13 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.DocsEquipeDaCat
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivocliente.CPCategoriaArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacaoarquivoequipe.CPSolicitacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
@@ -30,11 +37,13 @@ import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosU
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.ParametroURL;
 import javax.faces.event.AjaxBehaviorEvent;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import jersey.repackaged.com.google.common.collect.Lists;
 
 /**
  *
@@ -47,7 +56,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntid
 public class PgDocumentoPessoa
         extends MB_paginaCadastroEntidades<ArquivoAnexado> implements ItfPaginaComModalProspecto {
 
-    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class)
+    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false)
     private ParametroURL prPessoa;
 
     @InfoParametroURL(nome = "prCatEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = CategoriaArquivoCliente.class, obrigatorio = false)
@@ -61,6 +70,9 @@ public class PgDocumentoPessoa
 
     @InfoParametroURL(nome = "prSubPastaEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = SubPastaEquipe.class, obrigatorio = false)
     private ParametroURL prsubPastaEquipe;
+
+    @InfoParametroURL(nome = "prArquivo", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ArquivoAnexado.class, obrigatorio = false, representaEntidadePrincipalMB = true)
+    private ParametroURL prArquivo;
 
     private Pessoa pessoa;
 
@@ -77,8 +89,71 @@ public class PgDocumentoPessoa
     private List<SubPastaEquipe> subPastasEquipe;
     private List<SubpastaCliente> subPastasCliente;
 
+    private boolean ignorarNotificacao = false;
+
+    private List<SolicitacaoArquivoCliente> solicitacoesPastaCliente;
+    private List<SolicitacaoArquivoCliente> solicitacoesPastaEquipe;
+
+    public List<SolicitacaoArquivoCliente> getSolicitacoesPastaCliente() {
+
+        return solicitacoesPastaCliente;
+    }
+
+    public List<SolicitacaoArquivoCliente> getSolicitacoesPastaEquipe() {
+        if (categoriaArquivoEquipe.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean() && (solicitacoesPastaEquipe == null || solicitacoesPastaEquipe.isEmpty())) {
+            ConsultaDinamicaDeEntidade pesquisaSolicitacao = new ConsultaDinamicaDeEntidade(SolicitacaoArquivoEquipe.class, getEMPagina());
+            pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacao.status, FabStatusSolicitacao.EQUIPE_DEVENDO_ARQUIVO_A_EQUIPE.getRegistro());
+            if (getCategoriaArquivoEquipe() != null) {
+
+                pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacaoArquivoEquipe.categoriaarqequipe, getCategoriaArquivoEquipe());
+            }
+
+            pesquisaSolicitacao.addCondicaoManyToOneIgualA(CPSolicitacao.usuariosolicitado, CarameloCode.getUsuarioLogado());
+            solicitacoesPastaEquipe = pesquisaSolicitacao.gerarResultados();
+        }
+        return solicitacoesPastaEquipe;
+    }
+
+    public boolean isTemSolicitacao() {
+        if (categoriaArquivoEquipe != null) {
+            return categoriaArquivoEquipe.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
+        }
+        if (categoriaArquivoCliente != null) {
+            return categoriaArquivoCliente.getCPinst(CPCategoriaArquivoCliente.temsolicitacaoparamim).getValorComoBoolean();
+        }
+        return false;
+
+    }
+
+    public boolean isMostrarModalSolicitacao() {
+        if (ignorarNotificacao) {
+            return false;
+        }
+        return isTemSolicitacao();
+    }
+
+    public boolean isIgnorarNotificacao() {
+        return ignorarNotificacao;
+    }
+
+    public void setIgnorarNotificacao(boolean ignorarNotificacao) {
+        this.ignorarNotificacao = ignorarNotificacao;
+    }
+
     @PostConstruct
     public void inicio() {
+
+        if (getParametroInstanciado(prArquivo).isValorDoParametroFoiConfigurado()) {
+            ArquivoAnexado arq = (ArquivoAnexado) getParametroInstanciado(prArquivo).getValor();
+            pessoa = UtilSBPersistencia.loadEntidade(arq.getProspecto(), getEMPagina());
+            if (arq instanceof ArquivoCliente) {
+                categoriaArquivoCliente = UtilSBPersistencia.loadEntidade(((ArquivoCliente) arq).getCategoriaArqCli(), getEMPagina());
+            } else {
+                categoriaArquivoEquipe = UtilSBPersistencia.loadEntidade(arq.getCategoriaArqEquipe(), getEMPagina());
+            }
+
+        }
+
         if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
             pessoa = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prPessoa).getValor(), getEMPagina());
         }

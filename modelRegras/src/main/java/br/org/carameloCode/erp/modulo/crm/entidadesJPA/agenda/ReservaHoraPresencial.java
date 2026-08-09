@@ -6,6 +6,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda;
 
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ComoReservaPresencial;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -20,6 +21,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoL
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoLocalidade;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 /**
  *
@@ -28,6 +30,16 @@ import javax.persistence.ManyToOne;
 @Entity
 @InfoObjetoSB(tags = "Visita programada", plural = "Reservas de visitas programadas")
 public class ReservaHoraPresencial extends ReservaHorarioCRM implements ComoReservaPresencial {
+
+    @Override
+    public void setTipoAgendamento(TipoAgendamentoAtdmPublico tipoAgendamento) {
+        super.setTipoAgendamento((TipoReservaCRMLocal) tipoAgendamento); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public TipoReservaCRMLocal getTipoAgendamento() {
+        return (TipoReservaCRMLocal) super.getTipoAgendamento(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 
     @ManyToOne(targetEntity = UsuarioSB.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -40,6 +52,12 @@ public class ReservaHoraPresencial extends ReservaHorarioCRM implements ComoRese
     @InfoCampoVerdadeiroOuFalso(iconePostivio = "fa fa-briefcase", textoNegativo = "O consultor vai ao Local", textoPositivo = "O consultor aguardara na sede", iconeNegativo = "fa fa-building")
     @InfoCampoValidadorLogico
     private boolean atendimentoOutSide;
+
+    @Override
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        super.prepararNovoObjeto(parametros);
+
+    }
 
     public ReservaHoraPresencial() {
         if (!SBCore.isEmModoProducao()) {

@@ -18,6 +18,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoPreparacaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemStatus;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -40,7 +42,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 @Entity
 @InfoObjetoSB(tags = "Chamado do cliente", plural = "Chamados de cliente ", icone = "fa fa-life-ring", modulo = ERPCrm.NOME_MODULO_ERP)
-public class ChamadoCliente extends EntidadeSimplesORM {
+public class ChamadoCliente extends EntidadeSimplesORM implements ComoTemStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -464,6 +466,11 @@ public class ChamadoCliente extends EntidadeSimplesORM {
 
     public void setAtendenteAnterior(UsuarioCRM atendenteAnterior) {
         this.atendenteAnterior = atendenteAnterior;
+    }
+
+    @Override
+    public ComoStatus getStatusPrincipal() {
+        return getStatus();
     }
 
 }

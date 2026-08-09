@@ -14,8 +14,8 @@ public class L__o_usuario_tenta_encontrar_este_horario_novamente {
     @E(EtapasAgendaConsultorDefinirAgenda.E_O_USUARIO_TENTA_ENCONTRAR_ESTE_HORARIO_NOVAMENTE)
     public void implementacaoEtapa() {
         UtilSBAgendaHorariosDisponiveis.atualizarReservas();
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setDisponibilidadesDoEscopo(null);
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setDisponibilidadesDoEscopo(null);
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparAtendenteDefinido();
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparAtendenteDefinido();
         List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getCPinst(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
         System.out.println(UtilCRCDataHora.getDataHoraString(horariosDisponiveis.get(0).getDataHoraIicialAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO));
         System.out.println("UP");

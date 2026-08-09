@@ -54,13 +54,13 @@ public class PgAgendaResrvaColaboradores extends MB_paginaCadastroEntidades<Rese
 
         EscopoPesquisaMelhorHorario escopoSelecionado = UtilSBPersistencia.loadEntidade((EscopoPesquisaMelhorHorario) usuarioAtendimentoAgenda.getCPinst(CPUsuarioCRM.escopoagendaclientes).getValor(), getEMPagina());
         if (agendaDisponivel == null) {
-            agendaDisponivel = new AgendaDisponibilidade();
-            agendaDisponivel.setEscopo(escopoSelecionado);
+            agendaDisponivel = new AgendaDisponibilidade(escopoSelecionado);
+
         }
         if (agendaDisponivel != null && agendaDisponivel.getEscopo() != null) {
             if (getTiposDisponiveis().size() == 1) {
                 tipoAtendimento = getTiposDisponiveis().get(0);
-                agendaDisponivel.getEscopo().setTipoAgendamento(tipoAtendimento);
+                agendaDisponivel.setTipoAgendamento(tipoAtendimento);
             } else {
                 if (agendaDisponivel.getEscopo() != null) {
                     executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_TIPOS_RESERVAS);
@@ -99,7 +99,7 @@ public class PgAgendaResrvaColaboradores extends MB_paginaCadastroEntidades<Rese
         if (agendaDisponivel == null) {
             executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_ATENDENTES);
         }
-        if (agendaDisponivel.getEscopo().getTipoAgendamento() == null) {
+        if (agendaDisponivel.getTipoAgendamento() == null) {
             executaAcaoSelecionadaPorEnum(FabAcaoAdminAgenda.RESERVAS_ADMIN_FRM_TIPOS_RESERVAS);
         }
         if (agendaDisponivel.getHorariosDisponiveis() != null && !agendaDisponivel.getHorariosDisponiveis().isEmpty()) {

@@ -11,7 +11,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
     <ui:define name="conteudo">
-        <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
+
         <p:fieldset legend="Escopo da pesquisa " >
             <span>
                 <h:form>
@@ -45,7 +45,7 @@
                       layout="block"
                       >
             <h:panelGroup styleClass="Container12 OrganizadorContainer"
-                          rendered="#{pgMinhasReservas.horariosDisponiveisAtendimentoPublico.size()==0}"
+                          rendered="#{servicoCrmReserva.agendaDisponibilidade.temAgenda}"
                           style="height: 400px; display: flex;align-items: center;justify-content: center;"
                           layout="block" >
                 <h:panelGroup styleClass="Container3" layout="block" style="height: 100px;" >
@@ -55,12 +55,18 @@
                     <SBCrm:botaoGrande acao="#{acoesAgenda_MinhaDisponibilidadeMbGestao.minhaDisponibilidadeFrmNovo}" />
                 </h:form>
             </h:panelGroup>
-            <c:forEach items="#{pgMinhasReservas.horariosDisponiveisAtendimentoPublico}" var="horario" >
-
-                <crmAgenda:horarioDisponivel  horarioDisponivel="#{horario}" />
 
 
-            </c:forEach>
+            <crmAgenda:pesquisaHorariosLivres agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}" areaAtualizacao="reservasDisponiveis"
+                                              acaoAgendaRemota="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReservaConferencia}"
+                                              acaoAgendaPresencial="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReservaNoLocal}"
+                                              acaoEscolhaTipoEvento="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
+
+
+                                              />
+
+
+
         </h:panelGroup>
 
     </ui:define>

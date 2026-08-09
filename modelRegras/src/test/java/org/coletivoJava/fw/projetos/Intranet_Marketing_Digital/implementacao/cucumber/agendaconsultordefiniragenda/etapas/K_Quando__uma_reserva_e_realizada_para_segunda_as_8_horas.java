@@ -16,7 +16,7 @@ public class K_Quando__uma_reserva_e_realizada_para_segunda_as_8_horas {
 
     @Quando(EtapasAgendaConsultorDefinirAgenda.QUANDO_UMA_RESERVA_E_REALIZADA_PARA_SEGUNDA_AS_8_HORAS)
     public void implementacaoEtapa() {
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setDisponibilidadesDoEscopo(null);
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparAtendenteDefinido();
 
         List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getCPinst(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
         System.out.println(UtilCRCDataHora.getDataHoraString(horariosDisponiveis.get(0).getDataHoraIicialAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO));

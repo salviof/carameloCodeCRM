@@ -10,7 +10,7 @@
     display: inline-block;
 
     /* Ajuste fino */
-    --crc-sar-z: 10500;
+    --crc-sar-z: 100;
     --crc-sar-duracao: .28s;
     --crc-sar-stagger: 30ms;
     --crc-sar-altura: 44px;       /* altura mínima dos botões */

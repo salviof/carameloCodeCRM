@@ -68,16 +68,17 @@
                                 <tr scope="row">
                                     <td class="col-md-2">#{pgUtil.gerarDataHoraTextoResumido(chamado.dataHora)} </td>
                                     <td class="col-md-1"><SBCRM:avatar usuario="#{chamado.agente}" somenteLeitura="true"/></td>
-                                    <td class="col-md-2">#{chamado.descricao}</td>meus_chamados_chamados_atender
+                                    <td class="col-md-2">#{chamado.descricao}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </p:tab>
                 <p:tab title="Transferencia de chamado">
-                    <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
-                        <p:fieldset legend="Definir Responsável" styleClass="Container12" >
-                            <h:form>
+                    <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+                        <h:form>
+                            <p:fieldset legend="Definir Responsável" styleClass="Container12" >
+
                                 <h:panelGroup styleClass="Container8" layout="block" >
                                     <p:selectOneListbox id="advanced" value="#{pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel}"
                                                         converter="conversorGenerico"
@@ -100,9 +101,9 @@
                                                        atualizar="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
                                                        />
                                 </h:panelGroup>
-                            </h:form>
-                        </p:fieldset>
 
+                            </p:fieldset>
+                        </h:form>
 
                     </h:panelGroup>
 
@@ -126,16 +127,6 @@
         <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" rendered="#{!pgMeusChamadosAtd.chamado.status.modoRascunho}" >
 
             <SBChamado:dadosAvancadosChamado chamado="#{pgMeusChamadosAtd.entidadeSelecionada}" />
-
-
-            <h:form>
-                <p:dataTable id="products" var="notificacao" value="#{pgMeusChamadosAtd.entidadeSelecionada.notificacoes}"
-                             >
-                    <p:column headerText="Data hora Ultimas notificações" styleClass="Fs30">
-                        <i class="fa fa-bullhorn" /> <h:outputText value="#{pgUtil.gerarDataHoraTexto(notificacao.dataHoraNotificacao)}" />
-                    </p:column>
-                </p:dataTable>
-            </h:form>
 
 
             <SBChamado:linkCompartilharChamado

@@ -21,35 +21,33 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <p:fieldset style="margin: 32px;"  >
+        <p:fieldset >
             <f:facet name="legend">
                 <i class="fa fa-handshake-o" style="margin-right: 8px"/>Solicitações de #{cc.attrs.usuario.nome}
             </f:facet>
             <h:panelGroup styleClass="cards-dashboard" layout="block" style="margin-top: 10px;">
 
-                <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="4"
+                <crmDashBoard:dashSolicitacaoRecebidaIconeValorTituloLink
+                    codigoestilo="5"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMinhasPendenciasAbertas,cc.attrs.usuario)}"
-                    icone="fa fa-life-ring"
-                    titulo="Solicitações feitas PARA mim"
-                    valor="#{cc.attrs.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples
-                             .getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasParaMim').valor}"
+                    icone="fa fa-handshake-angle"
+                    titulo="PARA mim"
+                    valor="#{cc.attrs.usuario.getCampoInstanciadoByNomeOuAnotacao('metadadosAtendente').valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasParaMim').valor}"
                     />
 
-                <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="4"
-                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbrtos,cc.attrs.usuario)}"
-                    icone="fa fa-hand-paper-o"
-                    titulo="Aguardando que fiz para equipe"
-                    valor="#{cc.attrs.usuario.metadadosAtendente
-                             .getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimEquipe').valor}"
+                <crmDashBoard:dashSolicitacaoFeitaIconeValorTituloLink
+                    codigoestilo="5"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbertosEquipe,cc.attrs.usuario)}"
+                    icone="fa fa-people-carry-box"
+                    titulo=" feitas para equipe"
+                    valor="#{cc.attrs.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimEquipe').valor}"
                     />
 
-                <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="4"
-                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbrtos,cc.attrs.usuario)}"
-                    icone="fa fa-ticket"
-                    titulo="Solicitações que fiz para clientes"
+                <crmDashBoard:dashSolicitacaoFeitaIconeValorTituloLink
+                    codigoestilo="5"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarMeusPedidosAbertosCliente,cc.attrs.usuario)}"
+                    icone="fa-solid fa-user-tie"
+                    titulo=" feitas para clientes"
                     valor="#{cc.attrs.usuario.metadadosAtendente.getCampoInstanciadoByNomeOuAnotacao('solicitacoesFeitasPorMimParaClientes').valor}"
                     />
 

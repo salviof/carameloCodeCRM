@@ -37,6 +37,16 @@ public class AcoesAtendimentoCrm_MinhaAgendaMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_NOVA_RESERVA");
 	}
 
+	public ItfAcaoFormularioEntidade getMinhaAgendaFrmNovaReservaNoLocal() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_NOVA_RESERVA_NO_LOCAL");
+	}
+
+	public ItfAcaoFormularioEntidade getMinhaAgendaFrmNovaReservaConferencia() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_NOVA_RESERVA_CONFERENCIA");
+	}
+
 	public ItfAcaoFormularioEntidade getMinhaAgendaFrmEditarReservaNoLocal() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_EDITAR_RESERVA_NO_LOCAL");

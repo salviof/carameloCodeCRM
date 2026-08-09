@@ -18,10 +18,11 @@ public class I__A_Lista_de_Horarios_diponiveis_para_reuniao_presencial_esta_de_a
 
     @E(EtapasAgendaConsultorDefinirAgenda.E_A_LISTA_DE_HORARIOS_DIPONIVEIS_PARA_REUNIAO_PRESENCIAL_ESTA_DE_ACORDO_COM_O_CADASTRADO)
     public void implementacaoEtapa() throws ErroRegraDeNegocio {
-        FluxoAgendaDoConsultor.escopoAtendimentoPresencial
-                .adicionarAtendente((UsuarioSB) SBCore.getUsuarioLogado());
 
-        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getCPinst(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
+        FluxoAgendaDoConsultor.escopoAtendimentoPresencial
+                .setUsuarioAtendente((UsuarioSB) SBCore.getUsuarioLogado());
+
+        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getHorariosDisponiveis();
         assertNotNull("Recebeu Lista de Horários nula", horariosDisponiveis);
         Assert.assertTrue("Nenhum horário foi listado", !horariosDisponiveis.isEmpty());
 
@@ -40,7 +41,7 @@ public class I__A_Lista_de_Horarios_diponiveis_para_reuniao_presencial_esta_de_a
             if (pHorario.getDataHoraIicialAtendente().getTime() >= pHorario.getDatahoraFinalAtendente().getTime()) {
                 return false;
             }
-            List<DisponibilidadeAtdmtPublico> disponibilidades = MapaHorariosDisponiveis.getDisponibilidadesDoEscopo(FluxoAgendaDoConsultor.escopoAtendimentoPresencial);
+            List<DisponibilidadeAtdmtPublico> disponibilidades = MapaHorariosDisponiveis.getDisponibilidadesDoEscopo(FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getFiltro());
             boolean dentroDaDisponibilidade = UtilSBAgendaHorariosDisponiveis.isHorarioDentroDasDisponibilidades(disponibilidades, pHorario);
             if (!dentroDaDisponibilidade) {
                 return false;

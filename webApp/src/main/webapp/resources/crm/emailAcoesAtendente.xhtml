@@ -18,24 +18,24 @@
         <h:panelGroup layout="block" rendered="#{cc.attrs.email!=null}" >
             <p:outputLabel value="#{cc.attrs.email}" style="width: 200px"  />
 
-            <p:button icon="fa fa-envelope-o"
-                      style="margin: 5px;"
-                      rendered="#{cc.attrs.contato!=null}"
-                      href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmNovo,cc.attrs.contato)}" />
-
-
             <p:button icon="fa fa-copy"
                       id="copiarEmail"
                       style="margin: 5px;"
-                      onclick="alert('#{cc.attrs.email} copiado com sucesso')"
+                      title="Copiar"
+                      onclick="return false;"
                       href="#" >
                 <pe:clipboard trigger="copiarEmail" action="copy"
 
                               text="#{cc.attrs.email}"  />
             </p:button>
+
+            <p:button icon="fa fa-envelope-o"
+                      style="margin: 5px;"
+                      rendered="#{cc.attrs.contato!=null}"
+                      href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_EmailsMbGestao.emailsFrmNovo,cc.attrs.contato)}" />
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{cc.attrs.email==null}" >
-            Sem telefone
+            Sem e-mail
         </h:panelGroup>
 
     </cc:implementation>

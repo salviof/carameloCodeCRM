@@ -7,6 +7,8 @@ package br.org.carameloCode.erp.crm.paginas.crmAgenda;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.FabAcaoAdminAgenda;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.adminAgenda.InfoAgendaAdmin;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.coletivoJava.fw.projetos.fw.api.model.usuariosb.CPUsuarioSB;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
@@ -47,7 +49,7 @@ public class PgColaboradoresComAgenda extends MB_paginaCadastroEntidades<Disponi
         getAcoesRegistros().clear();
         adicionarAcaoDeEntidade(FabAcaoAdminAgenda.AGENDA_ADMIN_DIPONIBILIDADES_FRM_LISTAR_DISPONIBILIDADES);
         adicionarAcaoDeEntidade(FabAcaoAdminAgenda.RESERVAS_ADMIN_MB_GESTAO);
-        adicionarAcaoDeEntidade(FabAcaoAdminAgenda.MINHA_AGENDA_FRM_ESCOPO_RESERVA_CLIENTE);
+        adicionarAcaoDeEntidade(FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_ESCOPO_RESERVA_CLIENTE);
     }
 
 }

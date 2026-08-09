@@ -6,6 +6,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda;
 
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ComoReservaVideoConferencia;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 
@@ -18,6 +19,16 @@ import javax.persistence.Entity;
 @Entity
 @InfoObjetoSB(tags = "Conferência programada", plural = "Conferências Programadas")
 public class ReservaHoraRemotoVideo extends ReservaHorarioCRM implements ComoReservaVideoConferencia {
+
+    @Override
+    public void setTipoAgendamento(TipoAgendamentoAtdmPublico tipoAgendamento) {
+        super.setTipoAgendamento((TipoReservaCRMRemoto) tipoAgendamento); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public TipoReservaCRMRemoto getTipoAgendamento() {
+        return (TipoReservaCRMRemoto) super.getTipoAgendamento(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 
     @InfoCampoValorLogico(nomeCalculo = "linkConferência")
     private String linkConferencia;

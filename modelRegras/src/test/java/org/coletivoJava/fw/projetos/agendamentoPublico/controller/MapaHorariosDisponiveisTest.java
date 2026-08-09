@@ -5,6 +5,7 @@
  */
 package org.coletivoJava.fw.projetos.agendamentoPublico.controller;
 
+import br.org.carameloCode.erp.modulo.agenda.api.FiltroDisponibilidadeHorario;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.TesteCRMCarameloCode;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.demo.FAbDadosIniciais.FabUsuarioPadraoMarketingParaWeb;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
@@ -14,6 +15,7 @@ import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.Map
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 import org.junit.Test;
@@ -39,26 +41,31 @@ public class MapaHorariosDisponiveisTest extends TesteCRMCarameloCode {
     public void testGetPrimeiroHorarioDisponivel() throws Exception {
         adicionarDisponibilidades();
         adicionarDisponibilidades();
-        EscopoPesquisaMelhorHorario escopoPesquisa = new EscopoPesquisaMelhorHorario();
+
+        FiltroDisponibilidadeHorario filtro = new FiltroDisponibilidadeHorario(new EscopoPesquisaMelhorHorario());
+        EscopoPesquisaMelhorHorario escopoPesquisa = filtro.getEscopo();
         escopoPesquisa.adicionarAtendente(FabUsuarioPadraoMarketingParaWeb.ATENDIMENTO.getRegistro());
-        escopoPesquisa.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.CONFERENCIA.getRegistro());
-        TokenLinhaDoTempoDeLorean meudelorean = new TokenLinhaDoTempoDeLorean(escopoPesquisa);
-        List<HorarioDisponivelAtendimentoPublico> listaMelhoresHorarios = MapaHorariosDisponiveis.getHorarioDisponivelPrimeiras9pcoes(escopoPesquisa);
+        filtro.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.CONFERENCIA.getRegistro());
+        TokenLinhaDoTempoDeLorean meudelorean = new TokenLinhaDoTempoDeLorean(filtro);
+        List<HorarioDisponivelAtendimentoPublico> listaMelhoresHorarios = MapaHorariosDisponiveis
+                .getHorarioDisponivelPrimeiras9pcoes(filtro);
         System.out.println("Encontrados " + listaMelhoresHorarios.size() + "Horários");
         for (HorarioDisponivelAtendimentoPublico horario : listaMelhoresHorarios) {
             System.out.println("____________________________________________");
             System.out.println(UtilCRCDataHora.getDiaDaSemana(horario.getDataHoraIicialAtendente()));
             System.out.println(horario.toString());
         }
-        escopoPesquisa.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.PRESENCIAL.getRegistro());
-        listaMelhoresHorarios = MapaHorariosDisponiveis.getHorarioDisponivelPrimeiras9pcoes(escopoPesquisa);
-        escopoPesquisa.getListaHorariosDisponiveis();
+        filtro.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.PRESENCIAL.getRegistro());
+        listaMelhoresHorarios = MapaHorariosDisponiveis.getHorarioDisponivelPrimeiras9pcoes(filtro);
+
+        AgendaDisponibilidade novaAgenda = new AgendaDisponibilidade(escopoPesquisa);
+        novaAgenda.getHorariosDisponiveis();
         for (HorarioDisponivelAtendimentoPublico horario : listaMelhoresHorarios) {
             System.out.println("____________________________________________");
             System.out.println(UtilCRCDataHora.getDiaDaSemana(horario.getDataHoraIicialAtendente()));
             System.out.println(horario.toString());
         }
-        listaMelhoresHorarios = MapaHorariosDisponiveis.getHorarioDisponivelPrimeiras9pcoes(escopoPesquisa);
+        listaMelhoresHorarios = MapaHorariosDisponiveis.getHorarioDisponivelPrimeiras9pcoes(filtro);
         for (HorarioDisponivelAtendimentoPublico horario : listaMelhoresHorarios) {
             System.out.println("____________________________________________");
             System.out.println(UtilCRCDataHora.getDiaDaSemana(horario.getDataHoraIicialAtendente()));

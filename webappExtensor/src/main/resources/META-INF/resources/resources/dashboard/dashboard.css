@@ -1,0 +1,774 @@
+/* ============================================
+   PALETA — 5 famílias x 3 intensidades
+   Quanto maior o sufixo, maior a intensidade:
+   3 = alta (chamativa, texto branco)
+   2 = média (clara, texto escuro da família)
+   1 = baixa (clarinha, texto escuro da família)
+   ============================================ */
+
+:root {
+    /* Estilo 1 — Vermelho */
+    --e1-vivo:   #C0392B;
+    --e1-escuro: #922B21;
+    --e1-media:  #F5B7B1;
+    --e1-clara:  #FDEDEC;
+    --e1-texto:  #922B21;
+
+    /* Estilo 2 — Verde */
+    --e2-vivo:   #1E8449;
+    --e2-escuro: #145A32;
+    --e2-media:  #A9DFBF;
+    --e2-clara:  #EAFAF1;
+    --e2-texto:  #145A32;
+
+    /* Estilo 3 — Roxo */
+    --e3-vivo:   #8E44AD;
+    --e3-escuro: #7D3C98;
+    --e3-media:  #D7BDE2;
+    --e3-clara:  #F5EEF8;
+    --e3-texto:  #5B2C6F;
+
+    /* Estilo 4 — Laranja */
+    --e4-vivo:   #D35400;
+    --e4-escuro: #A04000;
+    --e4-media:  #F5CBA7;
+    --e4-clara:  #FDF2E9;
+    --e4-texto:  #873600;
+
+    /* Estilo 5 — Azul */
+    --e5-vivo:   #2874A6;
+    --e5-escuro: #1B4F72;
+    --e5-media:  #AED6F1;
+    --e5-clara:  #EBF5FB;
+    --e5-texto:  #1B4F72;
+}
+
+/* ============================================
+   CARDS DASHBOARD — base
+   ============================================ */
+
+.cards-dashboard {
+    display: grid;
+    /* grade fluida: piso de 400px para o texto caber, e o
+       min(100%, ...) deixa a celula encolher quando o proprio
+       container for mais estreito — dispensa media queries.
+       !important vence redefinicoes desta classe em outros
+       arquivos (opcoes_do_prospecto.css, prospecto.css). */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)) !important;
+    gap: 16px;
+    padding: 20px 0;
+    align-items: stretch;
+}
+
+/* o <a> do p:link é inline por natureza e encolhia até o
+   conteúdo — por isso cada card ficava do tamanho do próprio
+   texto. Como bloco de 100%, ele entrega ao card a largura
+   inteira do container onde o componente foi inserido.
+   O container-type permite ao card se adaptar à PRÓPRIA
+   largura (ver container query abaixo), e não à da tela. */
+.card-link {
+    display: block;
+    width: 100%;
+    container-type: inline-size;
+}
+
+.card-link,
+.card-link:hover,
+.card-link:focus {
+    text-decoration: none !important;
+}
+
+.card-moderno {
+    /* largura vem do container, não do conteúdo: dois
+       componentes lado a lado ficam sempre do mesmo tamanho */
+    width: 100%;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease, filter 0.6s ease, opacity 0.6s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-moderno:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-icone {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-valor {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.card-descricao {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+/* --- card estreito, em qualquer contexto (container query) ---
+   Antes o min-width:420px inline garantia espaço para o conteúdo;
+   agora que a largura é a do container, o card pode ficar estreito
+   (ex.: Container3 numa tela média). Nesse caso o conteúdo se
+   rearranja: ícone à esquerda + valor/texto à direita na primeira
+   linha, e o título desce ocupando a largura toda — nada corta.
+   Os !important vencem o min-width inline do ícone e as classes
+   Fs* do componente. (Navegadores antigos ignoram o bloco e
+   mantêm o layout em linha única.) */
+@container (max-width: 419px) {
+    .card-moderno .card-conteudo {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 6px;
+    }
+
+    /* promove valor e título a itens diretos do flex do card */
+    .card-moderno .card-info {
+        display: contents;
+    }
+
+    .card-moderno .card-icone {
+        min-width: 52px !important;
+        min-height: 52px !important;
+        width: 52px;
+        height: 52px;
+    }
+
+    .card-moderno .card-icone i {
+        font-size: 26px !important;
+    }
+
+    .card-moderno .card-valor {
+        font-size: 32px !important;
+        flex: 1;               /* ocupa o espaço entre o ícone e a borda */
+        text-align: center;
+        align-self: center;
+    }
+
+    .card-moderno .card-titulo {
+        flex-basis: 100%;
+        width: 100%;
+        text-align: center;
+        margin: 4px 0 0 0 !important;
+    }
+}
+
+/* ============================================
+   INTENSIDADE 3 — ALTA (chamativa)
+   Fundo vivo em gradiente, texto branco
+   ============================================ */
+
+.card-moderno.card-estilo-1-3 {
+    background: linear-gradient(90deg, var(--e1-vivo), var(--e1-escuro));
+}
+.card-moderno.card-estilo-2-3 {
+    background: linear-gradient(90deg, var(--e2-vivo), var(--e2-escuro));
+}
+.card-moderno.card-estilo-3-3 {
+    background: linear-gradient(90deg, var(--e3-vivo), var(--e3-escuro));
+}
+.card-moderno.card-estilo-4-3 {
+    background: linear-gradient(90deg, var(--e4-vivo), var(--e4-escuro));
+}
+.card-moderno.card-estilo-5-3 {
+    background: linear-gradient(90deg, var(--e5-vivo), var(--e5-escuro));
+}
+
+.card-moderno.card-estilo-1-3 .card-descricao,
+.card-moderno.card-estilo-2-3 .card-descricao,
+.card-moderno.card-estilo-3-3 .card-descricao,
+.card-moderno.card-estilo-4-3 .card-descricao,
+.card-moderno.card-estilo-5-3 .card-descricao {
+    color: rgba(255,255,255,0.85);
+}
+
+/* Ícone na alta: quadrado branco, símbolo na cor viva */
+.card-icone.card-estilo-1-3 {
+    background: #FFFFFF;
+    color: var(--e1-vivo);
+}
+.card-icone.card-estilo-2-3 {
+    background: #FFFFFF;
+    color: var(--e2-vivo);
+}
+.card-icone.card-estilo-3-3 {
+    background: #FFFFFF;
+    color: var(--e3-vivo);
+}
+.card-icone.card-estilo-4-3 {
+    background: #FFFFFF;
+    color: var(--e4-vivo);
+}
+.card-icone.card-estilo-5-3 {
+    background: #FFFFFF;
+    color: var(--e5-vivo);
+}
+
+/* ============================================
+   INTENSIDADE 2 — MÉDIA (clara)
+   Fundo claro sólido, texto escuro da família
+   ============================================ */
+
+.card-moderno.card-estilo-1-2 {
+    background: var(--e1-media);
+    border-color: var(--e1-media);
+}
+.card-moderno.card-estilo-2-2 {
+    background: var(--e2-media);
+    border-color: var(--e2-media);
+}
+.card-moderno.card-estilo-3-2 {
+    background: var(--e3-media);
+    border-color: var(--e3-media);
+}
+.card-moderno.card-estilo-4-2 {
+    background: var(--e4-media);
+    border-color: var(--e4-media);
+}
+.card-moderno.card-estilo-5-2 {
+    background: var(--e5-media);
+    border-color: var(--e5-media);
+}
+
+/* ============================================
+   INTENSIDADE 1 — BAIXA (clarinha)
+   Fundo pálido com borda da família,
+   texto escuro da família
+   ============================================ */
+
+.card-moderno.card-estilo-1-1 {
+    background: var(--e1-clara);
+    border-color: var(--e1-media);
+}
+.card-moderno.card-estilo-2-1 {
+    background: var(--e2-clara);
+    border-color: var(--e2-media);
+}
+.card-moderno.card-estilo-3-1 {
+    background: var(--e3-clara);
+    border-color: var(--e3-media);
+}
+.card-moderno.card-estilo-4-1 {
+    background: var(--e4-clara);
+    border-color: var(--e4-media);
+}
+.card-moderno.card-estilo-5-1 {
+    background: var(--e5-clara);
+    border-color: var(--e5-media);
+}
+
+/* Texto escuro da família nas intensidades 1 e 2 */
+.card-moderno.card-estilo-1-1 .card-titulo, .card-moderno.card-estilo-1-1 .card-valor,
+.card-moderno.card-estilo-1-2 .card-titulo, .card-moderno.card-estilo-1-2 .card-valor {
+    color: var(--e1-texto);
+}
+.card-moderno.card-estilo-2-1 .card-titulo, .card-moderno.card-estilo-2-1 .card-valor,
+.card-moderno.card-estilo-2-2 .card-titulo, .card-moderno.card-estilo-2-2 .card-valor {
+    color: var(--e2-texto);
+}
+.card-moderno.card-estilo-3-1 .card-titulo, .card-moderno.card-estilo-3-1 .card-valor,
+.card-moderno.card-estilo-3-2 .card-titulo, .card-moderno.card-estilo-3-2 .card-valor {
+    color: var(--e3-texto);
+}
+.card-moderno.card-estilo-4-1 .card-titulo, .card-moderno.card-estilo-4-1 .card-valor,
+.card-moderno.card-estilo-4-2 .card-titulo, .card-moderno.card-estilo-4-2 .card-valor {
+    color: var(--e4-texto);
+}
+.card-moderno.card-estilo-5-1 .card-titulo, .card-moderno.card-estilo-5-1 .card-valor,
+.card-moderno.card-estilo-5-2 .card-titulo, .card-moderno.card-estilo-5-2 .card-valor {
+    color: var(--e5-texto);
+}
+
+/* Ícone nas intensidades 1 e 2: quadrado na cor viva,
+   símbolo branco — identifica a família à distância */
+.card-icone.card-estilo-1-1, .card-icone.card-estilo-1-2 {
+    background: var(--e1-vivo);
+    color: #FFFFFF;
+}
+.card-icone.card-estilo-2-1, .card-icone.card-estilo-2-2 {
+    background: var(--e2-vivo);
+    color: #FFFFFF;
+}
+.card-icone.card-estilo-3-1, .card-icone.card-estilo-3-2 {
+    background: var(--e3-vivo);
+    color: #FFFFFF;
+}
+.card-icone.card-estilo-4-1, .card-icone.card-estilo-4-2 {
+    background: var(--e4-vivo);
+    color: #FFFFFF;
+}
+.card-icone.card-estilo-5-1, .card-icone.card-estilo-5-2 {
+    background: var(--e5-vivo);
+    color: #FFFFFF;
+}
+
+/* Hover nas intensidades 1 e 2: borda ganha a cor viva */
+.card-moderno.card-estilo-1-1:hover, .card-moderno.card-estilo-1-2:hover {
+    border-color: var(--e1-vivo);
+}
+.card-moderno.card-estilo-2-1:hover, .card-moderno.card-estilo-2-2:hover {
+    border-color: var(--e2-vivo);
+}
+.card-moderno.card-estilo-3-1:hover, .card-moderno.card-estilo-3-2:hover {
+    border-color: var(--e3-vivo);
+}
+.card-moderno.card-estilo-4-1:hover, .card-moderno.card-estilo-4-2:hover {
+    border-color: var(--e4-vivo);
+}
+.card-moderno.card-estilo-5-1:hover, .card-moderno.card-estilo-5-2:hover {
+    border-color: var(--e5-vivo);
+}
+
+/* ============================================
+   ALIASES DE COMPATIBILIDADE
+   Classes antigas sem intensidade = intensidade 3
+   (a chamativa, visual mais próximo do atual).
+   Remova quando todo o sistema usar o novo padrão.
+   ============================================ */
+
+.card-moderno.card-estilo-1 {
+    background: linear-gradient(90deg, var(--e1-vivo), var(--e1-escuro));
+}
+.card-moderno.card-estilo-2 {
+    background: linear-gradient(90deg, var(--e2-vivo), var(--e2-escuro));
+}
+.card-moderno.card-estilo-3 {
+    background: linear-gradient(90deg, var(--e3-vivo), var(--e3-escuro));
+}
+.card-moderno.card-estilo-4 {
+    background: linear-gradient(90deg, var(--e4-vivo), var(--e4-escuro));
+}
+.card-moderno.card-estilo-5 {
+    background: linear-gradient(90deg, var(--e5-vivo), var(--e5-escuro));
+}
+.card-moderno.historico    {
+    background: linear-gradient(90deg, var(--e5-vivo), var(--e5-escuro));
+}
+
+.card-icone.card-estilo-1 {
+    background: #FFFFFF;
+    color: var(--e1-vivo);
+}
+.card-icone.card-estilo-2 {
+    background: #FFFFFF;
+    color: var(--e2-vivo);
+}
+.card-icone.card-estilo-3 {
+    background: #FFFFFF;
+    color: var(--e3-vivo);
+}
+.card-icone.card-estilo-4 {
+    background: #FFFFFF;
+    color: var(--e4-vivo);
+}
+.card-icone.card-estilo-5 {
+    background: #FFFFFF;
+    color: var(--e5-vivo);
+}
+
+.card-icone.dashboard {
+    background: #FFFFFF;
+}
+
+/* ============================================
+   CARD ZERADO (valor = 0)
+   Mantém o card no lugar, com aparência
+   cinza de desativado — funciona em qualquer
+   cor e intensidade
+   ============================================ */
+
+.card-moderno.card-zerado {
+    filter: grayscale(1);
+    opacity: 0.45;
+    box-shadow: none;
+    cursor: default;
+}
+
+/* volta parcialmente à vida no hover,
+   sinalizando que ainda é clicável */
+.card-moderno.card-zerado:hover {
+    filter: grayscale(0.6);
+    opacity: 0.75;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ============================================
+   ATALHO "+" DE NOVO REGISTRO (card cinza)
+   Classe card-com-novo, aplicada pelo componente
+   quando exibirBotaoNovoCasoZero=true E o card
+   está zerado. O card segue cinza/apagado; o que
+   muda é COMO ele apaga.
+
+   Por que nao dá para so somar o "+" ao card-zerado:
+   ali o apagamento vem de opacity no card, e opacity
+   do pai abate os filhos — o selo sairia lavado junto
+   e nenhum filho consegue desfazer isso.
+   Solucao: aqui o apagamento vem de um veu branco em
+   ::before (pintado depois do conteudo, antes do selo),
+   e o grayscale continua no card. Resultado visual
+   igual ao card-zerado, mas com o "+" nitido por cima.
+   ============================================ */
+
+.card-moderno.card-zerado.card-com-novo {
+    filter: grayscale(1);
+    opacity: 1;               /* o veu abaixo faz o papel do opacity */
+    cursor: pointer;          /* aqui SEMPRE dá para clicar */
+}
+
+.card-moderno.card-zerado.card-com-novo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255,255,255,0.58);
+    z-index: 1;
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+/* hover/foco: o card volta parcialmente a vida, como no
+   card-zerado comum (4 classes vencem a regra de 3 de lá) */
+.card-moderno.card-zerado.card-com-novo:hover {
+    filter: grayscale(0.6);
+    opacity: 1;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-moderno.card-zerado.card-com-novo:hover::before {
+    background: rgba(255,255,255,0.28);
+}
+
+/* ---- o selo ----
+   canto superior direito: fora do caminho do icone
+   principal (à esquerda) e sem roubar largura do texto,
+   que pode crescer por baixo dele. Sempre visivel, ja que
+   hover-only nao existe no mobile. Sem pointer-events:
+   quem recebe o clique é o card inteiro, que já é o link. */
+.card-novo-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    color: #4A4A4A;
+    border: 1px solid #B9B9B9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+    font-size: 15px;
+    line-height: 1;
+    pointer-events: none;
+    transition: transform 0.25s ease, background 0.25s ease,
+        color 0.25s ease, border-color 0.25s ease;
+}
+
+/* anel pulsante lento: chama o olho sem hover e sem poluir */
+.card-novo-badge::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    bottom: -4px;
+    left: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(74,74,74,0.5);
+    animation: cardNovoPulso 2.4s ease-out infinite;
+}
+
+@keyframes cardNovoPulso {
+    0%   {
+        transform: scale(0.86);
+        opacity: 0.6;
+    }
+    70%  {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+}
+
+/* desktop: hover no card destaca o selo */
+.card-moderno.card-com-novo:hover .card-novo-badge {
+    transform: scale(1.14);
+    background: #3E3131;
+    color: #FFFFFF;
+    border-color: #3E3131;
+}
+
+/* touch: feedback imediato ao tocar em qualquer parte do card */
+.card-moderno.card-com-novo:active .card-novo-badge {
+    transform: scale(0.94);
+    background: #3E3131;
+    color: #FFFFFF;
+    border-color: #3E3131;
+}
+
+/* alvo um pouco maior no mobile, onde o card é mais estreito */
+@media (max-width: 768px) {
+    .card-novo-badge {
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-novo-badge::after {
+        animation: none;
+        opacity: 0.45;
+    }
+}
+
+/* ============================================
+   ANIMAÇÃO DE "ACENDER"
+   Disparada via JS quando o valor sai de 0
+   ============================================ */
+
+@keyframes cardAcender {
+    0% {
+        filter: grayscale(1);
+        opacity: 0.45;
+        transform: scale(1);
+    }
+    55% {
+        filter: grayscale(0);
+        opacity: 1;
+        transform: scale(1.04);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    }
+    100% {
+        filter: grayscale(0);
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.card-moderno.card-acendeu {
+    animation: cardAcender 0.8s ease-out;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .cards-dashboard {
+        gap: 15px;
+        padding: 15px 0;
+    }
+
+    .card-moderno {
+        padding: 15px;
+    }
+
+    .card-icone {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .card-valor {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-dashboard {
+        gap: 12px;
+    }
+}
+
+/* ============================================
+   COMPORTAMENTO FLUIDO (padrao de .cards-dashboard)
+   Antes era a variante opt-in "cards-dashboard componente";
+   promovido a padrao da classe base. A classe extra que ainda
+   existir em wrappers antigos e inofensiva e pode ser removida
+   aos poucos.
+
+   Resolve dois problemas do card nesse contexto:
+   1. O componente aplica INLINE min-width:420px no desktop
+      (decidido no servidor), que estoura celulas estreitas;
+   2. A base .cards-dashboard e suas media queries (768/480px)
+      disputam a cascata e causam saltos de layout.
+
+   A declaracao de colunas cobre todas as larguras sozinha:
+   piso de 400px para o texto caber, e min(100%, ...) deixa a
+   celula encolher quando o proprio container for mais estreito
+   que isso — media queries desnecessarias.
+   ============================================ */
+
+/* h:form dentro do grid nao pode virar celula: os filhos
+   (cards) passam a ser itens diretos do grid */
+.cards-dashboard > form {
+    display: contents;
+}
+
+/* vence o min/max-width inline do componente: o card obedece
+   a celula do grid */
+.cards-dashboard .card-moderno {
+    min-width: 0 !important;
+    /* teto de largura NO CARD (nao na trilha do grid): as colunas
+       1fr continuam iguais e preenchendo a linha inteira, e o card
+       se centraliza na propria celula — distribuicao simetrica em
+       qualquer largura, sem afetar a logica de quebra de colunas.
+       O !important tambem vence o max-width:600px inline do
+       componente. */
+    max-width: 560px !important;
+    margin-inline: auto;
+    width: auto !important;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* o link ocupa a celula inteira, e vira um "container" cujo
+   tamanho os filhos podem consultar via @container */
+.cards-dashboard > a,
+.cards-dashboard a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    container-type: inline-size;
+}
+
+/* doma o conteudo interno para caber no piso de 400px:
+   icone menor que os 90px inline e fontes um degrau abaixo
+   (especificidade maior que .Fs24/.Fs30 vence os !important) */
+.cards-dashboard .card-icone {
+    min-width: 64px !important;
+    min-height: 64px !important;
+    width: 64px;
+    height: 64px;
+}
+
+.cards-dashboard .card-icone i {
+    font-size: 32px;
+}
+
+.cards-dashboard .card-valor {
+    font-size: 26px !important;
+}
+
+.cards-dashboard .card-titulo {
+    font-size: 21px !important;
+    white-space: normal;      /* titulo pode quebrar linha */
+    line-height: 1.25;
+}
+
+/* --- layout adaptativo do card (container query) ---
+   Quando o CARD (nao a tela) ficar estreito, o conteudo se
+   rearranja: icone a esquerda + numero grande a direita na
+   primeira linha, e o titulo desce ocupando toda a largura.
+   O texto nunca corta, em qualquer numero de colunas.
+   (Navegadores antigos ignoram o bloco e mantem o layout atual.) */
+@container (max-width: 419px) {
+    .cards-dashboard .card-conteudo {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 6px;
+    }
+
+    /* promove valor e titulo a itens diretos do flex do card */
+    .cards-dashboard .card-info {
+        display: contents;
+    }
+
+    .cards-dashboard .card-icone {
+        min-width: 52px !important;
+        min-height: 52px !important;
+        width: 52px;
+        height: 52px;
+    }
+
+    .cards-dashboard .card-icone i {
+        font-size: 26px !important;
+    }
+
+    .cards-dashboard .card-valor {
+        font-size: 40px !important;
+        flex: 1;               /* ocupa o espaco entre o icone e a borda */
+        text-align: center;    /* e centraliza o numero nesse espaco */
+        align-self: center;
+    }
+
+    .cards-dashboard .card-titulo {
+        flex-basis: 100%;
+        width: 100%;
+        text-align: center;
+        margin: 4px 0 0 0 !important;
+    }
+}
+.ui-tabs-panels {
+    background-color: #f6f9f2!important;
+}
+
+
+.icone-composto {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+}
+
+.icone-composto .icone-badge {
+    position: absolute;
+    bottom: -0.35em;
+    right: -0.1em;
+    font-size: 1.2em!important; /* aqui você controla o tamanho do badge */
+    color:#3e3131;
+}
+
+
+.icone-composto .icone-base {
+
+    font-size: 2em!important; /* aqui você controla o tamanho do badge */
+}
+

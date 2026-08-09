@@ -42,45 +42,45 @@
                 //]]>
             </script>
 
-            <h:panelGroup layout="block" styleClass="calendario-card"
-                          rendered="#{cc.attrs.agendaDiponibilidade.diaSelecionado!=null}">
+            <h:panelGroup layout="block" styleClass="calendario-card AgendaDataDisponivel" id="AgendaDataDisponivel"
+                          rendered="#{cc.attrs.agendaDiponibilidade.temDadosMinimosConstrucaoAgenda}">
 
-                <h:form>
-                    <!-- Título do card -->
-                    <div style="margin-bottom: 20px;">
-                        <h3 style="color: #343a40; margin: 0 0 8px 0; font-weight: 600;">Selecione a Data</h3>
-                        <p style="color: #6c757d; margin: 0; font-size: 0.9em;">Escolha o dia para sua reserva
 
-                        </p>
-                    </div>
+                <!-- Título do card -->
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #343a40; margin: 0 0 8px 0; font-weight: 600;">Selecione a Data</h3>
+                    <p style="color: #6c757d; margin: 0; font-size: 0.9em;">Escolha o dia para sua reserva
 
-                    <!-- Display da data selecionada -->
-                    <a href="javascript:PF('seletorDia').show();" style="text-decoration: none; display: block;">
-                        <div class="calendar-date-display">
-                            <div class="calendar-date-month">
-                                #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
-                            </div>
-                            <div class="calendar-date-day">
-                                #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
+                    </p>
+                </div>
 
-                            </div>
-                            <div class="calendar-date-weekday">
-                                #{pgUtilDataHoraFormato.getDiaDaSemana(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
-                            </div>
+                <!-- Display da data selecionada -->
+                <a href="javascript:PF('seletorDia').show();" style="text-decoration: none; display: block;">
+                    <div class="calendar-date-display">
+                        <div class="calendar-date-month">
+                            #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
                         </div>
-                    </a>
+                        <div class="calendar-date-day">
+                            #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
 
-                    <!-- Mensagem informativa -->
-                    <div class="calendar-info-message">
-                        <i class="pi pi-info-circle" style="margin-right: 8px"></i>
-                        Clique na data acima para escolher outro dia
+                        </div>
+                        <div class="calendar-date-weekday">
+                            #{pgUtilDataHoraFormato.getDiaDaSemana(cc.attrs.agendaDiponibilidade.diaSelecionadoComoData)}
+                        </div>
                     </div>
-                    <h:panelGroup styleClass="calendar-info-message-custom"
-                                  rendered="#{cc.attrs.vagasDisponiveis eq true}"> Existem #{pgReservasPublicas.agendaDisponivel.escopo.getCampoInstanciadoByNomeOuAnotacao('qtdReservasDisponiveis').valor} vagas
-                        para #{pgReservasPublicas.agendaDisponivel.escopo.tipoAgendamento.nome}
-                    </h:panelGroup>
+                </a>
 
+                <!-- Mensagem informativa -->
+                <div class="calendar-info-message">
+                    <i class="pi pi-info-circle" style="margin-right: 8px"></i>
+                    Clique na data acima para escolher outro dia
+                </div>
+                <h:panelGroup styleClass="calendar-info-message-custom"
+                              rendered="#{cc.attrs.vagasDisponiveis eq true}"> Existem #{pgReservasPublicas.agendaDisponivel.escopo.getCampoInstanciadoByNomeOuAnotacao('qtdReservasDisponiveis').valor} vagas
+                    para #{pgReservasPublicas.agendaDisponivel.escopo.tipoAgendamento.nome}
+                </h:panelGroup>
 
+                <p:fragment >
                     <!-- DatePicker escondido -->
                     <p:datePicker
                         value="#{cc.attrs.agendaDiponibilidade.diaSelecionado}"
@@ -100,10 +100,11 @@
                             oncomplete="toggleCalendarLoading(false); PF('seletorDia').hide();"
                             global="true"
                             event="dateSelect"
-                            update="#{cc.attrs.areaAtualizacao}">
+                            update="#{cc.attrs.areaAtualizacao} AgendaDataDisponivel">
                         </p:ajax>
                     </p:datePicker>
-                </h:form>
+                </p:fragment>
+
             </h:panelGroup>
         </h:panelGroup>
 

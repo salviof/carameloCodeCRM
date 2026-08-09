@@ -29,18 +29,20 @@
                                     <SBcrm:avatar somenteLeitura="true" usuario="#{pgReservasCliente.usrAtendenteSelecionado}" altura="100" />
                                 </h:panelGroup>
 
-                                <h:panelGroup styleClass="Container6" style="z-index: 999999;  " layout="block" >
-                                    <p:staticMessage severity="warn" summary="Minha agenda está lotada!" detail="Mas nós podemos conversar pelo Chat!" style="margin-left: 90px;" />
+                                <h:panelGroup styleClass="Container8" style="z-index: 999999;  " layout="block" >
+                                    <p:staticMessage severity="warn" summary="Minha agenda está lotada!" detail="Mas nós podemos conversar pelo Chat!" style="margin-left: 90px;width: 100%;" />
                                 </h:panelGroup>
                                 <h:panelGroup styleClass="Container12" style="margin-top: 60px" >
 
-                                    <crmDashBoard:dashBoardIconeValorTituloLink container="Container12"
-                                                                                url="#{infoWebApp.getUrlDaAcao(acoesClienteContato_ConversaMb.conversaFrmChat)}"
-                                                                                icone="fa fa-comments-o"
-                                                                                codigoestilo="2"
-                                                                                titulo="Fale aqui com #{pgReservasCliente.usrAtendenteSelecionado.nome}"
-                                                                                valor="Abrir Chat Atendimento"
-                                                                                />
+                                    <crmDashBoard:dashBoardIconeTextoTituloLink
+                                        rendered="#{pgReservasCliente.usrAtendenteSelecionado!=null}"
+
+                                        url="#{infoWebApp.getUrlDaAcao(acoesClienteContato_ConversaMb.conversaFrmChat)}"
+                                        icone="fa fa-comments-o"
+                                        codigoestilo="2"
+                                        titulo="Fale aqui com #{pgReservasCliente.usrAtendenteSelecionado.nome}"
+                                        valor="3"
+                                        />
                                 </h:panelGroup>
                             </h:panelGroup>
                         </h:panelGroup>

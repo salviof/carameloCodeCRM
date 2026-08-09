@@ -1,0 +1,1361 @@
+/* ==========================================================================
+   chamado.css
+   Estilos do módulo de chamados do cliente.
+   Telas: site/atendimento_ao_cliente/chamado/chamado_listar.xhtml
+          componente chamado/dadosBasicosChamado.xhtml (cabeçalho do chamado)
+          componente chamado/dadosAvancadosChamado.xhtml (quadro do atendente)
+
+   Breakpoint: 800px / 801px — mesmo corte usado pelo CRC em
+   .somenteMobile / .somenteDesktop e nas Container* (CRCLayoutResponsivo.css).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ChamadoListarForm — bloco de topo da tela de listagem
+   -------------------------------------------------------------------------- */
+.ChamadoListarForm {
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   ChamadoBotaoNovo — botão "abrir novo chamado"
+   Desktop: flutua no canto superior direito.
+   Mobile: entra no fluxo, centralizado (anula o float:right!important do .Fright).
+   -------------------------------------------------------------------------- */
+.ChamadoBotaoNovo {
+    position: absolute;
+    top: 100px;
+    right: 10px;
+    z-index: 10;
+}
+
+@media (max-width: 800px) {
+    body .ChamadoBotaoNovo {
+        position: static;
+        float: none !important;
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   ChamadoListaChamados — painel que agrupa título, filtros e a listagem
+   -------------------------------------------------------------------------- */
+.ChamadoListaChamados {
+    margin-top: 20px;
+    min-height: 900px;
+    padding: 20px 0;
+
+}
+
+@media (max-width: 800px) {
+    .ChamadoListaChamados {
+        min-height: 0;
+        padding: 20px 10px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   ChamadoListaCabecalho — título da listagem.
+   O h1 não usa .Fs30: aquela classe é font-size !important em todos os
+   breakpoints do CRC e impediria a escala definida aqui.
+   -------------------------------------------------------------------------- */
+.ChamadoListaCabecalho {
+    padding: 8px 10px 0;
+    text-align: center;
+}
+
+/* filete de destaque abaixo do título */
+.ChamadoListaCabecalho:after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 3px;
+    margin: 14px auto 0;
+    border-radius: 2px;
+    background-color: darkcyan;
+}
+
+.ChamadoListaTitulo {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: darkcyan;
+    word-wrap: break-word;
+}
+
+.ChamadoListaTituloIcone {
+    margin-right: 12px;
+    font-size: 0.85em;
+    vertical-align: baseline;
+    opacity: 0.75;
+}
+
+@media (max-width: 800px) {
+    .ChamadoListaTitulo {
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+
+    .ChamadoListaTituloIcone {
+        margin-right: 8px;
+    }
+
+    .ChamadoListaCabecalho:after {
+        width: 60px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .ChamadoListaTitulo {
+        font-size: 18px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   ChamadoListaFiltros — faixa reservada aos filtros da listagem
+   -------------------------------------------------------------------------- */
+.ChamadoListaFiltros {
+    margin-top: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Listagens — cards (dispositivo mobile) e dataTable (dispositivo desktop).
+   A escolha entre as duas é feita no servidor por telaUsuario.umMobile,
+   então cada bloco só existe no seu respectivo contexto.
+   -------------------------------------------------------------------------- */
+.ChamadoListaChamadosMobile {
+    margin-top: 20px;
+}
+
+.ChamadoListaChamadosDesktop {
+    margin-top: 50px;
+}
+
+/* --------------------------------------------------------------------------
+   Colunas da dataTable de chamados.
+   Abaixo de 800px o reflow do PrimeFaces empilha as células: nesse modo o
+   conteúdo alinhado à esquerda fica legível ao lado do rótulo da coluna.
+   -------------------------------------------------------------------------- */
+.ChamadoColuna {
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .ChamadoColuna {
+        text-align: left;
+    }
+}
+
+.ChamadoColunaResponsavel {
+    position: relative;
+    height: 100px;
+}
+
+@media (max-width: 800px) {
+    .ChamadoColunaResponsavel {
+        height: auto;
+    }
+}
+
+/* Bloco do avatar/nome do atendente responsável */
+.ChamadoResponsavel {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   ChamadoListaRodape — área livre abaixo da listagem
+   -------------------------------------------------------------------------- */
+.ChamadoListaRodape {
+    margin: 100px;
+}
+
+@media (max-width: 800px) {
+    .ChamadoListaRodape {
+        margin: 40px 0;
+    }
+}
+
+/* ==========================================================================
+   CABEÇALHO DO CHAMADO — componente chamado/dadosBasicosChamado.xhtml
+
+   Usado no topo das telas de chamado (atendimento, com o chat logo abaixo),
+   por isso é compacto na vertical: a descrição rola dentro do próprio card
+   em vez de empurrar o chat para fora da tela.
+
+   Estrutura:
+     .ChamadoCabecalhoDadosBasicos   faixa de largura total (Container12)
+       .ChamadoCabecalhoCard         card colorido
+         .ChamadoCabecalhoTopo       flex: identificação | situação | ações
+         .ChamadoCabecalhoDescricao  resumo (p:textEditor readonly)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Faixa externa. Container12 aplica float:left no CRC; o clear evita que o
+   conteúdo seguinte (chat) tente subir ao lado do cabeçalho.
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoDadosBasicos {
+    clear: both;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.ChamadoCabecalhoDadosBasicos:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* --------------------------------------------------------------------------
+   Card. darkcyan é a cor de destaque já usada na listagem de chamados.
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoCard {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 6px;
+    color: whitesmoke;
+    background-color: darkcyan;
+    background-image: linear-gradient(135deg, #00636b 0%, #008b8b 60%, #16a5a5 100%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Linha superior. A identificação cresce e empurra situação e ações para a
+   direita; abaixo de 800px cada bloco vira uma linha inteira.
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoTopo {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Identificação: avatar do cliente + tipo do chamado + data de abertura
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoIdentificacao {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    flex: 1 1 260px;
+    min-width: 0;
+}
+
+.ChamadoCabecalhoCliente {
+    flex: 0 0 auto;
+    line-height: 0;
+}
+
+.ChamadoCabecalhoClienteLink {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.ChamadoCabecalhoClienteLink:hover {
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* A imagem é o logo/foto do representante legal: proporção variável, então
+   limita-se pelos dois eixos sem recortar. */
+.ChamadoCabecalhoClienteImagem {
+    display: block;
+    max-height: 48px;
+    max-width: 140px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.ChamadoCabecalhoTitulos {
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.ChamadoCabecalhoTipo {
+    font-size: 22px;
+    line-height: 1.2;
+    color: whitesmoke;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.ChamadoCabecalhoTipoIcone {
+    margin-right: 10px;
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+.ChamadoCabecalhoData {
+    margin-top: 6px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.ChamadoCabecalhoDataIcone {
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+/* --------------------------------------------------------------------------
+   Situação: status e número do chamado
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoSituacao {
+    flex: 0 1 auto;
+    text-align: right;
+}
+
+/* O ícone vem do próprio status (StatusChamado.icone, classe Font Awesome 6
+   completa — ex.: "fa-solid fa-hourglass-half"). */
+.ChamadoCabecalhoStatus {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.18);
+    font-size: 15px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: whitesmoke;
+}
+
+.ChamadoCabecalhoStatusIcone {
+    font-size: 1.05em;
+    line-height: 1;
+    opacity: 0.9;
+}
+
+.ChamadoCabecalhoNumero {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   Ações. O h:form recebe styleClass para virar flex e não quebrar a linha
+   dos botões (form é elemento de bloco por padrão).
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoAcoes {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.ChamadoCabecalhoAcoesForm {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+/* Botões translúcidos sobre o card: o tema do PrimeFaces define cor de fundo
+   e borda próprias, daí o !important. */
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button {
+    min-height: 40px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-radius: 4px !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    background-image: none !important;
+    color: whitesmoke !important;
+    box-shadow: none !important;
+}
+
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button .ui-button-text,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button .ui-icon,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button .ui-button-icon-left {
+    color: whitesmoke !important;
+}
+
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button.ui-state-hover,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button.ui-state-focus {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button.ui-state-disabled {
+    opacity: 0.45;
+}
+
+/* Ação principal (abrir/fechar chamado): sólida, para destacar das demais */
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button {
+    border-color: whitesmoke !important;
+    background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button .ui-button-text,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button .ui-icon,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button .ui-button-icon-left {
+    color: #00636b !important;
+}
+
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button.ui-state-hover,
+.ChamadoCabecalhoCard .ChamadoCabecalhoBotaoPrincipal.ui-button.ui-state-focus {
+    background-color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Descrição do chamado (p:textEditor readonly, sem toolbar).
+   O Quill é neutralizado — sem borda, sem fundo, texto claro — e rola dentro
+   de uma altura máxima para não roubar espaço do chat abaixo.
+   -------------------------------------------------------------------------- */
+.ChamadoCabecalhoDescricao {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.ChamadoCabecalhoDescricaoForm {
+    margin: 0;
+}
+
+.ResumoChamado.editor-branco,
+.ResumoChamado.editor-branco .ql-container,
+.ResumoChamado.editor-branco .ql-toolbar {
+    border: none !important;
+    background: transparent !important;
+}
+
+.ResumoChamado.editor-branco .ql-toolbar {
+    display: none !important;
+}
+
+.ResumoChamado.editor-branco .ql-container {
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.ResumoChamado.editor-branco .ql-editor {
+    padding: 0;
+    max-height: 130px;
+    overflow-y: auto;
+    line-height: 1.55;
+    color: whitesmoke;
+}
+
+.ResumoChamado.editor-branco .ql-editor a {
+    color: #d6f4f5;
+    text-decoration: underline;
+}
+
+.ResumoChamado.editor-branco .ql-editor.ql-blank:before {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: normal;
+}
+
+/* barra de rolagem discreta sobre o fundo escuro (WebKit) */
+.ResumoChamado.editor-branco .ql-editor::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ResumoChamado.editor-branco .ql-editor::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile / tablet — tudo empilhado em linhas de largura total
+   -------------------------------------------------------------------------- */
+@media (max-width: 800px) {
+    .ChamadoCabecalhoDadosBasicos {
+        margin-bottom: 14px;
+    }
+
+    .ChamadoCabecalhoCard {
+        padding: 14px;
+        border-radius: 4px;
+    }
+
+    .ChamadoCabecalhoTopo {
+        gap: 12px;
+    }
+
+    .ChamadoCabecalhoIdentificacao,
+    .ChamadoCabecalhoSituacao,
+    .ChamadoCabecalhoAcoes {
+        flex: 1 1 100%;
+    }
+
+    .ChamadoCabecalhoSituacao {
+        text-align: left;
+    }
+
+    .ChamadoCabecalhoAcoes {
+        margin-left: 0;
+    }
+
+    /* botões ocupam a linha inteira, repartida entre eles */
+    .ChamadoCabecalhoAcoesForm {
+        justify-content: flex-start;
+    }
+
+    .ChamadoCabecalhoCard .ChamadoCabecalhoBotao.ui-button {
+        flex: 1 1 auto;
+        justify-content: center;
+        min-height: 44px;
+    }
+
+    .ChamadoCabecalhoTipo {
+        font-size: 19px;
+    }
+
+    .ChamadoCabecalhoClienteImagem {
+        max-height: 40px;
+        max-width: 110px;
+    }
+
+    .ResumoChamado.editor-branco .ql-editor {
+        max-height: 100px;
+    }
+}
+
+@media (max-width: 500px) {
+    .ChamadoCabecalhoTipo {
+        font-size: 17px;
+    }
+
+    .ChamadoCabecalhoStatus {
+        font-size: 13px;
+        padding: 5px 12px;
+    }
+
+    .ResumoChamado.editor-branco .ql-container {
+        font-size: 14px;
+    }
+
+    .ResumoChamado.editor-branco .ql-editor {
+        max-height: 84px;
+    }
+}
+
+/* ==========================================================================
+   QUADRO DE DADOS AVANÇADOS — componente chamado/dadosAvancadosChamado.xhtml
+
+   Painel lateral visível apenas para o atendente, exibido junto do cabeçalho
+   do chamado. É o contraponto claro daquele card: fundo branco e filete
+   darkcyan no topo, para as duas peças lerem como um conjunto sem competirem.
+
+   A altura é livre (o conteúdo é curto e varia com os campos preenchidos),
+   por isso não há height fixo — o quadro acompanha a coluna onde estiver.
+
+   Estrutura:
+     .ChamadoAvancadoDados         faixa externa (Container12)
+       .ChamadoAvancadoCard        card claro
+         .ChamadoAvancadoTopo      logo do cliente | satisfação
+         .ChamadoAvancadoLista     itens rótulo/valor (contato, fone, e-mail…)
+         .ChamadoAvancadoAcoes     rodapé com os botões de ação
+   ========================================================================== */
+
+/* Container12 aplica float:left no CRC; o clear isola o quadro do que vier
+   antes e depois dele na coluna. */
+.ChamadoAvancadoDados {
+    clear: both;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.ChamadoAvancadoDados:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.ChamadoAvancadoCard {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 18px;
+    border: 1px solid #d7e7e8;
+    border-top: 3px solid darkcyan;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Topo — identificação visual do cliente e o humor dele com o atendimento
+   -------------------------------------------------------------------------- */
+.ChamadoAvancadoTopo {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e6f0f1;
+}
+
+.ChamadoAvancadoCliente {
+    flex: 0 0 auto;
+    line-height: 0;
+}
+
+.ChamadoAvancadoClienteLink {
+    display: inline-block;
+    padding: 6px 10px;
+    border: 1px solid #e6f0f1;
+    border-radius: 4px;
+    background-color: #f5fafa;
+}
+
+.ChamadoAvancadoClienteLink:hover {
+    border-color: #bcdcdd;
+    background-color: #e9f5f5;
+}
+
+/* Logo/foto do representante legal: proporção variável, limita-se pelos dois
+   eixos sem recortar. */
+.ChamadoAvancadoClienteImagem {
+    display: block;
+    max-height: 56px;
+    max-width: 150px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* O ícone vem do próprio grau de satisfação (classe Font Awesome completa). */
+.ChamadoAvancadoSatisfacao {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 190px;
+    min-width: 0;
+}
+
+.ChamadoAvancadoSatisfacaoIcone {
+    flex: 0 0 auto;
+    font-size: 38px;
+    line-height: 1;
+    color: darkcyan;
+}
+
+.ChamadoAvancadoSatisfacaoTexto {
+    min-width: 0;
+}
+
+.ChamadoAvancadoSatisfacaoNome {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #00636b;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.ChamadoAvancadoSatisfacaoLegenda {
+    font-size: 13px;
+    color: #6b7b7c;
+}
+
+/* --------------------------------------------------------------------------
+   Lista rótulo/valor. Desktop: rótulo em coluna fixa à esquerda, valor ocupa
+   o resto. Mobile: rótulo acima do valor (ver breakpoint no fim do arquivo).
+   -------------------------------------------------------------------------- */
+.ChamadoAvancadoForm {
+    margin: 0;
+}
+
+.ChamadoAvancadoLista {
+    margin-top: 4px;
+}
+
+.ChamadoAvancadoItem {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #e6f0f1;
+}
+
+.ChamadoAvancadoItem:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.ChamadoAvancadoRotulo {
+    flex: 0 0 108px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #6b7b7c;
+}
+
+.ChamadoAvancadoRotuloIcone {
+    margin-right: 8px;
+    color: darkcyan;
+    opacity: 0.85;
+}
+
+.ChamadoAvancadoValor {
+    flex: 1 1 150px;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #2c3a3b;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   Linhas com botões de ação (contato, telefone, e-mail).
+
+   Contato, telefone e e-mail têm a MESMA estrutura interna — os composites
+   SBCRM envolvem rótulo + botões num h:panelGroup layout="block", e a linha do
+   contato repete esse desenho de propósito. Então é esse div interno, e não o
+   .ChamadoAvancadoValor, que precisa virar a linha flex.
+   -------------------------------------------------------------------------- */
+.ChamadoAvancadoValorAcoes {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.ChamadoAvancadoValorAcoes > div {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+}
+
+/* O valor em si.
+
+   Os composites fixam width:200px inline no p:outputLabel. Era esse bloco de
+   200px — bem mais largo que um telefone ou que a maioria dos e-mails — que
+   abria o vão entre o texto e os botões e empurrava o último botão do telefone
+   para uma segunda linha. O !important solta a largura (regra !important do
+   autor vence style inline), e o seletor casa tanto pela classe do PrimeFaces
+   quanto pelo elemento, para não depender de qual dos dois o tema emite.
+
+   O rótulo encolhe mas não cresce (flex-grow:0): se crescesse, ocuparia a sobra
+   da linha e jogaria os botões contra a borda direita do card. E-mails são uma
+   palavra só, então precisam poder partir no meio ao encolher. */
+.ChamadoAvancadoValorAcoes .ui-outputlabel,
+.ChamadoAvancadoValorAcoes > div > label {
+    flex: 0 1 auto;
+    width: auto !important;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #2c3a3b;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+.ChamadoAvancadoValorNome .ui-outputlabel,
+.ChamadoAvancadoValorNome > div > label {
+    font-weight: 600;
+}
+
+/* Ordem visual: copiar | texto | demais ações.
+
+   O copiar já é o primeiro botão do markup nos três casos (telefone: copiar,
+   ligar, whatsapp / e-mail: copiar, escrever / contato: só copiar). O que o
+   flexbox faz aqui é só trazê-lo para antes do texto, que no markup vem primeiro
+   por ser o p:outputLabel do composite. */
+.ChamadoAvancadoValorAcoes > div > label {
+    -webkit-order: 1;
+    order: 1;
+}
+
+.ChamadoAvancadoValorAcoes > div > .ui-button {
+    -webkit-order: 2;
+    order: 2;
+}
+
+.ChamadoAvancadoValorAcoes > div > .ui-button:first-of-type {
+    -webkit-order: 0;
+    order: 0;
+}
+
+/* Botões discretos, quadrados, só ícone. Os composites aplicam margin:5px
+   inline e o tema do PrimeFaces dá padding/altura de botão de formulário —
+   ambos precisam de !important para caber ao lado do texto. */
+.ChamadoAvancadoValorAcoes .ui-button {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    display: -webkit-inline-flex !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid #d7e7e8 !important;
+    border-radius: 4px !important;
+    background-color: #f5fafa !important;
+    background-image: none !important;
+    color: darkcyan !important;
+    box-shadow: none !important;
+    overflow: hidden;
+}
+
+/* Botão só-ícone: o tema ainda emite um .ui-button-text vazio que reserva
+   largura, e posiciona o ícone em absoluto. Aqui o ícone é o próprio conteúdo. */
+.ChamadoAvancadoValorAcoes .ui-button .ui-button-text {
+    display: none !important;
+}
+
+.ChamadoAvancadoValorAcoes .ui-button .ui-icon,
+.ChamadoAvancadoValorAcoes .ui-button .ui-button-icon-left {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    text-indent: 0 !important;
+    color: inherit !important;
+}
+
+.ChamadoAvancadoValorAcoes .ui-button:hover,
+.ChamadoAvancadoValorAcoes .ui-button.ui-state-hover,
+.ChamadoAvancadoValorAcoes .ui-button.ui-state-focus {
+    border-color: darkcyan !important;
+    background-color: #e0f2f2 !important;
+    color: #00636b !important;
+}
+
+/* --------------------------------------------------------------------------
+   Confirmação visual da cópia.
+
+   Sem alerta e sem nada para fechar: uma camada verde com um "check" cobre o
+   botão no instante do clique e some sozinha. Feito com :active + transition,
+   e não com animation, por dois motivos:
+     - :active dispara a cada clique, inclusive no mesmo botão em sequência
+       (uma animation presa a :focus só rodaria na primeira vez);
+     - as regras de cor do botão são !important para vencer o tema do
+       PrimeFaces, e declaração !important tem precedência sobre animation —
+       por isso o efeito vive num ::after, onde nada disputa.
+
+   O truque é assimétrico: transition:none no :active (aparece na hora) e
+   transition longa no estado normal (volta suave quando o botão é solto).
+
+   Só nos botões de copiar — os de ligar/whatsapp/escrever levam a outra tela ou
+   app, e um "copiado" ali seria mentira. Os ids vêm dos composites SBCRM, daí o
+   seletor por sufixo (o JSF prefixa o client id).
+   -------------------------------------------------------------------------- */
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarContato"],
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarTelefone"],
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarEmail"] {
+    position: relative;
+}
+
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarContato"]:after,
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarTelefone"]:after,
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarEmail"]:after {
+    content: "\f00c"; /* fa-check */
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", FontAwesome;
+    font-weight: 900; /* peso do estilo solid; sem ele o glifo não resolve */
+    font-size: 13px;
+    line-height: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2e9e6b;
+    color: #ffffff;
+    opacity: 0;
+    -webkit-transform: scale(1.35);
+    transform: scale(1.35);
+    /* o delay segura o check totalmente visível antes de começar a sumir */
+    -webkit-transition: opacity 1.8s ease-out 0.4s, -webkit-transform 1.8s ease-out 0.4s;
+    transition: opacity 1.8s ease-out 0.4s, transform 1.8s ease-out 0.4s;
+    pointer-events: none;
+}
+
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarContato"]:active:after,
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarTelefone"]:active:after,
+.ChamadoAvancadoValorAcoes .ui-button[id$="copiarEmail"]:active:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: none;
+    transition: none;
+}
+
+/* --------------------------------------------------------------------------
+   Rodapé de ações (só existe enquanto o chamado não está em atendimento)
+   -------------------------------------------------------------------------- */
+.ChamadoAvancadoAcoes {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #e6f0f1;
+}
+
+.ChamadoAvancadoAcoesTitulo {
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #6b7b7c;
+}
+
+.ChamadoAvancadoAcoesForm {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.ChamadoAvancadoAcoesForm .ui-button {
+    min-height: 40px;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile / tablet — rótulo e valor empilhados, botões de largura total
+   -------------------------------------------------------------------------- */
+@media (max-width: 800px) {
+    .ChamadoAvancadoDados {
+        margin-bottom: 14px;
+    }
+
+    .ChamadoAvancadoCard {
+        padding: 14px;
+        border-radius: 4px;
+    }
+
+    .ChamadoAvancadoSatisfacaoIcone {
+        font-size: 32px;
+    }
+
+    .ChamadoAvancadoItem {
+        padding: 8px 0;
+    }
+
+    .ChamadoAvancadoRotulo,
+    .ChamadoAvancadoValor {
+        flex: 1 1 100%;
+    }
+
+    /* alvo de toque um pouco maior, sem virar botão de formulário */
+    .ChamadoAvancadoValorAcoes .ui-button {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .ChamadoAvancadoAcoesForm .ui-button {
+        flex: 1 1 auto;
+        justify-content: center;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 500px) {
+    .ChamadoAvancadoClienteImagem {
+        max-height: 44px;
+        max-width: 120px;
+    }
+
+    .ChamadoAvancadoSatisfacaoNome {
+        font-size: 15px;
+    }
+
+    .ChamadoAvancadoValor,
+    .ChamadoAvancadoValorAcoes > div > label {
+        font-size: 14px;
+    }
+}
+
+/* ==========================================================================
+   LINK DE ACESSO DIRETO — componente chamado/linkCompartilharChamado.xhtml
+
+   Bloco curto, usado dentro do quadro do atendente: gera e compartilha o link
+   que dá ao cliente acesso ao chamado sem login. Segue a mesma paleta clara do
+   quadro avançado (branco + filete darkcyan) para os dois lerem como conjunto.
+
+   A peça é essencialmente uma barra de ações, não um formulário de leitura:
+   o endereço serve só de conferência (é longo e ninguém o digita), então ele
+   fica truncado numa linha só e o texto completo vive no title e no botão de
+   copiar. É isso que mantém o bloco baixo o bastante para conviver com o chat.
+
+   Estrutura:
+     .ChamadoLinkFieldset          p:fieldset (Container12)
+       .ChamadoLinkLegenda         legenda curta com ícone
+       .ChamadoLinkForm            h:form
+         .ChamadoLinkAtivo         quando existe token
+           .ChamadoLinkEndereco    url truncada
+           .ChamadoLinkCompartilhar  whatsapp | copiar | validade
+         .ChamadoLinkVazio         estado sem link gerado
+         .ChamadoLinkGerar         botão gerar/renovar
+   ========================================================================== */
+
+/* Container12 aplica float:left no CRC; o clear isola o bloco na coluna. */
+.ChamadoLinkFieldset {
+    clear: both;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.ChamadoLinkFieldset:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* O tema do PrimeFaces dá ao fieldset padding e fundo de painel de formulário;
+   aqui ele precisa parecer um card do módulo de chamados. */
+.ChamadoLinkFieldset.ui-fieldset {
+    box-sizing: border-box;
+    padding: 14px 18px 16px;
+    border: 1px solid #d7e7e8;
+    border-top: 3px solid darkcyan;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.ChamadoLinkFieldset.ui-fieldset .ui-fieldset-legend {
+    padding: 0 6px;
+    border: none;
+    background: transparent;
+    background-image: none;
+}
+
+.ChamadoLinkLegenda {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #6b7b7c;
+    white-space: nowrap;
+}
+
+.ChamadoLinkLegendaIcone {
+    margin-right: 8px;
+    color: darkcyan;
+    opacity: 0.85;
+}
+
+.ChamadoLinkForm {
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Endereço gerado. Uma linha só: fonte mono (facilita reconhecer o token no
+   fim da url) e reticências no que não couber — o link inteiro está no title
+   e é o que o botão de copiar entrega.
+   -------------------------------------------------------------------------- */
+.ChamadoLinkEndereco {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e6f0f1;
+    border-radius: 4px;
+    background-color: #f5fafa;
+}
+
+.ChamadoLinkEnderecoIcone {
+    flex: 0 0 auto;
+    font-size: 14px;
+    color: darkcyan;
+    opacity: 0.85;
+}
+
+/* O !important solta a largura fixa que o composite/tema aplicam no label
+   (regra !important do autor vence style inline). */
+.ChamadoLinkEndereco .ChamadoLinkUrl,
+.ChamadoLinkEndereco label.ChamadoLinkUrl {
+    flex: 1 1 auto;
+    width: auto !important;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: Menlo, Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #2c3a3b;
+}
+
+/* --------------------------------------------------------------------------
+   Linha de compartilhamento: os dois botões à esquerda, validade à direita.
+   -------------------------------------------------------------------------- */
+.ChamadoLinkCompartilhar {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ChamadoLinkValidade {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    margin-left: auto;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #6b7b7c;
+    white-space: nowrap;
+}
+
+.ChamadoLinkValidadeIcone {
+    margin-right: 6px;
+    opacity: 0.8;
+}
+
+/* --------------------------------------------------------------------------
+   Botões. O tema do PrimeFaces define fundo, borda e altura próprios — daí o
+   !important em tudo que precisa diferenciar whatsapp (sólido, cor da marca)
+   de copiar (contorno discreto).
+   -------------------------------------------------------------------------- */
+.ChamadoLinkForm .ChamadoLinkBotao.ui-button {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    min-height: 36px;
+    margin: 0 !important;
+    border-radius: 4px !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    font-size: 14px;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button {
+    border: 1px solid #1da851 !important;
+    background-color: #25d366 !important;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button .ui-button-text,
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button .ui-icon,
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button .ui-button-icon-left {
+    color: #ffffff !important;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button:hover,
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button.ui-state-hover,
+.ChamadoLinkForm .ChamadoLinkBotaoWhatsapp.ui-button.ui-state-focus {
+    background-color: #1da851 !important;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button {
+    border: 1px solid #d7e7e8 !important;
+    background-color: #f5fafa !important;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button .ui-button-text,
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button .ui-icon,
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button .ui-button-icon-left {
+    color: darkcyan !important;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button:hover,
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button.ui-state-hover,
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button.ui-state-focus {
+    border-color: darkcyan !important;
+    background-color: #e0f2f2 !important;
+}
+
+/* Confirmação da cópia — mesma solução do quadro avançado (ver comentário lá):
+   camada verde com "check" que aparece no :active e volta sozinha, no lugar do
+   alert() que obrigava o atendente a fechar uma caixa a cada link copiado. */
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button:after {
+    content: "\f00c"; /* fa-check */
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", FontAwesome;
+    font-weight: 900; /* peso do estilo solid; sem ele o glifo não resolve */
+    font-size: 15px;
+    line-height: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2e9e6b;
+    color: #ffffff;
+    opacity: 0;
+    -webkit-transform: scale(1.35);
+    transform: scale(1.35);
+    /* o delay segura o check totalmente visível antes de começar a sumir */
+    -webkit-transition: opacity 1.8s ease-out 0.4s, -webkit-transform 1.8s ease-out 0.4s;
+    transition: opacity 1.8s ease-out 0.4s, transform 1.8s ease-out 0.4s;
+    pointer-events: none;
+}
+
+.ChamadoLinkForm .ChamadoLinkBotaoCopiar.ui-button:active:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: none;
+    transition: none;
+}
+
+/* --------------------------------------------------------------------------
+   Estado sem link gerado — explica o que o botão abaixo faz.
+   -------------------------------------------------------------------------- */
+.ChamadoLinkVazio {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px dashed #d7e7e8;
+    border-radius: 4px;
+    background-color: #f9fcfc;
+}
+
+.ChamadoLinkVazioIcone {
+    flex: 0 0 auto;
+    font-size: 18px;
+    color: darkcyan;
+    opacity: 0.6;
+}
+
+.ChamadoLinkVazioTexto {
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #6b7b7c;
+}
+
+/* --------------------------------------------------------------------------
+   Botão gerar/renovar. Vem de um composite SBCRM, então só o contêiner é
+   controlado aqui; o botão em si é alcançado por .ui-button.
+   -------------------------------------------------------------------------- */
+.ChamadoLinkGerar {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ChamadoLinkGerar .ui-button {
+    min-height: 38px;
+    margin: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile / tablet — botões de largura total e validade em linha própria
+   -------------------------------------------------------------------------- */
+@media (max-width: 800px) {
+    .ChamadoLinkFieldset {
+        margin-bottom: 14px;
+    }
+
+    .ChamadoLinkFieldset.ui-fieldset {
+        padding: 12px 12px 14px;
+        border-radius: 4px;
+    }
+
+    .ChamadoLinkLegenda {
+        white-space: normal;
+    }
+
+    .ChamadoLinkForm .ChamadoLinkBotao.ui-button {
+        -webkit-flex: 1 1 140px;
+        flex: 1 1 140px;
+        justify-content: center;
+        min-height: 44px;
+    }
+
+    /* a validade deixa de disputar a linha com os botões */
+    .ChamadoLinkValidade {
+        -webkit-flex: 1 1 100%;
+        flex: 1 1 100%;
+        margin-left: 0;
+        white-space: normal;
+    }
+
+    .ChamadoLinkGerar .ui-button {
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+        justify-content: center;
+        width: 100%;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 500px) {
+    .ChamadoLinkEndereco {
+        padding: 8px 10px;
+    }
+
+    .ChamadoLinkEndereco .ChamadoLinkUrl,
+    .ChamadoLinkEndereco label.ChamadoLinkUrl {
+        font-size: 12px;
+    }
+
+    /* um botão por linha: rótulo inteiro visível e alvo de toque cheio */
+    .ChamadoLinkForm .ChamadoLinkBotao.ui-button {
+        -webkit-flex: 1 1 100%;
+        flex: 1 1 100%;
+    }
+}

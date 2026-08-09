@@ -5,9 +5,9 @@
  */
 package org.coletivoJava.fw.projetos.agendamentoPublico.controller.mapeamentoAgenda;
 
+import br.org.carameloCode.erp.modulo.agenda.api.FiltroDisponibilidadeHorario;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.TokenLinhaDoTempoDeLorean;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ErroAtingiuFinalLinhaDoTempoPermita;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.ErroAtingiuFinalLinhaDoTempoPermita;
 import org.junit.Test;
 
 /**
@@ -22,7 +22,7 @@ public class TokenLinhaDoTempoDeLoreanTest {
      */
     @Test
     public void testSaltarProximoDiaDisponivel() throws Exception {
-        EscopoPesquisaMelhorHorario escopo = new EscopoPesquisaMelhorHorario();
+        FiltroDisponibilidadeHorario escopo = new FiltroDisponibilidadeHorario(null, null, null);
 
         TokenLinhaDoTempoDeLorean meuDeLorean = new TokenLinhaDoTempoDeLorean(escopo);
         try {

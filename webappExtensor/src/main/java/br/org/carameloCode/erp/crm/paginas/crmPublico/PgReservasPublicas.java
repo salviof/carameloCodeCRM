@@ -40,11 +40,13 @@ import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ErroAtingiuFinalLinhaDoTempoPermita;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
@@ -70,18 +72,9 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
 
     private HorarioDisponivelAtendimentoPublico horario;
 
-    private AgendaDisponibilidade agendaDisponivel;
-
     private String leadNome;
     private String leadTelefone;
-
-    public AgendaDisponibilidade getAgendaDisponivel() {
-        return agendaDisponivel;
-    }
-
-    public void atualizarListaHorariosDisponiveis() throws ErroAtingiuFinalLinhaDoTempoPermita {
-        agendaDisponivel.loadgenda15Dias();
-    }
+    private AgendaDisponibilidade agendaDisponibilidade;
 
     @Override
     public void executarAcaoSelecionada() {
@@ -98,10 +91,29 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
 
     }
 
+    private EscopoPesquisaMelhorHorario escopoPesquisa;
+
+    @Override
+    public EscopoPesquisaMelhorHorario getEscopoPesquisa() {
+        TokenAcessoDinamico token = (TokenAcessoDinamico) getParametroInstanciado(parametroToken).getValor();
+        EscopoPesqHorarioPublicado escopoPublico = (EscopoPesqHorarioPublicado) getParametroInstanciado(parametroEscopo).getValor();
+        if (escopoPublico != null && escopoPublico.getId() != Long.valueOf(token.getCodigoEntidade())) {
+            escopoPublico = null;
+            executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
+        }
+        if (escopoPublico != null) {
+
+            escopoPesquisa = UtilSBPersistencia.loadEntidade(escopoPublico, getEMPagina());
+
+        } else {
+            executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
+        }
+        return escopoPesquisa;
+    }
+
     @PostConstruct
     public void inicio() {
 
-        TokenAcessoDinamico token = (TokenAcessoDinamico) getParametroInstanciado(parametroToken).getValor();
         leadNome = UtilSBWPServletTools.cookieLerValor("LEAD_NOME");
         leadTelefone = UtilSBWPServletTools.cookieLerValor("LEAD_TELEFONE");
         if (leadTelefone == null) {
@@ -113,23 +125,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
             String celComMascara = UtilCRCStringTelefone.gerarTelefoneComMascaraSimples(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone));
             novoContato.setCelular(UtilCRCStringFiltros.filtrarApenasNumeros(celComMascara));
         }
-        EscopoPesqHorarioPublicado escopoPublico = (EscopoPesqHorarioPublicado) getParametroInstanciado(parametroEscopo).getValor();
-        if (escopoPublico != null && escopoPublico.getId() != Long.valueOf(token.getCodigoEntidade())) {
-            escopoPublico = null;
-            executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
-        }
-        if (escopoPublico != null) {
-            agendaDisponivel = new AgendaDisponibilidade();
-            escopoPublico = UtilSBPersistencia.loadEntidade(escopoPublico, getEMPagina());
-            agendaDisponivel.setEscopo(escopoPublico);
-            try {
-                agendaDisponivel.loadgenda15Dias();
-            } catch (ErroAtingiuFinalLinhaDoTempoPermita ex) {
-                //Logger.getLogger(PgReservasPublicas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
-        }
+
         String celInternancional = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone);
         ContatoProspecto contatoExistente = (ContatoProspecto) UtilSBPersistencia.gerarConsultaDeEntidade(ContatoProspecto.class, getEMPagina())
                 .addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, celInternancional).getPrimeiroRegistro();
@@ -148,15 +144,12 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
 
     }
 
-    public List<HorarioDisponivelAtendimentoPublico> getHorariosDisponiveis() {
-        if (agendaDisponivel == null || agendaDisponivel.getHorariosDisponiveis().isEmpty()) {
-            try {
-                atualizarListaHorariosDisponiveis();
-            } catch (ErroAtingiuFinalLinhaDoTempoPermita ex) {
-                Logger.getLogger(PgReservasPublicas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return agendaDisponivel.getHorariosDisponiveis();
+    public AgendaDisponibilidade getAgendaDisponibilidade() {
+        return agendaDisponibilidade;
+    }
+
+    public void setAgendaDisponibilidade(AgendaDisponibilidade agendaDisponibilidade) {
+        this.agendaDisponibilidade = agendaDisponibilidade;
     }
 
     public ContatoAnonimoDadoTansitorio getNovoContato() {
@@ -240,5 +233,20 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
 
     public int getStep() {
         return step;
+    }
+
+    @Override
+    public ComoUsuario getUsuarioAtendente() {
+        return getEscopoPesquisa().getAtendentes().get(0);
+    }
+
+    @Override
+    public ComoUsuario getUsuarioAtendedido() {
+        return null;
+    }
+
+    @Override
+    public TipoAgendamentoAtdmPublico getTipoAgendamento() {
+        return getEscopoPesquisa().getTiposAgendamentosDisponiveis().get(0);
     }
 }

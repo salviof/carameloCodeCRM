@@ -78,70 +78,7 @@
     <h:panelGroup transient="true" rendered="#{!sessaoAtualSBWP.usuario.umUsuarioDoCliente and !sessaoAtualSBWP.usuario.umUsuarioConvidado}" layout="block" >
         <li>
 
-            <a class="menulink Animated05"><i class="fa fa-address-card" ></i>  Minha Conta </a>
-            <ul style="margin-left:-145px;">
 
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditar).urlDeAcesso} ">
-                        <h:panelGroup styleClass="Container12 FontAdamantiumRegular" layout="block" style="margin: 10px" >
-                            <SBCRM:avatar somenteLeitura="trur" usuario="#{sessaoAtualSBWP.usuario}"  altura="40" />
-                            <span style="margin-left: 50px" class="FontAdamantiumBold" > #{sessaoAtualSBWP.usuario.nome}</span>
-                            <span style="margin-left: 50px"> #{sessaoAtualSBWP.usuario.grupo.nome}</span>
-                            <div class="quebraBlocoComEspacoVertical10"/>
-                        </h:panelGroup>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditar).urlDeAcesso} ">
-                        <i class="fa fa-user-circle-o Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold">  Cadastro </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmAlterarSenha).urlDeAcesso} ">
-                        <i class="fa fa-key  Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold">  Senha </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmAlterarSenhaMatrix).urlDeAcesso} ">
-                        <i class="fa fa-comments-o  Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold">  Senha Chat  </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditarAssinaturaEmail).urlDeAcesso}">
-                        <i class=" fa fa-pencil Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Assinatura de e-mail.</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditarServidorEnvioPersonalizado).urlDeAcesso} ">
-                        <i class="fa fa-paper-plane-o  Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Servidor de e-mail </span>
-                    </a>
-                </li>
-
-
-                <li>  <SBAcaoNav:linkDeAcao acao="#{acoesAtendimentoCrm_CalendarioGoogleMb.calendarioGoogleFrmSincronizacao}" tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"/></li>
-                <li>  <SBAcaoNav:linkDeAcao acao="#{acoesAdminCrm_ConfiguracoesGeraisMb.configuracoesGeraisFrmReceberEmails}" tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"/></li>
-                <li><a href="https://campanha.casanovadigital.com.br"><i class="icon-attachment Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold">  MAUTIC </span></a></li>
-
-
-
-                <li>  <span class="FontAdamantiumBold">
-                        <h:form>
-                            <p:commandLink actionListener="#{controleDeSessaoWeb.efetuarLogOut}"  oncomplete="javascript:window.location='#{infoWebApp.urlPagina}';">
-                                <li><i class="icon-lock-stroke Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Sair </span></li>
-                            </p:commandLink>
-                        </h:form>
-                    </span>
-                </li>
-
-
-
-            </ul>
-            <SBLogin:notificacoes/>
         </li>
         <li>
 

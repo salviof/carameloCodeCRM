@@ -5,12 +5,13 @@
  */
 package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.agendaconsultordefiniragenda;
 
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import cucumber.api.CucumberOptions;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.ConfigPersistCRMDemostracao;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import org.junit.runner.RunWith;
 import testesFW.cucumber.CucumberSBTestes;
 import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;
@@ -26,8 +27,8 @@ import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;
 )
 public class FluxoAgendaDoConsultor extends TesteIntegracaoFuncionalidadeCucumber {
 
-    public final static EscopoPesquisaMelhorHorario escopoAtendimentoRemoto = new EscopoPesquisaMelhorHorario();
-    public final static EscopoPesquisaMelhorHorario escopoAtendimentoPresencial = new EscopoPesquisaMelhorHorario();
+    public final static AgendaDisponibilidade escopoAtendimentoRemoto = new AgendaDisponibilidade(new EscopoPesqHorarioPublicado());
+    public final static AgendaDisponibilidade escopoAtendimentoPresencial = new AgendaDisponibilidade(new EscopoPesqHorarioPublicado());
 
     public static final String NOMEUSUARIO_ATENDIMENTO = "atendimento@casanovadigital.com.br";
     public static final String SENHA_ATENDIMENTO = "123";

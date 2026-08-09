@@ -7,6 +7,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
     xmlns:paginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:acoes="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo" >
@@ -18,9 +19,6 @@
         <div class="CardTopic " style="margin-left: 10px; height: 120px;padding: 10px; position: relative;">
 
 
-            <div class="" style="position: absolute;top: 9px;left: 90px;" >
-                #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}
-            </div>
             <span class="CardSubTopic">
 
                 <h:panelGroup style="margin-top: 20px;" styleClass="fa fa-unlock " rendered="#{pgDocumentoPessoa.categoriaArquivoEquipe.compartilharComConvidados}"  >
@@ -35,18 +33,22 @@
                     tipoOrganizacao="OrganizadorContainerEsquerda"
                     pstCliente="false"
                     estiloTamanho="Fs30"
+
                     tamanhoContator="pequeno"
 
                     />
+                <crmArquivo:pasta pasta="#{pgDocumentoPessoa.categoriaArquivoEquipe}" link="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
+                                           pgDocumentoPessoa.pessoa,
+                                           pgDocumentoPessoa.categoriaArquivoEquipe)}"
+                                  pastaAberta="true"
+                                  />
+
             </div>
 
-            <p:link  href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
-                             pgDocumentoPessoa.pessoa,
-                             pgDocumentoPessoa.categoriaArquivoEquipe)}" >
-                <i class="#{pgDocumentoPessoa.categoriaArquivoEquipe.icone} Fs40 Fleft MarRight10"></i>
-            </p:link>
-            <br/>
-            <div class="quebraBlocoComEspacoVertical50 somenteMobile"/>
+
+
+
+
 
 
             <h:panelGroup styleClass="Container12" layout="block" >
@@ -54,12 +56,18 @@
                 <span class="CardSubTopic" style="z-index: 99910000;">
                     <h:panelGroup styleClass="Container3 Fright" layout="block" style="height: 100px;" >
                         <h:panelGroup >
+
                             <p:link
+                                styleClass="BtnNovaPasta"
+                                title="Criar nova subpasta"
                                 rendered="#{pgDocumentoPessoa.subPastaEquipe==null}"
                                 href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SubpastaMbGestao.subpastaFrmNovoPastaEquipe,
                                         pgDocumentoPessoa.pessoa,
                                         pgDocumentoPessoa.categoriaArquivoEquipe)}">
-                                <p:graphicImage name="/img/novaPasta.jpg" height="60" />
+                                <span class="crcNovaPasta">
+                                    <i class="fa-regular fa-folder crcNovaPasta-base"></i>
+                                    <i class="fa-solid fa-plus crcNovaPasta-mais"></i>
+                                </span>
                             </p:link>
                             <h:form>
 
@@ -83,16 +91,21 @@
                             </h:form>
                         </h:panelGroup>
                         <p:link
+                            styleClass="BtnNovaPasta"
                             rendered="#{pgDocumentoPessoa.subPastaEquipe!=null}"
                             href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SubpastaMbGestao.subpastaFrmNovoPastaEquipe,
                                     pgDocumentoPessoa.pessoa,
                                     pgDocumentoPessoa.subPastaEquipe)}">
-                            <p:graphicImage name="/img/novaPasta.jpg" height="60" />
+                            <span class="crcNovaPasta">
+                                <i class="fa-regular fa-folder crcNovaPasta-base"></i>
+                                <i class="fa-solid fa-plus crcNovaPasta-mais"></i>
+                            </span>
                         </p:link>
 
                         <c:forEach items="#{pgDocumentoPessoa.subPastasEquipe}" var="subPasta"  >
 
                             <p:link
+
                                 href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe,
                                         pgDocumentoPessoa.categoriaArquivoEquipe,subPasta,pgDocumentoPessoa.pessoa)}">
                                 <h:panelGroup layout="block" styleClass="PastaDoDiretorio  fa fa-folder-o" style="margin: 6px;" >
@@ -120,7 +133,49 @@
                              >
             </p:remoteCommand>
         </h:form>
-        <p:fieldset  style="border: 0px;">
+
+        <p:fieldset style="border:0px;"
+                    rendered="#{pgDocumentoPessoa.categoriaArquivoEquipe.getCampoByNomeOuAnotacao('temSolicitacaoParaMim').valor and !pgDocumentoPessoa.ignorarNotificacao}">
+
+            <h:panelGroup layout="block" styleClass="crcSolicitacoes">
+
+                <h:panelGroup layout="block" styleClass="crcSolicitacoes-head">
+                    <span class="fa fa-bell-o crcSolicitacoes-head-icone"></span>
+                    <h:panelGroup layout="block" styleClass="crcSolicitacoes-head-txt">
+                        <strong>TEM #{pgDocumentoPessoa.solicitacoesPastaEquipe.size()}
+                            #{pgDocumentoPessoa.solicitacoesPastaEquipe.size() > 1 ? 'SOLICITAÇÕES' : 'SOLICITAÇÃO'} PARA VOCÊ!</strong>
+                        <span>O que você quer fazer?</span>
+                    </h:panelGroup>
+                    <h:form styleClass="crcSolicitacoes-head-acao">
+                        <p:commandButton value="Ignorar" icon="fa fa-eye-slash"
+                                         styleClass="crcSolicitacoes-ignorar"
+                                         actionListener="#{pgUtil.atualizaTelaPorID(layoutIdsAreasConhecidas.AREA_CONTEUDO)}">
+                            <f:setPropertyActionListener target="#{pgDocumentoPessoa.ignorarNotificacao}" value="true" />
+                        </p:commandButton>
+                    </h:form>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="crcSolicitacoes-lista">
+                    <c:forEach items="#{pgDocumentoPessoa.solicitacoesPastaEquipe}" var="solicitacao">
+                        <h:panelGroup layout="block" styleClass="crcSolicitacoes-item">
+                            <acoes:linkDeAcaoUrlPersonalizado
+                                label="Atender: #{solicitacao.observacao}"
+                                classeEstilo="botaoVerde crcSolicitacoes-atender"
+                                url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmEnviarArquivoEquipe,solicitacao)}"
+                                acao="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrEnviarArquivoEquipe}" />
+                            <h:panelGroup layout="block" styleClass="crcSolicitacoes-de">
+                                <span class="crcSolicitacoes-de-rotulo">de</span>
+                                <crm:avatar usuario="#{solicitacao.usuarioSolicitante}" somenteLeitura="true" mostrarNome="true" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </c:forEach>
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </p:fieldset>
+
+
+        <p:fieldset  style="border: 0px;" rendered="#{!pgDocumentoPessoa.categoriaArquivoEquipe.getCampoByNomeOuAnotacao('temSolicitacaoParaMim').valor or pgDocumentoPessoa.ignorarNotificacao}">
             <h:form  enctype="multipart/form-data">
                 <p:fileUpload
                     mode="advanced"  multiple="true"
@@ -144,10 +199,12 @@
                 </p:fileUpload>
             </h:form>
 
-            <h:panelGroup styleClass="Container12" style="margin-top: -250px; padding-left: 50%;" layout="block" >
-
-                <p:graphicImage  library="img" alt="Arraste arquivos aqui para salvar este arquivo em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}." name="upload-illustration.png" />
-                Arraste arquivos aqui para salvar este arquivo em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}.
+            <h:panelGroup styleClass="Container12 crcAreaUploadIlustracao"
+                          style="margin-top: -250px; padding-left: 50%;" layout="block">
+                <p:graphicImage library="img"
+                                alt="Arraste arquivos aqui para salvar em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}."
+                                name="upload-illustration.png" />
+                Arraste arquivos aqui para salvar em #{pgDocumentoPessoa.categoriaArquivoEquipe.nome}.
             </h:panelGroup>
         </p:fieldset>
         <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
@@ -160,9 +217,20 @@
                     />
 
             </c:forEach>
-
         </p:fieldset>
-
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerDireita">
+            <h:panelGroup layout="block" >
+                <p:link
+                    styleClass="BtnSolicitarArquivo Fs30"
+                    title="Solicitar um arquivo nesta pasta"
+                    href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovoArquivoEquipe,pgDocumentoPessoa.pessoa,pgDocumentoPessoa.categoriaArquivoEquipe)}">
+                    <span class="crcSolicitar">
+                        <i class="fa-regular fa-hand crcSolicitar-icone"></i>
+                        <span class="crcSolicitar-txt">Solicitar um arquivo nesta pasta</span>
+                    </span>
+                </p:link>
+            </h:panelGroup>
+        </h:panelGroup>
         <crm:menuProspecto  pessoaJuridica="#{pgDocumentoPessoa.pessoa}"
                             rendered="#{pgDocumentoPessoa.pessoa!=null}"
                             />

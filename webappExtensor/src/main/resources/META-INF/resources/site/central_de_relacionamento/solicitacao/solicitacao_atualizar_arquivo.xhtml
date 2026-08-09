@@ -2,14 +2,123 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="conteudo">
-        <h:form>
+        <h:outputStylesheet  name="solicitacao/solicitacao_atualizar_arquivo.css" library="css"   />
+
+        <h:outputStylesheet name="pastas.css" library="crmArquivo" />
+        <h:panelGroup layout="block" styleClass="Container12 AtualizarArquivoPagina">
+
+            <!-- Cabeçalho: categoria da equipe + quem pediu e para quem é o documento -->
+            <h:panelGroup layout="block" styleClass="Container12 AtualizarArquivoCabecalho">
+                <h:panelGroup layout="block" rendered="#{pgSolicitacaoAtendimento.entidadeSelecionada.comoSolicitacaoAtualizacao.comoSolicitacaoAtualizacao.arquivo.categoriaArqEquipe==null}" >
+                    <i class="fa fa-folder-open-o AtualizarArquivoCabecalhoIcone"></i>
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{pgSolicitacaoAtendimento.entidadeSelecionada.comoSolicitacaoAtualizacao.comoSolicitacaoAtualizacao.arquivo.categoriaArqEquipe!=null}" >
+                    <crmArquivo:pasta pasta="#{servicoArquivos.getDadosCategoria(pgSolicitacaoAtendimento.entidadeSelecionada.comoSolicitacaoAtualizacao.comoSolicitacaoAtualizacao.arquivo)}"
+                                      link="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_DocumentosPessoaMbGestao.documentosPessoaFrmListarArquivosPastaEquipe, pgSolicitacaoAtendimento.entidadeSelecionada.pessoa, pgSolicitacaoAtendimento.entidadeSelecionada.comoSolicitacaoAtualizacao.comoSolicitacaoAtualizacao.arquivo.categoriaArqEquipe)}"
+                                      />
+
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="AtualizarArquivoCabecalhoTextos">
+
+                    <span class="CardTopic AtualizarArquivoTitulo">#{pgSolicitacaoAtendimento.categoriaEquipe.nome}</span>
+
+                    <h:panelGroup layout="block" styleClass="CardSubTopic FontAdamantiumBold AtualizarArquivoSubtitulo">
+                        <span class="AtualizarArquivoLinhaInfo">
+                            <i class="fa fa-user-o AtualizarArquivoLinhaInfoIcone"></i>
+                            Atendendo a solicitação de
+                            <b>#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante.nome}</b>
+                        </span>
+                        <span class="AtualizarArquivoLinhaInfo">
+                            <i class="fa fa-share-square-o AtualizarArquivoLinhaInfoIcone"></i>
+                            Compartilhamento de documento para
+                            <b>#{pgSolicitacaoAtendimento.entidadeSelecionada.pessoa.nome}</b>
+                        </span>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="AtualizarArquivoEquipe" id="usrTEam" />
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <!-- Corpo: à esquerda o pedido do solicitante, à direita o arquivo e a ação -->
+            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerExpandido AtualizarArquivoCorpo">
+
+                <h:panelGroup layout="block" styleClass="Container5 AtualizarArquivoSolicitante">
+
+                    <h:panelGroup layout="block" styleClass="AtualizarArquivoAvatar">
+                        <crm:avatar usuario="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitante}" somenteLeitura="true" altura="90" />
+                        <h:panelGroup layout="block" styleClass="fa fa-hand-paper-o AtualizarArquivoMao" />
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="AtualizarArquivoObservacao"
+                                  rendered="#{not empty pgSolicitacaoAtendimento.entidadeSelecionada.observacao}">
+                        <i class="fa fa-quote-left AtualizarArquivoObservacaoIcone"></i>
+                        <span class="AtualizarArquivoObservacaoTexto">#{pgSolicitacaoAtendimento.entidadeSelecionada.observacao}</span>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="Container7 OrganizadorContainerEsquerda AtualizarArquivoArquivo">
+
+                    <crmArquivo:arquivoDetalhe
+                        arquivo="#{pgSolicitacaoAtendimento.entidadeSelecionada.arquivo}"
+                        />
+
+                    <h:form id="frmAcaoAtualizarArquivo" styleClass="AtualizarArquivoAcaoForm">
+                        <p:fieldset id="painelAcaoAtualizarArquivo" styleClass="AtualizarArquivoAcao">
+
+                            <h:panelGroup layout="block" styleClass="AtualizarArquivoAcaoTitulo FontAdamantiumBold">
+                                Enviar versão atualizada
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="AtualizarArquivoAcaoAjuda">
+                                Selecione o arquivo atualizado para atender a esta solicitação.
+                            </h:panelGroup>
+
+                            <!-- Mesma chamada do item "Atualizar" do arquivoDetalhe: modal de envio
+                                 de arquivo + retorno via dialogReturn -->
+                            <p:commandButton id="btnAtualizarArquivoSolicitado"
+                                             value="Atualizar arquivo"
+                                             styleClass="AtualizarArquivoBotao"
+                                             actionListener="#{pgUtil.exibirModalEnvioArquivo()}"
+                                             partialSubmit="true"
+                                             process="#{pgUtil.getNomeIdPainelDoComponente(component)}"
+                                             icon="#{iconeIconeFontAwesome.REG_ATUALIZAR.tagHtml}"
+                                             >
+                                <f:setPropertyActionListener target="#{paginaAtual.infoPagina.comoPaginaDeGestao.campoInstSelecionado}"
+                                                             value="#{pgSolicitacaoAtendimento.entidadeSelecionada.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo')}" />
+                                <p:ajax event="dialogReturn"
+                                        listener="#{pgSolicitacaoAtendimento.informarAtualizacaoArquivo()}"
+                                        update="#{pgUtil.getNomeIdPFieldSetPai(component)} @(.PainelDetalhesArquivo)"/>
+                            </p:commandButton>
+
+                        </p:fieldset>
+                    </h:form>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <p:fieldset styleClass="Container12 AtualizarArquivoSecaoCategoria" id="arquivosDaCategoria" >
 
 
 
 
-        </h:form>
+            </p:fieldset>
+
+        </h:panelGroup>
+
+        <crm:menuProspecto  pessoaJuridica="#{pgSolicitacaoAtendimento.pessoa}"
+                            rendered="#{pgSolicitacaoAtendimento.pessoa!=null}"
+                            />
     </ui:define>
 </ui:composition>

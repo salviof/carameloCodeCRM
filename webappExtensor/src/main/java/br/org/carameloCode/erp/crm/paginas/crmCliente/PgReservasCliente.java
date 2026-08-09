@@ -24,15 +24,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
+import br.org.carameloCode.erp.crm.paginas.crmReservas.ServicoCrmReserva;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -41,6 +41,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCR
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.InfoAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 /**
  *
@@ -57,8 +58,6 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     @InfoParametroURL(nome = "Reserva Presencial", tipoParametro = TIPO_PARTE_URL.ENTIDADE, representaEntidadePrincipalMB = true, tipoEntidade = ReservaHoraPresencial.class, obrigatorio = false)
     private ParametroURL parametroReservaPresencial;
 
-    private AgendaDisponibilidade agendaDisponivel;
-
     private UsuarioCrmCliente usuarioLogado;
     private UsuarioCRM usrRepComercial;
     private UsuarioCRM usrGestaoSucesso;
@@ -71,9 +70,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     private ComoChatSalaBean canalRocketChat;
 
-    public AgendaDisponibilidade getAgendaDisponivel() {
-        return agendaDisponivel;
-    }
+    private AgendaDisponibilidade agendaDisponibilidade;
 
     @Inject
     private ServicoChatView servicoMatrix;
@@ -84,14 +81,35 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     private ParametroURL prAtendentes;
 
     private List<TipoAgendamentoAtdmPublico> tiposDisponiveis;
+    private EscopoPesquisaMelhorHorario escopoPesquisa;
+
+    @Override
+    public AgendaDisponibilidade getAgendaDisponibilidade() {
+        return agendaDisponibilidade;
+    }
+
+    @Override
+    public void setAgendaDisponibilidade(AgendaDisponibilidade agendaDisponibilidade) {
+        this.agendaDisponibilidade = agendaDisponibilidade;
+    }
+
+    @Override
+    public EscopoPesquisaMelhorHorario getEscopoPesquisa() {
+        if (usrAtendenteSelecionado != null) {
+            if (escopoPesquisa == null) {
+                escopoPesquisa = UtilSBPersistencia.loadEntidade((EscopoPesquisaMelhorHorario) usrAtendenteSelecionado.getCPinst(CPUsuarioCRM.escopoagendaclientes).getValor(), getEMPagina());
+            }
+        }
+        return escopoPesquisa;
+    }
 
     @Override
     public String getXhtmlAcaoAtual() {
         String xhtml = super.getXhtmlAcaoAtual();
         if (xhtml != null) {
             if (xhtml.equals(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS.getRegistro().getComoFormulario().getXhtml())) {
-                if (agendaDisponivel.getEscopo() != null) {
-                    if (agendaDisponivel.getEscopo().getTipoAgendamento() == null) {
+                if (getEscopoPesquisa() != null) {
+                    if (getTipoAgendamento() == null) {
                         setAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
                         xhtmlAcaoAtual = FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA.getRegistro().getComoFormulario().getXhtml();
                         return xhtmlAcaoAtual;
@@ -106,6 +124,74 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     @Override
     public void executarAcao(ReservaHorarioCRM pEntidadeSelecionada) {
         super.executarAcao(pEntidadeSelecionada); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    private void atualizarDisponibilidades() {
+
+        if (getEscopoPesquisa() != null) {
+            if (usrAtendenteSelecionado != null) {
+                EscopoPesquisaMelhorHorario escopoAtual = UtilSBPersistencia.loadEntidade((EscopoPesquisaMelhorHorario) usrAtendenteSelecionado.getCPinst(CPUsuarioCRM.escopoagendaclientes).getValor(), getEMPagina());
+                if (!escopoAtual.equals(escopoPesquisa)) {
+                    escopoPesquisa = escopoAtual;
+                }
+            }
+
+        } else {
+            return;
+        }
+
+        if (getParametroInstanciado(parametroReservaPresencial)
+                .isValorDoParametroFoiConfigurado()
+                || getParametroInstanciado(parametroReservaRemoto).isValorDoParametroFoiConfigurado()) {
+
+        }
+        if (getEscopoPesquisa().getTiposAgendamentosDisponiveis()
+                .size() > 1) {
+            if (isAcaoSelecionadaIgualA(FabAcaoCRMCliente.RESERVAS_FRM_LISTAR)) {
+                if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
+                    if (getEscopoPesquisa().getTiposAgendamentosDisponiveis().contains((TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor())) {
+                        getEntidadeSelecionada().setTipoAgendamento((TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor());
+                    }
+                }
+            }
+            if (getAgendaDisponibilidade() == null || getAgendaDisponibilidade().getTipoAgendamento() == null) {
+                if (getUsuarioAtendente() != null) {
+                    executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
+                } else {
+                    executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
+                }
+                return;
+            }
+        } else {
+            if (getEscopoPesquisa().getTiposAgendamentosDisponiveis().size() == 1) {
+                defineTipoDeReserva(getEscopoPesquisa().getTiposAgendamentosDisponiveis().get(0));
+
+            } else {
+                if (getEscopoPesquisa().getTiposAgendamentosDisponiveis().isEmpty()) {
+                    tiposDisponiveis = new ArrayList<>();
+                    ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(DisponibilidadeAtdmtPublico.class, getEMPagina());
+                    consulta.addCondicaoManyToManyContendoObjeto("atendentesDisponiveis", usrAtendenteSelecionado);
+                    List<DisponibilidadeAtdmtPublico> disponibilidades = consulta.resultadoRegistros();
+                    disponibilidades.stream().forEach(disp -> {
+                        disp.getTiposAgendamentosPublicos().stream().forEach(tipoAgenda -> {
+                            if (!tiposDisponiveis.contains(tipoAgenda)) {
+                                tiposDisponiveis.add(tipoAgenda);
+                            }
+                        });
+                    });
+                    if (!tiposDisponiveis.isEmpty()) {
+                        executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
+                        return;
+                    } else {
+                        executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
+                    }
+                }
+            }
+        }
+        if (getAgendaDisponibilidade() != null && !getAgendaDisponibilidade().getHorariosDisponiveis().isEmpty()) {
+            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
+        }
+
     }
 
     @PostConstruct
@@ -163,80 +249,6 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         }
     }
 
-    private void atualizarDisponibilidades() {
-
-        if (usrAtendenteSelecionado != null) {
-
-            EscopoPesquisaMelhorHorario escopoSelecionado = UtilSBPersistencia.loadEntidade((EscopoPesquisaMelhorHorario) usrAtendenteSelecionado.getCPinst(CPUsuarioCRM.escopoagendaclientes).getValor(), getEMPagina());
-            if (agendaDisponivel == null) {
-                agendaDisponivel = new AgendaDisponibilidade();
-                agendaDisponivel.setEscopo(escopoSelecionado);
-            } else {
-                if (!agendaDisponivel.getEscopo().equals(escopoSelecionado)) {
-                    agendaDisponivel.setEscopo(escopoSelecionado);
-                }
-            }
-
-        } else {
-            return;
-        }
-
-        if (agendaDisponivel == null) {
-            return;
-        }
-        boolean mostrarReservarsPresenciais = true;
-        boolean mostrarReservasREmotas = true;
-
-        if (getParametroInstanciado(parametroReservaPresencial)
-                .isValorDoParametroFoiConfigurado()
-                || getParametroInstanciado(parametroReservaRemoto).isValorDoParametroFoiConfigurado()) {
-
-        }
-        if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis()
-                .size() > 1) {
-            if (isAcaoSelecionadaIgualA(FabAcaoCRMCliente.RESERVAS_FRM_LISTAR)) {
-                if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
-                    if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().contains((TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor())) {
-                        agendaDisponivel.getEscopo().setTipoAgendamento((TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor());
-                    }
-                }
-            }
-            if (agendaDisponivel.getEscopo().getTipoAgendamento() == null) {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
-
-                return;
-            }
-        } else {
-            if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().size() == 1) {
-                defineTipoDeReserva(agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().get(0));
-
-            } else {
-                if (agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
-                    tiposDisponiveis = new ArrayList<>();
-                    ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(DisponibilidadeAtdmtPublico.class, getEMPagina());
-                    consulta.addCondicaoManyToManyContendoObjeto("atendentesDisponiveis", usrAtendenteSelecionado);
-                    List<DisponibilidadeAtdmtPublico> disponibilidades = consulta.resultadoRegistros();
-                    disponibilidades.stream().forEach(disp -> {
-                        disp.getTiposAgendamentosPublicos().stream().forEach(tipoAgenda -> {
-                            if (!tiposDisponiveis.contains(tipoAgenda)) {
-                                tiposDisponiveis.add(tipoAgenda);
-                            }
-                        });
-                    });
-                    if (!tiposDisponiveis.isEmpty()) {
-                        executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
-                        return;
-                    }
-                }
-            }
-        }
-
-        if (!agendaDisponivel.isTemAgenda()) {
-            executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
-        }
-
-    }
-
     public void setUsrAtendenteSelecionado(UsuarioCRM pUsrAtendenteSelecionado) {
 
         boolean mudouAtendente = pUsrAtendenteSelecionado != usrAtendenteSelecionado;
@@ -253,7 +265,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     public List<TipoAgendamentoAtdmPublico> getTiposDisponiveis() {
 
         if (tiposDisponiveis == null || tiposDisponiveis.isEmpty()) {
-            if (!agendaDisponivel.getEscopo().getTiposAgendamentosDisponiveis().isEmpty()) {
+            if (!getEscopoPesquisa().getTiposAgendamentosDisponiveis().isEmpty()) {
                 tiposDisponiveis = new ArrayList<>();
                 ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(DisponibilidadeAtdmtPublico.class,
                         getEMPagina());
@@ -278,7 +290,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     public void defineTipoDeReserva(TipoAgendamentoAtdmPublico tipoAgendamento) {
         if (tipoAgendamento != null) {
 
-            getEscopoPesquisa().setTipoAgendamento(tipoAgendamento);
+            getEntidadeSelecionada().setTipoAgendamento(tipoAgendamento);
 
             //   escopoSelecionado.getCampoInstanciadoByNomeOuAnotacao(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
         }
@@ -292,13 +304,13 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     public void atualizarTelaSelecao() {
 
-        if (getAgendaDisponivel() != null && (getAgendaDisponivel().getEscopo().getAtendentes() == null || getAgendaDisponivel().getEscopo().getAtendentes().isEmpty())) {
+        if (getEscopoPesquisa() != null && (getEscopoPesquisa().getAtendentes() == null || getEscopoPesquisa().getAtendentes().isEmpty())) {
             executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
-        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().getEscopo().getTipoAgendamento() == null) {
+        } else if (getEscopoPesquisa() != null && getTipoAgendamento() == null) {
 
             executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
 
-        } else if (getAgendaDisponivel() != null && getAgendaDisponivel().isTemAgenda()) {
+        } else if (getEscopoPesquisa() != null && getAgendaDisponibilidade() != null && (getAgendaDisponibilidade().getHorariosDisponiveis().isEmpty() || getAgendaDisponibilidade().isTemAgenda())) {
             executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS);
         } else {
             executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_SEM_ATENDIMENTO);
@@ -373,21 +385,6 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     }
 
-    public TipoAgendamentoAtdmPublico getTipoAgendamento() {
-        if (agendaDisponivel == null) {
-            return null;
-        }
-
-        return agendaDisponivel.getEscopo().getTipoAgendamento();
-    }
-
-    public EscopoPesquisaMelhorHorario getEscopoPesquisa() {
-        if (agendaDisponivel == null) {
-            return null;
-        }
-        return agendaDisponivel.getEscopo();
-    }
-
     public UsuarioCrmCliente getUsuarioLogado() {
         return usuarioLogado;
     }
@@ -406,13 +403,6 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     public boolean isTemGestorDeSucesso() {
         return temGestorDeSucesso;
-    }
-
-    public boolean isTemAgenda() {
-        if (agendaDisponivel == null) {
-            return false;
-        }
-        return agendaDisponivel.isTemAgenda();
     }
 
     public boolean isListarEntidadesLasyMode() {
@@ -441,6 +431,55 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
 
     public BP_DataModelLasy<ReservaHorarioCRM> getListaEntidadeLasy() {
         return listaEntidadeLasy;
+    }
+
+    @Override
+    public ComoUsuario getUsuarioAtendente() {
+        return getUsrAtendenteSelecionado();
+    }
+
+    public boolean isUmAtendidoConsultorVendas() {
+        if (getUsuarioAtendedido() == null || getUsuarioAtendente() == null || getUsrGestaoSucesso() == null) {
+            return false;
+        }
+
+        if (getUsrGestaoSucesso().equals(getUsuarioAtendente())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isUmAtendidoGestorDeContrato() {
+        if (getUsuarioAtendedido() == null || getUsuarioAtendente() == null || getUsrGestaoSucesso() == null) {
+            return false;
+        }
+
+        if (getUsrGestaoSucesso().equals(getUsuarioAtendente())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public ComoUsuario getUsuarioAtendedido() {
+        return getUsuarioLogado();
+    }
+
+    @Override
+    public TipoAgendamentoAtdmPublico getTipoAgendamento() {
+        if (getParametroInstanciado(prTipoReserva).isValorDoParametroFoiConfigurado()) {
+            if (getEscopoPesquisa().getTiposAgendamentosDisponiveis().contains((TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor())) {
+                return (TipoAgendamentoAtdmPublico) getParametroInstanciado(prTipoReserva).getValor();
+            }
+        }
+        if (getAgendaDisponibilidade() != null) {
+            if (getAgendaDisponibilidade().getTipoAgendamento() != null) {
+                return getAgendaDisponibilidade().getTipoAgendamento();
+            }
+        }
+        return null;
     }
 
 }

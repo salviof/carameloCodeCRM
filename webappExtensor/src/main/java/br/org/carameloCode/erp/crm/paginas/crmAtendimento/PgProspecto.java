@@ -403,7 +403,8 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
     public void executarAcao(Pessoa pEntidadeSelecionada) {
 
         FabAcaoCRMAtendimento acaoExecutada = (FabAcaoCRMAtendimento) getEnumAcaoAtual();
-        if (acaoExecutada.equals(FabAcaoCRMAtendimento.PROSPECTO_FRM_ACESSO_PESSOA_NEGADO)) {
+        if (!acaoExecutada.equals(FabAcaoCRMAtendimento.PROSPECTO_FRM_ACESSO_PESSOA_NEGADO)
+                && !acaoExecutada.equals(FabAcaoCRMAtendimento.PROSPECTO_CTR_SOLICITAR_ACESSO)) {
             if (getEntidadeSelecionada() != null) {
                 if (!getEntidadeSelecionada().isUsuarioLogadoPermitido()) {
                     if (!SBCore.getUsuarioLogado().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {

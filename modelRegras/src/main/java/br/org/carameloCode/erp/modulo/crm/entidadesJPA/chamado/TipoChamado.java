@@ -8,6 +8,9 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
+
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -48,8 +51,7 @@ public class TipoChamado extends EntidadeSimplesORM {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "tipochamado_responsaveis",
             joinColumns = @JoinColumn(name = "tipochamado_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, caminhoParaLista = "responsaveisDisponiveis")
     @InfoCampoValorLogico(nomeCalculo = "Responsável")
     private List<UsuarioCRM> responsaveis;
@@ -57,14 +59,27 @@ public class TipoChamado extends EntidadeSimplesORM {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tipochamado_tipoDado",
             joinColumns = @JoinColumn(name = "tipochamado_id"),
-            inverseJoinColumns = @JoinColumn(name = "tipoDado_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "tipoDado_id"))
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Dados do chamado")
     private List<TipoDadoCRM> tipoDados;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     @ManyToOne(targetEntity = TipoAgendamentoAtdmPublico.class)
     private TipoAgendamentoAtdmPublico tipoAgendamentoVinculado;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "filtro_tipoChamado_meta",
+            joinColumns = @JoinColumn(name = "tipochamado_id"),
+            inverseJoinColumns = @JoinColumn(name = "meta_id"))
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Filtro Metas")
+    private List<MetaRelacionamento> metaFiltroDisp;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "filtro_tipoChamado_relacionamento",
+            joinColumns = @JoinColumn(name = "tipochamado_id"),
+            inverseJoinColumns = @JoinColumn(name = "relacionamento_id"))
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "filtro Relacionamentos")
+    private List<TipoRelacionamento> relacionemantoFiltroDisp;
 
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
@@ -153,6 +168,14 @@ public class TipoChamado extends EntidadeSimplesORM {
 
     public void setTipoAgendamentoVinculado(TipoAgendamentoAtdmPublico tipoAgendamentoVinculado) {
         this.tipoAgendamentoVinculado = tipoAgendamentoVinculado;
+    }
+
+    public List<MetaRelacionamento> getMetaFiltroDisp() {
+        return metaFiltroDisp;
+    }
+
+    public void setMetaFiltroDisp(List<MetaRelacionamento> metaFiltroDisp) {
+        this.metaFiltroDisp = metaFiltroDisp;
     }
 
 }

@@ -75,7 +75,7 @@ public class ServletCanaisPublicos extends HttpServlet {
                         if (escopo.getCPinst("ativo").getValorComoBoolean()) {
                             JsonObjectBuilder jsonAgenda = Json.createObjectBuilder();
                             jsonAgenda.add("linkDeAcesso", escopo.getLinkDeAcesso());
-                            jsonAgenda.add("tipo", escopo.getTipoAgendamento().getNome());
+                            jsonAgenda.add("tipo", escopo.getTipoEscopo());
                             JsonArrayBuilder atendentesAgenda = Json.createArrayBuilder();
                             for (UsuarioSB atendente : escopo.getAtendentes()) {
                                 JsonObjectBuilder atententeDaAgenda = Json.createObjectBuilder();

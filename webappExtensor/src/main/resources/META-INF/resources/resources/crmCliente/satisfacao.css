@@ -1,0 +1,179 @@
+/* ==========================================================
+   PAINEL DE SATISFACAO — posicionamento
+   Classes do bloco "Como voce se sente sobre a qualidade
+   dos nossos servicos?" (crmCliente/satisfacaoGrande.xhtml).
+
+   Substituem os estilos inline que existiam la:
+   - margin-top: 100px fixo, que no mobile jogava o painel
+     para fora da primeira dobra;
+   - o "legend" do titulo simulado com top/left em pixels
+     (left: 130px), que so acertava a posicao em uma largura;
+   - a classe cards-dashboard na caixa, que e uma grade feita
+     para os cards do dashboard (coluna minima de 400px) e
+     nao para tres botoes lado a lado.
+
+   Nada aqui redefine .btn-card no global: as regras dos
+   botoes sao todas escopadas por .satisfacao-opcoes, para
+   nao mexer nos outros usos de crm/botaoGrande.css.
+
+   Os pontos de quebra sao @container (largura DA CAIXA) e
+   nao @media (largura da tela): a caixa e um Container6,
+   que ocupa 48% no desktop e 100% no mobile — a tela sozinha
+   nao diz quanto espaco os botoes tem. Mesmo recurso ja
+   usado em dashboard/dashboard.css.
+   ========================================================== */
+
+:root {
+    --satisfacao-fundo:  #ffffff;
+    --satisfacao-borda:  #e3ded9;
+    --satisfacao-texto:  #4f3e3e;
+    --satisfacao-gap:    16px;
+}
+
+/* ---- faixa que envolve o painel ---- */
+.satisfacao-painel {
+    box-sizing: border-box;
+    width: 100%;
+    /* respira conforme a tela, em vez do margin-top: 100px fixo */
+    margin-top: clamp(24px, 6vw, 64px);
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* ---- o retangulo principal ---- */
+.satisfacao-caixa {
+    /* o Container6 define a largura em %; sem border-box a
+       borda e o padding somariam por fora e estourariam a linha */
+    box-sizing: border-box;
+    position: relative;          /* ancora do titulo sobre a borda */
+    container-type: inline-size; /* as @container abaixo medem esta caixa */
+    background: var(--satisfacao-fundo);
+    border: 1px solid var(--satisfacao-borda);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    padding: 20px;
+    margin: 0 auto;
+}
+
+/* ---- titulo ----
+   Padrao (caixa estreita): linha normal, centralizada, podendo
+   quebrar em duas linhas sem cavalgar a borda. */
+.satisfacao-titulo {
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.35;
+    text-align: center;
+    color: var(--satisfacao-texto);
+}
+
+/* Caixa larga o bastante para o texto caber em uma linha: o
+   titulo sobe e se apoia sobre a borda de cima, como o legend
+   de um fieldset. O fundo branco e que "corta" a borda atras
+   do texto — por isso ele acompanha --satisfacao-fundo. */
+@container (min-width: 480px) {
+    .satisfacao-caixa {
+        padding-top: 34px;
+    }
+
+    .satisfacao-titulo {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        width: max-content;
+        max-width: calc(100% - 40px);
+        padding: 0 12px;
+        background: var(--satisfacao-fundo);
+    }
+}
+
+/* ---- linha de botoes ---- */
+.satisfacao-opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: var(--satisfacao-gap);
+}
+
+/* cada botao vem embrulhado no proprio h:form (um form por acao,
+   para o ajax de um nao processar os outros). display:contents
+   tira o form do fluxo visual sem tira-lo do DOM, entao quem vira
+   item do flex e o link do botao, e nao o form. */
+.satisfacao-opcoes > form {
+    display: contents;
+}
+
+.satisfacao-opcoes .btn-card-link {
+    display: block;
+    /* as tres colunas crescem juntas e dividem a caixa por igual;
+       o teto evita botao esparramado quando sobra largura */
+    flex: 1 1 140px;
+    min-width: 120px;
+    max-width: 220px;
+}
+
+/* o card passa a herdar o tamanho da celula, no lugar dos
+   180x150 fixos de crm/botaoGrande.css */
+.satisfacao-opcoes .btn-card {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    padding: 14px 10px;
+}
+
+.satisfacao-opcoes .btn-card-text {
+    height: auto;
+    min-height: 40px;
+}
+
+/* a largura agora e elastica, entao o rotulo pode quebrar linha */
+.satisfacao-opcoes .btn-card-title {
+    white-space: normal;
+    overflow-wrap: break-word;
+    line-height: 1.25;
+}
+
+/* Caixa estreita: tres cards de 150px de altura empilhados dao
+   uma coluna comprida demais. Aqui cada opcao ocupa a largura
+   inteira e o card deita — icone a esquerda, rotulo a direita. */
+@container (max-width: 419px) {
+    .satisfacao-opcoes .btn-card-link {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .satisfacao-opcoes .btn-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 14px;
+        min-height: 0;
+        height: auto;
+        padding: 12px 16px;
+    }
+
+    .satisfacao-opcoes .btn-card-icon {
+        margin-bottom: 0;
+    }
+
+    .satisfacao-opcoes .btn-card-text {
+        min-height: 0;
+    }
+
+    .satisfacao-opcoes .btn-card-title {
+        text-align: left;
+    }
+}
+
+/* ---- mensagens do ajax ----
+   fora do flex dos botoes: dentro dele, o p:messages viraria
+   uma quarta coluna e desalinharia a distribuicao */
+.satisfacao-mensagens {
+    margin-top: 4px;
+}
+
+.satisfacao-mensagens .ui-messages:empty {
+    display: none;
+}

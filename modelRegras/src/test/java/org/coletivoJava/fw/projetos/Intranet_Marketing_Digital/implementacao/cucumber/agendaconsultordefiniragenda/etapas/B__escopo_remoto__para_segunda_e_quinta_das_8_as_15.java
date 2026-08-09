@@ -13,11 +13,11 @@ public class B__escopo_remoto__para_segunda_e_quinta_das_8_as_15 {
     @E(EtapasAgendaConsultorDefinirAgenda.E_ESCOPO_DE_PESQUISA_REMOTO_PARA_SEGUNDA_DAS_8_AS_15)
     public void implementacaoEtapa() {
         FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.CONFERENCIA.getRegistro());
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setDataInicial(new Date());
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setDiasDaSemana("0100100");
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getEscopo().setDataInicial(new Date());
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getEscopo().setDiasDaSemana("0100100");
         try {
-            FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setHorarioinicio(new SimpleDateFormat("hh:mm").parse("8:00"));
-            FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setHorarioFinal(new SimpleDateFormat("hh:mm").parse("20:00"));
+            FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getEscopo().setHorarioinicio(new SimpleDateFormat("hh:mm").parse("8:00"));
+            FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getEscopo().setHorarioFinal(new SimpleDateFormat("hh:mm").parse("20:00"));
         } catch (ParseException ex) {
             throw new UnsupportedOperationException("Erro definindo horarrio inicial");
         }

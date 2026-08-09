@@ -8,7 +8,6 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
     <ui:define name="conteudo">
-
         <div class="quebraBlocoComEspacoVertical150" />
         <div class="quebraBlocoComEspacoVertical120" />
         <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
@@ -17,6 +16,8 @@
                 acaoAgendaPresencial="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReservaNoLocal}"
                 tiposDisponiveis="#{pgMinhasReservas.tiposReserva}"
                 atendente="#{sessaoAtualSBWP.usuario}"
+                atendido="#{pgMinhasReservas.usuarioCliente}"
+                acaoEscolhaTipo="#{acoes}"
                 />
         </h:panelGroup>
 

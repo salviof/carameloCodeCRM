@@ -13,13 +13,13 @@ public class C__escopo_presencial_quarta_e_sexta_das_Oito_ate_meio_dia_e_das_15_
     @E(EtapasAgendaConsultorDefinirAgenda.E_ESCOPO_DE_PESQUISA_PRESENCIAL_QUARTA_E_SEXTA_DAS_15_AS_19)
     public void implementacaoEtapa() {
         FluxoAgendaDoConsultor.escopoAtendimentoPresencial.setTipoAgendamento(FabTipoAgendamentoPublicoCrm.PRESENCIAL.getRegistro());
-        FluxoAgendaDoConsultor.escopoAtendimentoPresencial.setDataInicial(new Date());
+        FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getEscopo().setDataInicial(new Date());
 
-        FluxoAgendaDoConsultor.escopoAtendimentoPresencial.setDiasDaSemana("0001010");
+        FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getEscopo().setDiasDaSemana("0001010");
 
         try {
-            FluxoAgendaDoConsultor.escopoAtendimentoPresencial.setHorarioinicio(new SimpleDateFormat("hh:mm").parse("8:00"));
-            FluxoAgendaDoConsultor.escopoAtendimentoPresencial.setHorarioFinal(new SimpleDateFormat("hh:mm").parse("20:00"));
+            FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getEscopo().setHorarioinicio(new SimpleDateFormat("hh:mm").parse("8:00"));
+            FluxoAgendaDoConsultor.escopoAtendimentoPresencial.getEscopo().setHorarioFinal(new SimpleDateFormat("hh:mm").parse("20:00"));
         } catch (ParseException ex) {
             throw new UnsupportedOperationException("Erro definindo horarrio inicial");
         }

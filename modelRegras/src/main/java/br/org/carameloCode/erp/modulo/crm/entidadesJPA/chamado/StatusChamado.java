@@ -10,6 +10,9 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMSta
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemCor;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemIcone;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +23,8 @@ import javax.persistence.Id;
  * @author sfurbino
  */
 @Entity
-@InfoObjetoSB(tags = "Status Chamado", plural = "Status de chamados", icone = "fa fa-life-ring",
-        fabricaVinculada = FabStatusChamado.class, modulo = ERPCrm.NOME_MODULO_ERP)
-public class StatusChamado extends EntidadeORMStatus {
+@InfoObjetoSB(tags = "Status Chamado", plural = "Status de chamados", icone = "fa fa-life-ring", fabricaVinculada = FabStatusChamado.class, modulo = ERPCrm.NOME_MODULO_ERP)
+public class StatusChamado extends EntidadeORMStatus implements ComoTemCor, ComoTemIcone, ComoStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +36,11 @@ public class StatusChamado extends EntidadeORMStatus {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.STATUS_ENUM)
     private FabStatusChamado fabStatus;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ICONE)
+    private String icone;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.COR)
+    private String cor;
 
     @Override
     public Long getId() {
@@ -66,4 +73,21 @@ public class StatusChamado extends EntidadeORMStatus {
     public boolean isModoRascunho() {
         return fabStatus.equals(FabStatusChamado.RASCUNHO);
     }
+
+    public String getIcone() {
+        return icone;
+    }
+
+    public void setIcone(String icone) {
+        this.icone = icone;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
 }

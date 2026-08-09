@@ -13,64 +13,86 @@
 
     </cc:interface>
     <cc:implementation>
-        <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />
-        <h:panelGroup styleClass="Container12"  layout="block" id="resumoReserva"  >
-            <h:panelGroup styleClass="Container12 dashboard"  layout="block"  >
-                <div class="ui-g card colorbox colorbox-4" style="position: relative;">
-                    <div class="ui-g-4">
-                        <i class="fa fa-life-ring "></i>
-                        <span class="Fs24" style="color:whitesmoke;font-weight: bold;" > #{cc.attrs.chamado.tipoChamado.nome}</span><br/><br/>
-                        <h:panelGroup styleClass="Fs16" style="color:whitesmoke;font-weight: bold; margin-top: 15px" rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}" >#{pgUtil.gerarDataHoraTexto(cc.attrs.chamado.dataHoraCriacao)}</h:panelGroup>
-                        <span class="Fs16" style="" >
+        <h:outputStylesheet name="chamado.css" library="chamado"/>
 
-                            <h:panelGroup layout="block" styleClass="Container12"  rendered="#{servicosCRM.umUsuarioAtendimentoLogado}" >
-                                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.chamado.usuarioCliente.representanteLegal)}" >
-                                    <img class=""  src="#{cc.attrs.chamado.usuarioCliente.representanteLegal.imgPequena}"
-                                         style="
-                                         min-height: 20px;
-                                         max-width: 80%;
-                                         position: relative;
-                                         top: 0px;
-                                         " />
-                                </p:link>
+        <h:panelGroup layout="block" styleClass="ChamadoCabecalhoDadosBasicos Container12">
+            <h:panelGroup layout="block" styleClass="ChamadoCabecalhoCard">
+
+                <!-- Linha superior: identificação | situação | ações -->
+                <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTopo">
+
+                    <h:panelGroup layout="block" styleClass="ChamadoCabecalhoIdentificacao">
+
+                        <h:panelGroup layout="block" styleClass="ChamadoCabecalhoCliente"
+                                      rendered="#{servicosCRM.umUsuarioAtendimentoLogado}">
+                            <p:link styleClass="ChamadoCabecalhoClienteLink"
+                                    href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.chamado.usuarioCliente.representanteLegal)}">
+                                <img class="ChamadoCabecalhoClienteImagem"
+                                     alt="#{cc.attrs.chamado.usuarioCliente.representanteLegal.nome}"
+                                     src="#{cc.attrs.chamado.usuarioCliente.representanteLegal.imgPequena}"/>
+                            </p:link>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTitulos">
+                            <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTipo FontPadraoBold">
+                                <i class="fa fa-life-ring ChamadoCabecalhoTipoIcone"></i>
+                                <span class="ChamadoCabecalhoTipoNome">#{cc.attrs.chamado.tipoChamado.nome}</span>
                             </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoCabecalhoData">
+                                <i class="fa fa-clock-o ChamadoCabecalhoDataIcone"></i>
+                                <span>#{pgUtil.gerarDataHoraTexto(cc.attrs.chamado.dataHoraCriacao)}</span>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="ChamadoCabecalhoSituacao">
+                        <span class="ChamadoCabecalhoStatus FontPadraoBold">
+                            <h:panelGroup rendered="#{not empty cc.attrs.chamado.status.icone}">
+                                <i class="#{cc.attrs.chamado.status.icone} ChamadoCabecalhoStatusIcone"></i>
+                            </h:panelGroup>
+                            <h:outputText value="#{cc.attrs.chamado.status.nome}"/>
                         </span>
-                    </div>
-                    <div class="ui-g-8 OrganizadorContainer">
+                        <span class="ChamadoCabecalhoNumero">nº #{cc.attrs.chamado.id}</span>
+                    </h:panelGroup>
 
-                        <h:panelGroup layout="block" style="position: absolute; right:0px;top:0px;" >
-                            <h:form>
-                                <p:commandButton icon="fa fa-times Fs16" value="Fechar Chamado" actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}" rendered="#{!cc.attrs.chamado.foiFinalizado}"  style="margin: 10px;"/>
-                                <p:commandButton icon="fa fa-folder-open-o Fs16" value="Abrir Chamado" actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}" rendered="#{cc.attrs.chamado.foiFinalizado}"  style="margin: 10px;"/>
-                            </h:form><!-- comment -->
-                        </h:panelGroup>
-                        <span class="colorbox-name FontAdamantiumBold">#{cc.attrs.chamado.status.nome}</span>
-                        <h:panelGroup layout="block" styleClass="Container12" >
-                            <span class="colorbox-count">nº #{cc.attrs.chamado.id}</span>
-                        </h:panelGroup>
-                        <h:panelGroup styleClass="Container6 OrganizadorContainer" layout="block" style="color: #FFFFFF;" >
-                            <h:form>
-                                <p:textEditor style="color: #FFFFFF" readonly="true" value="#{cc.attrs.chamado.descricao}" secure="false" toolbarVisible="false"  styleClass="FontAdamantiumLight Fs14 Container12 ResumoChamado editor-branco" />
-                            </h:form>
-                        </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="ChamadoCabecalhoAcoes">
+                        <h:form styleClass="ChamadoCabecalhoAcoesForm">
+                            <p:commandButton styleClass="ChamadoCabecalhoBotao"
+                                             icon="fa fa-bullhorn"
+                                             title="Notificar o cliente"
+                                             actionListener="#{servicoChamado.notificar(cc.attrs.chamado)}"/>
+                            <p:commandButton styleClass="ChamadoCabecalhoBotao"
+                                             icon="fa fa-paperclip"
+                                             title="Anexos do chamado"
+                                             disabled="true"
+                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
+                            <p:commandButton styleClass="ChamadoCabecalhoBotao ChamadoCabecalhoBotaoPrincipal"
+                                             icon="fa fa-times"
+                                             value="Fechar Chamado"
+                                             rendered="#{!cc.attrs.chamado.foiFinalizado}"
+                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
+                            <p:commandButton styleClass="ChamadoCabecalhoBotao ChamadoCabecalhoBotaoPrincipal"
+                                             icon="fa fa-folder-open-o"
+                                             value="Abrir Chamado"
+                                             rendered="#{cc.attrs.chamado.foiFinalizado}"
+                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
+                        </h:form>
+                    </h:panelGroup>
 
+                </h:panelGroup>
 
-                        <h:panelGroup styleClass="Container4  OrganizadorContainerDireita" layout="block" style="max-height: 100px; max-width: 250px; ">
-                            <div class="Fs16 OrganizadorContainer Container12" style="color:whitesmoke;align-items: center;"  >
-                                <h:form>
+                <!-- Descrição / resumo do chamado -->
+                <h:panelGroup layout="block" styleClass="ChamadoCabecalhoDescricao">
+                    <h:form styleClass="ChamadoCabecalhoDescricaoForm">
+                        <p:textEditor value="#{cc.attrs.chamado.descricao}"
+                                      readonly="true"
+                                      secure="false"
+                                      toolbarVisible="false"
+                                      styleClass="ResumoChamado editor-branco FontPadraoLight"/>
+                    </h:form>
+                </h:panelGroup>
 
-                                    <p:commandButton icon="fa fa-bullhorn Fs16" actionListener="#{servicoChamado.notificar(cc.attrs.chamado)}"  style="margin: 10px;"/>
-                                </h:form>
-                                <h:form>
-                                    <p:commandButton icon="fa fa-paperclip" actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"  style="margin: 10px;" disabled="true" />
-                                </h:form>
-
-                            </div>
-                        </h:panelGroup>
-                    </div>
-                </div>
-            </h:panelGroup>
-            <h:panelGroup styleClass="Container9">
             </h:panelGroup>
         </h:panelGroup>
     </cc:implementation>

@@ -17,59 +17,113 @@
 
     <cc:implementation>
 
-        <p:fieldset styleClass="Container12" style="height: 400px;" >
-            <h:form>
-                <p:panelGrid columns="2"  layout="flex" style="border-style: none;" >
-                    <h:panelGroup layout="block" styleClass="Container12"  >
-                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.chamado.usuarioCliente.representanteLegal)}" >
-                            <img class=""  src="#{cc.attrs.chamado.usuarioCliente.representanteLegal.imgPequena}"
-                                 style="
-                                 min-height: 20px;
-                                 max-width: 80%;
-                                 position: relative;
-                                 top: 0px;
-                                 " />
+        <h:panelGroup layout="block" styleClass="Container12 ChamadoAvancadoDados">
+            <h:panelGroup layout="block" styleClass="ChamadoAvancadoCard">
+
+                <!-- Topo: logo/foto do representante legal + grau de satisfação -->
+                <h:panelGroup layout="block" styleClass="ChamadoAvancadoTopo">
+
+                    <h:panelGroup layout="block" styleClass="ChamadoAvancadoCliente">
+                        <p:link styleClass="ChamadoAvancadoClienteLink"
+                                href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.chamado.usuarioCliente.representanteLegal)}" >
+                            <img class="ChamadoAvancadoClienteImagem"
+                                 src="#{cc.attrs.chamado.usuarioCliente.representanteLegal.imgPequena}" />
                         </p:link>
                     </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container6" >
-                        <i class="#{cc.attrs.chamado.usuarioCliente.satisfacao.icone} Fs50" />
-                        #{cc.attrs.chamado.usuarioCliente.satisfacao.nome} com nossos serviços
+
+                    <h:panelGroup layout="block" styleClass="ChamadoAvancadoSatisfacao">
+                        <i class="#{cc.attrs.chamado.usuarioCliente.satisfacao.icone} ChamadoAvancadoSatisfacaoIcone" />
+                        <h:panelGroup layout="block" styleClass="ChamadoAvancadoSatisfacaoTexto">
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoSatisfacaoNome">
+                                #{cc.attrs.chamado.usuarioCliente.satisfacao.nome}
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoSatisfacaoLegenda">
+                                com nossos serviços
+                            </h:panelGroup>
+                        </h:panelGroup>
                     </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 Fs16 FontAdamantiumBold" style="margin-top: 15px;text-align: right" >
-                        Contato Cliente:
+
+                </h:panelGroup>
+
+                <!-- Dados de contato do cliente -->
+                <h:form styleClass="ChamadoAvancadoForm">
+                    <h:panelGroup layout="block" styleClass="ChamadoAvancadoLista">
+
+                        <h:panelGroup layout="block" styleClass="ChamadoAvancadoItem">
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoRotulo">
+                                <i class="fa-solid fa-user ChamadoAvancadoRotuloIcone" />
+                                Contato
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoValor ChamadoAvancadoValorAcoes ChamadoAvancadoValorNome">
+                                <!-- Mesma estrutura dos composites SBCRM (rótulo + botões
+                                     dentro de um bloco), para o CSS tratar as três linhas igual -->
+                                <h:panelGroup layout="block">
+                                    <p:outputLabel value="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.nome}" />
+                                    <p:button icon="fa fa-copy"
+                                              id="copiarContato"
+                                              title="Copiar"
+                                              onclick="return false;"
+                                              href="#" >
+                                        <pe:clipboard trigger="copiarContato" action="copy"
+                                                      text="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.nome}" />
+                                    </p:button>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="ChamadoAvancadoItem">
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoRotulo">
+                                <i class="fa-solid fa-phone ChamadoAvancadoRotuloIcone" />
+                                Telefone
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoValor ChamadoAvancadoValorAcoes">
+                                <SBCRM:telefoneAcoesAtendente
+                                    telefone="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.celular}"
+                                    />
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="ChamadoAvancadoItem">
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoRotulo">
+                                <i class="fa-solid fa-envelope ChamadoAvancadoRotuloIcone" />
+                                E-mail
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoValor ChamadoAvancadoValorAcoes">
+                                <SBCRM:emailAcoesAtendente
+                                    email="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.email}"
+                                    contato='#{cc.attrs.chamado.usuarioCliente.contatoClienteVinculado}'
+                                    />
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="ChamadoAvancadoItem"
+                                      rendered="#{cc.attrs.chamado.atendenteResponsavel!=null}">
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoRotulo">
+                                <i class="fa-solid fa-headset ChamadoAvancadoRotuloIcone" />
+                                Resp.
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="ChamadoAvancadoValor">
+                                #{cc.attrs.chamado.atendenteResponsavel.nome}
+                            </h:panelGroup>
+                        </h:panelGroup>
+
                     </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 " style="margin-top: 15px;text-align: left;" >
-                        <b>  #{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.nome}  </b>
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 Fs16 FontAdamantiumBold" style="margin-top: 15px;text-align: right;" >
-                        Telefone:
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" >
-                        <SBCRM:telefoneAcoesAtendente
-                            telefone="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.celular}"
-                            />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 Fs16 FontAdamantiumBold" style="margin-top: 15px;text-align: right;" >
-                        E-mail:
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" >
-                        <SBCRM:emailAcoesAtendente
-                            email="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.email}"
-                            contato='#{cc.attrs.chamado.usuarioCliente.contatoClienteVinculado}'
-                            />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" rendered="#{cc.attrs.chamado.atendenteResponsavel!=null}" >
-                        Responsavel: #{cc.attrs.chamado.atendenteResponsavel.nome}
-                    </h:panelGroup>
-                </p:panelGrid>
-            </h:form>
-            <p:fieldset legend="Ações " style="height: 100px;" rendered="#{!cc.attrs.chamado.chamadoEmEstadoAtendimento}" >
-                <h:form>
-                    <SBAcao:botaoAcaoPersonalizada
-                        acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmChamadosDefinirAtendimento}"
-                        />
                 </h:form>
-            </p:fieldset>
-        </p:fieldset>
+
+                <!-- Ações do atendente sobre o chamado ainda não assumido -->
+                <h:panelGroup layout="block" styleClass="ChamadoAvancadoAcoes"
+                              rendered="#{!cc.attrs.chamado.chamadoEmEstadoAtendimento}">
+                    <h:panelGroup layout="block" styleClass="ChamadoAvancadoAcoesTitulo">
+                        Ações
+                    </h:panelGroup>
+                    <h:form styleClass="ChamadoAvancadoAcoesForm">
+                        <SBAcao:botaoAcaoPersonalizada
+                            acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmChamadosDefinirAtendimento}"
+                            />
+                    </h:form>
+                </h:panelGroup>
+
+            </h:panelGroup>
+        </h:panelGroup>
     </cc:implementation>
 </ui:composition>

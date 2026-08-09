@@ -1,6 +1,8 @@
+
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html">
@@ -10,56 +12,37 @@
     </cc:interface>
 
     <cc:implementation>
-        <div class="cards-dashboard">
-            <!-- Card Histórico -->
-            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades,cc.attrs.pessoa)}"
-                    style="text-decoration: none;">
-                <div class="card-moderno">
-                    <div class="card-conteudo">
-                        <div class="card-icone historico">
-                            <i class="pi pi-history"></i>
-                        </div>
-                        <div class="card-info">
-                            <div class="card-titulo">Todas atividades</div>
-                            <div class="card-valor">#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAtividades').valor}</div>
-                            <div class="card-descricao">Atividades</div>
-                        </div>
-                    </div>
-                </div>
-            </p:link>
-            <!-- Card Arquivos -->
-            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoa)}"
-                    style="text-decoration: none;">
-                <div class="card-moderno arquivos">
-                    <div class="card-conteudo">
-                        <div class="card-icone arquivos">
-                            <i class="pi pi-file-pdf"></i>
-                        </div>
-                        <div class="card-info">
-                            <div class="card-titulo">Arquivos</div>
-                            <div class="card-valor">#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAnexos').valor}</div>
-                            <div class="card-descricao">Documentos</div>
-                        </div>
-                    </div>
-                </div>
-            </p:link>
-            <!-- Card Orçamentos -->
-            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa,cc.attrs.pessoa)}"
-                    style="text-decoration: none;">
-                <div class="card-moderno orcamentos">
-                    <div class="card-conteudo">
-                        <div class="card-icone orcamentos">
-                            <i class="pi pi-shopping-cart"></i>
-                        </div>
-                        <div class="card-info">
-                            <div class="card-titulo">Orçamentos</div>
-                            <div class="card-valor">#{cc.attrs.pessoa.orcamentos.size()}</div>
-                            <div class="card-descricao">Aprovados</div>
-                        </div>
-                    </div>
-                </div>
-            </p:link>
+        <p:fieldset >
+            <h:panelGroup layout="block" styleClass="cards-dashboard">
 
-        </div>
+                <!-- Historico de atividades (antes: azul / pi-history) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="5"
+                    icone="fa fa-history"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmVerAtividades, cc.attrs.pessoa)}"
+                    titulo="Todas as atividades"
+                    valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAtividades').valor}"
+                    />
+
+                <!-- Arquivos (antes: vermelho / pi-file-pdf) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="1"
+                    icone="fa fa-file-pdf-o"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos, cc.attrs.pessoa)}"
+                    titulo="Arquivos e documentos"
+                    valor="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeAnexos').valor}"
+                    />
+
+                <!-- Orcamentos (antes: verde / pi-shopping-cart) -->
+                <crmDashBoard:dashBoardIconeValorTituloLink
+                    codigoestilo="2"
+                    icone="fa fa-shopping-cart"
+                    url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusOrcamentosMbGestao.meusOrcamentosFrmListarOrcamentosDaPessoa, cc.attrs.pessoa)}"
+                    titulo="Orçamentos aprovados"
+                    valor="#{cc.attrs.pessoa.orcamentos.size()}"
+                    />
+
+            </h:panelGroup>
+        </p:fieldset>
     </cc:implementation>
 </ui:composition>

@@ -21,21 +21,38 @@
         <cc:attribute name="valor" default="0" />
         <cc:attribute name="url"  default="#"
                       />
+        <!-- Quando true e o card estiver zerado (cinza), exibe um "+"
+             discreto no canto superior direito, sinalizando que o clique
+             leva a um novo registro. O destino continua sendo a mesma
+             url do componente. -->
+        <cc:attribute name="exibirBotaoNovoCasoZero" default="false" />
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <!--        <h:outputStylesheet  name="botaoLateralMenu.css" library="css"  />-->
-
+        <h:outputStylesheet  name="dashboard.css" library="dashboard" />
         <p:link href="#{cc.attrs.url}"
-                style="text-decoration: none;"
+                styleClass="card-link"
                 onclick="bloquearArea(this.parentElement.id)"
                 >
                     <!--                <div class="ui-g card colorbox colorbox-#{cc.attrs.codigoestilo}">-->
-            <div class="card-moderno card-estilo-#{cc.attrs.codigoestilo}-#{cc.attrs.intensidade} #{(empty cc.attrs.valor or cc.attrs.valor le 0) ? 'card-zerado' : ''}"
+            <!-- Sem largura inline: o card ocupa 100% do container onde
+                 for inserido (regra .card-moderno em dashboard.css), de
+                 modo que varios componentes lado a lado fiquem do mesmo
+                 tamanho, independente do tamanho do texto. -->
+            <div class="card-moderno card-estilo-#{cc.attrs.codigoestilo}-#{cc.attrs.intensidade} #{(empty cc.attrs.valor or cc.attrs.valor le 0) ? 'card-zerado' : ''} #{(cc.attrs.exibirBotaoNovoCasoZero and (empty cc.attrs.valor or cc.attrs.valor le 0)) ? 'card-com-novo' : ''}"
                  pt:data-card-titulo="#{cc.attrs.titulo}"
                  pt:data-card-valor="#{empty cc.attrs.valor ? 0 : cc.attrs.valor}"
-                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                 style="   #{sessaoAtualSBWP.telaUsuario.umMobile?'width:100%; max-width: 330px;':'min-width: 420px; max-width: 600px;'} ">
+                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+                <!-- Selo "+": só no card cinza, e só quando o componente
+                     for marcado como atalho para novo registro -->
+                <ui:fragment rendered="#{cc.attrs.exibirBotaoNovoCasoZero and (empty cc.attrs.valor or cc.attrs.valor le 0)}">
+                    <span class="card-novo-badge" title="Clique para criar um novo registro">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                </ui:fragment>
+
                 <div class="card-conteudo">
 
                     <h:panelGroup styleClass="card-icone card-estilo-#{cc.attrs.codigoestilo}-#{cc.attrs.intensidade}" style="min-width: 90px;min-height: 90px;">

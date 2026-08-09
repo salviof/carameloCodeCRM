@@ -12,11 +12,12 @@
 
     <h:form>
 
-        <p:fieldset  rendered="#{pgModalProspecto.contatoSelecionado!=null}" styleClass="Container12" >
+        <p:fieldset  rendered="#{pgModalProspecto.contatoSelecionado!=null}" styleClass="Container12" style="min-height: 600px;" >
 
             <f:facet name="legend">
-                Editando #{pgModalProspecto.contatoSelecionado.nome} <h:panelGroup styleClass="fa fa-star Fs20" style="margin-right: 20px;"
-                                                                                   rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}" />
+                Editando #{pgModalProspecto.contatoSelecionado.nome}
+                <h:panelGroup styleClass="fa fa-star Fs20" style="margin-right: 20px;"
+                              rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}" />
             </f:facet>
             <p:fragment>
                 <p:fragment >
@@ -25,7 +26,7 @@
                         layout="#{layoutsComponenteSB.layoutCampo.resumido}"
                         idAtualizarOnChange="@this"
                         />
-                </p:fragment>
+                </p:fragment >
                 <p:separator/>
                 <SBInput:input
                     registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('email')}"

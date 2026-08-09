@@ -38,11 +38,6 @@ public class PgReservasClienteTest extends TesteWPCrmCarameloCode {
         reservaCliente.inicio();
         reservaCliente.setUsrAtendenteSelecionado(reservaCliente.getUsrRepComercial());
         reservaCliente.defineTipoDeReserva(reservaCliente.getTiposDisponiveis().get(0));
-        List<HorarioDisponivelAtendimentoPublico> horarios = reservaCliente.getAgendaDisponivel().getHorariosDisponiveis();
-
-        for (HorarioDisponivelAtendimentoPublico hr : horarios) {
-            System.out.println(UtilCRCDataHora.getDataSTRFormatoUsuario(hr.getDataHoraIicialAtendente()));
-        }
 
     }
 

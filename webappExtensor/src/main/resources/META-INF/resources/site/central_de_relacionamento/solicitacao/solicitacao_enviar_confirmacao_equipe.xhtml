@@ -1,0 +1,72 @@
+
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
+        <h:form >
+            <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"
+                            desabilitarEdicao="#{true}"
+                            idAtualizarOnChange="@this"
+                            layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+
+            <p:staticMessage severity="info"
+                             summary="#{pgSolicitacaoAtendimento.entidadeSelecionada.usuarioSolicitado.nome}, quer saber:"
+                             detail="#{pgSolicitacaoAtendimento.entidadeSelecionada.observacao}"
+                             />
+
+
+
+            <SBInput:input registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('dataHoraDataProgramada')}"
+                           idAtualizarOnChange="@this"
+                           desabilitarEdicao="true"
+                           layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+
+            <SBInput:input registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('descricaoConfirmacao')}"
+                           idAtualizarOnChange="@this"
+                           desabilitarEdicao="false"
+                           layout="#{layoutsComponenteSB.layoutCampo.superior}" />
+
+
+
+
+            <ui:repeat value="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('respostasPossiveis').valor}" var="resp" >
+                <h:panelGroup layout="block" styleClass="Container3" style="margin: 3px;" >
+                    <p:commandButton
+
+                        style="background-color: #{resp.cor}"
+                        styleClass="btnIconeENome botao "
+                        icon="#{resp.icone}"
+                        action="#{pgSolicitacaoAtendimento.executarAcaoSelecionada()}"
+                        value="#{resp.nome}"
+                        update="@form"
+
+                        >
+                        <f:setPropertyActionListener target="#{pgSolicitacaoAtendimento.acaoSelecionada}"
+                                                     value="#{acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoCtrConfirmacaoEquipe}"  />
+                        <f:setPropertyActionListener target="#{pgSolicitacaoAtendimento.entidadeSelecionada.tipoRespostaSelecionada}"
+                                                     value="#{resp}"  />
+                    </p:commandButton>
+                </h:panelGroup>
+            </ui:repeat>
+
+
+
+        </h:form>
+    </h:panelGroup>
+
+
+</ui:composition>

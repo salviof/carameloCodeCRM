@@ -1,5 +1,3 @@
-
-<!-- template conteúdo com formulario-->
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -16,6 +14,7 @@
     <h:panelGroup layout="bock" styleClass="Container12 OrganizadorContainer" >
         <h:form >
             <p:selectOneListbox id="advanced" value="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('categoriaArqEquipe').valor}"
+                                disabled="#{pgSolicitacaoAtendimento.categoriaEquipe!=null}"
                                 converter="conversorGenerico" style="width: 100%;"
                                 validator="org.super_bits.view.validadores.beanSimples"
                                 var="categoria" filter="true" filterMatchMode="contains" >
@@ -31,6 +30,8 @@
                     <h:outputText value="#{categoria.nome}" style="margin-left: 30px;"/>
                 </p:column>
             </p:selectOneListbox>
+
+
             <h:panelGroup styleClass="Container12" layout="block">
 
                 <SBInput:input  registro="#{pgSolicitacaoAtendimento.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('pessoa')}"

@@ -11,7 +11,10 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="conteudo" >
-        <h:panelGroup  styleClass="Fright" layout="block" style="position: absolute;top: 100px;right: 10px" >
+        <h:panelGroup styleClass="Container12 ChamadoListarForm"  layout="block"  >
+        </h:panelGroup>
+        <h:outputStylesheet name="chamado.css" library="chamado"/>
+        <h:panelGroup  styleClass="Fright ChamadoBotaoNovo" layout="block" >
             <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical150 somenteMobile"/>
             <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical20 somenteMobile"/>
             <h:form>
@@ -20,31 +23,38 @@
                                    />
             </h:form>
         </h:panelGroup>
-        <h:panelGroup style="margin-top: 20px; height: 900px; background-color: aliceblue; padding-top: 20px;"  styleClass="Container12" layout="block" >
+        <h:panelGroup styleClass="Container12 ChamadoListaChamados" layout="block" >
 
-            <h1 style="text-align: center;color:darkcyan;" class="Fs30"> MEUS CHAMADOS EM ABERTO            </h1>
+            <h:panelGroup styleClass="Container12 ChamadoListaCabecalho" layout="block">
+                <h1 class="ChamadoListaTitulo">
+                    <i class="fa fa-life-ring ChamadoListaTituloIcone" aria-hidden="true"></i>
+                    <span class="ChamadoListaTituloTexto">Meus chamados em aberto</span>
+                </h1>
+            </h:panelGroup>
 
-            <h:panelGroup styleClass="Container12 OrganizadorContainer" style="margin-top: 20px;" layout="block">
+            <h:panelGroup styleClass="Container12 OrganizadorContainer ChamadoListaFiltros" layout="block">
                 <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical150 somenteMobile"/>
-                <h:panelGroup styleClass="Container8" layout="block">
+                <h:panelGroup styleClass="Container8 ChamadoListaFiltrosCampos" layout="block">
 
                 </h:panelGroup>
             </h:panelGroup>
 
-            <h:panelGroup   styleClass="Container12 OrganizadorContainer" style="margin-top: 90px;" layout="block" id="listaChamadosMobile" rendered="#{paginaAtual.sessao.telaUsuario.umMobile}" >
+            <h:panelGroup   styleClass="Container12 OrganizadorContainer ChamadoListaChamadosMobile" layout="block" id="listaChamadosMobile" rendered="#{paginaAtual.sessao.telaUsuario.umMobile}" >
                 <c:forEach items="#{pgSuporteCliente.entidadesListadas}" var="chamado" >
                     <p:separator styleClass="quebraBlocoComEspacoVertical10"/>
-                    <crmDashBoard:dashBoardIconeValorTituloLink container="Container3"
-                                                                url="#{pgSuporteCliente.getUrlChamado(chamado)}"
-                                                                icone="fa fa-life-ring"
-                                                                titulo="#{pgUtilDataHoraFormato.getDataHoraSimplificado(chamado.dataHoraCriacao)}" valor="#{chamado.titulo}" codigoestilo="3" />
+                    <crmDashBoard:dashBoardIconeValorTituloLink
+                        container="Container3"
+                        url="#{pgSuporteCliente.getUrlChamado(chamado)}"
+                        icone="fa fa-life-ring"
+                        titulo="#{pgUtilDataHoraFormato.getDataHoraSimplificado(chamado.dataHoraCriacao)}" valor="#{chamado.titulo}" codigoestilo="3"
+                        />
                 </c:forEach>
 
 
             </h:panelGroup>
 
 
-            <h:panelGroup   styleClass="Container12" style="margin-top: 50px;" layout="block" id="listaChamados" rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}" >
+            <h:panelGroup   styleClass="Container12 ChamadoListaChamadosDesktop" layout="block" id="listaChamados" rendered="#{!paginaAtual.sessao.telaUsuario.umMobile}" >
                 <h:form>
                     <p:dataTable var="chamado" value="#{pgSuporteCliente.entidadesListadas}"
                                  reflow="true"
@@ -73,41 +83,57 @@
                                 onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listaChamados')}')"
                                 />
                         <p:column
-                            headerText="Código" width="15px;"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}" displayPriority="0"  >
-                            #{chamado.getCampoInstanciadoByNomeOuAnotacao('id').valor}
+                            headerText="Código" width="15px"  styleClass="Fs20 ChamadoColuna ChamadoColunaCodigo" displayPriority="0"  >
+                            <SBInput:input registro="#{chamado.getCampoByNomeOuAnotacao('id')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}"  />
                         </p:column>
-                        <p:column headerText="Criado em:" width="15px" sortable="true" sortBy="#{chamado.dataHoraCriacao}" styleClass="Fs20"  style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}"  >
-                            #{pgUtil.gerarDataHoraTexto(chamado.getCampoByNomeOuAnotacao('dataHoraCriacao').valor)}
-                        </p:column>
-                        <p:column headerText="Responsável" width="35px"  styleClass="Fs20"
-                                  style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'} height:100px; position: relative;"
+                        <p:column headerText="Criado em:" width="15px" sortable="true" sortBy="#{chamado.dataHoraCriacao}" styleClass="Fs20 ChamadoColuna ChamadoColunaData"  >
 
+                            <SBInput:input registro="#{chamado.getCampoByNomeOuAnotacao('dataHoraCriacao')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}"  />
+                        </p:column>
+                        <p:column headerText="Responsável" width="35px"  styleClass="Fs20 ChamadoColuna ChamadoColunaResponsavel"
                                   displayPriority="1" >
-                            <div style="display: flex;
-                                 justify-content: space-around;
-                                 display: -webkit-flex; /* Safari */
-                                 -webkit-flex-wrap: wrap; /* Safari 6.1+ */
-                                 display: flex;
-
-                                 flex-wrap: wrap;">
-                                <SBCRM:avatar usuario="#{chamado.atendenteResponsavel}" somenteLeitura="true"  rendered="#{chamado.atendenteResponsavel!=null}" altura="92" />
+                            <h:panelGroup layout="block" styleClass="ChamadoResponsavel">
+                                <SBCRM:avatar usuario="#{chamado.atendenteResponsavel}" somenteLeitura="true"  mostrarNome="true" rendered="#{chamado.atendenteResponsavel!=null}" altura="60" />
 
                                 <h:outputText value="Não definido" rendered="#{chamado.atendenteResponsavel==null}" />
-                            </div>
+                            </h:panelGroup>
 
 
                         </p:column>
-                        <p:column headerText="Tipo" width="35px"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'} "   displayPriority="2" >
-                            #{chamado.tipoChamado.nome}
+                        <p:column headerText="Tipo" width="35px"  styleClass="Fs20 ChamadoColuna ChamadoColunaTipo"   displayPriority="2" >
+
+
+                            <SBInput:input registro="#{chamado.getCampoByNomeOuAnotacao('tipoChamado')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}"  />
                         </p:column>
-                        <p:column headerText="Status" width="35px"  styleClass="Fs20" style="#{paginaAtual.sessao.telaUsuario.umMobile?'text-align: left;':'text-align: center;'}"  displayPriority="2" >
-                            #{chamado.status.nome}
+                        <p:column headerText="Status" width="35px"  styleClass="Fs20 ChamadoColuna ChamadoColunaStatus"  displayPriority="2" >
+
+                            <SBInput:input registro="#{chamado.getCampoByNomeOuAnotacao('status')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}"  />
+
+                            <h:panelGroup layout="block"
+                                          style="padding-left: 18px;padding-top: 21px;"
+                                          rendered="#{servicoVisualizacaoComponente.visualizarEstiloIcone(chamado.status)}"
+                                          styleClass="Container12 OrganizadorContainerEsquerda"
+                                          >
+
+                                <p:panelGrid columns="1">
+                                    <h:panelGroup styleClass="#{servicoVisualizacaoComponente.getIcone(cc.attrs.objetoSimples)} Fs40" style="color: #{servicoVisualizacaoComponente.getCor(cc.attrs.objetoSimples)}"  >
+
+                                    </h:panelGroup>
+
+                                    <h:panelGroup styleClass="statusText Fs16" rendered="#{servicoVisualizacaoComponente.getIcone(cc.attrs.objetoSimples) == null}"  >
+                                        #{cc.attrs.objetoSimples.nome}
+
+                                    </h:panelGroup>
+                                </p:panelGrid>
+                            </h:panelGroup>
+
+
                         </p:column>
 
                     </p:dataTable>
                 </h:form>
             </h:panelGroup>
-            <h:panelGroup styleClass="Container12 OrganizadorContainerDireita " style="margin: 100px;" layout="block" >
+            <h:panelGroup styleClass="Container12 OrganizadorContainerDireita ChamadoListaRodape" layout="block" >
 
             </h:panelGroup>
         </h:panelGroup>

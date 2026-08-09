@@ -8,9 +8,9 @@ package org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPresencial;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmRemoto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.TipoReservaCRMLocal;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.TipoReservaCRMRemoto;
 
 /**
  *
@@ -18,13 +18,13 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico
  */
 public enum FabTipoAgendamentoPublicoCrm implements ComoFabricaComPersistencia {
 
-    @InfoObjetoDaFabrica(classeObjeto = TipoAgendamentoAtdmPresencial.class, id = 1, nomeObjeto = "Primeira consultoria presencial")
+    @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMLocal.class, id = 1, nomeObjeto = "Primeira consultoria presencial")
     PRESENCIAL,
-    @InfoObjetoDaFabrica(classeObjeto = TipoAgendamentoAtdmPresencial.class, id = 2, nomeObjeto = "Consultoria avançada presencial")
+    @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMLocal.class, id = 2, nomeObjeto = "Consultoria avançada presencial")
     PRESENCIAL_COM_PALESTRA,
-    @InfoObjetoDaFabrica(classeObjeto = TipoAgendamentoAtdmRemoto.class, id = 3, nomeObjeto = "Consultoria por video conferência")
+    @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMRemoto.class, id = 3, nomeObjeto = "Consultoria por video conferência")
     CONFERENCIA,
-    @InfoObjetoDaFabrica(classeObjeto = TipoAgendamentoAtdmRemoto.class, id = 4, nomeObjeto = "Consultoria avançada por video Conferência")
+    @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMRemoto.class, id = 4, nomeObjeto = "Consultoria avançada por video Conferência")
     CONFERENCIA_COM_PALESTRA;
 
     @Override

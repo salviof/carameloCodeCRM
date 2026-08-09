@@ -10,13 +10,13 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="reserva"
-                      type="org.coletivoJava.fw.projetos.agendamentoPublico.model.reserva.ReservaHoraPresencial" required="true"/>
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM" required="true"/>
         <cc:attribute name="bloquearEdicaoCliente" type="java.lang.Boolean" />
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <p:fieldset legend="Dados da reserva"  id="dadosReserva" styleClass="Container12">
+        <p:fieldset legend="Dados da reserva"  id="dadosReserva" styleClass="Container12" rendered="#{cc.attrs.reserva.tipoAgendamento != null and !cc.attrs.reserva.tipoAgendamento.umAtendimentoRemoto}">
             <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda"  layout="block" id="atendidos">
                 <h:panelGroup styleClass="Container3"  layout="block">
                     <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('pessoaRelacionada')}"

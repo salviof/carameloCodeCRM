@@ -6,13 +6,18 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo">
         <h:form>
             <h:panelGroup styleClass="Container12 OrganizadorContainer" >
 
-                <p:fieldset legend="Escopo da agenda pública para clientes" styleClass="Container6" >
-
+                <p:fieldset  styleClass="Container6" >
+                    <f:facet name="legend" >
+                        Filtro maior para marcação na agenda do usuário direto pela área do cliente
+                        <crm:avatar somenteLeitura="true" usuario="#{pgMinhasReservas.usuario}" />
+                    </f:facet>
                     <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
 
                         <SBInput:input registro="#{pgMinhasReservas.escopoAgendaCliente.getCampoInstanciadoByNomeOuAnotacao(('ativo'))}"

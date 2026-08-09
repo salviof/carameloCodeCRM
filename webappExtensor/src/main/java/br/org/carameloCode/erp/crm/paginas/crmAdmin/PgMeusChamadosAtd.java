@@ -18,6 +18,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAc
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoChamado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoChamado;
 import com.super_bits.modulosSB.webPaginas.util.UtilSBWP_JSFTools;
 import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.TokenAcessoDinamico;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
@@ -62,6 +63,12 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
 
     @InfoParametroURL(nome = "chamado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ChamadoCliente.class, obrigatorio = false, representaEntidadePrincipalMB = true)
     private ParametroURL prchamado;
+
+    @InfoParametroURL(nome = "prPessoa", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false)
+    private ParametroURL prPessoa;
+
+    @InfoParametroURL(nome = "prSolicitacaoChamado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = SolicitacaoChamado.class, obrigatorio = false)
+    private ParametroURL prSolicitacaoChamado;
 
     private Pessoa pessoaSelecionada;
 
@@ -109,6 +116,16 @@ public class PgMeusChamadosAtd extends MBGestaoChamados {
                     break;
             }
         }
+        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
+            pessoaSelecionada = (Pessoa) getParametroInstanciado(prPessoa).getValor();
+        }
+        if (getParametroInstanciado(prSolicitacaoChamado).isValorDoParametroFoiConfigurado()) {
+            SolicitacaoChamado solicitacao = (SolicitacaoChamado) getParametroInstanciado(prSolicitacaoChamado).getValor();
+            setEntidadeSelecionada(solicitacao.getChamado());
+            pessoaSelecionada = solicitacao.getPessoa();
+
+        }
+
         UsuarioCRM usuarioLogado = UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina());
         if (getParametroInstanciado(prUsuario).isValorDoParametroFoiConfigurado()) {
             if (usuarioLogado.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
