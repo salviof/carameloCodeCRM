@@ -3,9 +3,9 @@
     xmlns:cc="http://java.sun.com/jsf/composite"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <!-- INTERFACE -->
@@ -16,8 +16,14 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <!-- CarameloCode.prospecto.copiarValorContato, usada pelos gatilhos de
+             copiar da lista. Declarar aqui torna o componente auto-suficiente;
+             se a pagina ja declarar o mesmo library/name, o JSF nao duplica. -->
+        <h:outputScript library="crmPessoa" name="opcoes_do_prospecto.js" target="head"/>
+
         <!-- SEM CONTATOS: aviso + atalho para cadastrar o primeiro contato,
              para o componente nao ficar vazio quando nao ha nada a listar -->
+
         <h:panelGroup layout="block" styleClass="aviso-sem-contatos"
                       rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}">
             <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?
@@ -95,31 +101,31 @@
                             </h:panelGroup>
                         </p:column>
                         <p:column>
-                            <h:panelGroup rendered="#{contato.possuiEmail}" style="width: 200px;">
-                                <h:outputText value="#{contato.email}" style="margin-left: 5px"/>
-                                <h:panelGroup styleClass="" style="margin-left: 3px;" rendered="#{servicoCRMContato.contatoSelecionado.email!=null}">
-                                    <p:button id="copiarEmail" icon="fa fa-copy" href="#" widgetVar="copiarEmailBtn"/>
-                                    <pe:clipboard trigger="copiarEmail" action="copy" onsuccess="msgEmailCopiaOK();"
-                                                  text="#{servicoCRMContato.contatoSelecionado.email}"
-                                                  widgetVar="copiarEmailAct"
-                                                  />
-
-                                </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="valorContatoDoLead" rendered="#{contato.possuiEmail}">
+                                <h:outputText value="#{contato.email}" styleClass="valorContatoDoLeadTexto"/>
+                                <h:outputLink value="#"
+                                              styleClass="btnCopiarContatoDoLead"
+                                              title="Copiar e-mail"
+                                              pt:data-valor-copiar="#{contato.email}"
+                                              pt:data-retorno-copiar="msgEmailCopiaOK"
+                                              onclick="return CarameloCode.prospecto.copiarValorContato(this, event);">
+                                    <h:panelGroup styleClass="fa fa-copy"/>
+                                </h:outputLink>
                             </h:panelGroup>
                         </p:column>
 
                         <p:column>
-                            <h:panelGroup rendered="#{contato.possuiTelefone}" styleClass="">
-                                <h:outputText value="#{contato.celular}" style="margin-left: 5px;width: 200px;"/>
-                            </h:panelGroup>
-                            <h:panelGroup
-                                styleClass=""
-                                style="margin-left: 3px;"
-                                rendered="#{!pgUtil.isNuloOuEmbranco(servicoCRMContato.contatoSelecionado.celular)}">
-                                <p:button id="copiarTelefone" icon="fa fa-copy" href="#" widgetVar="copiarTelBtn"/>
-                                <pe:clipboard trigger="copiarTelefone" action="copy"
-                                              onsuccess="msgTelefoneCopiaOK();"
-                                              text="#{pgUtilTelefone.gerarNumeroInternacional(servicoCRMContato.contatoSelecionado.celular)}"/>
+                            <h:panelGroup layout="block" styleClass="valorContatoDoLead" rendered="#{contato.possuiTelefone}">
+                                <h:outputText value="#{contato.celular}" styleClass="valorContatoDoLeadTexto"/>
+                                <h:outputLink value="#"
+                                              styleClass="btnCopiarContatoDoLead"
+                                              title="Copiar telefone"
+                                              rendered="#{!pgUtil.isNuloOuEmbranco(contato.celular)}"
+                                              pt:data-valor-copiar="#{pgUtilTelefone.gerarNumeroInternacional(contato.celular)}"
+                                              pt:data-retorno-copiar="msgTelefoneCopiaOK"
+                                              onclick="return CarameloCode.prospecto.copiarValorContato(this, event);">
+                                    <h:panelGroup styleClass="fa fa-copy"/>
+                                </h:outputLink>
                             </h:panelGroup>
                         </p:column>
 
@@ -142,48 +148,145 @@
                                          />
                     </p:fragment>
 
-                    <h:panelGroup layout="block" styleClass="" style="">
+                    <!-- ACESSO RAPIDO: um cartao por assunto (chamados, agenda,
+                         solicitacoes). Cada cartao mostra o que JA existe (o
+                         contador em aberto, com rotulo em palavras) e, embaixo,
+                         a acao de criar um novo para o contato selecionado.
+                         Sem contato escolhido a acao vira um aviso explicando
+                         o que falta, em vez de simplesmente desaparecer. -->
+                    <h:panelGroup layout="block" styleClass="botoesAcessoRapidoContato">
 
-                        <h:panelGroup layout="block" style="" styleClass="Container12">
+                        <h:panelGroup layout="block" styleClass="cabecalhoAcessoRapidoContato">
+                            <h:panelGroup layout="block" styleClass="tituloAcessoRapidoContato">
+                                <span class="fa fa-bolt"/> Acesso rápido
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="legendaAcessoRapidoContato"
+                                          rendered="#{servicoCRMContato.contatoSelecionado!=null}">
+                                para <b>#{servicoCRMContato.contatoSelecionado.nome}</b>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block"
+                                          styleClass="legendaAcessoRapidoContato legendaAcessoRapidoContato--alerta"
+                                          rendered="#{servicoCRMContato.contatoSelecionado==null}">
+                                <span class="fa fa-hand-o-up"/> selecione um contato na lista acima
+                            </h:panelGroup>
+                        </h:panelGroup>
 
+                        <h:panelGroup layout="block" styleClass="gradeAcessoRapidoContato">
 
-                            <h:panelGroup layout="block" style="" styleClass="Container3">
-                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
-                                    <span class="fa fa-life-ring"/> Chamados
+                            <!-- CHAMADOS -->
+                            <h:panelGroup layout="block"
+                                          styleClass="cardAcessoRapidoContato cardAcessoRapidoContato--chamados">
+                                <h:panelGroup layout="block" styleClass="topoCardAcessoRapidoContato">
+                                    <h:panelGroup styleClass="iconeCardAcessoRapidoContato">
+                                        <span class="fa fa-life-ring"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" styleClass="textoCardAcessoRapidoContato">
+                                        <h:panelGroup layout="block" styleClass="tituloCardAcessoRapidoContato">
+                                            Chamados
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato"
+                                                      rendered="#{cc.attrs.pessoa.chamadosAbertos.size()>0}">
+                                            <h:outputText value="#{cc.attrs.pessoa.chamadosAbertos.size()}"
+                                                          styleClass="numeroCardAcessoRapidoContato"/> em aberto
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato contadorCardAcessoRapidoContato--vazio"
+                                                      rendered="#{cc.attrs.pessoa.chamadosAbertos.size()==0}">
+                                            nenhum em aberto
+                                        </h:panelGroup>
+                                    </h:panelGroup>
                                 </h:panelGroup>
+
                                 <crm:botaoGrandeLink
                                     rendered="#{servicoCRMContato.contatoSelecionado!=null}"
                                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmNovo,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                                    icone="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosMbGestao.icone}"
-                                    label="Novo Chamado para #{servicoCRMContato.contatoSelecionado.nome}"
-                                    descricao=""/>
-                            </h:panelGroup>
-                            <h:panelGroup layout="block" style="" styleClass="Container3">
-                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
-                                    <span class="fa fa-calendar-plus-o"/> Agenda
+                                    icone="fa fa-plus"
+                                    estilo="acaoCardAcessoRapidoContato"
+                                    cor="#3498db"
+                                    label="Abrir chamado"
+                                    descricao="Abrir um novo chamado para #{servicoCRMContato.contatoSelecionado.nome}"/>
+
+                                <h:panelGroup layout="block" styleClass="acaoBloqueadaAcessoRapidoContato"
+                                              rendered="#{servicoCRMContato.contatoSelecionado==null}">
+                                    <span class="fa fa-lock"/> Escolha um contato
                                 </h:panelGroup>
+                            </h:panelGroup>
 
-
+                            <!-- AGENDA -->
+                            <h:panelGroup layout="block"
+                                          styleClass="cardAcessoRapidoContato cardAcessoRapidoContato--agenda">
+                                <h:panelGroup layout="block" styleClass="topoCardAcessoRapidoContato">
+                                    <h:panelGroup styleClass="iconeCardAcessoRapidoContato">
+                                        <span class="fa fa-calendar-check-o"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" styleClass="textoCardAcessoRapidoContato">
+                                        <h:panelGroup layout="block" styleClass="tituloCardAcessoRapidoContato">
+                                            Agenda
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato"
+                                                      rendered="#{cc.attrs.pessoa.reservasAtivas.size()>0}">
+                                            <h:outputText value="#{cc.attrs.pessoa.reservasAtivas.size()}"
+                                                          styleClass="numeroCardAcessoRapidoContato"/> na agenda
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato contadorCardAcessoRapidoContato--vazio"
+                                                      rendered="#{cc.attrs.pessoa.reservasAtivas.size()==0}">
+                                            nada marcado
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:panelGroup>
 
                                 <crm:botaoGrandeLink
                                     rendered="#{servicoCRMContato.contatoSelecionado!=null}"
                                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,sessaoAtualSBWP.usuario ,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                                    icone="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo.icone}"
-                                    label="Marcar reunião com #{servicoCRMContato.contatoSelecionado.nome}"
-                                    descricao=""/>
+                                    icone="fa fa-plus"
+                                    estilo="acaoCardAcessoRapidoContato"
+                                    cor="#6c5ce7"
+                                    label="Marcar reunião"
+                                    descricao="Marcar uma reunião com #{servicoCRMContato.contatoSelecionado.nome}"/>
+
+                                <h:panelGroup layout="block" styleClass="acaoBloqueadaAcessoRapidoContato"
+                                              rendered="#{servicoCRMContato.contatoSelecionado==null}">
+                                    <span class="fa fa-lock"/> Escolha um contato
+                                </h:panelGroup>
                             </h:panelGroup>
 
-                            <h:panelGroup layout="block" style="" styleClass="Container3">
-                                <h:panelGroup layout="block" styleClass="" style="font-size: 24px; margin-bottom: 8px">
-                                    <span class="fa fa-hand-paper-o"/> Solicitações
+                            <!-- SOLICITACOES -->
+                            <h:panelGroup layout="block"
+                                          styleClass="cardAcessoRapidoContato cardAcessoRapidoContato--solicitacoes">
+                                <h:panelGroup layout="block" styleClass="topoCardAcessoRapidoContato">
+                                    <h:panelGroup styleClass="iconeCardAcessoRapidoContato">
+                                        <span class="fa fa-hand-paper-o"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" styleClass="textoCardAcessoRapidoContato">
+                                        <h:panelGroup layout="block" styleClass="tituloCardAcessoRapidoContato">
+                                            Solicitações
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato"
+                                                      rendered="#{cc.attrs.pessoa.solicitacoesAbertas.size()>0}">
+                                            <h:outputText value="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
+                                                          styleClass="numeroCardAcessoRapidoContato"/> aguardando resposta
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="contadorCardAcessoRapidoContato contadorCardAcessoRapidoContato--vazio"
+                                                      rendered="#{cc.attrs.pessoa.solicitacoesAbertas.size()==0}">
+                                            nenhuma pendente
+                                        </h:panelGroup>
+                                    </h:panelGroup>
                                 </h:panelGroup>
+
                                 <crm:botaoGrandeLink
                                     rendered="#{servicoCRMContato.contatoSelecionado!=null}"
                                     url="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaNotificacaoCliente,cc.attrs.pessoa,servicoCRMContato.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
-                                    icone="fa fa-hand-paper-o"
-                                    label="Fazer uma solicitação para #{servicoCRMContato.contatoSelecionado.nome}"
-                                    descricao=""/>
+                                    icone="fa fa-plus"
+                                    estilo="acaoCardAcessoRapidoContato"
+                                    cor="#f39c12"
+                                    label="Fazer solicitação"
+                                    descricao="Fazer uma solicitação para #{servicoCRMContato.contatoSelecionado.nome}"/>
+
+                                <h:panelGroup layout="block" styleClass="acaoBloqueadaAcessoRapidoContato"
+                                              rendered="#{servicoCRMContato.contatoSelecionado==null}">
+                                    <span class="fa fa-lock"/> Escolha um contato
+                                </h:panelGroup>
                             </h:panelGroup>
+
                         </h:panelGroup>
                     </h:panelGroup>
 
@@ -206,7 +309,7 @@
                             <f:selectItems value="#{servicoCRMContato.acoesDisponiveis}" var="acaoContato"
                                            itemLabel="#{acaoContato.nome}" itemValue="#{acaoContato}"/>
                             <p:column>
-                                <i class="Fs40 #{acaoContato.icone}"> </i>
+                                <i class="Fs40 icone#{acaoContato.enumAcaoDoSistema} #{acaoContato.icone}"> </i>
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{acaoContato.nome} " style="margin-left: 6px"/>
@@ -232,6 +335,7 @@
             <p:remoteCommand name="msgTelefoneCopiaOK"
                              actionListener="#{pgUtil.enviaMensagem('Telefone copiado com sucesso')}"/>
         </h:form>
+
 
     </cc:implementation>
 </ui:composition>

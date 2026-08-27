@@ -200,10 +200,15 @@
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.Funil</class>
 
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ContextoReserva</class>
-        <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraPresencial</class>
+
+
+
+
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo</class>
+        <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial</class>
+        
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.StatusReserva</class>
-        <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHoraRemotoVideo</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.TipoReservaCRMLocal</class>
         <class>br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.TipoReservaCRMRemoto</class>
         <class>br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmRemoto</class>

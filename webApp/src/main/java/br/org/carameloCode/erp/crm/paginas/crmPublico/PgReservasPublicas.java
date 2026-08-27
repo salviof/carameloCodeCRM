@@ -43,10 +43,13 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoP
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.ErroAcidenteDeLorean;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.Paginas.PgAcessoViaTokenDinamico;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
@@ -123,7 +126,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
         if (leadNome != null) {
             novoContato.setNomeUsuario(leadNome);
             String celComMascara = UtilCRCStringTelefone.gerarTelefoneComMascaraSimples(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone));
-            novoContato.setCelular(UtilCRCStringFiltros.filtrarApenasNumeros(celComMascara));
+            novoContato.setCelular(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(UtilCRCStringFiltros.filtrarApenasNumeros(celComMascara)));
         }
 
         String celInternancional = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone);
@@ -145,6 +148,16 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
     }
 
     public AgendaDisponibilidade getAgendaDisponibilidade() {
+        if (agendaDisponibilidade == null) {
+            agendaDisponibilidade = new AgendaDisponibilidade(getEscopoPesquisa());
+            agendaDisponibilidade.setUsuarioAtendente(getUsuarioAtendente());
+            agendaDisponibilidade.setTipoAgendamento(getTipoAgendamento());
+            try {
+                agendaDisponibilidade.loadgendaXDias();
+            } catch (ErroAcidenteDeLorean ex) {
+                CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Os horários disponíveis para este token se esgotaram.");
+            }
+        }
         return agendaDisponibilidade;
     }
 
@@ -244,9 +257,13 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
     public ComoUsuario getUsuarioAtendedido() {
         return null;
     }
+    private TipoAgendamentoAtdmPublico tipoAgendamento;
 
     @Override
     public TipoAgendamentoAtdmPublico getTipoAgendamento() {
+        if (tipoAgendamento == null && getEscopoPesquisa().getTiposAgendamentosDisponiveis().size() == 1) {
+            tipoAgendamento = UtilSBPersistencia.loadEntidade(getEscopoPesquisa().getTiposAgendamentosDisponiveis().get(0), getEMPagina());
+        }
         return getEscopoPesquisa().getTiposAgendamentosDisponiveis().get(0);
     }
 }

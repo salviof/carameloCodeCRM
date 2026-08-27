@@ -162,7 +162,7 @@ public class ModuloAcoesWebCRM extends ControllerAbstratoSBPersistencia {
                 String conteudo = UtilCRCComunicacao.getSaudacao() + ", " + pContato.getNome() + ", através deste link, você pode criar chamados e marcar reuniões direto na minha agenda: " + url + "  ";
                 String javascript = new PgUtilTelefone().gerarJavascriptWhatsqpp(pContato.getCelular(), conteudo);
                 UtilSBWP_JSFTools.executarJavaScript(javascript);
-
+                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_FRM_CONVITE_PRIMEIRO_ACESSO.getRegistro().getComoFormulario());
             }
         }.getResposta();
     }
@@ -192,6 +192,7 @@ public class ModuloAcoesWebCRM extends ControllerAbstratoSBPersistencia {
                 } catch (ErroEnvioEmail ex) {
                     throw new ErroRegraDeNegocio("Houve uma falha Enviando o e-mail");
                 }
+                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_FRM_CONVITE_RESERVA.getRegistro().getComoFormulario());
             }
         }.getResposta();
     }
@@ -211,6 +212,7 @@ public class ModuloAcoesWebCRM extends ControllerAbstratoSBPersistencia {
                 String conteudo = UtilCRCComunicacao.getSaudacao() + ", " + pContato.getNome() + ", através deste link, você pode agendar uma reunião direto na minha agenda " + url + "  ";
                 String javascript = new PgUtilTelefone().gerarJavascriptWhatsqpp(pContato.getCelular(), conteudo);
                 UtilSBWP_JSFTools.executarJavaScript(javascript);
+                setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_FRM_CONVITE_RESERVA.getRegistro().getComoFormulario());
 
             }
         }.getResposta();
@@ -243,6 +245,7 @@ public class ModuloAcoesWebCRM extends ControllerAbstratoSBPersistencia {
                 } catch (ErroEnvioEmail ex) {
                     throw new ErroRegraDeNegocio("Houve uma falha Enviando o e-mail");
                 }
+
             }
         }.getResposta();
     }

@@ -16,14 +16,12 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoCo
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoOrcamento;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoFabricaObjetos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
 /**
  *
  * @author salvio
  */
-@InfoFabricaObjetos(manterSempreValorDaFabricaEmBanco = false)
 public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
 
     @InfoObjetoDaFabrica(id = 1000000, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificar Cliente chamado em atendimento ")

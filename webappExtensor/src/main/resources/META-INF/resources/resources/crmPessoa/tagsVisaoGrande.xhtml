@@ -13,18 +13,18 @@
 
     </cc:interface>
     <cc:implementation>
-        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmTags,cc.attrs.pessoa)}">
-            <h:panelGroup rendered="#{cc.attrs.pessoa.tagsAtendimento.size()==0}"  style="margin: 30px; padding-top: 40px;">
+        <h:outputStylesheet library="crmPessoa" name="opcoes_do_prospecto.css" />
+        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmTags,cc.attrs.pessoa)}"
+                styleClass="linkTagsPessoaGrande">
+            <h:panelGroup rendered="#{cc.attrs.pessoa.tagsAtendimento.size()==0}" styleClass="avisoSemTagsPessoa" layout="block">
                 <p:staticMessage severity="info" summary="Sem tags" detail="Clique para editar" />
             </h:panelGroup>
-            <h:panelGroup styleClass="Container12 " layout="block" style="margin-top: 10px;">
+            <h:panelGroup styleClass="Container12" layout="block">
                 <div class="OrganizadorContainerEsquerda tagsPessoaGrande">
                     <c:forEach items="#{cc.attrs.pessoa.tagsAtendimento}" var="tag">
-                        <div style="background-color: #{tag.cor}99;
-                             border: 1px solid ##{tag.cor};
-                             padding: 2px 10px;
-                             border-radius: 8px;  ">
-                            <span class="labelTagTexto" style="text-align: center; "><i class="fa fa-tag tag-icon"></i> #{tag.nome}</span>
+                        <div class="itemTagPessoaGrande"
+                             style="border-color: ##{tag.cor};">
+                            <span class="labelTagTexto"><i class="fa fa-tag tag-icon"></i> #{tag.nome}</span>
                         </div>
                     </c:forEach>
                 </div>

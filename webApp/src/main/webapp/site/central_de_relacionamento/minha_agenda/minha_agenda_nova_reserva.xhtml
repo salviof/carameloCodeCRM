@@ -12,27 +12,7 @@
     xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda">
     <ui:define name="conteudo">
 
-        <p:fieldset legend="Escopo da pesquisa " >
-            <span>
-                <h:form>
-                    <h:panelGroup styleClass="Container2" layout="block" >
-                        <SBInput:input registro="#{pgMinhasReservas.escopoPesquisa.getCampoInstanciadoByNomeOuAnotacao('tipoAgendamento')}"
-                                       layout="#{layoutsComponenteSB.layoutCampo.superior}" />
-                    </h:panelGroup>
-                    <h:panelGroup styleClass="Container2"  layout="block" >
-                        <SBInput:input registro="#{pgMinhasReservas.escopoPesquisa.getCampoInstanciadoByNomeOuAnotacao('dataInicial')}"
-                                       layout="#{layoutsComponenteSB.layoutCampo.superior}"
-                                       />
-                    </h:panelGroup>
-                    <h:panelGroup styleClass="Container2 OrganizadorContainer"  style="padding-top: 30px;" layout="block" >
-                        <p:commandButton icon="fa fa-search"
-                                         action="#{pgMinhasReservas.atualizarListaHorariosDisponiveis()}"
-                                         update="reservasDisponiveis"
-                                         value="Pesquisar"/>
-                    </h:panelGroup>
-                </h:form>
-            </span>
-        </p:fieldset>
+
 
         <h:panelGroup styleClass="OrganizadorContainer" id="reservasDisponiveis"
                       style="background-image: url('#{resource['img/agendaFundoCrmCasaNovaDigital.jpg']}');

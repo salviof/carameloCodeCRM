@@ -1,6 +1,7 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
@@ -8,16 +9,77 @@
     xmlns:p="http://primefaces.org/ui">
     <ui:define name="conteudo">
 
+        <h:outputStylesheet library="crmContato" name="contatos.css" />
 
+        <h:panelGroup layout="block" styleClass="ConviteContatoPainel ConvitePrimeiroAcessoPainel">
 
-        <h:panelGroup layout="block" styleClass="OrganizadorContainer" style="height: 800px;display: flex;align-items: center;justify-content: center;"  >
+            <!-- 1. Caminho principal: enviar o convite pelos canais do contato -->
+            <p:fieldset styleClass="ConviteContatoBloco ConviteContatoFieldset">
 
-            <p:fieldset legend="Convite Manual" styleClass="OrganizadorContainer" >
-                <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="max-width: 600px;" >
-                    <h:panelGroup layout="block" styleClass="OrganizadorContainer" >
-                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"  >
-                            <p:outputLabel value="#{pgUtilDataHoraFormato.getDataHoraSimplificado(pgMeusContatos.tokenAcesso.validade)}"  /><br/>
+                <f:facet name="legend">
+                    <span class="ConviteContatoLegenda">
+                        <i class="fa fa-paper-plane ConviteContatoLegendaIcone" aria-hidden="true"></i>
+                        Enviar convite de primeiro acesso
+                    </span>
+                </f:facet>
+
+                <h:panelGroup layout="block" styleClass="ConviteContatoDescricao"
+                              rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail or pgMeusContatos.entidadeSelecionada.possuiTelefone}">
+                    Escolha por onde enviar o link para o contato criar o acesso dele.
+                </h:panelGroup>
+
+                <p:staticMessage severity="warn"
+                                 summary="Nenhum canal de envio disponível"
+                                 detail="Cadastre um e-mail ou um celular no contato para enviar o convite automaticamente, ou compartilhe o QR Code / link abaixo por onde preferir."
+                                 rendered="#{!pgMeusContatos.entidadeSelecionada.possuiEmail and !pgMeusContatos.entidadeSelecionada.possuiTelefone}" />
+
+                <h:panelGroup layout="block" styleClass="ConviteContatoOpcoes OrganizadorContainer">
+
+                    <h:panelGroup layout="block" styleClass="Container6 ConviteContatoOpcao"
+                                  rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail}">
+                        <h:form>
+                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorEmail}"
+                                               cor="#0091EA" />
+                        </h:form>
+                        <h:panelGroup layout="block" styleClass="ConviteContatoDestino ConviteContatoDestinoEmail">
+                            <i class="fa fa-envelope ConviteContatoDestinoIcone" aria-hidden="true"></i>
+                            <span class="ConviteContatoDestinoTexto">#{pgMeusContatos.entidadeSelecionada.email}</span>
                         </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="Container6 ConviteContatoOpcao"
+                                  rendered="#{pgMeusContatos.entidadeSelecionada.possuiTelefone}">
+                        <h:form>
+                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorWhatsapp}"
+                                               atualizar="@form"
+                                               cor="#25D366" />
+                        </h:form>
+                        <h:panelGroup layout="block" styleClass="ConviteContatoDestino ConviteContatoDestinoWhatsapp">
+                            <i class="fa fa-whatsapp ConviteContatoDestinoIcone" aria-hidden="true"></i>
+                            <span class="ConviteContatoDestinoTexto">#{pgMeusContatos.entidadeSelecionada.celular}</span>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+            </p:fieldset>
+
+            <!-- 2. Alternativa: compartilhar o QR Code ou o link manualmente -->
+            <p:fieldset styleClass="ConviteContatoBloco ConviteContatoFieldset">
+
+                <f:facet name="legend">
+                    <span class="ConviteContatoLegenda">
+                        <i class="fa fa-qrcode ConviteContatoLegendaIcone" aria-hidden="true"></i>
+                        Compartilhar manualmente
+                    </span>
+                </f:facet>
+
+                <h:panelGroup layout="block" styleClass="ConviteContatoDescricao">
+                    O contato pode apontar a câmera do celular para o QR Code, ou você copia o link e envia por onde preferir.
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="ConvitePrimeiroAcessoManual OrganizadorContainer">
+
+                    <h:panelGroup layout="block" styleClass="Container6 ConvitePrimeiroAcessoQrCode">
                         <pe:qrCode id="qrCodeElem"
                                    renderMethod="canvas"
                                    renderMode="4"
@@ -28,46 +90,62 @@
                                    fontName="Ubuntu"
                                    fontColor="#01A9DB"
                                    ecLevel="H"
-                                   radius="0.5"/> <br/>
-
-                        <p:outputLabel value="#{pgMeusContatos.urlAcessoDireto}"  id="codigoAcesso" />
+                                   radius="0.5"/>
                     </h:panelGroup>
-                    <h:form>
-                        <p:commandButton id="btnAjaxCopy" value="Copiar" icon="pi pi-copy" onclick="return false;"/>
 
-                        <pe:clipboard id="clipCopy" trigger="btnAjaxCopy" action="copy" target="codigoAcesso">
-                            <p:ajax event="success" listener="#{pgUtil.mensagemInfo('Código copiado com sucesso')}"/>
-                        </pe:clipboard>
-                    </h:form>
-                </h:panelGroup>
-            </p:fieldset>
-            <h:panelGroup styleClass="Container12"  layout="block" style="height: 10px;"/>
+                    <h:panelGroup layout="block" styleClass="Container6 ConvitePrimeiroAcessoLink">
 
-            <p:fieldset legend="Convite Reunião agenda" styleClass="Container3 OrganizadorContainer" style="height: 300px; " >
-                <h:form >
-                    <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmConviteReserva}"
-                                       rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}"
-                                       />
-                </h:form>
-            </p:fieldset>
-            <p:fieldset legend="Convite via #{pgMeusContatos.entidadeSelecionada.email}" styleClass="OrganizadorContainer" style="height: 300px;" >
-                <h:panelGroup styleClass="Container12 OrganizadorContainer" >
-                    <h:panelGroup styleClass="Container3" layout="block"  >
-                        <h:form>
-                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorEmail}" rendered="#{pgMeusContatos.entidadeSelecionada.possuiEmail}" />
+                        <h:panelGroup layout="block" styleClass="ConvitePrimeiroAcessoValidade">
+                            <i class="fa fa-clock ConvitePrimeiroAcessoValidadeIcone" aria-hidden="true"></i>
+                            <span>Link válido até #{pgUtilDataHoraFormato.getDataHoraSimplificado(pgMeusContatos.tokenAcesso.validade)}</span>
+                        </h:panelGroup>
+
+                        <span class="ConvitePrimeiroAcessoLinkRotulo">Link de acesso direto</span>
+
+                        <p:outputLabel id="codigoAcesso"
+                                       styleClass="ConvitePrimeiroAcessoLinkCaixa"
+                                       value="#{pgMeusContatos.urlAcessoDireto}" />
+
+                        <h:form styleClass="ConvitePrimeiroAcessoLinkAcao">
+                            <p:commandButton id="btnAjaxCopy" value="Copiar link" icon="pi pi-copy" onclick="return false;"/>
+
+                            <pe:clipboard id="clipCopy" trigger="btnAjaxCopy" action="copy" target="codigoAcesso">
+                                <p:ajax event="success" listener="#{pgUtil.mensagemInfo('Código copiado com sucesso')}"/>
+                            </pe:clipboard>
                         </h:form>
+
                     </h:panelGroup>
-                    <h:panelGroup styleClass="Container3" layout="block"  >
-                        <h:form>
-                            <SBCRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrConvidarPrimeiroAcessoPorWhatsapp}" rendered="#{pgMeusContatos.entidadeSelecionada.possuiTelefone}"   />
-                        </h:form>
-                    </h:panelGroup>
+
                 </h:panelGroup>
             </p:fieldset>
 
+            <!-- 3. Próximo passo, só faz sentido depois de existir usuário -->
+            <p:fieldset styleClass="ConviteContatoBloco ConviteContatoFieldset ConviteContatoBlocoUnico"
+                        rendered="#{pgMeusContatos.entidadeSelecionada.usuarioVinculado!=null}">
+
+                <f:facet name="legend">
+                    <span class="ConviteContatoLegenda">
+                        <i class="fa fa-calendar-check ConviteContatoLegendaIcone" aria-hidden="true"></i>
+                        Convidar para agendar reunião
+                    </span>
+                </f:facet>
+
+                <h:panelGroup layout="block" styleClass="ConviteContatoDescricao">
+                    Se preferir Envie também a sua agenda para que ele reserve o melhor horário.
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="ConviteContatoOpcoes OrganizadorContainer">
+                    <h:panelGroup layout="block" styleClass="Container12 ConviteContatoOpcao">
+                        <h:form>
+
+                            <SBCRM:botaoGrandeLinkV2 acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmConviteReserva}"
+                                                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosFrmConviteReserva,pgMeusContatos.entidadeSelecionada)}" />
+                        </h:form>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:fieldset>
 
         </h:panelGroup>
-
 
     </ui:define>
 </ui:composition>

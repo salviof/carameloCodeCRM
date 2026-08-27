@@ -26,15 +26,14 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
-
+        <p:staticMessage severity="info" summary="Atenção" detail="Nenhum Tipo de atendimento disponível para #{cc.attrs.atendente}. Verifique as disponibilidades" />
         <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
             <c:forEach items="#{cc.attrs.tiposDisponiveis}"
                        var="tipoAgenda"
                        >
                 <p:link href="#{pgUtilAcoes.getUrlAcao(tipoAgenda.umAtendimentoRemoto?cc.attrs.acaoAgendaRemota:cc.attrs.acaoAgendaPresencial,cc.attrs.atendido,cc.attrs.atendido , cc.attrs.atendente,tipoAgenda)}" >
 
-                    <crmAgenda:tipoReserva  tipoAgendamento="#{tipoAgenda}" atendente="#{cc.attrs.atendente}" acaoEscolhaTipoEvento="#{cc.attrs.acaoEscolhaTipo}"
-                                            atendido="#{servicoCrmReserva.agendaDisponibilidade.usuarioAtendido}"
+                    <crmAgenda:tipoReserva  tipoAgendamento="#{tipoAgenda}" atendente="#{cc.attrs.atendente}"
 
                                             />
                 </p:link>

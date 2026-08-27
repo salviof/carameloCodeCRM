@@ -8,23 +8,55 @@
     xmlns:crmAgenda="http://xmlns.jcp.org/jsf/composite/crmAgenda"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo">
-        <h:outputStylesheet name="reservaPublicaMeusDados.css" library="css"/>
+        <h:outputStylesheet name="reservaPublica.css" library="crmAgenda"/>
 
 
         <h:panelGroup styleClass="container-flex " id="etapas">
             <h:panelGroup styleClass="card-content">
                 <h:form>
-                    <h:panelGroup styleClass="step-content">
+                    <h:panelGroup layout="block" styleClass="step-content">
 
+                        <h:panelGroup layout="block" styleClass="assistente-cabecalho">
 
+                            <h:panelGroup layout="block" styleClass="assistente-cabecalho-topo">
 
-                        <p:steps activeIndex="#{pgReservasPublicas.step}" styleClass="">
-                            <p:menuitem value="Contato" actionListener="#{pgReservasPublicas.goToStep(0)}"/>
-                            <p:menuitem value="Dados Empresa" actionListener="#{pgReservasPublicas.goToStep(1)}"/>
-                            <p:menuitem value="Observação" actionListener="#{pgReservasPublicas.goToStep(2)}"/>
-                            <p:menuitem value="Reservar" actionListener="#{pgReservasPublicas.goToStep(3)}"/>
-                        </p:steps>
+                                <span class="assistente-cabecalho-icone">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </span>
 
+                                <h:panelGroup layout="block" styleClass="assistente-cabecalho-textos">
+                                    <span class="assistente-cabecalho-nome">Agende seu atendimento</span>
+                                    <h:panelGroup layout="block" styleClass="assistente-cabecalho-descricao">
+                                        <h:outputText value="Informe seus dados de contato para confirmarmos a reserva."
+                                                      rendered="#{pgReservasPublicas.step eq 0}"/>
+                                        <h:outputText value="Conte um pouco sobre a empresa que você representa."
+                                                      rendered="#{pgReservasPublicas.step eq 1}"/>
+                                        <h:outputText value="Quer adiantar algum assunto? Deixe uma observação."
+                                                      rendered="#{pgReservasPublicas.step eq 2}"/>
+                                        <h:outputText value="Confira o horário escolhido e finalize a sua reserva."
+                                                      rendered="#{pgReservasPublicas.step eq 3}"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <span class="assistente-cabecalho-contador">
+                                    Etapa #{pgReservasPublicas.step + 1} de 4
+                                </span>
+
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="assistente-progresso">
+                                <h:panelGroup layout="block"
+                                              styleClass="assistente-progresso-barra assistente-progresso-etapa-#{pgReservasPublicas.step}"/>
+                            </h:panelGroup>
+
+                            <p:steps activeIndex="#{pgReservasPublicas.step}" styleClass="assistente-etapas">
+                                <p:menuitem value="Contato" actionListener="#{pgReservasPublicas.goToStep(0)}"/>
+                                <p:menuitem value="Dados Empresa" actionListener="#{pgReservasPublicas.goToStep(1)}"/>
+                                <p:menuitem value="Observação" actionListener="#{pgReservasPublicas.goToStep(2)}"/>
+                                <p:menuitem value="Reservar" actionListener="#{pgReservasPublicas.goToStep(3)}"/>
+                            </p:steps>
+
+                        </h:panelGroup>
 
                     </h:panelGroup>
 
@@ -34,16 +66,37 @@
                             <SBInput:input
                                 registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('nomeUsuario')}"
                                 label="Seu nome"
+                                idAtualizarOnChange="@this"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
 
                             <SBInput:input
                                 registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('celular')}"
+                                idAtualizarOnChange="@this"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+
 
                             <SBInput:input
                                 registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('email')}"
-                                layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
+                                layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                idAtualizarOnChange="@this"
+                                />
                         </p:fieldset>
+
+                        <h:outputScript>
+                            //<![CDATA[
+                            // Atualiza o campo celular ao exibir a primeira etapa, uma única
+                            // vez: a trava evita reexecução nas atualizações ajax seguintes.
+                            $(function () {
+                            if (window.reservaPublicaCelularAtualizado) {
+                            return;
+                            }
+                            if (window.CarameloCode && CarameloCode.formulario) {
+                            window.reservaPublicaCelularAtualizado = true;
+                            CarameloCode.formulario.atualizarCampo('ContatoAnonimoDadoTansitorio.celular');
+                            }
+                            });
+                            //]]>
+                        </h:outputScript>
 
                     </h:panelGroup>
 
@@ -53,6 +106,7 @@
                                 registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('nomeEmpresa')}"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
                             <SBInput:input
+                                idAtualizarOnChange="@this"
                                 registro="#{pgReservasPublicas.novoContato.getCampoInstanciadoByNomeOuAnotacao('site')}"
                                 layout="#{layoutsComponenteSB.layoutCampo.superior}"/>
                         </p:fieldset>
@@ -79,9 +133,9 @@
                                        styleClass="btn-nav btn-primary"/>
                     </h:panelGroup>
                 </h:form>
-                <h:panelGroup rendered="#{pgReservasPublicas.step eq 3}" styleClass="card-reserva-confirmar">
-                        <crmAgenda:cardReservaHorario reserva="#{pgReservasPublicas.entidadeSelecionada}" acaoListarOutrosHorarios="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaFrmListarHorarios}"
-                                                      acaoSalvarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrReservar}" />
+                <h:panelGroup layout="block" rendered="#{pgReservasPublicas.step eq 3}" styleClass="card-reserva-confirmar">
+                    <crmAgenda:cardReservaHorario reserva="#{pgReservasPublicas.entidadeSelecionada}" acaoListarOutrosHorarios="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaFrmListarHorarios}"
+                                                  acaoSalvarReserva="#{acoesAtendimentoCrm_ReservaPublicaMbReservas.reservaPublicaCtrReservar}" />
                 </h:panelGroup>
 
             </h:panelGroup>

@@ -50,6 +50,7 @@ public class ValorLogicoPessoaDocEquipeCategorias
                         novoDocCat.setNome(cat.getNome());
                         novoDocCat.setCategoria(cat);
                         novoDocCat.setIcone(cat.getIcone());
+
                         getPessoa().getDocEquipeCategorias().add(novoDocCat);
                     }
 

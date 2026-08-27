@@ -13,7 +13,7 @@
     <cc:interface>
         <cc:attribute name="usuario"
                       type="com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario" required="true"/>
-        <cc:attribute name="metodo" method-signature="void listener()" default="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"/>
+        <cc:attribute name="metodo" method-signature="void listener()" />
         <cc:attribute name="funcaoUsuario" type="java.lang.String"/>
     </cc:interface>
 
@@ -53,15 +53,11 @@
 
                     <!-- Botão de Ação -->
                     <div class="area-acao">
-                        <h:form>
-                            <SBCRM:botaoGrandeV2
-                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
-                                metodo="#{cc.attrs.metodo}"
-                                label="Iniciar Agendamento"
-                                atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
-                                estilo="outline"
-                                />
-                        </h:form>
+
+                        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ReservasMbGestao.reservasFrmEscolherTipoDeReserva, cc.attrs.usuario)}" >
+                            Ver agenda
+                        </p:link>
+
                     </div>
 
                 </div>

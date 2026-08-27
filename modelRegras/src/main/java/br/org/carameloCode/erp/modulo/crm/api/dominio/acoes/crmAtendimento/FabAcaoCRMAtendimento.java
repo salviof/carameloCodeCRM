@@ -374,6 +374,14 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     PROSPECTO_CTR_ATIVIDADE_REALIZAR_PRE_ANALISE,
     @InfoTipoAcaoController(nomeAcao = "Reliazar pré análise", descricao = "", icone = "fa fa-futbol-o")
     PROSPECTO_CTR_PASSAR_A_BOLA,
+    @InfoTipoAcaoController(icone = "fa-solid fa-hand-holding-heart", nomeAcao = "Definir como reponsável comercial")
+    PROSPECTO_CTR_DEFINIR_RESPONSAVEL_COMERCIAL,
+    @InfoTipoAcaoController(icone = "fa-regular fa-star", nomeAcao = "Definir usuário reponsável atendimento")
+    PROSPECTO_CTR_DEFINIR_RESPONSAVEL_ATENDIMENTO,
+    @InfoTipoAcaoController(icone = "fa-solid fa-hand-holding-heart", nomeAcao = "Remover como reponsável comercial")
+    PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_COMERCIAL,
+    @InfoTipoAcaoController(icone = "fa-regular fa-star", nomeAcao = "Remover usuário reponsável atendimento")
+    PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_ATENDIMENTO,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Meu Painel", icone = "fa fa-heartbeat", entidade = UsuarioCRM.class, precisaPermissao = true)
     MEU_DASHBOARD_MB_GESTAO,
     @InfoTipoAcaoFormulario(icone = "fa fa-line-chart", nomeAcao = "Visão geral do atendimento", precisaPermissao = true)

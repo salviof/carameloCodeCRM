@@ -8,8 +8,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="chamado"
-                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente" required="true"/>
+
 
     </cc:interface>
     <cc:implementation>
@@ -22,7 +21,6 @@
                 <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTopo">
 
                     <h:panelGroup layout="block" styleClass="ChamadoCabecalhoIdentificacao">
-
                         <h:panelGroup layout="block" styleClass="ChamadoCabecalhoCliente"
                                       rendered="#{servicosCRM.umUsuarioAtendimentoLogado}">
                             <p:link styleClass="ChamadoCabecalhoClienteLink"
@@ -32,7 +30,6 @@
                                      src="#{cc.attrs.chamado.usuarioCliente.representanteLegal.imgPequena}"/>
                             </p:link>
                         </h:panelGroup>
-
                         <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTitulos">
                             <h:panelGroup layout="block" styleClass="ChamadoCabecalhoTipo FontPadraoBold">
                                 <i class="fa fa-life-ring ChamadoCabecalhoTipoIcone"></i>

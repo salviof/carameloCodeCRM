@@ -5,7 +5,7 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     template="#{layoutsPaginas.modeloGeral.xhtmlVinculado}">
     <ui:define name="divConteudo">
-
+        <h:outputStylesheet library="crmContato" name="contatos.css" />
         <crm:menuProspecto  pessoaJuridica="#{pgMeusContatos.entidadeSelecionada.prospecto}" rendered="#{pgMeusContatos.entidadeSelecionada.prospecto!=null}"/>
         <h:panelGroup id="#{paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada}">
             <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />

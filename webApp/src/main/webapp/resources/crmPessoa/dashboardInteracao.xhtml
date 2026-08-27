@@ -51,7 +51,7 @@
             <h:panelGroup layout="block" id="cardsInteracao" styleClass="cards-dashboard cards-dashboard--componente">
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="1"
+                    codigoestilo="5"
                     icone="fa fa-life-ring"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosFrmListarChamadosEmAtendimento, cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor)}"
                     titulo="Chamados"
@@ -61,7 +61,7 @@
                     />
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="3"
+                    codigoestilo="4"
                     icone="fa fa-hand-paper-o"
                     url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
                     titulo="Solicitações"
@@ -71,7 +71,7 @@
 
 
                 <crmDashBoard:dashBoardIconeValorTituloLink
-                    codigoestilo="4"
+                    codigoestilo="3"
                     icone="fa fa-calendar-days"
                     url="#{cc.attrs.pessoa.reservasAtivas.size() == 0 ?pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmAgendarNovo,cc.attrs.pessoa.contatoPrincipal.getCampoInstanciadoByNomeOuAnotacao('usuarioVinculado').valor):pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVisaoGeral)}"
                     titulo="Agenda"
@@ -85,9 +85,9 @@
                     texto=""
                     codigoestilo="2"
                     icone="fa fa-play"
-                    url="javascript:novaAtividadeLead();"
+                    url="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeEscolherAtividade, cc.attrs.pessoa)}"
                     titulo="Nova atividade"
-                    valor="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
+                    valor="1"
                     exibirBotaoNovoCasoZero="true"
                     />
 

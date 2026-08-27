@@ -1,6 +1,7 @@
 package br.org.carameloCode.erp.crm.config;
 
 import br.org.carameloCode.erp.crm.paginas.ComoPaginaAtualCRM;
+import br.org.carameloCode.erp.crm.paginas.ComoPaginaGestaoProspecto;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_PaginaAtual;
@@ -54,6 +55,11 @@ public class PaginaAtual extends MB_PaginaAtual implements ItfPaginaAtual, ComoP
     @Override
     public ItfPaginaComGestaoChamado getComoPaginaGestaoChamado() {
         return (ItfPaginaComGestaoChamado) getInfoPagina();
+    }
+
+    @Override
+    public ComoPaginaGestaoProspecto getComoPaginaGestaoPessoa() {
+        return (ComoPaginaGestaoProspecto) getInfoPagina();
     }
 
 }

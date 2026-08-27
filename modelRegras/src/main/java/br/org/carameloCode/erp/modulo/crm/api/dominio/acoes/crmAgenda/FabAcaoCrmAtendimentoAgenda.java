@@ -71,7 +71,7 @@ public enum FabAcaoCrmAtendimentoAgenda implements ComoFabricaDeAcoesPersistenci
     MINHA_AGENDA_CTR_AGENDAR,
     @InfoTipoAcaoGestaoEntidade(entidade = ContatoPessoaFisica.class, precisaPermissao = true)
     MEUS_CONTATOS_MB_GESTAO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-whatsapp", nomeAcao = "Enviar Mensagem de Whatsapp")
+    @InfoTipoAcaoFormulario(icone = "fa fa-whatsapp iconeVerde", nomeAcao = "Enviar Mensagem de Whatsapp")
     MEUS_CONTATOS_FRM_ENVIAR_MKT_WTZAP,
     @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Compartilhar agenda pública")
     MEUS_CONTATOS_FRM_CONVITE_RESERVA,

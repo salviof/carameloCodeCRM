@@ -1,0 +1,21 @@
+
+/* Responsividade */
+
+.CardAtividade{
+    padding: 10px;
+
+}
+.CardAtividade i{
+    margin-top:  10px;
+}
+.iconeMaisSobreAtividadesDisponiveis i{
+    color: #898d8e;
+}
+.iconeMaisSobreAtividadesDisponiveis i:hover{
+    color: #000000;
+    border-radius: 10px;
+    background-color: white;
+    transition: .1s all ease-in-out;
+    box-shadow: 0px 0px 40px #898d8e;
+
+}

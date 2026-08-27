@@ -110,18 +110,17 @@
                             <SBInput:input registro="#{chamado.getCampoByNomeOuAnotacao('status')}"  desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}"  />
 
                             <h:panelGroup layout="block"
-                                          style="padding-left: 18px;padding-top: 21px;"
                                           rendered="#{servicoVisualizacaoComponente.visualizarEstiloIcone(chamado.status)}"
-                                          styleClass="Container12 OrganizadorContainerEsquerda"
+                                          styleClass="Container12 OrganizadorContainerEsquerda ChamadoStatusIcone"
                                           >
 
                                 <p:panelGrid columns="1">
-                                    <h:panelGroup styleClass="#{servicoVisualizacaoComponente.getIcone(cc.attrs.objetoSimples)} Fs40" style="color: #{servicoVisualizacaoComponente.getCor(cc.attrs.objetoSimples)}"  >
+                                    <h:panelGroup styleClass="#{servicoVisualizacaoComponente.getIcone(chamado.status)} Fs40" style="color: #{servicoVisualizacaoComponente.getCor(chamado.status)}"  >
 
                                     </h:panelGroup>
 
-                                    <h:panelGroup styleClass="statusText Fs16" rendered="#{servicoVisualizacaoComponente.getIcone(cc.attrs.objetoSimples) == null}"  >
-                                        #{cc.attrs.objetoSimples.nome}
+                                    <h:panelGroup styleClass="statusText Fs16" rendered="#{servicoVisualizacaoComponente.getIcone(chamado.status) == null}"  >
+                                        #{chamado.status.nome}
 
                                     </h:panelGroup>
                                 </p:panelGrid>

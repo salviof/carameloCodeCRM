@@ -52,7 +52,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                 reserva.setLinkConferencia(pReserval.getComoReservaVideoConferencia().getLinkConferencia());
                 boolean resultado = false;
 
-                if (reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
+                if (!reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
                     throw new ErroRegraDeNegocio("O compromisso não é do tipo Remoto");
                 }
                 if (UtilCRCStringValidador.isNuloOuEmbranco(reserva.getComoReservaVideoConferencia().getLinkConferencia())) {

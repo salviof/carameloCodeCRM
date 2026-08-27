@@ -4,12 +4,13 @@
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:p="http://primefaces.org/ui"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+
     xmlns:listaLead="http://xmlns.jcp.org/jsf/composite/listaLead"
 
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <listaLead:dialogoIntervalo  pesquisa="#{pgMeusProspectos.pesquisa}" />
+    <h:outputStylesheet  name="listaLead.css" library="listaLead" />
     <h:panelGroup layout="block" id="atualizacaoCard" >
         <h:form  >
             <p:remoteCommand
@@ -56,13 +57,10 @@
             <listaLead:menuMeusProspectos pesquisa="#{pgMeusProspectos.pesquisa}" />
         </h:form>
     </h:panelGroup>
-
-
     <h:panelGroup
         id="gridListagemMeusProspets" layout="block"
         styleClass="Container12"
         style="margin-top: 55px;"
-
         >
         <p:focus for="#{pgUtil.gerarCaminhoCompletoID('pesquisaLead')}" />
         <h:form>
@@ -80,11 +78,10 @@
                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 rowsPerPageTemplate="10,20,30,40,50,60,70,60"
                 >
-
                 <h:panelGroup id="cardPessoa" layout="block" >
-                    <crm:empresa empresa="#{empresa}"
-                                 tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}"
-                                 />
+                    <listaLead:empresa empresa="#{empresa}"
+                                       tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                       />
                 </h:panelGroup>
             </p:dataGrid>
         </h:form>

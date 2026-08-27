@@ -7,7 +7,6 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado;
 
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaStatusComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoFabricaObjetos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
  *
  * @author sfurbino
  */
-@InfoFabricaObjetos(manterSempreValorDaFabricaEmBanco = true)
 public enum FabStatusChamado implements ComoFabricaStatusComPersistencia {
 
     @InfoObjetoDaFabrica(classeObjeto = StatusChamado.class, nomeObjeto = "Rascunho", icone = "fa-solid fa-pen-ruler", cor = "#9E9E9E", id = 1)

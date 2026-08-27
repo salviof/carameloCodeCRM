@@ -74,11 +74,11 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     @InfoParametroURL(nome = "prContatoCliente", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ContatoProspecto.class, obrigatorio = false)
     private ParametroURL prContatoSolicitacao;
 
-    @InfoParametroURL(nome = "prUsuarioEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = UsuarioCRM.class, obrigatorio = false)
-    private ParametroURL prContatoUsuarioEquipe;
-
     @InfoParametroURL(nome = "prUsuarioCliente", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = UsuarioCrmCliente.class, obrigatorio = false)
     private ParametroURL prUsuarioCliente;
+
+    @InfoParametroURL(nome = "prUsuarioEquipe", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = UsuarioCRM.class, obrigatorio = false)
+    private ParametroURL prUsuarioEquipe;
 
     @InfoParametroURL(nome = "prSolicitacao", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Solicitacao.class, representaEntidadePrincipalMB = true, obrigatorio = false)
     private ParametroURL prSolicitacao;
@@ -142,6 +142,11 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
             default:
                 return;
         }
+    }
+
+    @Override
+    public void executarAcao(Solicitacao pEntidadeSelecionada) {
+        super.executarAcao(pEntidadeSelecionada); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     public boolean isPrChamadoDefinido() {
@@ -220,6 +225,28 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
             ModuloCRMAtendimentoSolicitacoes.solicitacaoEnviarArquivoEquipe((SolicitacaoArquivoEquipe) getEntidadeSelecionada());
         } catch (Throwable t) {
             CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Falha enviando arquivo");
+        }
+    }
+
+    private void definirPArametros() {
+        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
+            pessoa = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prPessoa).getValor(), getEMPagina());
+        }
+        if (getParametroInstanciado(prUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
+            usuarioEquipe = UtilSBPersistencia.loadEntidade((UsuarioCRM) getParametroInstanciado(prUsuarioEquipe).getValor(), getEMPagina());
+        } else {
+            usuarioEquipe = UtilSBPersistencia.loadEntidade(CarameloCode.getUsuarioLogado(), getEMPagina());
+        }
+        if (getParametroInstanciado(prContatoSolicitacao).isValorDoParametroFoiConfigurado()) {
+            contatoCliente = UtilSBPersistencia.loadEntidade((ContatoProspecto) getParametroInstanciado(prContatoSolicitacao).getValor(), getEMPagina());
+            pessoa = contatoCliente.getProspecto();
+        }
+        if (getParametroInstanciado(prSolicitacao).isValorDoParametroFoiConfigurado()) {
+            setEntidadeSelecionada(UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prSolicitacao).getValor(), getEMPagina()));
+            pessoa = (((Solicitacao) getParametroInstanciado(prSolicitacao).getValor()).getPessoa());
+            if (getEntidadeSelecionada() instanceof SolicitacaoArquivoEquipe) {
+                categoriaEquipe = getEntidadeSelecionada().getComoSolicitacaoArquivoEquipe().getCategoriaArqEquipe();
+            }
         }
     }
 
@@ -325,8 +352,8 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
 
                     try {
                         getEntidadeSelecionada().prepararNovoObjeto(arquivoSelecionado);
-                        if (getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
-                            getEntidadeSelecionada().setUsuarioSolicitado((UsuarioCRM) getParametroInstanciado(prContatoUsuarioEquipe).getValor());
+                        if (getParametroInstanciado(prUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
+                            getEntidadeSelecionada().setUsuarioSolicitado((UsuarioCRM) getParametroInstanciado(prUsuarioEquipe).getValor());
                         } else {
                             if (arquivoSelecionado.getUsuarioCriou() != null) {
                                 if (arquivoSelecionado.getUsuarioCriou() instanceof UsuarioCRM) {
@@ -355,26 +382,6 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
         }
     }
 
-    private void definirPArametros() {
-        if (getParametroInstanciado(prPessoa).isValorDoParametroFoiConfigurado()) {
-            pessoa = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prPessoa).getValor(), getEMPagina());
-        }
-        if (getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
-            usuarioEquipe = UtilSBPersistencia.loadEntidade((UsuarioCRM) getParametroInstanciado(prContatoUsuarioEquipe).getValor(), getEMPagina());
-        }
-        if (getParametroInstanciado(prContatoSolicitacao).isValorDoParametroFoiConfigurado()) {
-            contatoCliente = UtilSBPersistencia.loadEntidade((ContatoProspecto) getParametroInstanciado(prContatoSolicitacao).getValor(), getEMPagina());
-            pessoa = contatoCliente.getProspecto();
-        }
-        if (getParametroInstanciado(prSolicitacao).isValorDoParametroFoiConfigurado()) {
-            setEntidadeSelecionada(UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prSolicitacao).getValor(), getEMPagina()));
-            pessoa = (((Solicitacao) getParametroInstanciado(prSolicitacao).getValor()).getPessoa());
-            if (getEntidadeSelecionada() instanceof SolicitacaoArquivoEquipe) {
-                categoriaEquipe = getEntidadeSelecionada().getComoSolicitacaoArquivoEquipe().getCategoriaArqEquipe();
-            }
-        }
-    }
-
     @Override
     public void atualizarEntidadeSelecionada() {
         super.atualizarEntidadeSelecionada();
@@ -400,7 +407,7 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
     }
 
     public UsuarioCRM getUsuarioEquipe() {
-        if (!getParametroInstanciado(prContatoUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
+        if (!getParametroInstanciado(prUsuarioEquipe).isValorDoParametroFoiConfigurado()) {
             if (getPessoa() != null) {
 
                 //  getPessoa().getUsuariosResponsaveis().stream().filter(usr -> usr != null && !usr.equals(CarameloCode.getUsuarioLogado())).findFirst();
@@ -408,7 +415,7 @@ public class PgSolicitacaoAtendimento extends MB_paginaCadastroEntidades<Solicit
             }
 
         } else {
-            usuarioEquipe = (UsuarioCRM) getParametroInstanciado(prContatoUsuarioEquipe).getValor();
+            usuarioEquipe = (UsuarioCRM) getParametroInstanciado(prUsuarioEquipe).getValor();
         }
         return usuarioEquipe;
     }

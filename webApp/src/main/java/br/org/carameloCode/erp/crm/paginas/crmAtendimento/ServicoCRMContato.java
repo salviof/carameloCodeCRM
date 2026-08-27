@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
+import br.org.carameloCode.erp.crm.paginas.ComoPaginaAtualCRM;
 import br.org.carameloCode.erp.crm.paginas.moduloWeb.ModuloCRMAcoesWeb;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
@@ -14,6 +15,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.Persistencia.dao.ExecucaoComGestaoERegraDeNegocioPadrao;
@@ -23,6 +25,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.webSite.InfoWebApp;
 import com.super_bits.modulosSB.webPaginas.util.UtilSBWP_JSFTools;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -178,6 +181,72 @@ public class ServicoCRMContato implements Serializable {
 
         }
 
+    }
+
+    public Pessoa getPessoa() {
+        return ((ComoPaginaAtualCRM) paginaAtual).getComoPaginaGestaoPessoa().getPessoaSelecionada();
+    }
+
+    public void atualizarDadosPessoa() {
+        Pessoa pessao = getPessoa();
+        paginaAtual.getInfoPagina().getComoPaginaComEntityManager().renovarEntityManager();
+        pessao = UtilSBPersistencia.loadEntidade(pessao, paginaAtual.getInfoPagina().getComoPaginaComEntityManager().getEMPagina());
+        ((ComoPaginaAtualCRM) paginaAtual).getComoPaginaGestaoPessoa().setPessoaSelecionada(pessao);
+
+    }
+
+    public void desPromoverRepresentanteComercial(UsuarioCRM pUsuario) {
+        getPessoa().setUsuarioResponsavel(pUsuario);
+        ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.prospectoRemoverResponsavelComenrcial(getPessoa());
+        if (!resposta.isSucesso()) {
+            resposta.dispararMensagens();
+        }
+        atualizarDadosPessoa();
+
+    }
+
+    public void desPromoverAtendimento(UsuarioCRM pUsuario) {
+        getPessoa().setUsuarioResponsavel(pUsuario);
+        ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.prospectoRemoverResponsavelAtendimento(getPessoa());
+        if (!resposta.isSucesso()) {
+            resposta.dispararMensagens();
+        }
+        atualizarDadosPessoa();
+
+    }
+
+    public void promoverRepresentanteComercial(UsuarioCRM pUsuario) {
+        getPessoa().setUsuarioResponsavel(pUsuario);
+        ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.prospectoDefinirResponsavelComenrcial(getPessoa());
+        if (!resposta.isSucesso()) {
+            resposta.dispararMensagens();
+        }
+        atualizarDadosPessoa();
+
+    }
+
+    public void promoverResponsavelAtendimento(UsuarioCRM pUsuario) {
+        getPessoa().setUsuarioAtendimento(pUsuario);
+        ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.prospectoDefinirResponsavelAtendimento(getPessoa());
+        if (!resposta.isSucesso()) {
+            resposta.dispararMensagens();
+        }
+        atualizarDadosPessoa();
+
+    }
+
+    public boolean isResponsavelAtendimento(UsuarioCRM pUsuario) {
+        if (getPessoa().getUsuarioAtendimento() == null) {
+            return false;
+        }
+        return (getPessoa().getUsuarioAtendimento().equals(pUsuario));
+    }
+
+    public boolean isRepresentanteComercial(Pessoa pPessoa, UsuarioCRM pUsuario) {
+        if (getPessoa().getUsuarioResponsavel() == null) {
+            return false;
+        }
+        return (getPessoa().getUsuarioResponsavel().equals(pUsuario));
     }
 
     public void definirUsuarioPrincipal(Pessoa pPessoa, ContatoProspecto pContato) {

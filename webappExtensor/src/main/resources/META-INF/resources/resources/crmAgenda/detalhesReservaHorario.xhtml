@@ -28,7 +28,7 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:outputStylesheet name="agenda.css" library="css"/>
+        <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
 
 
         <h:panelGroup layout="block" rendered="#{cc.attrs.reserva == null}">
@@ -106,27 +106,38 @@
 
                 <h:form>
 
-                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
-                                  rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor}" style="margin: 3px;">
-                        <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
-                                           rendered="#{cc.attrs.reserva.status.id == 1}"
-                                           acao="#{cc.attrs.acaoConfirmarReserva}"
-                                           cor="#81C784"
-                                           label="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor?'Confirmar':'Confirme esta reserva com 24 horas de antecedencia'}"
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer ReservaDetalhesAcoes">
 
-                                           />
+                        <h:panelGroup layout="block" styleClass="Container12"
+                                      rendered="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor}">
+                            <p:commandButton action="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
+                                             rendered="#{cc.attrs.reserva.status.id == 1}"
+                                             value="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('disponivelParaConfirmacao').valor?'Confirmar':'Confirme esta reserva com 24 horas de antecedencia'}"
+                                             icon="pi pi-check-circle"
+                                             styleClass="ReservaDetalhesBotao ReservaDetalhesBotaoDestaque">
+                                <f:setPropertyActionListener target="#{paginaAtual.infoPagina.acaoSelecionada}"
+                                                             value="#{cc.attrs.acaoConfirmarReserva}"/>
+                                <p:confirm header="Confirmar reserva"
+                                           message="Confirmar #{cc.attrs.reserva.tipoAgendamento.nome} em #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.reserva.inicioReservaAtendente)} de #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.reserva.inicioReservaAtendente)}, às #{pgUtil.gerarHoraTextoSimples(cc.attrs.reserva.inicioReservaAtendente)}?"
+                                           icon="pi pi-check-circle"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="Container12">
+                            <p:commandButton action="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"
+                                             rendered="#{cc.attrs.reserva.id ne null}"
+                                             value="Cancelar"
+                                             icon="pi pi-times"
+                                             styleClass="ReservaDetalhesBotao ReservaDetalhesBotaoCancelar">
+                                <f:setPropertyActionListener target="#{paginaAtual.infoPagina.acaoSelecionada}"
+                                                             value="#{cc.attrs.acaoCancelarReserva}"/>
+                                <p:confirm header="Cancelar reserva"
+                                           message="Deseja realmente cancelar #{cc.attrs.reserva.tipoAgendamento.nome} de #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.reserva.inicioReservaAtendente)} de #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.reserva.inicioReservaAtendente)}, às #{pgUtil.gerarHoraTextoSimples(cc.attrs.reserva.inicioReservaAtendente)}? Esta ação não pode ser desfeita."
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
                     </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin: 3px;">
-                        <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.executarAcaoSelecionada()}"
-                                           rendered="#{cc.attrs.reserva.id ne null}"
-                                           tipo="danger"
-                                           acao="#{cc.attrs.acaoCancelarReserva}"
-                                           label="Cancelar"
-
-                                           />
-
-                    </h:panelGroup>
-
 
                 </h:form>
 
@@ -211,16 +222,22 @@
                 </div>
 
                 <h:form>
-                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer ReservaDetalhesAcoes"
                                   rendered="#{cc.attrs.reserva.id eq null}">
 
-                        <crm:botaoGrandeV2 metodo="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
-                                           rendered="#{cc.attrs.reserva.id eq null}"
+                        <h:panelGroup layout="block" styleClass="Container12">
+                            <p:commandButton action="#{paginaAtual.infoPagina.comoFormularioWeb.executarAcaoSelecionada()}"
+                                             value="Confirmar para: #{pgUtilDataHoraFormato.getDataHoraRelativa(cc.attrs.reserva.inicioReservaAtendente)}"
+                                             icon="pi pi-check-circle"
+                                             styleClass="ReservaDetalhesBotao ReservaDetalhesBotaoDestaque">
+                                <f:setPropertyActionListener target="#{paginaAtual.infoPagina.acaoSelecionada}"
+                                                             value="#{cc.attrs.acaoSalvarReserva}"/>
+                                <p:confirm header="Confirmar agendamento"
+                                           message="Agendar #{cc.attrs.reserva.tipoAgendamento.nome} com #{cc.attrs.reserva.atendenteResponsavel.nome} em #{pgUtilDataHoraFormato.getDiaDoMes(cc.attrs.reserva.inicioReservaAtendente)} de #{pgUtilDataHoraFormato.getMesExtenso(cc.attrs.reserva.inicioReservaAtendente)}, às #{pgUtil.gerarHoraTextoSimples(cc.attrs.reserva.inicioReservaAtendente)}?"
+                                           icon="pi pi-check-circle"/>
+                            </p:commandButton>
+                        </h:panelGroup>
 
-                                           acao="#{cc.attrs.acaoSalvarReserva}"
-                                           label="Confirmar para: #{pgUtilDataHoraFormato.getDataHoraRelativa(cc.attrs.reserva.inicioReservaAtendente)}"
-
-                                           />
                     </h:panelGroup>
 
 
@@ -230,6 +247,16 @@
 
 
             </h:panelGroup>
+
+            <!-- Modal de confirmação nativo do PrimeFaces: atende todos os
+                 p:confirm deste componente (dispara o botão de origem no "Sim") -->
+            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade"
+                             styleClass="ReservaDetalhesConfirmacao">
+                <p:commandButton value="Sim" type="button" icon="pi pi-check"
+                                 styleClass="ui-confirmdialog-yes ReservaDetalhesBotaoDestaque"/>
+                <p:commandButton value="Não" type="button" icon="pi pi-times"
+                                 styleClass="ui-confirmdialog-no ui-button-flat"/>
+            </p:confirmDialog>
         </h:panelGroup>
     </cc:implementation>
 </ui:composition>

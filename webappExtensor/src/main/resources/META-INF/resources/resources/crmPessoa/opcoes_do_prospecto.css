@@ -198,10 +198,12 @@ simples, centralizados verticalmente e sem largura de grid.  */
 
 .card-cliente-title-content h3 {
     margin: 0;
+    min-width: 0;
     color: #2c3e50;
     font-size: 1.5rem;
     font-weight: 600;
     flex: 1;
+    overflow-wrap: break-word;
 }
 
 .container-imagem-edicao {
@@ -256,12 +258,23 @@ simples, centralizados verticalmente e sem largura de grid.  */
     width: 100%;
 }
 
-/* Lado esquerdo - informações */
+/* Lado esquerdo - informações
+   E um container de consulta: as linhas rotulo/valor se adaptam a
+   largura REAL desta coluna (que encolhe quando a coluna do logo/tags
+   divide o card), e nao a largura da janela — era ai que site, email
+   e CNPJ acabavam quebrando uma letra por linha. */
 .card-cliente-infos {
     flex: 1;
+    /* width/align-self explicitos: com container-type o navegador
+       ignora a largura do conteudo, entao num flex column com
+       align-items:flex-start (mobile) a coluna colapsaria */
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;   /* o respiro entre as linhas vem do padding de cada uma */
+    container: infosprospecto / inline-size;
 }
 
 .text-informacao {
@@ -272,10 +285,338 @@ simples, centralizados verticalmente e sem largura de grid.  */
     padding: 2px 0;
 }
 
+/* ============================================================
+   SATISFACAO DO CLIENTE
+   Destaque no topo das informacoes basicas: medalha circular com
+   o icone vindo de satisfacao.icone, rotulo pequeno em caixa alta,
+   o nome da satisfacao como informacao principal e a legenda
+   "com nossos servicos" em tom suave.
+   ============================================================ */
+.card-cliente-infos-satisfacao {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    border: 1px solid var(--cor-borda-suave, #e9ecef);
+    border-left: 4px solid var(--cor-primaria, #60a36c);
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f6faf7 0%, #ffffff 100%);
+}
+
+.card-cliente-infos-satisfacao-medalha {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid var(--cor-borda-suave, #e9ecef);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+/* o icone herda a cor definida pela propria satisfacao quando ela
+   traz uma classe de cor; o verde e apenas o padrao */
+.card-cliente-infos-satisfacao-icone {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--cor-primaria, #60a36c);
+}
+
+.card-cliente-infos-satisfacao-texto {
+    min-width: 0;
+}
+
+.card-cliente-infos-satisfacao-rotulo {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    color: var(--cor-texto-suave, #6c757d);
+}
+
+.card-cliente-infos-satisfacao-nome {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--cor-texto, #2c3e50);
+}
+
+.card-cliente-infos-satisfacao-legenda {
+    font-size: .8rem;
+    color: var(--cor-texto-suave, #6c757d);
+}
+
+/* ============================================================
+   INFORMACOES BASICAS (rotulo / valor)
+   Cada linha e uma grade de tres colunas — icone, rotulo e valor —
+   para que todos os valores fiquem alinhados verticalmente entre si.
+   ============================================================ */
+.card-cliente-infos .card-cliente-info-item {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 150px) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
+/* a linha do toggle e sempre a ultima do bloco: sem risco embaixo.
+   (:last-child nao serve aqui — o h:form do remoteCommand vem depois
+   e o display:contents nao muda a arvore para os seletores) */
+.card-cliente-infos .card-cliente-info-item--acao {
+    border-bottom: none;
+}
+
+/* h:form nao pode quebrar a coluna flex: os filhos (a linha, ou o
+   p:remoteCommand invisivel) viram itens diretos e nao geram gap */
+.card-cliente-infos > form {
+    display: contents;
+}
+
+.card-cliente-info-icone {
+    font-size: .95rem;
+    text-align: center;
+    color: var(--cor-texto-suave, #6c757d);
+}
+
+.card-cliente-info-rotulo {
+    min-width: 0;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: var(--cor-texto-suave, #6c757d);
+    overflow-wrap: break-word;
+}
+
+/* a celula do valor abriga o texto e, quando existe, o botao de
+   copiar — que fica logo depois do conteudo, sem esticar */
+.card-cliente-info-valor {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--cor-texto, #2c3e50);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.card-cliente-info-texto {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* documentos ganham fonte tabular para os digitos nao dancarem */
+.card-cliente-info-valor--documento {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .3px;
+}
+
+.card-cliente-info-vazio {
+    color: var(--cor-texto-suave, #6c757d);
+    font-style: italic;
+}
+
+/* ============================================================
+   BOTAO COPIAR (p:button + pe:clipboard)
+   Botao fantasma redondo, discreto ao lado do valor; ganha fundo
+   e cor primaria no hover. Escopado no card para nao afetar
+   outros p:button icon-only da tela.
+   ============================================================ */
+.card-cliente .btn-copiar.ui-button {
+    position: relative;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--cor-texto-suave, #6c757d);
+    box-shadow: none;
+    opacity: .6;
+    transition: background-color .2s ease, color .2s ease, opacity .2s ease, border-color .2s ease;
+}
+
+.card-cliente .btn-copiar.ui-button:hover,
+.card-cliente .btn-copiar.ui-button:focus {
+    background: #f1f3f5;
+    border-color: var(--cor-borda-suave, #e9ecef);
+    color: var(--cor-primaria-escura, #406a47);
+    opacity: 1;
+    box-shadow: none;
+}
+
+/* neutraliza o posicionamento absoluto que o tema aplica ao icone
+   dos botoes icon-only e esconde o texto placeholder do p:button */
+.card-cliente .btn-copiar.ui-button .ui-button-icon-left {
+    position: static;
+    margin: 0;
+    left: auto;
+    top: auto;
+    font-size: .85rem;
+}
+
+.card-cliente .btn-copiar.ui-button .ui-button-text {
+    display: none;
+    padding: 0;
+}
+
+/* a linha inteira revela melhor o botao quando o mouse passa nela */
+.card-cliente-info-item:hover .btn-copiar.ui-button {
+    opacity: 1;
+}
+
+/* variante do titulo: acompanha o tamanho do h3 */
+.card-cliente .btn-copiar--titulo.ui-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+}
+
+.card-cliente .btn-copiar--titulo.ui-button .ui-button-icon-left {
+    font-size: 1rem;
+}
+
+/* feedback de clique: botao fica verde, icone vira um check
+   e um balao "Copiado!" aparece acima por instantes */
+.card-cliente .btn-copiar--copiado.ui-button,
+.card-cliente .btn-copiar--copiado.ui-button:hover,
+.card-cliente .btn-copiar--copiado.ui-button:focus {
+    background: #e6f4ea;
+    border-color: #b7dfc3;
+    color: #2e7d4f;
+    opacity: 1;
+    animation: btnCopiarPulso .45s ease;
+}
+
+.card-cliente .btn-copiar--copiado.ui-button .ui-button-icon-left::before {
+    content: "\f00c";
+}
+
+.card-cliente .btn-copiar--copiado.ui-button::after {
+    content: "Copiado!";
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    padding: 4px 7px;
+    border-radius: 4px;
+    background: #2e7d4f;
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 5;
+    animation: btnCopiarBalao 1.5s ease forwards;
+}
+
+@keyframes btnCopiarPulso {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.18);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes btnCopiarBalao {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 4px);
+    }
+
+    15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    75% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -3px);
+    }
+}
+
+/* titulo e botao de copiar na mesma linha */
+.card-cliente-title-content .texto-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVIDADE DAS LINHAS (por largura da coluna, nao da janela)
+   1) coluna media: o rotulo cede largura para o valor;
+   2) coluna estreita: rotulo em cima, valor embaixo ocupando a
+      linha inteira — sem isso o valor sobra com poucos pixels e
+      site/email/CNPJ quebram uma letra por linha.
+   ------------------------------------------------------------ */
+@container infosprospecto (max-width: 560px) {
+    .card-cliente-infos .card-cliente-info-item {
+        grid-template-columns: 18px minmax(0, 110px) minmax(0, 1fr);
+        column-gap: 6px;
+    }
+
+    .card-cliente-info-valor {
+        font-size: .95rem;
+    }
+}
+
+@container infosprospecto (max-width: 400px) {
+    .card-cliente-infos .card-cliente-info-item {
+        grid-template-columns: 18px minmax(0, 1fr);
+        row-gap: 2px;
+    }
+
+    /* valor em varias linhas: o botao copiar acompanha a primeira */
+    .card-cliente-info-valor {
+        grid-column: 2;
+        align-items: flex-start;
+    }
+
+    .card-cliente-infos .card-cliente-info-item--acao .card-cliente-info-valor {
+        align-items: center;
+    }
+}
+
+/* fallback para navegadores sem @container: mesma quebra por janela */
+@media (max-width: 480px) {
+    .card-cliente-infos .card-cliente-info-item {
+        grid-template-columns: 20px minmax(0, 1fr);
+        row-gap: 2px;
+    }
+
+    .card-cliente-info-valor {
+        grid-column: 2;
+    }
+}
+
 /* Lado direito - tags */
 .card-lado-direito {
     width: 300px;
     min-width: 250px;
+    max-width: 100%;
 }
 
 /* --- grade interna do card de resumo (.card-cliente--resumo) ---
@@ -284,14 +625,42 @@ simples, centralizados verticalmente e sem largura de grid.  */
    grade: titulo e infos a esquerda, coluna do logo/tags/integracoes
    a direita ocupando a altura toda. Elimina o vao vertical que o
    logo criava sob o titulo e traz o lado direito para... a direita. */
+.card-cliente--resumo {
+    /* a grade abaixo reage a largura do proprio card: ele pode estar
+       dentro de uma coluna estreita mesmo com a janela larga */
+    width: 100%;
+    container: cardprospecto / inline-size;
+}
+
 .card-cliente--resumo .ui-card-content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
     grid-template-areas:
         "titulo   lado"
         "conteudo lado";
     column-gap: 32px;
     align-items: start;
+}
+
+/* card medio: a coluna da direita cede espaco antes de empilhar */
+@container cardprospecto (max-width: 1100px) {
+    .card-cliente--resumo .ui-card-content {
+        grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+        column-gap: 20px;
+    }
+}
+
+/* card estreito: coluna unica — titulo, logo/tags e depois as infos */
+@container cardprospecto (max-width: 860px) {
+    .card-cliente--resumo .ui-card-content {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "titulo"
+            "lado"
+            "conteudo";
+        column-gap: 0;
+        row-gap: 16px;
+    }
 }
 
 .card-cliente--resumo .card-cliente-title-content {
@@ -334,7 +703,12 @@ simples, centralizados verticalmente e sem largura de grid.  */
     object-position: center;
 }
 
-/* mobile: coluna unica — titulo, depois logo/tags, depois infos */
+/* o logo nunca estoura a coluna da direita quando ela encolhe */
+.card-cliente--resumo .img-prospecto {
+    max-width: 100%;
+}
+
+/* fallback (sem @container) — coluna unica: titulo, logo/tags, infos */
 @media (max-width: 768px) {
     .card-cliente--resumo .ui-card-content {
         grid-template-columns: 1fr;
@@ -422,7 +796,6 @@ simples, centralizados verticalmente e sem largura de grid.  */
 
 /* Links (escopado para não vazar para o restante da página) */
 .DashboardVisaoGeralProspecto .ui-link {
-    color: #70bf82 !important;
     text-decoration: none !important;
 }
 
@@ -449,13 +822,20 @@ simples, centralizados verticalmente e sem largura de grid.  */
         gap: 16px;
     }
 
+    .card-cliente-title-content .texto-titulo {
+        justify-content: center;
+    }
+
     .img-prospecto {
         width: 100px;
         height: 100px;
     }
 
+    /* empilhado: as colunas ocupam a largura toda (com flex-start
+       elas encolheriam ate o tamanho do conteudo) */
     .card-cliente .card-conteudo {
         flex-direction: column;
+        align-items: stretch;
         gap: 24px;
     }
 
@@ -725,6 +1105,180 @@ simples, centralizados verticalmente e sem largura de grid.  */
         max-width: 100%;
     }
 }
+/* ============================================================
+   TIME RESPONSAVEL
+   Tudo vive direto no card "Equipe Responsavel" (sem sanfona).
+   Gestor de sucesso e representante comercial aparecem no topo,
+   sem duplicar com os demais membros, e com destaque visual:
+   faixa lateral colorida, fundo suave e um chip com o icone do
+   papel de cada um.
+   ============================================================ */
+.card-equipe-responsavel {
+    width: 100%;
+}
+
+.titulo-equipe {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-texto, #2c3e50);
+}
+
+.time-responsavel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.destaques-equipe {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--cor-borda, #d1d1d1);
+}
+
+/* faixa lateral + fundo suave marcam o card como destaque */
+.painel-usuario-destaque.ui-panel {
+    border-left: 4px solid var(--cor-primaria, #60a36c);
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f6faf7 0%, #ffffff 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+.card-usuario-destaque .nome-usuario {
+    font-size: 1.05rem;
+    color: var(--cor-texto, #2c3e50);
+}
+
+/* --- chips de papel (gestor / representante) --- */
+.papeis-usuario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.papel-usuario {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.papel-usuario i {
+    font-size: .95rem;
+}
+
+.papel-gestor {
+    color: #8a5a00;
+    background: #fdf3dd;
+    border-color: #f39c12;
+}
+
+.papel-representante {
+    color: #17693f;
+    background: #e6f5ec;
+    border-color: #27ae60;
+}
+
+/* acao "assumir": alinhada a direita, abaixo dos destaques */
+.acoes-destaques-equipe {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+    .acoes-destaques-equipe {
+        justify-content: stretch;
+    }
+
+    .acoes-destaques-equipe .ui-button {
+        width: 100%;
+    }
+}
+
+/* ============================================================
+   ACOES DA EQUIPE (rodape do card)
+   Chat interno (acao principal) e Editar Equipe (secundaria)
+   ficam no footer do p:card, alinhados a direita, com a mesma
+   altura e separados do conteudo por uma linha.
+   ============================================================ */
+.acoes-equipe {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
+.acoes-equipe .btn-equipe.ui-button {
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.acoes-equipe .btn-equipe .ui-button-icon-left {
+    font-size: 1.1rem;
+    margin-right: 8px;
+}
+
+/* principal: abrir chat debate interno */
+.acoes-equipe .btn-equipe-primario.ui-button {
+    background: var(--cor-primaria, #60a36c);
+    border: 1px solid var(--cor-primaria, #60a36c);
+    color: #ffffff;
+}
+
+.acoes-equipe .btn-equipe-primario.ui-button:hover {
+    background: var(--cor-primaria-escura, #406a47);
+    border-color: var(--cor-primaria-escura, #406a47);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+    transform: translateY(-1px);
+}
+
+/* secundaria: editar equipe (contorno, para nao competir com o chat) */
+.acoes-equipe .btn-equipe-secundario.ui-button {
+    background: #ffffff;
+    border: 1px solid var(--cor-primaria, #60a36c);
+    color: var(--cor-primaria-escura, #406a47);
+}
+
+.acoes-equipe .btn-equipe-secundario.ui-button:hover {
+    background: #eef6f0;
+    border-color: var(--cor-primaria-escura, #406a47);
+    color: var(--cor-primaria-escura, #406a47);
+}
+
+/* mobile: um abaixo do outro, ocupando a largura toda;
+   a acao principal fica no topo da pilha */
+@media (max-width: 768px) {
+    .acoes-equipe {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acoes-equipe .btn-equipe.ui-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 .card-contatos-titulo {
     display: flex;
     width: 100%;
@@ -792,4 +1346,614 @@ simples, centralizados verticalmente e sem largura de grid.  */
 .btn-novo-contato:hover {
     background-color: var(--cor-primaria-escura, #406a47) !important;
     border-color: var(--cor-primaria-escura, #406a47) !important;
+}
+
+/* ============================================================
+   TAGS DE ATENDIMENTO - VISAO GRANDE (tagsVisaoGrande.xhtml)
+   O componente inteiro fica dentro de um <p:link>, entao a cor
+   do texto precisa vencer a cor herdada do link/tema (que vinha
+   branca sobre fundo claro).
+   ============================================================ */
+.linkTagsPessoaGrande,
+.linkTagsPessoaGrande:hover,
+.linkTagsPessoaGrande:focus {
+    display: block;
+    text-decoration: none;
+}
+
+.avisoSemTagsPessoa {
+    margin: 30px;
+    padding-top: 40px;
+}
+
+.tagsPessoaGrande {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.itemTagPessoaGrande {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #fbfefd;
+    max-width: 100%;
+    margin-left: 60px;
+}
+
+.itemTagPessoaGrande .labelTagTexto {
+    color: #445e91;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    text-shadow: #fbfefd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.itemTagPessoaGrande .tag-icon {
+    color: inherit !important;
+    margin-right: 4px;
+    opacity: 0.75;
+}
+
+/* ============================================================
+   LINHAS DA LISTA DE CONTATOS DO LEAD (.gridContatosDoLead)
+   Cada coluna de valor (e-mail / telefone) mostra o texto e, ao
+   lado, o botao de copiar daquela linha.
+   ============================================================ */
+.valorContatoDoLead {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 200px;
+    max-width: 100%;
+    margin-left: 5px;
+}
+
+.valorContatoDoLeadTexto {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* botao fantasma redondo (e um h:outputLink, dai o reset de link):
+   discreto, ganha destaque no hover da linha */
+a.btnCopiarContatoDoLead {
+    position: relative;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--cor-texto-suave, #6c757d);
+    font-size: .8rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: .6;
+    text-decoration: none !important;
+    transition: background-color .2s ease, color .2s ease, opacity .2s ease, border-color .2s ease;
+}
+
+a.btnCopiarContatoDoLead:hover,
+a.btnCopiarContatoDoLead:focus {
+    background: #f1f3f5;
+    border-color: var(--cor-borda-suave, #e9ecef);
+    color: var(--cor-primaria-escura, #406a47);
+    opacity: 1;
+    text-decoration: none !important;
+}
+
+.gridContatosDoLead .ui-selectlistbox-item:hover .btnCopiarContatoDoLead {
+    opacity: 1;
+}
+
+/* feedback de clique: fica verde e o icone vira um check.
+   (sem balao flutuante: a lista tem overflow proprio e cortaria
+   o balao das primeiras linhas — o aviso textual ja vem do
+   p:remoteCommand msgEmailCopiaOK/msgTelefoneCopiaOK) */
+a.btnCopiarContatoDoLead--copiado,
+a.btnCopiarContatoDoLead--copiado:hover,
+a.btnCopiarContatoDoLead--copiado:focus {
+    background: #e6f4ea;
+    border-color: #b7dfc3;
+    color: #2e7d4f;
+    opacity: 1;
+    animation: btnCopiarPulso .45s ease;
+}
+
+.btnCopiarContatoDoLead--copiado .fa::before {
+    content: "\f00c";
+}
+
+/* textarea usada apenas pelo fallback de copia (execCommand) */
+.areaCopiaOculta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+    opacity: 0;
+}
+
+.empresaCardInfo-Responsaveis{
+    position: absolute;
+    top: 10px;
+    z-index: 500;
+    right:   5px;
+    width: 40px;
+    background-color: #ffffff;
+}
+
+.empresaCardInfo-Responsaveis:hover{
+    border-radius: 10px;
+    background-color: white;
+    transition: .1s all ease-in-out;
+    box-shadow: 0px 0px 40px #898d8e;
+    cursor: pointer;
+}
+
+.empresaCardInfo-Responsaveis img{
+    opacity: 0.8;
+}
+.empresaCardInfo-Responsaveis:hover img{
+    opacity: 1;
+    border: 1px solid #d0d0d0;
+
+}
+
+/* ============================================================
+   BOTOES DE PROMOCAO (.PromocaoAtendimento)
+   Cada p:commandLink promove o membro a um papel: representante
+   comercial (aperto de mao) ou gestor de sucesso (mao com
+   coracao). Visualmente cada link e desenhado como um botao de
+   icone comum — mesmo tamanho e raio de .botao-acao, o vizinho
+   da linha — porem com DOIS icones compostos: o icone do papel
+   e um badge de seta para cima sobreposto, que e o que comunica
+   "promover". As cores acompanham os chips .papel-gestor /
+   .papel-representante, ligando o botao ao papel que ele concede.
+   Seletores partem de .botoes-acao para vencer o
+   ".DashboardVisaoGeralProspecto .ui-link:hover" (sublinhado).
+   ============================================================ */
+.PromocaoAtendimento {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.botoes-acao a.botao-promover {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--cor-borda-suave, #e9ecef);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--cor-texto-suave, #6c757d);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease,
+        box-shadow .2s ease, transform .2s ease;
+}
+
+.botoes-acao a.botao-promover:hover,
+.botoes-acao a.botao-promover:focus {
+    text-decoration: none !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+}
+
+.botoes-acao a.botao-promover:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* --- composicao dos dois icones ---
+   o icone do papel define a caixa; o badge e posicionado em
+   relacao a ela, com anel branco para "recortar" do icone de
+   baixo (e do fundo colorido do hover). */
+.icone-promover {
+    position: relative;
+    display: block;
+    line-height: 1;
+}
+
+.icone-promover .icone-papel {
+    display: block;
+    font-size: 1em;
+    line-height: 1;
+}
+
+.icone-promover .badge-seta {
+    position: absolute;
+    top: -0.35em;
+    right: -0.35em;
+    font-size: 0.62em;
+    line-height: 1;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5px #fff;
+}
+
+/* --- variante representante comercial (verde, como .papel-representante) --- */
+.botoes-acao a.botao-promover-representante {
+    color: #17693f;
+    background: #f2faf5;
+    border-color: #bfe3cd;
+}
+
+.botoes-acao a.botao-promover-representante:hover,
+.botoes-acao a.botao-promover-representante:focus {
+    color: #ffffff;
+    background: #27ae60;
+    border-color: #27ae60;
+}
+
+.botoes-acao a.botao-promover-representante .badge-seta {
+    color: #27ae60;
+}
+
+/* --- variante gestor de sucesso (ambar, como .papel-gestor) --- */
+.botoes-acao a.botao-promover-gestor {
+    color: #8a5a00;
+    background: #fdf8ec;
+    border-color: #f6dfae;
+}
+
+.botoes-acao a.botao-promover-gestor:hover,
+.botoes-acao a.botao-promover-gestor:focus {
+    color: #ffffff;
+    background: #f39c12;
+    border-color: #f39c12;
+}
+
+.botoes-acao a.botao-promover-gestor .badge-seta {
+    color: #d68910;
+}
+
+
+.iconeMEUS_CONTATOS_FRM_ENVIAR_MKT_WTZAP {
+    color: #25D366; /* verde WhatsApp oficial */
+}
+.iconeMEUS_CONTATOS_CTR_CONVIDAR_PARA_CHAT {
+    color: #6C5CE7; /* roxo — chat interno do sistema */
+}
+
+.iconeMEUS_CONTATOS_FRM_CONVITE_RESERVA {
+    color: #0984E3; /* azul — convite/agenda pública */
+}
+.iconeMEUS_CONTATOS_FRM_CONVITE_PRIMEIRO_ACESSO {
+    color: #5E60CE; /* índigo — convite de acesso, família do roxo mas distinguível */
+}
+.iconeMEUS_CONTATOS_CTR_ABRIR_CHAT_WHATSAPP {
+    color: #128C7E; /* teal escuro do WhatsApp — mesma família do MKT, mas ação diferente */
+}
+.iconeMEUS_CONTATOS_FRM_SMS_FORMATAR {
+    color: #00B894; /* verde-água — mensagem, sem confundir com WhatsApp */
+}
+.iconeMEUS_CONTATOS_CTR_LIGAR_PELO_CELULAR {
+    color: #F39C12; /* laranja — ligação pessoal/direta */
+}
+.iconeMEUS_CONTATOS_CTR_LIGAR_PABX_ONLINE {
+    color: #34495E; /* azul-marinho acinzentado — ligação corporativa via PABX */
+}
+
+/* ============================================================
+   ACESSO RAPIDO DO CONTATO (.botoesAcessoRapidoContato)
+   Tres cartoes — Chamados, Agenda e Solicitacoes — cada um com a
+   mesma leitura de cima para baixo:
+     1) icone + assunto  -> do que se trata;
+     2) contador em palavras ("2 em aberto") -> a situacao atual;
+     3) acao ("Abrir chamado") -> o proximo passo.
+   Antes o numero vinha num p:badge flutuante, sem rotulo, e o
+   rotulo da acao repetia o nome do contato dentro de um quadrado
+   de 150px (texto cortado em 3 linhas). Agora o nome aparece uma
+   unica vez, no cabecalho da secao, e a acao fica em uma faixa
+   larga com o verbo em primeiro lugar.
+   Cada cartao define --cor-acesso-rapido, usada na faixa do topo,
+   na pastilha do icone e no hover do botao (--btn-card-cor e a
+   variavel que o crm:botaoGrandeLink consome).
+   ============================================================ */
+.botoesAcessoRapidoContato {
+    width: 100%;
+    margin-top: 28px;
+}
+
+.cabecalhoAcessoRapidoContato {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
+.tituloAcessoRapidoContato {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--cor-texto, #2c3e50);
+}
+
+.tituloAcessoRapidoContato .fa {
+    color: var(--cor-primaria, #60a36c);
+}
+
+.legendaAcessoRapidoContato {
+    min-width: 0;
+    font-size: .85rem;
+    color: var(--cor-texto-suave, #6c757d);
+    overflow-wrap: break-word;
+}
+
+/* sem contato escolhido o rodape de cada cartao ja explica o
+   bloqueio; aqui a legenda apenas aponta para onde resolver */
+.legendaAcessoRapidoContato--alerta {
+    color: #8a5a00;
+}
+
+/* auto-fit: 3 colunas quando ha espaco, 2 e depois 1 conforme a
+   coluna encolhe — sem depender da largura da janela */
+.gradeAcessoRapidoContato {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.cardAcessoRapidoContato {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 14px 12px;
+    border: 1px solid var(--cor-borda-suave, #e9ecef);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+    overflow: hidden;
+    transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+/* faixa colorida no topo identifica o assunto de longe */
+.cardAcessoRapidoContato::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--cor-acesso-rapido, #3498db);
+}
+
+.cardAcessoRapidoContato:hover {
+    border-color: var(--cor-acesso-rapido, #3498db);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .10);
+}
+
+/* cada assunto tem o tom claro (faixa, pastilha, numero) e um tom
+   escuro usado no preenchimento do hover do botao — a versao clara
+   nao tem contraste suficiente para texto branco em cima */
+.cardAcessoRapidoContato--chamados {
+    --cor-acesso-rapido: #3498db;
+    --cor-acesso-rapido-escura: #2471a3;
+}
+
+.cardAcessoRapidoContato--agenda {
+    --cor-acesso-rapido: #6c5ce7;
+    --cor-acesso-rapido-escura: #4b3fc4;
+}
+
+.cardAcessoRapidoContato--solicitacoes {
+    --cor-acesso-rapido: #f39c12;
+    --cor-acesso-rapido-escura: #8a5a00;
+}
+
+/* --- linha de identificacao: pastilha + assunto + contador --- */
+.topoCardAcessoRapidoContato {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.iconeCardAcessoRapidoContato {
+    position: relative;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-acesso-rapido, #3498db);
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* fundo tingido pela cor do cartao sem precisar de rgba fixo */
+.iconeCardAcessoRapidoContato::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .12;
+}
+
+.iconeCardAcessoRapidoContato .fa {
+    position: relative;
+    z-index: 1;
+}
+
+.textoCardAcessoRapidoContato {
+    min-width: 0;
+}
+
+.tituloCardAcessoRapidoContato {
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--cor-texto, #2c3e50);
+    overflow-wrap: break-word;
+}
+
+.contadorCardAcessoRapidoContato {
+    display: block;
+    font-size: .8rem;
+    line-height: 1.3;
+    color: var(--cor-texto-suave, #6c757d);
+}
+
+.numeroCardAcessoRapidoContato {
+    font-weight: 700;
+    color: var(--cor-acesso-rapido, #3498db);
+}
+
+.contadorCardAcessoRapidoContato--vazio {
+    font-style: italic;
+    opacity: .85;
+}
+
+/* --- acao do cartao (crm:botaoGrandeLink com estilo=acaoCard...) ---
+   o componente nasce um quadrado 150x150 empilhado; dentro do
+   cartao ele vira uma faixa horizontal de largura total, com o
+   verbo a esquerda e uma seta indicando a navegacao. O ! e para
+   vencer as medidas fixas declaradas em crm/botaoGrande.css. */
+.cardAcessoRapidoContato .btn-card-link {
+    display: block;
+    width: 100%;
+    margin-top: auto;   /* acao sempre colada no rodape do cartao */
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato.btn-card {
+    --btn-card-cor: var(--cor-acesso-rapido-escura, #2471a3);
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: none;
+}
+
+/* o hover PRECISA repintar o fundo aqui: a regra do componente
+   (.btn-card:hover) perde em especificidade para a de cima, e sem
+   isso o titulo — que o componente pinta de branco — sumia sobre o
+   fundo claro. O tom escuro garante contraste com o texto branco. */
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato.btn-card:hover {
+    transform: none;
+    background: var(--cor-acesso-rapido-escura, #2471a3);
+    border-color: var(--cor-acesso-rapido-escura, #2471a3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+}
+
+/* o assunto ja e identificado pela pastilha no topo do cartao;
+   repetir um icone grande aqui embaixo duplicava a informacao.
+   Sobra so o "+" do verbo: pequeno, sem pastilha, colado no texto. */
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato .btn-card-icon {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    color: var(--cor-acesso-rapido-escura, #2471a3) !important;
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato .btn-card-icon::before {
+    display: none;   /* remove a pastilha circular do componente */
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato .btn-card-icon .fa {
+    font-size: .85rem;   /* neutraliza o fa-2x do componente */
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato:hover .btn-card-icon {
+    color: #ffffff !important;
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato .btn-card-text {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    margin-top: 0;
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato .btn-card-title {
+    font-size: .85rem;
+    text-align: left;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* seta de navegacao ("leva para outra tela") */
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato::after {
+    content: "\203A";      /* › */
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--cor-texto-suave, #6c757d);
+    transition: color .2s ease, transform .2s ease;
+}
+
+.cardAcessoRapidoContato .acaoCardAcessoRapidoContato:hover::after {
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+/* --- rodape quando nenhum contato esta selecionado ---
+   mantem a altura do cartao e diz o que fazer, em vez de deixar
+   um vazio onde antes existia um botao */
+.acaoBloqueadaAcessoRapidoContato {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding: 10px;
+    border: 1px dashed var(--cor-borda, #d1d1d1);
+    border-radius: 8px;
+    background: #fafafa;
+    font-size: .8rem;
+    color: var(--cor-texto-suave, #6c757d);
+}
+
+@media (max-width: 480px) {
+    .botoesAcessoRapidoContato {
+        margin-top: 20px;
+    }
+
+    .gradeAcessoRapidoContato {
+        grid-template-columns: 1fr;
+    }
 }

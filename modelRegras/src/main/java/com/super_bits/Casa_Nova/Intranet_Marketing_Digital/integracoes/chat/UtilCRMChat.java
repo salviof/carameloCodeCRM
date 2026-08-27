@@ -25,7 +25,9 @@ import javax.persistence.EntityManager;
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.FabStatusChamado;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
@@ -425,7 +427,15 @@ public class UtilCRMChat {
                     pPessoa, usuariosAtendimento, usuariosExternosCLiante
             ); //
             return sala;
-
+        } catch (ErroConexaoServicoChat t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, t.getMessage(), t);
+            throw t;
+        } catch (ErroRegraDeNEgocioChat t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, t.getMessage(), t);
+            throw t;
+        } catch (Throwable t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro não reconhecido:" + t.getMessage(), t);
+            throw t;
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }

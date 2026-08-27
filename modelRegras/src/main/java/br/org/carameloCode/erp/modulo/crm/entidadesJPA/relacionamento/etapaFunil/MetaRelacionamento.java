@@ -181,6 +181,9 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
     }
 
     public boolean isCliente() {
+        if (peso == 10) {
+            cliente = true;
+        }
         return cliente;
     }
 

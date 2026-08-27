@@ -85,4 +85,9 @@ public class PgModalEmail extends PgModalCampoSelecionadoAbstrato implements Ser
         getPaginaVinculada().recarregarEntidadeSelecionada();
     }
 
+    @Override
+    public void renovarEntityManager() {
+        getPaginaVinculada().renovarEntityManager();
+    }
+
 }

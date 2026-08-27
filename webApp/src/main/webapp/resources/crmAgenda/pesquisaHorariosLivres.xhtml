@@ -38,17 +38,19 @@
                     rendered="#{cc.attrs.agendaDiponibilidade.tipoAgendamento!=null}"
                     atendente="#{cc.attrs.agendaDiponibilidade.escopo.atendentes[0]}"
                     tipoAgendamento="#{cc.attrs.agendaDiponibilidade.tipoAgendamento}"
-                    acaoEscolhaTipoEvento="#{cc.attrs.acaoEscolhaTipoEvento}"
-                    atendido="#{cc.attrs.agendaDiponibilidade.usuarioAtendido}"
+                    mostrarAtendente="true"
+
                     />
             </h:panelGroup>
 
             <h:panelGroup styleClass="Container6" layout="block" >
-                <crmAgenda:dataDisponivel
-                    rendered="#{cc.attrs.agendaDiponibilidade.temDadosMinimosConstrucaoAgenda}"
-                    areaAtualizacao="#{pgUtil.gerarCaminhoCompletoID('painelHorariosDisponives')}"
-                    agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
-                    />
+                <h:form>
+                    <crmAgenda:dataDisponivel
+                        rendered="#{cc.attrs.agendaDiponibilidade.temDadosMinimosConstrucaoAgenda}"
+                        areaAtualizacao="#{pgUtil.gerarCaminhoCompletoID('painelHorariosDisponives')}"
+                        agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
+                        />
+                </h:form>
             </h:panelGroup>
             <h:panelGroup styleClass="Container12" layout="block" >
                 <crmAgenda:escolhaTipoReservaAberturaFormulario
@@ -64,14 +66,14 @@
 
         </p:fieldset>
         <h:panelGroup id="painelHorariosDisponives" layout="block"  >
-            <p:fragment >
 
-                <crmAgenda:horariosDisponiveis
 
-                    horariosDisponiveis="#{cc.attrs.agendaDiponibilidade.horariosDisponiveis}"
-                    rendered="#{cc.attrs.agendaDiponibilidade.horariosDisponiveis.size()>0}"
-                    />
-            </p:fragment>
+            <crmAgenda:horariosDisponiveis
+
+                horariosDisponiveis="#{cc.attrs.agendaDiponibilidade.horariosDisponiveis}"
+                rendered="#{cc.attrs.agendaDiponibilidade.horariosDisponiveis.size()>0}"
+                />
+
         </h:panelGroup>
 
 

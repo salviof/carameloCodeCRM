@@ -1,12 +1,12 @@
 <ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
-        template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="conteudo">
         <h:outputStylesheet name="agendeUmaReuniao.css" library="css" />
@@ -19,12 +19,12 @@
                 <div class="card-mobile">
                     <h:form>
                         <SBCRM:botaoAvatar
-                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
-                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
-                                usuario="#{pgReservasCliente.usrGestaoSucesso}"
-                                label="VER AGENDA"
-                                atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
-                        />
+                            acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                            metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
+                            usuario="#{pgReservasCliente.usrGestaoSucesso}"
+                            label="VER AGENDA"
+                            atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
+                            />
                         <p:staticMessage severity="info"
                                          summary="Gestor de sucesso"
                                          detail="Para falar de projetos em andamento" />
@@ -37,12 +37,12 @@
                 <div class="card-mobile">
                     <h:form>
                         <SBCRM:botaoAvatar
-                                acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
-                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrRepComercial)}"
-                                usuario="#{pgReservasCliente.usrRepComercial}"
-                                label="VER AGENDA"
-                                atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
-                        />
+                            acao="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
+                            metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrRepComercial)}"
+                            usuario="#{pgReservasCliente.usrRepComercial}"
+                            label="VER AGENDA"
+                            atualizar="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}"
+                            />
                         <p:staticMessage severity="info"
                                          summary="Consultor de negócios"
                                          detail="Para novos projetos e estratégias de crescimento" />
@@ -65,10 +65,9 @@
                     <!-- Card Gestor de Sucesso -->
                     <div class="card-profissional" rendered="#{pgReservasCliente.usrGestaoSucesso != null}">
                         <SBCRM:usuarioAtendimentoCard
-                                usuario="#{pgReservasCliente.usrGestaoSucesso}"
-                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
-                                funcaoUsuario="GESTOR DE SUCESSO"
-                        >
+                            usuario="#{pgReservasCliente.usrGestaoSucesso}"
+                            metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrGestaoSucesso)}"
+                            funcaoUsuario="GESTOR DE SUCESSO" >
                             <f:facet name="descricao">
                                 <div class="descricao-card">
                                     <i class="pi pi-check-circle"></i>
@@ -83,10 +82,8 @@
                     <!-- Card Consultor de Negócios -->
                     <div class="card-profissional">
                         <SBCRM:usuarioAtendimentoCard
-                                usuario="#{pgReservasCliente.usrRepComercial}"
-                                metodo="#{pgReservasCliente.setUsrAtendenteSelecionado(pgReservasCliente.usrRepComercial)}"
-                                funcaoUsuario="CONSULTOR DE NEGÓCIOS"
-                        >
+                            usuario="#{pgReservasCliente.usrRepComercial}"
+                            funcaoUsuario="CONSULTOR DE NEGÓCIOS">
                             <f:facet name="descricao">
                                 <div class="descricao-card">
                                     <i class="pi pi-briefcase"></i>
@@ -101,11 +98,11 @@
 
                 <!-- Mensagem informativa -->
                 <p:staticMessage
-                        severity="info"
-                        summary="Você não tem um gestor de sucesso definido para sua conta"
-                        rendered="#{pgReservasCliente.usrGestaoSucesso == null}"
-                        detail="Assine nossa consultoria para ter acesso a este serviço."
-                />
+                    severity="info"
+                    summary="Você não tem um gestor de sucesso definido para sua conta"
+                    rendered="#{pgReservasCliente.usrGestaoSucesso == null}"
+                    detail="Assine nossa consultoria para ter acesso a este serviço."
+                    />
             </div>
         </h:panelGroup>
 

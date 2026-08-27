@@ -4,9 +4,6 @@
  */
 package br.org.carameloCode.erp.crm.paginas;
 
-import br.org.carameloCode.erp.crm.paginas.ItfPaginaComGestaoChamado;
-import br.org.carameloCode.erp.crm.paginas.ItfPaginaComModalEmail;
-import br.org.carameloCode.erp.crm.paginas.ItfPaginaComModalProspecto;
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 
@@ -23,6 +20,8 @@ public interface ComoPaginaAtualCRM {
     public ItfPaginaComModalEmail getComoPaginaComModalEmail();
 
     public ItfPaginaComGestaoChamado getComoPaginaGestaoChamado();
+
+    public ComoPaginaGestaoProspecto getComoPaginaGestaoPessoa();
 
     public UsuarioCRM getUsuarioCrmLogado();
 

@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensagemMktWhatsApp;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivelMultiplasSequencias;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -35,7 +36,11 @@ public class TipoNtfrCRMUsrToUsr extends TipoNotificacaoUsrComUsr implements Com
 
     @Override
     public String nomeSequenciaIdentificacao() {
-        return ComoTipoComunicCRM.class.getSimpleName();
+        return TipoNotificacao.class.getSimpleName();
     }
 
+    @Override
+    public Long getIdSequenciaInicial() {
+        return 1000000l;
+    }
 }

@@ -6,6 +6,7 @@
 package br.org.carameloCode.erp.crm.config;
 
 import br.org.caramelo.web.testesFW.webApp.testes.RelatorioTesteWebPaginas;
+import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.FabConfigModuloWebAppGenerico;
 
 /**
@@ -43,6 +45,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
     protected void configAmbienteDesevolvimento() {
         SBCore.configurar(new ConfigCoreWebAppCrmCarameloCode(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
+        MapaObjetosProjetoAtual.adcionarObjeto(ContatoAnonimoDadoTansitorio.class);
         try {
             SBWebPaginas.configurar(new ConfigWP_CRM_CarameloCode());
         } catch (IOException ex) {

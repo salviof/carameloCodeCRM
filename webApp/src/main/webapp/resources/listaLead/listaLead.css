@@ -1,8 +1,38 @@
+/*
+Inicio menu de pesquisa (megaMenu)
+O menu fica dentro do bloco fixo "menuFiltroLeads"; position:fixed cria um
+stacking context proprio, entao a camada precisa ser elevada nele, senao os
+paineis de submenu ficam atras do conteudo da listagem.
+Limite: o menu principal da aplicacao (.ManterNoTopo, do CRCLayoutResponsivo)
+usa z-index 1000, entao este bloco fica logo abaixo dele (900) para nao cobrir
+o menu principal. Dentro do bloco a ordenacao e relativa (stacking context
+proprio), por isso os paineis usam valores baixos.
+*/
+
+[id$="menuFiltroLeads"] {
+    z-index: 900;
+}
+
+.pesquisa-lead-menu-container {
+    position: relative;
+    z-index: 1;
+}
+
+.pesquisa-lead-menu.ui-megamenu {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+}
+
+.pesquisa-lead-menu .ui-megamenu-panel,
+.pesquisa-lead-menu .ui-menu-child,
+.pesquisa-lead-menu .ui-menu-list {
+    z-index: 2;
+}
 
 /*
 Inicio card empresa
 */
-
 
 .empresa-card {
     display: flex;
@@ -186,7 +216,6 @@ Inicio card empresa
 }
 
 .tag-item {
-
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -294,8 +323,55 @@ Inicio card empresa
 }
 
 
+/* mantem toda a listagem em uma camada abaixo do menu de pesquisa */
+.GridMeusProspectos.ui-datagrid{
+    position: relative;
+    z-index: 0;
+}
+
+.GridMeusProspectos .ui-datagrid-header{
+    background-color: #23758c26;
+}
+
+.GridMeusProspectos.ui-datagrid{
+    background-color: rgba(255, 255, 255, 0);
+}
+.GridMeusProspectos .ui-datagrid-content{
+    background-color: rgba(255, 255, 255, 0);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 73vh;
 
 
-/*
-fim card empresa
-*/
+}
+
+.GridMeusProspectos .ui-datagrid-row{
+    display: flex;
+    justify-content: space-between;
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+
+    flex-wrap: wrap;
+}
+
+.MobileGridMeusProspectos .ui-datagrid-row{
+    justify-content: center;
+}
+
+.empresaCardContainer, .prospectoAtividadeAtrasada {
+
+}
+
+.empresaCardContainer{
+    min-width:  180px;
+    max-width:299px;
+    position:relative;
+    border-radius: 10px;
+    border: 2px solid #73AD21;
+    padding: 5px;
+    width: 300px;
+    height: 333px;
+    background-color: rgba(255, 255, 255, .85);
+}
+

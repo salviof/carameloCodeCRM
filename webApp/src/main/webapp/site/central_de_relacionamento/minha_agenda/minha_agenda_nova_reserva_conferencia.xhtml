@@ -35,40 +35,46 @@
 
         <div class="ContainerIndent">
 
-            <h:form>
 
 
 
-                <h:panelGroup styleClass="Container5"  layout="block">
-                    <p:staticMessage severity="info" rendered="#{!servicoCrmReserva.agendaDisponibilidade.temDadosMinimosConstrucaoAgenda}" summary="Informaçoes básicas para tipo de maracaçao não informado" detail="Defina o tipo de Marcação" />
+
+            <h:panelGroup styleClass="Container5"  layout="block">
+                <p:staticMessage severity="info" rendered="#{!servicoCrmReserva.agendaDisponibilidade.temDadosMinimosConstrucaoAgenda}" summary="Informaçoes básicas para tipo de maracaçao não informado" detail="Defina o tipo de Marcação" />
+                <h:form>
                     <SBReserva:reservaConferenciaEdicao
 
-                        podeEditarCliente="#{pgMinhasReservas.usuarioCliente==null}"
+                        podeEditarCliente="#{empty pgMinhasReservas.usuarioCliente}"
                         reserva="#{pgMinhasReservas.entidadeSelecionada}"
                         rendered="#{servicoCrmReserva.agendaDisponibilidade.temDadosMinimosConstrucaoAgenda}"
                         />
-                </h:panelGroup>
-                <h:panelGroup styleClass="Container5"  layout="block">
-                    <crmAgenda:pesquisaHorariosLivres
-                        acaoAgendaPresencial="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
-                        acaoAgendaRemota="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
-                        acaoEscolhaTipoEvento="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
-                        agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
-                        areaAtualizacao="@form"
-                        />
-                </h:panelGroup>
-                <p:fieldset  styleClass="Container3 Fright">
-                    <h:panelGroup class="Container12" layout="block" >
-                        <SBBotoes:botaoDeAcao
-                            metodo="${pgMinhasReservas.executarAcaoSelecionada()}" acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrSalvarReservaMerge}"
-                            armazenamentoAcaoExecutada="#{pgMinhasReservas.acaoSelecionada}"
-                            classeEstilo="botaoVerde"
-                            tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                            />
 
-                    </h:panelGroup>
-                </p:fieldset>
-            </h:form>
+                    <p:fieldset  styleClass="Container3 Fright">
+                        <h:panelGroup class="Container12" layout="block" >
+                            <SBBotoes:botaoDeAcao
+                                metodo="${pgMinhasReservas.executarAcaoSelecionada()}" acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrSalvarReservaMerge}"
+                                armazenamentoAcaoExecutada="#{pgMinhasReservas.acaoSelecionada}"
+                                classeEstilo="botaoVerde"
+                                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                />
+
+                        </h:panelGroup>
+                    </p:fieldset>
+                </h:form>
+            </h:panelGroup>
+
+            <h:panelGroup styleClass="Container5"  layout="block">
+                <crmAgenda:pesquisaHorariosLivres
+
+                    acaoAgendaPresencial="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
+                    acaoAgendaRemota="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
+                    acaoEscolhaTipoEvento="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmNovaReserva}"
+                    agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
+                    areaAtualizacao="@form"
+                    />
+            </h:panelGroup>
+
+
 
 
         </div>

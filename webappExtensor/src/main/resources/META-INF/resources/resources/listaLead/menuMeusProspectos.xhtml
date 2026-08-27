@@ -16,27 +16,12 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <style>
-            .tag-item {
-
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                font-size: 0;
-                display: inline-flex;
-                align-items: center;
-                align-content: center;
-                justify-content: center;
-                flex-shrink: 0;
-                transition: all 0.2s ease;
-                cursor: help; /* cursor indicando que tem tooltip */
-                border: 2px solid white; /* borda branca para contraste */
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            }
-        </style>
 
 
-        <p:megaMenu orientation="horizontal" autoDisplay="false"  rendered="true" >
+
+        <div class="pesquisa-lead-menu-container">
+
+            <p:megaMenu orientation="horizontal" autoDisplay="false"  styleClass="pesquisa-lead-menu" rendered="true" >
             <p:submenu label="#{cc.attrs.pesquisa.getCampoInstanciadoByNomeOuAnotacao('tipoPesquisa').valor.nome}"
                        icon="fa fa-address-card-o" expanded="false"   >
                 <p:column>
@@ -247,7 +232,9 @@
 
 
 
-        </p:megaMenu>
+            </p:megaMenu>
+
+        </div>
 
     </cc:implementation>
 </ui:composition>

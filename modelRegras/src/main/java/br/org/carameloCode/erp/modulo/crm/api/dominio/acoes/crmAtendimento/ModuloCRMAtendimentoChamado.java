@@ -9,7 +9,6 @@ import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroRegraDeNEgocioChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao.ModuloCRMAplicacao;
 import br.org.carameloCode.erp.modulo.crm.api.email.ErroEnvioEmail;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat;
@@ -21,7 +20,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
-import com.super_bits.marketing.Util.ErroNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.TokenAcessoDinamico;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
@@ -32,7 +30,6 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListasObjeto;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
@@ -52,7 +49,6 @@ import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioC
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
-import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo.CRM_ADMIN;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoUsuarioChat;
 import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat.gerarListasUsuariosContatos;
@@ -114,10 +110,12 @@ public class ModuloCRMAtendimentoChamado extends ControllerAbstratoSBPersistenci
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
                 if (isSucesso()) {
-                    ItfRespostaAcaoDoSistema respAssumir = chamadoAssumirResponsavel(pChamado);
-                    setRetorno(respAssumir.dispararMensagens().getRetorno());
-                    if (respAssumir.isSucesso()) {
+                    ItfRespostaAcaoDoSistema respAssumir = chamadoAssumirResponsavel((ChamadoCliente) getRetorno());
+                    setRetorno(respAssumir.getRetorno());
+                    if (!respAssumir.isSucesso()) {
                         setProximoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_DEFINIR_ATENDIMENTO.getRegistro().getComoFormulario());
+                    } else {
+                        setProximoFormulario(FabAcaoCRMAtendimento.MEUS_CHAMADOS_FRM_CHAMADOS_ATENDER.getRegistro().getComoFormulario());
                     }
                 }
             }

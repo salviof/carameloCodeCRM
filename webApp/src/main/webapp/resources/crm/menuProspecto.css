@@ -283,20 +283,6 @@
     color: #000000;
 }
 
-.tagsPessoaGrande div{
-    border-radius: 20px;
-    margin:3px;
-    padding:  3px 3px 3px 10px;
-}
-.labelTagTexto {
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    min-width: 200px;
-
-    min-height: 100px;
-    font-family: Arial;
-}
 
 body .ui-badge {
     background: #2196F3;

@@ -64,6 +64,7 @@
             <h:panelGroup styleClass="Container12 ReservaClienteListaTipos" layout="block" >
                 <h:form>
                     <crmAgenda:escolhaTipoReservaDisponibilidade
+                        areaAtualizacao="#{pgUtil.gerarCaminhoCompletoID(paginaAtual.infoPagina.idAreaExbicaoAcaoSelecionada)}"
                         agenda="#{servicoCrmReserva.agendaDisponibilidade}"
                         metodo="#{pgReservasCliente.atualizarTelaSelecao()}"
                         atendente="#{pgReservasCliente.usrAtendenteSelecionado}"

@@ -322,3 +322,28 @@
 .crcNovaPasta .crcNovaPasta-mais::before {
     content: "\2b";   /* + do FA6 (fa-plus) */
 }
+
+
+
+
+
+.inputDropArquivo .ui-fileupload-choose{
+
+    height: 140px;
+    background-color: #0288d1E6;
+
+}
+
+
+.PainelDetalhesArquivo button{
+
+    margin: 3px;
+
+}
+.PainelDetalhesArquivo .PainelDetalhesArquivoNome{
+    font-family: 'latobold', sans-serif;
+    font-size: 16px;
+    margin-top: 9px;
+    padding-left: 12px;
+
+}

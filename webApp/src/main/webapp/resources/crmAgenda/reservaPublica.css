@@ -1,0 +1,504 @@
+.OrganizadorContainer {
+    margin-top: 16px;
+}
+.container-flex {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap; /* ESSENCIAL PARA IR PRA BAIXO NO MOBILE */
+}
+.card-content {
+    width: 100%;
+    margin: 0 64px;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.step-content {
+    width: 100%;
+    display: block;
+    margin: 0;
+}
+
+/* ==========================================================
+   Cabeçalho do assistente de etapas
+   ========================================================== */
+.assistente-cabecalho {
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f6fbf7 0%, #eaf4ed 100%);
+    border: 1px solid #dcebe1;
+    border-radius: 12px;
+    padding: 18px 22px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.assistente-cabecalho-topo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.assistente-cabecalho-icone {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6fb87d 0%, #4b8456 100%);
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(75, 132, 86, 0.28);
+}
+
+.assistente-cabecalho-textos {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.assistente-cabecalho-nome {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2f4f38;
+    line-height: 1.25;
+}
+
+.assistente-cabecalho-descricao {
+    font-size: 13px;
+    color: #6b7f70;
+    line-height: 1.35;
+}
+
+.assistente-cabecalho-contador {
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b8456;
+    background: #ffffff;
+    border: 1px solid #cfe4d5;
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+}
+
+/* Barra de progresso do assistente */
+.assistente-progresso {
+    width: 100%;
+    height: 6px;
+    background: #e2eee6;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.assistente-progresso-barra {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #7bbd88 0%, #4b8456 100%);
+    transition: width 0.35s ease;
+}
+
+.assistente-progresso-etapa-0 { width: 25%; }
+.assistente-progresso-etapa-1 { width: 50%; }
+.assistente-progresso-etapa-2 { width: 75%; }
+.assistente-progresso-etapa-3 { width: 100%; }
+
+/* ==========================================================
+   p:steps repaginado (escopado no assistente)
+   Etapas concluídas = estado padrão; a etapa ativa e as
+   seguintes são reescritas pelos seletores de irmão.
+   ========================================================== */
+.assistente-etapas.ui-steps {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    padding: 0;
+    overflow: visible;
+}
+
+.assistente-etapas.ui-steps ul {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.assistente-etapas.ui-steps .ui-steps-item {
+    flex: 1 1 0;
+    min-width: 0;
+    float: none !important;
+    width: auto !important;
+    position: relative;
+    padding: 0;
+    text-align: center;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+/* Sem linha de ligação entre as etapas: quem mostra o avanço é a
+   barra de progresso do cabeçalho. Também neutraliza a linha que o
+   tema do PrimeFaces desenha por conta própria. */
+.assistente-etapas.ui-steps ul::before,
+.assistente-etapas.ui-steps ul::after,
+.assistente-etapas.ui-steps .ui-steps-item::before,
+.assistente-etapas.ui-steps .ui-steps-item::after {
+    content: none !important;
+    display: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+.assistente-etapas.ui-steps .ui-menuitem-link {
+    position: relative;
+    z-index: 1;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px;
+    background: transparent !important;
+    border: none !important;
+    text-decoration: none !important;
+    cursor: default;
+    outline: none;
+}
+.assistente-etapas.ui-steps .ui-steps-item:not(.ui-state-disabled) .ui-menuitem-link {
+    cursor: pointer;
+}
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-disabled,
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-disabled .ui-menuitem-link {
+    opacity: 1 !important;
+}
+
+/* Marcador da etapa — padrão = concluída (check) */
+.assistente-etapas.ui-steps .ui-steps-number {
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 30px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 50% !important;
+    background-color: #60a36c !important;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    text-indent: -9999px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.assistente-etapas.ui-steps .ui-steps-number::before {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", FontAwesome;
+    font-weight: 900;
+    font-size: 14px;
+    text-indent: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Etapa atual */
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+    text-indent: 0;
+    background: #ffffff !important;
+    color: #3f7a4b;
+    border: 3px solid #60a36c;
+    box-shadow: 0 0 0 5px rgba(96, 163, 108, 0.16);
+}
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number::before {
+    content: none;
+}
+
+/* Etapas seguintes (pendentes) */
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight ~ .ui-steps-item .ui-steps-number {
+    text-indent: 0;
+    background: #ffffff !important;
+    color: #9aab9f;
+    border: 2px solid #dbe7de;
+}
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight ~ .ui-steps-item .ui-steps-number::before {
+    content: none;
+}
+
+/* Títulos das etapas */
+.assistente-etapas.ui-steps .ui-steps-title {
+    display: block;
+    max-width: 130px;
+    margin: 0 auto;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #4b8456;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+    color: #2f4f38;
+}
+.assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight ~ .ui-steps-item .ui-steps-title {
+    color: #9aab9f;
+    font-weight: 500;
+}
+
+/* Feedback ao passar o mouse nas etapas navegáveis */
+.assistente-etapas.ui-steps .ui-steps-item:not(.ui-state-disabled):not(.ui-state-highlight) .ui-menuitem-link:hover .ui-steps-number {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 5px rgba(96, 163, 108, 0.16);
+}
+
+
+
+.step-nav-button,
+.step-nav-button:link,
+.step-nav-button:visited,
+.step-nav-button:hover,
+.step-nav-button:active {
+    color: #60a36c !important; /* sua cor */
+    text-decoration: underline !important;
+}
+.step-nav-button.ui-state-disabled {
+    color: #999 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+
+
+.card-lateral {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card-lateral span {
+    display: block;
+    text-align: center;
+}
+.ui-fieldset {
+    background: #FFFFFF !important;
+    border-radius: 8px !important;
+}
+
+
+.step-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.btn-nav {
+    font-size: 15px;
+    padding: 10px 18px;
+    margin: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-decoration: none !important;
+}
+.btn-nav:visited {
+    background-color: #60a36c !important;
+    text-decoration: none !important;
+}
+
+.btn-primary {
+    background: #60a36c;
+    color: white !important;
+    border: none;
+}
+.btn-primary:hover {
+    background: #4b8456;
+}
+.btn-primary:focus {
+    background: #4b8456 !important;
+}
+.btn-primary:hover:active {
+    background: #4b8456 !important;
+}
+
+.btn-outline {
+    border: 1px solid #60a36c;
+    color: #60a36c !important;
+}
+.btn-outline:hover {
+    background: #f1f8f3;
+}
+
+.btn-nav.ui-state-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.card-reserva-confirmar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================
+   Destaque do botão de confirmar reserva (etapa "Reservar")
+   O botão vem de dentro do composite cardReservaHorario, por
+   isso o destaque é aplicado pelo escopo do wrapper.
+   ========================================================== */
+.card-reserva-confirmar .ui-button:not(.ui-button-icon-only):not(.ui-button-flat):not(.ui-button-link):not(.ui-button-secondary):not(.ui-button-outlined):not(.btn-outline) {
+    background: linear-gradient(135deg, #6fb87d 0%, #60a36c 55%, #4b8456 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px;
+    padding: 14px 30px !important;
+    border-radius: 999px !important;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(75, 132, 86, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    animation: pulsaConfirmarReserva 2.6s ease-in-out infinite;
+}
+
+.card-reserva-confirmar .ui-button:not(.ui-button-icon-only):not(.ui-button-flat):not(.ui-button-link):not(.ui-button-secondary):not(.ui-button-outlined):not(.btn-outline) .ui-button-text {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    padding: 0 !important;
+}
+
+.card-reserva-confirmar .ui-button:not(.ui-button-icon-only):not(.ui-button-flat):not(.ui-button-link):not(.ui-button-secondary):not(.ui-button-outlined):not(.btn-outline):hover,
+.card-reserva-confirmar .ui-button:not(.ui-button-icon-only):not(.ui-button-flat):not(.ui-button-link):not(.ui-button-secondary):not(.ui-button-outlined):not(.btn-outline):focus {
+    background: linear-gradient(135deg, #64ae72 0%, #55965f 55%, #416f4a 100%) !important;
+    box-shadow: 0 8px 22px rgba(75, 132, 86, 0.45);
+    transform: translateY(-2px);
+    animation: none; /* ao interagir, para de pulsar */
+}
+
+.card-reserva-confirmar .ui-button:not(.ui-button-icon-only):not(.ui-button-flat):not(.ui-button-link):not(.ui-button-secondary):not(.ui-button-outlined):not(.btn-outline):active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(75, 132, 86, 0.4);
+}
+
+.card-reserva-confirmar .ui-button.ui-state-disabled {
+    filter: grayscale(0.6);
+    box-shadow: none;
+    animation: none;
+}
+
+/* Ações secundárias do card ficam discretas para não competir
+   com o confirmar (links e variantes secundárias do PrimeFaces). */
+.card-reserva-confirmar a.ui-commandlink,
+.card-reserva-confirmar .ui-button.ui-button-flat,
+.card-reserva-confirmar .ui-button.ui-button-link,
+.card-reserva-confirmar .ui-button.ui-button-secondary,
+.card-reserva-confirmar .ui-button.ui-button-outlined {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #4b8456 !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+
+.card-reserva-confirmar a.ui-commandlink:hover,
+.card-reserva-confirmar .ui-button.ui-button-flat:hover,
+.card-reserva-confirmar .ui-button.ui-button-link:hover,
+.card-reserva-confirmar .ui-button.ui-button-secondary:hover,
+.card-reserva-confirmar .ui-button.ui-button-outlined:hover {
+    background: #f1f8f3 !important;
+    border-color: #cfe4d5 !important;
+    text-decoration: underline !important;
+}
+
+@keyframes pulsaConfirmarReserva {
+    0%   { box-shadow: 0 6px 18px rgba(75, 132, 86, 0.35), 0 0 0 0 rgba(96, 163, 108, 0.45); }
+    70%  { box-shadow: 0 6px 18px rgba(75, 132, 86, 0.35), 0 0 0 12px rgba(96, 163, 108, 0); }
+    100% { box-shadow: 0 6px 18px rgba(75, 132, 86, 0.35), 0 0 0 0 rgba(96, 163, 108, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-reserva-confirmar .ui-button {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-content {
+        max-width: 100%;
+        width: 80%;
+        margin: 0 1rem; /* respiro lateral */
+        /*padding: 1.25rem;*/
+    }
+    .step-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .assistente-cabecalho {
+        padding: 14px 14px 12px;
+        gap: 12px;
+    }
+    .assistente-cabecalho-topo {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .assistente-cabecalho-nome {
+        font-size: 16px;
+    }
+    .assistente-cabecalho-contador {
+        order: 3;
+        width: 100%;
+        text-align: center;
+    }
+    /* No mobile fica visível só o título da etapa atual, evitando
+       quatro textos quebrando em colunas estreitas. */
+    .assistente-etapas.ui-steps .ui-steps-title {
+        display: none;
+    }
+    .assistente-etapas.ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+        display: block;
+        max-width: 100%;
+        font-size: 12px;
+    }
+    .assistente-etapas.ui-steps .ui-steps-number {
+        width: 30px;
+        height: 30px;
+        line-height: 26px;
+        font-size: 13px;
+    }
+    .assistente-etapas.ui-steps .ui-steps-number::before {
+        font-size: 13px;
+    }
+    .assistente-etapas.ui-steps .ui-menuitem-link {
+        padding: 0 2px;
+        gap: 6px;
+    }
+}
+

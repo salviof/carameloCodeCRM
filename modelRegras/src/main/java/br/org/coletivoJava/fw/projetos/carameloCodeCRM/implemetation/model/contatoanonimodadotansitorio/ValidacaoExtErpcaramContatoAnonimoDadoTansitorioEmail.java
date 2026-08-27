@@ -23,9 +23,7 @@ public class ValidacaoExtErpcaramContatoAnonimoDadoTansitorioEmail
     @Override
     public List validar(java.lang.Object pValor) throws ErroValidacao {
         super.validar(pValor);
-        UtilCRMValidacoesEspeciais.validarEmail((String) pValor);
 
-        getContatoAnonimoDadoTansitorio().setEmail((String) pValor);
         return new ArrayList();
     }
 

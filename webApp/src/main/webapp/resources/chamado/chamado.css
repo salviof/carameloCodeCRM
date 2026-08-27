@@ -138,6 +138,29 @@
 }
 
 /* --------------------------------------------------------------------------
+   Clique na linha (p:ajax event="rowSelect", que abre o chamado).
+
+   O PrimeFaces só considera o clique como seleção de linha quando o alvo do
+   evento é a própria célula (td / .ui-dt-c) ou um span sem .ui-c — cliques em
+   input, label, div, img ou ícone dentro da célula são descartados. Como as
+   colunas daqui são inteiramente compostas por esses elementos (SBInput
+   desabilitado, avatar do responsável, painel de ícone do status), sobrava
+   como área clicável apenas o vão entre os conteúdos, e o chamado só abria
+   quando o clique acertava esse vão.
+
+   Nenhum desses conteúdos é interativo (a listagem é só leitura), então o
+   conteúdo da célula fica transparente ao ponteiro: o clique atravessa e chega
+   sempre ao td, em qualquer ponto da linha.
+   -------------------------------------------------------------------------- */
+.ChamadoListaChamadosDesktop .ui-datatable-data > tr {
+    cursor: pointer;
+}
+
+.ChamadoListaChamadosDesktop .ui-datatable-data > tr > td.ChamadoColuna * {
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
    Colunas da dataTable de chamados.
    Abaixo de 800px o reflow do PrimeFaces empilha as células: nesse modo o
    conteúdo alinhado à esquerda fica legível ao lado do rótulo da coluna.
@@ -160,6 +183,20 @@
 @media (max-width: 800px) {
     .ChamadoColunaResponsavel {
         height: auto;
+    }
+}
+
+/* Ícone/nome do status, quando o status define um estilo próprio de ícone.
+   O recuo alinha o ícone com o texto do campo de status logo acima dele. */
+.ChamadoStatusIcone {
+    padding-left: 18px;
+    padding-top: 21px;
+}
+
+@media (max-width: 800px) {
+    .ChamadoStatusIcone {
+        padding-left: 0;
+        padding-top: 10px;
     }
 }
 

@@ -6,6 +6,7 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- INTERFACE -->
     <cc:interface>
@@ -15,70 +16,176 @@
     </cc:interface>
     <cc:implementation>
 
+        <h:outputScript target="body">
+            <![CDATA[
+            if (!window.crmMarcarBotaoCopiado) {
+                window.crmMarcarBotaoCopiado = function (botao) {
+                    if (!botao) {
+                        return;
+                    }
+                    botao.classList.remove('btn-copiar--copiado');
+                    /* forca o reinicio da animacao em cliques seguidos */
+                    void botao.offsetWidth;
+                    botao.classList.add('btn-copiar--copiado');
+                    if (botao.crmTimerCopiado) {
+                        clearTimeout(botao.crmTimerCopiado);
+                    }
+                    botao.crmTimerCopiado = setTimeout(function () {
+                        botao.classList.remove('btn-copiar--copiado');
+                    }, 1500);
+                };
+            }
+            ]]>
+        </h:outputScript>
 
         <h:panelGroup styleClass="card-cliente-title-content">
             <div class="texto-titulo">
                 <h3>#{pgProspecto.prospecto.nome}</h3>
+
+                <p:button icon="fa fa-copy"
+                          id="copiarNomeProspecto"
+                          title="Copiar nome"
+                          onclick="crmMarcarBotaoCopiado(this); return false;"
+                          href="#"
+                          styleClass="btn-copiar btn-copiar--titulo"
+                          rendered="#{not empty pgProspecto.prospecto.nome}">
+                    <pe:clipboard trigger="copiarNomeProspecto" action="copy"
+                                  text="#{pgProspecto.prospecto.nome}"/>
+                </p:button>
             </div>
         </h:panelGroup>
         <div class="card-conteudo">
             <h:panelGroup styleClass="card-cliente-infos">
-                <h:panelGroup styleClass="text-informacao"
-                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
-                    Site:
 
-                    <p:link
-                        href="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"
-                        target="_blank"
-                        rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}">
-                        #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}
-                    </p:link>
-
-                    <h:outputText
-                        value="N/A"
-                        rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"/>
+                <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao" rendered="#{cc.attrs.pessoa.contatoPrincipal!=null and cc.attrs.pessoa.contatoPrincipal.usuarioVinculado !=null}">
+                    <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao-medalha">
+                        <i class="#{cc.attrs.pessoa.contatoPrincipal.usuarioVinculado.satisfacao.icone} card-cliente-infos-satisfacao-icone" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao-texto">
+                        <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao-rotulo">
+                            Satisfação do cliente
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao-nome">
+                            #{cc.attrs.pessoa.contatoPrincipal.usuarioVinculado.satisfacao.nome}
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="card-cliente-infos-satisfacao-legenda">
+                            com nossos serviços
+                        </h:panelGroup>
+                    </h:panelGroup>
                 </h:panelGroup>
-                <h:panelGroup styleClass="text-informacao"
+
+                <h:panelGroup layout="block" styleClass="card-cliente-info-item"
                               rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
-                    Email:
+                    <i class="fa fa-globe card-cliente-info-icone" />
+                    <span class="card-cliente-info-rotulo">Site</span>
 
-                    <p:link
-                        href="mailto:#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"
-                        target="_blank"
-                        rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}">
-                        #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}
-                    </p:link>
+                    <h:panelGroup styleClass="card-cliente-info-valor text-informacao">
+                        <h:panelGroup styleClass="card-cliente-info-texto">
+                            <p:link
+                                href="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"
+                                target="_blank"
+                                rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}">
+                                #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}
+                            </p:link>
 
-                    <h:outputText
-                        value="N/A"
-                        rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"/>
+                            <h:outputText
+                                value="Não informado"
+                                styleClass="card-cliente-info-vazio"
+                                rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"/>
+                        </h:panelGroup>
+
+                        <p:button icon="fa fa-copy"
+                                  id="copiarSiteProspecto"
+                                  title="Copiar"
+                                  onclick="crmMarcarBotaoCopiado(this); return false;"
+                                  href="#"
+                                  styleClass="btn-copiar"
+                                  rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}">
+                            <pe:clipboard trigger="copiarSiteProspecto" action="copy"
+                                          text="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.site}"/>
+                        </p:button>
+                    </h:panelGroup>
                 </h:panelGroup>
-                <h:outputText
-                    value="CNPJ: #{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj
-                                   ? 'N/A'
-                                   : pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj}"
-                    styleClass="text-informacao"
-                    rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}"/>
 
-                <h:outputText
-                    value="CPF: #{empty pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf
-                                  ? 'N/A'
-                                  : pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf}"
-                    styleClass="text-informacao"
-                    rendered="#{pgProspecto.entidadeSelecionada.umaPessoaFisica}"/>
-                <h:panelGroup>
-                    <h:form>
-                        <h:panelGroup style="display:flex; align-items: center">
-                            <h:outputText value="Prospecto privado:" style="padding-right: 4px"
-                                          styleClass="text-informacao"/>
+                <h:panelGroup layout="block" styleClass="card-cliente-info-item"
+                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
+                    <i class="fa fa-envelope card-cliente-info-icone" />
+                    <span class="card-cliente-info-rotulo">Email</span>
+
+                    <h:panelGroup styleClass="card-cliente-info-valor text-informacao">
+                        <h:panelGroup styleClass="card-cliente-info-texto">
+                            <p:link
+                                href="mailto:#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"
+                                target="_blank"
+                                rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}">
+                                #{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}
+                            </p:link>
+
+                            <h:outputText
+                                value="Não informado"
+                                styleClass="card-cliente-info-vazio"
+                                rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"/>
+                        </h:panelGroup>
+
+                        <p:button icon="fa fa-copy"
+                                  id="copiarEmailProspecto"
+                                  title="Copiar"
+                                  onclick="crmMarcarBotaoCopiado(this); return false;"
+                                  href="#"
+                                  styleClass="btn-copiar"
+                                  rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}">
+                            <pe:clipboard trigger="copiarEmailProspecto" action="copy"
+                                          text="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.email}"/>
+                        </p:button>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="card-cliente-info-item"
+                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaJuridica}">
+                    <i class="fa fa-id-card card-cliente-info-icone" />
+                    <span class="card-cliente-info-rotulo">CNPJ</span>
+
+                    <h:panelGroup styleClass="card-cliente-info-valor card-cliente-info-valor--documento text-informacao">
+                        <h:outputText
+                            value="#{pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj}"
+                            rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj}"/>
+
+                        <h:outputText
+                            value="Não informado"
+                            styleClass="card-cliente-info-vazio"
+                            rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaJuridica.cnpj}"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="card-cliente-info-item"
+                              rendered="#{pgProspecto.entidadeSelecionada.umaPessoaFisica}">
+                    <i class="fa fa-id-card card-cliente-info-icone" />
+                    <span class="card-cliente-info-rotulo">CPF</span>
+
+                    <h:panelGroup styleClass="card-cliente-info-valor card-cliente-info-valor--documento text-informacao">
+                        <h:outputText
+                            value="#{pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf}"
+                            rendered="#{not empty pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf}"/>
+
+                        <h:outputText
+                            value="Não informado"
+                            styleClass="card-cliente-info-vazio"
+                            rendered="#{empty pgProspecto.entidadeSelecionada.comoPessoaFisica.cpf}"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:form styleClass="card-cliente-info-form">
+                    <h:panelGroup layout="block" styleClass="card-cliente-info-item card-cliente-info-item--acao">
+                        <i class="fa fa-lock card-cliente-info-icone" />
+                        <span class="card-cliente-info-rotulo">Prospecto privado</span>
+                        <h:panelGroup styleClass="card-cliente-info-valor">
                             <p:toggleSwitch
                                 value="#{pgProspecto.entidadeSelecionada.umPerfilPrivado}"
                                 onchange="alterStatusPrivado();"
                                 />
                         </h:panelGroup>
-
-                    </h:form>
-                </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
                 <h:form>
                     <p:remoteCommand
                         action="#{pgProspecto.executarAcao(pgProspecto.entidadeSelecionada)}"

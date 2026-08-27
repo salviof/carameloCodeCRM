@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.crm.paginas.crmAtendimento;
 
+import br.org.carameloCode.erp.crm.paginas.ComoPaginaGestaoProspecto;
 import br.org.carameloCode.erp.crm.paginas.ItfPaginaComModalProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.api.model.tipodadocrm.CPTipoDadoCRM;
@@ -53,7 +54,6 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCEmail;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfParametroRequisicaoInstanciado;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoControllerEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
@@ -76,7 +76,7 @@ import org.primefaces.event.TabChangeEvent;
 @Named
 @ViewScoped
 @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_MB_GERENCIAR)
-public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements ItfPaginaComModalProspecto {
+public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements ItfPaginaComModalProspecto, ComoPaginaGestaoProspecto {
 
     private List<TipoRelacionamento> relacionamentosExistentes;
     private TipoRelacionamento tipoRelacionamentoSelecionado;
@@ -114,6 +114,16 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
         if (getEntidadeSelecionada() != null) {
             UtilSBPersistencia.loadEntidade(getEntidadeSelecionada(), getEMPagina());
         }
+    }
+
+    @Override
+    public Pessoa getPessoaSelecionada() {
+        return getEntidadeSelecionada();
+    }
+
+    @Override
+    public void setPessoaSelecionada(Pessoa p) {
+        setEntidadeSelecionada(p);
     }
 
     private enum TIPO_PESQUISA {

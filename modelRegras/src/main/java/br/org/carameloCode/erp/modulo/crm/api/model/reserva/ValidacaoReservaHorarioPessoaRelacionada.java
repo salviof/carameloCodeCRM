@@ -8,6 +8,7 @@ import com.super_bits.modulosSB.SBCore.modulos.view.widgetsFormulario.WidgetsFor
 import java.util.List;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import com.super_bits.modulosSB.SBCore.modulos.view.widgetsFormulario.FabTipoWidgetFormulario;
 
 public class ValidacaoReservaHorarioPessoaRelacionada extends ValidacaoGenerica<ReservaHorario> {
 
@@ -33,10 +34,11 @@ public class ValidacaoReservaHorarioPessoaRelacionada extends ValidacaoGenerica<
             }
         }
 
-        return null;
+        return FabTipoWidgetFormulario.getCampos(getReservaHorario().getCPinst("contatosAtendidos"));
     }
 
     public ReservaHorarioCRM getReservaHorario() {
         return (ReservaHorarioCRM) getObjetoDoAtributo();
     }
+
 }

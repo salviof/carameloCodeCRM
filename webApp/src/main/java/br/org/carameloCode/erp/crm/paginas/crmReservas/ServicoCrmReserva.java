@@ -67,7 +67,7 @@ public class ServicoCrmReserva implements Serializable {
                     + ItfPaginaListaDeHorariosDisponiveis.class.getSimpleName());
         }
         paginaAtual.getInfoPagina().getComoPaginaEntidade().setEntidadeSelecionada(null);
-        ((ComoPaginaAtualCRM) paginaAtual).getComoPaginaComHorarioDisponivel().setHorarioDisponivelSelecionado(pHorarioDisponivel);
+        ((ItfPaginaListaDeHorariosDisponiveis) paginaAtual.getInfoPagina()).setHorarioDisponivelSelecionado(pHorarioDisponivel);
         if (paginaAtual.getInfoPagina().getComoPaginaEntidade().getEntidadeSelecionada() == null
                 || !(paginaAtual.getInfoPagina().getComoPaginaEntidade().getEntidadeSelecionada() instanceof ReservaHorario)) {
             throw new UnsupportedOperationException("A página de reserva de horário: " + paginaAtual.getInfoPagina().getClass().getSimpleName() + " precisa gerenciar  "

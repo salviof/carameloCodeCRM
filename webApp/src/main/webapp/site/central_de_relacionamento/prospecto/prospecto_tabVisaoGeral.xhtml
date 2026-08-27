@@ -11,7 +11,17 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <h:panelGroup styleClass="container-cards-cliente">
         <p:card styleClass="card-cliente card-cliente--resumo" >
-
+            <h:panelGroup
+                rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor.size()>0}"
+                layout="block"
+                styleClass="integracoes-lead Container12">
+                <c:forEach
+                    items="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
+                    var="integracao">
+                    <crm:integracao integracao="#{integracao}" tamanhoPixel="25"
+                                    rendered="#{integracao.nome ne 'CRM'}"/>
+                </c:forEach>
+            </h:panelGroup>
             <crmPessoa:resumoPessoa pessoa="#{pgProspecto.prospecto}" />
 
 
@@ -29,19 +39,10 @@
                     </p:link>
                 </div>
 
+
                 <crmPessoa:tagsVisaoGrande pessoa="#{pgProspecto.prospecto}"/>
 
-                <h:panelGroup
-                    rendered="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor.size()>0}"
-                    layout="block"
-                    styleClass="integracoes-lead">
-                    <c:forEach
-                        items="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
-                        var="integracao">
-                        <crm:integracao integracao="#{integracao}" tamanhoPixel="25"
-                                        rendered="#{integracao.nome ne 'CRM'}"/>
-                    </c:forEach>
-                </h:panelGroup>
+
             </div>
             <crmPessoa:observacao pessoa="#{pgProspecto.prospecto}" />
         </p:card>
@@ -60,5 +61,10 @@
     <crmPessoa:dashboardPosAtendimento
         pessoa="#{pgProspecto.prospecto}"
         rendered="#{pgProspecto.prospecto.meta.cliente}"
+        />
+
+    <crmPessoa:dashboardMarketingExecutado
+        pessoa="#{pgProspecto.prospecto}"
+        rendered="#{!pgProspecto.prospecto.meta.cliente}"
         />
 </ui:composition>

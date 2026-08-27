@@ -17,7 +17,6 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_URL;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
@@ -35,10 +34,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
@@ -47,7 +44,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresenc
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -157,6 +153,7 @@ public class PgMinhasReservas
     }
 
     public UsuarioCrmCliente getUsuarioCliente() {
+
         if (getParametroInstanciado(prUsuarioCLiente).isValorDoParametroFoiConfigurado()) {
             usuarioCliente = (UsuarioCrmCliente) getParametroInstanciado(prUsuarioCLiente).getValor();
         }
@@ -169,7 +166,7 @@ public class PgMinhasReservas
         usuario = usuarioLogado;
 
         if (getParametroInstanciado(prUsuarioAtendimento).isValorDoParametroFoiConfigurado()) {
-            usuarioLogado = UtilSBPersistencia.loadEntidade((UsuarioCRM) getParametroInstanciado(prUsuarioAtendimento).getValor(), getEMPagina());
+            usuario = UtilSBPersistencia.loadEntidade((UsuarioCRM) getParametroInstanciado(prUsuarioAtendimento).getValor(), getEMPagina());
         }
         return usuario;
     }
@@ -196,7 +193,7 @@ public class PgMinhasReservas
         if (agendaReservas == null) {
             agendaReservas = new DefaultScheduleModel();
             ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(ReservaHorario.class, getEMPagina());
-            consulta.addCondicaoManyToOneIgualA(CPReservaHorario.atendenteresponsavel, usuario);
+            consulta.addCondicaoManyToOneIgualA(CPReservaHorario.atendenteresponsavel, getUsuario());
             consulta.addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, UtilCRCDataHora.decrementarDias(new Date(), 1));
 
             List<ReservaHorarioCRM> reservas = consulta.resultadoRegistros();
@@ -237,7 +234,7 @@ public class PgMinhasReservas
 
         if (escopoPesquisa == null) {
             if (getUsuario() != null) {
-                escopoPesquisa = (EscopoPesquisaMelhorHorario) usuario.getCampoInstanciadoByNomeOuAnotacao(CPUsuarioCRM.escopoagendaclientes).getValor();
+                escopoPesquisa = (EscopoPesquisaMelhorHorario) getUsuario().getCampoInstanciadoByNomeOuAnotacao(CPUsuarioCRM.escopoagendaclientes).getValor();
 
             } else {
                 escopoPesquisa = new EscopoPesquisaMelhorHorario();

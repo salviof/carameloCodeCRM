@@ -11,34 +11,138 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <!--    <ui:define name="titulo">-->
-    <!--        <span>#{pgReservasCliente.entidadeSelecionada.id ne null?'Confirmação da Reseva':'Reserva '},#{pgReservasCliente.entidadeSelecionada.tipoAgendamento.nome} </span>-->
-    <!--        <h:panelGroup styleClass="Container3 Fright" style="width: 200px;" layout="block">-->
-    <!--            <h:form>-->
-    <!--                <SBBotaoAcao:botaoDeAcao_Pagina-->
-    <!--                        classeEstilo="botaoVermelho"-->
-    <!--                        rendered="#{pgReservasCliente.entidadeSelecionada.id ne null}"-->
-    <!--                        label="CANCELAR"-->
-    <!--                        update="infoReserva"-->
-    <!--                        tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"-->
-    <!--                        acao="#{acoesClienteContato_ReservasMbGestao.reservasCtrCancelar}"-->
-    <!--                />-->
 
-    <!--            </h:form>-->
-    <!--        </h:panelGroup>-->
-    <!--        <SBFormulario:irParaTopoERodape/>-->
-    <!--    </ui:define>-->
     <ui:define name="conteudo">
+        <h:outputStylesheet name="agenda.css" library="crmAgenda" />
+
+        <h:panelGroup layout="block" styleClass="Container12 ReservaClienteConexaoRemota"
+                      rendered="#{empty pgReservasCliente.entidadeSelecionada.linkConferencia}" >
+            <h:form styleClass="ReservaLinkConexaoCartao ReservaLinkConexaoCartaoPendente">
+                <div class="ReservaLinkConexaoCabecalho">
+                    <span class="ReservaLinkConexaoIcone ReservaLinkConexaoIconePendente">
+                        <i class="fa fa-hourglass-half" />
+                    </span>
+                    <div class="ReservaLinkConexaoTitulo">
+                        <span class="ReservaLinkConexaoRotulo">Link de conexão ainda não disponível</span>
+                        <span class="ReservaLinkConexaoSubtitulo">O endereço da sala é gerado pouco antes do horário marcado. Clique abaixo para verificar novamente.</span>
+                    </div>
+                </div>
+                <p:commandButton value="Atualizar para ver Link de conexão"
+                                 icon="fa fa-refresh"
+                                 styleClass="ReservaLinkConexaoBotao ReservaLinkConexaoBotaoAtualizar"
+                                 actionListener="#{pgReservasCliente.atualizarEntidadeSelecionada()}"
+                                 update="#{pgReservasCliente.idAreaExbicaoAcaoSelecionada}" />
+            </h:form>
+        </h:panelGroup>
+
+
+        <h:panelGroup layout="block" styleClass="Container12 ReservaClienteConexaoRemota"
+                      rendered="#{not empty pgReservasCliente.entidadeSelecionada.linkConferencia}" >
+            <div class="ReservaLinkConexaoCartao">
+                <div class="ReservaLinkConexaoCabecalho">
+                    <span class="ReservaLinkConexaoIcone">
+                        <i class="fa fa-video-camera" />
+                    </span>
+                    <div class="ReservaLinkConexaoTitulo">
+                        <span class="ReservaLinkConexaoRotulo">Sua reunião online está pronta [#{pgReservasCliente.entidadeSelecionada.linkConferencia}]</span>
+                        <span class="ReservaLinkConexaoSubtitulo">Entre pelo botão abaixo no horário agendado ou copie o link para acessar de outro dispositivo.</span>
+                    </div>
+                </div>
+
+                <a class="ReservaLinkConexaoBotao ReservaLinkConexaoBotaoAbrir"
+                   href="#{pgReservasCliente.entidadeSelecionada.linkConferencia}"
+                   target="_blank" rel="noopener">
+                    <i class="fa fa-sign-in ReservaLinkConexaoBotaoIcone" />
+                    <span class="ReservaLinkConexaoBotaoTexto">Abrir Reunião</span>
+                </a>
+
+                <div class="ReservaLinkConexaoEndereco">
+                    <input id="reservaLinkConexaoCampo" type="text" class="ReservaLinkConexaoCampo"
+                           readonly="readonly" spellcheck="false"
+                           onclick="this.select();"
+                           value="#{pgReservasCliente.entidadeSelecionada.linkConferencia}" />
+                    <button type="button" class="ReservaLinkConexaoBotao ReservaLinkConexaoBotaoCopiar"
+                            onclick="reservaCopiarLinkConexao(this);">
+                        <i class="fa fa-copy ReservaLinkConexaoBotaoIcone" />
+                        <span class="ReservaLinkConexaoBotaoTexto">Copiar link</span>
+                    </button>
+                </div>
+            </div>
+        </h:panelGroup>
 
         <SBCRM_AGENDA:detalhesReservaHorario reserva="#{pgReservasCliente.entidadeSelecionada}"
                                              acaoListarOutrosHorarios="#{acoesClienteContato_ReservasMbGestao.reservasFrmHorariosDisponiveis}"
                                              acaoSalvarReserva="#{acoesClienteContato_ReservasMbGestao.reservasCtrReservar}"
                                              acaoConfirmarReserva="#{acoesClienteContato_ReservasMbGestao.reservasCtrConfirmar}"
-        />
+                                             />
+
         <h:panelGroup style="position: fixed;bottom: 5px;right: 5px;" layout="block" styleClass="Fs30">
             <p:clock mode="server"/>
         </h:panelGroup>
-        <script>window.scrollTo({top: 0, behavior: 'smooth'});</script>
+        <script>
+            //<![CDATA[
+            /* Copia o link da sala para a área de transferência.
+             Lê o valor do próprio campo da tela, evitando interpolar a URL no script. */
+            function reservaCopiarLinkConexao(botao) {
+                var campo = document.getElementById('reservaLinkConexaoCampo');
+                if (!campo) {
+                    return;
+                }
+
+                var confirmar = function () {
+                    var icone = botao.querySelector('.ReservaLinkConexaoBotaoIcone');
+                    var texto = botao.querySelector('.ReservaLinkConexaoBotaoTexto');
+                    if (botao.getAttribute('data-copiando') === 'S') {
+                        return;
+                    }
+                    botao.setAttribute('data-copiando', 'S');
+                    botao.classList.add('ReservaLinkConexaoBotaoCopiado');
+                    var iconeOriginal = icone ? icone.className : null;
+                    var textoOriginal = texto ? texto.innerHTML : null;
+                    if (icone) {
+                        icone.className = 'fa fa-check ReservaLinkConexaoBotaoIcone';
+                    }
+                    if (texto) {
+                        texto.innerHTML = 'Link copiado!';
+                    }
+                    setTimeout(function () {
+                        botao.classList.remove('ReservaLinkConexaoBotaoCopiado');
+                        botao.removeAttribute('data-copiando');
+                        if (icone && iconeOriginal !== null) {
+                            icone.className = iconeOriginal;
+                        }
+                        if (texto && textoOriginal !== null) {
+                            texto.innerHTML = textoOriginal;
+                        }
+                    }, 2200);
+                };
+
+                var copiarPelaSelecao = function () {
+                    try {
+                        campo.removeAttribute('readonly');
+                        campo.focus();
+                        campo.select();
+                        campo.setSelectionRange(0, campo.value.length);
+                        var ok = document.execCommand('copy');
+                        campo.setAttribute('readonly', 'readonly');
+                        if (ok) {
+                            confirmar();
+                        }
+                    } catch (e) {
+                        campo.setAttribute('readonly', 'readonly');
+                    }
+                };
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(campo.value).then(confirmar, copiarPelaSelecao);
+                } else {
+                    copiarPelaSelecao();
+                }
+            }
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            //]]>
+        </script>
     </ui:define>
     <ui:define name="botoesDeAcao">
 

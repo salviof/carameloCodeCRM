@@ -14,7 +14,7 @@
 
             <!-- Quando não há horários -->
             <h:panelGroup styleClass="card-sem-horarios"
-                          rendered="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis.size()==0}">
+                          rendered="#{pgReservasPublicas.agendaDisponibilidade.horariosDisponiveis.size()==0}">
                 <div class="mensagem-sem-horarios">
                     <p:staticMessage severity="warn" styleClass="fs-30"
                                      detail=""
@@ -22,25 +22,32 @@
                 </div>
             </h:panelGroup>
 
-            <!-- Quando há horários disponíveis -->
+            <p:fieldset rendered="#{pgReservasPublicas.tipoAgendamento==null}" >
+                Tipo de agendamento não selecionado
+            </p:fieldset>
 
-            <CRM_AGENDA:dataDisponivel
+            <p:fieldset rendered="#{pgReservasPublicas.tipoAgendamento!=null}" >
+                <!-- Quando há horários disponíveis -->
+                <h:form>
+                    <CRM_AGENDA:dataDisponivel
 
-                areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{pgReservasPublicas.agendaDisponivel}"
-                vagasDisponiveis="true"
+                        areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{pgReservasPublicas.agendaDisponibilidade}"
+                        vagasDisponiveis="true"
 
-                />
+                        />
+                </h:form>
 
-            <h:panelGroup rendered="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis.size()>0}" layout="block" id="painelHorariosDisponives" >
+                <h:panelGroup rendered="#{pgReservasPublicas.agendaDisponibilidade.horariosDisponiveis.size()>0}" layout="block" id="painelHorariosDisponives" >
 
-                <CRM_AGENDA:horariosDisponiveis
-                    horariosDisponiveis="#{pgReservasPublicas.agendaDisponivel.horariosDisponiveis}"
+                    <CRM_AGENDA:horariosDisponiveis
+                        horariosDisponiveis="#{pgReservasPublicas.agendaDisponibilidade.horariosDisponiveis}"
 
-                    />
+                        />
 
 
 
-            </h:panelGroup>
+                </h:panelGroup>
+            </p:fieldset>
         </h:panelGroup>
 
 

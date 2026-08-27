@@ -3,6 +3,7 @@
     xmlns:cc="http://java.sun.com/jsf/composite"
     xmlns:p="http://primefaces.org/ui"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmPessoa="http://xmlns.jcp.org/jsf/composite/crmPessoa"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
@@ -22,14 +23,17 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <h:outputStylesheet  name="empresa/estilo.css" library="css" />
+
 
         <h:panelGroup
             id="empresaCardContainer"
             styleClass="empresa-card #{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('estiloVisualizacao').valor.estiloCSS} #{!cc.attrs.empresa.usuarioLogadoPermitido ? 'restricted' : ''}"
             layout="block"
             style="position: relative;">
-
+            <crmPessoa:acaoRapidaProspecto
+                rendered="false"
+                pessoa="#{cc.attrs.empresa}"
+                />
             <f:passThroughAttribute name="onclick"
                                     value="abrirURLComLoad(this.id,'#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.empresa)}');"
                                     />

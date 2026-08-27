@@ -36,7 +36,12 @@ public class TiponotificacaoCRM extends TipoNotificacao implements ComoTipoComun
 
     @Override
     public String nomeSequenciaIdentificacao() {
-        return ComoTipoComunicCRM.class.getSimpleName();
+        return TipoNotificacao.class.getSimpleName();
+    }
+
+    @Override
+    public Long getIdSequenciaInicial() {
+        return 1000000l;
     }
 
 }

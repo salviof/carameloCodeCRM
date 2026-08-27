@@ -53,13 +53,13 @@ public enum FabAcaoCRMCliente implements ComoFabricaDeAcoesPersistencia {
     RESERVAS_MB_GESTAO,
     @InfoTipoAcaoFormulario(icone = "fa fa-ban")
     RESERVAS_FRM_SEM_ATENDIMENTO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-users")
+    @InfoTipoAcaoFormulario(icone = "fa fa-users", nomeAcao = "escolha Atendimento")
     RESERVAS_FRM_ESCOLHA_ATENDENTE,
     @InfoTipoAcaoFormulario(icone = "fa fa-ticket")
     RESERVAS_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(icone = "fa fa-clock-o")
+    @InfoTipoAcaoFormulario(icone = "fa fa-clock-o", nomeAcao = "Horários disponíveis")
     RESERVAS_FRM_HORARIOS_DISPONIVEIS,
-    @InfoTipoAcaoFormulario(icone = "fa fa-ticket")
+    @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Tipo de reserva")
     RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA,
     @InfoTipoAcaoFormulario(icone = "fa fa-ticket", nomeAcao = "Reserva")
     RESERVAS_FRM_VISUALIZAR,

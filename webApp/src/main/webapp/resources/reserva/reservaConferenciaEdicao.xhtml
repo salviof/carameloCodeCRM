@@ -12,7 +12,7 @@
         <cc:attribute name="reserva"
                       type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo"
                       required="true"/>
-        <cc:attribute name="podeEditarCliente" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="podeEditarCliente" type="java.lang.Boolean"  default="#{false}" />
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
@@ -25,11 +25,12 @@
         <p:fieldset legend="Dados da reserva"  id="dadosReserva" styleClass="Container12" >
             <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda"  layout="block" id="atendidos">
                 <h:panelGroup styleClass="Container3"  layout="block">
+                    #{!cc.attrs.podeEditarCliente}
                     <SBInput:input registro="#{cc.attrs.reserva.getCampoInstanciadoByNomeOuAnotacao('pessoaRelacionada')}"
                                    label="Cliente"
                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
                                    idAtualizarOnChange="atendidos"
-                                   desabilitarEdicao="#{!cc.attrs.podeEditarCliente}"
+                                   desabilitarEdicao="#{not cc.attrs.podeEditarCliente}"
                                    />
 
 

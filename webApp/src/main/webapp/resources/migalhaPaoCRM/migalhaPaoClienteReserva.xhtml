@@ -1,0 +1,60 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet name="migalhaPao.css" library="migalhaPaoCRM"/>
+        <h:panelGroup  styleClass="MenuMigalhaPao" layout="block" >
+            <h:form styleClass="MigalhaPaoForm">
+                <!-- value = rótulo visível do item; title = tooltip.
+                     Antes só havia title, por isso a trilha aparecia sem texto. -->
+                <p:breadCrumb styleClass="MigalhaPaoTrilha">
+                    <p:menuitem url="#{infoWebApp.urlPagina}"
+                                value="Início"
+                                title="Página inicial"
+                                icon="fa-solid fa-house"
+                                />
+                    <p:menuitem url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ReservasMbGestao.reservasFrmEscolhaAtendente)}"
+                                value="Meus Atendentes"
+                                title="Escollha Atendentes"
+                                icon="fa-solid fa-calendar-day"
+                                />
+                    <p:menuitem url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ReservasMbGestao.reservasFrmEscolherTipoDeReserva,pgReservasCliente.usuarioAtendente)}"
+                                value="#{pgReservasCliente.usuarioAtendente.nome}"
+                                rendered="#{pgReservasCliente.usuarioAtendente!=null}"
+                                title="Listar atendentes disponíveis"
+                                icon="fa-solid fa-user"
+                                />
+                    <p:menuitem url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ReservasMbGestao.reservasFrmEscolhaAtendente)}"
+                                value="#{pgReservasCliente.tipoAgendamento.nome}"
+                                rendered="#{pgReservasCliente.tipoAgendamento!=null}"
+                                title="Tipo de atendimento"
+                                icon="fa-solid fa-ticket"
+                                />
+
+
+                    <p:menuitem url="#"
+                                value="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada.id==null?'Nova Reserva':'Reserva nº'} #{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada.id}"
+                                title="Reserva em exibição"
+                                icon="fa-solid fa-hashtag"
+                                rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada!=null}"
+                                />
+                </p:breadCrumb>
+            </h:form>
+        </h:panelGroup>
+
+
+    </cc:implementation>
+</ui:composition>

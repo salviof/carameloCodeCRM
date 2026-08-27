@@ -13,45 +13,14 @@
     <ui:define name="conteudo">
 
 
-        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Data inicial e final ">
 
-            <SBForm:camposDoGrupo
-                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[0]}"
-                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
+        <SBFormulario:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{acoesAgenda_MinhaDisponibilidadeMbGestao.minhaDisponibilidadeFrmEditar}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+            />
 
-            <div class="quebraBlocoComEspacoVertical10"/>
-        </p:fieldset>
-
-        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Horário de funcionamento ">
-            <SBForm:camposDoGrupo
-                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[1]}"
-                somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
-
-        </p:fieldset>
-        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Dias ta semana">
-
-            <SBForm:camposDoGrupo registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[2]}"
-                                  somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-
-                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
-
-            <div class="quebraBlocoComEspacoVertical10"/>
-        </p:fieldset>
-
-        <p:fieldset style="margin: 2%" styleClass="Container12" legend="Tipos de Reservas possíveis">
-
-            <SBForm:camposDoGrupo registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
-                                  grupoCampos="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada.gruposDeCampos[3]}"
-                                  somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
-                                  tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"/>
-
-            <div class="quebraBlocoComEspacoVertical10"/>
-        </p:fieldset>
 
 
     </ui:define>

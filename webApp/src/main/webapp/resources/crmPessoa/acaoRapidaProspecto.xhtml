@@ -14,6 +14,7 @@
 
     </cc:interface>
     <cc:implementation>
+        <h:outputStylesheet library="crmPessoa" name="opcoes_do_prospecto.css" />
         <h:panelGroup layout="block"
                       id="barraAcoesRapidas"
                       styleClass="BarraAcoesRapidasLead">
@@ -28,7 +29,7 @@
             </p:badge>
 
             <!-- SOLICITACOES -->
-            <p:badge value="#{pgProspecto.prospecto.solicitacoesAbertas.size()}"
+            <p:badge value="#{cc.attrs.pessoa.solicitacoesAbertas.size()}"
                      severity="warning">
                 <p:link
                     href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmListarSolicitacoesPessoa, cc.attrs.pessoa)}"
@@ -38,16 +39,8 @@
                 </p:link>
             </p:badge>
 
-            <!-- ATIVIDADES (leva para a aba Atividades) -->
-            <p:badge value="#{pgProspecto.somaTotalInteracoes}"
-                     severity="success">
-                <p:link href="#"
-                        onclick="PF('abasLead').select(3); return false;"
-                        styleClass="btnAcaoRapida"
-                        title="Atividades em andamento">
-                    <i class="fa fa-play-circle-o"></i>
-                </p:link>
-            </p:badge>
+
+
 
             <!-- NOVA ATIVIDADE -->
             <h:form styleClass="formAcaoRapida">

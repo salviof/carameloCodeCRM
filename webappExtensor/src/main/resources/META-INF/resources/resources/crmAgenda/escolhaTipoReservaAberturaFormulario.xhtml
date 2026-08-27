@@ -33,8 +33,7 @@
                        >
                 <p:link href="#{pgUtilAcoes.getUrlAcao(tipoAgenda.umAtendimentoRemoto?cc.attrs.acaoAgendaRemota:cc.attrs.acaoAgendaPresencial,cc.attrs.atendido,cc.attrs.atendido , cc.attrs.atendente,tipoAgenda)}" >
 
-                    <crmAgenda:tipoReserva  tipoAgendamento="#{tipoAgenda}" atendente="#{cc.attrs.atendente}" acaoEscolhaTipoEvento="#{cc.attrs.acaoEscolhaTipo}"
-                                            atendido="#{servicoCrmReserva.agendaDisponibilidade.usuarioAtendido}"
+                    <crmAgenda:tipoReserva  tipoAgendamento="#{tipoAgenda}" atendente="#{cc.attrs.atendente}"
 
                                             />
                 </p:link>

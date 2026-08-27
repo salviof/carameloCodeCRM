@@ -50,7 +50,7 @@ public class DocsEquipeDaCategoria extends EntidadeSimples implements ComoPasta 
         nome = pCategoria.getNome();
         icone = pCategoria.getIcone();
         id = pCategoria.getId();
-        temSolicitacaoParaMim = pCategoria.getCPinst(CPCategoriaArquivoEquipe.temsolicitacaoparamim).getValorComoBoolean();
+        temSolicitacaoParaMim = pCategoria.isTemSolicitacaoParaMim();
 
     }
 

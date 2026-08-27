@@ -225,6 +225,10 @@ public class UtilCRCEmailAvancado {
                             byte[] conteudo = org.apache.commons.io.IOUtils.toByteArray(new URL(caminhoArquivo).openStream());
                             attachmentPart.setDataHandler(new DataHandler(new ByteArrayDataSource(conteudo, "application/octet-stream")));
                         } else {
+                            File arquivoLocal = new File(caminhoArquivo);
+                            if (!arquivoLocal.exists()) {
+                                throw new ErroEnvioEmail("Arquivo local " + nomeArquivo + " não foi encontrado.");
+                            }
                             attachmentPart.attachFile(new File(caminhoArquivo));
                         }
 

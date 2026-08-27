@@ -41,16 +41,14 @@
 
 
             <p:tabView id="dadosDaEmpresa"
-                       cache="false"
+                       cache="true"
                        widgetVar="abasLead"
                        dynamic="true"
                        >
 
                 <p:ajax event="tabChange"
                         listener="#{pgProspecto.onTabChange}"
-                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosDaEmpresa')}')"
-                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('dadosDaEmpresa')}')"
-                        update="atualizarAba"/>
+                        />
                 <p:tab title=""   >
 
                     <f:facet name="title"   >
@@ -83,6 +81,7 @@
                             <p:tooltip for="@(.fa-user)" value="Contatos do Lead, abertura de chamados, e ações de contato" position="bottom"/>
                         </h:panelGroup>
                     </f:facet>
+
                     <ui:include src="prospecto_tabContatos.xhtml" />
 
 
@@ -134,7 +133,7 @@
                      este painel e re-renderizado a cada tabChange;
                      a logica mora em opcoes_do_prospecto.js */
                     setTimeout(function () {
-                        CarameloCode.prospecto.ajustarAba(#{pgProspecto.abaSelecionada});
+                        //    CarameloCode.prospecto.ajustarAba(#{pgProspecto.abaSelecionada});
                     }, 100);
                 </script>
             </h:panelGroup>

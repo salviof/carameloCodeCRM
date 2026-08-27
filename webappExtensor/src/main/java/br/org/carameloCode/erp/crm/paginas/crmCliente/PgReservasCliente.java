@@ -41,6 +41,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCR
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.InfoAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 /**
@@ -224,7 +225,10 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         } else {
 
             if (temRepresentanteComercial && temGestorDeSucesso) {
-                executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
+                if (getUsuarioAtendente() == null) {
+                    executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHA_ATENDENTE);
+                }
+
             } else {
                 if (temRepresentanteComercial) {
                     usrAtendenteSelecionado = usrRepComercial;
@@ -236,7 +240,8 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         }
 
         ReservaHorarioCRM reserva = (ReservaHorarioCRM) getUsuarioLogado().getCampoInstanciadoByNomeOuAnotacao(CPUsuarioCrmCliente.reservaativamaisproxima).getValor();
-        if (reserva != null) {
+        if (reserva
+                != null) {
             setEntidadeSelecionada(reserva);
             if (reserva.getTipoAgendamento().isUmAtendimentoRemoto()) {
                 executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_VISUALIZAR_REMOTO);
@@ -244,7 +249,9 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_VISUALIZAR_PRESENCIAL);
             }
         }
-        if (getParametroInstanciado(prAtendentes).isValorDoParametroFoiConfigurado()) {
+
+        if (getParametroInstanciado(prAtendentes)
+                .isValorDoParametroFoiConfigurado()) {
             setUsrAtendenteSelecionado((UsuarioCRM) getParametroInstanciado(prAtendentes).getValor());
         }
     }
@@ -259,6 +266,9 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
     }
 
     public UsuarioCRM getUsrAtendenteSelecionado() {
+        if (getParametroInstanciado(prAtendentes).isValorDoParametroFoiConfigurado()) {
+            usrAtendenteSelecionado = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prAtendentes).getValor(), getEMPagina());
+        }
         return usrAtendenteSelecionado;
     }
 
@@ -287,11 +297,16 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
         return tiposDisponiveis;
     }
 
-    public void defineTipoDeReserva(TipoAgendamentoAtdmPublico tipoAgendamento) {
-        if (tipoAgendamento != null) {
-
-            getEntidadeSelecionada().setTipoAgendamento(tipoAgendamento);
-
+    public void defineTipoDeReserva(TipoAgendamentoAtdmPublico pTipoAgendamento) {
+        if (pTipoAgendamento != null) {
+            if (getEntidadeSelecionada() != null) {
+                getEntidadeSelecionada().setTipoAgendamento(pTipoAgendamento);
+            }
+            if (getAgendaDisponibilidade() != null) {
+                if (getAgendaDisponibilidade().getFiltro() != null) {
+                    getAgendaDisponibilidade().getFiltro().setTipoAgendamento(pTipoAgendamento);
+                }
+            }
             //   escopoSelecionado.getCampoInstanciadoByNomeOuAnotacao(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
         }
 

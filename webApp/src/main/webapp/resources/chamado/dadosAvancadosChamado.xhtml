@@ -67,6 +67,11 @@
                                         <pe:clipboard trigger="copiarContato" action="copy"
                                                       text="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.nome}" />
                                     </p:button>
+                                    <p:button href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_SolicitacaoMbGestao.solicitacaoFrmNovaNotificacaoCliente,cc.attrs.chamado.pessoa,cc.attrs.chamado.usuarioCliente.contatoClienteVinculado)}"
+                                              icon="fa fa-hand-paper-o"
+                                              />
+
+
                                 </h:panelGroup>
                             </h:panelGroup>
                         </h:panelGroup>

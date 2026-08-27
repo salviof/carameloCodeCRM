@@ -34,6 +34,7 @@ import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 
 /**
  *
@@ -58,7 +59,7 @@ public class PgDashboardCliente extends MB_paginaCadastroEntidades<UsuarioCrmCli
 
     @Override
     public void executarAcaoSelecionada() {
-
+        usuarioLogado = UtilSBPersistencia.loadEntidade(CarameloCode.getUsuarioLogado(), getEMPagina());
         FabAcaoCRMCliente acao = getEnumAcaoAtual();
         switch (acao) {
             case CHAMADO_MB_GESTAO:

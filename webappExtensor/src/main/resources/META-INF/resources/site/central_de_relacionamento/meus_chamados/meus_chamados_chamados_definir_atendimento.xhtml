@@ -9,7 +9,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo">
-
+        <h:form>
+            <p:commandButton  value="ATUALIZAR"update="@all" />
+        </h:form>
         <h:panelGroup styleClass="Container9" layout="block" >
 
 
@@ -34,11 +36,18 @@
 
         </h:panelGroup>
 
+        <p:fieldset legend="Me tornar responsavel " styleClass="Container8" >
+            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 10px;" >
+                <h:form>
+                    <CRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrAssumirChamado}" />
+                </h:form>
+            </h:panelGroup>
+        </p:fieldset>
 
-        <h:panelGroup styleClass="Container3 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" id="opcoesResponsavel" >
             <p:fieldset legend="Definir Responsável" styleClass="Container12" >
                 <h:form>
-                    <h:panelGroup styleClass="Container8" layout="block" >
+                    <h:panelGroup styleClass="Container6" layout="block" >
                         <p:selectOneListbox id="advanced" value="#{pgMeusChamadosAtd.entidadeSelecionada.atendenteResponsavel}"
                                             converter="conversorGenerico"
                                             var="atendente" filter="true" filterMatchMode="contains">
@@ -54,23 +63,21 @@
                                 <h:outputText value="#{atendente.nome}"/>
                             </p:column>
                         </p:selectOneListbox>
+
+
                     </h:panelGroup>
+
                     <h:panelGroup styleClass="Container3" layout="block" style="margin-top: 30px;" >
                         <CRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrDefinirResponsavel}" />
                     </h:panelGroup>
+
                 </h:form>
             </p:fieldset>
 
 
         </h:panelGroup>
 
-        <p:fieldset legend="Me tornar responsavel " >
-            <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="margin-top: 10px;" >
-                <h:form>
-                    <CRM:botaoGrande acao="#{acoesAtendimentoCrm_MeusChamadosMbGestao.meusChamadosCtrAssumirChamado}" />
-                </h:form>
-            </h:panelGroup>
-        </p:fieldset>
+
 
 
     </ui:define>

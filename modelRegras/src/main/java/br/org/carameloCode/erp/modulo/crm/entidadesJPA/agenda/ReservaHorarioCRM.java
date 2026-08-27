@@ -5,12 +5,9 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda;
 
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
-import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -35,7 +32,7 @@ import javax.persistence.ManyToOne;
 public class ReservaHorarioCRM extends ReservaHorario {
 
     @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.REFRESH)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, somenteLeitura = false)
     @InfoCampoValidadorLogico()
     private Pessoa pessoaRelacionada;
 

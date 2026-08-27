@@ -683,6 +683,106 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
 
     }
 
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_ATENDIMENTO)
+    public static ItfRespostaAcaoDoSistema prospectoRemoverResponsavelAtendimento(final Pessoa pProspecto) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pProspecto), pProspecto) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pProspecto.getUsuarioAtendimento() == null) {
+                    throw new ErroRegraDeNegocio("Defina o o usuário");
+                }
+                Pessoa pessoa = loadEntidade(pProspecto);
+                if (!pessoa.getCPinst(CPPessoa.atendentelogadoresponsavelprincipal).getValorComoBoolean()) {
+                    throw new ErroRegraDeNegocio("Acesso negado");
+                }
+                if (pessoa.getUsuarioAtendimento() != null) {
+                    pessoa.setUsuarioAtendimento(null);
+                }
+
+                UtilSBPersistencia.mergeRegistro(pessoa);
+
+            }
+
+        }.dispararMensagens();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_COMERCIAL)
+    public static ItfRespostaAcaoDoSistema prospectoRemoverResponsavelComenrcial(final Pessoa pProspecto) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pProspecto), pProspecto) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pProspecto.getUsuarioResponsavel() == null) {
+                    throw new ErroRegraDeNegocio("Defina o o usuário");
+                }
+                Pessoa pessoa = loadEntidade(pProspecto);
+                if (!pessoa.getCPinst(CPPessoa.atendentelogadoresponsavelprincipal).getValorComoBoolean()) {
+                    throw new ErroRegraDeNegocio("Acesso negado");
+                }
+                if (pessoa.getUsuarioResponsavel() != null) {
+                    pessoa.setUsuarioResponsavel(null);
+                }
+
+                UtilSBPersistencia.mergeRegistro(pessoa);
+
+            }
+
+        }.dispararMensagens();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_DEFINIR_RESPONSAVEL_COMERCIAL)
+    public static ItfRespostaAcaoDoSistema prospectoDefinirResponsavelComenrcial(final Pessoa pProspecto) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pProspecto), pProspecto) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pProspecto.getUsuarioResponsavel() == null) {
+                    throw new ErroRegraDeNegocio("Defina o o usuário");
+                }
+                Pessoa pessoa = loadEntidade(pProspecto);
+                if (!pessoa.getCPinst("atendenteLogadoResponsavelPrincipal").getValorComoBoolean()) {
+                    throw new ErroRegraDeNegocio("Acesso negado");
+                }
+                if (pessoa.getUsuarioResponsavel() != null) {
+                    if (pessoa.getUsuarioResponsavel().equals(pProspecto.getUsuarioResponsavel())) {
+                        throw new ErroRegraDeNegocio(pProspecto.getUsuarioResponsavel().getNome() + " já é o responśavel");
+                    }
+                }
+                pessoa.setUsuarioResponsavel(pProspecto.getUsuarioAtendimento());
+                UtilSBPersistencia.mergeRegistro(pessoa);
+
+            }
+
+        }.dispararMensagens();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_DEFINIR_RESPONSAVEL_ATENDIMENTO)
+    public static ItfRespostaAcaoDoSistema prospectoDefinirResponsavelAtendimento(final Pessoa pProspecto) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pProspecto), pProspecto) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pProspecto.getUsuarioAtendimento() == null) {
+                    throw new ErroRegraDeNegocio("Defina o o usuário");
+                }
+                Pessoa pessoa = loadEntidade(pProspecto);
+                if (!pessoa.getCPinst("atendenteLogadoResponsavelPrincipal").getValorComoBoolean()) {
+                    throw new ErroRegraDeNegocio("Acesso negado");
+                }
+                if (pessoa.getUsuarioAtendimento() != null) {
+                    if (pessoa.getUsuarioAtendimento().equals(pProspecto.getUsuarioAtendimento())) {
+                        throw new ErroRegraDeNegocio(pProspecto.getUsuarioAtendimento().getNome() + " já é o responśavel");
+                    }
+                }
+                pessoa.setUsuarioAtendimento(pProspecto.getUsuarioAtendimento());
+                UtilSBPersistencia.mergeRegistro(pessoa);
+
+            }
+
+        }.dispararMensagens();
+    }
+
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_SERVICOS)
     public static ItfRespostaAcaoDoSistema prospectoSalvarServicos(final Pessoa pProspecto) {
 

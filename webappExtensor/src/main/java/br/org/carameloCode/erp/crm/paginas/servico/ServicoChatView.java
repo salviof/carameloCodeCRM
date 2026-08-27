@@ -46,10 +46,10 @@ public class ServicoChatView implements Serializable {
         if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
             urlClientChat = "https://chat.casanovadigital.com.br";
             if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro().getId())) {
-                urlClientChat = "https://atendimento.casanovadigital.com.br";
+                urlClientChat = "https://chatatendimento.casanovadigital.com.br";
             }
             if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro().getId())) {
-                urlClientChat = "https://chatatendimento.casanovadigital.com.br";
+                urlClientChat = "https://chat.casanovadigital.com.br";
             }
             if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro().getId())) {
                 urlClientChat = "https://chatcomunidade.casanovadigital.com.br";

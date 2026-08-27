@@ -10,108 +10,17 @@
     <h:panelGroup transient="true" rendered="#{sessaoAtualSBWP.usuario.umUsuarioDoCliente and paginaAtual.sessao.telaUsuario.umMobile}" layout="block" style="z-index: 10001; margin-left: 5px;" >
 
 
-        <li class="Fs18">
 
-            <img class=""  src="#{sessaoAtualSBWP.usuario.representanteLegal.imgPequena}"
-                 style="
-                 min-height: 20px;
-                 max-width: 70%;
-                 max-height:  30px;
-                 position: relative;
-                 z-index: 10010;
-                 top: 0px;
-                 " />
-            <br/>
-            <br/>
-            <span class="FontAdamantiumBold">
-                #{sessaoAtualSBWP.usuario.nome}
-            </span>
-            <br/>  <br/>
-        </li>
-        <li>
-            <br/>  <br/>
-            <span class="FontAdamantiumBold Fright" style="margin-right: 5px;">
-                <h:form>
-                    <p:commandLink actionListener="#{controleDeSessaoWeb.efetuarLogOut}"  oncomplete="javascript:window.location='#{infoWebApp.urlPagina}';">
-                        <li><i class="icon-lock-stroke Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Sair </span></li>
-                    </p:commandLink>
-                </h:form>
-            </span>
-        </li>
-
-
-
-    </h:panelGroup>
-
-    <h:panelGroup transient="true" rendered="#{sessaoAtualSBWP.usuario.umUsuarioDoCliente and !paginaAtual.sessao.telaUsuario.umMobile}" layout="block" >
-        <li>
-            <a class="menulink Animated05"><i class="fa fa-address-card" ></i>  Minha Conta </a>
-            <ul style="margin-left:-145px;">
-
-                <li class="Fs18">
-                    <img class=""  src="#{sessaoAtualSBWP.usuario.representanteLegal.imgPequena}"
-                         style="
-                         min-height: 20px;
-                         max-width: 70%;
-                         max-height:  30px;
-                         position: relative;
-
-                         top: 0px;
-                         " />
-                    #{sessaoAtualSBWP.usuario.nome}
-                </li>
-                <li>
-                    <span class="FontAdamantiumBold">
-                        <h:form>
-                            <p:commandLink actionListener="#{controleDeSessaoWeb.efetuarLogOut}"  oncomplete="javascript:window.location='#{infoWebApp.urlPagina}';">
-                                <li><i class="icon-lock-stroke Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Sair </span></li>
-                            </p:commandLink>
-                        </h:form>
-                    </span>
-                </li>
-            </ul>
-            <SBLogin:notificacoes/>
-        </li>
 
 
     </h:panelGroup>
     <h:panelGroup transient="true" rendered="#{!sessaoAtualSBWP.usuario.umUsuarioDoCliente and !sessaoAtualSBWP.usuario.umUsuarioConvidado}" layout="block" >
-        <li>
 
-
-        </li>
-        <li>
-
-        </li>
     </h:panelGroup>
 
 
     <h:panelGroup transient="true" rendered="#{sessaoAtualSBWP.usuario.umUsuarioConvidado}" layout="block" >
-        <li>
 
-            <a class="menulink Animated05"><i class="fa fa-address-card" ></i>  Minha Conta </a>
-            <ul style="margin-left:-145px;">
-
-                <li>
-                    <a href="#{infoWebApp.getAcaoComLink(acoesAtendimentoCrm_MeuPerfilMb.meuPerfilFrmEditar).urlDeAcesso} ">
-                        <h:panelGroup styleClass="Container12 FontAdamantiumRegular" layout="block" style="margin: 10px" >
-                            <SBCRM:avatar somenteLeitura="trur" usuario="#{sessaoAtualSBWP.usuario}"  altura="40" />
-                            <span style="margin-left: 50px" class="FontAdamantiumBold" > #{sessaoAtualSBWP.usuario.nome}</span>
-                            <span style="margin-left: 50px"> #{sessaoAtualSBWP.usuario.grupo.nome}</span>
-                            <div class="quebraBlocoComEspacoVertical10"/>
-                        </h:panelGroup>
-                    </a>
-                </li>
-                <li>  <span class="FontAdamantiumBold">
-                        <h:form>
-                            <p:commandLink actionListener="#{controleDeSessaoWeb.efetuarLogOut}"  oncomplete="javascript:window.location='#{infoWebApp.urlPagina}';">
-                                <li><i class="icon-lock-stroke Fs18 Fleft MarRight10"></i> <span class="FontAdamantiumBold"> Sair </span></li>
-                            </p:commandLink>
-                        </h:form>
-                    </span>
-                </li>
-            </ul>
-        </li>
     </h:panelGroup>
 
 </ui:composition>

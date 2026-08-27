@@ -747,6 +747,54 @@
         margin: 4px 0 0 0 !important;
     }
 }
+/* ============================================
+   MOBILE — alinhamento do PRIMEIRO card
+   No mobile o primeiro card dos paineis de
+   compromissos (meusCompromissosAtendimento /
+   meusCompromissosLead) aparecia recuado, com uma
+   margem a esquerda que os demais nao tinham.
+
+   O componente e este arquivo entregam caixas
+   iguais para todos os cards, entao o recuo vem de
+   fora (regra :first-child/nth-child de outro css
+   da pagina, ou recuo herdado do wrapper). Aqui a
+   coluna fica explicita (uma so, minmax(0,1fr) —
+   sem risco de trilha maior que a tela) e o item do
+   grid, o link e o card tem qualquer deslocamento
+   horizontal zerado. Resultado: mesma borda
+   esquerda para o primeiro e para os seguintes.
+   ============================================ */
+
+@media (max-width: 768px) {
+    .cards-dashboard {
+        grid-template-columns: minmax(0, 1fr) !important;
+        justify-items: stretch;
+        padding-left: 0;
+        padding-right: 0;
+        text-indent: 0;
+    }
+
+    /* alcanca o primeiro item mesmo quando ele esta
+       dentro do h:form com display:contents */
+    .cards-dashboard > *,
+    .cards-dashboard > form > *,
+    .cards-dashboard .card-link,
+    .cards-dashboard .card-moderno {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        text-indent: 0;
+        float: none !important;
+        justify-self: stretch;
+    }
+
+    /* sem teto de largura numa unica coluna: o card
+       vai de borda a borda, como os vizinhos */
+    .cards-dashboard .card-moderno {
+        max-width: none !important;
+        width: 100% !important;
+    }
+}
+
 .ui-tabs-panels {
     background-color: #f6f9f2!important;
 }

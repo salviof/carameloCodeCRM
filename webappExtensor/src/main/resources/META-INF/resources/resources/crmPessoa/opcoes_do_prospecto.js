@@ -57,6 +57,95 @@
             }
         }
 
+        /**
+         * Feedback visual do "copiou": o gatilho fica verde e o icone vira
+         * um check por um instante (ver .btnCopiarContatoDoLead--copiado no
+         * opcoes_do_prospecto.css). Depois avisa o servidor, se pedido.
+         *
+         * @param {HTMLElement} gatilho elemento clicado
+         */
+        function sinalizarCopia(gatilho) {
+            var classeCopiado = 'btnCopiarContatoDoLead--copiado';
+            gatilho.classList.add(classeCopiado);
+            window.setTimeout(function () {
+                gatilho.classList.remove(classeCopiado);
+            }, 1600);
+
+            /* nome de um p:remoteCommand global (ex.: msgEmailCopiaOK), que
+               exibe a mensagem de sucesso pelo growl da pagina */
+            var retorno = gatilho.getAttribute('data-retorno-copiar');
+            if (retorno && typeof window[retorno] === 'function') {
+                window[retorno]();
+            }
+        }
+
+        /** Copia por textarea temporaria: navegadores antigos e http. */
+        function copiarPorTextarea(valor) {
+            var area = document.createElement('textarea');
+            area.value = valor;
+            area.setAttribute('readonly', 'readonly');
+            area.className = 'areaCopiaOculta';
+            document.body.appendChild(area);
+            area.select();
+            var ok = false;
+            try {
+                ok = document.execCommand('copy');
+            } catch (e) {
+                ok = false;
+            }
+            document.body.removeChild(area);
+            return ok;
+        }
+
+        /**
+         * Copia para a area de transferencia o valor guardado no proprio
+         * elemento clicado (data-valor-copiar).
+         *
+         * Os gatilhos de copiar da lista de contatos sao renderizados uma vez
+         * POR LINHA pelo mesmo componente JSF, entao nao podem ser achados
+         * por id (sairia duplicado no DOM e so o primeiro funcionaria) nem
+         * ler o contato selecionado (copiariam sempre o mesmo valor). Dai a
+         * funcao receber o proprio elemento e tirar dele o valor da linha.
+         *
+         * @param {HTMLElement} gatilho elemento clicado; traz data-valor-copiar
+         *        e, opcionalmente, data-retorno-copiar
+         * @param {Event} [evento] clique; a propagacao e interrompida para o
+         *        item da listbox nao trocar a selecao e disparar ajax, o que
+         *        re-renderiza a lista e mata o feedback visual
+         * @returns {boolean} sempre false, para cancelar a navegacao do link
+         */
+        function copiarValorContato(gatilho, evento) {
+            if (evento) {
+                evento.stopPropagation();
+                if (evento.preventDefault) {
+                    evento.preventDefault();
+                }
+            }
+
+            var valor = gatilho.getAttribute('data-valor-copiar');
+            if (!valor) {
+                return false;
+            }
+
+            var aoCopiar = function () {
+                sinalizarCopia(gatilho);
+            };
+            var alternativa = function () {
+                if (copiarPorTextarea(valor)) {
+                    aoCopiar();
+                }
+            };
+
+            /* navigator.clipboard so existe em contexto seguro (https ou
+               localhost); fora dele cai na textarea */
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(valor).then(aoCopiar, alternativa);
+            } else {
+                alternativa();
+            }
+            return false;
+        }
+
         function inicializar() {
             posicionarBarraAcoes();
         }
@@ -65,6 +154,7 @@
         return {
             posicionarBarraAcoes: posicionarBarraAcoes,
             ajustarAba: ajustarAba,
+            copiarValorContato: copiarValorContato,
             inicializar: inicializar
         };
     })();

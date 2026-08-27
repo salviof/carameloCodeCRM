@@ -76,8 +76,8 @@
                     Clique na data acima para escolher outro dia
                 </div>
                 <h:panelGroup styleClass="calendar-info-message-custom"
-                              rendered="#{cc.attrs.vagasDisponiveis eq true}"> Existem #{pgReservasPublicas.agendaDisponivel.escopo.getCampoInstanciadoByNomeOuAnotacao('qtdReservasDisponiveis').valor} vagas
-                    para #{pgReservasPublicas.agendaDisponivel.escopo.tipoAgendamento.nome}
+                              rendered="#{cc.attrs.vagasDisponiveis eq true}"> Existem #{cc.attrs.agendaDiponibilidade.escopo.getCampoInstanciadoByNomeOuAnotacao('qtdReservasDisponiveis').valor} vagas
+                    para #{cc.attrs.agendaDiponibilidade.tipoAgendamento.nome}
                 </h:panelGroup>
 
                 <p:fragment >
