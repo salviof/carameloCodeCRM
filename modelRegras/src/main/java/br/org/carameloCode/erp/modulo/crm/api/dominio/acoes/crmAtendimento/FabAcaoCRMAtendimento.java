@@ -352,6 +352,9 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoController(nomeAcao = "Criar area do cliente",
             descricao = "Salva o novo prospecto e Inicia um novo Cadastro", icone = "fa fa-save", entidade = PessoaJuridica.class)
     PROSPECTO_CTR_CRIAR_USUARIOS_ACESSO_AREA_CLIENTE,
+    @InfoTipoAcaoController(nomeAcao = "Atualizar usuários do Lead",
+            descricao = "Atualiza os dados do usuário do lead", icone = "fa fa-save", entidade = PessoaJuridica.class)
+    PROSPECTO_CTR_ATUALIZAR_TODOS_USUARIOS,
     @InfoTipoAcaoController(nomeAcao = "Salvar Lead",
             descricao = "Salva o novo prospecto e Inicia um novo Cadastro", icone = "fa fa-save", entidade = PessoaJuridica.class)
     PROSPECTO_CTR_SALVAR_MERGE_PESSOA_GENERICO,
@@ -582,6 +585,8 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     CONTATO_FRM_EDITAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar contato")
     CONTATO_CTR_SALVAR,
+    @InfoTipoAcaoController(nomeAcao = "Atualizar dados Usuário")
+    CONTATO_CTR_ATUALIZAR_USUARIO,
     @InfoTipoAcaoController(nomeAcao = "Remover contato")
     CONTATO_CTR_REMOVER,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Orçamentos", entidade = Orcamento.class)

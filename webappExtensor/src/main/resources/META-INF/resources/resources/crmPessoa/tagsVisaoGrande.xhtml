@@ -14,21 +14,42 @@
     </cc:interface>
     <cc:implementation>
         <h:outputStylesheet library="crmPessoa" name="opcoes_do_prospecto.css" />
-        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmTags,cc.attrs.pessoa)}"
-                styleClass="linkTagsPessoaGrande">
-            <h:panelGroup rendered="#{cc.attrs.pessoa.tagsAtendimento.size()==0}" styleClass="avisoSemTagsPessoa" layout="block">
+        <h:panelGroup styleClass="Container12 blocoTagsPessoaGrande" layout="block">
+
+            <!-- sem tags: o proprio aviso continua levando para a
+                 tela de edicao -->
+            <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmTags,cc.attrs.pessoa)}"
+                    styleClass="linkTagsPessoaGrande avisoSemTagsPessoa"
+                    rendered="#{cc.attrs.pessoa.tagsAtendimento.size()==0}">
                 <p:staticMessage severity="info" summary="Sem tags" detail="Clique para editar" />
+            </p:link>
+
+            <!-- cada tag e um link proprio: leva a listagem de
+                 prospectos daquela tag para o usuario da sessao.
+                 O title mostra o nome completo quando o rotulo e
+                 cortado pelo "..." da pastilha. -->
+            <h:panelGroup layout="block"
+                          styleClass="OrganizadorContainerEsquerda tagsPessoaGrande"
+                          rendered="#{cc.attrs.pessoa.tagsAtendimento.size()>0}">
+                <c:forEach items="#{cc.attrs.pessoa.tagsAtendimento}" var="tag">
+                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_MeusProspectosMbGerenciar.meusProspectosFrmListar,tag,sessaoAtualSBWP.usuario)}"
+                            styleClass="itemTagPessoaGrande"
+                            title="#{tag.nome}"
+                            style="--cor-tag: ##{tag.cor}; border-color: var(--cor-tag);">
+                        <span class="labelTagTexto"><i class="fa fa-tag tag-icon"></i> #{tag.nome}</span>
+                    </p:link>
+                </c:forEach>
             </h:panelGroup>
-            <h:panelGroup styleClass="Container12" layout="block">
-                <div class="OrganizadorContainerEsquerda tagsPessoaGrande">
-                    <c:forEach items="#{cc.attrs.pessoa.tagsAtendimento}" var="tag">
-                        <div class="itemTagPessoaGrande"
-                             style="border-color: ##{tag.cor};">
-                            <span class="labelTagTexto"><i class="fa fa-tag tag-icon"></i> #{tag.nome}</span>
-                        </div>
-                    </c:forEach>
-                </div>
-            </h:panelGroup>
-        </p:link>
+
+            <!-- rodape: editar as tags do prospecto (era o link que
+                 envolvia o bloco inteiro) -->
+            <div class="area-botao-tags">
+                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmTags,cc.attrs.pessoa)}"
+                        styleClass="botao-editar-tags"
+                        title="Editar tags">
+                    <i class="pi pi-pencil"></i> Editar tags
+                </p:link>
+            </div>
+        </h:panelGroup>
     </cc:implementation>
 </ui:composition>

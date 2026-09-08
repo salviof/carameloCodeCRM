@@ -40,7 +40,13 @@
 
         <h:panelGroup styleClass="card-cliente-title-content">
             <div class="texto-titulo">
-                <h3>#{pgProspecto.prospecto.nome}</h3>
+                <h:panelGroup layout="block" styleClass="titulo-prospecto-marca">
+                    <i class="fa #{pgProspecto.entidadeSelecionada.umaPessoaJuridica ? 'fa-building' : 'fa-user'} titulo-prospecto-icone" />
+                </h:panelGroup>
+
+                <h3 class="titulo-prospecto-nome" title="#{pgProspecto.prospecto.nome}">
+                    #{pgProspecto.prospecto.nome}
+                </h3>
 
                 <p:button icon="fa fa-copy"
                           id="copiarNomeProspecto"

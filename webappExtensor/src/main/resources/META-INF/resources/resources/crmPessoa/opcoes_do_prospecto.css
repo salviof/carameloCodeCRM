@@ -187,6 +187,37 @@ simples, centralizados verticalmente e sem largura de grid.  */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* ------------------------------------------------------------
+   DIVISAO DAS COLUNAS NO DESKTOP
+   Os dois cards sao itens flex irmaos e, com o width:100% de
+   .card-cliente, acabavam dividindo a linha em 50/50. Mas o peso
+   de conteudo e muito diferente: o resumo concentra titulo,
+   dados, logo/tags, acesso rapido e observacao, enquanto a equipe
+   responsavel e uma lista curta de pessoas. Em telas largas o
+   resumo cresce livremente e a equipe ocupa uma faixa de largura
+   previsivel — dimensionada para caber nome, papeis e botoes de
+   acao de cada membro sem quebrar em varias linhas.
+   Abaixo de 769px continuam valendo as regras empilhadas.
+   ------------------------------------------------------------ */
+@media (min-width: 769px) {
+    .container-cards-cliente > .card-cliente--resumo {
+        width: auto;
+        min-width: 0;      /* pode encolher sem estourar a linha */
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+    }
+
+    .container-cards-cliente > .card-cliente-equipe {
+        width: auto;
+        min-width: 0;
+        flex-grow: 0;      /* nao acompanha o crescimento do resumo */
+        flex-shrink: 1;
+        /* o dobro da faixa anterior (era 26% / max 360px) */
+        flex-basis: clamp(420px, 52%, 720px);
+    }
+}
+
 /* Cabeçalho do card - título e imagem lado a lado */
 .card-cliente-title-content {
     display: flex;
@@ -196,14 +227,48 @@ simples, centralizados verticalmente e sem largura de grid.  */
     margin-bottom: 24px;
 }
 
+/* ------------------------------------------------------------
+   NOME DO PROSPECTO (titulo do card)
+   Nomes de empresa sao longos e costumam vir em caixa alta do
+   cadastro: o tamanho acompanha a largura disponivel, a altura de
+   linha da folga entre linhas e o texto quebra por PALAVRA
+   (break-word so entra como ultimo recurso), com as linhas
+   equilibradas para nao sobrar uma palavra solta na ultima.
+   ------------------------------------------------------------ */
 .card-cliente-title-content h3 {
     margin: 0;
     min-width: 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    font-weight: 600;
+    color: var(--cor-texto, #2c3e50);
+    font-size: clamp(1.4rem, 1.05rem + .9vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: .01em;
     flex: 1;
+    word-break: normal;
     overflow-wrap: break-word;
+    hyphens: none;
+    text-wrap: balance;
+}
+
+/* pastilha de identificacao (empresa / pessoa) antes do nome:
+   ancora a leitura e da peso visual ao titulo sem competir com ele */
+.card-cliente-title-content .titulo-prospecto-marca {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef6f0 0%, #f8fbf9 100%);
+    border: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
+.card-cliente-title-content .titulo-prospecto-icone {
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--cor-primaria-escura, #406a47);
 }
 
 .container-imagem-edicao {
@@ -632,9 +697,14 @@ simples, centralizados verticalmente e sem largura de grid.  */
     container: cardprospecto / inline-size;
 }
 
+/* a coluna da direita e a mais apertada das duas: alem do logo ela
+   abriga as tags de atendimento, cujos rotulos sao frases inteiras
+   ("Campanhas de email Marketing - cliente"). A coluna do titulo e
+   das informacoes cede largura para ela — as linhas rotulo/valor de
+   la se adaptam sozinhas via container query. */
 .card-cliente--resumo .ui-card-content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
     grid-template-areas:
         "titulo   lado"
         "conteudo lado";
@@ -645,7 +715,7 @@ simples, centralizados verticalmente e sem largura de grid.  */
 /* card medio: a coluna da direita cede espaco antes de empilhar */
 @container cardprospecto (max-width: 1100px) {
     .card-cliente--resumo .ui-card-content {
-        grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+        grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
         column-gap: 20px;
     }
 }
@@ -680,6 +750,26 @@ simples, centralizados verticalmente e sem largura de grid.  */
     flex-direction: column;
     align-items: center;
     gap: 16px;
+}
+
+/* A OBSERVACAO OCUPA A LINHA INTEIRA (as duas colunas).
+   O componente crm:observacao entra no card como um item extra do
+   grid (o wrapper .Container12) e, sem area nomeada, a
+   auto-colocacao o jogava na coluna da direita da terceira linha —
+   a coluna estreita do logo/tags. Aqui ele passa a comecar na
+   primeira coluna e ir ate a ultima.
+   Dois seletores para o mesmo item: :last-child funciona em
+   qualquer navegador (a observacao e o ultimo filho do card) e o
+   :has continua correto se a ordem dos blocos mudar. */
+.card-cliente--resumo .ui-card-content > *:last-child,
+.card-cliente--resumo .ui-card-content > *:has(.panel-observacao) {
+    grid-column: 1 / -1;
+}
+
+/* ocupando a linha inteira, o painel nao precisa mais do teto de
+   600px herdado do layout de coluna unica */
+.card-cliente--resumo .panel-observacao {
+    max-width: 100%;
 }
 
 /* integracoes na coluna direita: mesmo tratamento de avatar
@@ -788,6 +878,108 @@ simples, centralizados verticalmente e sem largura de grid.  */
     background-color: var(--cor-primaria-escura) !important;
 }
 
+/* ============================================================
+   BOTAO DE EDITAR A OBSERVACAO
+   O link nasce dentro do facet header do p:panel reaproveitando a
+   classe .botao-editar-imagem-link — que foi feita para a logo:
+   absoluta, invisivel ate o hover. O resultado era um lapis
+   flutuando por cima do rotulo "Observação".
+   Aqui ele e trazido para o RODAPE do painel: a .area-botao (div
+   vazia no fim do conteudo) desenha a faixa do rodape e reserva a
+   altura, para o botao nunca cobrir o texto da observacao. Fica
+   sempre visivel em opacidade reduzida e assume a opacidade total
+   (com preenchimento verde) no hover/foco.
+   Os !important vencem estilos inline do componente
+   (font-size:2rem, margin-top:10px, a cor branca do icone) e o
+   sublinhado de .ui-link:hover — observacao.xhtml nao e editavel
+   a partir desta tarefa.
+   ============================================================ */
+.panel-observacao.ui-panel {
+    position: relative;      /* ancora do botao absoluto */
+}
+
+/* sem isto o absolute continuaria preso ao cabecalho: o facet tem
+   .container-imagem-edicao (position:relative) e o titlebar do
+   tema tambem se posiciona */
+.panel-observacao .ui-panel-titlebar,
+.panel-observacao .header-observacao.container-imagem-edicao {
+    position: static;
+}
+
+/* faixa do rodape: separa do texto e reserva a altura do botao */
+.panel-observacao .area-botao {
+    min-height: 48px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
+/* Aparencia comum dos botoes de rodape "editar ..." (observacao e
+   tags): pastilha de contorno verde, sempre visivel em opacidade
+   reduzida, preenchida no hover/foco.
+   O seletor de elemento (a.) e necessario para vencer o
+   ".DashboardVisaoGeralProspecto .ui-link:hover", que e !important
+   e vem depois neste arquivo — sem ele o rotulo sublinha no hover.
+   As propriedades de posicionamento valem so para o botao da
+   observacao (o unico absoluto); no de tags elas sao inertes. */
+.panel-observacao a.botao-editar-imagem-link,
+.blocoTagsPessoaGrande a.botao-editar-tags {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+    width: auto;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 14px;
+    margin-top: 0 !important;
+    border: 1px solid var(--cor-primaria, #60a36c);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--cor-primaria-escura, #406a47);
+    font-size: .85rem !important;
+    font-weight: 600;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    opacity: .6;             /* presente, mas sem competir com o texto */
+    text-decoration: none !important;
+    transition: opacity .2s ease, background-color .2s ease, color .2s ease,
+        box-shadow .2s ease, transform .2s ease;
+}
+
+/* so na observacao: o markup do componente traz apenas o lapis, o
+   verbo entra por aqui. No botao de tags o texto ja vem no markup. */
+.panel-observacao a.botao-editar-imagem-link::after {
+    content: "Editar";
+}
+
+.panel-observacao a.botao-editar-imagem-link .pi,
+.blocoTagsPessoaGrande a.botao-editar-tags .pi {
+    color: var(--cor-primaria-escura, #406a47) !important;
+    font-size: 1rem !important;
+}
+
+.panel-observacao a.botao-editar-imagem-link:hover,
+.panel-observacao a.botao-editar-imagem-link:focus,
+.blocoTagsPessoaGrande a.botao-editar-tags:hover,
+.blocoTagsPessoaGrande a.botao-editar-tags:focus {
+    opacity: 1;
+    background: var(--cor-primaria, #60a36c);
+    border-color: var(--cor-primaria, #60a36c);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+    transform: translateY(-1px);
+    text-decoration: none !important;
+}
+
+.panel-observacao a.botao-editar-imagem-link:hover .pi,
+.panel-observacao a.botao-editar-imagem-link:focus .pi,
+.blocoTagsPessoaGrande a.botao-editar-tags:hover .pi,
+.blocoTagsPessoaGrande a.botao-editar-tags:focus .pi {
+    color: #ffffff !important;
+}
+
 /* Switch de privacidade */
 .DashboardVisaoGeralProspecto .ui-toggleswitch {
     margin-left: 8px;
@@ -861,6 +1053,16 @@ simples, centralizados verticalmente e sem largura de grid.  */
 
     .card-cliente-title-content h3 {
         font-size: 1.3rem;
+    }
+
+    .card-cliente-title-content .titulo-prospecto-marca {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+    }
+
+    .card-cliente-title-content .titulo-prospecto-icone {
+        font-size: .95rem;
     }
 
     .img-prospecto {
@@ -1361,47 +1563,187 @@ simples, centralizados verticalmente e sem largura de grid.  */
     text-decoration: none;
 }
 
+/* o sublinhado do tema (.DashboardVisaoGeralProspecto .ui-link:hover)
+   e desenhado ATRAVES dos descendentes e nao pode ser cancelado nos
+   filhos — precisa ser vencido no proprio <a>, com especificidade
+   maior (2 classes + elemento). Vale para o aviso "sem tags" e para
+   cada pastilha, que agora tambem e um link. */
+.DashboardVisaoGeralProspecto a.linkTagsPessoaGrande:hover,
+.DashboardVisaoGeralProspecto a.linkTagsPessoaGrande:focus,
+.DashboardVisaoGeralProspecto a.itemTagPessoaGrande:hover,
+.DashboardVisaoGeralProspecto a.itemTagPessoaGrande:focus {
+    text-decoration: none !important;
+}
+
+/* ------------------------------------------------------------
+   BLOCO DAS TAGS + RODAPE "EDITAR TAGS"
+   O link que antes envolvia o bloco inteiro virou um botao de
+   rodape (cada pastilha ficou com o proprio destino), nos mesmos
+   moldes do botao de editar da observacao.
+   ------------------------------------------------------------ */
+.blocoTagsPessoaGrande {
+    width: 100%;
+}
+
+.blocoTagsPessoaGrande .area-botao-tags {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cor-borda-suave, #e9ecef);
+}
+
 .avisoSemTagsPessoa {
     margin: 30px;
     padding-top: 40px;
 }
 
+/* As tags viram uma grade justificada de pastilhas de mesmo
+   tamanho, em vez de um flex-wrap onde cada uma tinha a largura do
+   proprio texto (uma minuscula ao lado de uma enorme).
+   A largura de referencia e medida em CARACTERES: 1ch = largura do
+   "0" na fonte do rotulo, por isso o font-size .9rem aqui — o mesmo
+   do .labelTagTexto — para que 21ch valham 21 caracteres reais.
+   Alem dos 18ch entram o icone da tag (~1.4em com a margem) e o
+   padding + borda horizontais (22px) da pastilha.
+   Trocar --caracteres-tag muda a medida de todas as tags.
+   O min(...) garante DUAS TAGS POR LINHA: a largura de referencia
+   nunca passa de meia linha (descontada a metade do gap). Onde a
+   coluna e estreita, a pastilha cede largura e o rotulo quebra em
+   duas linhas; onde ha sobra (card empilhado no mobile), a grade
+   acomoda tres ou mais por linha. */
 .tagsPessoaGrande {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
+    --caracteres-tag: 18;
+    --largura-tag: calc(var(--caracteres-tag) * 1ch + 1.4em + 22px);
+    --espaco-tag: 8px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--largura-tag), calc(50% - var(--espaco-tag) / 2)), 1fr));
+    grid-auto-rows: 1fr;          /* todas as linhas com a mesma altura */
+    justify-content: space-between;
+    align-items: stretch;         /* pastilhas da mesma linha, mesma altura */
+    gap: var(--espaco-tag);
     margin-top: 10px;
     width: 100%;
+    min-width: 0;
+    font-size: .9rem;
 }
 
+/* o antigo margin-left:60px empurrava a tag para fora da coluna
+   (ela ja e centralizada pelo justify-content do container).
+   box-sizing + min-width:0 garantem que padding e borda entrem na
+   conta da largura maxima. */
+/* DESKTOP: exatamente duas tags por linha.
+   Aqui a coluna do logo/tags e estreita e previsivel (280-380px),
+   entao a grade e fixada em duas colunas iguais — a medida de 18
+   caracteres vira o alvo, nao o divisor. Sem isto, quando o card
+   de resumo empilha as colunas em telas muito largas, a
+   .card-lado-direito passa dos 570px e a auto-colocacao comecaria
+   a montar tres por linha. */
+@media (min-width: 769px) {
+    .tagsPessoaGrande {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* NOME COMPLETO NO HOVER
+       O componente nao gera title (e nao e editavel a partir daqui),
+       entao a revelacao e feita pela propria pastilha: ela cresce
+       para a largura do texto (max-content, ainda em UMA linha) e
+       passa por cima da vizinha, com sombra para se destacar. O teto
+       de 200% + gap = a linha inteira, para nao vazar do card; se o
+       nome for maior que isso, o "..." permanece.
+       Como toque nao tem hover, tudo isso vale so no desktop. */
+    .itemTagPessoaGrande:hover {
+        z-index: 5;
+        /* min-width: 100% = a largura da propria celula. Sem ele, a
+           tag de nome curto ENCOLHERIA no hover (max-content menor
+           que a celula) e o efeito ficava de tras para frente. */
+        min-width: 100%;
+        width: max-content;
+        max-width: calc(200% + var(--espaco-tag));
+        background-color: #ffffff;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
+    }
+
+    /* as pastilhas pares estao na 2a coluna: crescem para a
+       ESQUERDA (justify-self:end), senao escapariam pela direita
+       do card */
+    .tagsPessoaGrande > .itemTagPessoaGrande:nth-child(even):hover {
+        justify-self: end;
+    }
+}
+
+/* A pastilha tem SEMPRE uma linha de texto, verticalmente centrada
+   (o texto nao desce para uma linha abaixo do icone: ele apenas
+   comeca um pouco a direita, encostando no icone do canto).
+   position:relative e a ancora do icone e do empilhamento no
+   hover; overflow:hidden mantem o corte do texto dentro da borda
+   arredondada. */
 .itemTagPessoaGrande {
-    display: inline-flex;
+    position: relative;
+    display: flex;
     align-items: center;
-    padding: 2px 10px;
-    border: 1px solid transparent;
+    box-sizing: border-box;
+    width: 100%;               /* preenche a coluna da grade */
+    min-width: 0;
+    max-width: 100%;
+    padding: 5px 6px;   /* simetrico: o icone foi para a direita */
+    overflow: hidden;
+    border: 1px solid transparent;   /* a cor real vem inline, da tag */
     border-radius: 8px;
     background-color: #fbfefd;
-    max-width: 100%;
-    margin-left: 60px;
+    transition: box-shadow .2s ease, background-color .2s ease;
 }
 
+/* o icone esta DENTRO do span do rotulo (markup do componente);
+   o absolute o tira do fluxo do texto e o fixa no canto superior
+   esquerdo. O espaco que sobra antes do texto colapsa sozinho por
+   ser o inicio da linha. */
+/* cada pastilha agora e um <a> (p:link) com as classes ui-link /
+   ui-widget do tema, que tem a mesma especificidade (uma classe) das
+   regras acima e pode ganhar por ordem de carregamento. O seletor
+   com elemento + contexto garante o layout da pastilha. */
+.tagsPessoaGrande a.itemTagPessoaGrande {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* o icone assume a cor da propria tag — a mesma da borda.
+   --cor-tag e definida inline pelo componente (tagsVisaoGrande),
+   que aplica a mesma variavel no border-color; o segundo valor do
+   var() e o fallback se a tag vier sem cor cadastrada. */
+.itemTagPessoaGrande .tag-icon {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    margin: 0 !important;
+    font-size: .62rem;
+    line-height: 1;
+    color: var(--cor-tag, #445e91) !important;
+    pointer-events: none;
+}
+
+/* uma linha, sempre: o que nao couber e cortado com "..." e o
+   inicio do texto e o que fica visivel (por isso alinhado a
+   esquerda — centralizado, o corte comeria as duas pontas).
+   O padding-right e a "pequena margem" que afasta o fim do texto
+   (e o "...") do icone do canto direito — encostando nele, sem
+   reservar uma coluna. */
 .itemTagPessoaGrande .labelTagTexto {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: block;
+    padding-right: 11px;
     color: #445e91;
     font-weight: 600;
     font-size: 0.9rem;
-    line-height: 1.6;
-    text-align: center;
-    text-shadow: #fbfefd;
+    line-height: 1.35;
+    text-align: left;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.itemTagPessoaGrande .tag-icon {
-    color: inherit !important;
-    margin-right: 4px;
-    opacity: 0.75;
 }
 
 /* ============================================================

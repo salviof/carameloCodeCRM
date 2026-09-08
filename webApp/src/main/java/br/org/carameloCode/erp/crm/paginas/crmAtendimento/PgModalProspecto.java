@@ -17,6 +17,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
@@ -173,7 +174,7 @@ public class PgModalProspecto extends PgModalSubAcao implements Serializable {
         if (contatoSelecionado == null) {
             SBCore.enviarAvisoAoUsuario("Selecione um contato");
         } else {
-            ItfResposta resp = ModuloCRMAtendimento.contatoSalvarMerge(contatoSelecionado);
+            ItfResposta resp = ModuloCRMContatos.contatoSalvarMerge(contatoSelecionado);
             if (resp.isSucesso()) {
 
                 fecharModal();
@@ -317,7 +318,7 @@ public class PgModalProspecto extends PgModalSubAcao implements Serializable {
             SBCore.enviarAvisoAoUsuario("Selecione um contato");
             return;
         }
-        ItfRespostaAcaoDoSistema resp = ModuloCRMAtendimento.contatoRemover(contatoSelecionado).dispararMensagens();
+        ItfRespostaAcaoDoSistema resp = ModuloCRMContatos.contatoRemover(contatoSelecionado).dispararMensagens();
         if (resp.isSucesso()) {
             renovarEMPagina();
             setBeanSelecionado(UtilSBPersistencia.loadEntidade(getBeanSelecionado(), getEMPagina()));

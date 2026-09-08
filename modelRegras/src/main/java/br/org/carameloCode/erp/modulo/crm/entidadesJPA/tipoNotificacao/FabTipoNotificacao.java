@@ -16,6 +16,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoCo
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoEquipe;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoOrcamento;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoNotificacaoRegistrada;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
 /**
@@ -79,6 +80,7 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(id = 1000026, classeObjeto = TiponotificacaoCRM.class, nomeObjeto = "Notificação de orçamento atendida")
     NOTIFICACAO_SOLICITACAO_ORCAMENTO_ATENDIDA;
 
+    @Override
     public ComoTipoComunicCRM getRegistro() {
         ComoTipoComunicCRM tipoCRM = (ComoTipoComunicCRM) ComoFabricaComPersistencia.super.getRegistro();
 
@@ -116,9 +118,11 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
                 ((TiponotificacaoCRM) tipoCRM).setNomeEntidadeReferencia(ChamadoCliente.class.getSimpleName());
                 break;
             case NOTIFICAR_CLIENTE_AGENDA_REUNIAO:
-                ((TiponotificacaoCRM) tipoCRM).setAssunto("O Chamado [id] encerrou");
-                ((TiponotificacaoCRM) tipoCRM).setConteudoHTML("O chamado [id] foi finalizado, você pode reabrir-lo pelo link:  <a href='[linkUrlAcessoCliente]' > [linkUrlAcessoCliente] </a> ");
+                ((TiponotificacaoCRM) tipoCRM).setAssunto("Uma reunião foi registrada para você");
+                ((TiponotificacaoCRM) tipoCRM).setConteudoHTML("Olá, [atendidoResponsavel.nome]. Uma reunião sobre <i>'[tipoAgendamento.nome]'</i>, foi registrada com  [atendidoResponsavel.nome] em [inicioReservaAtendente]. Para reuniões online, o link para parcipar será enviado com 10 min de antecedência.");
                 ((TiponotificacaoCRM) tipoCRM).setNomeEntidadeReferencia(ReservaHorarioCRM.class.getSimpleName());
+                ((TiponotificacaoCRM) tipoCRM).setNotificarViaEmail(true);
+                ((TiponotificacaoCRM) tipoCRM).setNotificarViaSMS(true);
                 break;
             case NOTIFICAR_CLIENTE_AGENDA_REUNIAO_ALTERACAO_HORARIO:
                 ((TiponotificacaoCRM) tipoCRM).setAssunto("O Horário da reunião foi alterado");
@@ -127,7 +131,7 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
                 break;
             case NOTIFICAR_CLIENTE_AGENDA_REUNIAO_LINK_REUNIAO:
                 ((TiponotificacaoCRM) tipoCRM).setAssunto("Segue o link para reunião");
-                ((TiponotificacaoCRM) tipoCRM).setConteudoHTML("Segue o link para reunião");
+                ((TiponotificacaoCRM) tipoCRM).setConteudoHTML("Segue o link para reunião [linkConferencia]");
                 ((TiponotificacaoCRM) tipoCRM).setNomeEntidadeReferencia(ReservaHorarioCRM.class.getSimpleName());
                 break;
             case NOTIFICAR_ATENDENTE_CLIENTE_MARCOU_NA_AGENDA:

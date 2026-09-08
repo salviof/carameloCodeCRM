@@ -8,15 +8,17 @@ import br.org.carameloCode.erp.modulo.crm.api.model.escopopesquisamelhorhorario.
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.agendaconsultordefiniragenda.FluxoAgendaDoConsultor;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.UtilSBAgendaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 
 public class L__o_usuario_tenta_encontrar_este_horario_novamente {
 
     @E(EtapasAgendaConsultorDefinirAgenda.E_O_USUARIO_TENTA_ENCONTRAR_ESTE_HORARIO_NOVAMENTE)
     public void implementacaoEtapa() {
         UtilSBAgendaHorariosDisponiveis.atualizarReservas();
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparAtendenteDefinido();
-        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparAtendenteDefinido();
-        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getCPinst(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.limparPesquisa();
+        FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setUsuarioAtendente((UsuarioSB) SBCore.getUsuarioLogado());
+        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getHorariosDisponiveis();
         System.out.println(UtilCRCDataHora.getDataHoraString(horariosDisponiveis.get(0).getDataHoraIicialAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO));
         System.out.println("UP");
     }

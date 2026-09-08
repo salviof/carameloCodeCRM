@@ -66,7 +66,7 @@ public enum FabModulosCRM implements ComoFabricaModulo {
                 break;
             case CONVIDADO:
                 modulo.setNome("Convidado");
-                modulo.setDescricao("usuários convidado");
+                modulo.setDescricao("usuários leads convidado");
                 break;
 
             default:

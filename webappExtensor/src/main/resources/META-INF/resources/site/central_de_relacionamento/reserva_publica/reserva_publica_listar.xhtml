@@ -26,7 +26,7 @@
                 Tipo de agendamento não selecionado
             </p:fieldset>
 
-            <p:fieldset rendered="#{pgReservasPublicas.tipoAgendamento!=null}" >
+            <p:fieldset rendered="#{pgReservasPublicas.agendaDisponibilidade.horariosDisponiveis.size()>0 and pgReservasPublicas.tipoAgendamento!=null}" >
                 <!-- Quando há horários disponíveis -->
                 <h:form>
                     <CRM_AGENDA:dataDisponivel

@@ -25,7 +25,9 @@ public enum FabTipoAgendamentoPublicoCrm implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMRemoto.class, id = 3, nomeObjeto = "Consultoria por video conferência")
     CONFERENCIA,
     @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMRemoto.class, id = 4, nomeObjeto = "Consultoria avançada por video Conferência")
-    CONFERENCIA_COM_PALESTRA;
+    CONFERENCIA_COM_PALESTRA,
+    @InfoObjetoDaFabrica(classeObjeto = TipoReservaCRMRemoto.class, id = 5, nomeObjeto = "Primeira consultoria Link remoto")
+    PRIMEIRA_CONSULTORIA_REMOTO;
 
     @Override
     public TipoAgendamentoAtdmPublico getRegistro() {
@@ -48,6 +50,11 @@ public enum FabTipoAgendamentoPublicoCrm implements ComoFabricaComPersistencia {
                 break;
             case CONFERENCIA_COM_PALESTRA:
 
+                tipo.setDuracaoAtendenteMinutos(180);
+                tipo.setMinutosAnteriorAReserva(15);
+                tipo.setContextoReserva(FabContextoDeReserva.RESERVAR_AGENDA_ATENDENTE.getRegistro());
+                break;
+            case PRIMEIRA_CONSULTORIA_REMOTO:
                 tipo.setDuracaoAtendenteMinutos(180);
                 tipo.setMinutosAnteriorAReserva(15);
                 tipo.setContextoReserva(FabContextoDeReserva.RESERVAR_AGENDA_ATENDENTE.getRegistro());

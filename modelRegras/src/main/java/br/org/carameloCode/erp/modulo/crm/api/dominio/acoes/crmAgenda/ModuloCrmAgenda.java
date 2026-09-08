@@ -48,6 +48,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
+
                 ReservaHoraRemotoVideo reserva = loadEntidade(pReserval);
                 reserva.setLinkConferencia(pReserval.getComoReservaVideoConferencia().getLinkConferencia());
                 boolean resultado = false;

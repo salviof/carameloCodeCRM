@@ -44,12 +44,15 @@
 
                             <div class="somenteMobile">
                                 <div class="Container100">
+
                                     <SBLogin:infoLogin  ocultarFormulario="false" />
                                 </div>
                             </div>
                             <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="#{!paginaAtual.sessao.identificado}" >
                                 <h:panelGroup layout="block" styleClass="Container3 OrganizadorContainerDireita" style="background: #ffffff60" >
-                                    Ou, Faça login usando a conta de outra platafoma: <br/>
+                                    Ou, Faça login usando a conta de outra platafoma:
+
+                                    <br/>
                                     <h:form>
 
                                         <ui:repeat value="#{loginSocialColetivoJava.credenciais}" var="credencial" >

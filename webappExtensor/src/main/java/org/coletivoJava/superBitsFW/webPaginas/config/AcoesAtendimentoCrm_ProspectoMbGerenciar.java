@@ -222,6 +222,11 @@ public class AcoesAtendimentoCrm_ProspectoMbGerenciar implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_CRIAR_USUARIOS_ACESSO_AREA_CLIENTE");
 	}
 
+	public ComoAcaoControllerEntidade getProspectoCtrAtualizarTodosUsuarios() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_ATUALIZAR_TODOS_USUARIOS");
+	}
+
 	public ComoAcaoControllerEntidade getProspectoCtrSalvarMergePessoaGenerico() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_MERGE_PESSOA_GENERICO");
@@ -265,5 +270,25 @@ public class AcoesAtendimentoCrm_ProspectoMbGerenciar implements Serializable {
 	public ComoAcaoControllerEntidade getProspectoCtrPassarABola() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_PASSAR_A_BOLA");
+	}
+
+	public ComoAcaoControllerEntidade getProspectoCtrDefinirResponsavelComercial() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_DEFINIR_RESPONSAVEL_COMERCIAL");
+	}
+
+	public ComoAcaoControllerEntidade getProspectoCtrDefinirResponsavelAtendimento() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_DEFINIR_RESPONSAVEL_ATENDIMENTO");
+	}
+
+	public ComoAcaoControllerEntidade getProspectoCtrDespromoverResponsavelComercial() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_COMERCIAL");
+	}
+
+	public ComoAcaoControllerEntidade getProspectoCtrDespromoverResponsavelAtendimento() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.PROSPECTO_CTR_DESPROMOVER_RESPONSAVEL_ATENDIMENTO");
 	}
 }

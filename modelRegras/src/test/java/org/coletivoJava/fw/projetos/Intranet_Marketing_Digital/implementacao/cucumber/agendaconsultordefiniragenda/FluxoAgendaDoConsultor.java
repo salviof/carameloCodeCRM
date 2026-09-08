@@ -7,9 +7,12 @@ package org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cu
 
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp.ConfiguradorCoreCRMTestes;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import cucumber.api.CucumberOptions;
 import org.coletivoJava.fw.projetos.Intranet_Marketing_Digital.implementacao.cucumber.ConfigPersistCRMDemostracao;
 import org.junit.runner.RunWith;
@@ -29,6 +32,9 @@ public class FluxoAgendaDoConsultor extends TesteIntegracaoFuncionalidadeCucumbe
 
     public final static AgendaDisponibilidade escopoAtendimentoRemoto = new AgendaDisponibilidade(new EscopoPesqHorarioPublicado());
     public final static AgendaDisponibilidade escopoAtendimentoPresencial = new AgendaDisponibilidade(new EscopoPesqHorarioPublicado());
+    public static ReservaHorario reservaHorario;
+
+    public static Pessoa pessoa;
 
     public static final String NOMEUSUARIO_ATENDIMENTO = "atendimento@casanovadigital.com.br";
     public static final String SENHA_ATENDIMENTO = "123";
@@ -37,7 +43,7 @@ public class FluxoAgendaDoConsultor extends TesteIntegracaoFuncionalidadeCucumbe
     public void configContextoExecucao() {
         SBCore.configurar(new ConfiguradorCoreCRMTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistCRMDemostracao());
-
+        MapaObjetosProjetoAtual.adcionarObjeto(AgendaDisponibilidade.class);
     }
 
     @Override

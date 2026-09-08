@@ -35,6 +35,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoGrupoUsuario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.Where;
 
@@ -50,7 +52,7 @@ import java.util.Map;
  */
 @Entity
 @InfoObjetoSB(tags = {"Usuário CRM"}, icone = "fa fa-user", plural = "Usuários da Central")
-public class UsuarioCRM extends UsuarioSB {
+public class UsuarioCRM extends UsuarioSB implements ComoContatoHumano {
 
     public UsuarioCRM() {
         super();
@@ -459,6 +461,17 @@ public class UsuarioCRM extends UsuarioSB {
 
     public void setCodigoMatrix(String codigoMatrix) {
         this.codigoMatrix = codigoMatrix;
+    }
+
+    @Override
+    public String getCelular() {
+        if (contatoVinculado != null) {
+            if (contatoVinculado.getCelularFormatoInternacional() != null) {
+                return contatoVinculado.getCelularFormatoInternacional();
+            }
+        }
+        String tel = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(getTelefonePrincipal());
+        return tel;
     }
 
 }

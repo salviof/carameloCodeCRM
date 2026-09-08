@@ -12,6 +12,7 @@ import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.Map
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.UtilSBAgendaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.DisponibilidadeAtdmtPublico;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.HorarioDisponivelAtendimentoPublico;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import org.junit.Assert;
 import static org.junit.Assert.assertNotNull;
 
@@ -20,17 +21,19 @@ public class J__A_Lista_de_Horarios_diponiveis_para_reuniao_online_esta_de_acord
     @E(EtapasAgendaConsultorDefinirAgenda.E_A_LISTA_DE_HORARIOS_DIPONIVEIS_PARA_REUNIAO_ONLINE_ESTA_DE_ACORDO_COM_O_CADASTRADO)
     public void implementacaoEtapa() throws ErroRegraDeNegocio {
 
+        MapaHorariosDisponiveis.loadReservasEDisponibilidadesPersistidos();
         FluxoAgendaDoConsultor.escopoAtendimentoRemoto.setUsuarioAtendente((UsuarioSB) SBCore.getUsuarioLogado());
 
-        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getCPinst(CPEscopoPesquisaMelhorHorario.listahorariosdisponiveis).getValor();
+        List<HorarioDisponivelAtendimentoPublico> horariosDisponiveis = (List) FluxoAgendaDoConsultor.escopoAtendimentoRemoto.getHorariosDisponiveis();
+
         assertNotNull("Recebeu Lista de Horários nula", horariosDisponiveis);
         Assert.assertTrue("Nenhum horário foi listado", !horariosDisponiveis.isEmpty());
 
         for (HorarioDisponivelAtendimentoPublico horarioDisponivel : horariosDisponiveis) {
             System.out.println("De");
-            System.out.println(horarioDisponivel.getDataHoraIicialAtendente());
+            System.out.println(UtilCRCDataHora.getDataHoraString(horarioDisponivel.getDataHoraIicialAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO));
             System.out.println("Até");
-            System.out.println(horarioDisponivel.getDatahoraFinalAtendente());
+            System.out.println(UtilCRCDataHora.getDataHoraString(horarioDisponivel.getDatahoraFinalAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_USUARIO));
             System.out.println("__________");
             if (!validarHorario(horarioDisponivel)) {
                 throw new ErroRegraDeNegocio("dasd");

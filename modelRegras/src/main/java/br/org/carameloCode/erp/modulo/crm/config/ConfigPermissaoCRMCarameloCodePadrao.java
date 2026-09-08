@@ -36,26 +36,20 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
 import br.org.carameloCode.erp.modulo.crm.menu.FabMenuCRMCaramelo;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
 import com.super_bits.modulos.SBAcessosModel.controller.UtilSBControllerAcessosModel;
-import com.super_bits.modulos.SBAcessosModel.model.ContatoUsuarioTransiente;
-import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
-import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ErroDadosDeContatoUsuarioNaoEncontrado;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.token.ItfTokenAcessoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
-import static com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoCanalChat.INTERNO;
-import static com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoCanalChat.REDES_SOCIAIS;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaAcoes;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoGrupoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
 import com.super_bits.modulosSB.SBCore.modulos.view.menu.ComoMenusDeSessao;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRMLead;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ModuloAgendamentoPublicoPluginCRM;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.ModuloPluginCrmOrcamento;
 import org.coletivojava.fw.api.objetoNativo.view.menu.MenuSBFW;
@@ -73,13 +67,36 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
             ModuloCRMAtendimentoEmail.class,
             ModuloPluginCrmOrcamento.class,
             ModuloAgendamentoPublico.class, ModuloAgendamentoPublicoPluginCRM.class,
-            ModuloCrmAgenda.class,
+            ModuloCrmAgenda.class, ModuloCRMContatos.class,
             ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class,
             ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class,});
     }
 
     public ConfigPermissaoCRMCarameloCodePadrao(Class[] pClassesControllers) {
         super(pClassesControllers);
+    }
+
+    @Override
+    public FabTipoAgenteOrganizacao getTipoAgente(ComoUsuario pUsuario) {
+        if (pUsuario instanceof UsuarioCRM) {
+            if (pUsuario instanceof UsuarioCrmCliente) {
+                return FabTipoAgenteOrganizacao.CLIENTE;
+            }
+            if (pUsuario instanceof UsuarioConvidado) {
+                return FabTipoAgenteOrganizacao.CONVIDADO;
+            }
+            if (pUsuario instanceof UsuarioCRM) {
+                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
+                    return FabTipoAgenteOrganizacao.ATENDIMENTO;
+                }
+                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro())) {
+                    return FabTipoAgenteOrganizacao.ATENDIMENTO;
+                }
+
+            }
+
+        }
+        return FabTipoAgenteOrganizacao.PUBLICO;
     }
 
     @Override
@@ -215,78 +232,6 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
     }
 
     @Override
-    public FabTipoAgenteOrganizacao getTipoAgente(ComoUsuario pUsuario) {
-        if (pUsuario instanceof UsuarioCRM) {
-            if (pUsuario instanceof UsuarioCrmCliente) {
-                return FabTipoAgenteOrganizacao.CLIENTE;
-            }
-            if (pUsuario instanceof UsuarioConvidado) {
-                return FabTipoAgenteOrganizacao.CONVIDADO;
-            }
-            if (pUsuario instanceof UsuarioCRM) {
-                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro())) {
-                    return FabTipoAgenteOrganizacao.ATENDIMENTO;
-                }
-                if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro())) {
-                    return FabTipoAgenteOrganizacao.ATENDIMENTO;
-                }
-
-            }
-
-        }
-        return FabTipoAgenteOrganizacao.PUBLICO;
-    }
-
-    @Override
-    public ComoContatoHumano getContatoDoUsuario(ComoUsuario pUsuairo) throws ErroDadosDeContatoUsuarioNaoEncontrado {
-        ComoContatoHumano dadosDoContatoCliente = null;
-        if (pUsuairo instanceof UsuarioCrmCliente) {
-
-            dadosDoContatoCliente = (ComoContatoHumano) pUsuairo.getCPinst("contatoVinculado").getValor();
-
-            String telefone = dadosDoContatoCliente.getCelular();
-            String nome = dadosDoContatoCliente.getNome();
-            String email = dadosDoContatoCliente.getEmail();
-
-            if (telefone == null || nome == null || email == null
-                    || telefone.isEmpty()
-                    || nome.isEmpty()
-                    || email.isEmpty()) {
-                throw new UnsupportedOperationException("Nome, email e telefone não foram definidos, não é possível efetuar login");
-            }
-
-            ((UsuarioSB) pUsuairo).setTelefone(telefone);
-            ((UsuarioSB) pUsuairo).setNome(nome);
-            ((UsuarioSB) pUsuairo).setEmail(email);
-
-            pUsuairo = UtilSBPersistencia.mergeRegistro(pUsuairo);
-            if (pUsuairo == null) {
-                throw new ErroDadosDeContatoUsuarioNaoEncontrado("Encontramos incosistencias no seu cadastro.");
-            }
-
-        }
-
-        switch (getTipoAgente(pUsuairo).getTipoCanal()) {
-
-            case INTERNO:
-                return new ContatoUsuarioTransiente((UsuarioSB) pUsuairo);
-
-            case REDES_SOCIAIS:
-                if (dadosDoContatoCliente == null) {
-                    throw new ErroDadosDeContatoUsuarioNaoEncontrado("Não foi possível encontrar o contato vinculado ao usuário" + pUsuairo.getNome());
-                }
-                if (dadosDoContatoCliente.getCelular() == null || UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(dadosDoContatoCliente.getCelular()) == null) {
-                    throw new ErroDadosDeContatoUsuarioNaoEncontrado("Não foi possível encontrar o telefone vinculado ao contato do usuário" + pUsuairo.getNome());
-                }
-                return dadosDoContatoCliente;
-
-            default:
-                throw new AssertionError();
-        }
-
-    }
-
-    @Override
     public boolean isObjetoPermitidoUsuario(ComoUsuario pUsuario, ComoEntidadeSimplesSomenteLeitura pObjeto) {
         if (pUsuario.getGrupo().equals(FabGruposCRMCaramelo.GRUPOADMIN)) {
             return true;
@@ -319,7 +264,12 @@ public class ConfigPermissaoCRMCarameloCodePadrao extends ConfigPermissoesAcesso
 
     @Override
     public ItfTokenAcessoDinamico gerarTokenDinamico(ComoFabricaAcoes pAcao, ComoEntidadeSimplesSomenteLeitura pItem, String pEmail) {
-        return super.gerarTokenDinamico(pAcao, pItem, pEmail); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.gerarTokenDinamico(pAcao, pItem, pEmail);
+    }
+
+    @Override
+    public ComoUsuario gerarUsuarioConvidado(String pNome, String pTelefone) {
+        return new UsuarioCRMLead(pNome, pTelefone);
     }
 
 }

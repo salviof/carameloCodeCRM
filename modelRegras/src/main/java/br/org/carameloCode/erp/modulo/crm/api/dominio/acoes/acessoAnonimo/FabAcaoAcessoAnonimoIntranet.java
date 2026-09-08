@@ -47,6 +47,8 @@ public enum FabAcaoAcessoAnonimoIntranet implements ComoFabricaDeAcoesPersistenc
     LOGIN_CTR_CLIENTE_CADASTRAR_SENHA_PRIMEIRO_ACESSO,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Pagina Inicial", descricao = "Pagina gerenciadora de acessos ao sistema", entidade = ReservaHorario.class)
     RESERVA_PUBLICA_MB_RESERVAS,
+    @InfoTipoAcaoFormulario(iconeFonteAnsowame = FabIconeFontAwesome.SISTEMA_ACESSO_NEGADO, nomeAcao = "Acesse pela area do cliente")
+    RESERVA_PUBLICA_FRM_INFORME_ACESSO_AREA_CLIENTE,
     @InfoTipoAcaoFormulario(iconeFonteAnsowame = FabIconeFontAwesome.SISTEMA_ACESSO_NEGADO)
     RESERVA_PUBLICA_FRM_SEM_HORARIOS_DISPONIVEIS,
     @InfoTipoAcaoFormulario(nomeAcao = "Escolha um horário para reservar",

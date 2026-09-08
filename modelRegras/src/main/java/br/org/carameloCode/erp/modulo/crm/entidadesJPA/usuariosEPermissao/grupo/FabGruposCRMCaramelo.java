@@ -5,6 +5,8 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo;
 
+import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
@@ -21,7 +23,8 @@ public enum FabGruposCRMCaramelo implements ComoFabricaComPersistencia {
     CRM_ATENDIMENTO,
     CRM_ADMIN,
     CRM_CLIENTE,
-    CRM_CONVIDADO;
+    CRM_CONVIDADO,
+    CRM_LEAD;
 
     @Override
     public GrupoUsuarioCRM getRegistro() {
@@ -56,6 +59,12 @@ public enum FabGruposCRMCaramelo implements ComoFabricaComPersistencia {
                 novoGrupo.setPaginaInicial(FabAcaoCRMConvidado.MEUS_CLIENTES_MB_GESTAO);
                 novoGrupo.adicionarModulo(FabModulosCRM.CONVIDADO.getRegistro());
                 novoGrupo.setUrlChatMatrix("https://chatcomunidade.casanovadigital.com.br/");
+                break;
+            case CRM_LEAD:
+                novoGrupo.setNome("Ingresso");
+                novoGrupo.setPaginaInicial(FabAcaoAcessoAnonimoIntranet.LOGIN_FRM_REALIZAR_PRIMEIRO_ACESSO_PELO_EMAIL);
+                novoGrupo.adicionarModulo(FabModulosCRM.CONVIDADO.getRegistro());
+                novoGrupo.setUrlChatMatrix("https://chatatcliente.casanovadigital.com.br");
                 break;
 
             default:

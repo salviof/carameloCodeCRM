@@ -41,4 +41,9 @@ public class AcoesAdminTools_TipoNotificacaoMbGestao implements Serializable {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_CTR_SALVAR_MERGE");
 	}
+
+	public ComoAcaoControllerEntidade getTipoNotificacaoCtrRestaurarConfiguracaoDeFabrica() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_CTR_RESTAURAR_CONFIGURACAO_DE_FABRICA");
+	}
 }

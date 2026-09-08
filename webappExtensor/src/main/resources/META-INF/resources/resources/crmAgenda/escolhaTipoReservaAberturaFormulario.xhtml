@@ -26,7 +26,7 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:outputStylesheet name="agenda.css" library="crmAgenda"/>
-
+        <p:staticMessage severity="info" summary="Atenção" detail="Nenhum Tipo de atendimento disponível para #{cc.attrs.atendente}. Verifique as disponibilidades" />
         <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
             <c:forEach items="#{cc.attrs.tiposDisponiveis}"
                        var="tipoAgenda"

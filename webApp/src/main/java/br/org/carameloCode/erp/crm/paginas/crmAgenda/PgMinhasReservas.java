@@ -44,6 +44,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresenc
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.Paginas.PgAcessoViaTokenDinamico;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.primefaces.model.DefaultScheduleEvent;

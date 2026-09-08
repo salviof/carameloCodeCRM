@@ -16,6 +16,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.EMAILS_FRM_EMAILS_DO_PROSPECTO;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import com.google.common.collect.Lists;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
@@ -398,7 +399,7 @@ public class ServicoEmail implements Serializable {
     }
 
     public void salvarNovoContato() {
-        ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.contatoSalvarMerge(getContatoNovo());
+        ItfRespostaAcaoDoSistema resposta = ModuloCRMContatos.contatoSalvarMerge(getContatoNovo());
 
         if (resposta.isSucesso()) {
             modalEmail.renovarEMPagina();

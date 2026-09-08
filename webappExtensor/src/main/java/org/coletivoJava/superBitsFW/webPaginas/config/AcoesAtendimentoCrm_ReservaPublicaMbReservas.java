@@ -19,6 +19,11 @@ public class AcoesAtendimentoCrm_ReservaPublicaMbReservas
 				.getAcaoDoSistemaByNomeUnico("FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_MB_RESERVAS");
 	}
 
+	public ItfAcaoFormularioEntidade getReservaPublicaFrmInformeAcessoAreaCliente() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_FRM_INFORME_ACESSO_AREA_CLIENTE");
+	}
+
 	public ItfAcaoFormularioEntidade getReservaPublicaFrmSemHorariosDisponiveis() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_FRM_SEM_HORARIOS_DISPONIVEIS");

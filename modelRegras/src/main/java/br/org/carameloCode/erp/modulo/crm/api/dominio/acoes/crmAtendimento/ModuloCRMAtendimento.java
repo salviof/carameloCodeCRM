@@ -117,6 +117,7 @@ import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.Pedido
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.EventoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.NotificacaoResponsaveisChamado;
@@ -132,6 +133,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDis
 import com.super_bits.modulosSB.Persistencia.dao.UtilCRCPersistenciaJDBC;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.stream.Stream;
@@ -1212,84 +1214,6 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
         }.getResposta();
     }
 
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.CONTATO_CTR_REMOVER)
-    public static ItfRespostaAcaoDoSistema contatoRemover(ContatoProspecto pContato) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pContato), pContato) {
-            @Override
-            public void executarAcoesIniciais() throws ErroEmBancoDeDados {
-                super.executarAcoesIniciais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-            }
-
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                ContatoProspecto contato = loadEntidade(pContato);
-                boolean permissao = false;
-                if (pContato.getProspecto().getContatoPrincipal().equals(pContato)) {
-                    throw new ErroRegraDeNegocio("o contato principal não pode ser removido");
-                }
-                Pessoa pessoa = loadEntidade(pContato.getProspecto());
-                if (SBCore.isEmModoProducao()) {
-                    try {
-                        permissao = pessoa.getCPinst("atendenteLogadoResponsavelPrincipal").getValorComoBoolean();
-                        //pessoa.getContatosProspecto().remove(contato);
-                        if (!permissao) {
-                            throw new ErroRegraDeNegocio("Sem permissão para exclusão");
-                        }
-                    } catch (Throwable t) {
-
-                    }
-                }
-
-                //removerEntidade(contato.getUsuarioVinculado());
-                // removerEntidade(contato);
-                UtilSBPersistencia.executaSQL(getEMResposta(), "delete from envioDocumento_contatos where contatos_id = " + pContato.getId());
-
-                UsuarioCrmCliente usuarioVinculado = contato.getUsuarioVinculado();
-                if (usuarioVinculado == null) {
-                    List<UsuarioCrmCliente> usuarios = new ConsultaDinamicaDeEntidade(UsuarioCrmCliente.class, getEm()).addCondicaoManyToOneIgualA(CPUsuarioCrmCliente.contatoclientevinculado, contato).resultadoRegistros();
-                    if (!usuarios.isEmpty()) {
-                        usuarioVinculado = usuarios.get(0);
-                    }
-                }
-
-                if (usuarioVinculado != null) {
-                    if (pessoa.getContatoPrincipal().getUsuarioVinculado() != null) {
-                        UtilSBPersistencia.executaSQL(getEMResposta(), "update ChamadoCliente set usuarioCliente_id = " + pessoa.getContatoPrincipal().getUsuarioVinculado().getId() + " where usuarioCliente_id =" + usuarioVinculado.getId());
-                    } else {
-                        UtilSBPersistencia.executaSQL(getEMResposta(), "delete ChamadoCliente  where usuarioCliente_id =" + usuarioVinculado.getId());
-                    }
-                    UtilSBPersistencia.executaSQL(getEMResposta(), "update ContatoProspecto set usuarioVinculado_id = null where usuarioVinculado_id =" + usuarioVinculado.getId());
-                    UtilSBPersistencia.executaSQL(getEMResposta(), "delete from UsuarioSB where id = " + usuarioVinculado.getId());
-
-                }
-
-                UtilSBPersistencia.executaSQL(getEMResposta(), "delete from ContatoProspecto where id = " + pContato.getId());
-                //atualizarEntidade(pessoa);
-
-            }
-        }.getResposta();
-    }
-
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.CONTATO_CTR_SALVAR)
-    public static ItfRespostaAcaoDoSistema contatoSalvarMerge(ContatoProspecto pContato) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pContato), pContato) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                if (UtilCRCStringValidador.isNuloOuEmbranco(pContato.getEmail())) {
-                    throw new ErroRegraDeNegocio("O e-mail é obrigatório");
-                }
-                if (UtilCRCStringValidador.isNuloOuEmbranco(pContato.getNome())) {
-                    throw new ErroRegraDeNegocio("O nome é obrigatorio");
-                }
-                if (pContato.getProspecto() == null) {
-                    throw new ErroRegraDeNegocio("O prospecto é obrigatorio");
-                }
-                setRetorno(atualizarEntidade(pContato));
-
-            }
-        }.getResposta();
-    }
-
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_MERGE_PESSOA_FISICA)
     public static ItfRespostaAcaoDoSistema prospectoSalvarPessoaFisica(final PessoaFisica pProspecto) {
         return prospectoSalvar(pProspecto);
@@ -1300,21 +1224,14 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
         return prospectoSalvar(pProspecto);
     }
 
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_MERGE_PESSOA_GENERICO)
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_CRIAR_USUARIOS_ACESSO_AREA_CLIENTE)
     public static ItfRespostaAcaoDoSistema prospectoCriarUsuarios(final Pessoa pProspecto) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pProspecto), pProspecto) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 Pessoa pessoa = loadEntidade(pProspecto);
                 for (ContatoProspecto ct : pessoa.getContatosProspecto()) {
-                    if (ct.getUsuarioVinculado() == null) {
-                        ct.getCPinst("usuarioVinculado").getValor();
-                        if (ct.getUsuarioVinculado() != null) {
-                            UsuarioCrmCliente usuarioCliente = atualizarEntidade(ct.getUsuarioVinculado());
-                            ct.setUsuarioVinculado(usuarioCliente);
-                        }
-                        atualizarEntidade(ct);
-                    }
+                    ModuloCRMContatos.contatoAtualizarUsuario(ct);
                 }
             }
 
@@ -1329,9 +1246,11 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais(); //To change body of generated methods, choose Tools | Templates.
                 if (isSucesso()) {
-                    ModuloCRMAtendimento.prospectoCriarUsuarios(pProspecto);
+
                     if (!SBCore.isEmModoDesenvolvimento()) {
-                        ModuloCRMAtendimento.prospectoAtualizarMautic((Pessoa) pProspecto);
+                        if (pProspecto.getId() != null) {
+                            ModuloCRMAtendimento.prospectoAtualizarMautic((Pessoa) pProspecto);
+                        }
                     }
 
                     addAviso("Alguns dados de [" + pProspecto.getNome() + "] foram atualizado");
@@ -1421,9 +1340,11 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                     }
                 }
                 Pessoa prosp = atualizarEntidade(pProspecto, false);
+
                 //validarAtributos(pProspecto);
                 // Pessoa prosp = UtilSBPersistencia.mergeRegistro(pProspecto, getEm());
                 setRetorno(prosp);
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoCRMAtendimento.PROSPECTO_CTR_CRIAR_USUARIOS_ACESSO_AREA_CLIENTE, (ComoEntidadeGenerica) getRetorno());
             }
         }.dispararMensagens();
     }

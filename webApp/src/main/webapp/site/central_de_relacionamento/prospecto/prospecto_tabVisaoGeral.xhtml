@@ -47,7 +47,7 @@
             <crmPessoa:observacao pessoa="#{pgProspecto.prospecto}" />
         </p:card>
 
-        <p:card styleClass="card-cliente">
+        <p:card styleClass="card-cliente card-cliente-equipe">
 
 
             <h:panelGroup styleClass="" id="reponsaveis" layout="block">
@@ -57,14 +57,16 @@
 
         </p:card>
     </h:panelGroup>
+    <p:card styleClass="card-cliente metadados"  >
 
-    <crmPessoa:dashboardPosAtendimento
-        pessoa="#{pgProspecto.prospecto}"
-        rendered="#{pgProspecto.prospecto.meta.cliente}"
-        />
+        <crmPessoa:dashboardPosAtendimento
+            pessoa="#{pgProspecto.prospecto}"
+            rendered="#{pgProspecto.prospecto.meta.cliente}"
+            />
 
-    <crmPessoa:dashboardMarketingExecutado
-        pessoa="#{pgProspecto.prospecto}"
-        rendered="#{!pgProspecto.prospecto.meta.cliente}"
-        />
+        <crmPessoa:dashboardMarketingExecutado
+            pessoa="#{pgProspecto.prospecto}"
+            rendered="#{!pgProspecto.prospecto.meta.cliente}"
+            />
+    </p:card>
 </ui:composition>

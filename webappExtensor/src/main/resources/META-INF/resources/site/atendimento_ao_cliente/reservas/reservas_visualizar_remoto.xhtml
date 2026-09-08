@@ -16,7 +16,7 @@
         <h:outputStylesheet name="agenda.css" library="crmAgenda" />
 
         <h:panelGroup layout="block" styleClass="Container12 ReservaClienteConexaoRemota"
-                      rendered="#{empty pgReservasCliente.entidadeSelecionada.linkConferencia}" >
+                      rendered="#{pgReservasCliente.aguardandoLink}" >
             <h:form styleClass="ReservaLinkConexaoCartao ReservaLinkConexaoCartaoPendente">
                 <div class="ReservaLinkConexaoCabecalho">
                     <span class="ReservaLinkConexaoIcone ReservaLinkConexaoIconePendente">

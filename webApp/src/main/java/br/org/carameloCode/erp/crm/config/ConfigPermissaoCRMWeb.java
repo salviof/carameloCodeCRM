@@ -9,12 +9,14 @@ import br.org.carameloCode.erp.crm.paginas.moduloWeb.ModuloAcoesWebCRM;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.ModuloCRMAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.ModuloCrmAgenda;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgendaPublica.ModuloCRMAgendaPublica;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao.ModuloCRMAplicacao;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoChamado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPermissaoCRMCarameloCodePadrao;
@@ -35,7 +37,10 @@ public class ConfigPermissaoCRMWeb extends ConfigPermissaoCRMCarameloCodePadrao 
             ModuloAgendamentoPublico.class, ModuloAgendamentoPublicoPluginCRM.class,
             ModuloCrmAgenda.class,
             ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class,
-            ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class, ModuloAcoesWebCRM.class});
+            ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class, ModuloAcoesWebCRM.class,
+            ModuloCRMContatos.class, ModuloCRMAgendaPublica.class
+
+        });
     }
 
 }

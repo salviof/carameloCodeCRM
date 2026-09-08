@@ -5,7 +5,7 @@ Funcionalidade: Testar abertura e fechamento de chamados
 
 Contexto: Um cliente, abre um chamado, e o ciclo completo de abertura e interação acontece.
 
-Cenario: Banco Sem Campanha
+    Cenario: Banco Sem Campanha
 Dado Um cliente pré cadastrado logado
 Quando o Cliente cria um novo chamado
 Entao o atendente principal do cliente é notificado pelo chat interno

@@ -5,19 +5,18 @@
 package com.super_bits.Casa_Nova.Intranet_Marketing_Digital.configAppp;
 
 import br.org.carameloCode.erp.modulo.notificacao.controller.RepositorioComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktopTransient;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ServicoComunicacaoDesktop;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoArmazenamentoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
 
 /**
  *
  * @author salvio
  */
-public class ServicoComunicacaoCRMTestes extends CentralComunicacaoDesktopTransient implements ComoServicoComunicacao {
+public class ServicoComunicacaoCRMTestes extends ServicoComunicacaoDesktop implements ComoServicoComunicacao {
 
     public ServicoComunicacaoCRMTestes() {
-
+        super(RepositorioComunicacao.class);
     }
 
     @Override

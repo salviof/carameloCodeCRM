@@ -5,13 +5,9 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmPublico;
 
-import com.google.common.collect.Lists;
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
 import br.org.carameloCode.erp.crm.paginas.crmCliente.PgReservasCliente;
-import br.org.carameloCode.erp.modulo.agenda.api.model.reservahorario.CPReservaHorario;
-import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.InfoAcaoaAcessoAnonimoCRM;
 import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.TokenAcessoDinamico;
@@ -19,18 +15,13 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.InfoParametroURL;
 import com.super_bits.modulosSB.webPaginas.controller.servletes.urls.parametrosURL.ParametroURL;
 
-import com.super_bits.modulosSB.webPaginas.util.UtilSBWPServletTools;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -41,15 +32,16 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.disponibilidade.Horari
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesquisaMelhorHorario;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.ErroAcidenteDeLorean;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgendaPublica.ModuloCRMAgendaPublica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRMLead;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.Paginas.PgAcessoViaTokenDinamico;
 
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
@@ -75,8 +67,6 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
 
     private HorarioDisponivelAtendimentoPublico horario;
 
-    private String leadNome;
-    private String leadTelefone;
     private AgendaDisponibilidade agendaDisponibilidade;
 
     @Override
@@ -102,6 +92,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
         EscopoPesqHorarioPublicado escopoPublico = (EscopoPesqHorarioPublicado) getParametroInstanciado(parametroEscopo).getValor();
         if (escopoPublico != null && escopoPublico.getId() != Long.valueOf(token.getCodigoEntidade())) {
             escopoPublico = null;
+            System.out.println("Token não enviado, acesso negado");
             executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
         }
         if (escopoPublico != null) {
@@ -109,6 +100,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
             escopoPesquisa = UtilSBPersistencia.loadEntidade(escopoPublico, getEMPagina());
 
         } else {
+            System.out.println("Escopo não enviado, acesso negado");
             executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
         }
         return escopoPesquisa;
@@ -117,38 +109,30 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
     @PostConstruct
     public void inicio() {
 
-        leadNome = UtilSBWPServletTools.cookieLerValor("LEAD_NOME");
-        leadTelefone = UtilSBWPServletTools.cookieLerValor("LEAD_TELEFONE");
-        if (leadTelefone == null) {
-            executaAcaoSelecionadaPorEnum(FabAcaoPaginasDoSistema.PAGINA_NATIVA_ACESSO_NEGADO_FRM_SUB_FORM);
-            return;
-        }
-        if (leadNome != null) {
-            novoContato.setNomeUsuario(leadNome);
-            String celComMascara = UtilCRCStringTelefone.gerarTelefoneComMascaraSimples(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone));
-            novoContato.setCelular(UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(UtilCRCStringFiltros.filtrarApenasNumeros(celComMascara)));
-        }
+        if (CarameloCode.getServicoSessao().getSessaoAtual().getUsuario() instanceof UsuarioCRMLead) {
 
-        String celInternancional = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(leadTelefone);
-        ContatoProspecto contatoExistente = (ContatoProspecto) UtilSBPersistencia.gerarConsultaDeEntidade(ContatoProspecto.class, getEMPagina())
-                .addcondicaoCampoIgualA(CPContatoProspecto.celularformatointernacional, celInternancional).getPrimeiroRegistro();
-        if (contatoExistente != null) {
-            List<ReservaHorarioCRM> reservas = new ConsultaDinamicaDeEntidade(ReservaHorarioCRM.class, getEMPagina()).addCondicaoManyToOneIgualA("pessoarelacionada", contatoExistente.getProspecto())
-                    .addCondicaoManyToOneContemNoIntervalo(CPReservaHorario.status, Lists.newArrayList(FabStatusReservaHorario.AGENDADO.getRegistro(), FabStatusReservaHorario.CONFIRMADO.getRegistro()))
-                    .addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, new Date())
-                    .gerarResultados();
-
-            if (!reservas.isEmpty()) {
-                setEntidadeSelecionada(reservas.get(0));
-                executaAcaoSelecionadaPorEnum(FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_FRM_RESERVA_CONCLUIDA);
+            String celInternancional = UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(CarameloCode.getUsuarioLogado().getTelefone());
+            if (celInternancional == null) {
+                CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Número de telefone inválido");
             }
+            novoContato.setNomeUsuario(((UsuarioCRMLead) CarameloCode.getUsuarioLogado()).getNomeUsuario());
+            novoContato.setCelular(CarameloCode.getUsuarioLogado().getTelefone());
 
+            ItfRespostaAcaoDoSistema resposta = ModuloCRMAgendaPublica.validadarDadosCanidatoAgendaPublica((UsuarioCRMLead) CarameloCode.getUsuarioLogado());
+            if (resposta.getAcaoProximoFormulario() != null) {
+                executaAcaoSelecionadaPorEnum(resposta.getAcaoProximoFormulario().getEnumAcaoDoSistema());
+                setEntidadeSelecionada((ReservaHorarioCRM) resposta.getRetorno());
+            }
+        } else {
+            executaAcaoSelecionadaPorEnum(FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_FRM_LISTAR_HORARIOS);
         }
 
     }
 
     public AgendaDisponibilidade getAgendaDisponibilidade() {
+
         if (agendaDisponibilidade == null) {
+            System.out.println("Obtendo AgendaDisponibilidade Publica");
             agendaDisponibilidade = new AgendaDisponibilidade(getEscopoPesquisa());
             agendaDisponibilidade.setUsuarioAtendente(getUsuarioAtendente());
             agendaDisponibilidade.setTipoAgendamento(getTipoAgendamento());
@@ -158,6 +142,7 @@ public class PgReservasPublicas extends MB_paginaCadastroEntidades<ReservaHorari
                 CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Os horários disponíveis para este token se esgotaram.");
             }
         }
+
         return agendaDisponibilidade;
     }
 

@@ -164,9 +164,236 @@
     }
 }
 
+/* TELA DE INFORME DE ACESSO A AREA DO CLIENTE */
+.tela-acesso-cliente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.cartao-acesso {
+    width: 100%;
+    max-width: 660px;
+    box-sizing: border-box;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 36px 32px;
+    animation: entrada-cartao-acesso 0.4s ease both;
+}
+
+@keyframes entrada-cartao-acesso {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Selo de confirmacao */
+.selo-acesso {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #e8f5e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    color: #43a047;
+}
+
+.titulo-acesso {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px;
+    line-height: 1.2;
+}
+
+.subtitulo-acesso {
+    color: #666;
+    font-size: 1.05em;
+    line-height: 1.6;
+    max-width: 470px;
+    margin: 0 auto 28px;
+}
+
+/* Botao principal de acesso */
+.botao-acesso {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #81c784;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.botao-acesso:hover,
+.botao-acesso:focus {
+    background: #60a36c;
+    color: #ffffff;
+}
+
+/* Passos seguintes */
+.passos-acesso {
+    margin: 32px 0 0;
+    padding: 24px 0 0;
+    border-top: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.passo-acesso {
+    display: block;
+    box-sizing: border-box;
+}
+
+.passo-acesso i {
+    color: #81c784;
+    font-size: 20px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.passo-titulo {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95em;
+    margin-bottom: 4px;
+}
+
+.passo-texto {
+    display: block;
+    color: #666;
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+/* Endereco alternativo */
+.ajuda-acesso {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    color: #888;
+    font-size: 0.85em;
+    line-height: 1.6;
+}
+
+.linha-endereco-acesso {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.endereco-acesso {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    color: #555;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.95em;
+}
+
+/* Botao de copiar o endereco */
+.botao-copiar-acesso {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    background: #ffffff;
+    color: #4c8a53;
+    border: 1px solid #81c784;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.botao-copiar-acesso:hover,
+.botao-copiar-acesso:focus {
+    background: #f1f8f2;
+}
+
+.botao-copiar-acesso.copiado {
+    background: #e8f5e9;
+    border-color: #43a047;
+    color: #2e7d32;
+}
+
+/* Apoio para copia em navegadores sem a api de clipboard */
+.area-copia-oculta {
+    position: fixed;
+    top: 0;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .tela-acesso-cliente {
+        padding: 20px 12px;
+    }
+
+    .passos-acesso {
+        text-align: center;
+    }
+
+    .passo-acesso + .passo-acesso {
+        margin-top: 16px;
+    }
+}
+
 @media (max-width: 480px) {
     .container-principal {
         padding: 16px;
+    }
+
+    .cartao-acesso {
+        padding: 24px 18px;
+    }
+
+    .titulo-acesso {
+        font-size: 1.5em;
+    }
+
+    .botao-acesso {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .linha-endereco-acesso {
+        flex-direction: column;
+    }
+
+    .botao-copiar-acesso {
+        justify-content: center;
+        padding: 12px 16px;
     }
 
     .container-cards {

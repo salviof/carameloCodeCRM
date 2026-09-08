@@ -32,6 +32,11 @@ public class AcoesAtendimentoCrm_ContatoMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.CONTATO_CTR_SALVAR");
 	}
 
+	public ComoAcaoControllerEntidade getContatoCtrAtualizarUsuario() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.CONTATO_CTR_ATUALIZAR_USUARIO");
+	}
+
 	public ComoAcaoControllerEntidade getContatoCtrRemover() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.CONTATO_CTR_REMOVER");

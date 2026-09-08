@@ -33,6 +33,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import br.org.carameloCode.erp.crm.paginas.crmAgenda.ItfPaginaListaDeHorariosDisponiveis;
 import br.org.carameloCode.erp.crm.paginas.crmReservas.ServicoCrmReserva;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.AgendaDisponibilidade;
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrm.CPUsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -353,6 +354,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 getEntidadeSelecionada().prepararNovoObjeto(pHorarioDisponivel);
                 getEntidadeSelecionada().setPessoaRelacionada(usuarioLogado.getRepresentanteLegal());
                 getEntidadeSelecionada().setAtendidoResponsavel(usuarioLogado);
+                getEntidadeSelecionada().setAtendenteResponsavel(getUsrAtendenteSelecionado());
                 getEntidadeSelecionada().setAtendidos(new ArrayList<>());
                 getEntidadeSelecionada().getAtendidos().add(usuarioLogado);
                 getEntidadeSelecionada().setContatosAtendidos(new ArrayList());
@@ -369,6 +371,7 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 getEntidadeSelecionada().prepararNovoObjeto(pHorarioDisponivel);
                 getEntidadeSelecionada().setPessoaRelacionada(usuarioLogado.getRepresentanteLegal());
                 getEntidadeSelecionada().setAtendidoResponsavel(usuarioLogado);
+                getEntidadeSelecionada().setAtendenteResponsavel(getUsrAtendenteSelecionado());
                 getEntidadeSelecionada().setAtendidos(new ArrayList<>());
                 getEntidadeSelecionada().getAtendidos().add(usuarioLogado);
                 getEntidadeSelecionada().setContatosAtendidos(new ArrayList());
@@ -474,6 +477,31 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
             return true;
         }
 
+        return false;
+    }
+
+    public boolean isAguardandoLink() {
+        if (getEntidadeSelecionada() == null) {
+            return false;
+        }
+        if (!getEntidadeSelecionada().getTipoAgendamento().isUmAtendimentoRemoto()) {
+            return false;
+        }
+        try {
+
+            if (getEntidadeSelecionada().getId() == null) {
+                return false;
+            }
+            if (getEntidadeSelecionada().getComoReservaVideoConferencia().getLinkConferencia() == null || getEntidadeSelecionada().getComoReservaVideoConferencia().getLinkConferencia().isEmpty()) {
+                if (getEntidadeSelecionada().getStatus().equals(FabStatusReservaHorario.AGENDADO.getRegistro()) || getEntidadeSelecionada().getStatus().equals(FabStatusReservaHorario.CONFIRMADO.getRegistro())) {
+                    return true;
+                }
+                return true;
+            }
+
+        } catch (Throwable t) {
+            return false;
+        }
         return false;
     }
 

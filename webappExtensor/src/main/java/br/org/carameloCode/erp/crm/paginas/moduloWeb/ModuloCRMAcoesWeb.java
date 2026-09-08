@@ -22,7 +22,6 @@ import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.Tok
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.token.ItfTokenAcessoDinamico;
@@ -31,12 +30,7 @@ import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.util.PgUti
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.siteMap.MapaDeFormularios;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
 import com.super_bits.modulosSB.webPaginas.util.UtilSBWP_JSFTools;
-import java.util.Date;
 import jersey.repackaged.com.google.common.collect.Lists;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.InfoAcaoAgendamentoPublico;
-import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.ModuloAgendamentoPublico;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.escopoPesquisa.EscopoPesqHorarioPublicado;
 import org.coletivojava.fw.utilCoreBase.UtilCRCComunicacao;
 import org.json.simple.JSONObject;
 import org.primefaces.PrimeFaces;
@@ -87,41 +81,6 @@ public class ModuloCRMAcoesWeb extends ControllerAbstratoSBPersistencia {
         }
 
         return contatoLigarCelular(pContato);
-    }
-
-    @InfoAcaoAgendamentoPublico(acao = FabAcaoAgendaMentoPublico.ESCOPO_AGENDAMENTO_PUBLICO_CTR_ATIVAR)
-    public static ItfRespostaAcaoDoSistema escopoPublicoAtivar(final EscopoPesqHorarioPublicado pEscopo) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(ModuloAgendamentoPublico.escopoPublicoSalvarMerge(pEscopo), pEscopo) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-
-                EscopoPesqHorarioPublicado escopo = loadEntidade(pEscopo);
-                if (escopo.getTipoEscopo() == null) {
-                    throw new ErroRegraDeNegocio("Defina o tipo de agendamento");
-                }
-                if (escopo.getAtendentes() == null) {
-                    throw new ErroRegraDeNegocio("Defina os atendentes disponíveis");
-                }
-                if (pEscopo.getDataHoraTokenPublicoExpira() == null) {
-                    throw new ErroRegraDeNegocio("Defina a data de expiração do token");
-                }
-                if (UtilCRCDataHora.intervaloTempoHoras(new Date(), escopo.getDataHoraTokenPublicoExpira()) < 5) {
-                    throw new ErroRegraDeNegocio("O token precisa ter uma validade mínima de 5 horas");
-                }
-
-                TokenAcessoDinamico token = (TokenAcessoDinamico) SBCore.getServicoPermissao().gerarTokenDinamico(FabAcaoAcessoAnonimoIntranet.RESERVA_PUBLICA_FRM_LISTAR_HORARIOS,
-                        pEscopo, null);
-                token.setValidade(pEscopo.getDataHoraTokenPublicoExpira());
-                atualizarEntidade(token);
-                escopo.setTokenPublicado(token);
-                escopo.setPublicado(true);
-
-                String url = MapaDeFormularios.getUrlFormulario(FabAcaoPaginasDoSistema.PAGINA_NATIVA_TOKEN_DINAMICO_MB.getRegistro(), token);
-                url = url.replace("crm.", "atendimento.");
-                escopo.setLinkDeAcesso(url);
-                atualizarEntidade(escopo);
-            }
-        }.getResposta();
     }
 
     @InfoAcaoCRMAgenda(acao = FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_CTR_CONVIDAR_PRIMEIRO_ACESSO_POR_EMAIL)
