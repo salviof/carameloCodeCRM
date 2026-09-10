@@ -7,27 +7,78 @@
     template="modeloEdicaoProspecto.xhtml" >
     <ui:define name="conteudo">
 
-        <div class="Container12 OrganizadorContainer" style="opacity : 0.9;
-             height: 180vh;
-             background-image: url(#{resource['/img/salaAguardandoReuniao.jpg']});
-             background-size: cover;
-             background-position: center;
-             background-repeat: no-repeat;">
+        <h:outputStylesheet name="opcoes_do_prospecto.css" library="crmPessoa" />
 
-            <h:panelGroup styleClass="Container6" layout="block" >
+        <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe Container12" >
 
-                <RC:salaDebate
-                    canal="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)}"
-                    altura="600px"
-                    rendered="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)!=nul}"
-                    />
-                <h:panelGroup rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" style="background-color: #000; height: 30px;" styleClass="Container12" >
-                    <h1 style="color: white;">#{servicoChatView.urlSala}
-                        <br/>#{servicoChatView.codigoSala}
-                    </h1>
+            <!-- CABECALHO: a foto da sala de reuniao e o fundo desta faixa.
+                 A imagem entra como <img> (e nao como background-image) para
+                 que o recorte "cover" venha do object-fit/object-position e a
+                 URL do recurso JSF fique fora do CSS. O texto vive sobre um
+                 veu escuro + pastilha translucida, garantindo leitura
+                 qualquer que seja o trecho da foto exibido.
+                 Ao contrario da sala da equipe, aqui o cabecalho existe para
+                 avisar que a conversa SAI para o cliente e para mostrar o
+                 numero de destino antes de alguem escrever. -->
+            <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho Container12" >
+
+                <img class="ChatClienteVisaoEquipe-cabecalho-fundo"
+                     src="#{resource['/img/salaAguardandoReuniao.jpg']}"
+                     alt="" aria-hidden="true" />
+
+                <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-conteudo" >
+
+                    <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-marca" >
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-textos" >
+                        <span class="ChatClienteVisaoEquipe-cabecalho-rotulo">Atendimento ao cliente &#183; WhatsApp</span>
+                        <h2 class="ChatClienteVisaoEquipe-cabecalho-titulo">#{pgProspecto.entidadeSelecionada.nome}</h2>
+                        <span class="ChatClienteVisaoEquipe-cabecalho-descricao">
+                            As mensagens enviadas nesta sala sao encaminhadas para o
+                            WhatsApp do contato principal do cliente.
+                        </span>
+
+                        <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-destino"
+                                      rendered="#{not empty pgProspecto.entidadeSelecionada.contatoPrincipal}" >
+                            <i class="fa-solid fa-arrow-right-long" aria-hidden="true"></i>
+                            <span class="ChatClienteVisaoEquipe-cabecalho-destino-nome">#{pgProspecto.entidadeSelecionada.contatoPrincipal.nome}</span>
+                            <span class="ChatClienteVisaoEquipe-cabecalho-destino-numero">#{pgProspecto.entidadeSelecionada.contatoPrincipal.getCampoByNomeOuAnotacao('celular').valorTextoFormatado}</span>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block"
+                                      styleClass="ChatClienteVisaoEquipe-cabecalho-destino ChatClienteVisaoEquipe-cabecalho-destino--vazio"
+                                      rendered="#{empty pgProspecto.entidadeSelecionada.contatoPrincipal}" >
+                            <i class="fa-solid fa-user-slash" aria-hidden="true"></i>
+                            Sem contato principal definido &#8212; as mensagens nao tem destino no WhatsApp
+                        </h:panelGroup>
+
+                        <span class="ChatClienteVisaoEquipe-cabecalho-aviso">
+                            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                            Conversa com o cliente &#8212; tudo que voce escrever aqui chega a ele
+                        </span>
+                    </h:panelGroup>
+
                 </h:panelGroup>
             </h:panelGroup>
 
-        </div><!-- comment -->
+            <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-conteudo Container12 OrganizadorContainer" >
+
+                <h:panelGroup styleClass="ChatClienteVisaoEquipe-sala Container12" layout="block" >
+                    <RC:salaDebate
+                        canal="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)}"
+                        altura="600px"
+                        rendered="#{servicoChatView.getSalaAtendimento(pgProspecto.entidadeSelecionada)!=null}"
+                        />
+                    <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-depuracao Container12"
+                                  rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" >
+                        <h1>#{servicoChatView.urlSala}
+                            <br/>#{servicoChatView.codigoSala}
+                        </h1>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>
