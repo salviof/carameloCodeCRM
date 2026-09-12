@@ -70,8 +70,6 @@
                                  >
                         <f:facet name="header">
                             <p:outputPanel>
-
-
                             </p:outputPanel>
                         </f:facet>
                         <f:facet name="footer" >
@@ -79,7 +77,6 @@
                         </f:facet>
 
                         <p:ajax event="rowSelect" listener="#{pgSuporteCliente.abrirChamado()}"
-
                                 onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('listaChamados')}')"
                                 />
                         <p:column

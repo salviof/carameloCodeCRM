@@ -65,21 +65,15 @@
 
                     <h:panelGroup styleClass="Container12" layout="block"  style="margin-left: 30px;" >
                         <h:form >
+
                             <crm:botaoGrande
                                 acao="#{acoesClienteContato_ChamadoMbGestao.chamadoCtrNotificarResonsaveis}"
                                 atualizar="#{pgUtil.gerarCaminhoCompletoID('dadosDoChamado')}"
                                 />
+
                         </h:form>
-
-
-
                     </h:panelGroup>
-
                 </h:panelGroup>
-
-
-
-
             </p:fieldset>
             <h:panelGroup styleClass="Container12 " layout="block"  style="margin-top: 20px;" rendered="#{!pgSuporteCliente.chamado.chamadoEmEstadoAtendimento}" >
                 <h:form >

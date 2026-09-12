@@ -16,7 +16,7 @@
         <cc:attribute name="codigoestilo"  default="1" />
         <!-- Se não informada, é calculada pelo valor:
              1 a 3 = intensidade 1 | 4 a 6 = intensidade 2 | acima de 6 = intensidade 3 -->
-        <cc:attribute name="intensidade" default="#{cc.attrs.valor gt 6 ? '3' : (cc.attrs.valor gt 3 ? '2' : '1')}" />
+        <cc:attribute name="intensidade" default="#{cc.attrs.valor gt 6 ? 3 : (cc.attrs.valor gt 3 ? 2 : 1)}" />
         <cc:attribute name="valor" default="0" />
         <cc:attribute name="texto" default="-" />
         <cc:attribute name="url"  default="#"

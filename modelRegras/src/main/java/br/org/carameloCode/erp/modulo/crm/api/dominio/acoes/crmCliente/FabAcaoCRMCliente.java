@@ -87,8 +87,10 @@ public enum FabAcaoCRMCliente implements ComoFabricaDeAcoesPersistencia {
     DASHBOARD_CTR_INSATISFEITO,
     @InfoTipoAcaoGestaoEntidade(entidade = UsuarioCrmCliente.class, precisaPermissao = true)
     CONVERSA_MB,
-    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o")
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Atendimento ao cliente")
     CONVERSA_FRM_CHAT,
+    @InfoTipoAcaoFormulario(icone = "fa fa-comments-o", nomeAcao = "Consultor de novos serviços")
+    CONVERSA_FRM_CHAT_CONSULTOR,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-folder-o", entidade = ArquivoCliente.class, utilizarMesmoFormEdicao = false)
     DOCUMENTOS_MB_GESTAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Categorias de Arquivos")

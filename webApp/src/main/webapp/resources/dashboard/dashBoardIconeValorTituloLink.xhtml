@@ -1,4 +1,3 @@
-
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -14,11 +13,12 @@
         <cc:attribute name="titulo" />
         <cc:attribute name="icone" default="fa-newspaper-o" />
         <cc:attribute name="codigoestilo"  default="1" />
+        <cc:attribute name="valor" default="0" />
         <!-- Se não informada, é calculada pelo valor:
              1 a 3 = intensidade 1 | 4 a 6 = intensidade 2 | acima de 6 = intensidade 3 -->
-        <cc:attribute name="intensidade" default="#{cc.attrs.valor gt 6 ? '3' : (cc.attrs.valor gt 3 ? '2' : '1')}" />
+        <cc:attribute name="intensidade" default="#{cc.attrs.valor gt 6 ? 3 : (cc.attrs.valor gt 3 ? 2 : 1)}" />
         <cc:attribute name="container"  default="Container3" />
-        <cc:attribute name="valor" default="0" />
+
         <cc:attribute name="url"  default="#"
                       />
         <!-- Quando true e o card estiver zerado (cinza), exibe um "+"

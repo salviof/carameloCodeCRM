@@ -7,6 +7,7 @@ package br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
@@ -33,6 +34,17 @@ public class Telefone extends EntidadeSimples {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String codigoApiWhatsapp;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean telefoneVendasPadrao;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean telefoneAtendimentoPadrao;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.HTML)
+    private String descricaoFuncao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     @ManyToOne(targetEntity = TipoAtvChamadaRecebida.class)
@@ -88,6 +100,30 @@ public class Telefone extends EntidadeSimples {
 
     public void setTipoChamadaRealizada(TipoAtvChamadaRealizada tipoChamadaRealizada) {
         this.tipoChamadaRealizada = tipoChamadaRealizada;
+    }
+
+    public boolean isTelefoneVendasPadrao() {
+        return telefoneVendasPadrao;
+    }
+
+    public void setTelefoneVendasPadrao(boolean telefoneVendasPadrao) {
+        this.telefoneVendasPadrao = telefoneVendasPadrao;
+    }
+
+    public boolean isTelefoneAtendimentoPadrao() {
+        return telefoneAtendimentoPadrao;
+    }
+
+    public void setTelefoneAtendimentoPadrao(boolean telefoneAtendimentoPadrao) {
+        this.telefoneAtendimentoPadrao = telefoneAtendimentoPadrao;
+    }
+
+    public String getDescricaoFuncao() {
+        return descricaoFuncao;
+    }
+
+    public void setDescricaoFuncao(String descricaoFuncao) {
+        this.descricaoFuncao = descricaoFuncao;
     }
 
 }

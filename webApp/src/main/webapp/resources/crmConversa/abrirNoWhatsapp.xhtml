@@ -1,0 +1,79 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="telefone"
+                      type="java.lang.String" required="true"
+                      shortDescription="Telefone de destino. Qualquer máscara é aceita, os não dígitos são removidos."/>
+        <cc:attribute name="rota"
+                      type="java.lang.String"
+                      shortDescription="Marcador de roteamento (ex.: [rota.gestorSucesso]). Entra na mensagem como 'via: [rota]' e é o que o processador de mensagens usa para encaminhar à pessoa certa."/>
+        <cc:attribute name="frase"
+                      type="java.lang.String"
+                      shortDescription="Mensagem inicial já preenchida na conversa, antes do 'via: [rota]'."/>
+        <cc:attribute name="rotulo"
+                      type="java.lang.String" default="Conversar no WhatsApp"
+                      shortDescription="Texto principal do link."/>
+        <cc:attribute name="detalhe"
+                      type="java.lang.String"
+                      shortDescription="Linha auxiliar exibida abaixo do rótulo."/>
+        <cc:attribute name="ddi"
+                      type="java.lang.String" default="55"
+                      shortDescription="DDI aplicado quando o telefone informado tiver menos de 12 dígitos."/>
+    </cc:interface>
+    <cc:implementation>
+
+        <h:outputStylesheet name="conversa.css" library="crmConversa"/>
+
+        <h:panelGroup layout="block" styleClass="Container12 AbrirLinkWhatsappCliente"
+                      rendered="#{not empty cc.attrs.telefone}">
+
+            <!--
+                wa.me é o link universal do WhatsApp: no mobile abre o aplicativo instalado e no
+                desktop abre o WhatsApp Web / aplicativo, sem precisar de detecção de dispositivo.
+                A mensagem vai em f:param para que o JSF faça o url encode (acentos e espaços).
+            -->
+            <h:outputLink
+                value="https://wa.me/#{cc.attrs.telefone.replaceAll('[^0-9]','').length() lt 12
+                                       ? cc.attrs.ddi.concat(cc.attrs.telefone.replaceAll('[^0-9]',''))
+                                       : cc.attrs.telefone.replaceAll('[^0-9]','')}"
+                target="_blank" rel="noopener noreferrer"
+                styleClass="AbrirLinkWhatsappCliente-link HoverEffect Animated03"
+                title="#{cc.attrs.rotulo}">
+
+                <!-- mensagem padrão: frase + "via: [rota]". A rota precisa estar contida no
+                     texto porque é ela que o processador de mensagens usa para encaminhar. -->
+                <f:param name="text"
+                         value="#{empty cc.attrs.frase ? cc.attrs.rota :
+                                  (empty cc.attrs.rota ? cc.attrs.frase : cc.attrs.frase.concat(' via: ').concat(cc.attrs.rota))}"/>
+
+                <h:panelGroup layout="span" styleClass="AbrirLinkWhatsappCliente-icone">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                </h:panelGroup>
+
+                <h:panelGroup layout="span" styleClass="AbrirLinkWhatsappCliente-texto">
+                    <h:panelGroup layout="span" styleClass="AbrirLinkWhatsappCliente-rotulo">
+                        #{cc.attrs.rotulo}
+                    </h:panelGroup>
+                    <h:panelGroup layout="span" styleClass="AbrirLinkWhatsappCliente-detalhe"
+                                  rendered="#{not empty cc.attrs.detalhe}">
+                        #{cc.attrs.detalhe}
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="span" styleClass="AbrirLinkWhatsappCliente-seta">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </h:panelGroup>
+
+            </h:outputLink>
+
+        </h:panelGroup>
+    </cc:implementation>
+
+
+
+</ui:composition>

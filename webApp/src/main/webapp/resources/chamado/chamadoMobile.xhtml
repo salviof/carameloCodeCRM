@@ -55,29 +55,6 @@
                         <span class="ChamadoCabecalhoNumero">nº #{cc.attrs.chamado.id}</span>
                     </h:panelGroup>
 
-                    <h:panelGroup layout="block" styleClass="ChamadoCabecalhoAcoes">
-                        <h:form styleClass="ChamadoCabecalhoAcoesForm">
-                            <p:commandButton styleClass="ChamadoCabecalhoBotao"
-                                             icon="fa fa-bullhorn"
-                                             title="Notificar o cliente"
-                                             actionListener="#{servicoChamado.notificar(cc.attrs.chamado)}"/>
-                            <p:commandButton styleClass="ChamadoCabecalhoBotao"
-                                             icon="fa fa-paperclip"
-                                             title="Anexos do chamado"
-                                             disabled="true"
-                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
-                            <p:commandButton styleClass="ChamadoCabecalhoBotao ChamadoCabecalhoBotaoPrincipal"
-                                             icon="fa fa-times"
-                                             value="Fechar Chamado"
-                                             rendered="#{!cc.attrs.chamado.foiFinalizado}"
-                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
-                            <p:commandButton styleClass="ChamadoCabecalhoBotao ChamadoCabecalhoBotaoPrincipal"
-                                             icon="fa fa-folder-open-o"
-                                             value="Abrir Chamado"
-                                             rendered="#{cc.attrs.chamado.foiFinalizado}"
-                                             actionListener="#{servicoChamado.abrirEFechar(cc.attrs.chamado)}"/>
-                        </h:form>
-                    </h:panelGroup>
 
                 </h:panelGroup>
 

@@ -1,0 +1,179 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:crmConversaWhatsapp="http://xmlns.jcp.org/jsf/composite/crmConversa"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+        <cc:attribute name="numeroTelefoneVendas"
+                      type="java.lang.String"
+                      shortDescription="WhatsApp do consultor de vendas responsável pela conta."/>
+        <cc:attribute name="numeroTelefoneAtendimento"
+                      type="java.lang.String"
+                      shortDescription="WhatsApp do gestor de sucesso que atende o cliente."/>
+
+        <cc:attribute name="mostrandoVendas" type="java.lang.Boolean"
+                      shortDescription="Verdadeiro quando o canal aberto é o de vendas, falso para atendimento ao cliente."/>
+    </cc:interface>
+    <cc:implementation>
+
+
+        <h:outputStylesheet name="conversa.css" library="crmConversa"/>
+
+        <h:panelGroup layout="block" styleClass="Container12 CabecalhoConversaCliente" >
+
+            <img class="CabecalhoConversaCliente-fundo"
+                 src="#{resource['img/salaAguardandoReuniao.jpg']}"
+                 alt="" aria-hidden="true" />
+
+            <h:panelGroup layout="block" styleClass="Container12 CabecalhoConversaCliente-conteudo">
+
+                <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda CabecalhoConversaCliente-status" layout="block">
+                    <h:panelGroup layout="span" styleClass="CabecalhoConversaCliente-pulso" />
+
+                    <h2 class="CabecalhoConversaCliente-titulo">
+                        Você está conectado com nosso time
+                    </h2>
+
+                    <h:panelGroup layout="span" styleClass="especificacaoCanalConversa" rendered="#{cc.attrs.mostrandoVendas}" >
+                        No Canal de Vendas
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="span" styleClass="especificacaoCanalConversa" rendered="#{not cc.attrs.mostrandoVendas}" >
+                        No Canal de atendimento ao cliente
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+
+                <h:panelGroup styleClass="Container12 CabecalhoConversaCliente-canais" layout="block">
+
+                    <!-- Só o canal atual fica visível; o secundário é revelado pelo botão "Outros".
+                         O controle é um checkbox oculto (sem name, não vai no submit) para que a
+                         troca seja puramente CSS, sem ajax e sem estado no servidor. A ordem visual
+                         é dada por "order", então cada card aparece uma única vez no markup. -->
+                    <input type="checkbox" id="#{cc.clientId}_outrosCanais"
+                           class="CabecalhoConversaCliente-outros-controle" />
+
+                    <h:panelGroup layout="block"
+                                  styleClass="Container12 CabecalhoConversaCliente-canal #{cc.attrs.mostrandoVendas ? 'CabecalhoConversaCliente-canal--secundario' : 'CabecalhoConversaCliente-canal--atual'}" >
+                        <span class="CabecalhoConversaCliente-canal-icone">
+                            <i class="fa fa-diagram-project" aria-hidden="true"></i>
+                        </span>
+                        <span class="CabecalhoConversaCliente-canal-texto">
+                            <strong class="CabecalhoConversaCliente-canal-titulo">
+                                Projetos em andamento
+                            </strong>
+                            Fale com o gestor do seu projeto sobre entregas, prazos, ajustes de escopo
+                            e análise dos resultados que o projeto já está gerando.
+                        </span>
+
+                        <h:panelGroup layout="span" styleClass="CabecalhoConversaCliente-canal-marca"
+                                      rendered="#{not cc.attrs.mostrandoVendas}">
+                            Canal atual
+                        </h:panelGroup>
+
+                        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ConversaMb.conversaFrmChat)}"
+                                styleClass="CabecalhoConversaCliente-canal-link HoverEffect Animated03"
+                                rendered="#{cc.attrs.mostrandoVendas}" >
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            Chat com Atendimento
+                        </p:link>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block"
+                                  styleClass="Container12 CabecalhoConversaCliente-canal #{cc.attrs.mostrandoVendas ? 'CabecalhoConversaCliente-canal--atual' : 'CabecalhoConversaCliente-canal--secundario'}" >
+                        <span class="CabecalhoConversaCliente-canal-icone">
+                            <i class="fa fa-lightbulb" aria-hidden="true"></i>
+                        </span>
+                        <span class="CabecalhoConversaCliente-canal-texto">
+                            <strong class="CabecalhoConversaCliente-canal-titulo">
+                                Novos serviços e produtos
+                            </strong>
+                            Fale com um consultor de soluções para contratar um novo serviço ou
+                            descobrir qual deles resolve o próximo passo do seu negócio.
+                        </span>
+
+                        <h:panelGroup layout="span" styleClass="CabecalhoConversaCliente-canal-marca"
+                                      rendered="#{cc.attrs.mostrandoVendas}">
+                            Canal atual
+                        </h:panelGroup>
+
+                        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ConversaMb.conversaFrmChatConsultor)}"
+                                styleClass="CabecalhoConversaCliente-canal-link HoverEffect Animated03"
+                                rendered="#{not cc.attrs.mostrandoVendas}" >
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            Chat com Consultor
+                        </p:link>
+                    </h:panelGroup>
+
+                    <label for="#{cc.clientId}_outrosCanais"
+                           class="CabecalhoConversaCliente-outros-botao Animated03">
+                        <span class="CabecalhoConversaCliente-outros-botao-abrir">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                            Outros
+                        </span>
+                        <span class="CabecalhoConversaCliente-outros-botao-fechar">
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                            Ocultar
+                        </span>
+                    </label>
+
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="Container12 CabecalhoConversaCliente-whatsapp" layout="block"
+                              rendered="#{not empty cc.attrs.numeroTelefoneAtendimento or not empty cc.attrs.numeroTelefoneVendas}">
+
+                    <!-- disclosure nativo: o WhatsApp é a saída secundária, então fica atrás de um
+                         botão discreto e as duas opções só aparecem depois do clique. -->
+                    <details class="CabecalhoConversaCliente-whatsapp-caixa">
+
+                        <summary class="CabecalhoConversaCliente-whatsapp-botao Animated03">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                            <span class="CabecalhoConversaCliente-whatsapp-botao-texto">
+                                Falar via WhatsApp
+                            </span>
+                            <i class="fa fa-chevron-down CabecalhoConversaCliente-whatsapp-botao-seta" aria-hidden="true"></i>
+                        </summary>
+
+                        <h:panelGroup styleClass="Container12 OrganizadorContainerExpandido CabecalhoConversaCliente-whatsapp-opcoes" layout="block">
+
+                            <h:panelGroup styleClass="Container6 CabecalhoConversaCliente-whatsapp-item"
+                                          rendered="#{cc.attrs.pessoa.usuarioAtendimento != null and not empty cc.attrs.numeroTelefoneAtendimento}" layout="block">
+                                <crmConversaWhatsapp:abrirNoWhatsapp telefone="#{cc.attrs.numeroTelefoneAtendimento}"
+                                                                     rota="[rota.gestorSucesso]"
+                                                                     rotulo="Falar com #{cc.attrs.pessoa.usuarioAtendimento.nome}"
+                                                                     detalhe="Gestor de sucesso"
+                                                                     frase="Gostaria de falar com #{cc.attrs.pessoa.usuarioAtendimento.nome}"
+                                                                     />
+                            </h:panelGroup>
+
+                            <h:panelGroup styleClass="Container6 CabecalhoConversaCliente-whatsapp-item"
+                                          rendered="#{cc.attrs.pessoa.usuarioResponsavel != null and not empty cc.attrs.numeroTelefoneVendas}" layout="block">
+                                <crmConversaWhatsapp:abrirNoWhatsapp
+                                    telefone="#{cc.attrs.numeroTelefoneVendas}"
+                                    rota="[rota.consultor]"
+                                    rotulo="Falar com #{cc.attrs.pessoa.usuarioResponsavel.nome}"
+                                    detalhe="Consultor de soluções"
+                                    frase="Gostaria de falar com #{cc.attrs.pessoa.usuarioResponsavel.nome}"
+                                    />
+                            </h:panelGroup>
+
+                        </h:panelGroup>
+
+                    </details>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+    </cc:implementation>
+
+
+</ui:composition>

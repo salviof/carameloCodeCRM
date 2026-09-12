@@ -54,7 +54,7 @@
                                       .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor==0?'Novo Chamado':'Chamado'}#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
                                       .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>1?'s':''}"
                             valor="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
-                                     .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?'3':'1'}"
+                                     .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?3:1}"
                             texto="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
                                      .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>0?pgDashboardCliente.usuarioLogado.metadados.chamadosAbertos:'Abrir Chamado'}"
                             codigoestilo="5" />
@@ -66,8 +66,8 @@
                             icone="fa fa-ticket"
                             exibirBotaoNovoCasoZero="true"
                             valor="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?1:3}"
-                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':' '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
-                            texto="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'Agende uma reunião':pgDashboardCliente.usuarioLogado.metadados.getCampoInstanciadoByNomeOuAnotacao('textoProximaReserva').valor}"
+                            titulo="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'Agende uma reunião':pgDashboardCliente.usuarioLogado.metadados.getCampoInstanciadoByNomeOuAnotacao('textoProximaReserva').valor}"
+                            texto="#{pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima==null?'':' '.toString().concat(pgDashboardCliente.usuarioLogado.reservaAtivaMaisProxima.status.nome)}"
                             />
                     </h:panelGroup>
 
@@ -82,15 +82,16 @@
                             codigoestilo="3"
                             titulo="Ver pastas"
                             valor="2"
-                            texto=""
+
                             />
                     </h:panelGroup>
                     <h:panelGroup layout="block" >
                         <crmDashBoard:dashBoardIconeTextoTituloLink
+                            rendered="#{not empty pgDashboardCliente.usuarioLogado.representanteLegal.usuarioAtendimento}"
                             url="#{pgDashboardCliente.urlConversa}"
                             icone="fa fa-comments-o"
                             codigoestilo="4"
-                            titulo="Chat de Atendimento"
+                            titulo="Conversar com #{pgDashboardCliente.usuarioLogado.representanteLegal.usuarioAtendimento.nome}"
                             valor="3"
                             texto=""
                             />

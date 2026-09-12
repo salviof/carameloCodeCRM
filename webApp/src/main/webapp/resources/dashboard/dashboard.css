@@ -100,14 +100,26 @@
 }
 
 .card-conteudo {
+    /* respiro entre icone e texto e largura do icone ficam em
+       variaveis: o modo estreito reaproveita os MESMOS valores
+       para centralizar o texto no card inteiro (ver container
+       queries mais abaixo) */
+    --card-conteudo-gap: 15px;
+    --card-icone-largura: 90px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: var(--card-conteudo-gap);
 }
 
 .card-icone {
     width: 50px;
     height: 50px;
+    /* piso do quadrado do icone (antes era style inline no
+       componente): vem da mesma variavel que o modo estreito
+       usa para centralizar o texto, para os dois nunca
+       saírem de sincronia */
+    min-width: var(--card-icone-largura, 90px);
+    min-height: var(--card-icone-largura, 90px);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -125,6 +137,7 @@
     font-weight: 600;
     color: #ffffff;
     margin-bottom: 4px;
+    margin-left: 3px;         /* antes era style inline no componente */
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -153,6 +166,7 @@
    mantêm o layout em linha única.) */
 @container (max-width: 419px) {
     .card-moderno .card-conteudo {
+        --card-icone-largura: 52px;
         flex-wrap: wrap;
         justify-content: space-between;
         row-gap: 6px;
@@ -164,21 +178,31 @@
     }
 
     .card-moderno .card-icone {
-        min-width: 52px !important;
-        min-height: 52px !important;
-        width: 52px;
-        height: 52px;
+        min-width: var(--card-icone-largura) !important;
+        min-height: var(--card-icone-largura) !important;
+        width: var(--card-icone-largura);
+        height: var(--card-icone-largura);
     }
 
     .card-moderno .card-icone i {
         font-size: 26px !important;
     }
 
+    /* texto centralizado no CARD INTEIRO, não no espaço que sobra
+       do ícone: a margem direita replica ícone + gap, deixando a
+       caixa do texto simétrica em torno do centro do card. Assim
+       o título (que desce em largura total, centralizado) fica no
+       MESMO eixo vertical do texto. */
     .card-moderno .card-valor {
         font-size: 32px !important;
-        flex: 1;               /* ocupa o espaço entre o ícone e a borda */
+        flex: 1;
+        min-width: 0;          /* pode encolher: texto quebra, não estoura */
+        margin-right: calc(var(--card-icone-largura) + var(--card-conteudo-gap));
         text-align: center;
         align-self: center;
+        line-height: 1.15;     /* base é 1: apertado quando quebra em 2 linhas */
+        white-space: normal;
+        overflow-wrap: break-word;
     }
 
     .card-moderno .card-titulo {
@@ -712,6 +736,7 @@
    (Navegadores antigos ignoram o bloco e mantem o layout atual.) */
 @container (max-width: 419px) {
     .cards-dashboard .card-conteudo {
+        --card-icone-largura: 52px;
         flex-wrap: wrap;
         justify-content: space-between;
         row-gap: 6px;
@@ -723,21 +748,32 @@
     }
 
     .cards-dashboard .card-icone {
-        min-width: 52px !important;
-        min-height: 52px !important;
-        width: 52px;
-        height: 52px;
+        min-width: var(--card-icone-largura) !important;
+        min-height: var(--card-icone-largura) !important;
+        width: var(--card-icone-largura);
+        height: var(--card-icone-largura);
     }
 
     .cards-dashboard .card-icone i {
         font-size: 26px !important;
     }
 
+    /* mesmo eixo para texto e titulo: a margem direita replica
+       icone + gap, entao a caixa do texto fica simetrica em torno
+       do centro do card — que e onde o titulo (largura total,
+       centralizado) tambem se centraliza. Sem isso, o texto ficava
+       centralizado apenas no espaco a direita do icone e as duas
+       linhas saiam desalinhadas. */
     .cards-dashboard .card-valor {
         font-size: 40px !important;
-        flex: 1;               /* ocupa o espaco entre o icone e a borda */
-        text-align: center;    /* e centraliza o numero nesse espaco */
+        flex: 1;
+        min-width: 0;          /* pode encolher: texto quebra, nao estoura */
+        margin-right: calc(var(--card-icone-largura) + var(--card-conteudo-gap));
+        text-align: center;
         align-self: center;
+        line-height: 1.15;     /* base e 1: apertado quando quebra em 2 linhas */
+        white-space: normal;
+        overflow-wrap: break-word;
     }
 
     .cards-dashboard .card-titulo {
@@ -746,6 +782,34 @@
         text-align: center;
         margin: 4px 0 0 0 !important;
     }
+}
+
+/* ============================================
+   CARD SO COM TITULO (atributo texto nao informado)
+   O componente marca .card-info com card-info-so-titulo.
+   Sem o texto, o titulo era a unica linha e ficava colado
+   no rodape do card: no modo estreito ele vem como 2a
+   linha (flex-basis:100%, abaixo da faixa do icone) e no
+   modo largo herdava o margin-bottom do par texto+titulo.
+   Aqui ele ocupa o lugar do texto — ao lado do icone,
+   centralizado na vertical e na horizontal.
+   Especificidade de 3 classes para vencer o
+   display:contents e o margin !important das container
+   queries acima.
+   ============================================ */
+
+.card-moderno .card-info.card-info-so-titulo {
+    display: flex;            /* vence o display:contents do modo estreito */
+    align-items: center;      /* centra na altura da faixa do icone */
+    justify-content: center;
+}
+
+.card-moderno .card-info-so-titulo .card-titulo {
+    margin: 0 !important;     /* sem recuo de rodape */
+    width: 100%;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 /* ============================================
    MOBILE — alinhamento do PRIMEIRO card
@@ -769,8 +833,13 @@
     .cards-dashboard {
         grid-template-columns: minmax(0, 1fr) !important;
         justify-items: stretch;
-        padding-left: 0;
-        padding-right: 0;
+        /* respiro lateral minimo: os cards nao encostam na borda
+           da tela. Fica como padding DO CONTAINER (nao como margem
+           de cada card) para todos manterem exatamente a mesma
+           borda esquerda — era esse descasamento de margem que a
+           regra abaixo veio corrigir. */
+        padding-left: 3px;
+        padding-right: 3px;
         text-indent: 0;
     }
 

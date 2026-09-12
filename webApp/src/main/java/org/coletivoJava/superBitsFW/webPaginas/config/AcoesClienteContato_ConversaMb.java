@@ -20,4 +20,9 @@ public class AcoesClienteContato_ConversaMb implements Serializable {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMCliente.CONVERSA_FRM_CHAT");
 	}
+
+	public ItfAcaoFormularioEntidade getConversaFrmChatConsultor() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMCliente.CONVERSA_FRM_CHAT_CONSULTOR");
+	}
 }

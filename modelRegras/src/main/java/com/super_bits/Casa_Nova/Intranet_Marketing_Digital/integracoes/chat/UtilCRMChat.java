@@ -421,9 +421,43 @@ public class UtilCRMChat {
             Pessoa pessoa = (Pessoa) UtilSBPersistencia.loadEntidade(pPessoa, em);
             List<UsuarioCRM> usuariosExternosCLiante = UtilCRMChat.gerarListasUsuariosContatoPrincipal(pessoa);
             List<UsuarioCRM> usuariosAtendimento = UtilCRMChat.gerarListasUsuariosAtendimentGrupo(pessoa);
+
             String nomeSala = UtilCRCStringSlugs.gerarSlugSimples(pPessoa.getContatoPrincipal().getNome()) + UtilCRCStringSlugs.gerarSlugSimples(pessoa.getNome())
                     + UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(pessoa.getContatoPrincipal().getTelefone());
             ComoChatSalaBean sala = gerarSala(pessoa, FabTipoSalaMatrix.WTZAP_ATENDIMENTO, nomeSala,
+                    pPessoa, usuariosAtendimento, usuariosExternosCLiante
+            ); //
+            return sala;
+        } catch (ErroConexaoServicoChat t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, t.getMessage(), t);
+            throw t;
+        } catch (ErroRegraDeNEgocioChat t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, t.getMessage(), t);
+            throw t;
+        } catch (Throwable t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro não reconhecido:" + t.getMessage(), t);
+            throw t;
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
+
+    }
+
+    public static ComoChatSalaBean gerarSalaVendasContatoPrincipal(Pessoa pPessoa) throws ErroConexaoServicoChat, ErroRegraDeNEgocioChat {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+
+        try {
+            Pessoa pessoa = (Pessoa) UtilSBPersistencia.loadEntidade(pPessoa, em);
+            List<UsuarioCRM> usuariosExternosCLiante = UtilCRMChat.gerarListasUsuariosContatoPrincipal(pessoa);
+            List<UsuarioCRM> usuariosAtendimento = new ArrayList<>();
+            pessoa.getCPinst(CPPessoa.usuarioatendimento).getValor();
+            if (pessoa.getUsuarioAtendimento() == null) {
+                throw new ErroRegraDeNEgocioChat(pessoa.getNome() + " não tem um consultor responsável");
+            }
+
+            String nomeSala = UtilCRCStringSlugs.gerarSlugSimples(pPessoa.getContatoPrincipal().getNome()) + UtilCRCStringSlugs.gerarSlugSimples(pessoa.getNome())
+                    + UtilCRCStringTelefone.gerarNumeroTelefoneInternacional(pessoa.getContatoPrincipal().getTelefone());
+            ComoChatSalaBean sala = gerarSala(pessoa, FabTipoSalaMatrix.WTZAP_VENDAS, nomeSala,
                     pPessoa, usuariosAtendimento, usuariosExternosCLiante
             ); //
             return sala;

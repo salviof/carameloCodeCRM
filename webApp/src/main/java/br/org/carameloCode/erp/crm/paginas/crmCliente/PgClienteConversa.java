@@ -42,10 +42,32 @@ public class PgClienteConversa extends MB_paginaCadastroEntidades<UsuarioCrmClie
         setEntidadeSelecionada(UtilSBPersistencia.loadEntidade(SBCore.getUsuarioLogado(), getEMPagina()));
     }
 
+    public ComoChatSalaBean getCanalVendas() {
+        return servicoMatrix.getSalaVendasAtendimento(getEntidadeSelecionada().getRepresentanteLegal());
+    }
+
+    public ComoChatSalaBean getCanalAtendimento() {
+        return servicoMatrix.getSalaAtendimento(getEntidadeSelecionada().getRepresentanteLegal());
+    }
+
     public ComoChatSalaBean getCanalRocketChat() {
 
         return servicoMatrix.getSalaAtendimento(getEntidadeSelecionada().getRepresentanteLegal());
 
+    }
+
+    public boolean isVendoCanalAtendimento() {
+        if (getEnumAcaoAtual() == null) {
+            return false;
+        }
+        return getEnumAcaoAtual().equals(FabAcaoCRMCliente.CONVERSA_FRM_CHAT);
+    }
+
+    public boolean isVendoCanalVendas() {
+        if (getEnumAcaoAtual() == null) {
+            return false;
+        }
+        return getEnumAcaoAtual().equals(FabAcaoCRMCliente.CONVERSA_FRM_CHAT_CONSULTOR);
     }
 
 }
