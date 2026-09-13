@@ -16,14 +16,11 @@
         <h:outputStylesheet name="botaoLateralMenu.css" library="css" />
         <SBFormulario:irParaTopoERodape />
 
-
-        <SBCRM_AGENDA:dataDisponivel
-
-            areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
-
-
-            />
-
+        <h:form>
+            <SBCRM_AGENDA:dataDisponivel
+                areaAtualizacao="painelHorariosDisponives" agendaDiponibilidade="#{servicoCrmReserva.agendaDisponibilidade}"
+                />
+        </h:form>
 
         <h:panelGroup id="painelHorariosDisponives" layout="block" rendered="#{servicoCrmReserva.agendaDisponibilidade.temAgenda}">
 

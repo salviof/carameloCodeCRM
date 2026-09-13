@@ -1,0 +1,473 @@
+/* ==========================================================================
+   CabecalhoConversaCliente
+   Cabeçalho da tela onde o cliente conversa com o atendimento ou com o
+   consultor de vendas. O chat é renderizado logo abaixo deste bloco.
+   ========================================================================== */
+
+.CabecalhoConversaCliente {
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 24px;
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #17313d;
+}
+
+.CabecalhoConversaCliente-fundo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: saturate(.9) brightness(.85);
+    pointer-events: none;
+}
+
+/* véu que garante contraste do texto sobre a foto de fundo */
+.CabecalhoConversaCliente::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: linear-gradient(135deg, rgba(11, 34, 45, .88) 0%, rgba(11, 34, 45, .62) 55%, rgba(11, 34, 45, .82) 100%);
+    pointer-events: none;
+}
+
+.CabecalhoConversaCliente-conteudo {
+    position: relative;
+    z-index: 2;
+}
+
+/* --- linha de status ------------------------------------------------------ */
+
+.CabecalhoConversaCliente-status {
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.CabecalhoConversaCliente-pulso {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #43A047;
+    box-shadow: 0 0 0 0 rgba(67, 160, 71, .7);
+    animation: CabecalhoConversaClientePulsar 2s ease-out infinite;
+}
+
+@keyframes CabecalhoConversaClientePulsar {
+    0% {
+        box-shadow: 0 0 0 0 rgba(67, 160, 71, .7);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(67, 160, 71, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(67, 160, 71, 0);
+    }
+}
+
+.CabecalhoConversaCliente-titulo {
+    font-family: 'latobold', sans-serif;
+    font-size: 22px;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.especificacaoCanalConversa {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 15px;
+    border: solid 1px rgba(255, 255, 255, .35);
+    background-color: rgba(255, 255, 255, .14);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.CabecalhoConversaCliente-descricao {
+    max-width: 720px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, .85);
+}
+
+/* --- canais de chat: só o atual visível, o secundário atrás de "Outros" --- */
+
+.CabecalhoConversaCliente-canais {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+/* controle do disclosure: acessível pelo teclado, invisível na tela */
+.CabecalhoConversaCliente-outros-controle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0px;
+    opacity: 0;
+}
+
+.CabecalhoConversaCliente-canal {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: solid 1px rgba(255, 255, 255, .18);
+    background-color: rgba(255, 255, 255, .10);
+}
+
+.CabecalhoConversaCliente-canal--atual {
+    order: 1;
+    border-color: rgba(38, 198, 218, .75);
+    background-color: rgba(38, 198, 218, .16);
+}
+
+.CabecalhoConversaCliente-canal--secundario {
+    order: 2;
+    display: none;
+}
+
+.CabecalhoConversaCliente-outros-controle:checked ~ .CabecalhoConversaCliente-canal--secundario {
+    display: flex;
+    animation: CabecalhoConversaClienteRevelar .25s ease-out;
+}
+
+.CabecalhoConversaCliente-canal-icone {
+    flex: 0 0 auto;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .16);
+    font-size: 15px;
+    text-align: center;
+}
+
+/* base pequena de propósito: o texto acompanha o ícone na mesma linha em vez de
+   quebrar para baixo dele */
+.CabecalhoConversaCliente-canal-texto {
+    flex: 1 1 160px;
+    min-width: 0px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .82);
+}
+
+.CabecalhoConversaCliente-canal-titulo {
+    display: block;
+    font-family: 'latobold', sans-serif;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #ffffff;
+}
+
+.CabecalhoConversaCliente-canal-marca {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 3px 12px;
+    border-radius: 15px;
+    border: solid 1px rgba(255, 255, 255, .3);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: rgba(255, 255, 255, .8);
+    white-space: nowrap;
+}
+
+a.CabecalhoConversaCliente-canal-link,
+.CabecalhoConversaCliente-canal-link {
+    flex: 0 0 auto;
+    display: inline-block;
+    margin-left: auto;
+    padding: 9px 18px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    color: #0b222d !important;
+    font-family: 'latobold', sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.CabecalhoConversaCliente-canal-link .fa,
+.CabecalhoConversaCliente-canal-link i {
+    margin-right: 6px;
+}
+
+/* botão "Outros": pílula discreta, mesmo idioma visual do botão do WhatsApp */
+.CabecalhoConversaCliente-outros-botao {
+    order: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 16px;
+    border: solid 1px rgba(255, 255, 255, .22);
+    background-color: rgba(255, 255, 255, .05);
+    color: rgba(255, 255, 255, .75);
+    font-size: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.CabecalhoConversaCliente-outros-botao:hover {
+    border-color: rgba(255, 255, 255, .45);
+    background-color: rgba(255, 255, 255, .12);
+    color: #ffffff;
+}
+
+.CabecalhoConversaCliente-outros-controle:focus ~ .CabecalhoConversaCliente-outros-botao {
+    border-color: rgba(38, 198, 218, .8);
+    color: #ffffff;
+}
+
+.CabecalhoConversaCliente-outros-botao-abrir,
+.CabecalhoConversaCliente-outros-botao-fechar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.CabecalhoConversaCliente-outros-botao-fechar {
+    display: none;
+}
+
+.CabecalhoConversaCliente-outros-controle:checked ~ .CabecalhoConversaCliente-outros-botao .CabecalhoConversaCliente-outros-botao-abrir {
+    display: none;
+}
+
+.CabecalhoConversaCliente-outros-controle:checked ~ .CabecalhoConversaCliente-outros-botao .CabecalhoConversaCliente-outros-botao-fechar {
+    display: inline-flex;
+}
+
+/* --- bloco do whatsapp (saída secundária, recolhida) --------------------- */
+
+.CabecalhoConversaCliente-whatsapp {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: solid 1px rgba(255, 255, 255, .14);
+}
+
+.CabecalhoConversaCliente-whatsapp-caixa {
+    display: block;
+}
+
+.CabecalhoConversaCliente-whatsapp-botao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 18px;
+    border: solid 1px rgba(255, 255, 255, .25);
+    background-color: rgba(255, 255, 255, .05);
+    color: rgba(255, 255, 255, .78);
+    font-size: 13px;
+    cursor: pointer;
+    list-style: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* esconde o triângulo padrão do summary nos dois motores */
+.CabecalhoConversaCliente-whatsapp-botao::-webkit-details-marker {
+    display: none;
+}
+.CabecalhoConversaCliente-whatsapp-botao::marker {
+    content: "";
+}
+
+.CabecalhoConversaCliente-whatsapp-botao:hover,
+.CabecalhoConversaCliente-whatsapp-caixa[open] > .CabecalhoConversaCliente-whatsapp-botao {
+    border-color: rgba(37, 211, 102, .55);
+    background-color: rgba(37, 211, 102, .12);
+    color: #ffffff;
+}
+
+.CabecalhoConversaCliente-whatsapp-botao-seta {
+    font-size: 10px;
+    opacity: .7;
+    transition: transform 0.3s ease;
+}
+
+.CabecalhoConversaCliente-whatsapp-caixa[open] > .CabecalhoConversaCliente-whatsapp-botao .CabecalhoConversaCliente-whatsapp-botao-seta {
+    transform: rotate(180deg);
+}
+
+.CabecalhoConversaCliente-whatsapp-opcoes {
+    margin-top: 10px;
+    animation: CabecalhoConversaClienteRevelar .25s ease-out;
+}
+
+@keyframes CabecalhoConversaClienteRevelar {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.CabecalhoConversaCliente-whatsapp-item {
+    box-sizing: border-box;
+    padding: 4px 6px;
+}
+
+/* ==========================================================================
+   AbrirLinkWhatsappCliente
+   Link direto para o WhatsApp do responsável (app no mobile, WhatsApp Web
+   no desktop).
+   ========================================================================== */
+
+.AbrirLinkWhatsappCliente {
+    box-sizing: border-box;
+}
+
+a.AbrirLinkWhatsappCliente-link,
+.AbrirLinkWhatsappCliente-link {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 14px;
+    border-radius: 24px;
+    border: solid 1px rgba(255, 255, 255, .22);
+    background-color: rgba(255, 255, 255, .07);
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+.AbrirLinkWhatsappCliente-link:hover,
+.AbrirLinkWhatsappCliente-link:focus {
+    border-color: rgba(37, 211, 102, .6);
+    background-color: rgba(37, 211, 102, .16);
+    color: #ffffff !important;
+}
+
+.AbrirLinkWhatsappCliente-icone {
+    flex: 0 0 auto;
+    font-size: 22px;
+    line-height: 1;
+    color: #25D366;
+}
+
+.AbrirLinkWhatsappCliente-texto {
+    flex: 1 1 auto;
+    display: block;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.AbrirLinkWhatsappCliente-rotulo {
+    display: block;
+    font-family: 'latobold', sans-serif;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.AbrirLinkWhatsappCliente-detalhe {
+    display: block;
+    font-size: 12px;
+    opacity: .8;
+}
+
+.AbrirLinkWhatsappCliente-seta {
+    flex: 0 0 auto;
+    font-size: 13px;
+    opacity: .75;
+}
+
+/* ==========================================================================
+   Responsivo
+   O CRC já empilha os ContainerX em 100% até 600px; aqui só ajustamos
+   respiro, tipografia e o alinhamento dos blocos.
+   ========================================================================== */
+
+@media (min-width: 0px) and (max-width: 600px) {
+    .CabecalhoConversaCliente {
+        padding: 16px;
+        border-radius: 0px;
+    }
+    .CabecalhoConversaCliente-status {
+        gap: 8px;
+    }
+    .CabecalhoConversaCliente-titulo {
+        font-size: 18px;
+    }
+    .especificacaoCanalConversa {
+        font-size: 11px;
+        white-space: normal;
+    }
+    .CabecalhoConversaCliente-descricao {
+        font-size: 13px;
+    }
+    .CabecalhoConversaCliente-canal {
+        padding: 12px;
+        gap: 10px;
+    }
+    .CabecalhoConversaCliente-canal-texto {
+        font-size: 12px;
+    }
+    .CabecalhoConversaCliente-canal-titulo {
+        font-size: 14px;
+    }
+    .CabecalhoConversaCliente-canal-marca,
+    .CabecalhoConversaCliente-canal-link {
+        margin-left: 0px;
+    }
+    .CabecalhoConversaCliente-canal-link {
+        box-sizing: border-box;
+        width: 100%;
+        text-align: center;
+    }
+    .CabecalhoConversaCliente-outros-botao,
+    .CabecalhoConversaCliente-whatsapp-botao {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 10px 14px;
+    }
+    .CabecalhoConversaCliente-whatsapp-item {
+        padding: 5px 0px;
+    }
+    .AbrirLinkWhatsappCliente-link {
+        padding: 11px 14px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+    .CabecalhoConversaCliente {
+        padding: 20px;
+    }
+    .CabecalhoConversaCliente-titulo {
+        font-size: 20px;
+    }
+}

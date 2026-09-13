@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil;
 
+import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico.TipoAgendamentoAtdmPublico;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
@@ -25,6 +21,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -88,6 +86,13 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
     @InfoCampoValorLogico(nomeCalculo = "tipos atividade Grupo novo")
     @Transient
     private List<TipoAtividadeCRM> tiposAtividadeGrupoAtividade;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "metas_tipo_agendamento",
+            joinColumns = @JoinColumn(name = "meta_id"),
+            inverseJoinColumns = @JoinColumn(name = "tipoAgendamento_id"))
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    private List<TipoAgendamentoAtdmPublico> agendamentosPermitidos;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Converter Meta em:", entidadeOpcoesDisponiveis = MetaRelacionamento.class)
     @Transient
@@ -237,6 +242,14 @@ public class MetaRelacionamento extends EntidadeSimplesORM implements ItfMetaLea
 
     public void setIcone(String icone) {
         this.icone = icone;
+    }
+
+    public List<TipoAgendamentoAtdmPublico> getAgendamentosPermitidos() {
+        return agendamentosPermitidos;
+    }
+
+    public void setAgendamentosPermitidos(List<TipoAgendamentoAtdmPublico> agendamentosPermitidos) {
+        this.agendamentosPermitidos = agendamentosPermitidos;
     }
 
 }

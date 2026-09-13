@@ -18,7 +18,12 @@
              1 a 3 = intensidade 1 | 4 a 6 = intensidade 2 | acima de 6 = intensidade 3 -->
         <cc:attribute name="intensidade" default="#{cc.attrs.valor gt 6 ? 3 : (cc.attrs.valor gt 3 ? 2 : 1)}" />
         <cc:attribute name="valor" default="0" />
-        <cc:attribute name="texto" default="-" />
+        <!-- Se não informado, o título assume o lugar do texto
+             (centralizado ao lado do ícone). O default é vazio, e não
+             "-", para esse caso ser detectado só com empty: comparar
+             com "-" quebra quando o texto recebe um número, porque o
+             EL tenta converter "-" para Long. -->
+        <cc:attribute name="texto" default="" />
         <cc:attribute name="url"  default="#"
                       />
         <!-- Quando true e o card estiver zerado (cinza), exibe um "+"
@@ -48,8 +53,7 @@
                  pt:data-card-valor="#{empty cc.attrs.valor ? 0 : cc.attrs.valor}"
                  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-                <!-- Selo "+": só no card cinza, e só quando o componente
-                     for marcado como atalho para novo registro -->
+
                 <ui:fragment rendered="#{cc.attrs.exibirBotaoNovoCasoZero and (empty cc.attrs.valor or cc.attrs.valor le 0)}">
                     <span class="card-novo-badge" title="Clique para criar um novo registro">
                         <i class="fa fa-plus"></i>
@@ -58,14 +62,20 @@
 
                 <div class="card-conteudo">
 
-                    <h:panelGroup styleClass="card-icone card-estilo-#{cc.attrs.codigoestilo}-#{cc.attrs.intensidade}" style="min-width: 90px;min-height: 90px;">
+                    <h:panelGroup styleClass="card-icone card-estilo-#{cc.attrs.codigoestilo}-#{cc.attrs.intensidade}">
                         <i class="fa #{cc.attrs.icone}  #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs40':'Fs50'}"  ></i>
                     </h:panelGroup>
 
-                    <div class="card-info">
+                    <!-- Sem texto informado, o titulo assume o lugar do
+                         texto: ao lado do icone e centralizado na
+                         vertical, em vez de cair no rodape do card
+                         (classe card-info-so-titulo em dashboard.css). -->
+                    <div class="card-info #{empty cc.attrs.texto ? 'card-info-so-titulo' : ''}">
 
-                        <span class="card-valor #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs24':'Fs30'}"   >#{cc.attrs.texto}</span>
-                        <span class="card-titulo #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs16':'Fs24'}" style="margin-left: 3px;">#{cc.attrs.titulo}</span>
+                        <ui:fragment rendered="#{not empty cc.attrs.texto}">
+                            <span class="card-valor #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs24':'Fs30'}"   >#{cc.attrs.texto}</span>
+                        </ui:fragment>
+                        <span class="card-titulo #{sessaoAtualSBWP.telaUsuario.umMobile?'Fs16':'Fs24'}">#{cc.attrs.titulo}</span>
                     </div>
                 </div>
             </div>

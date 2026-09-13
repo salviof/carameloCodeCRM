@@ -461,12 +461,16 @@
    O Quill é neutralizado — sem borda, sem fundo, texto claro — e rola dentro
    de uma altura máxima para não roubar espaço do chat abaixo.
    -------------------------------------------------------------------------- */
-.ChamadoCabecalhoDescricao {
+.ChamadoCabecalhoDadosBasicos .ChamadoCabecalhoDescricao {
     margin-top: 16px;
     padding-top: 14px;
     border-top: 1px solid rgba(255, 255, 255, 0.22);
 }
 
+.ChamadoCabecalhoDadosBasicos .ChamadoCabecalhoDescricao .ql-editor,
+.ChamadoCabecalhoDadosBasicos .ChamadoCabecalhoDescricao .ql-editor * {
+    color: #3f4b4c !important;
+}
 .ChamadoCabecalhoDescricaoForm {
     margin: 0;
 }

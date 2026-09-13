@@ -15,6 +15,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.InfoAcaoCRMAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
+import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.TokenAcessoDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.TIPO_PARTE_URL;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoController;
@@ -109,6 +110,20 @@ public class PgMeusContatos extends MB_paginaCadastroEntidades<ContatoProspecto>
         }
         token = SBCore.getServicoPermissao().gerarTokenDinamico(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO, getEntidadeSelecionada(), usuario.getEmail());
         return token;
+    }
+
+    private ItfTokenAcessoDinamico tokenAgenda;
+
+    public ItfTokenAcessoDinamico getTokenAgenda() {
+        return tokenAgenda;
+    }
+
+    public String getUrlAcessoDiretoAgenda() {
+        tokenAgenda = (TokenAcessoDinamico) SBCore.getServicoPermissao().gerarTokenDinamico(FabAcaoCRMCliente.RESERVAS_FRM_HORARIOS_DISPONIVEIS,
+                getEntidadeSelecionada(), getEntidadeSelecionada().getEmail());
+        String url = MapaDeFormularios.getUrlFormulario(FabAcaoPaginasDoSistema.PAGINA_NATIVA_TOKEN_DINAMICO_MB.getRegistro(), tokenAgenda);
+        url = url.replace("crm.", "atendimento.");
+        return url;
     }
 
     public String getUrlAcessoDireto() {

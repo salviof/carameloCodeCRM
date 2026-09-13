@@ -409,6 +409,8 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     ADMINISTRATIVO_PAGINA_PRINCIPAL_MB,
     @InfoTipoAcaoGestaoEntidade(entidade = MetaRelacionamento.class, nomeAcao = "Estágio de Relacionamento", precisaPermissao = true)
     META_RELACIONAMENTO_MB,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Tipos reservas disponíveis]", "agendamentosPermitidos"}, icone = "fa-solid fa-calendar-week")
+    META_RELACIONAMENTO_FRM_TIPO_RESERVA_DISPONIVEL,
     @InfoTipoAcaoFormulario(campos = {
         "[separador:Estágio de Relacionamento]", "id", "nome", "cor", CPMetaRelacionamento.icone, CPMetaRelacionamento.peso})
     META_RELACIONAMENTO_FRM_LISTAR,

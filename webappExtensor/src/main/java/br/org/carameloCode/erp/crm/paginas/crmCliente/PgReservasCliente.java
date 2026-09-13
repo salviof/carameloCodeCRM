@@ -41,6 +41,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.InfoAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
@@ -292,6 +293,16 @@ public class PgReservasCliente extends MB_paginaCadastroEntidades<ReservaHorario
                 if (!tiposDisponiveis.isEmpty()) {
                     executaAcaoSelecionadaPorEnum(FabAcaoCRMCliente.RESERVAS_FRM_ESCOLHER_TIPO_DE_RESERVA);
                 }
+            }
+            try {
+                final MetaRelacionamento meta = UtilSBPersistencia.loadEntidade(getUsuarioLogado().getRepresentanteLegal().getMeta(), getEMPagina());
+                if (!meta.getAgendamentosPermitidos().isEmpty()) {
+                    List<TipoAgendamentoAtdmPublico> tiposFiltro = new ArrayList<>();
+                    tiposDisponiveis.stream().filter(tp -> meta.getAgendamentosPermitidos().contains(tp)).forEach(tiposFiltro::add);
+                    tiposDisponiveis = tiposFiltro;
+                }
+            } catch (Throwable t) {
+                //ignorando filtro Meta
             }
         }
 

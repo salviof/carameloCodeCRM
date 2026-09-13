@@ -5,6 +5,7 @@
     xmlns:SBBotaoAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:p="http://primefaces.org/ui"
     xmlns:crmDashBoard="http://xmlns.jcp.org/jsf/composite/dashboard"
+    xmlns:crmChamado="http://xmlns.jcp.org/jsf/composite/chamado"
     xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -15,7 +16,7 @@
         </h:panelGroup>
         <h:outputStylesheet name="chamado.css" library="chamado"/>
         <h:panelGroup  styleClass="Fright ChamadoBotaoNovo" layout="block" >
-            <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical150 somenteMobile"/>
+
             <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical20 somenteMobile"/>
             <h:form>
                 <SBCRM:botaoGrande acao="#{acoesClienteContato_ChamadoMbGestao.chamadoFrmNovo}"
@@ -32,22 +33,16 @@
                 </h1>
             </h:panelGroup>
 
-            <h:panelGroup styleClass="Container12 OrganizadorContainer ChamadoListaFiltros" layout="block">
-                <h:panelGroup layout="block" styleClass="quebraBlocoComEspacoVertical150 somenteMobile"/>
-                <h:panelGroup styleClass="Container8 ChamadoListaFiltrosCampos" layout="block">
 
-                </h:panelGroup>
-            </h:panelGroup>
 
             <h:panelGroup   styleClass="Container12 OrganizadorContainer ChamadoListaChamadosMobile" layout="block" id="listaChamadosMobile" rendered="#{paginaAtual.sessao.telaUsuario.umMobile}" >
                 <c:forEach items="#{pgSuporteCliente.entidadesListadas}" var="chamado" >
+
+                    <p:link href="#{pgSuporteCliente.getUrlChamado(chamado)}" >
+                        <crmChamado:chamadoMobile  chamado="#{chamado}"  />
+                    </p:link>
+
                     <p:separator styleClass="quebraBlocoComEspacoVertical10"/>
-                    <crmDashBoard:dashBoardIconeValorTituloLink
-                        container="Container3"
-                        url="#{pgSuporteCliente.getUrlChamado(chamado)}"
-                        icone="fa fa-life-ring"
-                        titulo="#{pgUtilDataHoraFormato.getDataHoraSimplificado(chamado.dataHoraCriacao)}" valor="#{chamado.titulo}" codigoestilo="3"
-                        />
                 </c:forEach>
 
 

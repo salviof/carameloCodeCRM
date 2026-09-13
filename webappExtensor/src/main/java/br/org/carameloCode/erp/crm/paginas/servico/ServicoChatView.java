@@ -96,6 +96,19 @@ public class ServicoChatView implements Serializable {
 
     }
 
+    public ComoChatSalaBean getSalaVendasAtendimento(Pessoa pPessoa) {
+        try {
+            if (sala == null) {
+                sala = UtilCRMChat.gerarSalaVendasContatoPrincipal(pPessoa);
+            }
+            return sala;
+        } catch (Throwable ex) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando sala para atendimento" + ex.getMessage(), ex);
+        }
+        return null;
+
+    }
+
     public ComoChatSalaBean getSalaChamado(ChamadoCliente pChamado) {
         try {
 

@@ -12,17 +12,20 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo">
         <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
-            <crmConversa:cabecalhoConversaCliente pessoa="#{pgClienteConversa.entidadeSelecionada.representanteLegal}"
-                                                  mostrandoVendas="false"
 
+
+
+            <crmConversa:cabecalhoConversaCliente pessoa="#{pgClienteConversa.entidadeSelecionada.representanteLegal}"
+                                                  mostrandoVendas="true"
                                                   numeroTelefoneAtendimento="553121159755"
                                                   numeroTelefoneVendas="3121159751"
+
                                                   />
             <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="" >
-                <h:panelGroup styleClass="Container10" layout="block">
+                <h:panelGroup styleClass="#{sessaoAtualSBWP.telaUsuario.umMobile?'Container12':'Container10'}" layout="block">
                     <SBMatrix:salaDebate
 
-                        canal="#{pgClienteConversa.canalAtendimento}"
+                        canal="#{pgClienteConversa.canalVendas}"
                         altura="600px"
                         rendered="true"
                         usuarioResponsavelPorLogin="false"
