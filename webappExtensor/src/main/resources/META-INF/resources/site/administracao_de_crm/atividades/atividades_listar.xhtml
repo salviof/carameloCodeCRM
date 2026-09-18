@@ -13,13 +13,12 @@
         <crmAtv:dialogoIntervalo pesquisa="#{pgAtividades.pesquisaAtividade}"/>
         <h:form>
             <h:panelGroup styleClass="Container12" layout="block" id="menuFiltroLeads" >
-                <crmAtv:menuAtividades  rendered="true" pesquisa="#{pgAtividades.pesquisaAtividade}"/>
+                <crmAtv:menuListaAtividades
+                    rendered="true" pesquisa="#{pgAtividades.pesquisaAtividade}"/>
             </h:panelGroup>
         </h:form>
         <h:panelGroup id="gridListagemMeusProspets" layout="block" >
             <h:form>
-
-                <p:separator/>
                 <crm:atividadesHistoricoAvancado
                     atividadesRealizadas="#{pgAtividades.pesquisaAtividade.getCampoInstanciadoByNomeOuAnotacao('atividadesEncontradas').valor}"
                     mostrarEmpresa="true"

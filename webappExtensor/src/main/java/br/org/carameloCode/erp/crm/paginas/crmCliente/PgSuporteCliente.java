@@ -43,7 +43,7 @@ import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
 @ViewScoped
 @Named
 @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.CHAMADO_MB_GESTAO)
-@InfoPagina(nomeCurto = "CHAMADO_CLIENTE", tags = {"Meus chamados em aberto"})
+@InfoPagina(nomeCurto = "CHAMADO_CLIENTE", tags = {"Meus chamados abertos"})
 public class PgSuporteCliente extends MBGestaoChamados {
 
     @InfoParametroURL(nome = "Chamado Selecionado", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = ChamadoCliente.class, representaEntidadePrincipalMB = true, obrigatorio = false)

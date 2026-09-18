@@ -22,12 +22,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.NotificacaoRespon
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.StatusChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.FabSatisfacaoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.cliente.satisfacao.SatisfacaoCliente;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.porteEmpresa.Porte;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.PessoaJuridica;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.origemProspecto.OrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
@@ -36,7 +31,6 @@ import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_c
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.FabAcaoAcessoAnonimoIntranet;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.acessoAnonimo.InfoAcaoaAcessoAnonimoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
@@ -50,23 +44,40 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
-import br.org.carameloCode.erp.modulo.crm.api.model.pessoajuridica.CPPessoaJuridica;
 import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.StatusReserva;
+import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
-import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.FabStatusSolicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.Solicitacao;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoEquipe;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoAtividadeCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoConfirmacaoCliente;
+
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import groovy.transform.AutoExternalize;
 
 /**
  *
@@ -721,12 +732,134 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
 
     }
 
-    @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.DOCUMENTOS_CTR_ENVIAR_ARQUIVO)
-    public static ItfRespostaAcaoDoSistema
-            arquivoUpload(ArquivoCliente pArquivo) {
+    @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO)
+    public static ItfRespostaAcaoDoSistema solicitacaoAbrir(Solicitacao pSolicitacao) {
 
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(ArquivoCliente.class
-        ), pArquivo) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                Solicitacao solicitacao = loadEntidade(pSolicitacao);
+                if (solicitacao instanceof SolicitacaoArquivoCliente) {
+                    setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.SOLICITACAO_FRM_ENVIAR_ARQUIVO, solicitacao).replaceAll("crm.", "atendimento."));
+                }
+                if (solicitacao instanceof SolicitacaoAtividadeCliente) {
+                    setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.SOLICITACAO_FRM_ACEITE, solicitacao).replaceAll("crm.", "atendimento."));
+                }
+                if (solicitacao instanceof SolicitacaoConfirmacaoCliente) {
+                    setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.SOLICITACAO_FRM_ACEITE, solicitacao).replaceAll("crm.", "atendimento."));
+                }
+            }
+
+        }.getResposta();
+
+    }
+
+    @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.SOLICITACAO_CTR_RESPONDER_ACEITE)
+    public static ItfRespostaAcaoDoSistema solicitacaoResponder(SolicitacaoConfirmacaoCliente pSOlicitacao) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSOlicitacao), pSOlicitacao) {
+            ComoDialogo dialogo;
+
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais();
+                if (isSucesso()) {
+                    if (dialogo != null) {
+                        CarameloCode.getServicoComunicacao().getArmazenamento().removerDialogoAtivo(dialogo.getCodigoSelo());
+                    }
+                }
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                if (pSOlicitacao.getTipoRespostaSelecionada() == null) {
+                    throw new ErroRegraDeNegocio("o tipo de resposta é obrigatório");
+                }
+
+                pSOlicitacao.setFoiFinalizada(true);
+                pSOlicitacao.setFoiAtendida(true);
+                pSOlicitacao.setStatus(FabStatusSolicitacao.FINALIZADO.getRegistro());
+                SolicitacaoConfirmacaoCliente solicitacao = atualizarEntidade(pSOlicitacao);
+
+                NotificacaoSB notificacao;
+                try {
+                    notificacao = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICAR_SOLICITACAO_CONFIRMADA_CLIENTE.getRegistro(getEm()),
+                            pSOlicitacao.getUsuarioSolicitante(), solicitacao);
+
+                } catch (ErroGerandoNotificacao ex) {
+                    throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
+                }
+                solicitacao = atualizarEntidade(solicitacao);
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+                dialogo = CarameloCode.getServicoComunicacao().getArmazenamento().getDialogoAtivoByCodigoSelo(solicitacao.getCodigoSelo());
+
+                NotificacaoSB ntf = (NotificacaoSB) solicitacao.getCPinst(CPSolicitacao.notificacao).getValor();
+                if (ntf != null && !ntf.getDisparos().isEmpty()) {
+                    ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().registrarReciboLeitura(ntf.getDisparos().get(0).getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
+                }
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.DASHBOARD_MB_GESTAO));
+
+            }
+
+        }.getResposta();
+
+    }
+
+    @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.SOLICITACAO_CTR_ENVIAR_ARQUIVO)
+    public static ItfRespostaAcaoDoSistema solicitacaoEnvioArquivo(SolicitacaoArquivoCliente pSolicitacao) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pSolicitacao), pSolicitacao) {
+            ComoDialogo dialogo;
+
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                if (isSucesso()) {
+                    if (dialogo != null) {
+                        CarameloCode.getServicoComunicacao().getArmazenamento().removerDialogoAtivo(dialogo.getCodigoSelo());
+                    }
+                }
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                SolicitacaoArquivoCliente solicitacao = loadEntidade(pSolicitacao);
+
+                NotificacaoSB notificacao;
+                try {
+                    notificacao = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICACAO_SOLICITACAO_EQUIPE_ARQUIVO_ENVIO.getRegistro(getEm()),
+                            pSolicitacao.getUsuarioSolicitante(), solicitacao);
+
+                } catch (ErroGerandoNotificacao ex) {
+                    throw new ErroRegraDeNegocio("Falha gerando regra de negocio");
+                }
+                adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, notificacao);
+
+                solicitacao.setFoiFinalizada(true);
+                solicitacao.setFoiAtendida(true);
+                solicitacao.setStatus(FabStatusSolicitacao.FINALIZADO.getRegistro());
+                atualizarEntidade(solicitacao);
+                dialogo = CarameloCode.getServicoComunicacao().getArmazenamento().getDialogoAtivoByCodigoSelo(solicitacao.getCodigoSelo());
+
+                NotificacaoSB ntf = (NotificacaoSB) solicitacao.getCPinst(CPSolicitacao.notificacao).getValor();
+                if (ntf != null && !ntf.getDisparos().isEmpty()) {
+                    ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().registrarReciboLeitura(ntf.getDisparos().get(0).getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
+                }
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMAtendimento.SOLICITACAO_FRM_LISTAR_MEUS_PEDIDOS_ABERTOS_EQUIPE, CarameloCode.getUsuarioLogado()));
+
+            }
+        }.getResposta();
+
+    }
+
+    @InfoAcaoCRMCliente(acao = FabAcaoCRMCliente.DOCUMENTOS_CTR_ENVIAR_ARQUIVO)
+    public static ItfRespostaAcaoDoSistema arquivoUpload(ArquivoCliente pArquivo) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaResposta(ArquivoCliente.class), pArquivo) {
+
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 ArquivoCliente arquivoCLiente = atualizarEntidade(pArquivo);

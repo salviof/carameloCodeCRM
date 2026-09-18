@@ -1,0 +1,1 @@
+{"dataHora":"14/09/26","tipo":"ERRO","descricao":"[MTX-TOKEN] Sem token válido para @naidoca.atendimentocasanovadigitalcombr.at:casanovadigital.com.br; a mensagem tst NÃO foi enviada na sala #chamadocliente2_ct:casanovadigital.com.br. É esta a causa real quando a ponta reclama de 'Falha encaminhando mensagem'."}

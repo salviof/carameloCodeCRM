@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = RespostaFormulario.class)
 public enum CPRespostaFormulario {
-	_ID, _NOME, _PESSOA, _CODIGORESPOSTA, _JSONRESPOSTA, _USUARIORESPONSAVELATENDIMENTO, _DATAHORA, _TIPOFORMULARIO, _PESSOAEXISTENTE, _DADOSPROCESSADOSSUCESSO, _ATENDENTENOTIFICADO, _DATAHORAULTIMOPROCESSAMENTO;
+	_ID, _NOME, _PESSOA, _CODIGORESPOSTA, _JSONRESPOSTA, _USUARIORESPONSAVELATENDIMENTO, _DATAHORA, _TIPOFORMULARIO, _PESSOAEXISTENTE, _DADOSPROCESSADOSSUCESSO, _ATENDENTENOTIFICADO, _DATAHORAULTIMOPROCESSAMENTO, _ATIVIDADEEXECUTADA;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -19,4 +19,5 @@ public enum CPRespostaFormulario {
 	public static final String dadosprocessadossucesso = "dadosProcessadosSucesso";
 	public static final String atendentenotificado = "atendenteNotificado";
 	public static final String datahoraultimoprocessamento = "dataHoraUltimoProcessamento";
+	public static final String atividadeexecutada = "atividadeExecutada";
 }

@@ -332,7 +332,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
                 pSolicitacao.setUsuarioSolicitado(ct.getUsuarioVinculado());
                 SolicitacaoConfirmacaoCliente solicitacaoCriada = atualizarEntidade(pSolicitacao);
-                setRetorno(pSolicitacao);
+                setRetorno(solicitacaoCriada);
                 NotificacaoSB notificacao;
                 try {
 
@@ -371,7 +371,7 @@ public class ModuloCRMAtendimentoSolicitacoes extends ControllerAbstratoSBPersis
                 }
                 pSolicitacao.setUsuarioSolicitado(ct.getUsuarioVinculado());
                 SolicitacaoArquivoCliente solicitacaoCriada = atualizarEntidade(pSolicitacao);
-                setRetorno(pSolicitacao);
+                setRetorno(solicitacaoCriada);
                 NotificacaoSB notificacao;
                 try {
 

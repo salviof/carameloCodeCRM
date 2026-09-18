@@ -35,6 +35,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.servlet.SessionCookieConfig;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 
 /**
  *
@@ -74,6 +76,8 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
                 UtilSBPersistencia.mergeRegistro(novoUsuario);
 
             }
+            ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto()
+                    .registrarFabrica(FabTipoNotificacao.class);
             System.out.println("############### FIM CONFIG JPA");
             SBWebPaginas.configurar(new ConfigWP_CRM_CarameloCode());
             System.out.println("############### FIM CONFIG WEBPAGINAS");

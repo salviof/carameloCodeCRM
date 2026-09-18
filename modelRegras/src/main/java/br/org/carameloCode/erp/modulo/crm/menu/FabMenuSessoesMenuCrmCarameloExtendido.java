@@ -111,7 +111,8 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
 
                 sessao.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_LISTAR_ASSINATURAS);
                 sessao.addAcao(FabAcaoCrmAdmin.CONFIGURACOES_GERAIS_FRM_CONFIGURAR_EMAILS);
-                sessao.addAcao(FabAcaoCrmAdmin.TIPO_NOTIFICACAO_MB);
+                sessao.addAcao(FabAcaoCrmAdmin.TIPO_NOTIFICACAO_FRM_LISTAR);
+                sessao.addAcao(FabAcaoCrmAdmin.TIPO_NOTIFICACAO_FRM_LISTAR_NOTIFICACOES_ENTRE_USUARIOS);
 
                 break;
             case INTEGRACOES:

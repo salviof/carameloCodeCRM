@@ -1,0 +1,214 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:CRMRelacionamento="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet library="crmAtividade" name="atividade.css" />
+        <!-- Sem target: com target="body" o script depende de a pagina host usar
+             h:body; em pagina com body puro ele e descartado em silencio.
+             Renderizado no lugar sempre vale, porque os ouvintes sao
+             delegados no document e nao precisam do DOM pronto. -->
+        <h:outputScript library="crmAtividade" name="atividade.js" />
+
+        <!-- Menu (esquerda) x area de conteudo (direita): a navegacao por hover/clique/teclado
+             e 100% cliente, nao dispara requisicao e nao persiste nada. O que fica fixado
+             volta a ser o relacionamento atual a cada re-renderizacao, porque a marcacao
+             do "atual" vem do servidor, na classe da linha do relacionamento vigente. -->
+        <h:panelGroup layout="block" id="atvDispBloco" styleClass="AtividadesDisponiveis"   >
+            <div class="AtividadesDisponiveisDesktop" data-atvdisp="#{cc.clientId}">
+                <!-- O cabecalho tambem e gatilho de previa: passar o mouse nele
+                     traz de volta o estagio atual, sem precisar ir ate o menu. -->
+                <h:panelGroup layout="block" styleClass="AtvDispCabecalho" >
+                    <f:passThroughAttribute name="data-atvdisp-previa" value="atual" />
+
+                    #{cc.attrs.pessoa.nome} está aqui:
+                    <CRMRelacionamento:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
+                </h:panelGroup>
+
+                <div class="AtvDispCorpo OrganizadorContainerEsquerda">
+
+                    <!-- ===================== MENU DE RELACIONAMENTOS ===================== -->
+                    <div class="AtvDispMenu" role="tablist" aria-orientation="vertical"
+                         aria-label="Relacionamentos disponíveis" data-atvdisp-menu="true">
+
+                        <div class="AtvDispMenuGrupo" role="presentation">
+                            <span class="AtvDispMenuRotulo">Atual</span>
+
+                            <button type="button"
+                                    class="AtvDispRelLinha AtvDispRelLinha--atual AtvDispRelLinha--ativa"
+                                    role="tab"
+                                    id="#{cc.clientId}_tabAtual"
+                                    aria-controls="#{cc.clientId}_painelAtual"
+                                    aria-selected="true"
+                                    tabindex="0"
+                                    data-atvdisp-alvo="atual"
+                                    aria-label="Relacionamento atual: #{cc.attrs.pessoa.relacionamento.nome}, #{empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor ? 0 : cc.attrs.pessoa.relacionamento.atividadesExecutivas.size()} atividades disponíveis">
+                                <span class="AtvDispRelIconeArea" aria-hidden="true">
+                                    <i class="fa fa-map-marker AtvDispRelIcone"></i>
+                                </span>
+                                <span class="AtvDispRelTexto">
+                                    <span class="AtvDispRelNome">#{cc.attrs.pessoa.relacionamento.nome}</span>
+                                    <span class="AtvDispRelContador">
+                                        #{empty cc.attrs.pessoa.relacionamento.atividadesExecutivas ? 0 : cc.attrs.pessoa.relacionamento.atividadesExecutivas.size()}
+                                        #{(not empty cc.attrs.pessoa.relacionamento.atividadesExecutivas) and cc.attrs.pessoa.relacionamento.atividadesExecutivas.size() == 1 ? 'atividade' : 'atividades'}
+                                    </span>
+                                </span>
+                                <span class="AtvDispRelSelo">atual</span>
+                            </button>
+                        </div>
+
+                        <!-- Uma linha por atividade agrupadora. Sem agrupadora, o grupo nao existe. -->
+                        <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesGrupoDeAtividades').valor}">
+                            <div class="AtvDispMenuGrupo" role="presentation">
+                                <span class="AtvDispMenuRotulo">Mudar para</span>
+                                <!-- O pareamento linha <-> painel usa o indice do repeat, nao o
+                                     id da atividade: as duas listas percorrem a mesma colecao na
+                                     mesma ordem, e assim o menu nao para de funcionar se o id
+                                     vier nulo ou com caractere que atrapalhe o seletor. -->
+                                <ui:repeat value="#{cc.attrs.pessoa.relacionamento.atividadesGrupoDeAtividades}" var="atividadeGrupo" varStatus="rec" >
+                                    <button type="button"
+                                            class="AtvDispRelLinha"
+                                            role="tab"
+                                            id="#{cc.clientId}_tab#{rec.index}"
+                                            aria-controls="#{cc.clientId}_painel#{rec.index}"
+                                            aria-selected="false"
+                                            tabindex="-1"
+                                            data-atvdisp-alvo="#{rec.index}"
+                                            aria-label="Mudar para #{atividadeGrupo.relacionamentoGerado.nome}, #{empty atividadeGrupo.relacionamentoGerado.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor ? 0 : atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size()} atividades disponíveis">
+                                        <span class="AtvDispRelIconeArea" aria-hidden="true">
+                                            <i class="#{atividadeGrupo.icone} fa AtvDispRelIcone"></i>
+                                        </span>
+                                        <span class="AtvDispRelTexto">
+                                            <span class="AtvDispRelNome">#{atividadeGrupo.relacionamentoGerado.nome}</span>
+                                            <span class="AtvDispRelContador">
+                                                #{empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas ? 0 : atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size()}
+                                                #{(not empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas) and atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size() == 1 ? 'atividade' : 'atividades'}
+                                            </span>
+                                        </span>
+                                    </button>
+                                </ui:repeat>
+                            </div>
+                        </ui:fragment>
+
+                    </div>
+
+                    <!-- ===================== AREA DE CONTEUDO ===================== -->
+                    <h:panelGroup layout="block" styleClass="AtividadesDeExecucaoRelacionamento AtvDispConteudo" id="areaAcoesExecutivasDisponiveis" >
+                        <f:passThroughAttribute name="aria-live" value="polite" />
+
+                        <!-- Estado inicial: o relacionamento atual. Sem botao de mudanca,
+                             porque o lead ja esta neste relacionamento. -->
+                        <div class="AtvDispPainel AtvDispPainel--ativo atividadeAtual"
+                             role="tabpanel"
+                             id="#{cc.clientId}_painelAtual"
+                             aria-labelledby="#{cc.clientId}_tabAtual"
+                             data-atvdisp-painel="atual">
+
+                            <div class="AtvDispPainelTopo OrganizadorContainerExpandido">
+                                <span class="AtvDispPainelNome">#{cc.attrs.pessoa.relacionamento.nome}</span>
+                                <span class="AtvDispPainelSelo">Relacionamento atual</span>
+                            </div>
+
+                            <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor}">
+                                <span class="AtvDispPainelRotulo">Executar</span>
+                                <div class="AtvDispPainelLista">
+                                    <CRMAtividade:seletorAtividades
+                                        empresa="#{cc.attrs.pessoa}"
+                                        listaAtividades="#{cc.attrs.pessoa.relacionamento.atividadesExecutivas}"
+                                        tamanho="G"
+                                        tipoBotoao="ATUAL"
+                                        />
+                                </div>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{empty cc.attrs.pessoa.relacionamento.atividadesExecutivas}">
+                                <p class="AtvDispVazio">Nenhuma atividade para executar neste relacionamento.</p>
+                            </ui:fragment>
+                        </div>
+
+                        <!-- Um painel por atividade agrupadora: o botao de "so mudar
+                             relacionamento" no topo e, abaixo, as atividades executivas
+                             que a mudanca libera (agrupadora + executiva em uma acao). -->
+                        <ui:repeat value="#{cc.attrs.pessoa.relacionamento.atividadesGrupoDeAtividades}" var="atividadeGrupo" varStatus="rec" >
+
+                            <div class="AtvDispPainel"
+                                 role="tabpanel"
+                                 id="#{cc.clientId}_painel#{rec.index}"
+                                 aria-labelledby="#{cc.clientId}_tab#{rec.index}"
+                                 data-atvdisp-painel="#{rec.index}">
+
+                                <div class="AtvDispPainelTopo OrganizadorContainerExpandido">
+                                    <span class="AtvDispPainelNome">#{atividadeGrupo.relacionamentoGerado.nome}</span>
+                                    <span class="AtvDispPainelTopoAcao"
+                                          title="Executa apenas a mudança de relacionamento, sem nenhuma atividade">
+                                        <span class="AtvDispPainelTopoDica">só mudar</span>
+                                        <CRMAtividade:btAtividadeAgrupamento
+                                            empresa="#{cc.attrs.pessoa}"
+                                            tipoAtividade="#{atividadeGrupo}"
+                                            tamanho="P"
+                                            />
+                                    </span>
+                                </div>
+
+                                <ui:fragment rendered="#{not empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas}">
+                                    <span class="AtvDispPainelRotulo">Mudar e executar</span>
+                                    <div class="AtvDispPainelLista">
+                                        <CRMAtividade:seletorAtividadeExecOutroRelacionamento
+                                            empresa="#{cc.attrs.pessoa}"
+                                            tamanho="G"
+                                            tipoAtividade="#{atividadeGrupo}"
+                                            />
+                                    </div>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas}">
+                                    <p class="AtvDispVazio">Esta mudança não libera atividades para executar.</p>
+                                </ui:fragment>
+                            </div>
+                        </ui:repeat>
+
+                    </h:panelGroup>
+
+                </div>
+
+                <!-- ===================== RODAPE DE METAS =====================
+                     Move o lead de meta no funil: regride na ponta esquerda,
+                     avanca na direita. A seta de cada lado ja vem do icone do
+                     proprio botao (fa-backward / fa-forward), entao aqui nao
+                     entra outra, para nao duplicar. -->
+                <CRMAtividade:btAtividadesMetaDowngrade empresa="#{cc.attrs.pessoa}" />
+                <ui:fragment rendered="#{(not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor) or (not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor)}">
+                    <div class="AtvDispMetas OrganizadorContainerExpandido">
+
+                        <span class="AtvDispMetaLado AtvDispMetaLado--regride">
+                            <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor}">
+                                <CRMAtividade:btAtividadesMetaDowngrade empresa="#{cc.attrs.pessoa}" />
+                            </ui:fragment>
+                        </span>
+
+                        <span class="AtvDispMetaLado AtvDispMetaLado--avanca">
+                            <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor}">
+                                <CRMAtividade:btAtividadesMetaUpgrade empresa="#{cc.attrs.pessoa}" />
+                            </ui:fragment>
+                        </span>
+
+                    </div>
+                </ui:fragment>
+
+            </div>
+        </h:panelGroup>
+
+
+    </cc:implementation>
+</ui:composition>

@@ -210,13 +210,13 @@ public enum FabTipoNotificacao implements ComoFabricaComPersistencia {
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaSMS(true);
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaMatrix(false);
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaEmail(true);
-                ((TipoNtfrCRMUsrToUsr) tipoCRM).setNomeFabricaAcaoRespostaPersonalizada(FabAcaoCRMAtendimento.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO.getNomeUnico());
+                ((TipoNtfrCRMUsrToUsr) tipoCRM).setNomeFabricaAcaoRespostaPersonalizada(FabAcaoCRMCliente.SOLICITACAO_CTR_ABRIR_FORMULARIO_RESOLUCAO.getNomeUnico());
                 break;
             case NOTIFICACAO_SOLICITACAO_CONFIRMACAO_AO_CLIENTE:
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setAssunto("[usuarioSolicitante.nome] solicita uma confirmação");
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setConteudoHTML("Oi, [contatoPessoa.nome], [usuarioSolicitante.nome] Solicita uma resposta sobre essa questão: \" <blockquote>\n"
                         + "  <p>[observacao]</p>\n" + "</blockquote> </p>");
-                ((TipoNtfrCRMUsrToUsr) tipoCRM).setNomeEntidadeReferencia(SolicitacaoArquivoCliente.class.getSimpleName());
+                ((TipoNtfrCRMUsrToUsr) tipoCRM).setNomeEntidadeReferencia(SolicitacaoConfirmacaoCliente.class.getSimpleName());
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaMenu(true);
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaTelaDeBLoqueio(true);
                 ((TipoNtfrCRMUsrToUsr) tipoCRM).setNotificarViaSMS(true);

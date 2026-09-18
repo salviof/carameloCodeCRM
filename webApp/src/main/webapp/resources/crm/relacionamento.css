@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Relacionamento da pessoa (composite: crm/relacionamento.xhtml)
+   - ocupa 100% da div onde for embutido
+   - se adapta a largura do container (container query + fallback em flex-wrap)
+   - cor da barra indica o estagio do relacionamento
+   ========================================================================== */
+
+.pessoaRelacionamentoAtual {
+    /* paleta padrao: sobrescrita por .relacionamentoNivel* abaixo */
+    --relacionamentoCor: #3b82f6;
+    --relacionamentoCorClara: #93c5fd;
+    --relacionamentoCorTexto: #1d4ed8;
+    --relacionamentoCorTrilha: rgba(100, 116, 139, .18);
+
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: .5em .65em;
+    border: 1px solid var(--surface-border, rgba(100, 116, 139, .22));
+    border-radius: 8px;
+    background: var(--surface-card, #fff);
+    color: var(--text-color, #334155);
+    line-height: 1.25;
+    /* permite adaptar o layout a largura do container, nao da tela */
+    container-type: inline-size;
+}
+
+.pessoaRelacionamentoAtual * {
+    box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------- niveis -- */
+
+.pessoaRelacionamentoAtual.relacionamentoNivelInicial {
+    --relacionamentoCor: #ef4444;
+    --relacionamentoCorClara: #fca5a5;
+    --relacionamentoCorTexto: #b91c1c;
+}
+
+.pessoaRelacionamentoAtual.relacionamentoNivelMedio {
+    --relacionamentoCor: #f59e0b;
+    --relacionamentoCorClara: #fcd34d;
+    --relacionamentoCorTexto: #b45309;
+}
+
+.pessoaRelacionamentoAtual.relacionamentoNivelAlto {
+    --relacionamentoCor: #3b82f6;
+    --relacionamentoCorClara: #93c5fd;
+    --relacionamentoCorTexto: #1d4ed8;
+}
+
+.pessoaRelacionamentoAtual.relacionamentoNivelCompleto {
+    --relacionamentoCor: #16a34a;
+    --relacionamentoCorClara: #86efac;
+    --relacionamentoCorTexto: #15803d;
+}
+
+/* ------------------------------------------------------------- cabecalho -- */
+
+.pessoaRelacionamentoAtual .relacionamentoCabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .25em .75em;
+    min-width: 0;
+}
+
+.pessoaRelacionamentoAtual .relacionamentoMeta {
+    display: flex;
+    align-items: baseline;
+    gap: .4em;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.pessoaRelacionamentoAtual .relacionamentoMetaIcone {
+    color: var(--relacionamentoCor);
+    font-size: .8em;
+    line-height: 1;
+    flex: 0 0 auto;
+}
+
+.pessoaRelacionamentoAtual .relacionamentoMetaNome {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .78em;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    opacity: .75;
+}
+
+.pessoaRelacionamentoAtual .relacionamentoEtapaIndice {
+    flex: 0 0 auto;
+    font-size: .72em;
+    white-space: nowrap;
+    opacity: .6;
+}
+
+/* ----------------------------------------------------------- etapa atual -- */
+
+.pessoaRelacionamentoAtual .relacionamentoEtapa {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .25em .5em;
+    min-width: 0;
+    margin: .15em 0 .4em 0;
+}
+
+.pessoaRelacionamentoAtual .relacionamentoEtapaNome {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--relacionamentoCorTexto);
+}
+
+.pessoaRelacionamentoAtual .relacionamentoPercentual {
+    flex: 0 0 auto;
+    padding: .1em .5em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--relacionamentoCor) 15%, transparent);
+    color: var(--relacionamentoCorTexto);
+    font-size: .74em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* navegadores sem color-mix continuam legiveis */
+@supports not (background: color-mix(in srgb, red 15%, transparent)) {
+    .pessoaRelacionamentoAtual .relacionamentoPercentual {
+        background: var(--relacionamentoCorTrilha);
+    }
+}
+
+/* ------------------------------------------------------------------ barra -- */
+
+.pessoaRelacionamentoAtual .relacionamentoBarraWrapper {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+/* marcas das 10 etapas sobre a barra */
+.pessoaRelacionamentoAtual .relacionamentoBarraWrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    border-radius: 999px;
+    background: repeating-linear-gradient(to right,
+            transparent 0,
+            transparent calc(10% - 1px),
+            var(--surface-card, #fff) calc(10% - 1px),
+            var(--surface-card, #fff) 10%);
+}
+
+.pessoaRelacionamentoAtual .barraRelacionamento.ui-progressbar {
+    position: relative;
+    width: 100%;
+    height: .7em;
+    min-height: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--relacionamentoCorTrilha);
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.pessoaRelacionamentoAtual .barraRelacionamento .ui-progressbar-value {
+    height: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--relacionamentoCorClara), var(--relacionamentoCor));
+    box-shadow: none;
+    transition: width .45s ease;
+}
+
+/* o percentual ja aparece no badge do cabecalho */
+.pessoaRelacionamentoAtual .barraRelacionamento .ui-progressbar-label {
+    display: none !important;
+}
+
+/* --------------------------------------------------- variante compacta -- */
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto {
+    padding: .3em .4em;
+    border: 0;
+    background: transparent;
+}
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto .relacionamentoCabecalho {
+    display: none;
+}
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto .relacionamentoEtapa {
+    margin: 0 0 .25em 0;
+}
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto .relacionamentoEtapaNome {
+    font-size: .85em;
+    font-weight: 600;
+}
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto .barraRelacionamento.ui-progressbar {
+    height: .45em;
+    min-height: 6px;
+}
+
+.pessoaRelacionamentoAtual.pessoaRelacionamentoCompacto .relacionamentoBarraWrapper::after {
+    background: none;
+}
+
+/* ------------------------------------------- adaptacao a divs estreitas -- */
+
+@container (max-width: 260px) {
+    .pessoaRelacionamentoAtual .relacionamentoEtapaIndice {
+        display: none;
+    }
+
+    .pessoaRelacionamentoAtual .relacionamentoMetaNome {
+        font-size: .72em;
+    }
+
+    .pessoaRelacionamentoAtual .relacionamentoEtapaNome {
+        font-size: .9em;
+    }
+
+    .pessoaRelacionamentoAtual .relacionamentoBarraWrapper::after {
+        background: none;
+    }
+}
+
+@container (max-width: 160px) {
+    .pessoaRelacionamentoAtual {
+        padding: .35em .4em;
+    }
+
+    .pessoaRelacionamentoAtual .relacionamentoCabecalho {
+        display: none;
+    }
+}
+
+/* fallback para telas pequenas onde nao ha suporte a container query */
+@media (max-width: 480px) {
+    .pessoaRelacionamentoAtual .relacionamentoEtapaIndice {
+        margin-left: auto;
+    }
+}
+
+/* ---------------------------------------------------------- tema escuro -- */
+
+@media (prefers-color-scheme: dark) {
+    .pessoaRelacionamentoAtual {
+        --relacionamentoCorTrilha: rgba(148, 163, 184, .28);
+        background: var(--surface-card, #1f2937);
+        color: var(--text-color, #e2e8f0);
+    }
+
+    .pessoaRelacionamentoAtual.relacionamentoNivelInicial {
+        --relacionamentoCorTexto: #fca5a5;
+    }
+
+    .pessoaRelacionamentoAtual.relacionamentoNivelMedio {
+        --relacionamentoCorTexto: #fcd34d;
+    }
+
+    .pessoaRelacionamentoAtual.relacionamentoNivelAlto {
+        --relacionamentoCorTexto: #93c5fd;
+    }
+
+    .pessoaRelacionamentoAtual.relacionamentoNivelCompleto {
+        --relacionamentoCorTexto: #86efac;
+    }
+
+    .pessoaRelacionamentoAtual .relacionamentoBarraWrapper::after {
+        background: repeating-linear-gradient(to right,
+                transparent 0,
+                transparent calc(10% - 1px),
+                var(--surface-card, #1f2937) calc(10% - 1px),
+                var(--surface-card, #1f2937) 10%);
+    }
+}
+
+/* ------------------------------------------------------------ impressao -- */
+
+@media print {
+    .pessoaRelacionamentoAtual .barraRelacionamento .ui-progressbar-value {
+        background: #666;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

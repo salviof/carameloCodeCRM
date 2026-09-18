@@ -33,6 +33,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
 
             gerarMangedBeansAcessoAcoes();
             exibirRelatorioCompleto();
+
             String teste = FabConfigModuloWebAppGenerico.TEMA.getCaminhoArquivoVariaveisAmbiente();
             System.out.println(teste);
             SBCore.getServicoMensagens().enviarMsgAlertaAoDesenvolvedor("Teste");
@@ -43,7 +44,7 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
 
     @Override
     protected void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfigCoreWebAppCrmCarameloCode(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfigCoreCrmCarameloTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode(), true, false);
         MapaObjetosProjetoAtual.adcionarObjeto(ContatoAnonimoDadoTansitorio.class);
         try {

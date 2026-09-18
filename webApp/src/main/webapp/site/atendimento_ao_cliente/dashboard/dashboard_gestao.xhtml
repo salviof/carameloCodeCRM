@@ -49,7 +49,7 @@
                         <crmDashBoard:dashBoardIconeTextoTituloLink
                             url="#{pgUtilAcoes.getUrlAcao(acoesClienteContato_ChamadoMbGestao.chamadoFrmListar)}"
                             icone="fa fa-life-ring"
-
+                            rendered="#{not empty pgDashboardCliente.usuarioLogado.representanteLegal.usuarioAtendimento}"
                             titulo="#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
                                       .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor==0?'Novo Chamado':'Chamado'}#{pgDashboardCliente.usuarioLogado.getCampoInstanciadoByNomeOuAnotacao('metadados')
                                       .valorComoEntidadeSimples.getCampoInstanciadoByNomeOuAnotacao('chamadosAbertos').valor>1?'s':''}"

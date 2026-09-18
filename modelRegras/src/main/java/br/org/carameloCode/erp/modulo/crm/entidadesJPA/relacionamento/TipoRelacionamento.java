@@ -75,8 +75,7 @@ public class TipoRelacionamento extends EntidadeSimplesORM implements ComoTemCor
     public List<TipoDadoCRM> dadosNescessarios;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Atividade Permitidas",
-            entidadeOpcoesDisponiveis = TipoAtividadeCRM.class
-    )
+            entidadeOpcoesDisponiveis = TipoAtividadeCRM.class)
     @ManyToMany(fetch = FetchType.LAZY)
     private List<TipoAtividadeCRM> tiposAtividadeDisponiveis;
 
@@ -157,6 +156,21 @@ public class TipoRelacionamento extends EntidadeSimplesORM implements ComoTemCor
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Atividades que vão para próxima meta")
     @InfoCampoValorLogico(nomeCalculo = "Atividades que levam a próxima meta")
     private List<TipoAtividadeCRM> atividadesUpGradeMeta;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Atividades que vão para próxima meta")
+    @InfoCampoValorLogico(nomeCalculo = "Atividades que Agrupam as atividades")
+    private List<TipoAtividadeCRM> atividadesGrupoDeAtividades;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Atividades que vão para próxima meta")
+    @InfoCampoValorLogico(nomeCalculo = "Todas metas disponíveis")
+    private List<TipoAtividadeCRM> todasAtividadesDisponiveis;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Atividades que vão para próxima meta")
+    @InfoCampoValorLogico(nomeCalculo = "Atividades executivas")
+    private List<TipoAtividadeCRM> atividadesExecutivas;
 
     public int getQtdEmpresasNesteTipoRelacionamento() {
 
@@ -438,6 +452,31 @@ public class TipoRelacionamento extends EntidadeSimplesORM implements ComoTemCor
 
     public void setProximosResponsaveis(List<UsuarioCRM> proximosResponsaveis) {
         this.proximosResponsaveis = proximosResponsaveis;
+    }
+
+    public List<TipoAtividadeCRM> getAtividadesGrupoDeAtividades() {
+        return atividadesGrupoDeAtividades;
+    }
+
+    public void setAtividadesGrupoDeAtividades(List<TipoAtividadeCRM> atividadesGrupoDeAtividades) {
+        this.atividadesGrupoDeAtividades = atividadesGrupoDeAtividades;
+    }
+
+    public List<TipoAtividadeCRM> getAtividadesExecutivas() {
+        return atividadesExecutivas;
+    }
+
+    public void setAtividadesExecutivas(List<TipoAtividadeCRM> atividadesExecutivas) {
+        this.atividadesExecutivas = atividadesExecutivas;
+
+    }
+
+    public List<TipoAtividadeCRM> getTodasAtividadesDisponiveis() {
+        return todasAtividadesDisponiveis;
+    }
+
+    public void setTodasAtividadesDisponiveis(List<TipoAtividadeCRM> todasAtividadesDisponiveis) {
+        this.todasAtividadesDisponiveis = todasAtividadesDisponiveis;
     }
 
 }

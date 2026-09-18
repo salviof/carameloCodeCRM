@@ -4,6 +4,8 @@
  */
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.resposta;
 
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.formulario.TipoFormulario;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
@@ -16,6 +18,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoA
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -73,6 +76,10 @@ public class RespostaFormulario extends EntidadeSimplesORM {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.DATAHORA)
     private Date dataHoraUltimoProcessamento;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = TipoAtividadeCRM.class, fetch = FetchType.LAZY)
+    private AtividadeCRM atividadeExecutada;
 
     @Override
     public Long getId() {
@@ -172,6 +179,14 @@ public class RespostaFormulario extends EntidadeSimplesORM {
 
     public void setAtendenteNotificado(boolean atendenteNotificado) {
         this.atendenteNotificado = atendenteNotificado;
+    }
+
+    public AtividadeCRM getAtividadeExecutada() {
+        return atividadeExecutada;
+    }
+
+    public void setAtividadeExecutada(AtividadeCRM atividadeExecutada) {
+        this.atividadeExecutada = atividadeExecutada;
     }
 
 }

@@ -11,15 +11,6 @@
     xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:panelGroup layout="block" style="margin-top: 2%;" styleClass="Container12 OrganizadorContainer"  >
-
-        <h:panelGroup styleClass="Container3 Fright"  layout="block">
-            <crmPessoa:resumoAtividadeEmAndamento
-                pessoa="#{pgExecutarAtividade.prospecto}"
-                />
-
-        </h:panelGroup>
-    </h:panelGroup>
 
     <h:panelGroup layout="block" style="margin-top: 0.5%;" styleClass="Container12 OrganizadorContainer"  >
 
@@ -45,78 +36,21 @@
                     </p:link>
                 </h:panelGroup>
 
-                <h:panelGroup  styleClass="Container12" layout="block" style="position: relative;height: 800px; " >
 
+                <CRMAtividade:atividadesDisponiveisDesktop pessoa="#{pgExecutarAtividade.prospecto}"/>
 
-                    <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" style="    top: 150px;">
-                        <h:panelGroup style="margin-left: 20px;" styleClass="Container12 OrganizadorContainerEsquerda"  >Grupos de ações da meta: #{pgExecutarAtividade.prospecto.meta.nome} </h:panelGroup>
-                        <CRM:btAtividadesMetaGrupo
-
-                            empresa="#{pgExecutarAtividade.prospecto}"
-                            />
-
-
-
-                        <h:panelGroup layout="block" styleClass="OrganizadorContainerDireita Container12" style="margin:  10px;border-style: outset;" >
-                            <h:form>
-
-                                <CRM:btAtividadesInicioEmpresaGigante
-                                    empresa="#{pgExecutarAtividade.prospecto}"
-                                    />
-                            </h:form>
-
-                        </h:panelGroup>
-                        <h:panelGroup styleClass="Container12"  layout="block" style="" >
-                            <p:fieldset id="statusRelacionamento" >
-                                <h:panelGroup styleClass="Container12 OrganizadorContainer" >
-                                    <h:panelGroup styleClass="Container3 OrganizadorContainer" >
-
-
-                                        <CRM:btAtividadesMetaDowngrade
-                                            empresa="#{pgExecutarAtividade.prospecto}"
-                                            rendered="#{pgExecutarAtividade.prospecto.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor.size()>0}"
-                                            />
-
-
-
-                                    </h:panelGroup>
-                                    <h:panelGroup styleClass="Container5" >
-                                        <p:link href="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar)?infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar,pgExecutarAtividade.prospecto.relacionamento):'#'}" >
-
-                                            <crm:relacionamento tipoRelacionamento="#{pgExecutarAtividade.prospecto.relacionamento}" />
-                                            <p:tooltip
-                                                trackMouse="true"
-                                                for="statusRelacionamento" rendered="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoRelacionamentoMbGerenciar.tipoRelacionamentoFrmEditar)}"
-                                                >
-                                                EDITAR TIPO DE RELACIONAMENTO
-                                            </p:tooltip>
-
-                                        </p:link>
-                                    </h:panelGroup>
-                                    <h:panelGroup styleClass="Container3 OrganizadorContainer" >
-
-                                        <CRM:btAtividadesMetaUpgrade
-                                            empresa="#{pgExecutarAtividade.prospecto}"
-                                            rendered="#{pgExecutarAtividade.prospecto.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor.size()>0}"
-
-                                            />
-
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </p:fieldset>
-                        </h:panelGroup>
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="OrganizadorContainerEsquerda Container12"  style="margin-top: 48px;">
-
-
-
-
-
-                    </h:panelGroup>
-
-                </h:panelGroup>
 
             </p:fieldset>
         </h:panelGroup>
+        <h:panelGroup layout="block" style="margin-top: 2%;" styleClass="Container12 OrganizadorContainer"  >
+
+            <h:panelGroup styleClass="Container3 Fright"  layout="block">
+                <crmPessoa:resumoAtividadeEmAndamento
+                    pessoa="#{pgExecutarAtividade.prospecto}"
+                    />
+
+            </h:panelGroup>
+        </h:panelGroup>
+
     </h:panelGroup>
 </ui:composition>

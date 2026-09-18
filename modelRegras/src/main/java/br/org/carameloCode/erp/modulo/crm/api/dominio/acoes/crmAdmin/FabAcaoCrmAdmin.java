@@ -72,6 +72,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicorecorrente.CPTipo
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicosazonal.CPTipoServicoSazonal;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.tiponotificacao.CPTipoNotificacao;
 
@@ -372,7 +373,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
         "atividadeAgendada", "diasAgendarNovaAtividade"})
     TIPO_ATIVIDADE_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {
-        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade",
+        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade", "textoAjuda",
         "[separador: Visualizacao]", "cor", "icone",
         "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
         "[separador: Condições especiais de execução]", "precisaServicosDefinidos", "precisaTerPreAnalise", "precisaEnviarDocumento",
@@ -746,7 +747,9 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_FORMULARIO_TYPEBOT_CTR_PROCESSAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
     TIPO_FORMULARIO_TYPEBOT_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoFormulario.nome, CPTipoFormulario.reprocessarquandohouvererrodados, CPTipoFormulario.integrardados, "[separador: Notificação]", CPTipoFormulario.notificaratendente, CPTipoFormulario.usuariopadrao})
+    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoFormulario.nome, CPTipoFormulario.origempadrao,
+        "[separador: Estratégia de processamento]", CPTipoFormulario.reprocessarquandohouvererrodados, CPTipoFormulario.integrardados,
+        "[separador: Notificação]", CPTipoFormulario.notificaratendente, CPTipoFormulario.usuariopadrao, "[separador: Ações autoexecução]", "tipoAtividadeAutoExecucao"})
     TIPO_FORMULARIO_TYPEBOT_FRM_EDITAR,
     @InfoTipoAcaoGestaoEntidade(entidade = RespostaFormulario.class)
     RESPOSTAS_FORMULARIO_TYPEBOT_MB_GESTAO,
@@ -846,6 +849,8 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_NOTIFICACAO_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.nomeentidadereferencia})
     TIPO_NOTIFICACAO_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(entidade = TipoNotificacaoUsrComUsr.class, campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.nomeentidadereferencia}, nomeAcao = "Notificações entre usuários")
+    TIPO_NOTIFICACAO_FRM_LISTAR_NOTIFICACOES_ENTRE_USUARIOS,
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
         "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
         "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog, CPTiponotificacaoCRM.tipomensagem,
@@ -859,6 +864,8 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
         "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura})
     TIPO_NOTIFICACAO_FRM_VISUALIZAR,
     @InfoTipoAcaoController(nomeAcao = "Salvar")
-    TIPO_NOTIFICACAO_CTR_SALVAR_MERGE
+    TIPO_NOTIFICACAO_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoController(nomeAcao = "Restaurar mensagem padrão", icone = "fa fa-solid fa-clock-rotate-left")
+    TIPO_NOTIFICACAO_CTR_RESTAURAR,
 
 }

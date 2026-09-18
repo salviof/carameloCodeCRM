@@ -22,7 +22,10 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
 import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
@@ -428,6 +431,14 @@ public class ServicosCRM implements Serializable {
                     SBCore.enviarMensagemUsuario("Categoria não encontrada", FabMensagens.ALERTA);
                     return;
                 }
+
+                SolicitacaoArquivoCliente solicitacaoCliente = null;
+
+                try {
+                    solicitacaoCliente = (SolicitacaoArquivoCliente) event.getComponent().getAttributes().get("solicitacaoArquivoCliente");
+                } catch (Throwable t) {
+                    System.out.println("Solicitação arquivo equipe não enviado");
+                }
                 arquivo.setCategoriaArqCli(categoria);
                 arquivo.getCPinst("arquivo").getComoArquivoDeEntidade().uploadArquivo(file.getFileName(), UtilCRCBytes.gerarBytePorInputstream(file.getInputStream()));
 
@@ -435,6 +446,12 @@ public class ServicosCRM implements Serializable {
                 if (!resposta.isSucesso()) {
                     resposta.dispararMensagens();
 
+                } else {
+                    if (solicitacaoCliente != null) {
+                        if (ModuloCRMCliente.solicitacaoEnvioArquivo(solicitacaoCliente).isSucesso()) {
+                            UtilSBWP_JSFTools.vaParaPagina(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.DOCUMENTOS_FRM_LISTAR_ARQUIVOS_PASTA, solicitacaoCliente.getPessoa(), solicitacaoCliente.getCategoriaArqCliente()));
+                        }
+                    }
                 }
 
             } catch (IOException ex) {

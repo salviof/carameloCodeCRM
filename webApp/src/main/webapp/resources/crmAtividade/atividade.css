@@ -19,3 +19,979 @@
     box-shadow: 0px 0px 40px #898d8e;
 
 }
+
+/* ==========================================================================
+   Modulo compacto de botoes de atividade (quadrados + ajuda em CSS puro).
+   Base de seletor: .botaoAtvDisponivelPessoa
+
+   Cada atividade vira um .SbAtvQuadItem (wrapper) contendo:
+     - checkbox invisivel .SbAtvQuad-ttToggle  -> gatilho da ajuda por toque
+     - o proprio botao (a.SbAtvQuad)
+     - label .SbAtvQuad-ttBotao ("?")          -> abre/fecha a ajuda no mobile
+     - label .SbAtvQuad-ttFundo                -> fecha ao tocar fora
+     - .SbAtvQuad-tooltip                      -> a descricao
+
+   A ajuda abre de tres formas, sem nenhum JavaScript:
+     1. hover, so em dispositivos com mouse;
+     2. foco de teclado no botao (:focus-visible);
+     3. toque/clique no "?" (checkbox :checked) -> unico caminho no mobile.
+
+   A cor da atividade chega pela custom property --act-color, aplicada inline
+   no wrapper. Todo o resto (tintas, hover, bolinha do tooltip) deriva dela
+   via color-mix.
+   ========================================================================== */
+
+/* Registrar a propriedade faz o browser descartar cor invalida e cair no
+   valor inicial, atendendo ao fallback exigido (#57534E). */
+@property --act-color {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #57534E;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuadLista{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    overflow: visible;
+    margin-left: 10px;
+    padding: 4px 0;
+}
+
+/* ----- Wrapper de cada atividade (ancora do tooltip e da cor) ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuadItem{
+    /* fallback de cor: vale quando o inline nao vier ou for invalido */
+    --act-color: #57534E;
+    /* tamanho M (padrao) */
+    --atv-lado: 104px;
+    --atv-icone: 44px;
+    --atv-icone-fs: 22px;
+    --atv-nome-fs: 12.5px;
+    --atv-ajuda: 20px;
+
+    position: relative;
+    flex: 0 0 auto;
+}
+
+/* ----- Botao ----- */
+.botaoAtvDisponivelPessoa a.SbAtvQuad{
+    position: relative;
+    box-sizing: border-box;
+    width: var(--atv-lado);
+    height: var(--atv-lado);
+    padding: 10px 8px;
+    border: 1px solid #E7E5E4;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.botaoAtvDisponivelPessoa a.SbAtvQuad:hover,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active{
+    text-decoration: none;
+}
+
+/* ----- Variacoes de tamanho ----- */
+/* P: icone e nome maiores que o desenho original, que ficava apertado de
+   ler. O lado cresce um pouco e o padding encolhe, para as duas linhas do
+   nome continuarem caindo dentro do quadrado. */
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-P,
+.botaoAtvDisponivelPessoa a.SbAtvQuad-P{
+    --atv-lado: 96px;
+    --atv-icone: 40px;
+    --atv-icone-fs: 20px;
+    --atv-nome-fs: 12px;
+    --atv-ajuda: 20px;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad-P{
+    padding: 8px 6px;
+    gap: 6px;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-M,
+.botaoAtvDisponivelPessoa a.SbAtvQuad-M{
+    --atv-lado: 104px;
+    --atv-icone: 44px;
+    --atv-icone-fs: 22px;
+    --atv-nome-fs: 12.5px;
+    --atv-ajuda: 20px;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-G,
+.botaoAtvDisponivelPessoa a.SbAtvQuad-G{
+    --atv-lado: 120px;
+    --atv-icone: 52px;
+    --atv-icone-fs: 26px;
+    --atv-nome-fs: 14px;
+    --atv-ajuda: 22px;
+}
+
+/* ----- Icone ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-icone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: var(--atv-icone);
+    height: var(--atv-icone);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--act-color) 10%, #fff);
+    transition: background-color .15s ease;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-i{
+    font-size: var(--atv-icone-fs);
+    line-height: 1;
+    color: var(--act-color);
+    transition: color .15s ease;
+}
+
+/* ----- Nome ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-nome{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    font-size: var(--atv-nome-fs);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    color: #1C1917;
+    overflow-wrap: anywhere;
+}
+
+/* ----- Estado ativo do botao -----
+   O translate fica so em quem tem mouse, para nao "grudar" o hover no touch. */
+@media (hover: hover) and (pointer: fine){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover a.SbAtvQuad{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(28,25,23,.10);
+        border-color: var(--act-color);
+        background-color: color-mix(in srgb, var(--act-color) 6%, #fff);
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-icone{
+        background-color: var(--act-color);
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-i{
+        color: #FFFFFF;
+    }
+    /* o badge acompanha o botao para nao se soltar do canto */
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-ttBotao{
+        transform: translateY(-2px);
+    }
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(28,25,23,.10);
+    border-color: var(--act-color);
+    background-color: color-mix(in srgb, var(--act-color) 6%, #fff);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible .SbAtvQuad-icone,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active .SbAtvQuad-icone{
+    background-color: var(--act-color);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible .SbAtvQuad-i,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active .SbAtvQuad-i{
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+    transform: translateY(-2px);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus{
+    outline: none;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+}
+
+/* ----- Gatilho da ajuda -----
+   Checkbox invisivel mas focavel: e ele que guarda o estado aberto/fechado. */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 3;
+    box-sizing: border-box;
+    width: var(--atv-ajuda);
+    height: var(--atv-ajuda);
+    border: 1px solid #E7E5E4;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.10);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--atv-ajuda) * .52);
+    line-height: 1;
+    color: color-mix(in srgb, var(--act-color) 75%, #000);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttBotao{
+    background-color: var(--act-color);
+    border-color: var(--act-color);
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:focus-visible ~ .SbAtvQuad-ttBotao{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+}
+
+/* Area de toque folgada no dedo, sem inflar o desenho do badge. */
+@media (hover: none), (pointer: coarse){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem{
+        --atv-ajuda: 24px;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao::after{
+        content: '';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        bottom: -5px;
+        left: -5px;
+    }
+}
+
+/* Fecha a ajuda ao tocar em qualquer lugar fora dela. */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttFundo{
+    display: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttFundo{
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 998;
+    background-color: transparent;
+    cursor: default;
+}
+
+/* ----- Tooltip (descricao) ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-tooltip{
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    width: 232px;
+    z-index: 1000;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #1C1917;
+    box-shadow: 0 10px 24px rgba(28,25,23,.22);
+    text-align: left;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .12s ease, visibility .12s ease;
+}
+
+/* 1. mouse */
+@media (hover: hover) and (pointer: fine){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-tooltip{
+        opacity: 1;
+        visibility: visible;
+    }
+}
+/* 2. teclado (so o botao; o foco do checkbox nao abre, senao nao fecharia) */
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-tooltip{
+    opacity: 1;
+    visibility: visible;
+}
+/* 3. toque/clique no "?" - caminho do mobile */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-tooltip{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttSeta{
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: #1C1917;
+    transform: rotate(45deg);
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttTitulo{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttPonto{
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--act-color) 60%, #fff);
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttNome{
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttDesc{
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #E7E5E4;
+}
+
+/* Primeiro e ultimo item: encosta o tooltip na borda para nao sair da tela */
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-tooltip{
+    left: 0;
+    right: auto;
+    transform: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-ttSeta{
+    left: 44px;
+    right: auto;
+    margin-left: 0;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-tooltip{
+    left: auto;
+    right: 0;
+    transform: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-ttSeta{
+    left: auto;
+    right: 44px;
+    margin-left: 0;
+}
+
+/* ----- Telas estreitas -----
+   Em vez de tentar encaixar 232px ao lado do botao, a ajuda vira uma faixa
+   fixa no rodape: sempre cabe, independente de qual botao foi tocado. */
+@media (max-width: 600px){
+    .botaoAtvDisponivelPessoa .SbAtvQuadLista{
+        justify-content: center;
+        margin-left: 0;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-tooltip,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-tooltip,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-tooltip{
+        position: fixed;
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        transform: none;
+        padding: 14px 16px;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttSeta{
+        display: none;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttFundo{
+        background-color: rgba(28,25,23,.28);
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .botaoAtvDisponivelPessoa a.SbAtvQuad,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-icone,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-i,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-tooltip{
+        transition: none;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover a.SbAtvQuad,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:active,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Bloco desktop de atividades disponiveis (atividadesDisponiveisDesktop).
+   Base de seletor: .AtividadesDisponiveis / .AtividadesDisponiveisDesktop
+
+   Duas colunas embutidas na pagina, sem modal e sem sobreposicao:
+     - .AtvDispMenu      -> menu de relacionamentos (largura fixa, rola sozinho)
+     - .AtvDispConteudo  -> um painel por vez (rola sozinho)
+     - .AtvDispMetas     -> rodape de metas, largura inteira
+
+   A previa por hover/foco e a fixacao por clique so trocam qual
+   .AtvDispPainel--ativo esta visivel; quem controla isso e o script do
+   componente. Aqui ficam apenas os estados.
+   ========================================================================== */
+
+.AtividadesDisponiveis{
+    /* tokens do bloco: ajuste os valores, os nomes sao usados pelo restante */
+    --atvDisp-menu-lar: 260px;
+    --atvDisp-altura-max: 420px;
+    --atvDisp-altura-min: 260px;
+    --atvDisp-cor-destaque: #1D4ED8;
+    --atvDisp-cor-atual: #047857;
+    --atvDisp-cor-borda: #E7E5E4;
+    --atvDisp-cor-texto: #1C1917;
+    --atvDisp-cor-apoio: #78716C;
+}
+
+.AtividadesDisponiveisDesktop{
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--atvDisp-cor-texto);
+}
+
+/* Linha de contexto herdada do cabecalho da pagina: nao e barra de titulo. */
+.AtvDispCabecalho{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 0 10px 0;
+    font-size: 13px;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* Como gatilho de previa do estagio atual, o cabecalho precisa dar sinal de
+   que responde ao mouse -- sem virar botao, porque clicar nele nao faz nada. */
+.AtvDispCabecalho[data-atvdisp-previa]{
+    margin-left: -6px;
+    padding: 4px 6px 10px 6px;
+    border-radius: 8px;
+    transition: background-color .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispCabecalho[data-atvdisp-previa]:hover{
+        background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 6%, #fff);
+        color: var(--atvDisp-cor-texto);
+    }
+}
+@media (prefers-reduced-motion: reduce){
+    .AtvDispCabecalho[data-atvdisp-previa]{
+        transition: none;
+    }
+}
+
+/* ----- Corpo: menu fixo a esquerda, conteudo ocupando o resto -----
+   Seletor com dois niveis de propósito: .AtvDispCorpo tambem carrega
+   OrganizadorContainerEsquerda, e o flex-wrap do CRC tem a mesma
+   especificidade; o nivel extra garante a ordem independente de qual
+   folha for carregada depois. */
+.AtividadesDisponiveisDesktop .AtvDispCorpo{
+    align-items: stretch;
+    flex-wrap: nowrap;
+    min-height: var(--atvDisp-altura-min);
+    border-top: 1px solid var(--atvDisp-cor-borda);
+}
+
+.AtvDispMenu{
+    box-sizing: border-box;
+    flex: 0 0 var(--atvDisp-menu-lar);
+    width: var(--atvDisp-menu-lar);
+    max-height: var(--atvDisp-altura-max);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 12px 12px 0;
+}
+
+.AtvDispMenuGrupo + .AtvDispMenuGrupo{
+    margin-top: 14px;
+}
+.AtvDispMenuRotulo{
+    display: block;
+    margin: 0 0 6px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* ----- Linha de relacionamento -----
+   Nome longo quebra em duas linhas; o contador nunca sai da linha. */
+.AtvDispRelLinha{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 4px 0;
+    padding: 8px 10px;
+    border: 0;
+    border-left: 3px solid transparent;
+    border-radius: 8px;
+    background-color: transparent;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.AtvDispRelLinha:hover{
+    background-color: rgba(28,25,23,.04);
+}
+.AtvDispRelLinha:focus{
+    outline: none;
+}
+.AtvDispRelLinha:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+
+.AtvDispRelIconeArea{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(28,25,23,.05);
+}
+.AtvDispRelIcone{
+    font-size: 14px;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio);
+}
+
+.AtvDispRelTexto{
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.AtvDispRelNome{
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+.AtvDispRelContador{
+    display: block;
+    margin-top: 2px;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* Marca do relacionamento vigente: barra lateral + selo em texto, para a
+   informacao nao depender so de cor. */
+.AtvDispRelLinha--atual{
+    border-left-color: var(--atvDisp-cor-atual);
+}
+.AtvDispRelSelo{
+    flex: 0 0 auto;
+    align-self: center;
+    padding: 2px 6px;
+    border: 1px solid color-mix(in srgb, var(--atvDisp-cor-atual) 35%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--atvDisp-cor-atual) 8%, #fff);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--atvDisp-cor-atual);
+}
+
+/* Linha exibida no momento (fixada ou em previa). */
+.AtvDispRelLinha--ativa{
+    background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 8%, #fff);
+    border-left-color: var(--atvDisp-cor-destaque);
+}
+.AtvDispRelLinha--ativa .AtvDispRelNome{
+    color: var(--atvDisp-cor-destaque);
+}
+.AtvDispRelLinha--ativa .AtvDispRelIconeArea{
+    background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 12%, #fff);
+}
+.AtvDispRelLinha--ativa .AtvDispRelIcone{
+    color: var(--atvDisp-cor-destaque);
+}
+
+/* ----- Area de conteudo ----- */
+.AtvDispConteudo{
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-height: var(--atvDisp-altura-max);
+    overflow-y: auto;
+    padding: 12px 0 12px 16px;
+    border-left: 1px solid var(--atvDisp-cor-borda);
+}
+
+/* Um relacionamento por vez, nunca dois. */
+.AtvDispPainel{
+    display: none;
+}
+.AtvDispPainel--ativo{
+    display: block;
+}
+
+.AtvDispPainelTopo{
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.AtvDispPainelNome{
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.AtvDispPainelSelo{
+    padding: 3px 8px;
+    border: 1px solid color-mix(in srgb, var(--atvDisp-cor-atual) 35%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--atvDisp-cor-atual) 8%, #fff);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--atvDisp-cor-atual);
+}
+
+/* ----- Acao isolada de mudanca de relacionamento -----
+   btAtividadeAgrupamento renderiza .SbAtvQuadItem FORA de
+   .botaoAtvDisponivelPessoa, e toda a base dos botoes quadrados esta
+   escopada naquele ancestral. Logo, aqui nao ha base nenhuma para
+   sobrescrever: a pill precisa ser descrita por inteiro, inclusive o
+   display:flex do proprio link -- sem ele o rotulo quebrava no meio,
+   metade acima e metade abaixo do icone.
+
+   A cor sai de --act-color, que o componente aplica inline a partir de
+   tipoAtividade.cor; o fallback do @property cobre cor ausente ou invalida. */
+.AtvDispPainelTopoAcao{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.AtvDispPainelTopoDica{
+    flex: 0 0 auto;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--atvDisp-cor-apoio);
+}
+.AtvDispPainelTopoAcao .SbAtvQuadItem,
+.AtvDispPainelTopoAcao .BotaoTipoAtividadeGrupoAcoes{
+    position: relative;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad{
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+
+    width: auto;
+    height: auto;
+    min-height: 36px;
+    max-width: 280px;
+    padding: 5px 14px 5px 6px;
+
+    border: 1px solid color-mix(in srgb, var(--act-color) 45%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--act-color) 8%, #fff);
+    box-shadow: 0 1px 2px rgba(28,25,23,.06);
+
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:hover,
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus,
+.AtvDispPainelTopoAcao a.SbAtvQuad:active{
+    text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispPainelTopoAcao a.SbAtvQuad:hover{
+        border-color: var(--act-color);
+        background-color: color-mix(in srgb, var(--act-color) 16%, #fff);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+    }
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus{
+    outline: none;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+/* Icone em disco cheio: e o que da a leitura imediata de botao. */
+.AtvDispPainelTopoAcao .SbAtvQuad-icone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--act-color);
+}
+.AtvDispPainelTopoAcao .SbAtvQuad-i{
+    font-size: 13px;
+    line-height: 1;
+    color: #FFFFFF;
+}
+.AtvDispPainelTopoAcao .SbAtvQuad-nome{
+    display: block;          /* item flex: nao gera quebra de linha */
+    flex: 0 1 auto;
+    min-width: 0;
+    width: auto;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: color-mix(in srgb, var(--act-color) 70%, #1C1917);
+}
+
+.AtvDispPainelRotulo{
+    display: block;
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvDisp-cor-apoio);
+}
+
+.AtvDispVazio{
+    margin: 0;
+    padding: 12px 0;
+    font-size: 13px;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* ----- Lista de atividades: coluna alinhada, nao grade -----
+   Os botoes vem dos componentes btAtividadeExecutiva/Dupla como quadrados;
+   dentro do painel eles viram linhas de largura inteira, que sao mais faceis
+   de varrer quando os nomes tem comprimentos bem diferentes. */
+.AtvDispPainelLista .SbAtvQuadLista{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-left: 0;
+}
+.AtvDispPainelLista .SbAtvQuadItem{
+    width: 100%;
+}
+/* O tamanho pedido (P/M/G) chega pelos tokens --atv-* que o wrapper do botao
+   declara. Aqui eles sao reaproveitados em vez de px fixo: com valor fixo, o
+   tamanho do componente nao mudava nada na lista empilhada. O fator reduz o
+   disco em relacao ao desenho quadrado, que e alto demais para uma linha.
+   O segundo argumento de cada var() e o fallback do tamanho M. */
+.AtvDispPainelLista a.SbAtvQuad{
+    width: 100%;
+    height: auto;
+    min-height: calc(var(--atv-icone, 44px) * .8 + 20px);
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 8px 40px 8px 12px;
+    border-radius: 10px;
+}
+.AtvDispPainelLista .SbAtvQuad-icone{
+    width: calc(var(--atv-icone, 44px) * .8);
+    height: calc(var(--atv-icone, 44px) * .8);
+    border-radius: 10px;
+}
+.AtvDispPainelLista .SbAtvQuad-i{
+    font-size: calc(var(--atv-icone-fs, 22px) * .9);
+}
+.AtvDispPainelLista .SbAtvQuad-nome{
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    font-size: calc(var(--atv-nome-fs, 12.5px) + 1px);
+    text-align: left;
+    overflow: visible;
+    text-overflow: clip;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+}
+/* O "?" acompanha a linha: centralizado a direita, sem o salto vertical
+   que o tratamento quadrado aplica no hover. */
+.AtvDispPainelLista .SbAtvQuad-ttBotao,
+.AtvDispPainelLista .SbAtvQuadItem:hover .SbAtvQuad-ttBotao,
+.AtvDispPainelLista a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+.AtvDispPainelLista a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+.AtvDispPainelLista .SbAtvQuad-tooltip{
+    left: 12px;
+    right: auto;
+    transform: none;
+}
+.AtvDispPainelLista .SbAtvQuad-ttSeta{
+    left: 24px;
+    margin-left: 0;
+}
+
+/* Botao em execucao: sinaliza o andamento; os cliques repetidos sao
+   descartados pelo script, nao pelo CSS. */
+.AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando,
+.AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando{
+    pointer-events: none;
+    opacity: .7;
+}
+.AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i,
+.AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i{
+    animation: AtvDispPulsar 1s ease-in-out infinite;
+}
+@keyframes AtvDispPulsar{
+    0%, 100% {
+        opacity: 1;
+    }
+    50%      {
+        opacity: .35;
+    }
+}
+
+/* O seletor de atividades de outro relacionamento traz um separador e o seu
+   proprio bloco de metas; aqui o rodape de metas e unico e fica embaixo do
+   bloco, entao o interno e neutralizado. */
+.AtvDispPainelLista > .botaoAtvDisponivelPessoa > .OrganizadorContainerExpandido,
+.AtvDispPainelLista .ui-separator{
+    display: none;
+}
+
+/* ----- Rodape de metas -----
+   Peso visual proprio, menor que o das linhas do menu: regride na ponta
+   esquerda, avanca na direita, seta apontando para o lado de cada um. */
+.AtvDispMetas{
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+    padding: 10px 0 0 0;
+    border-top: 1px solid var(--atvDisp-cor-borda);
+}
+.AtvDispMetaLado{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--atvDisp-cor-apoio);
+}
+.AtvDispMetaLado--avanca{
+    margin-left: auto;
+}
+/* Os btAtividadesMeta* sao p:commandButton (.ui-button) dentro do proprio
+   h:form, nao botoes quadrados. O "> form" mantem o estilo restrito ao
+   botao do rodape: o p:dialog que cada um carrega fica fora do form e
+   segue com a aparencia padrao do PrimeFaces. */
+.AtvDispMetaLado > form{
+    display: inline-flex;
+    margin: 0;
+}
+.AtvDispMetaLado > form > .ui-button{
+    min-height: 30px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--atvDisp-cor-borda);
+    background: #FFFFFF;
+    background-image: none;
+    box-shadow: none;
+    color: var(--atvDisp-cor-apoio);
+    font-size: 12px;
+    font-weight: 600;
+}
+.AtvDispMetaLado > form > .ui-button .ui-button-text{
+    padding: 0 0 0 6px;
+    font-size: 12px;
+}
+.AtvDispMetaLado > form > .ui-button .ui-icon,
+.AtvDispMetaLado > form > .ui-button .ui-button-icon-left{
+    font-size: 11px;
+    color: var(--atvDisp-cor-apoio);
+}
+.AtvDispMetaLado > form > .ui-button:hover{
+    border-color: var(--atvDisp-cor-apoio);
+    background: color-mix(in srgb, var(--atvDisp-cor-texto) 4%, #fff);
+    color: var(--atvDisp-cor-texto);
+}
+
+/* ----- Telas estreitas -----
+   O componente e o desktop (existe um irmao mobile), mas abaixo da largura
+   em que as duas colunas param de caber o menu passa para cima do conteudo,
+   em vez de comprimir os dois. */
+@media (max-width: 760px){
+    .AtividadesDisponiveisDesktop .AtvDispCorpo{
+        flex-wrap: wrap;
+    }
+    .AtvDispMenu{
+        flex: 1 1 100%;
+        width: 100%;
+        max-height: none;
+        padding-right: 0;
+    }
+    .AtvDispConteudo{
+        flex: 1 1 100%;
+        max-height: none;
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid var(--atvDisp-cor-borda);
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .AtvDispRelLinha{
+        transition: none;
+    }
+    .AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i,
+    .AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i{
+        animation: none;
+    }
+}

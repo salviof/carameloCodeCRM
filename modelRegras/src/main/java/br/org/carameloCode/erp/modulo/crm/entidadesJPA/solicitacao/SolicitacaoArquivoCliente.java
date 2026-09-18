@@ -9,6 +9,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoPessoal.ContatoPessoal;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -39,6 +40,13 @@ public class SolicitacaoArquivoCliente extends Solicitacao {
     public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
         setPessoa(getParametroInicialEnviado(Pessoa.class, parametros));
         setUsuarioSolicitante((UsuarioCRM) SBCore.getUsuarioLogado());
+        if (isTemParametroDesteTipo(UsuarioCrmCliente.class, parametros)) {
+            setUsuarioSolicitado(getParametroInicialEnviado(UsuarioCrmCliente.class, parametros));
+            if (getUsuarioSolicitado() != null) {
+                setContatoPessoa(getUsuarioSolicitado().getComoUsuarioCliente().getContatoClienteVinculado());
+            }
+        }
+        setTipoSolicitacao(FabTipoSolicitacao.SOLICITACAO_NOVO_DOCUMENTO_CLIENTE.getRegistro());
     }
 
     public SolicitacaoArquivoCliente() {

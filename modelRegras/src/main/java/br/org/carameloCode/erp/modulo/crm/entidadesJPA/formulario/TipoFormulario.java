@@ -23,6 +23,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import br.org.carameloCode.erp.modulo.crm.api.model.respostaformulario.CPRespostaFormulario;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
+import javax.persistence.FetchType;
 import javax.persistence.Transient;
 import org.hibernate.annotations.Formula;
 
@@ -39,7 +42,7 @@ public class TipoFormulario
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @InfoCampoValorLogico(nomeCalculo = "nome", somenteLeitura = true)
+    @InfoCampoValorLogico(nomeCalculo = "nome", somenteLeitura = false)
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
@@ -78,6 +81,10 @@ public class TipoFormulario
     @OneToMany(mappedBy = CPRespostaFormulario.tipoformulario)
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES, somenteLeitura = true)
     private List<RespostaFormulario> respostas;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @ManyToOne(targetEntity = TipoAtividadeCRM.class)
+    private TipoAtividadeCRM tipoAtividadeAutoExecucao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     @InfoCampoValorLogico(nomeCalculo = "Qtade Respostas")
@@ -209,6 +216,14 @@ public class TipoFormulario
 
     public void setQtdRespostas(int qtdRespostas) {
         this.qtdRespostas = qtdRespostas;
+    }
+
+    public TipoAtividadeCRM getTipoAtividadeAutoExecucao() {
+        return tipoAtividadeAutoExecucao;
+    }
+
+    public void setTipoAtividadeAutoExecucao(TipoAtividadeCRM tipoAtividadeAutoExecucao) {
+        this.tipoAtividadeAutoExecucao = tipoAtividadeAutoExecucao;
     }
 
 }

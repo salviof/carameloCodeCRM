@@ -42,7 +42,7 @@ public class ValorLogicoPesquisaAtividadeAtividadesEncontradas
         }
 
         consulta.setOrdemIdReversa();
-        List<AtividadeCRM> atividades = consulta.resultadoRegistros();
+        List<AtividadeCRM> atividades = consulta.gerarResultados(100);
         getPesquisa().setAtividadesEncontradas(atividades);
         return getPesquisa().getAtividadesEncontradas();
     }

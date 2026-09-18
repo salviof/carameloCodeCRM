@@ -1,0 +1,90 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="conteudo">
+        <div class="CardTopic " style="margin-left: 10px; height: 100px;padding: 10px; position: relative;">
+            #{pgClienteMinhasSolicitacoes.entidadeSelecionada.comoSolicitacaoArquivoCliente.nome}
+            <i class="fa fa-folder-open-o Fs100 Fleft MarRight10"></i>
+            <br/>
+            <div class="quebraBlocoComEspacoVertical10 somenteMobile"></div>
+            <span class="CardSubTopic FontAdamantiumBold Fs16">
+                <br/>
+                Atendendo a solicitação de #{pgClienteMinhasSolicitacoes.entidadeSelecionada.usuarioSolicitante.nome}<br/>
+                Compartilhamento de documento para #{pgClienteMinhasSolicitacoes.entidadeSelecionada.pessoa.nome}<br/>
+
+                <h:panelGroup layout="block" styleClass="Container3 " id="usrTEam" >
+
+
+                </h:panelGroup>
+            </span>
+            <h:panelGroup styleClass="" style="position: absolute;margin-left: 40px;top: 320px;left:  1px;"  layout="block"  >
+
+                <crm:avatar usuario="#{pgClienteMinhasSolicitacoes.entidadeSelecionada.usuarioSolicitante}" somenteLeitura="true" altura="90" />
+                <h:panelGroup styleClass="fa fa-hand-paper-o Fs40 containerBtnSeletor"   style="margin-left: 90px;margin-top: -180px;"  /><br/>
+                <span style="font-style: italic;" class="Fs24" >"#{pgClienteMinhasSolicitacoes.entidadeSelecionada.observacao}"</span>
+            </h:panelGroup>
+
+        </div>
+
+        <h:form>
+            <p:remoteCommand name="atualizarVisaoArquivosPessoa" actionListener="#{pgClienteMinhasSolicitacoes.atualizarEntidadeSelecionada()}"
+                             update="arquivosDaCategoria"
+                             >
+
+            </p:remoteCommand>
+
+        </h:form>
+
+
+        <p:fieldset  style="border: 0px; width: 100%;">
+            <h:form  enctype="multipart/form-data">
+                <p:fileUpload
+                    mode="advanced"  multiple="true"
+
+                    auto="true"
+                    listener="#{servicosCRM.enviarArquivosClientePessoa}"
+                    update="@parent"
+                    styleClass="inputDropArquivo"
+                    sizeLimit="15485760" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xml|xmlx)$/"
+                    invalidSizeMessage="O tamanho máximo permitido é 100 KB"
+                    invalidFileMessage="Este tipo de arquivo não é permitido, apenas: png|pdf|doc|docx|xml|xmlx são permitidos"
+                    label="Procurar no meu dispositivo local"
+                    oncomplete="atualizarVisaoArquivosPessoa();"
+                    uploadLabel="Atualizar Arquivos da Pessoa"
+                    cancelLabel="Cancelar"
+
+                    >
+                    <f:attribute name="pessoa"  value="#{pgClienteMinhasSolicitacoes.entidadeSelecionada.comoSolicitacaoArquivoCliente.comoSolicitacaoArquivoCliente.pessoa}" />
+                    <f:attribute name="categoriaCliente"  value="#{pgClienteMinhasSolicitacoes.entidadeSelecionada.comoSolicitacaoArquivoCliente.categoriaArqCliente}" />
+                    <f:attribute name="solicitacaoArquivoCliente"  value="#{pgClienteMinhasSolicitacoes.entidadeSelecionada}" />
+                </p:fileUpload>
+            </h:form>
+
+            <h:panelGroup styleClass="Container12" style="margin-top: -250px; padding-left: 50%;" layout="block" >
+
+                <p:graphicImage  library="img" alt="Arraste arquivos aqui para vincular o arquivo à pessoa." name="upload-illustration.png" />
+                (ou arraste aqui)
+            </h:panelGroup>
+        </p:fieldset>
+
+        <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
+        <h:panelGroup styleClass="Container12 quebraBlocoComEspacoVertical150" layout="block" />
+        <p:fieldset styleClass="Container12" id="arquivosDaCategoria" >
+            [#{pgClienteMinhasSolicitacoes.entidadeSelecionada.comoSolicitacaoArquivoCliente.categoriaArqCliente.nome}]
+
+
+
+
+
+        </p:fieldset>
+
+
+    </ui:define>
+</ui:composition>

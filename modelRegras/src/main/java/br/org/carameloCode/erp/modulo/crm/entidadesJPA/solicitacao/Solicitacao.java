@@ -467,6 +467,10 @@ public class Solicitacao extends EntidadeSimplesORM implements ComoDialogo {
         return (SolicitacaoArquivoEquipe) this;
     }
 
+    public SolicitacaoArquivoCliente getComoSolicitacaoArquivoCliente() {
+        return (SolicitacaoArquivoCliente) this;
+    }
+
     @Override
     public List<ERPTipoCanalComunicacao> getCanais() {
         return Lists.newArrayList(ERPTipoCanalComunicacao.INTRANET_MENU, ERPTipoCanalComunicacao.MATRIX);

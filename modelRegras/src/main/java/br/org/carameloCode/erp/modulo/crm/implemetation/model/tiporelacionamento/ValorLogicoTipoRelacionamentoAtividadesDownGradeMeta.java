@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.crm.implemetation.model.tiporelacionamento;
 
+import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
@@ -23,26 +24,23 @@ public class ValorLogicoTipoRelacionamentoAtividadesDownGradeMeta
     @Override
     public Object getValor(Object... pEntidade) {
 
-        if (getTipoRelacionamento().getId() != null) {
+        if (getTipoRelacionamento().getId() == null) {
             return getTipoRelacionamento().getAtividadesDownGradeMeta();
         }
 
         if (!valordefinido) {
+            try {
+                List<TipoAtividadeCRM> tiposDoRelacionamentoAtual = new ArrayList<>();
+                List<TipoAtividadeCRM> todosTipos = (List<TipoAtividadeCRM>) getTipoRelacionamento().getCPinst(CPTipoRelacionamento.todasatividadesdisponiveis).getValor();
 
-            List<TipoAtividadeCRM> tiposDoRelacionamentoAtual = new ArrayList<>();
-            List<TipoAtividadeCRM> tiposDaMetaAtual = new ArrayList<>();
+                todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null
+                        && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() < getTipoRelacionamento().getMetaRelacionamento().getPeso())
+                        .forEach(tiposDoRelacionamentoAtual::add);
 
-            getTipoRelacionamento().getTiposAtividadeDisponiveis().stream().filter(at -> at.getRelacionamentoGerado() != null
-                    && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() < getTipoRelacionamento().getMetaRelacionamento().getPeso())
-                    .forEach(tiposDoRelacionamentoAtual::add);
-
-            getTipoRelacionamento().getMetaRelacionamento().getTiposAtividadeDisponiveis().stream().filter(at -> at.getRelacionamentoGerado() != null
-                    && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() < getTipoRelacionamento().getMetaRelacionamento().getPeso())
-                    .forEach(tiposDaMetaAtual::add);
-            tiposDaMetaAtual.stream().filter(tipo -> !tiposDoRelacionamentoAtual.contains(tipo)).forEach(tiposDoRelacionamentoAtual::add);
-
-            getTipoRelacionamento().setAtividadesDownGradeMeta(tiposDoRelacionamentoAtual);
-            valordefinido = true;
+                getTipoRelacionamento().setAtividadesDownGradeMeta(tiposDoRelacionamentoAtual);
+            } finally {
+                valordefinido = true;
+            }
         }
         return getTipoRelacionamento().getAtividadesDownGradeMeta();
     }

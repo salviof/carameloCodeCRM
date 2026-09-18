@@ -22,7 +22,10 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
 import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
@@ -167,6 +170,28 @@ public class ServicosCRM implements Serializable {
             String urlAtividade = MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro(),
                     pAtividade.getTipoAtividade(), pAtividade.getProspectoEmpresa(), pAtividade);
             UtilSBWP_JSFTools.vaParaPagina(urlAtividade);
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao iniciar ", t);
+            SBCore.enviarMensagemUsuario("Não foi possível iniciar a atividade :(", FabMensagens.AVISO);
+        }
+    }
+
+    public void iniciarAtividadeApartirDeAtividadeDoGrupo(Pessoa pEmpresa, TipoAtividadeCRM atividadeGrupo, TipoAtividadeCRM pTipoAtividadeExecucao) {
+        try {
+            if (tipoAtividadeSelecionada == null) {
+                throw new UnsupportedOperationException("O tipo de atividade não foi enviado");
+            }
+            if (pEmpresa == null) {
+                throw new UnsupportedOperationException("O prospecto não foi enviado");
+            }
+            AtividadeCRM novaTividade = new AtividadeCRM();
+            novaTividade.prepararNovoObjeto(pEmpresa, atividadeGrupo);
+
+            ItfRespostaAcaoDoSistema resposta = ModuloCRMAtendimento.atividadeAtoExecucao(novaTividade);
+            if (resposta.isSucesso()) {
+                String urlAtividade = MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro(), pTipoAtividadeExecucao, pEmpresa);
+                UtilSBWP_JSFTools.vaParaPagina(urlAtividade);
+            }
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao iniciar ", t);
             SBCore.enviarMensagemUsuario("Não foi possível iniciar a atividade :(", FabMensagens.AVISO);
@@ -428,6 +453,14 @@ public class ServicosCRM implements Serializable {
                     SBCore.enviarMensagemUsuario("Categoria não encontrada", FabMensagens.ALERTA);
                     return;
                 }
+
+                SolicitacaoArquivoCliente solicitacaoCliente = null;
+
+                try {
+                    solicitacaoCliente = (SolicitacaoArquivoCliente) event.getComponent().getAttributes().get("solicitacaoArquivoCliente");
+                } catch (Throwable t) {
+                    System.out.println("Solicitação arquivo equipe não enviado");
+                }
                 arquivo.setCategoriaArqCli(categoria);
                 arquivo.getCPinst("arquivo").getComoArquivoDeEntidade().uploadArquivo(file.getFileName(), UtilCRCBytes.gerarBytePorInputstream(file.getInputStream()));
 
@@ -435,6 +468,12 @@ public class ServicosCRM implements Serializable {
                 if (!resposta.isSucesso()) {
                     resposta.dispararMensagens();
 
+                } else {
+                    if (solicitacaoCliente != null) {
+                        if (ModuloCRMCliente.solicitacaoEnvioArquivo(solicitacaoCliente).isSucesso()) {
+                            UtilSBWP_JSFTools.vaParaPagina(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCRMCliente.DOCUMENTOS_FRM_LISTAR_ARQUIVOS_PASTA, solicitacaoCliente.getPessoa(), solicitacaoCliente.getCategoriaArqCliente()));
+                        }
+                    }
                 }
 
             } catch (IOException ex) {

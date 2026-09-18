@@ -23,26 +23,26 @@
                 <div class="Fright" style="margin-top: 60px;" >
                     <h:form>
                         <crm:botaoPersonalizado titulo="Me Lembre em 30 minutos" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
-                                                metodo="#{pgMeusProspectos.agendarEmMeiaHora(atividade)}"
+                                                metodo="#{servicoCRMAtividade.agendarEmMeiaHora(atividade)}"
                                                 icone="fa fa-clock-o"
                                                 onStart="PF('blockAcaoRapida').show()"
                                                 onComplete="PF('blockAcaoRapida').hide()"
                                                 />
 
                         <crm:botaoPersonalizado titulo="Me Lembre em 2 Horas" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
-                                                metodo="#{pgMeusProspectos.agendarEm2Horas(atividade)}"
+                                                metodo="#{servicoCRMAtividade.agendar2Horas(atividade)}"
                                                 icone="fa fa-clock-o fa-2x"
                                                 onStart="PF('blockAcaoRapida').show()"
                                                 onComplete="PF('blockAcaoRapida').hide()"
                                                 />
                         <crm:botaoPersonalizado titulo="Me Lembre Amanhã" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
-                                                metodo="#{pgMeusProspectos.agendarParaAmanha(atividade)}"
+                                                metodo="#{servicoCRMAtividade.agendarAmanha(atividade)}"
                                                 icone="fa fa-calendar-check-o"
                                                 onStart="PF('blockAcaoRapida').show()"
                                                 onComplete="PF('blockAcaoRapida').hide()"
                                                 />
                         <crm:botaoPersonalizado titulo="Cancelar" atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
-                                                metodo="#{pgMeusProspectos.cancelarRapido(atividade)}"
+                                                metodo="#{servicoCRMAtividade.cancelarRapido(atividade)}"
                                                 icone="fa fa-ban text-danger "
                                                 onStart="PF('blockAcaoRapida').show()"
                                                 onComplete="PF('blockAcaoRapida').hide()"

@@ -118,6 +118,9 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReser
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
+import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.DADOS_NAO_REVISADOS;
+import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.PRECISA_ENVIAR_EMAIL;
+import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.PRECISA_GERAR_DOCUMENTO;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.EventoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.NotificacaoResponsaveisChamado;
@@ -132,6 +135,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.R
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilCRCPersistenciaJDBC;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import java.sql.Connection;
@@ -571,6 +575,72 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                 setRetorno(atv);
             }
         }.getResposta();
+    }
+
+    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_CONCLUIR_ATIVIDADE)
+    public static ItfRespostaAcaoDoSistema atividadeAtoExecucao(final AtividadeCRM pAtividade) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaComAutorizacao(AtividadeCRM.class
+        ), pAtividade) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pAtividade.getId() != null) {
+                    throw new ErroRegraDeNegocio("A atividade só pode ser autoexecutada uma única vez");
+                }
+                if (pAtividade.getProspectoEmpresa() == null) {
+                    throw new ErroRegraDeNegocio("Defina os dados da PEssoa ");
+                }
+                if (pAtividade.getTipoAtividade() == null) {
+                    throw new ErroRegraDeNegocio("Defina o tipo de Atividade ");
+                }
+
+                FabTipoBloqueio tipoBloqueioAtual = (FabTipoBloqueio) pAtividade.getCPinst(CPAtividadeCRM.tipobloqueio).getValor();
+
+                while (tipoBloqueioAtual != null) {
+                    switch (tipoBloqueioAtual) {
+
+                        case DADOS_NAO_CADASTRADOS:
+                        case DADOS_NAO_REVISADOS:
+
+                            break;
+                        case PRECISA_GERAR_DOCUMENTO:
+
+                            break;
+                        case PRECISA_ENVIAR_EMAIL:
+                            break;
+
+                        case NOME_NAO_CADASTRADO:
+                            throw new ErroRegraDeNegocio("nome não cadastrado");
+
+                        case SITE_NAO_CADASTRADO:
+                            //TODO Procurar site usando IA?
+                            break;
+                        case SOLUCOES_NAO_CADASTRADAS:
+                            throw new ErroRegraDeNegocio("serviços não cadastrados");
+
+                        case PRECISA_TER_IMAGENS:
+                            //TODO: localizar logo usando IA?
+                            throw new ErroRegraDeNegocio("serviços não cadastrados");
+
+                        case PLUGIN_DEMANDA:
+                            // TODO: como autoexecutar plugins?
+                            break;
+
+                        default:
+                            throw new AssertionError();
+                    }
+                    tipoBloqueioAtual = (FabTipoBloqueio) pAtividade.getCPinst(CPAtividadeCRM.tipobloqueio).getValor();
+                }
+
+                if (tipoBloqueioAtual != null) {
+                    ItfAcaoFormulario acaoFormulario = (ItfAcaoFormulario) tipoBloqueioAtual.formularioPorBloqueio(pAtividade);
+                    pAtividade.setAcaoFormularioExecucao(acaoFormulario);
+
+                }
+
+            }
+        }.getResposta();
+
     }
 
     /**

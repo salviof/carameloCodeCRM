@@ -17,6 +17,11 @@ public class AcoesAdminCrm_MetaRelacionamentoMb implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.META_RELACIONAMENTO_MB");
 	}
 
+	public ItfAcaoFormularioEntidade getMetaRelacionamentoFrmTipoReservaDisponivel() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.META_RELACIONAMENTO_FRM_TIPO_RESERVA_DISPONIVEL");
+	}
+
 	public ItfAcaoFormularioEntidade getMetaRelacionamentoFrmListar() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.META_RELACIONAMENTO_FRM_LISTAR");

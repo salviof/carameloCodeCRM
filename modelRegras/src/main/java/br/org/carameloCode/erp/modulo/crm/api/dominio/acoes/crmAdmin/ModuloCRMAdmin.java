@@ -75,8 +75,11 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.FabStatusDisparo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.importacao.ImportacaoExcel;
@@ -1246,6 +1249,28 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 atualizarEntidade(pTipoNotificacao);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_NOTIFICACAO_CTR_RESTAURAR)
+    public static ItfRespostaAcaoDoSistema tipoNotificacao(TipoNotificacao pTipoNotificacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoNotificacao), pTipoNotificacao) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                TipoNotificacao tipo = loadEntidade(pTipoNotificacao);
+                FabTipoNotificacao fab = (FabTipoNotificacao) ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().getFabricaPorTipoNotificacao(pTipoNotificacao);
+                if (fab == null) {
+                    throw new ErroRegraDeNegocio("A fábrica com o id " + pTipoNotificacao.getId() + " não foi encontrada");
+                }
+                TipoNotificacao tipoFabrica = (TipoNotificacao) fab.getRegistro();
+                tipo.setConteudoHTML(tipoFabrica.getConteudoHTML());
+                tipo.setAssunto(tipoFabrica.getAssunto());
+                tipo.setNome(tipoFabrica.getNome());
+                tipo.setNomeEntidadeReferencia(tipoFabrica.getNomeEntidadeReferencia());
+                tipo.setNomeFabricaAcaoRespostaPersonalizada(tipoFabrica.getNomeFabricaAcaoRespostaPersonalizada());
+                // Entidade com operação em banco iniciada, provavelmente não precisa de update, mas ao atualizar, a data e o ultimo usuário q alterou também serão atualizadaas
+                atualizarEntidade(tipo);
             }
         };
     }

@@ -90,6 +90,7 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
 
     //@Transient
     //private List<FabDadoCRM> camposNescessarios;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     private String textoAjuda;
     @InfoCampo(tipo = FabTipoAtributoObjeto.COR)
     private String cor;
