@@ -12,45 +12,11 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h:panelGroup layout="block" style="margin-top: 0.5%;" styleClass="Container12 OrganizadorContainer"  >
+    <h:panelGroup layout="block" style="margin-top: 0.5%;" id="idSBLayotAreaAcaoSelecionada" styleClass="Container12 OrganizadorContainer"  >
 
-        <h:panelGroup layout="block" style="max-width: 1200px; " styleClass="Container12 OrganizadorContainer"  >
+        <CRMAtividade:atividadesDisponiveisDesktop pessoa="#{pgExecutarAtividade.prospecto}" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}"/>
 
-            <p:fieldset styleClass="Container12" style="width: 100%;" >
-                <h:panelGroup styleClass="OrganizadorContainerEsquerda Container3" style="margin: 10px;" layout="block">
-                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgExecutarAtividade.prospecto)}" >
-                        <h3 style="color: #546e7a" class="Fs24">
-
-                            <p:avatar label="#{pgExecutarAtividade.prospecto.nome}"
-
-                                      styleClass="p-ml-2"  style="background-color:#4caf4f; color: #546e7a"
-                                      rendered="#{!pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}"
-                                      size="xlarge"
-                                      />
-
-                            <p:graphicImage rendered="#{pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}"  height="80px"   url="#{pgExecutarAtividade.prospecto.imgPequena}"   />
-                            <br/>
-                            <p:outputLabel value="#{pgExecutarAtividade.prospecto.nome}" style="margin-top: 5px;" />
-
-                        </h3>
-                    </p:link>
-                </h:panelGroup>
-
-
-                <CRMAtividade:atividadesDisponiveisDesktop pessoa="#{pgExecutarAtividade.prospecto}"/>
-
-
-            </p:fieldset>
-        </h:panelGroup>
-        <h:panelGroup layout="block" style="margin-top: 2%;" styleClass="Container12 OrganizadorContainer"  >
-
-            <h:panelGroup styleClass="Container3 Fright"  layout="block">
-                <crmPessoa:resumoAtividadeEmAndamento
-                    pessoa="#{pgExecutarAtividade.prospecto}"
-                    />
-
-            </h:panelGroup>
-        </h:panelGroup>
+        <CRMAtividade:atividadesDisponiveisMobile pessoa="#{pgExecutarAtividade.prospecto}" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}"/>
 
     </h:panelGroup>
 </ui:composition>

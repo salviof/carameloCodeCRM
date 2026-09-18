@@ -59,17 +59,10 @@
     padding: 4px 0;
 }
 
-/* ----- Wrapper de cada atividade (ancora do tooltip e da cor) ----- */
+/* ----- Wrapper de cada atividade (ancora do tooltip e da cor) -----
+   Cor e escala saem daqui: quem declara os dois e a camada de tokens
+   P/M/G, logo abaixo, que vale em qualquer ancestral. */
 .botaoAtvDisponivelPessoa .SbAtvQuadItem{
-    /* fallback de cor: vale quando o inline nao vier ou for invalido */
-    --act-color: #57534E;
-    /* tamanho M (padrao) */
-    --atv-lado: 104px;
-    --atv-icone: 44px;
-    --atv-icone-fs: 22px;
-    --atv-nome-fs: 12.5px;
-    --atv-ajuda: 20px;
-
     position: relative;
     flex: 0 0 auto;
 }
@@ -105,12 +98,44 @@
     text-decoration: none;
 }
 
-/* ----- Variacoes de tamanho ----- */
+/* ==========================================================================
+   Tamanhos P / M / G -- camada de tokens, de proposito sem ancestral.
+
+   O btAtividadeAgrupamento renderiza .SbAtvQuadItem-<T> e .SbAtvQuad-<T>
+   soltos (no topo do painel, por exemplo), sem .botaoAtvDisponivelPessoa em
+   volta. Enquanto os tokens moravam dentro daquele ancestral, o valor de
+   tamanho="P|M|G" simplesmente nao chegava nele: a pill do topo ficava
+   sempre no mesmo tamanho, qualquer que fosse o atributo.
+
+   Aqui so se declara a escala. Quem consome os tokens e que decide o
+   desenho: quadrado na lista de atividades, pill em .AtvDispPainelTopoAcao,
+   linha em .AtvDispPainelLista.
+
+   Cada modificador e declarado no wrapper E no link, porque ha componente
+   que poe o sufixo nos dois. O padrao M, nao: fica so no wrapper, senao o
+   link sem sufixo dentro de um wrapper -G voltaria a M por ter declaracao
+   propria em vez de herdar.
+
+   Ordem importa mais que especificidade neste bloco: o padrao M e os tres
+   modificadores pesam o mesmo (uma classe), entao o modificador precisa vir
+   depois para ganhar do padrao.
+   ========================================================================== */
+.SbAtvQuadItem{
+    /* fallback de cor: vale quando o inline nao vier ou for invalido */
+    --act-color: #57534E;
+    /* padrao = M */
+    --atv-lado: 104px;
+    --atv-icone: 44px;
+    --atv-icone-fs: 22px;
+    --atv-nome-fs: 12.5px;
+    --atv-ajuda: 20px;
+}
+
 /* P: icone e nome maiores que o desenho original, que ficava apertado de
    ler. O lado cresce um pouco e o padding encolhe, para as duas linhas do
    nome continuarem caindo dentro do quadrado. */
-.botaoAtvDisponivelPessoa .SbAtvQuadItem-P,
-.botaoAtvDisponivelPessoa a.SbAtvQuad-P{
+.SbAtvQuadItem-P,
+a.SbAtvQuad-P{
     --atv-lado: 96px;
     --atv-icone: 40px;
     --atv-icone-fs: 20px;
@@ -121,16 +146,16 @@
     padding: 8px 6px;
     gap: 6px;
 }
-.botaoAtvDisponivelPessoa .SbAtvQuadItem-M,
-.botaoAtvDisponivelPessoa a.SbAtvQuad-M{
+.SbAtvQuadItem-M,
+a.SbAtvQuad-M{
     --atv-lado: 104px;
     --atv-icone: 44px;
     --atv-icone-fs: 22px;
     --atv-nome-fs: 12.5px;
     --atv-ajuda: 20px;
 }
-.botaoAtvDisponivelPessoa .SbAtvQuadItem-G,
-.botaoAtvDisponivelPessoa a.SbAtvQuad-G{
+.SbAtvQuadItem-G,
+a.SbAtvQuad-G{
     --atv-lado: 120px;
     --atv-icone: 52px;
     --atv-icone-fs: 26px;
@@ -460,13 +485,41 @@
    componente. Aqui ficam apenas os estados.
    ========================================================================== */
 
-.AtividadesDisponiveis{
+/* Cor de acento da linha selecionada. Cada linha do grupo "Mudar para"
+   declara a sua inline, a partir de tipoAtividade.cor; a linha do
+   relacionamento atual nao declara nada e fica no initial-value.
+
+   Registrar e o que faz o fallback funcionar: cor ausente, vazia ou invalida
+   nao casa com <color>, e o browser cai no initial-value em vez de invalidar
+   toda a declaracao que usa a property. O initial-value repete o valor de
+   --atvDisp-cor-destaque porque @property so aceita literal -- se mudar o
+   azul do bloco, mude aqui tambem. */
+@property --atvDisp-rel-cor{
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #1D4ED8;
+}
+
+/* Os tokens vao nas duas raizes porque as duas existem soltas: o desktop
+   embrulha tudo em .AtividadesDisponiveis, e o mobile entra direto num painel
+   .AtividadesDisponiveisDesktop (a classe e a mesma de proposito -- e a raiz
+   de bloco que o atividade.js procura). Declarar so na primeira deixaria o
+   mobile sem cor, sem borda e sem o lado da logo. No desktop as duas casam no
+   mesmo valor, entao a repeticao nao muda nada. */
+.AtividadesDisponiveis,
+.AtividadesDisponiveisDesktop{
     /* tokens do bloco: ajuste os valores, os nomes sao usados pelo restante */
     --atvDisp-menu-lar: 260px;
     --atvDisp-altura-max: 420px;
     --atvDisp-altura-min: 260px;
+    /* lado do quadro quadrado da logo no cabecalho: a imagem se ajusta dentro
+       dele sem distorcer nem cortar, em qualquer proporcao de arquivo */
+    --atvDisp-logo-lado: 56px;
     --atvDisp-cor-destaque: #1D4ED8;
     --atvDisp-cor-atual: #047857;
+    /* recuo de meta: ambar em vez de vermelho -- e uma correcao de rota
+       prevista no funil, nao erro nem acao destrutiva */
+    --atvDisp-cor-regride: #B45309;
     --atvDisp-cor-borda: #E7E5E4;
     --atvDisp-cor-texto: #1C1917;
     --atvDisp-cor-apoio: #78716C;
@@ -478,15 +531,140 @@
     color: var(--atvDisp-cor-texto);
 }
 
-/* Linha de contexto herdada do cabecalho da pagina: nao e barra de titulo. */
+/* Linha de contexto herdada do cabecalho da pagina: nao e barra de titulo.
+
+   Grade de duas colunas e duas linhas:
+
+     [ logo ] [ barra de relacionamento ]
+     [ nome da empresa esta aqui ...... ]
+
+   A legenda ocupa as duas colunas, entao comeca na borda esquerda da logo e
+   passa por baixo da barra quando o nome e longo. Em flex isso nao sai: o
+   nome ficaria preso a largura de uma coluna, ou empurraria a barra.
+
+   O respiro entre logo e barra e margem da logo, e nao column-gap: sem foto
+   cadastrada a coluna 1 some inteira, e um column-gap ainda deixaria a barra
+   recuada em relacao a legenda. */
 .AtvDispCabecalho{
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
+    row-gap: 6px;
     padding: 0 0 10px 0;
     font-size: 13px;
     color: var(--atvDisp-cor-apoio);
+}
+
+/* ----- Logo do prospecto -----
+   Quadro de lado fixo com a imagem contida: logo vem em qualquer proporcao, e
+   o que nao pode e a linha do cabecalho mudar de altura conforme o arquivo.
+   Sem imagem cadastrada o bloco nao renderiza -- quem cuida disso e o
+   rendered no XHTML, para nao sobrar coluna vazia com borda. */
+/* Quadro quadrado, centrado na altura da barra ao lado: o lado nao muda com a
+   altura da barra nem com a proporcao do arquivo. */
+.AtvDispCabecalhoLogo{
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+.AtvDispCabecalhoLogoLink{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--atvDisp-logo-lado);
+    height: var(--atvDisp-logo-lado);
+    flex: 0 0 auto;
+    padding: 3px;
+    border: 1px solid var(--atvDisp-cor-borda);
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.AtvDispCabecalhoLogoLink:hover,
+.AtvDispCabecalhoLogoLink:focus,
+.AtvDispCabecalhoLogoLink:active{
+    text-decoration: none;
+}
+.AtvDispCabecalhoLogoImg{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispCabecalhoLogoLink:hover{
+        border-color: var(--atvDisp-cor-apoio);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+    }
+}
+.AtvDispCabecalhoLogoLink:focus{
+    outline: none;
+}
+.AtvDispCabecalhoLogoLink:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+
+/* ----- Bloco de texto: nome, dica e o componente de relacionamento -----
+   Fluxo normal de bloco, de proposito.
+
+   O relacionamento (crm/relacionamento.xhtml) e reusado em varios
+   componentes, e a raiz dele -- .pessoaRelacionamentoAtual, em
+   crm/relacionamento.css -- e block, width:100%, min-width:0 e
+   container-type:inline-size. Ou seja: ele so quer uma div que diga a largura
+   disponivel, e a partir dai se adapta sozinho, por container query.
+
+   Qualquer flex, inline-flex ou largura de conteudo aqui volta a quebra-lo:
+   como item flex o width:100% dele resolve para a largura do conteudo, a
+   container query passa a medir a caixa errada e o layout interno desaba. E o
+   mesmo motivo de ele quebrar cercado por um form estreito. Nenhuma regra
+   deste arquivo pode alcancar o interior dele. */
+/* Legenda: as duas colunas da grade, para o nome longo seguir por baixo da
+   barra. Nome e dica ficam em linha (span, sem display:block) e quebram como
+   uma frase so. */
+.AtvDispCabecalhoTexto{
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+}
+.AtvDispCabecalhoNome{
+    font-weight: 700;
+    color: var(--atvDisp-cor-texto);
+    overflow-wrap: anywhere;
+}
+.AtvDispCabecalhoDica{
+    color: var(--atvDisp-cor-apoio);
+}
+/* A seta aponta para a barra, logo acima. Menor que o texto e sem margem a
+   esquerda: o espaco entre o "aqui" e ela ja vem da quebra de linha do
+   markup, e somar margem separaria a seta da frase que ela completa. */
+.AtvDispCabecalhoSeta{
+    font-size: .85em;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio);
+}
+/* A unica coisa que esta div impoe e ate onde o componente pode crescer: a
+   coluna do cabecalho chega a ocupar a pagina inteira, e a barra esticada
+   nessa largura nao comunica mais nada. O font-size volta ao padrao porque o
+   componente e dimensionado em em e o cabecalho roda em 13px -- herdar isso o
+   deixaria miniaturizado aqui e diferente de onde mais ele aparece. */
+.AtvDispCabecalhoRel{
+    grid-column: 2;
+    grid-row: 1;
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    font-size: 1rem;
 }
 
 /* Como gatilho de previa do estagio atual, o cabecalho precisa dar sinal de
@@ -504,7 +682,8 @@
     }
 }
 @media (prefers-reduced-motion: reduce){
-    .AtvDispCabecalho[data-atvdisp-previa]{
+    .AtvDispCabecalho[data-atvdisp-previa],
+    .AtvDispCabecalhoLogoLink{
         transition: none;
     }
 }
@@ -631,19 +810,29 @@
     color: var(--atvDisp-cor-atual);
 }
 
-/* Linha exibida no momento (fixada ou em previa). */
+/* Linha exibida no momento (fixada ou em previa).
+   O acento vem de --atvDisp-rel-cor, que cada agrupadora declara inline com a
+   propria cor: passar o mouse tinge a linha da cor daquele relacionamento, em
+   vez do azul do bloco.
+
+   Nome e glifo nao usam a cor pura, e sim misturada com o quase-preto do
+   texto: cor de cadastro pode vir clara (amarelo, lima), e ai o rotulo
+   desapareceria no branco. A mistura preserva a identidade da cor e garante
+   leitura em qualquer uma -- mesmo tratamento que .AtvDispPainelTopoAcao da
+   ao nome do botao. Borda e fundos ficam com a cor pura, que ali e area
+   cheia ou tinta leve e nao depende de contraste de texto. */
 .AtvDispRelLinha--ativa{
-    background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 8%, #fff);
-    border-left-color: var(--atvDisp-cor-destaque);
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 8%, #fff);
+    border-left-color: var(--atvDisp-rel-cor);
 }
 .AtvDispRelLinha--ativa .AtvDispRelNome{
-    color: var(--atvDisp-cor-destaque);
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
 }
 .AtvDispRelLinha--ativa .AtvDispRelIconeArea{
-    background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 12%, #fff);
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 12%, #fff);
 }
 .AtvDispRelLinha--ativa .AtvDispRelIcone{
-    color: var(--atvDisp-cor-destaque);
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
 }
 
 /* ----- Area de conteudo ----- */
@@ -696,7 +885,10 @@
    metade acima e metade abaixo do icone.
 
    A cor sai de --act-color, que o componente aplica inline a partir de
-   tipoAtividade.cor; o fallback do @property cobre cor ausente ou invalida. */
+   tipoAtividade.cor; o fallback do @property cobre cor ausente ou invalida.
+
+   A escala, ao contrario da base visual, chega: os tokens P/M/G sao
+   declarados sem ancestral, e a pill os consome nas medidas abaixo. */
 .AtvDispPainelTopoAcao{
     display: inline-flex;
     align-items: center;
@@ -729,8 +921,13 @@
 
     width: auto;
     height: auto;
-    min-height: 36px;
-    max-width: 280px;
+    /* P/M/G entram por aqui: a pill nao tem lado fixo como o quadrado, entao
+       o tamanho pedido vira altura do disco + largura maxima do rotulo. Os
+       fatores sao calibrados em M (44px -> disco 26px, altura 36px), que era
+       o valor cravado antes. O segundo argumento de cada var() e o fallback
+       de M, para o caso de a pill aparecer sem wrapper de tamanho. */
+    min-height: calc(var(--atv-icone, 44px) * .6 + 10px);
+    max-width: calc(var(--atv-lado, 104px) * 2.7);
     padding: 5px 14px 5px 6px;
 
     border: 1px solid color-mix(in srgb, var(--act-color) 45%, #fff);
@@ -766,8 +963,8 @@
 .AtvDispPainelTopoAcao .SbAtvQuad-icone{
     flex: 0 0 auto;
     box-sizing: border-box;
-    width: 26px;
-    height: 26px;
+    width: calc(var(--atv-icone, 44px) * .6);
+    height: calc(var(--atv-icone, 44px) * .6);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -775,7 +972,7 @@
     background-color: var(--act-color);
 }
 .AtvDispPainelTopoAcao .SbAtvQuad-i{
-    font-size: 13px;
+    font-size: calc(var(--atv-icone-fs, 22px) * .6);
     line-height: 1;
     color: #FFFFFF;
 }
@@ -784,7 +981,7 @@
     flex: 0 1 auto;
     min-width: 0;
     width: auto;
-    font-size: 13px;
+    font-size: calc(var(--atv-nome-fs, 12.5px) + .5px);
     font-weight: 700;
     line-height: 1.2;
     text-align: left;
@@ -909,57 +1106,184 @@
 
 /* ----- Rodape de metas -----
    Peso visual proprio, menor que o das linhas do menu: regride na ponta
-   esquerda, avanca na direita, seta apontando para o lado de cada um. */
+   esquerda, avanca na direita, seta apontando para o lado de cada um.
+
+   Os dois botoes usam o mesmo vocabulario da pill "so mudar"
+   (.AtvDispPainelTopoAcao): icone em disco cheio + pill de borda tingida.
+   Assim o rodape se le como irmao daquela acao, e nao como um terceiro
+   desenho de botao no mesmo componente.
+
+   A cor de cada lado entra por --atvDisp-meta-cor, declarada no lado e
+   consumida pelo botao: um unico token troca borda, fundo, disco e texto. */
 .AtvDispMetas{
     align-items: center;
     gap: 12px;
     margin-top: 0;
-    padding: 10px 0 0 0;
+    padding: 12px 0 2px 0;
     border-top: 1px solid var(--atvDisp-cor-borda);
 }
+/* O span sustenta a ponta da linha mesmo vazio, quando so um dos lados
+   renderiza botao -- por isso ele nao pode colapsar de altura. */
 .AtvDispMetaLado{
+    /* fallback: um lado sem a classe de direcao ainda desenha a pill, em
+       cinza de apoio, em vez de perder borda, fundo e disco de uma vez */
+    --atvDisp-meta-cor: var(--atvDisp-cor-apoio);
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
     font-size: 12.5px;
     color: var(--atvDisp-cor-apoio);
 }
+.AtvDispMetaLado--regride{
+    --atvDisp-meta-cor: var(--atvDisp-cor-regride);
+}
 .AtvDispMetaLado--avanca{
+    --atvDisp-meta-cor: var(--atvDisp-cor-destaque);
     margin-left: auto;
 }
+
 /* Os btAtividadesMeta* sao p:commandButton (.ui-button) dentro do proprio
-   h:form, nao botoes quadrados. O "> form" mantem o estilo restrito ao
-   botao do rodape: o p:dialog que cada um carrega fica fora do form e
-   segue com a aparencia padrao do PrimeFaces. */
+   h:form, nao botoes quadrados. Todo seletor daqui e de filho direto: o
+   p:dialog de cada um fica no mesmo span e carrega dentro dele outro form,
+   outros .ui-button e a lista de atividades quadradas -- que precisam seguir
+   com a aparencia padrao. */
 .AtvDispMetaLado > form{
     display: inline-flex;
     margin: 0;
 }
-.AtvDispMetaLado > form > .ui-button{
-    min-height: 30px;
-    padding: 4px 12px;
+/* As classes de estado entram na lista porque o PrimeFaces as aplica por
+   JavaScript no proprio botao; sem elas o tema volta com gradiente e borda
+   no primeiro hover. */
+.AtvDispMetaLado > form > .ui-button,
+.AtvDispMetaLado > form > .ui-button.ui-state-default,
+.AtvDispMetaLado > form > .ui-button.ui-state-hover,
+.AtvDispMetaLado > form > .ui-button.ui-state-focus,
+.AtvDispMetaLado > form > .ui-button.ui-state-active{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: auto;
+    min-width: 0;
+    min-height: 34px;
+    margin: 0;
+
+    border: 1px solid color-mix(in srgb, var(--atvDisp-meta-cor) 45%, #fff);
     border-radius: 999px;
-    border: 1px solid var(--atvDisp-cor-borda);
-    background: #FFFFFF;
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 8%, #fff);
     background-image: none;
-    box-shadow: none;
-    color: var(--atvDisp-cor-apoio);
-    font-size: 12px;
-    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(28,25,23,.06);
+
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+    color: color-mix(in srgb, var(--atvDisp-meta-cor) 70%, #1C1917);
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+/* O padding e assimetrico: folga do lado do texto, aperto do lado do disco.
+   No lado que avanca a seta vai para a direita (row-reverse), entao o
+   aperto acompanha e troca de lado. */
+.AtvDispMetaLado--regride > form > .ui-button{
+    padding: 4px 14px 4px 5px;
+}
+.AtvDispMetaLado--avanca > form > .ui-button{
+    flex-direction: row-reverse;
+    padding: 4px 5px 4px 14px;
+}
+
+/* O icone do p:commandButton vem posicionado em absoluto e com a heranca de
+   .ui-icon (sprite de fundo, text-indent negativo, 16px fixos) -- tudo isso
+   esconderia o glifo do Font Awesome dentro do disco. Daqui ele sai como
+   item flex normal.
+
+   A seta usa a cor do texto (color: inherit) sobre disco em tinta clara: o
+   disco cheio deixava branco sobre ambar medio, que e o par de menor
+   contraste do rodape. Como o disco acompanha a cor do lado, a leitura de
+   direcao continua vindo da cor, nao so do desenho da seta. */
+.AtvDispMetaLado > form > .ui-button .ui-button-icon-left,
+.AtvDispMetaLado > form > .ui-button .ui-button-icon-right,
+.AtvDispMetaLado > form > .ui-button .ui-icon{
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-radius: 50%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    text-indent: 0;
+
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 20%, #fff);
+    background-image: none;
+    font-size: 11px;
+    line-height: 1;
+    color: inherit;
+    transition: transform .15s ease, background-color .15s ease;
 }
 .AtvDispMetaLado > form > .ui-button .ui-button-text{
-    padding: 0 0 0 6px;
-    font-size: 12px;
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.AtvDispMetaLado > form > .ui-button .ui-icon,
-.AtvDispMetaLado > form > .ui-button .ui-button-icon-left{
-    font-size: 11px;
-    color: var(--atvDisp-cor-apoio);
+
+/* Hover so em quem tem mouse; a seta anda para o lado do movimento, o que
+   deixa a direcao evidente sem depender de ler o rotulo. */
+@media (hover: hover) and (pointer: fine){
+    .AtvDispMetaLado > form > .ui-button:hover,
+    .AtvDispMetaLado > form > .ui-button.ui-state-hover{
+        border-color: var(--atvDisp-meta-cor);
+        background: color-mix(in srgb, var(--atvDisp-meta-cor) 16%, #fff);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+        color: color-mix(in srgb, var(--atvDisp-meta-cor) 85%, #1C1917);
+    }
+    /* O disco sobe de tinta junto com o fundo do botao (8% -> 16%); sem isso
+       ele empataria com a pill e a seta pareceria solta no meio dela. */
+    .AtvDispMetaLado > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado > form > .ui-button:hover .ui-icon{
+        background: color-mix(in srgb, var(--atvDisp-meta-cor) 34%, #fff);
+    }
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-icon{
+        transform: translateX(-3px);
+    }
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-icon{
+        transform: translateX(3px);
+    }
 }
-.AtvDispMetaLado > form > .ui-button:hover{
-    border-color: var(--atvDisp-cor-apoio);
-    background: color-mix(in srgb, var(--atvDisp-cor-texto) 4%, #fff);
-    color: var(--atvDisp-cor-texto);
+.AtvDispMetaLado > form > .ui-button:active,
+.AtvDispMetaLado > form > .ui-button.ui-state-active{
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 22%, #fff);
+    border-color: var(--atvDisp-meta-cor);
+    box-shadow: none;
+}
+.AtvDispMetaLado > form > .ui-button:focus,
+.AtvDispMetaLado > form > .ui-button.ui-state-focus{
+    outline: none;
+}
+.AtvDispMetaLado > form > .ui-button:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
 }
 
 /* ----- Telas estreitas -----
@@ -985,13 +1309,205 @@
     }
 }
 
+/* Abaixo da largura em que os dois rotulos param de caber lado a lado, as
+   pontas viram duas faixas empilhadas: regride embaixo, avanca em cima, para
+   o botao de avancar ficar na frente da leitura. Cada um ocupa a largura
+   inteira, o que tambem devolve area de toque. */
+@media (max-width: 560px){
+    .AtividadesDisponiveisDesktop .AtvDispMetas{
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .AtvDispMetaLado{
+        flex: 1 1 100%;
+    }
+    .AtvDispMetaLado--regride{
+        order: 2;
+    }
+    .AtvDispMetaLado--avanca{
+        order: 1;
+        margin-left: 0;
+    }
+    .AtvDispMetaLado > form{
+        width: 100%;
+    }
+    .AtvDispMetaLado > form > .ui-button,
+    .AtvDispMetaLado--regride > form > .ui-button,
+    .AtvDispMetaLado--avanca > form > .ui-button{
+        width: 100%;
+        min-height: 40px;
+        padding: 6px 14px;
+    }
+}
+
 /* ----- Acessibilidade: movimento reduzido ----- */
 @media (prefers-reduced-motion: reduce){
-    .AtvDispRelLinha{
+    .AtvDispRelLinha,
+    .AtvDispMetaLado > form > .ui-button,
+    .AtvDispMetaLado > form > .ui-button .ui-button-icon-left,
+    .AtvDispMetaLado > form > .ui-button .ui-icon{
         transition: none;
+    }
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-icon,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-icon{
+        transform: none;
     }
     .AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i,
     .AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i{
         animation: none;
+    }
+}
+
+/* ==========================================================================
+   Sanfona de relacionamentos (atividadesDisponiveisMobile).
+   Base de seletor: .AtividadesDisponiveisMobile / .AtvDispSanfona
+
+   No lugar das duas colunas do desktop, uma aba por relacionamento, aberta
+   uma de cada vez, com a do relacionamento atual aberta de saida.
+
+   Abrir e fechar e o collapse do Bootstrap 5.0.2, que o template basico ja
+   carrega em toda pagina da aplicacao -- nao ha nada de sanfona no
+   atividade.js. O que este bloco faz e vestir as classes do Bootstrap com os
+   tokens do componente: o desenho padrao dele (azul #0c63e4, fundo #e7f1ff,
+   anel de foco azul, raio de 0.25rem) nao conversa com o resto da tela.
+
+   O conteudo dos paineis nao tem regra propria aqui: e o mesmo do desktop,
+   pelas mesmas classes (.AtvDispPainelLista, .AtvDispPainelTopoAcao,
+   .AtvDispMetas, .AtvDispRel*), de proposito.
+   ========================================================================== */
+
+.AtividadesDisponiveisMobile{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.AtvDispSanfona{
+    margin: 0;
+}
+
+/* ----- Caixa de cada aba ----- */
+.AtvDispSanfona .accordion-item{
+    border: 1px solid var(--atvDisp-cor-borda);
+    background-color: #FFFFFF;
+    color: var(--atvDisp-cor-texto);
+}
+.AtvDispSanfona .accordion-item:first-of-type,
+.AtvDispSanfona .accordion-item:first-of-type .accordion-button{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.AtvDispSanfona .accordion-item:last-of-type,
+.AtvDispSanfona .accordion-item:last-of-type .accordion-collapse,
+.AtvDispSanfona .accordion-item:last-of-type .accordion-button.collapsed{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* A aba do relacionamento atual usa o verde do bloco; as agrupadoras trazem a
+   propria cor inline, no mesmo --atvDisp-rel-cor do menu do desktop. */
+.AtvDispSanfItem--atual{
+    --atvDisp-rel-cor: var(--atvDisp-cor-atual);
+}
+
+/* ----- Cabecalho clicavel ----- */
+.AtvDispSanfCabecalho{
+    margin: 0;
+}
+.AtvDispSanfona .accordion-button{
+    gap: 10px;
+    padding: 11px 12px;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--atvDisp-cor-texto);
+    transition: background-color .15s ease;
+}
+/* A barra de cor do lado esquerdo e pseudo-elemento, e nao border-left, por
+   um motivo pratico: o :focus do Bootstrap pinta border-color de azul, e a
+   barra viraria azul justamente ao ser tocada. */
+.AtvDispSanfona .accordion-button::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: transparent;
+    transition: background-color .15s ease;
+}
+/* A seta do Bootstrap e imagem de fundo com a cor cravada no proprio SVG:
+   nao da para recolorir por CSS. Some, e quem indica o estado e o chevron do
+   Font Awesome que o markup traz. */
+.AtvDispSanfona .accordion-button::after{
+    display: none;
+}
+.AtvDispSanfSeta{
+    flex: 0 0 auto;
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio);
+    transition: transform .2s ease;
+}
+
+/* ----- Aba aberta ----- */
+.AtvDispSanfona .accordion-button:not(.collapsed){
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 8%, #fff);
+    box-shadow: none;
+    color: var(--atvDisp-cor-texto);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed)::before{
+    background-color: var(--atvDisp-rel-cor);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelNome{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelIconeArea{
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 12%, #fff);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelIcone{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispSanfSeta{
+    transform: rotate(180deg);
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+
+/* ----- Foco -----
+   O anel azul padrao do Bootstrap sai; entra o mesmo contorno do resto do
+   componente, e so para quem navega por teclado. */
+.AtvDispSanfona .accordion-button:focus{
+    box-shadow: none;
+    outline: none;
+}
+.AtvDispSanfona .accordion-button:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: -3px;
+}
+
+/* ----- Corpo da aba ----- */
+.AtvDispSanfona .accordion-body{
+    padding: 12px;
+}
+/* O primeiro rotulo do corpo nao precisa de respiro extra: o padding do corpo
+   ja separa do cabecalho. */
+.AtvDispSanfCorpo > .AtvDispPainelRotulo:first-child{
+    margin-top: 0;
+}
+
+/* ----- Rodape de metas: respiro em relacao a sanfona ----- */
+.AtividadesDisponiveisMobile .AtvDispMetas{
+    margin-top: 12px;
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .AtvDispSanfona .accordion-button,
+    .AtvDispSanfona .accordion-button::before,
+    .AtvDispSanfSeta{
+        transition: none;
     }
 }

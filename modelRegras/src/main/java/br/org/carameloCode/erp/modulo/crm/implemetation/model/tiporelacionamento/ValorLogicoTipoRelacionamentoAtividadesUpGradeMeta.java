@@ -32,7 +32,7 @@ public class ValorLogicoTipoRelacionamentoAtividadesUpGradeMeta
                 List<TipoAtividadeCRM> tiposDoRelacionamentoAtual = new ArrayList<>();
                 List<TipoAtividadeCRM> todosTipos = (List<TipoAtividadeCRM>) getTipoRelacionamento().getCPinst(CPTipoRelacionamento.todasatividadesdisponiveis).getValor();
 
-                todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null
+                todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null && !at.getRelacionamentoGerado().getMetaRelacionamento().equals(getTipoRelacionamento().getMetaRelacionamento())
                         && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() > getTipoRelacionamento().getMetaRelacionamento().getPeso())
                         .forEach(tiposDoRelacionamentoAtual::add);
 

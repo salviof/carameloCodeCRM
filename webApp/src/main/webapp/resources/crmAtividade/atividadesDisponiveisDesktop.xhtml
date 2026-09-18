@@ -30,12 +30,60 @@
         <h:panelGroup layout="block" id="atvDispBloco" styleClass="AtividadesDisponiveis"   >
             <div class="AtividadesDisponiveisDesktop" data-atvdisp="#{cc.clientId}">
                 <!-- O cabecalho tambem e gatilho de previa: passar o mouse nele
-                     traz de volta o estagio atual, sem precisar ir ate o menu. -->
+                     traz de volta o estagio atual, sem precisar ir ate o menu.
+
+                     Desenho, em grade de duas colunas e duas linhas:
+
+                       [ logo ] [ barra de relacionamento ]
+                       [ Nome da empresa esta aqui ...... ]
+
+                     A legenda atravessa as duas colunas, entao ela comeca
+                     alinhada com a borda esquerda da logo e segue por baixo da
+                     barra quando o nome for longo. E o que permite o nome nao
+                     ficar preso a largura da logo nem empurrar a barra.
+
+                     A ordem no DOM e a de leitura: logo, barra, legenda.
+
+                     O rendered fica no bloco da logo inteiro, nao na imagem:
+                     sem foto cadastrada a coluna desaparece, em vez de sobrar
+                     um vao antes da barra. A altura da logo virou token no CSS
+                     (atvDisp-logo-lado), em vez do atributo height. -->
+
                 <h:panelGroup layout="block" styleClass="AtvDispCabecalho" >
                     <f:passThroughAttribute name="data-atvdisp-previa" value="atual" />
 
-                    #{cc.attrs.pessoa.nome} está aqui:
-                    <CRMRelacionamento:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
+                    <h:panelGroup layout="block" styleClass="AtvDispCabecalhoLogo"
+                                  rendered="#{pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}">
+                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgExecutarAtividade.prospecto)}"
+                                styleClass="AtvDispCabecalhoLogoLink"
+                                title="Abrir o cadastro de #{pgExecutarAtividade.prospecto.nome}">
+                            <p:graphicImage url="#{pgExecutarAtividade.prospecto.imgPequena}"
+                                            styleClass="AtvDispCabecalhoLogoImg"
+                                            alt="#{pgExecutarAtividade.prospecto.nome}" />
+                        </p:link>
+                    </h:panelGroup>
+
+                    <!-- O relacionamento e reusado em varios componentes e nao
+                         pode depender de quem o cerca: a raiz dele e bloco de
+                         largura 100% com container query propria, entao ele so
+                         precisa de uma div que informe a largura disponivel e
+                         resolve sozinho o resto. Por isso ele entra em fluxo
+                         normal, sem flex, sem span e sem form em volta. -->
+                    <div class="AtvDispCabecalhoRel">
+                        <CRMRelacionamento:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
+                    </div>
+
+                    <!-- Legenda da barra. Sem dois-pontos: o que ela apresenta
+                         esta acima dela agora, nao depois, e quem faz esse
+                         papel e a seta, que aponta para a barra. Ela e
+                         decorativa (aria-hidden): o texto ja diz tudo, e
+                         "seta para cima" lido em voz alta nao ajudaria. -->
+                    <div class="AtvDispCabecalhoTexto">
+                        <span class="AtvDispCabecalhoNome">#{cc.attrs.pessoa.nome}</span>
+                        <span class="AtvDispCabecalhoDica">está aqui</span>
+                        <i class="fa fa-arrow-up AtvDispCabecalhoSeta" aria-hidden="true"></i>
+                    </div>
+
                 </h:panelGroup>
 
                 <div class="AtvDispCorpo OrganizadorContainerEsquerda">
@@ -77,16 +125,28 @@
                                 <!-- O pareamento linha <-> painel usa o indice do repeat, nao o
                                      id da atividade: as duas listas percorrem a mesma colecao na
                                      mesma ordem, e assim o menu nao para de funcionar se o id
-                                     vier nulo ou com caractere que atrapalhe o seletor. -->
+                                     vier nulo ou com caractere que atrapalhe o seletor.
+
+                                     A cor da agrupadora entra como custom property, e nao so como
+                                     data-atvdisp-cor, porque CSS nao le valor de atributo (attr()
+                                     fora de content nao e portavel) e o estado ativo e puro CSS,
+                                     sem passar pelo script. O style inline sobrevive ao hover
+                                     porque o atividade.js so mexe em classe, nunca em style.
+                                     Cor sem "#" ganha o prefixo; cor ausente cai no azul de
+                                     destaque pelo @property declarado no CSS. -->
                                 <ui:repeat value="#{cc.attrs.pessoa.relacionamento.atividadesGrupoDeAtividades}" var="atividadeGrupo" varStatus="rec" >
+
                                     <button type="button"
                                             class="AtvDispRelLinha"
                                             role="tab"
+
                                             id="#{cc.clientId}_tab#{rec.index}"
                                             aria-controls="#{cc.clientId}_painel#{rec.index}"
                                             aria-selected="false"
                                             tabindex="-1"
                                             data-atvdisp-alvo="#{rec.index}"
+                                            data-atvdisp-cor="#{atividadeGrupo.cor}"
+                                            style="--atvDisp-rel-cor: #{(empty atividadeGrupo.cor or atividadeGrupo.cor.startsWith('#')) ? '' : '#'}#{atividadeGrupo.cor};"
                                             aria-label="Mudar para #{atividadeGrupo.relacionamentoGerado.nome}, #{empty atividadeGrupo.relacionamentoGerado.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor ? 0 : atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size()} atividades disponíveis">
                                         <span class="AtvDispRelIconeArea" aria-hidden="true">
                                             <i class="#{atividadeGrupo.icone} fa AtvDispRelIcone"></i>
@@ -125,12 +185,14 @@
                             <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor}">
                                 <span class="AtvDispPainelRotulo">Executar</span>
                                 <div class="AtvDispPainelLista">
-                                    <CRMAtividade:seletorAtividades
-                                        empresa="#{cc.attrs.pessoa}"
-                                        listaAtividades="#{cc.attrs.pessoa.relacionamento.atividadesExecutivas}"
-                                        tamanho="G"
-                                        tipoBotoao="ATUAL"
-                                        />
+                                    <h:form>
+                                        <CRMAtividade:seletorAtividades
+                                            empresa="#{cc.attrs.pessoa}"
+                                            listaAtividades="#{cc.attrs.pessoa.relacionamento.atividadesExecutivas}"
+                                            tamanho="G"
+                                            tipoBotoao="ATUAL"
+                                            />
+                                    </h:form>
                                 </div>
                             </ui:fragment>
                             <ui:fragment rendered="#{empty cc.attrs.pessoa.relacionamento.atividadesExecutivas}">
@@ -154,22 +216,26 @@
                                     <span class="AtvDispPainelTopoAcao"
                                           title="Executa apenas a mudança de relacionamento, sem nenhuma atividade">
                                         <span class="AtvDispPainelTopoDica">só mudar</span>
-                                        <CRMAtividade:btAtividadeAgrupamento
-                                            empresa="#{cc.attrs.pessoa}"
-                                            tipoAtividade="#{atividadeGrupo}"
-                                            tamanho="P"
-                                            />
+                                        <h:form>
+                                            <CRMAtividade:btAtividadeAgrupamento
+                                                empresa="#{cc.attrs.pessoa}"
+                                                tipoAtividade="#{atividadeGrupo}"
+                                                tamanho="G"
+                                                />
+                                        </h:form>
                                     </span>
                                 </div>
 
                                 <ui:fragment rendered="#{not empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas}">
                                     <span class="AtvDispPainelRotulo">Mudar e executar</span>
                                     <div class="AtvDispPainelLista">
-                                        <CRMAtividade:seletorAtividadeExecOutroRelacionamento
-                                            empresa="#{cc.attrs.pessoa}"
-                                            tamanho="G"
-                                            tipoAtividade="#{atividadeGrupo}"
-                                            />
+                                        <h:form>
+                                            <CRMAtividade:seletorAtividadeExecOutroRelacionamento
+                                                empresa="#{cc.attrs.pessoa}"
+                                                tamanho="G"
+                                                tipoAtividade="#{atividadeGrupo}"
+                                                />
+                                        </h:form>
                                     </div>
                                 </ui:fragment>
                                 <ui:fragment rendered="#{empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas}">
@@ -186,10 +252,17 @@
                      Move o lead de meta no funil: regride na ponta esquerda,
                      avanca na direita. A seta de cada lado ja vem do icone do
                      proprio botao (fa-backward / fa-forward), entao aqui nao
-                     entra outra, para nao duplicar. -->
-                <CRMAtividade:btAtividadesMetaDowngrade empresa="#{cc.attrs.pessoa}" />
+                     entra outra, para nao duplicar.
+
+                     O par e anunciado como grupo unico: lido isolado, "Meta
+                     Anterior" nao diz de que lista ele faz parte. Cada lado
+                     tem o seu span mesmo quando nao renderiza botao, porque e
+                     ele que sustenta a ponta na linha. -->
+
                 <ui:fragment rendered="#{(not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor) or (not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor)}">
-                    <div class="AtvDispMetas OrganizadorContainerExpandido">
+                    <div class="AtvDispMetas OrganizadorContainerExpandido"
+                         role="group"
+                         aria-label="Mover #{cc.attrs.pessoa.nome} de meta no funil">
 
                         <span class="AtvDispMetaLado AtvDispMetaLado--regride">
                             <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor}">

@@ -24,7 +24,7 @@ public class ValorLogicoTipoRelacionamentoAtividadesDownGradeMeta
     @Override
     public Object getValor(Object... pEntidade) {
 
-        if (getTipoRelacionamento().getId() == null) {
+        if (getTipoRelacionamento().getId() == null || getTipoRelacionamento().getMetaRelacionamento() == null) {
             return getTipoRelacionamento().getAtividadesDownGradeMeta();
         }
 
@@ -33,8 +33,8 @@ public class ValorLogicoTipoRelacionamentoAtividadesDownGradeMeta
                 List<TipoAtividadeCRM> tiposDoRelacionamentoAtual = new ArrayList<>();
                 List<TipoAtividadeCRM> todosTipos = (List<TipoAtividadeCRM>) getTipoRelacionamento().getCPinst(CPTipoRelacionamento.todasatividadesdisponiveis).getValor();
 
-                todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null
-                        && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() < getTipoRelacionamento().getMetaRelacionamento().getPeso())
+                todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null && !at.getRelacionamentoGerado().getMetaRelacionamento().equals(getTipoRelacionamento().getMetaRelacionamento())
+                        && at.getRelacionamentoGerado().getMetaRelacionamento().getPeso() <= getTipoRelacionamento().getMetaRelacionamento().getPeso())
                         .forEach(tiposDoRelacionamentoAtual::add);
 
                 getTipoRelacionamento().setAtividadesDownGradeMeta(tiposDoRelacionamentoAtual);
