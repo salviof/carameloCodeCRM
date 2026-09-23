@@ -1,0 +1,1463 @@
+
+/* ==========================================================================
+   Folha do e-mail da atividade. Tres blocos irmaos, um por componente:
+     - .Atv-exec-email-seletor-contatos -> destinatarios (emailProspectoDestinatarios.xhtml)
+     - .Atv-exec-email-seletor-anexos   -> anexos        (emailProspectoAnexos.xhtml)
+     - .Atv-exec-email-revisao          -> revisao antes do envio (emailRevisao.xhtml)
+   Eles compartilham o vocabulario (tokens --atvEmail-*, cartao branco, legenda
+   em versalete, cor na ponta esquerda), mas cada um declara seus proprios
+   tokens: sao blocos irmaos, nao um dentro do outro. Os dois primeiros sao
+   seletores -- cartao = acao; o terceiro e revisao -- cartao = informacao.
+   ========================================================================== */
+
+/* ==========================================================================
+   Seletor de destinatarios do e-mail (crm/emailProspectoDestinatarios.xhtml).
+   Base de seletor: .Atv-exec-email-seletor-contatos
+
+   Tres faixas empilhadas, de cima para baixo:
+     - .Atv-exec-email-destinatarios -> quem ja esta no "Para" + a regra de
+       copia para os colaboradores (as duas coisas que ja valem para o envio);
+     - .Atv-exec-email-vazio         -> aviso de prospecto sem contato;
+     - .Atv-exec-email-rapido        -> fieldset de adicao com um clique.
+
+   As larguras vem do CRC (Container12). Como ContainerN e float, todo bloco
+   daqui que tenha filho Container* precisa conter o float -- e por isso que
+   aparece display:flow-root em vez de clearfix: nao clipa nada, e o "Para"
+   traz autocomplete com painel suspenso.
+
+   Cada chip carrega a origem do destinatario na cor: verde para contato do
+   prospecto, azul para responsavel interno. A cor entra por
+   --atvEmail-chip-cor, declarada no modificador e consumida por borda, fundo,
+   disco e nome -- trocar um token troca o chip inteiro. O icone tambem muda
+   (fa-plus x fa-user-plus), para a distincao nao depender so de cor.
+   ========================================================================== */
+
+.Atv-exec-email-seletor-contatos{
+    /* tokens do bloco: ajuste os valores, os nomes sao usados pelo restante */
+    --atvEmail-cor-borda: #E7E5E4;
+    --atvEmail-cor-texto: #1C1917;
+    --atvEmail-cor-apoio: #78716C;
+    --atvEmail-cor-contato: #047857;
+    --atvEmail-cor-colaborador: #1D4ED8;
+    /* copia ligada = verde; desligada = ambar, nao vermelho: nao e erro nem
+       acao destrutiva, e so a outra metade da escolha */
+    --atvEmail-cor-copiaOn: #047857;
+    --atvEmail-cor-copiaOff: #B45309;
+    --atvEmail-raio: 10px;
+
+    box-sizing: border-box;
+    display: flow-root;
+    color: var(--atvEmail-cor-texto);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-corpo{
+    display: flow-root;
+}
+
+/* ----- Faixa dos destinatarios ja escolhidos -----
+   Cartao branco: e o estado atual do envio, e precisa se distinguir da area
+   de escolha logo abaixo. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-destinatarios{
+    box-sizing: border-box;
+    display: flow-root;
+    padding: 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+}
+
+/* O campo "Para" e um componente reusado (crmEmail/inputEnvioEmailCampoPara):
+   daqui ele so recebe a largura disponivel. Nada de flex, largura de conteudo
+   ou regra que alcance o interior dele -- e o mesmo cuidado que
+   .AtvDispCabecalhoRel documenta para o componente de relacionamento. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-para{
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copia{
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+/* ----- Botao da copia para colaboradores -----
+   p:selectBooleanButton e uma div .ui-button; as classes de estado entram na
+   lista porque o PrimeFaces as aplica por JavaScript, e sem elas o tema volta
+   com gradiente e borda no primeiro hover.
+
+   botaoVerde/botaoLaranjas sao as classes que o XHTML alterna conforme o
+   valor: aqui elas so trocam o token de cor. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao{
+    /* fallback: sem a classe de estado o botao ainda desenha, em cinza */
+    --atvEmail-copia-cor: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.botaoVerde{
+    --atvEmail-copia-cor: var(--atvEmail-cor-copiaOn);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.botaoLaranjas{
+    --atvEmail-copia-cor: var(--atvEmail-cor-copiaOff);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-default,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-hover,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-focus,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-active{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    margin: 0;
+    padding: 4px 14px 4px 5px;
+
+    border: 1px solid color-mix(in srgb, var(--atvEmail-copia-cor) 45%, #fff);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--atvEmail-copia-cor) 8%, #fff);
+    background-image: none;
+    box-shadow: 0 1px 2px rgba(28,25,23,.06);
+
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+    color: color-mix(in srgb, var(--atvEmail-copia-cor) 70%, #1C1917);
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+/* O icone do botao vem com a heranca de .ui-icon (sprite de fundo,
+   text-indent negativo, 16px fixos) -- tudo isso esconderia o glifo do Font
+   Awesome dentro do disco. Daqui ele sai como item flex normal. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao .ui-button-icon-left,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao .ui-icon{
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-radius: 50%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    text-indent: 0;
+
+    background: color-mix(in srgb, var(--atvEmail-copia-cor) 20%, #fff);
+    background-image: none;
+    font-size: 11px;
+    line-height: 1;
+    color: inherit;
+    transition: background-color .15s ease;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao .ui-button-text{
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao:hover,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-hover{
+        border-color: var(--atvEmail-copia-cor);
+        background: color-mix(in srgb, var(--atvEmail-copia-cor) 16%, #fff);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+        color: color-mix(in srgb, var(--atvEmail-copia-cor) 85%, #1C1917);
+    }
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao:hover .ui-icon{
+        background: color-mix(in srgb, var(--atvEmail-copia-cor) 34%, #fff);
+    }
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao:focus,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-focus{
+    outline: none;
+}
+/* Quem recebe o foco e o checkbox interno, nao a div do botao: o contorno
+   precisa sair do filho para o pai. A regra com :has fica sozinha de
+   proposito -- em navegador que nao a suporte, ela cai sem levar junto a
+   linha de cima. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao:focus-visible{
+    outline: 3px solid var(--atvEmail-cor-texto);
+    outline-offset: 2px;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao:has(:focus-visible){
+    outline: 3px solid var(--atvEmail-cor-texto);
+    outline-offset: 2px;
+}
+
+/* ----- Prospecto sem contato cadastrado -----
+   Borda tracejada: e um vazio a resolver, nao um cartao de conteudo. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-vazio{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px dashed var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+    font-size: 13px;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-vazioIcone{
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-vazioTexto{
+    min-width: 0;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+/* ----- Fieldset de adicao rapida -----
+   O desenho padrao do p:fieldset (borda grossa, legenda em caixa de tema)
+   nao conversa com os cartoes acima; aqui ele vira o mesmo cartao, com a
+   legenda como rotulo em versalete -- o mesmo vocabulario de
+   .AtvDispPainelRotulo. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapido{
+    box-sizing: border-box;
+    margin: 12px 0 0 0;
+    padding: 0;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background: #FFFFFF;
+    background-image: none;
+    color: var(--atvEmail-cor-texto);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapido .ui-fieldset-legend,
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapido .ui-fieldset-legend.ui-state-default{
+    margin: 0 0 0 10px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    background-image: none;
+    font-family: inherit;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapidoLegenda{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapidoLegendaIcone{
+    font-size: 11px;
+    line-height: 1;
+}
+/* flow-root pelo mesmo motivo do resto do bloco: o conteudo do fieldset
+   carrega Container12, que e float, e sem isso a caixa colapsaria na altura
+   do proprio padding. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapido .ui-fieldset-content{
+    display: flow-root;
+    padding: 10px 12px 12px 12px;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chips{
+    display: flow-root;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipsForm{
+    display: block;
+    margin: 0;
+}
+/* O "+" sozinho nao diz o que faz; a dica diz, uma vez, para a lista toda. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-rapidoDica{
+    display: block;
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--atvEmail-cor-apoio);
+}
+
+/* ----- Grupo por origem do contato -----
+   O rotulo e o que responde "referente a que": cada cartao esta debaixo de
+   "Contatos do prospecto" ou "Responsaveis internos". */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-grupo + .Atv-exec-email-grupo{
+    margin-top: 16px;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-grupoRotulo{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-grupoRotuloIcone{
+    flex: 0 0 auto;
+    font-size: 11px;
+    line-height: 1;
+}
+/* Quando todos daquela origem ja estao no e-mail, nenhum cartao renderiza e
+   sobraria so o rotulo. Vale na pratica para os responsaveis internos: o
+   grupo do prospecto sempre tem ao menos o cartao de cadastrar contato.
+   Regra isolada: onde :has nao existe, ela cai sozinha e o pior caso e um
+   rotulo sem lista. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-grupo:not(:has(.Atv-exec-email-chip)){
+    display: none;
+}
+
+/* A lista carrega OrganizadorContainerEsquerda (flex + wrap, a esquerda); o
+   que falta ao CRC e o respiro entre os cartoes -- e e justamente o respiro
+   que separa um nome do "+" do cartao seguinte. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipsLista{
+    align-items: stretch;
+    gap: 10px;
+    margin: 0;
+}
+
+/* ----- Cartao de contato -----
+   Pill nao serve aqui: com nome e e-mail em sequencia, duas pills vizinhas se
+   leem como um texto so, e o "+" de uma parece pertencer ao nome anterior. O
+   cartao resolve pela caixa -- borda propria, largura de coluna e uma faixa
+   de cor na ponta esquerda, onde mora o "+". Tudo o que esta dentro daquela
+   borda e uma pessoa so.
+
+   flex-basis define a coluna: os cartoes preenchem a linha em larguras
+   iguais e quebram sozinhos, sem grade declarada. O teto evita o cartao
+   unico esticado na largura da pagina. */
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip{
+    /* fallback: cartao sem modificador de origem ainda desenha, em cinza */
+    --atvEmail-chip-cor: var(--atvEmail-cor-apoio);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 250px;
+    max-width: 380px;
+    min-width: 0;
+    min-height: 52px;
+
+    padding: 8px 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-left: 3px solid var(--atvEmail-chip-cor);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+
+    font-family: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:hover,
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:focus,
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:active{
+    text-decoration: none;
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--contato{
+    --atvEmail-chip-cor: var(--atvEmail-cor-contato);
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--colaborador{
+    --atvEmail-chip-cor: var(--atvEmail-cor-colaborador);
+}
+
+/* O disco e o wrapper, nao o conteudo: o Font Awesome tem regra propria de
+   display e tamanho no .fa, e o avatar e um componente com dimensao propria.
+   A medida fixa tem que morar numa caixa que nao seja nem um nem outro.
+
+   Ele hospeda os dois casos -- a foto do contato (CRM:avatarContato /
+   CRM:avatar) e o glifo do cartao de cadastro -- entao e tinta leve servindo
+   de moldura, e nao tinta cheia com glifo branco. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipAcao{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--atvEmail-chip-cor) 12%, #fff);
+    transition: background-color .15s ease, transform .15s ease;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipIcone{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 14px;
+    line-height: 1;
+    color: color-mix(in srgb, var(--atvEmail-chip-cor) 75%, #1C1917);
+}
+/* Foto em qualquer proporcao cabe no disco sem distorcer nem estourar a
+   medida -- o avatar nao precisa saber que esta dentro de um cartao. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipAcao img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* Nome em cima, e-mail embaixo: o e-mail e a confirmacao de para onde vai, e
+   nao o rotulo -- por isso menor e em cinza de apoio.
+
+   Nada de reticencia: e-mail cortado deixa de cumprir o papel de conferencia.
+   O cartao cresce em altura e os vizinhos da mesma linha acompanham, pelo
+   align-items: stretch da lista. */
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipTexto{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 1px;
+    min-width: 0;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipNome{
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--atvEmail-cor-texto);
+    overflow-wrap: anywhere;
+}
+.Atv-exec-email-seletor-contatos .Atv-exec-email-chipEmail{
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--atvEmail-cor-apoio);
+    overflow-wrap: anywhere;
+}
+
+/* O translate fica so em quem tem mouse, para nao "grudar" o hover no touch. */
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:hover{
+        transform: translateY(-1px);
+        border-color: var(--atvEmail-chip-cor);
+        background-color: color-mix(in srgb, var(--atvEmail-chip-cor) 6%, #fff);
+        box-shadow: 0 6px 14px rgba(28,25,23,.10);
+    }
+    /* o disco cresce um pouco: reforca que o clique e "adicionar este" */
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:hover .Atv-exec-email-chipAcao{
+        transform: scale(1.08);
+    }
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:active{
+    transform: none;
+    background-color: color-mix(in srgb, var(--atvEmail-chip-cor) 12%, #fff);
+    border-color: var(--atvEmail-chip-cor);
+    box-shadow: none;
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:focus{
+    outline: none;
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:focus-visible{
+    outline: 3px solid var(--atvEmail-cor-texto);
+    outline-offset: 2px;
+}
+
+/* ----- Cartao de cadastrar contato -----
+   Ultimo da lista de contatos do prospecto. Borda tracejada e fundo vazado:
+   e a vaga a preencher, nao mais uma pessoa -- por isso tambem nao leva a
+   faixa de cor na ponta esquerda, que ali significa "origem do contato".
+
+   As regras vem depois das do cartao comum de proposito: mesma
+   especificidade, quem estiver por ultimo ganha. */
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--novo{
+    --atvEmail-chip-cor: var(--atvEmail-cor-apoio);
+    border: 1px dashed color-mix(in srgb, var(--atvEmail-cor-apoio) 50%, #fff);
+    background-color: transparent;
+    box-shadow: none;
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--novo .Atv-exec-email-chipNome{
+    color: var(--atvEmail-cor-texto);
+}
+.Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--novo .Atv-exec-email-chipEmail{
+    overflow-wrap: anywhere;
+}
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip--novo:hover{
+        border-style: solid;
+        border-color: var(--atvEmail-cor-apoio);
+        background-color: #FFFFFF;
+    }
+}
+
+/* ----- Telas estreitas -----
+   Abaixo desta largura o nome e o e-mail nao cabem numa pill lado a lado sem
+   virar reticencia logo no primeiro contato: cada chip passa a ocupar a linha
+   inteira, o que tambem devolve area de toque. */
+@media (max-width: 600px){
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-chipsLista{
+        gap: 8px;
+    }
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip{
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+    }
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-default,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao.ui-state-active{
+        width: 100%;
+        min-height: 40px;
+        border-radius: var(--atvEmail-raio);
+    }
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao .ui-button-text{
+        white-space: normal;
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-chipAcao,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao,
+    .Atv-exec-email-seletor-contatos .Atv-exec-email-copiaBotao .ui-icon{
+        transition: none;
+    }
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:hover,
+    .Atv-exec-email-seletor-contatos a.Atv-exec-email-chip:hover .Atv-exec-email-chipAcao{
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Seletor de anexos do e-mail (crmEmailAtividade/emailProspectoAnexos.xhtml).
+   Base de seletor: .Atv-exec-email-seletor-anexos
+
+   Duas faixas, de cima para baixo:
+     - o campo de anexo do e-mail (componente reusado: o que ja esta anexado e
+       o envio de um arquivo novo);
+     - .Atv-exec-anexo-rapido -> fieldset de "anexar com um clique", listando
+       os ultimos arquivos do prospecto que ainda nao foram anexados.
+
+   ----- O problema central deste bloco -----
+   Cada linha da lista rapida mostra crmArquivo:arquivoDetalhe, um componente
+   que JA tem comportamento proprio: um kebab que abre menu de visualizar,
+   baixar, atualizar e excluir. E o mesmo arquivo tambem precisa ser anexavel
+   com um clique. Sao duas acoes no mesmo pedaco de tela, e o arquivoDetalhe
+   nao pode ser alterado.
+
+   A solucao e por camada, nao por aninhamento:
+
+     .Atv-exec-anexo-rapidoItem   (position: relative -- a moldura)
+       |- .CardArquivo            (o componente, do jeito que ele e)
+       |   \- .CardArquivoMenu    (position: absolute; z-index: 2 -- dele)
+       \- .Atv-exec-anexo-rapidoAcao  (o link, absoluto, inset 0, z-index: 1)
+
+   O link cobre o item inteiro; o kebab do cartao ja nasce com z-index maior,
+   entao continua por cima e recebe o clique dele. Nada de JavaScript, nada de
+   stopPropagation, e o menu -- que e irmao do link na arvore, nao filho --
+   nao faz o clique subir para "anexar". Se o cartao estivesse DENTRO do link
+   (como um <a> envolvendo o componente), qualquer clique no menu anexaria o
+   arquivo, e <a> com botao dentro tambem nao e HTML valido.
+
+   O preco de cobrir o cartao com o link: .CardArquivo:hover deixa de disparar,
+   porque o ponteiro esta sobre o link, que nao e descendente do cartao. Como o
+   arquivoDetalhe revela o kebab justamente no hover do cartao, quem passa a
+   revelar e o hover do item -- e por isso que este bloco alcanca duas classes
+   do componente (.CardArquivo e .CardArquivoMenuBotao). Sao as unicas, e sao
+   so de apresentacao: nenhuma regra daqui muda o que o menu faz.
+
+   A trilha do "+" tambem nasce dai. Antes o icone vinha depois do cartao, num
+   Container1 apos um Container12 -- ou seja, em outra linha, e lido como um
+   botao solto sem dono. Agora ele mora na faixa esquerda da moldura, dentro do
+   mesmo contorno do arquivo, no lugar onde o seletor de contatos poe o disco
+   do chip: mesma gramatica, "a ponta esquerda do cartao e a acao".
+   ========================================================================== */
+
+.Atv-exec-email-seletor-anexos{
+    /* tokens do bloco: ajuste os valores, os nomes sao usados pelo restante */
+    --atvEmail-cor-borda: #E7E5E4;
+    --atvEmail-cor-texto: #1C1917;
+    --atvEmail-cor-apoio: #78716C;
+    /* verde = "entra no e-mail", o mesmo significado do chip de contato */
+    --atvEmail-cor-anexo: #047857;
+    --atvEmail-raio: 10px;
+
+    box-sizing: border-box;
+    display: flow-root;
+    margin-top: 20px;
+    color: var(--atvEmail-cor-texto);
+}
+
+/* ----- Painel externo -----
+   O p:fieldset do tema vem com borda grossa e legenda em caixa; aqui ele vira
+   o mesmo cartao branco do seletor de contatos.
+
+   min-height, e nao height: o painel ocupava 345px fixos, e a lista de
+   arquivos nao tem tamanho conhecido -- com altura travada, o que passa disso
+   vaza por fora da borda. O piso preserva o espaco reservado no modal e o
+   painel cresce quando precisa. Tambem nao ha overflow: auto em lugar nenhum
+   deste bloco, porque o cartao abre menu suspenso e o campo de anexo tem
+   painel proprio -- recortar a caixa recortaria eles. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel{
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 345px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background: #FFFFFF;
+    background-image: none;
+    color: var(--atvEmail-cor-texto);
+}
+/* > direto: a lista rapida tem fieldset proprio, com a mesma classe de tema */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel > .ui-fieldset-legend,
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel > .ui-fieldset-legend.ui-state-default{
+    margin: 0 0 0 10px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    background-image: none;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvEmail-cor-apoio);
+}
+/* flow-root: o conteudo carrega Container12, que e float; sem conter o float a
+   caixa colapsaria na altura do proprio padding. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel > .ui-fieldset-content{
+    display: flow-root;
+    padding: 10px 12px 12px 12px;
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-formulario{
+    display: block;
+    margin: 0;
+}
+
+/* ----- Fieldset da adicao com um clique -----
+   Fundo levemente rebaixado: e a area de escolha, e precisa se distinguir do
+   que ja esta anexado logo acima. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapido{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 12px 0 0 0;
+    padding: 0;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background: #FAFAF9;
+    background-image: none;
+    color: var(--atvEmail-cor-texto);
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapido > .ui-fieldset-legend,
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapido > .ui-fieldset-legend.ui-state-default{
+    margin: 0 0 0 10px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    background-image: none;
+    font-family: inherit;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoLegenda{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoLegendaIcone{
+    font-size: 11px;
+    line-height: 1;
+    color: var(--atvEmail-cor-anexo);
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapido > .ui-fieldset-content{
+    display: flow-root;
+    padding: 10px 12px 12px 12px;
+}
+/* O "+" sozinho nao diz o que faz, e aqui ele divide o cartao com um menu que
+   faz outra coisa. A dica resolve os dois de uma vez, uma vez, para a lista
+   toda -- em vez de repetir rotulo em cada linha. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoDica{
+    display: block;
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--atvEmail-cor-apoio);
+}
+/* Os arquivos se distribuem em linha e quebram sozinhos: sem grade declarada,
+   quem decide quantos cabem por linha e a largura disponivel -- o mesmo
+   arranjo da lista de contatos.
+
+   Cartao de largura fixa (300px), e nao elastica: o cartao de arquivo tem
+   conteudo de tamanho previsivel (icone + nome + metadados), e 300px e a
+   medida em que ele se le bem. Deixar crescer faria o mesmo arquivo aparecer
+   em tamanhos diferentes conforme quantos vizinhos tem na linha, e um arquivo
+   sozinho esticaria na largura do painel. Fixo, a lista e sempre a mesma
+   lista: muda quantos cabem por linha, nao o tamanho de cada um. A sobra da
+   linha fica a direita, que e onde ela nao chama atencao.
+
+   align-items: stretch para que os cartoes da mesma linha tenham a mesma
+   altura, mesmo quando um tem "alterado por" e o outro nao. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoLista{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
+}
+
+/* ----- Moldura do arquivo -----
+   position: relative por causa da camada de clique; a faixa verde na ponta
+   esquerda e a trilha onde o "+" mora, e o padding-left reserva o espaco dela
+   para o cartao comecar depois -- e assim o icone fica dentro do contorno do
+   arquivo, nao pendurado embaixo. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem{
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+
+    /* 300px fixos: nao cresce nem encolhe. O max-width e so rede de seguranca
+       -- em container mais estreito que 300px o cartao vazaria para fora do
+       painel, porque flex-shrink esta em 0. */
+    flex: 0 0 300px;
+    width: 300px;
+    max-width: 100%;
+    min-height: 56px;
+
+    /* trilha do "+" (46px) e folga do kebab (34px, no padding do cartao) saem
+       dos 300px: sobram ~220px para icone, nome e metadados */
+    padding-left: 46px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-left: 3px solid var(--atvEmail-cor-anexo);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+/* O cartao de arquivo entrega o proprio cromo: borda, raio, fundo e sombra.
+   Dentro da moldura isso vira contorno duplo, entao ele sai plano e quem
+   desenha a caixa e a moldura -- uma borda, um arquivo. Tambem sai o float do
+   Container3 que o componente carrega, que o deixaria com 25% da largura.
+   Nada aqui alcanca o menu, o dialog ou o comportamento do componente. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem form{
+    display: block;
+    margin: 0;
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem .CardArquivo{
+    float: none;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    /* a direita fica livre para o kebab, que e absoluto no canto do cartao */
+    padding: 8px 34px 8px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+/* o kebab e descendente do cartao: passar o mouse nele dispara o hover do
+   cartao, que levantaria o cartao dentro da moldura parada */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem .CardArquivo:hover{
+    transform: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* ----- Camada de clique -----
+   z-index: 1 de proposito, e nao mais: o kebab do cartao esta em 2 e precisa
+   continuar acima. O menu suspenso do PrimeFaces sobe bem mais que isso, e a
+   moldura nao cria contexto de empilhamento (position: relative com z-index
+   auto), entao o menu aberto de um arquivo nao fica atras do arquivo seguinte.
+
+   Uma camada tem uma consequencia que vale saber: enquanto o ponteiro estiver
+   sobre ela, o title do nome do arquivo (do cartao) nao aparece -- quem
+   responde e o title do link, que diz qual arquivo sera anexado. */
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    border-radius: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao:hover,
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao:focus,
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao:active{
+    text-decoration: none;
+}
+/* O disco e o wrapper, nao o glifo: o Font Awesome tem display e tamanho
+   proprios no .fa, e a medida fixa precisa morar numa caixa que nao seja ele.
+   Tinta leve com glifo escuro, como o disco do chip de contato. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoSelo{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--atvEmail-cor-anexo) 12%, #fff);
+    color: color-mix(in srgb, var(--atvEmail-cor-anexo) 78%, #1C1917);
+    transition: background-color .15s ease, transform .15s ease;
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoSeloIcone{
+    font-size: 13px;
+    line-height: 1;
+}
+/* O link nao tem texto visivel -- o cartao ao lado ja diz qual arquivo e, e
+   repetir "Anexar ao e-mail" em cada linha competiria com o nome. Mas o link
+   precisa de nome acessivel, entao o texto fica no HTML, fora de vista. */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoAcaoTexto{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* O translate fica so em quem tem mouse, para nao "grudar" o hover no touch. */
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:hover{
+        transform: translateY(-1px);
+        border-color: var(--atvEmail-cor-anexo);
+        background-color: color-mix(in srgb, var(--atvEmail-cor-anexo) 6%, #fff);
+        box-shadow: 0 6px 14px rgba(28,25,23,.10);
+    }
+    /* o disco cresce um pouco: reforca que o clique e "anexar este" */
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:hover .Atv-exec-anexo-rapidoSelo{
+        transform: scale(1.08);
+        background-color: color-mix(in srgb, var(--atvEmail-cor-anexo) 26%, #fff);
+    }
+    /* Devolve o que a camada tirou: o arquivoDetalhe revela o kebab no hover do
+       cartao, e o ponteiro nunca mais fica sobre o cartao. Sem esta regra o
+       menu existiria, clicavel e invisivel. */
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:hover .CardArquivoMenuBotao.ui-button{
+        opacity: 1;
+    }
+}
+/* quem chega pelo teclado tambem precisa ver o menu ao tabular ate ele */
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:focus-within .CardArquivoMenuBotao.ui-button{
+    opacity: 1;
+}
+.Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:has(a.Atv-exec-anexo-rapidoAcao:active){
+    transform: none;
+    border-color: var(--atvEmail-cor-anexo);
+    background-color: color-mix(in srgb, var(--atvEmail-cor-anexo) 12%, #fff);
+    box-shadow: none;
+}
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao:focus{
+    outline: none;
+}
+/* o contorno sai no link, que cobre o item: visualmente e a moldura inteira
+   que ganha foco, e nao um retangulo solto em volta do "+" */
+.Atv-exec-email-seletor-anexos a.Atv-exec-anexo-rapidoAcao:focus-visible{
+    outline: 3px solid var(--atvEmail-cor-texto);
+    outline-offset: 2px;
+}
+
+/* ----- Telas estreitas -----
+   Abaixo desta largura nao cabem dois cartoes por linha, e um cartao de 300px
+   numa tela de 360 deixaria uma sobra estranha a direita: aqui o arquivo passa
+   a ocupar a linha inteira, o que tambem devolve largura para o nome -- a
+   informacao que identifica a linha, e a primeira a sofrer quando aperta.
+   Em touch o kebab do cartao ja vem visivel pelo proprio arquivoDetalhe. */
+@media (max-width: 600px){
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel{
+        min-height: 0;
+    }
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-painel > .ui-fieldset-content,
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapido > .ui-fieldset-content{
+        padding: 10px 8px 10px 8px;
+    }
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem{
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+        padding-left: 44px;
+    }
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoSelo{
+        width: 28px;
+        height: 28px;
+        margin-left: 4px;
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem,
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoSelo{
+        transition: none;
+    }
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:hover,
+    .Atv-exec-email-seletor-anexos .Atv-exec-anexo-rapidoItem:hover .Atv-exec-anexo-rapidoSelo{
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Revisao do e-mail antes do envio (crmEmailAtividade/emailRevisao.xhtml).
+   Base de seletor: .Atv-exec-email-revisao
+
+   Faixas empilhadas, de cima para baixo -- uma por coisa a conferir:
+     - .Atv-exec-email-revisao-destinatarios -> para quem vai;
+     - .Atv-exec-email-revisao-conteudo      -> assunto e corpo;
+     - .Atv-exec-email-revisao-anexos        -> o que segue junto.
+   (as tres faixas usam a mesma caixa branca; o que muda e o conteudo.)
+
+   ----- Por que este bloco existe, em vez de reusar o do seletor -----
+   O cartao de contato e o mesmo desenho do seletor de destinatarios, e as
+   classes sao as mesmas (.Atv-exec-email-chip e familia). Mas lá TODA regra
+   esta escopada em .Atv-exec-email-seletor-contatos e casa `a.Atv-exec-email-chip`:
+   o cartao daquele bloco e um p:commandLink, e o seletor de elemento esta ali
+   justamente para nao vazar para nao-links. Aqui o chip nao e link -- e uma
+   pessoa listada, nao um botao "adicionar esta" -- entao nenhuma daquelas
+   regras alcanca este markup. Repetir a caixa aqui, sem os estados de clique,
+   e o que mantem os dois honestos: a aparencia diz a mesma coisa (uma pessoa),
+   e o comportamento nao promete o que nao existe.
+
+   A edicao em modal entrou pela FAIXA, e nao pelo cartao: a acao e "editar a
+   lista", nao "editar este contato". Por isso o hover, o cursor e o foco
+   moram em .Atv-exec-email-revisaoEtapa, e nenhum chip deste bloco tem estado
+   proprio de clique.
+   ========================================================================== */
+
+.Atv-exec-email-revisao{
+    /* tokens do bloco: os mesmos valores dos blocos irmaos, declarados aqui
+       porque um bloco nao herda os tokens do outro */
+    --atvEmail-cor-borda: #E7E5E4;
+    --atvEmail-cor-texto: #1C1917;
+    --atvEmail-cor-apoio: #78716C;
+    --atvEmail-cor-contato: #047857;
+    /* azul de acao: o mesmo ja usado no bloco para colaborador, aqui no papel
+       de "isto responde ao clique" */
+    --atvEmail-cor-acao: #1D4ED8;
+    --atvEmail-raio: 10px;
+
+    box-sizing: border-box;
+    color: var(--atvEmail-cor-texto);
+}
+/* As faixas se empilham em fluxo de bloco, e nao como itens flex.
+   O wrapper carrega OrganizadorContainer, que no CRC e display:flex com
+   flex-wrap e justify-content: space-around. Ali o unico filho (a div do
+   rendered) viraria item flex: encolheria para a largura do conteudo, em vez
+   de ocupar a linha, e ainda sairia centralizado. Como as faixas ja sao
+   Container12 (float: left; width: 100%), flow-root e o que resolve os dois de
+   uma vez: largura cheia e float contido, sem clearfix.
+
+   O seletor duplo e proposital: com duas classes ele vence o
+   .OrganizadorContainer do CRC independente da ordem em que as folhas entram
+   na pagina -- nao da para contar com "a minha vem depois". */
+.Atv-exec-email-revisao,
+.Atv-exec-email-revisao.OrganizadorContainer{
+    display: flow-root;
+    /* Respiro do componente inteiro, para a primeira faixa nao encostar no
+       cabecalho da atividade logo acima (e a ultima no que vier depois).
+
+       Padding, e nao margem: o wrapper e Container12 -- float com width: 100%
+       -- e margem lateral soma a largura, empurrando 6px para fora da coluna e
+       estourando a linha. Padding entra nos 100% pelo box-sizing e da o mesmo
+       afastamento sem esse efeito. */
+    padding: 3px;
+}
+
+/* ==========================================================================
+   Etapa clicavel (as tres faixas)
+
+   Cada faixa abre um modal de edicao. O link mora no cabecalho e se estica
+   sobre a faixa inteira pelo ::after de .Atv-exec-email-revisaoEtapaAcao --
+   e por isso a faixa e position: relative: o ::after se mede por ela.
+
+   Por que nao envolver a faixa num <a> (ou p:commandLink): <a> e inline. Os
+   cartoes e campos la dentro sao blocos com float, que escapam da caixa do
+   link -- o clicavel fica so a area do texto do cabecalho, e o resto da faixa
+   nao responde. Fora que campo de texto e botao dentro de <a> e HTML invalido
+   e quebra os dois.
+
+   O chip "Editar" fica sempre visivel, e nao so no hover: no celular nao
+   existe cursor nem hover para anunciar que a faixa leva a algum lugar.
+   ========================================================================== */
+
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa{
+    position: relative;
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* Destaque so onde existe ponteiro de verdade. Em tela de toque o :hover
+   "cola" depois do tap (o dedo nunca sai do elemento) e a faixa ficaria
+   marcada de azul para sempre. */
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:hover{
+        border-color: var(--atvEmail-cor-acao);
+        box-shadow: 0 2px 10px color-mix(in srgb, var(--atvEmail-cor-acao) 18%, transparent);
+    }
+}
+
+/* Teclado: :focus-visible, e nao :focus-within. Com :focus-within o link
+   continua focado depois do clique de mouse (e depois que o modal fecha, o
+   foco volta para ele), e a faixa ficava acesa sem ninguem estar nela. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:has(.Atv-exec-email-revisaoEtapaAcao:focus-visible){
+    border-color: var(--atvEmail-cor-acao);
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--atvEmail-cor-acao) 18%, transparent);
+}
+
+/* Toque: no celular o dedo cobre o alvo, entao o retorno tem que ser da faixa
+   inteira e imediato. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:active{
+    background-color: color-mix(in srgb, var(--atvEmail-cor-acao) 5%, #FFFFFF);
+}
+
+/* ----- Chip "Editar" no canto do cabecalho ----- */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaAcao{
+    margin-left: auto; /* empurra para a direita do cabecalho */
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid color-mix(in srgb, var(--atvEmail-cor-acao) 35%, #FFFFFF);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--atvEmail-cor-acao) 8%, #FFFFFF);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--atvEmail-cor-acao);
+    white-space: nowrap;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaAcaoIcone{
+    font-size: 10px;
+    line-height: 1;
+}
+
+/* O chip acende quando a faixa toda esta sob o ponteiro: e o que liga, na
+   leitura, o clique em qualquer lugar da faixa a acao que o chip anuncia. */
+@media (hover: hover) and (pointer: fine){
+    .Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:hover .Atv-exec-email-revisaoEtapaAcao{
+        border-color: var(--atvEmail-cor-acao);
+        background-color: var(--atvEmail-cor-acao);
+        color: #FFFFFF;
+    }
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:has(.Atv-exec-email-revisaoEtapaAcao:focus-visible) .Atv-exec-email-revisaoEtapaAcao{
+    border-color: var(--atvEmail-cor-acao);
+    background-color: var(--atvEmail-cor-acao);
+    color: #FFFFFF;
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaAcao:focus-visible{
+    outline: 2px solid var(--atvEmail-cor-acao);
+    outline-offset: 2px;
+}
+
+/* ----- Etapa em edicao -----
+   Enquanto o modal daquela etapa esta aberto, ela fica marcada: e a resposta
+   visual ao clique, e tambem o que diz, por tras do modal, qual das tres se
+   esta mexendo. A classe entra no clique e sai no onHide do modal (ver o
+   emailRevisao.xhtml) -- amarrada ao modal, nunca ao ponteiro, que e o que
+   travava o destaque aceso. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaEmEdicao{
+    border-color: var(--atvEmail-cor-acao);
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--atvEmail-cor-acao) 18%, transparent);
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaEmEdicao .Atv-exec-email-revisaoEtapaAcao{
+    border-color: var(--atvEmail-cor-acao);
+    background-color: var(--atvEmail-cor-acao);
+    color: #FFFFFF;
+}
+
+/* ----- Enquanto um modal desta tela esta aberto -----
+   O modal abre por cima do ponteiro: o mouse nunca "sai" da faixa, nenhum
+   mouseleave acontece e o :hover continua valendo -- a faixa ficava acesa
+   mesmo com o ponteiro longe dali. Entao o hover das outras etapas fica
+   suspenso enquanto o modal esta na frente; a etapa em edicao e a excecao,
+   essa fica acesa de proposito.
+
+   O sinal e uma classe no body, posta e tirada pelo JS do emailRevisao.xhtml
+   junto com o show/onHide do modal. NAO da para usar a mascara do PrimeFaces
+   (.ui-widget-overlay) como sinal: confirmDialog e BlockUI deixam mascaras no
+   DOM o tempo todo, e o hover ficaria suspenso para sempre. */
+body.Atv-exec-email-revisaoModalAberto .Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:not(.Atv-exec-email-revisaoEtapaEmEdicao):hover{
+    border-color: var(--atvEmail-cor-borda);
+    box-shadow: none;
+}
+body.Atv-exec-email-revisaoModalAberto .Atv-exec-email-revisao .Atv-exec-email-revisaoEtapa:not(.Atv-exec-email-revisaoEtapaEmEdicao):hover .Atv-exec-email-revisaoEtapaAcao{
+    border-color: color-mix(in srgb, var(--atvEmail-cor-acao) 35%, #FFFFFF);
+    background-color: color-mix(in srgb, var(--atvEmail-cor-acao) 8%, #FFFFFF);
+    color: var(--atvEmail-cor-acao);
+}
+
+/* A area de clique: o link ocupa a faixa inteira sem envolver nada.
+   z-index 1 o poe acima do conteudo estatico; quem precisa continuar
+   clicavel sobe acima dele (ver o menu de acoes do anexo, mais abaixo). */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoEtapaAcao::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--atvEmail-raio);
+}
+
+/* ----- Faixa dos destinatarios -----
+   Cartao branco, como o "Para" do seletor: e o estado atual do envio. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-destinatarios{
+    box-sizing: border-box;
+    display: flow-root;
+    padding: 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+}
+
+/* ----- Faixa do conteudo -----
+   Mesma caixa branca da faixa de destinatarios: as tres faixas sao irmas e
+   nenhuma vale mais que a outra. clear: both porque a faixa anterior carrega
+   Container12, que e float -- sem isso esta caixa subiria por baixo dela. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-conteudo{
+    box-sizing: border-box;
+    display: flow-root;
+    clear: both;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+}
+
+/* Assunto em cima, corpo embaixo, na ordem em que o destinatario le. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoConteudoCampos{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+}
+
+/* O assunto e a primeira linha que o destinatario ve: peso de titulo, e nao
+   de campo de formulario comum. Largura cheia porque assunto cortado nao
+   cumpre o papel de conferencia desta tela. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoAssunto.ui-inputfield{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--atvEmail-cor-texto);
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoAssunto.ui-inputfield::placeholder{
+    font-weight: 400;
+    color: var(--atvEmail-cor-apoio);
+}
+
+/* ----- Corpo do e-mail (somente leitura) -----
+   Fundo levemente acinzentado e o que diz, sem texto de aviso, que este
+   pedaco nao se edita -- o assunto ao lado, em branco, ainda aceita digitacao.
+   Sem toolbar (toolbarVisible="false"), o editor e so a area de texto. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo.ui-texteditor{
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: 8px;
+    background-color: #FAFAF9;
+    overflow: hidden; /* recorta o conteudo do Quill no arredondamento */
+}
+
+/* Sem barra de rolagem: a faixa inteira e um link, entao rolar aqui dentro
+   nao funcionaria (o clique pertence ao link que cobre a faixa). E-mail longo
+   e cortado de proposito -- esta e a previa, o texto inteiro esta no modal. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo .ui-texteditor-content{
+    border: 0;
+    min-height: 160px;
+    overflow: hidden;
+}
+
+/* Esmaecido no pe da previa: e o que avisa que o texto continua, sem precisar
+   escrever "ver mais". pointer-events none para nao roubar o clique. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo.ui-texteditor::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32px;
+    background: linear-gradient(180deg, rgba(250,250,249,0) 0%, #FAFAF9 100%);
+    pointer-events: none;
+}
+
+.Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo .ql-editor{
+    padding: 12px;
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--atvEmail-cor-texto);
+    overflow-wrap: anywhere;
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo .ql-editor.ql-blank::before{
+    left: 12px;
+    right: 12px;
+    font-style: normal;
+    color: var(--atvEmail-cor-apoio);
+}
+
+/* ----- Faixa dos anexos -----
+   Mesma caixa branca das irmas, mas esta e uma grade: os cartoes vem do
+   composite crmArquivo:arquivoDetalhe e sao muitos. Flex com wrap e gap em vez
+   das colunas do CRC porque cada cartao ja vem embrulhado no h:form do
+   composite -- o form e quem entra na grade, e coluna de CRC no cartao ficaria
+   um nivel abaixo do que manda na largura. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
+    clear: both;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+}
+
+/* O cabecalho e item da mesma grade: ocupa a linha inteira para os cartoes
+   comecarem abaixo dele. O respiro fica com o gap, nao com a margem. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos > .Atv-exec-email-revisaoRotulo{
+    flex: 0 0 100%;
+    margin-bottom: 0;
+}
+
+/* Largura de coluna igual a dos cartoes de contato, com teto para o anexo
+   unico nao esticar na largura da pagina. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos .CardArquivoForm{
+    flex: 1 1 250px;
+    max-width: 380px;
+    min-width: 0;
+}
+
+/* O cartao carrega Container3 (coluna de 1/4, float): dentro desta grade quem
+   manda na largura e o item flex, entao o cartao ocupa o item inteiro. Zerar o
+   padding do Container3 tambem importa -- o espaco entre cartoes aqui vem do
+   gap, e o desenho interno do cartao e do proprio crmArquivo/arquivoDetalhe.css. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos .CardArquivo.Container3{
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* O menu de acoes do arquivo (abrir, baixar, visualizar) tem que ficar ACIMA
+   do link que cobre a faixa: abrir um anexo e uma acao, trocar a lista de
+   anexos e outra. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos .CardArquivoMenu{
+    z-index: 3;
+}
+
+/* Sem o translateY do hover do cartao aqui dentro -- e menos ruido (quem
+   responde ao mouse nesta tela e a faixa), e sobretudo porque transform cria
+   contexto de empilhamento: com ele, o menu de acoes ficaria preso dentro do
+   cartao e voltaria para baixo do link que cobre a faixa, deixando de
+   responder ao clique justamente no hover. */
+.Atv-exec-email-revisao .Atv-exec-email-revisao-anexos .CardArquivo:hover{
+    transform: none;
+}
+
+/* Faixa sem nada a mostrar: uma linha em cinza de apoio, e nao um retangulo
+   vazio que parece defeito. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoVazio{
+    flex: 1 1 100%;
+    padding: 2px 0 4px;
+    font-size: 12.5px;
+    color: var(--atvEmail-cor-apoio);
+}
+
+/* ----- Cabecalho da faixa -----
+   Versalete, o mesmo vocabulario de .Atv-exec-email-grupoRotulo e das legendas
+   dos fieldsets -- so um ponto maior, porque aqui ele titula a faixa inteira e
+   nao um grupo dentro dela. */
+.Atv-exec-email-revisao .Atv-exec-email-revisaoRotulo{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvEmail-cor-apoio);
+}
+.Atv-exec-email-revisao .Atv-exec-email-revisaoRotuloIcone{
+    flex: 0 0 auto;
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* A lista carrega OrganizadorContainerEsquerda (flex + wrap, a esquerda); o
+   que falta ao CRC e o respiro entre os cartoes. */
+.Atv-exec-email-revisao .Atv-exec-email-chipsLista{
+    align-items: stretch;
+    gap: 10px;
+    margin: 0;
+}
+
+/* ----- Cartao de contato (somente leitura) -----
+   Mesma caixa do seletor: borda propria, faixa de cor na ponta esquerda e
+   largura de coluna por flex-basis, com teto para o cartao unico nao esticar
+   na largura da pagina. Sem sombra de elevacao e sem transition: cartao que
+   nao reage nao precisa anunciar reacao. */
+.Atv-exec-email-revisao .Atv-exec-email-chip{
+    /* fallback: cartao sem modificador de origem ainda desenha, em cinza */
+    --atvEmail-chip-cor: var(--atvEmail-cor-apoio);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 250px;
+    max-width: 380px;
+    min-width: 0;
+    min-height: 52px;
+
+    padding: 8px 12px;
+    border: 1px solid var(--atvEmail-cor-borda);
+    border-left: 3px solid var(--atvEmail-chip-cor);
+    border-radius: var(--atvEmail-raio);
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+
+    font-family: inherit;
+    text-align: left;
+}
+.Atv-exec-email-revisao .Atv-exec-email-chip--contato{
+    --atvEmail-chip-cor: var(--atvEmail-cor-contato);
+}
+
+/* O disco e o wrapper, nao o conteudo: o avatar (CRM:avatarContato) tem
+   dimensao propria e o Font Awesome tem regra propria de display e tamanho no
+   .fa -- a medida fixa tem que morar numa caixa que nao seja nem um nem outro. */
+.Atv-exec-email-revisao .Atv-exec-email-chipAcao{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--atvEmail-chip-cor) 12%, #fff);
+}
+.Atv-exec-email-revisao .Atv-exec-email-chipIcone{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 14px;
+    line-height: 1;
+    color: color-mix(in srgb, var(--atvEmail-chip-cor) 75%, #1C1917);
+}
+/* Foto em qualquer proporcao cabe no disco sem distorcer nem estourar a
+   medida -- o avatar nao precisa saber que esta dentro de um cartao.
+   O avatarContato recebe altura="50" e desenha em 50px (foto como background
+   de uma div, gravatar como p:avatar); quem limita a 36px e o overflow:hidden
+   do disco, exatamente como no seletor de contatos. Nenhuma regra daqui entra
+   no avatar: o que ele desenha e assunto dele. */
+.Atv-exec-email-revisao .Atv-exec-email-chipAcao img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Nome em cima, e-mail embaixo: o e-mail e a confirmacao de para onde vai, e
+   nao o rotulo -- por isso menor e em cinza de apoio.
+
+   Nada de reticencia: e-mail cortado deixa de cumprir o papel de conferencia,
+   que aqui e o proposito inteiro da tela. O cartao cresce em altura e os
+   vizinhos da mesma linha acompanham, pelo align-items: stretch da lista. */
+.Atv-exec-email-revisao .Atv-exec-email-chipTexto{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 1px;
+    min-width: 0;
+}
+.Atv-exec-email-revisao .Atv-exec-email-chipNome{
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--atvEmail-cor-texto);
+    overflow-wrap: anywhere;
+}
+.Atv-exec-email-revisao .Atv-exec-email-chipEmail{
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--atvEmail-cor-apoio);
+    overflow-wrap: anywhere;
+}
+
+/* ----- Telas estreitas -----
+   Abaixo desta largura nome e e-mail nao cabem lado a lado sem virar
+   reticencia: cada cartao passa a ocupar a linha inteira. */
+@media (max-width: 600px){
+    .Atv-exec-email-revisao .Atv-exec-email-chipsLista{
+        gap: 8px;
+    }
+    .Atv-exec-email-revisao .Atv-exec-email-chip{
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+    }
+    /* na tela do celular a caixa do corpo nao pode comer a altura toda:
+       menos teto aqui, o resto rola dentro dela */
+    .Atv-exec-email-revisao .Atv-exec-email-revisaoCorpo .ui-texteditor-content{
+        min-height: 120px;
+        max-height: 240px;
+    }
+    /* cartao de anexo pela mesma razao dos cartoes de contato: nome de arquivo
+       e data nao cabem lado a lado em meia tela */
+    .Atv-exec-email-revisao .Atv-exec-email-revisao-anexos .CardArquivoForm{
+        flex: 1 1 100%;
+        max-width: none;
+    }
+}

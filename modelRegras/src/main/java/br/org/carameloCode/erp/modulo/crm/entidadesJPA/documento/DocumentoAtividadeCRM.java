@@ -34,10 +34,10 @@ public class DocumentoAtividadeCRM extends ArquivoAnexado {
     @ManyToOne(targetEntity = ModeloDocumentoCRM.class)
     private ModeloDocumentoCRM modeloDocumento;
 
-    @ManyToOne(targetEntity = AtividadeCRM.class)
+    @ManyToOne(targetEntity = AtividadeCRM.class, cascade = {})
     private AtividadeCRM atividadeGeradora;
 
-    @ManyToMany(mappedBy = "arquivosAnexados", targetEntity = EnvioEmail.class)
+    @ManyToMany(mappedBy = "arquivosAnexados", targetEntity = EnvioEmail.class, cascade = {})
     private List<EnvioEmail> envios;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)

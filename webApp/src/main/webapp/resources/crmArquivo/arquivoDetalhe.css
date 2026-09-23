@@ -6,19 +6,88 @@
 
 .CardArquivo {
     position: relative;
+    /* coluna: corpo em cima, quadro do nome sempre grudado no rodapé */
     display: flex;
-    align-items: center;
-    padding: 14px 16px;
+    flex-direction: column;
+    height: 100%; /* se o container der altura, o card acompanha */
+    /* sem padding no card: o respiro interno fica por conta de
+       .CardArquivoCorpo / .CardArquivoRodape */
+    padding: 0;
     border-radius: 10px;
     border: 1px solid #e6e6e6;
     background: #ffffff;
+    overflow: hidden; /* recorta o conteúdo no arredondamento do card */
     transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+}
+
+/* o card é um p:fieldset: zera o padding que o tema aplica no invólucro e no conteúdo */
+.CardArquivo.ui-fieldset,
+.CardArquivo .ui-fieldset-content {
+    padding: 0;
+}
+
+/* o conteúdo real do fieldset é quem empilha corpo e rodapé */
+.CardArquivo .ui-fieldset-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .CardArquivo:hover {
     border-color: #d5d5d5;
     box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
     transform: translateY(-1px);
+}
+
+/* ---------- rodapé: nome do arquivo ----------
+   Fica embaixo, e não no topo, para não disputar espaço com o botão de ações */
+
+.CardArquivoRodape {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    /* de ponta a ponta do card, para sobrar o máximo de largura para nomes
+       grandes; margin-top auto joga qualquer sobra de altura para cima do
+       quadro, mantendo-o colado no rodapé mesmo quando o card fica mais alto */
+    margin: auto 0 0;
+    /* 16px nas laterais alinham o nome com o ícone do corpo */
+    padding: 10px 16px;
+    /* cinza claro, o mesmo da moldura do ícone: destaca o nome sem virar
+       um bloco duro no meio da tela clara */
+    background: #f2f3f5;
+    /* só o fio de cima: as laterais e a base já são fechadas pela borda do
+       card, e uma borda própria ali viria dobrada */
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+    /* 9px = 10px do card menos a borda de 1px, acompanhando a curva interna */
+    border-radius: 0 0 9px 9px;
+    /* 2 linhas de 13px com line-height 1.35 (~35px) + 18px de padding vertical */
+    min-height: 53px;
+    transition: background .15s ease, border-color .15s ease;
+}
+
+/* no hover do card a faixa encorpa um pouco, acompanhando a elevação do card */
+.CardArquivo:hover .CardArquivoRodape {
+    background: #eceef1;
+    border-color: #dcdee2;
+}
+
+.CardArquivoNome {
+    /* recorte em 2 linhas: display -webkit-box é o que o line-clamp exige */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+    font-size: 13px;
+    line-height: 1.35;
+    letter-spacing: .1px;
+    /* nomes em CAIXA ALTA destoavam demais do resto do card */
+    text-transform: lowercase;
+    /* sobre o cinza claro o texto precisa ser escuro; mesmo tom de título
+       usado no restante do card */
+    color: #1f2328;
+    overflow-wrap: anywhere; /* nomes longos sem espaço quebram em vez de estourar */
 }
 
 /* ---------- corpo (ícone + info) ---------- */
@@ -28,7 +97,9 @@
     align-items: center;
     gap: 14px;
     width: 100%;
-    min-width: 0; /* permite o truncamento do nome funcionar dentro do flex */
+    box-sizing: border-box;
+    padding: 12px 16px;
+    min-width: 0;
 }
 
 .CardArquivoIcone {
@@ -73,7 +144,7 @@
     color: #0ca678;
 }
 
-/* ---------- informações (nome + metadados) ---------- */
+/* ---------- informações (metadados) ---------- */
 
 .CardArquivoInfo {
     display: flex;
@@ -81,16 +152,12 @@
     gap: 4px;
     min-width: 0;
     flex: 1 1 auto;
-}
-
-.CardArquivoNome {
-    display: block;
-    font-size: 14px;
-    color: #1f2328;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+    /* reserva a altura da linha "Alterado ... por" (22px do avatar + 4px do gap)
+       mesmo quando ela não é renderizada: sem isso, arquivos sem data de
+       alteração ficariam mais baixos e o quadro do nome sairia do alinhamento
+       em relação aos cards vizinhos */
+    min-height: 48px;
+    justify-content: center;
 }
 
 .CardArquivoMeta {
@@ -126,7 +193,7 @@
     margin-top: 2px;
 }
 
-/* ---------- menu kebab (aparece no hover do card) ---------- */
+/* ---------- menu kebab (sempre visível, para ficar mais intuitivo) ---------- */
 
 .CardArquivoMenu {
     position: absolute;
@@ -148,18 +215,19 @@
     border-radius: 50%;
     background: transparent;
     border-color: transparent;
-    color: #6b7280;
-    opacity: 0;
-    transition: opacity .15s ease, background .15s ease;
+    color: #9aa1a9;
+    opacity: 1;
+    transition: color .15s ease, background .15s ease;
 }
 
 .CardArquivoMenuBotao.ui-button .ui-button-icon-left {
     margin: 0;
 }
 
+/* no hover do card o botão ganha mais contraste, sem nunca sumir */
 .CardArquivo:hover .CardArquivoMenuBotao.ui-button,
 .CardArquivoMenuBotao.ui-button:focus {
-    opacity: 1;
+    color: #6b7280;
 }
 
 .CardArquivoMenuBotao.ui-button:hover {
@@ -208,14 +276,6 @@
 @media (max-width: 480px) {
     .CardArquivoMeta {
         flex-wrap: wrap;
-    }
-}
-
-/* ---------- dispositivos sem hover (touch): botão de menu sempre visível ---------- */
-
-@media (hover: none), (pointer: coarse) {
-    .CardArquivoMenuBotao.ui-button {
-        opacity: 1;
     }
 }
 

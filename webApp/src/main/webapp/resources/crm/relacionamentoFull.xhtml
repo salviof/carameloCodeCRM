@@ -1,0 +1,68 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet library="crmAtividade" name="atividade.css" />
+        <!-- Componente independente: logo, barra de relacionamento e legenda
+             da pessoa. A grade e as cores sao deste bloco, e nao de quem o
+             cerca, para ele funcionar igual em qualquer componente host.
+
+               [ logo ] [ barra de relacionamento ]
+               [ Nome da empresa esta aqui ...... ]
+
+             O rendered fica no bloco da logo inteiro, nao na imagem: sem foto
+             cadastrada a coluna desaparece, em vez de sobrar um vao antes da
+             barra. -->
+        <h:panelGroup layout="block" styleClass="crc-comp-relacionamento-full" >
+
+            <h:panelGroup layout="block" styleClass="AtvDispCabecalhoLogo"
+                          rendered="#{cc.attrs.pessoa.temImagemPequenaAdicionada}">
+                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoa)}"
+                        styleClass="AtvDispCabecalhoLogoLink"
+                        title="Abrir o cadastro de #{cc.attrs.pessoa.nome}">
+                    <p:graphicImage url="#{cc.attrs.pessoa.imgPequena}"
+                                    styleClass="AtvDispCabecalhoLogoImg"
+                                    alt="#{cc.attrs.pessoa.nome}" />
+                </p:link>
+            </h:panelGroup>
+
+            <!-- O relacionamento e reusado em varios componentes e nao
+                 pode depender de quem o cerca: a raiz dele e bloco de
+                 largura 100% com container query propria, entao ele so
+                 precisa de uma div que informe a largura disponivel e
+                 resolve sozinho o resto. Por isso ele entra em fluxo
+                 normal, sem flex, sem span e sem form em volta. -->
+            <div class="AtvDispCabecalhoRel">
+                <CRM:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
+            </div>
+
+            <!-- Legenda da barra. Sem dois-pontos: o que ela apresenta
+                 esta acima dela agora, nao depois, e quem faz esse
+                 papel e a seta, que aponta para a barra. Ela e
+                 decorativa (aria-hidden): o texto ja diz tudo, e
+                 "seta para cima" lido em voz alta nao ajudaria. -->
+            <div class="AtvDispCabecalhoTexto">
+                <span class="AtvDispCabecalhoNome">#{cc.attrs.pessoa.nome}</span>
+                <span class="AtvDispCabecalhoDica">está aqui</span>
+                <i class="fa fa-arrow-up AtvDispCabecalhoSeta" aria-hidden="true"></i>
+            </div>
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

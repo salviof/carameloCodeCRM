@@ -1,0 +1,105 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="atividade"   type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM" required="true"/>
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <ui:param name="cabAtvTipo"      value="#{cc.attrs.atividade.tipoAtividade}" />
+        <ui:param name="cabAtvRelNovo"   value="#{cc.attrs.atividade.relacionamentoGerado}" />
+        <ui:param name="cabAtvRelAtual"  value="#{cc.attrs.atividade.prospectoEmpresa.relacionamento}" />
+        <ui:param name="cabAtvPodeEditar" value="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar)}" />
+
+        <!-- Cor do tipo de atividade e do novo relacionamento: so custom properties
+             inline; o desenho todo fica em atividade.css -->
+        <h:panelGroup layout="block" styleClass="crc-comp-cabecalho-atividade Container12"
+                      style="--cabAtv-cor: #{(empty cabAtvTipo.cor or cabAtvTipo.cor.startsWith('#')) ? '' : '#'}#{cabAtvTipo.cor}; --cabAtv-rel-cor: #{(empty cabAtvRelNovo.cor or cabAtvRelNovo.cor.startsWith('#')) ? '' : '#'}#{cabAtvRelNovo.cor};">
+
+            <!-- Identidade da atividade: icone, nome, descricao e mudanca de relacionamento -->
+            <h:panelGroup layout="block" styleClass="CabAtvIdentidade">
+
+                <span class="CabAtvIcone" aria-hidden="true">
+                    <i class="#{cabAtvTipo.iconeAcao}"></i>
+                </span>
+
+                <h:panelGroup layout="block" styleClass="CabAtvTexto">
+
+                    <span class="CabAtvRotulo">Executando atividade</span>
+
+                    <!-- Administrador: o nome vira link de edicao, com sinal explicito -->
+                    <p:link id="tipoAtividade" rendered="#{cabAtvPodeEditar}"
+                            styleClass="CabAtvNome CabAtvNome--editavel"
+                            href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar,cabAtvTipo)}" >
+                        <span class="CabAtvNomeTexto">#{cabAtvTipo.nomeAcao}</span>
+                        <span class="CabAtvEditarSelo">
+                            <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                            Personalizar
+                        </span>
+                    </p:link>
+
+                    <p:tooltip for="tipoAtividade" rendered="#{cabAtvPodeEditar}"
+                               position="bottom" styleClass="CabAtvTooltip">
+                        <strong>Você pode personalizar este tipo de atividade</strong>
+                        <br/>
+                        Seu perfil tem permissão de administrador: clique para abrir a edição de
+                        "#{cabAtvTipo.nomeAcao}" (nome, cor, ícone, descrição e relacionamento gerado).
+                        A mudança vale para todos os usuários.
+                    </p:tooltip>
+
+                    <h:panelGroup styleClass="CabAtvNome" rendered="#{not cabAtvPodeEditar}">
+                        <span class="CabAtvNomeTexto">#{cabAtvTipo.nomeAcao}</span>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="CabAtvLinhaApoio">
+
+                        <!-- Mudanca de relacionamento: icone + texto, para nao depender so de cor -->
+                        <h:panelGroup styleClass="CabAtvRelMuda CabAtvRelMuda--avanca"
+                                      rendered="#{cabAtvRelNovo != null and cabAtvRelAtual != null and cabAtvRelNovo.peso gt cabAtvRelAtual.peso}"
+                                      >
+                            <i class="fa-solid fa-arrow-trend-up CabAtvRelMudaIcone" aria-hidden="true"></i>
+                            <span class="CabAtvRelMudaSentido">Avança para</span>
+                            <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                        </h:panelGroup>
+                        <h:panelGroup styleClass="CabAtvRelMuda CabAtvRelMuda--regride"
+                                      rendered="#{cabAtvRelNovo != null and cabAtvRelAtual != null and cabAtvRelNovo.peso lt cabAtvRelAtual.peso}"
+                                      >
+                            <i class="fa-solid fa-arrow-trend-down CabAtvRelMudaIcone" aria-hidden="true"></i>
+                            <span class="CabAtvRelMudaSentido">Recua para</span>
+                            <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                        </h:panelGroup>
+
+                        <h:panelGroup styleClass="CabAtvRelMuda CabAtvRelMuda--mantem"
+                                      rendered="#{cabAtvRelNovo != null and (cabAtvRelAtual == null or cabAtvRelNovo.peso == cabAtvRelAtual.peso)}"
+                                      >
+                            <i class="fa-solid fa-right-left CabAtvRelMudaIcone" aria-hidden="true"></i>
+                            <span class="CabAtvRelMudaSentido">Muda para</span>
+                            <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                        </h:panelGroup>
+
+                        <h:panelGroup styleClass="CabAtvDescricao" rendered="#{not empty cabAtvTipo.descricao}"
+
+                                      >
+                            #{cabAtvTipo.descricao}
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <cc:renderFacet name="opcoesCabecalhoAtividade"/>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <!-- Relacionamento atual do cliente: define a altura maxima do cabecalho -->
+            <h:panelGroup layout="block" styleClass="CabAtvRelacionamento">
+                <CRM:relacionamentoFull  pessoa="#{cc.attrs.atividade.prospectoEmpresa}" />
+            </h:panelGroup>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

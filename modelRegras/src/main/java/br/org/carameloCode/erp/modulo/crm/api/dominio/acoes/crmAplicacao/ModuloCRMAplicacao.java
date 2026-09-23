@@ -790,7 +790,7 @@ public class ModuloCRMAplicacao extends ControllerAbstratoSBPersistencia {
                 tipoFormularios.stream().filter(tp -> tp.getTempoAceitavelResolucao() > 0).forEach(tipoComPraso::add);
 
                 for (TipoRelacionamento tp : tipoComPraso) {
-                    List<Pessoa> pessoasDoRelacionamento = new ConsultaDinamicaDeEntidade(Pessoa.class, getEMResposta()).addcondicaoCampoIgualA(CPPessoa.relacionamento, tp).gerarResultados();
+                    List<Pessoa> pessoasDoRelacionamento = new ConsultaDinamicaDeEntidade(Pessoa.class, getEMResposta()).addCondicaoManyToOneIgualA(CPPessoa.relacionamento, tp).gerarResultados();
                     for (Pessoa pessoa : pessoasDoRelacionamento) {
                         boolean valorBanco = pessoa.isPossuiDemandaUrgencia();
                         boolean valorProcessado = pessoa.getCPinst(CPPessoa.possuidemandaurgencia).getValorComoBoolean();

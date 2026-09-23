@@ -1,0 +1,65 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    >
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="titulo" />
+        <cc:attribute name="descricao" />
+        <cc:attribute name="icone" />
+        <!-- Mesmo padrao do p:commandLink de antes: sem processar, processa o form -->
+        <cc:attribute name="processar" default="@form" />
+        <cc:attribute name="atualizar" />
+        <cc:attribute name="metodo"  method-signature="void listener()"/>
+        <!-- Hex com ou sem #. Vazio: o CSS decide (azul fora do painel, cor do texto dentro dele) -->
+        <cc:attribute name="cor" default="" />
+        <cc:attribute name="onComplete"/>
+        <cc:attribute name="onStart"/>
+        <!-- Variantes (sufixo com dois hifens, ver atividade.css): principal = Concluir, conclusao = icone verde -->
+        <cc:attribute name="styleClasses" type="java.lang.String" default=" " required="false"/>
+        <cc:attribute name="timeoutAjax" default="" />
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet library="crmAtividade" name="atividade.css" />
+
+        <!-- A cor entra como custom property so quando informada, para o fallback do CSS valer -->
+        <h:panelGroup layout="block" styleClass="comp-crc-botaoAcaoAtividade #{cc.attrs.styleClasses}"
+                      style="#{empty cc.attrs.cor ? '' : '--botaoAcaoAtv-cor: '}#{empty cc.attrs.cor or cc.attrs.cor.startsWith('#') ? '' : '#'}#{cc.attrs.cor}">
+
+            <!-- O ajax sai do remoteCommand para a acao poder ser um <button> nativo -->
+            <p:remoteCommand name="rcBotaoAcaoAtv_#{fn:replace(fn:replace(cc.clientId, ':', '_'), '-', '_')}"
+                             actionListener="#{cc.attrs.metodo}"
+                             update="#{cc.attrs.atualizar}"
+                             process="#{cc.attrs.processar}"
+                             onstart="#{cc.attrs.onStart}"
+                             timeout="#{cc.attrs.timeoutAjax}"
+                             oncomplete="#{cc.attrs.onComplete}"
+                             />
+
+            <button type="button"
+                    class="botaoAcaoAtvBotao"
+                    title="#{cc.attrs.titulo}"
+                    onclick="rcBotaoAcaoAtv_#{fn:replace(fn:replace(cc.clientId, ':', '_'), '-', '_')}(); return false;">
+                <span class="botaoAcaoAtvIcone" aria-hidden="true">
+                    <i class="#{fn:contains(cc.attrs.icone, 'fa-solid') or fn:contains(cc.attrs.icone, 'fa-regular') or fn:contains(cc.attrs.icone, 'fa-brands') ? '' : 'fa '}#{cc.attrs.icone}"></i>
+                </span>
+                <span class="botaoAcaoAtvTexto">
+                    <span class="botaoAcaoAtvTitulo">#{cc.attrs.titulo}</span>
+                    <h:panelGroup styleClass="botaoAcaoAtvDescricao"
+                                  rendered="#{!pgUtil.isNuloOuEmbranco(cc.attrs.descricao)}">#{cc.attrs.descricao}</h:panelGroup>
+                </span>
+            </button>
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

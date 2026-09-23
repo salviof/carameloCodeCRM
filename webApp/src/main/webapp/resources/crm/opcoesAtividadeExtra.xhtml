@@ -4,7 +4,7 @@
     xmlns:cc="http://java.sun.com/jsf/composite"
     xmlns:p="http://primefaces.org/ui"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
-    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     >
@@ -26,13 +26,13 @@
                 DEBUG BLOQUEIOS :     #{cc.attrs.atividade.listaBloqueios}
             </c:if>
             <p:fieldset  >
-                <p:link href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar,pgExecutarAtividade.atividade.tipoAtividade)}" >
-                    (Clique para editar essa atividade)
-                </p:link> #{cc.attrs.atividade.tipoAtividade.nome}  para: #{cc.attrs.atividade.prospectoEmpresa.nome}
-                <p:progressBar value="#{cc.attrs.atividade.prospectoEmpresa.relacionamento.peso*10}"  labelTemplate="{value}% #{cc.attrs.atividade.prospectoEmpresa.relacionamento.nome}"    displayOnly="true" /> <br/>
+
 
                 <div class="Container6">
-                    <SBCRM:opcoesAtividadeResumido atividade="#{cc.attrs.atividade}"/>
+
+                    <p:link href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar,pgExecutarAtividade.atividade.tipoAtividade)}" >
+                        (Clique para editar essa atividade)
+                    </p:link> #{cc.attrs.atividade.tipoAtividade.nome}  para: #{cc.attrs.atividade.prospectoEmpresa.nome}
 
                 </div>
 

@@ -31,58 +31,13 @@
             <div class="AtividadesDisponiveisDesktop" data-atvdisp="#{cc.clientId}">
                 <!-- O cabecalho tambem e gatilho de previa: passar o mouse nele
                      traz de volta o estagio atual, sem precisar ir ate o menu.
-
-                     Desenho, em grade de duas colunas e duas linhas:
-
-                       [ logo ] [ barra de relacionamento ]
-                       [ Nome da empresa esta aqui ...... ]
-
-                     A legenda atravessa as duas colunas, entao ela comeca
-                     alinhada com a borda esquerda da logo e segue por baixo da
-                     barra quando o nome for longo. E o que permite o nome nao
-                     ficar preso a largura da logo nem empurrar a barra.
-
-                     A ordem no DOM e a de leitura: logo, barra, legenda.
-
-                     O rendered fica no bloco da logo inteiro, nao na imagem:
-                     sem foto cadastrada a coluna desaparece, em vez de sobrar
-                     um vao antes da barra. A altura da logo virou token no CSS
-                     (atvDisp-logo-lado), em vez do atributo height. -->
+                     O desenho (logo, barra e legenda) e do relacionamentoFull,
+                     componente independente; aqui fica so o gatilho. -->
 
                 <h:panelGroup layout="block" styleClass="AtvDispCabecalho" >
                     <f:passThroughAttribute name="data-atvdisp-previa" value="atual" />
 
-                    <h:panelGroup layout="block" styleClass="AtvDispCabecalhoLogo"
-                                  rendered="#{pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}">
-                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgExecutarAtividade.prospecto)}"
-                                styleClass="AtvDispCabecalhoLogoLink"
-                                title="Abrir o cadastro de #{pgExecutarAtividade.prospecto.nome}">
-                            <p:graphicImage url="#{pgExecutarAtividade.prospecto.imgPequena}"
-                                            styleClass="AtvDispCabecalhoLogoImg"
-                                            alt="#{pgExecutarAtividade.prospecto.nome}" />
-                        </p:link>
-                    </h:panelGroup>
-
-                    <!-- O relacionamento e reusado em varios componentes e nao
-                         pode depender de quem o cerca: a raiz dele e bloco de
-                         largura 100% com container query propria, entao ele so
-                         precisa de uma div que informe a largura disponivel e
-                         resolve sozinho o resto. Por isso ele entra em fluxo
-                         normal, sem flex, sem span e sem form em volta. -->
-                    <div class="AtvDispCabecalhoRel">
-                        <CRMRelacionamento:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
-                    </div>
-
-                    <!-- Legenda da barra. Sem dois-pontos: o que ela apresenta
-                         esta acima dela agora, nao depois, e quem faz esse
-                         papel e a seta, que aponta para a barra. Ela e
-                         decorativa (aria-hidden): o texto ja diz tudo, e
-                         "seta para cima" lido em voz alta nao ajudaria. -->
-                    <div class="AtvDispCabecalhoTexto">
-                        <span class="AtvDispCabecalhoNome">#{cc.attrs.pessoa.nome}</span>
-                        <span class="AtvDispCabecalhoDica">está aqui</span>
-                        <i class="fa fa-arrow-up AtvDispCabecalhoSeta" aria-hidden="true"></i>
-                    </div>
+                    <CRMRelacionamento:relacionamentoFull pessoa="#{pgExecutarAtividade.prospecto}" />
 
                 </h:panelGroup>
 

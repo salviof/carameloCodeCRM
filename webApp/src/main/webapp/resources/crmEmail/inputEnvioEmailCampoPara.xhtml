@@ -84,11 +84,12 @@
                         value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('contatos')}"
                         />
                 </p:ajax>
+
                 <p:column styleClass="FontAdamantiumBold Fs16" style="width: 20px;">
                     <p:fragment>
                         <p:commandButton
                             icon="fa fa-user-plus"
-                            rendered="#{contato.id==0}"
+                            rendered="#{contato.id==null}"
                             onclick="$(PrimeFaces.escapeClientId(PF('commandModalNovoContato').id)).click();"
                             process="@this"
                             >

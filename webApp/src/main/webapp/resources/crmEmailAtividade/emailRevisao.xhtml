@@ -1,0 +1,208 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:CRMEmailAtividade="http://xmlns.jcp.org/jsf/composite/crmEmailAtividade"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="email"
+                      required="true"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail"
+                      />
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="emailAtividade.css" library="crmEmail" />
+
+        <h:outputScript target="head">
+            /* A etapa fica marcada em azul enquanto o modal dela esta aberto:
+            e o que responde "estou editando esta". A marca e uma classe, e
+            nao :hover nem :focus, de proposito -- o modal abre por cima do
+            ponteiro e o mouseleave nunca chega, entao hover/foco travariam
+            acesos. Quem liga e o clique, quem desliga e o onHide do proprio
+            modal: a marca acompanha o modal, nao o ponteiro. */
+            function revisaoAbrirEtapa(link, modal) {
+            revisaoLimparEtapas();
+            var etapa = link.closest('.Atv-exec-email-revisaoEtapa');
+            if (etapa) {
+            etapa.classList.add('Atv-exec-email-revisaoEtapaEmEdicao');
+            }
+            /* marca no body: e ela que suspende o hover das outras etapas
+            enquanto o modal cobre a tela. Nao da para usar a mascara do
+            PrimeFaces (.ui-widget-overlay) como sinal: confirmDialog e
+            BlockUI deixam mascaras no DOM o tempo todo, e o hover
+            ficaria suspenso para sempre. */
+            document.body.classList.add('Atv-exec-email-revisaoModalAberto');
+            PF(modal).show();
+            }
+
+            function revisaoLimparEtapas() {
+            document.body.classList.remove('Atv-exec-email-revisaoModalAberto');
+            document.querySelectorAll('.Atv-exec-email-revisaoEtapaEmEdicao')
+            .forEach(function (etapa) {
+            etapa.classList.remove('Atv-exec-email-revisaoEtapaEmEdicao');
+            });
+            }
+        </h:outputScript>
+
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer Atv-exec-email-revisao"  >
+            <h:panelGroup layout="block" rendered="#{cc.attrs.email!=null}"  >
+
+                <!-- Cada etapa e uma faixa clicavel inteira: o link mora no
+                     cabecalho e se estica sobre a faixa por CSS (o ::after de
+                     .Atv-exec-email-revisaoEtapaAcao). E por isso que o link
+                     NAO envolve o conteudo: a tag "a" e inline e nao contem os
+                     divs com float dos cartoes (so o texto ficaria clicavel),
+                     e envolver campos e botoes num link quebraria os dois.
+                     O botao "Editar" fica sempre visivel: no celular nao ha
+                     cursor nem hover para anunciar que a faixa e clicavel. -->
+
+                <!-- Destinatarios em revisao: o mesmo cartao do seletor de
+                     contatos (crmEmailAtividade/emailProspectoDestinatarios.xhtml),
+                     mas so de leitura: o cartao em si nao e a acao "adicionar
+                     este". Quem leva para a edicao e a faixa inteira, nao o
+                     contato individual: a acao e "editar a lista". -->
+                <h:panelGroup layout="block" styleClass="Container12 Atv-exec-email-revisaoEtapa Atv-exec-email-revisao-destinatarios" >
+                    <h:panelGroup layout="block" styleClass="Atv-exec-email-revisaoRotulo">
+                        <h:panelGroup styleClass="fa fa-users Atv-exec-email-revisaoRotuloIcone" />
+                        <h:outputText value="Revise os destinatários" />
+                        <h:outputLink value="#" styleClass="Atv-exec-email-revisaoEtapaAcao"
+                                      title="Editar os destinatários deste e-mail"
+                                      onclick="revisaoAbrirEtapa(this, 'modalEdicaoDestinatario'); return false;">
+                            <h:panelGroup styleClass="fa fa-pen Atv-exec-email-revisaoEtapaAcaoIcone" />
+                            <h:outputText value="Editar" />
+                        </h:outputLink>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="OrganizadorContainerEsquerda Atv-exec-email-chipsLista">
+                        <c:forEach var="contatoLead" items="#{cc.attrs.email.contatos}" >
+                            <h:panelGroup layout="block" styleClass="Atv-exec-email-chip Atv-exec-email-chip--contato">
+                                <h:panelGroup styleClass="Atv-exec-email-chipAcao">
+                                    <h:panelGroup styleClass=" Atv-exec-email-chipIcone" >
+                                        <CRM:avatarContato mostrarNome="false"  contato="#{contatoLead}" somenteLeitura="true"  altura="50" />
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                                <h:panelGroup styleClass="Atv-exec-email-chipTexto">
+                                    <h:outputText styleClass="Atv-exec-email-chipNome" value="#{contatoLead.nome}" />
+                                    <h:outputText styleClass="Atv-exec-email-chipEmail" value="#{contatoLead.email}" />
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </c:forEach>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!-- Conteudo em revisao: assunto e corpo na ordem em que o
+                     destinatario le. O corpo e readonly e sem barra de rolagem:
+                     aqui se confere: quem edita e o modal. -->
+                <h:panelGroup layout="block" styleClass="Container12 Atv-exec-email-revisaoEtapa Atv-exec-email-revisao-conteudo" >
+                    <h:panelGroup layout="block" styleClass="Atv-exec-email-revisaoRotulo">
+                        <h:panelGroup styleClass="fa fa-align-left Atv-exec-email-revisaoRotuloIcone" />
+                        <h:outputText value="Revise o conteúdo" />
+                        <h:outputLink value="#" styleClass="Atv-exec-email-revisaoEtapaAcao"
+                                      title="Editar o assunto e o texto deste e-mail"
+                                      onclick="revisaoAbrirEtapa(this, 'modalEdicaoConteudo'); return false;">
+                            <h:panelGroup styleClass="fa fa-pen Atv-exec-email-revisaoEtapaAcaoIcone" />
+                            <h:outputText value="Editar" />
+                        </h:outputLink>
+                    </h:panelGroup>
+
+                    <h:form styleClass="Atv-exec-email-revisaoConteudoCampos">
+                        <p:inputText styleClass="Atv-exec-email-revisaoAssunto"
+                                     placeholder="Assunto do e-mail"
+                                     readonly="true"
+                                     value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto').valor}" />
+                        <p:textEditor   styleClass="Atv-exec-email-revisaoCorpo"
+                                        widgetVar="editorRevisaoCorpo"
+                                        secure="false"
+                                        toolbarVisible="false"
+                                        readonly="true"
+                                        height="230px"
+                                        value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
+                                        placeholder="Escreva seu e-mail aqui"
+                                        />
+                    </h:form>
+                </h:panelGroup>
+
+                <!-- Anexos em revisao: os cartoes vem do composite
+                     crmArquivo:arquivoDetalhe, o mesmo usado na ficha do
+                     prospecto. Aqui eles sao a lista do que segue junto.
+                     O menu de acoes de cada arquivo fica ACIMA do link que
+                     cobre a faixa (z-index no CSS): abrir/baixar um anexo e
+                     uma acao diferente de trocar a lista de anexos. -->
+                <h:panelGroup layout="block" styleClass="Container12 Atv-exec-email-revisaoEtapa Atv-exec-email-revisao-anexos" >
+                    <h:panelGroup layout="block" styleClass="Atv-exec-email-revisaoRotulo">
+                        <h:panelGroup styleClass="fa fa-paperclip Atv-exec-email-revisaoRotuloIcone" />
+                        <h:outputText value="Revise os anexos" />
+                        <h:outputLink value="#" styleClass="Atv-exec-email-revisaoEtapaAcao"
+                                      title="Editar os anexos deste e-mail"
+                                      onclick="revisaoAbrirEtapa(this, 'modalEdicaoAnexo'); return false;">
+                            <h:panelGroup styleClass="fa fa-pen Atv-exec-email-revisaoEtapaAcaoIcone" />
+                            <h:outputText value="Editar" />
+                        </h:outputLink>
+                    </h:panelGroup>
+
+                    <c:forEach var="arquivo" items="#{cc.attrs.email.arquivosAnexados}" >
+                        <crmArquivo:arquivoDetalhe arquivo="#{arquivo}" />
+                    </c:forEach>
+
+                    <h:panelGroup layout="block" styleClass="Atv-exec-email-revisaoVazio"
+                                  rendered="#{empty cc.attrs.email.arquivosAnexados}">
+                        <h:outputText value="Nenhum anexo neste e-mail" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{cc.attrs.email==null}" >
+                Sem e-mail
+            </h:panelGroup>
+        </h:panelGroup>
+
+
+
+        <p:dialog header="Destinatários do Email" widgetVar="modalEdicaoDestinatario" minHeight="40" width="600" showEffect="fade" modal="true" closeOnEscape="true"
+                  onHide="revisaoLimparEtapas();" >
+            <CRMEmailAtividade:emailProspectoDestinatarios
+
+                metodoAposAtualizarEmail="#{pgUtil.atualizaTelaPorID('contatosRapidoAdd')}"
+
+                email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                empresa="#{pgExecutarAtividade.atividade.emailVinculado.prospecto}"
+                />
+        </p:dialog>
+
+
+        <p:dialog header="Contaúdo do e-mail" widgetVar="modalEdicaoConteudo" minHeight="40" width="90%" showEffect="fade" modal="true" closeOnEscape="true"
+                  onHide="revisaoLimparEtapas();" >
+
+            <CRMEmailAtividade:emailProspectoConteudo
+                metodoAposAtualizarEmail="#{pgUtil.atualizaTelaPorID('contatosRapidoAdd')}"
+
+                email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                empresa="#{pgExecutarAtividade.atividade.emailVinculado.prospecto}"
+                />
+        </p:dialog>
+
+        <p:dialog header="Anexos do e-mail" widgetVar="modalEdicaoAnexo" minHeight="40" blockScroll="false"  height="600" width="1200" showEffect="fade" modal="true" closeOnEscape="true"
+                  onHide="revisaoLimparEtapas();" >
+            <CRMEmailAtividade:emailProspectoAnexos
+                metodoAposAtualizarEmail="#{pgUtil.atualizaTelaPorID('contatosRapidoAdd')}"
+
+                email="#{pgExecutarAtividade.atividade.emailVinculado}"
+                empresa="#{pgExecutarAtividade.atividade.emailVinculado.prospecto}"
+                />
+        </p:dialog>
+
+
+
+
+
+    </cc:implementation>
+</ui:composition>

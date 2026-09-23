@@ -7,10 +7,10 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
-
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <CRM:cabecalhoAtividade
+    <CRMAtividade:cabecalhoAtividade
         atividade="#{pgExecutarAtividade.atividade}">
         <f:facet name="opcoesCabecalhoAtividade">
             <p:fieldset rendered="#{pgExecutarAtividade.atividade.dadosNaoColetados.size()>0}"  >
@@ -43,7 +43,7 @@
                 </div>
             </p:fieldset>
         </f:facet>
-    </CRM:cabecalhoAtividade>
+    </CRMAtividade:cabecalhoAtividade>
 
 
 

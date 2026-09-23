@@ -608,6 +608,7 @@ public class ServicosCRM implements Serializable {
                 UtilSBPersistencia.iniciarTransacao(em);
 
                 pArquivo.getCPinst("arquivo").getComoArquivoDeEntidade().excluirArquivo();
+                UtilSBPersistencia.executaSQL(em, "delete from envioEmail_arquivoAnexado where arquivoAnexado_id = " + pArquivo.getId());
                 UtilSBPersistencia.exluirRegistro(pArquivo, em);
             } finally {
                 UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);

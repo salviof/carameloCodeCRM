@@ -1,0 +1,125 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRMMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+        <cc:attribute name="email"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail" required="true"/>
+        <cc:attribute name="metodoAposAtualizarEmail" type="javax.el.MethodExpression"  required="false" />
+        <cc:attribute name="mostarContato" default="true" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+        <h:outputStylesheet name="emailAtividade.css" library="crmEmail" />
+        <h:panelGroup styleClass="Container12 Atv-exec-email-seletor-anexos" layout="block" id="campo-anexos">
+            <p:fieldset legend="Selecione os arquivos anexados:" rendered="#{cc.attrs.email!=null}" styleClass="Container12 Atv-exec-anexo-painel"  >
+
+                <h:form styleClass="Atv-exec-anexo-formulario">
+                    <SBCRMMAIL:inputEnvioEmailCampoAnexo
+                        email="#{cc.attrs.email}"
+                        colunasBotaoInsersao="12"
+                        colunasLocalizacao="12"
+                        />
+                </h:form>
+                <p:fieldset
+                    id="arquivoRapidoAdd"
+                    rendered="#{cc.attrs.email!=null}" styleClass="Container12 Atv-exec-anexo-rapido"  >
+                    <f:facet name="legend" >
+                        <h:panelGroup styleClass="Atv-exec-anexo-rapidoLegenda">
+                            <h:panelGroup styleClass="fa fa-bolt Atv-exec-anexo-rapidoLegendaIcone" />
+                            <h:outputText value="Seleção de anexo com um click" />
+                        </h:panelGroup>
+                    </f:facet>
+
+                    <h:outputText styleClass="Atv-exec-anexo-rapidoDica"
+                                  value="Clique no arquivo para anexá-lo ao e-mail. O menu do cartão continua servindo para visualizar e baixar." />
+
+                    <h:panelGroup layout="block" styleClass="Atv-exec-anexo-rapidoLista OrganizadorContainerExpandido" >
+
+                        <!-- Cada item empilha duas coisas independentes: o cartao de detalhes
+                             do arquivo (componente reusado, com menu proprio) e, como IRMAO
+                             dele, o link que anexa. O link e uma camada sobre o item inteiro;
+                             o kebab do cartao ja nasce com z-index maior e continua clicavel.
+                             Por isso o cartao NAO fica dentro do link: aninhado, qualquer
+                             clique (inclusive no menu) viraria "anexar". -->
+                        <c:forEach var="arquivo" items="#{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('ultimosArquivos').valor}"    >
+
+                            <h:panelGroup layout="block"
+                                          rendered="#{!cc.attrs.email.arquivosAnexados.contains(arquivo)}"
+                                          styleClass="Atv-exec-anexo-rapidoItem">
+
+                                <crmArquivo:arquivoDetalhe arquivo="#{arquivo}" />
+                                <h:form>
+                                    <p:commandLink styleClass="Atv-exec-anexo-rapidoAcao"
+                                                   title="Anexar #{arquivo.nome} ao e-mail"
+                                                   process="@this"
+                                                   actionListener="#{cc.attrs.email.adicionarArquivoAnexado(arquivo)}"
+                                                   update="@form #{pgUtil.gerarCaminhoCompletoID('compEmailAnexos')}">
+                                        <h:panelGroup styleClass="Atv-exec-anexo-rapidoSelo">
+                                            <h:panelGroup styleClass="fa fa-plus Atv-exec-anexo-rapidoSeloIcone" />
+                                        </h:panelGroup>
+                                        <h:outputText styleClass="Atv-exec-anexo-rapidoAcaoTexto" value="Anexar ao e-mail" />
+                                    </p:commandLink>
+                                </h:form>
+                            </h:panelGroup>
+                        </c:forEach>
+
+                    </h:panelGroup>
+
+                </p:fieldset>
+
+            </p:fieldset>
+        </h:panelGroup>
+        <h:panelGroup styleClass="Container12" layout="block">
+
+
+            <h:form>
+                <p:fragment >
+                    <p:remoteCommand async="true" process="@this"
+                                     actionListener="#{paginaAtual.comoPaginaComModalEmail.onModalAnexoEmailClose}"
+                                     update="#{pgUtil.gerarCaminhoCompletoID('campo-anexos')}"
+                                     name="atualizaranexos" />
+                </p:fragment>
+
+
+                <p:fragment >
+                    <p:remoteCommand async="true" process="@parent"  update="@parent" name="atualizarValoresUploadDireto" >
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.entidade}" value="#{cc.attrs.empresa}" />
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.caminhoCampo}" value="arquivos" />
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.caminhoCampo}" value="arquivos" />
+                        <f:setPropertyActionListener target="#{pgUtilUploadDeAnexoEmail.email}" value="#{cc.attrs.email}" />
+                    </p:remoteCommand>
+                </p:fragment>
+                <p:fieldset rendered="#{cc.attrs.email==null}">
+                    O email não foi configurado
+                </p:fieldset>
+            </h:form>
+
+
+
+
+        </h:panelGroup>
+        <h:form>
+            <p:remoteCommand name="atualizarVisaoArquivosPessoa" actionListener="#{pgUtil.atualizaTelaPorID('campo-anexos')}"
+                             oncomplete="atualizaranexos();"
+                             >
+
+            </p:remoteCommand>
+
+        </h:form>
+
+    </cc:implementation>
+</ui:composition>
