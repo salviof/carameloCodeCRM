@@ -114,8 +114,6 @@ public enum FabAcaoCRMAtendimento implements ComoFabricaDeAcoesPersistencia {
     EXECUCAO_ATIVIDADE_CTR_AGENDAR,
     @InfoTipoAcaoController(nomeAcao = "EnviarConvite", iconeFonteAnsowame = FabIconeFontAwesome.COMUNICACAO_AVIAO_DE_PAPEL)
     EXECUCAO_ATIVIDADE_CTR_ENVIAR_CONVITE,
-    @InfoTipoAcaoController(nomeAcao = "AutoExecução atividade", icone = "fa fa-play")
-    EXECUCAO_ATIVIDADE_CTR_AUTOEXECUCAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Nova Atividade Simples", icone = "fa fa-play")
     EXECUCAO_ATIVIDADE_FRM_ATIVIDADE_SIMPLES,
     @InfoTipoAcaoFormulario(nomeAcao = "Agendar", icone = "fa fa-calendar")

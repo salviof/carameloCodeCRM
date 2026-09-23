@@ -410,6 +410,7 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
                     atividadeAplicarModeloEmail(atividadeAtualizada);
                     if (atividadeAtualizada.getTipoAtividade().isExecucaoDiretaSemRelatorio()) {
                         ItfRespostaAcaoDoSistema resp = atividadeConcluir(atividadeAtualizada);
+                        setRetorno(resp.getRetorno());
                         setProximoFormulario(resp.getAcaoProximoFormulario());
                     }
                 }
@@ -427,8 +428,8 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
                             -> (atividade.getTipoAtividade().equals(ptipoAtividade) && atividade.getUsuarioAtividade() != null && atividade.getUsuarioAtividade().equals(SBCore.getUsuarioLogado()))).findFirst();
                     if (atividadeEncontrada.isPresent()) {
                         setRetorno(atividadeEncontrada.get());
-                        throw new ErroRegraDeNegocio("Já existe uma atividade deste tipo em andamento");
-
+                        addAviso("Já existe uma atividade deste tipo, iniciada por você em andamento, continuando execução de atividade?");
+                        return;
                     } else {
                         novaAtividade.setSobrescreverAcaoAtual(true);
                     }

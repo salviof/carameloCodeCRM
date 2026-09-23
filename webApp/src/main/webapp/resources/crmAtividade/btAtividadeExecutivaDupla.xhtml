@@ -29,10 +29,6 @@
         <h:outputStylesheet name="atividade.css" library="crmAtividade" />
 
         <ui:fragment rendered="#{cc.attrs.tipoAtividadeExecucao ne paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}">
-
-
-
-
             <div class="SbAtvQuadItem SbAtvQuadItem-#{cc.attrs.tamanho} #{rec.first ? 'SbAtvQuadItem-primeiro' : ''} #{rec.last ? 'SbAtvQuadItem-ultimo' : ''}"
                  style="--act-color: #{pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.cor) or cc.attrs.tipoAtividadeExecucao.cor.startsWith('#') ? '' : '#'}#{pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.cor) ? '#57534E' : cc.attrs.tipoAtividade.cor};">
 
