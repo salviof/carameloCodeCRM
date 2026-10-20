@@ -120,29 +120,34 @@ public class UtilGeradorDocumentoCRM {
         }
     }
 
-    public static MapaSubstituicao getMapaSubstituicaoTextoEmail(EnvioEmail pEmail) {
+    public static MapaSubstituicao getPlaceHoldersPadrao(Pessoa p) {
 
         final MapaSubstituicao novoMapa = new MapaSubstituicao();
-        new ExecucaoConsultaComGestaoEntityManager() {
+        return (MapaSubstituicao) new ExecucaoConsultaComGestaoEntityManager() {
             @Override
             public Object regraDeNegocioRetornandoResultado() {
-                Pessoa pProspecto = UtilSBPersistencia.loadEntidade(pEmail.getProspecto(), getEm());
+                Pessoa pProspecto = UtilSBPersistencia.loadEntidade(p, getEm());
 
                 novoMapa.adicionarPalavrasChaveDoObjeto(pProspecto);
                 if (pProspecto.getContatoPrincipal() != null) {
                     novoMapa.adicionarPalavrasChaveDoObjeto("contatoPrincipal", pProspecto.getContatoPrincipal());
                 }
                 adicionarDadosDinamicos(novoMapa, pProspecto);
-                novoMapa.adicionarPalavraChave("[logo]", "<img src='"
-                        + SBCore.getConfigModulo(FabConfigModuloIntranet.class).getPropriedade(FabConfigModuloIntranet.UTRL_PAGINA)
-                        + "imagens/" + pEmail.getId() + "/.logomarca.png' />");
-
                 return novoMapa;
             }
 
-        };
+        }.getResultado();
+
+    }
+
+    public static MapaSubstituicao getMapaSubstituicaoTextoEmail(EnvioEmail pEmail) {
+        MapaSubstituicao novoMapa = getPlaceHoldersPadrao(pEmail.getProspecto());
+        novoMapa.adicionarPalavraChave("[logo]", "<img src='"
+                + SBCore.getConfigModulo(FabConfigModuloIntranet.class).getPropriedade(FabConfigModuloIntranet.UTRL_PAGINA)
+                + "imagens/" + pEmail.getId() + "/.logomarca.png' />");
 
         return novoMapa;
+
     }
 
     public static String gerarDocumentoPastaTemporaria(Pessoa pProspecto, ModeloDocumentoCRM pModelo, String pArquivoTemporario) {

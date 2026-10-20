@@ -1,0 +1,31 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+        <SBFormulario:camposDaAcao
+            registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+            acao="#{paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}"
+            tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+            somenteLeitura="#{!paginaAtual.infoPagina.comoPaginaEntidade.podeEditar}"
+            />
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+            <h:panelGroup styleClass="Container12" layout="block" >
+                <SBPaginaAtual:botaoAcaoPersonalizada
+                    rendered="#{pgModeloEmailMkt.entidadeSelecionada.id!=null}"
+                    acao="#{acoesAdminCrm_ModeloEmailMarketingMbGestao.modeloEmailMarketingFrmEditarComIa}"
+                    />
+            </h:panelGroup>
+            <p:separator/>
+
+            <SBPaginaAtual:botaoSalvarAlteracoes/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

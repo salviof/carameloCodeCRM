@@ -11,12 +11,14 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chatBot.TipoChatBot;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoCRM;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEmail;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.instrucao.InstrucaoIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tagAtendimento.TagAtendimento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.TipoMensagemMktWhatsApp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.documento.modelo.ModeloDocumentoTipoAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.persona.Persona;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
@@ -39,6 +41,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemCor;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -87,6 +90,10 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
 
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntidade;
+
+    @ManyToOne(targetEntity = Persona.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    private Persona persona;
 
     //@Transient
     //private List<FabDadoCRM> camposNescessarios;
@@ -217,6 +224,13 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
     @InfoGrupoCampo(camposDeclarados = {"nome", "label", "mascara", "fabricaTipoAtributo"})
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
     private List<TipoDadoCRM> tiposDadosColetarNaAtividade;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tipoAtividade_instrucaoIA",
+            joinColumns = @JoinColumn(name = "tipoAtividade_id"),
+            inverseJoinColumns = @JoinColumn(name = "instrucaoIA_id"))
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, descricao = "Instruções de IA usadas ao gerar conteúdo para atividades deste tipo.", label = "Instruções de IA")
+    private List<InstrucaoIA> instrucoesIA = new ArrayList<>();
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Ação de plugin vinculado",
             caminhoParaLista = "acoesDePluginsDisponiveis"
@@ -803,6 +817,22 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
 
     public void setTipoChatBot(TipoChatBot tipoChatBot) {
         this.tipoChatBot = tipoChatBot;
+    }
+
+    public List<InstrucaoIA> getInstrucoesIA() {
+        return instrucoesIA;
+    }
+
+    public void setInstrucoesIA(List<InstrucaoIA> instrucoesIA) {
+        this.instrucoesIA = instrucoesIA;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
 }

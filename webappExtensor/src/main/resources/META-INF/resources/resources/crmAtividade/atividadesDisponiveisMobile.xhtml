@@ -1,0 +1,255 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:CRMRelacionamento="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="pessoa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet library="crmAtividade" name="atividade.css" />
+        <h:outputScript library="crmAtividade" name="atividade.js" />
+
+        <!-- =====================================================================
+             Irmao mobile do atividadesDisponiveisDesktop: mesmos comportamentos,
+             outra forma de navegar. No lugar do menu a esquerda com previa por
+             hover (que nao existe no toque), uma sanfona: um relacionamento
+             aberto por vez, o atual aberto de saida.
+
+             Abrir e fechar e o collapse do Bootstrap 5.0.2, que o template
+             basico da aplicacao ja carrega em toda pagina. Por isso nao ha
+             nenhuma linha de sanfona no atividade.js: o data-bs-toggle e
+             delegado no document pelo proprio Bootstrap, entao a sanfona
+             continua funcionando quando o bloco volta por ajax.
+
+             O que faz um painel por vez e o data-bs-parent apontando para o id
+             da sanfona. Esse id nao pode ser o cc.clientId cru: clientId de JSF
+             tem ":", que quebra o seletor CSS que o Bootstrap monta a partir
+             dele. Dai o fn:replace trocando ":" por "_".
+
+             O conteudo de cada painel e o mesmo do desktop, pelos mesmos
+             componentes e com as mesmas classes de CSS
+             (AtvDispPainelLista, AtvDispPainelTopoAcao, AtvDispMetas): mexer no
+             desktop mexe nos dois.
+
+             A classe AtividadesDisponiveisDesktop no painel externo nao e
+             engano: e ela que o atividade.js usa como raiz de bloco, e e o que
+             mantem aqui a trava de clique repetido nos botoes de atividade.
+             ===================================================================== -->
+        <h:panelGroup  styleClass="Container12 AtividadesDisponiveisDesktop" layout="block" style="" >
+
+            <div class="AtividadesDisponiveisMobile" data-atvdisp="#{cc.clientId}">
+
+                <!-- ===================== CABECALHO =====================
+                     Mesma grade do desktop: logo e barra de relacionamento na
+                     primeira linha, legenda atravessando as duas colunas
+                     embaixo. Sem data-atvdisp-previa: previa por hover nao faz
+                     sentido no toque. -->
+                <h:panelGroup layout="block" styleClass="AtvDispCabecalho" >
+
+                    <h:panelGroup layout="block" styleClass="AtvDispCabecalhoLogo"
+                                  rendered="#{pgExecutarAtividade.prospecto.temImagemPequenaAdicionada}">
+                        <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgExecutarAtividade.prospecto)}"
+                                styleClass="AtvDispCabecalhoLogoLink"
+                                title="Abrir o cadastro de #{pgExecutarAtividade.prospecto.nome}">
+                            <p:graphicImage url="#{pgExecutarAtividade.prospecto.imgPequena}"
+                                            styleClass="AtvDispCabecalhoLogoImg"
+                                            alt="#{pgExecutarAtividade.prospecto.nome}" />
+                        </p:link>
+                    </h:panelGroup>
+
+                    <div class="AtvDispCabecalhoRel">
+                        <CRMRelacionamento:relacionamento  tipoRelacionamento="#{cc.attrs.pessoa.relacionamento}" />
+                    </div>
+
+                    <div class="AtvDispCabecalhoTexto">
+                        <span class="AtvDispCabecalhoNome">#{cc.attrs.pessoa.nome}</span>
+                        <span class="AtvDispCabecalhoDica">está aqui</span>
+                        <i class="fa fa-arrow-up AtvDispCabecalhoSeta" aria-hidden="true"></i>
+                    </div>
+
+                </h:panelGroup>
+
+                <!-- ===================== SANFONA DE RELACIONAMENTOS ===================== -->
+                <div class="accordion AtvDispSanfona"
+                     id="#{fn:replace(cc.clientId, ':', '_')}_sanf">
+
+                    <!-- Relacionamento atual: aberto por padrao. Sem botao de
+                         mudanca, porque o lead ja esta neste relacionamento. -->
+                    <div class="accordion-item AtvDispSanfItem AtvDispSanfItem--atual">
+                        <h3 class="accordion-header AtvDispSanfCabecalho"
+                            id="#{fn:replace(cc.clientId, ':', '_')}_sanfCabAtual">
+                            <button class="accordion-button AtvDispSanfBotao"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="##{fn:replace(cc.clientId, ':', '_')}_sanfPainelAtual"
+                                    aria-expanded="true"
+                                    aria-controls="#{fn:replace(cc.clientId, ':', '_')}_sanfPainelAtual">
+                                <span class="AtvDispRelIconeArea" aria-hidden="true">
+                                    <i class="fa fa-map-marker AtvDispRelIcone"></i>
+                                </span>
+                                <span class="AtvDispRelTexto">
+                                    <span class="AtvDispRelNome">#{cc.attrs.pessoa.relacionamento.nome}</span>
+                                    <span class="AtvDispRelContador">
+                                        #{empty cc.attrs.pessoa.relacionamento.atividadesExecutivas ? 0 : cc.attrs.pessoa.relacionamento.atividadesExecutivas.size()}
+                                        #{(not empty cc.attrs.pessoa.relacionamento.atividadesExecutivas) and cc.attrs.pessoa.relacionamento.atividadesExecutivas.size() == 1 ? 'atividade' : 'atividades'}
+                                    </span>
+                                </span>
+                                <span class="AtvDispRelSelo">atual</span>
+                                <i class="fa fa-chevron-down AtvDispSanfSeta" aria-hidden="true"></i>
+                            </button>
+                        </h3>
+
+                        <div id="#{fn:replace(cc.clientId, ':', '_')}_sanfPainelAtual"
+                             class="accordion-collapse collapse show AtvDispSanfPainel"
+                             aria-labelledby="#{fn:replace(cc.clientId, ':', '_')}_sanfCabAtual"
+                             data-bs-parent="##{fn:replace(cc.clientId, ':', '_')}_sanf">
+                            <div class="accordion-body AtvDispSanfCorpo">
+
+                                <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor}">
+                                    <span class="AtvDispPainelRotulo">Executar</span>
+                                    <div class="AtvDispPainelLista">
+                                        <h:form>
+                                            <CRMAtividade:seletorAtividades
+                                                empresa="#{cc.attrs.pessoa}"
+                                                listaAtividades="#{cc.attrs.pessoa.relacionamento.atividadesExecutivas}"
+                                                tamanho="G"
+                                                tipoBotoao="ATUAL"
+                                                />
+                                        </h:form>
+                                    </div>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{empty cc.attrs.pessoa.relacionamento.atividadesExecutivas}">
+                                    <p class="AtvDispVazio">Nenhuma atividade para executar neste relacionamento.</p>
+                                </ui:fragment>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Uma aba por atividade agrupadora. Sem agrupadora, nao
+                         existe aba nenhuma alem da atual.
+
+                         O pareamento cabecalho x painel usa o indice do repeat,
+                         nao o id da atividade: id nulo ou com caractere
+                         estranho quebraria o seletor do data-bs-target.
+
+                         A cor da agrupadora entra como custom property inline,
+                         como no menu do desktop, e tinge a aba quando ela esta
+                         aberta. -->
+                    <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesGrupoDeAtividades').valor}">
+                        <ui:repeat value="#{cc.attrs.pessoa.relacionamento.atividadesGrupoDeAtividades}" var="atividadeGrupo" varStatus="rec" >
+
+                            <div class="accordion-item AtvDispSanfItem"
+                                 style="--atvDisp-rel-cor: #{(empty atividadeGrupo.cor or atividadeGrupo.cor.startsWith('#')) ? '' : '#'}#{atividadeGrupo.cor};">
+                                <h3 class="accordion-header AtvDispSanfCabecalho"
+                                    id="#{fn:replace(cc.clientId, ':', '_')}_sanfCab#{rec.index}">
+                                    <button class="accordion-button collapsed AtvDispSanfBotao"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="##{fn:replace(cc.clientId, ':', '_')}_sanfPainel#{rec.index}"
+                                            aria-expanded="false"
+                                            aria-controls="#{fn:replace(cc.clientId, ':', '_')}_sanfPainel#{rec.index}">
+                                        <span class="AtvDispRelIconeArea" aria-hidden="true">
+                                            <i class="#{atividadeGrupo.icone} fa AtvDispRelIcone"></i>
+                                        </span>
+                                        <span class="AtvDispRelTexto">
+                                            <span class="AtvDispRelNome">#{atividadeGrupo.relacionamentoGerado.nome}</span>
+                                            <span class="AtvDispRelContador">
+                                                #{empty atividadeGrupo.relacionamentoGerado.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor ? 0 : atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size()}
+                                                #{(not empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas) and atividadeGrupo.relacionamentoGerado.atividadesExecutivas.size() == 1 ? 'atividade' : 'atividades'}
+                                            </span>
+                                        </span>
+                                        <i class="fa fa-chevron-down AtvDispSanfSeta" aria-hidden="true"></i>
+                                    </button>
+                                </h3>
+
+                                <div id="#{fn:replace(cc.clientId, ':', '_')}_sanfPainel#{rec.index}"
+                                     class="accordion-collapse collapse AtvDispSanfPainel"
+                                     aria-labelledby="#{fn:replace(cc.clientId, ':', '_')}_sanfCab#{rec.index}"
+                                     data-bs-parent="##{fn:replace(cc.clientId, ':', '_')}_sanf">
+                                    <div class="accordion-body AtvDispSanfCorpo">
+
+                                        <!-- Mudar de relacionamento e nada mais.
+                                             O nome do relacionamento nao se
+                                             repete aqui: ele ja esta no
+                                             cabecalho da aba. -->
+                                        <div class="AtvDispPainelTopo OrganizadorContainerExpandido">
+                                            <span class="AtvDispPainelTopoAcao"
+                                                  title="Executa apenas a mudança de relacionamento, sem nenhuma atividade">
+                                                <span class="AtvDispPainelTopoDica">só mudar</span>
+                                                <h:form>
+                                                    <CRMAtividade:btAtividadeAgrupamento
+                                                        empresa="#{cc.attrs.pessoa}"
+                                                        tipoAtividade="#{atividadeGrupo}"
+                                                        tamanho="P"
+                                                        />
+                                                </h:form>
+                                            </span>
+                                        </div>
+
+                                        <ui:fragment rendered="#{not empty atividadeGrupo.relacionamentoGerado.getCampoInstanciadoByNomeOuAnotacao('atividadesExecutivas').valor}">
+                                            <span class="AtvDispPainelRotulo">Mudar e executar</span>
+                                            <div class="AtvDispPainelLista">
+                                                <h:form>
+                                                    <CRMAtividade:seletorAtividadeExecOutroRelacionamento
+                                                        empresa="#{cc.attrs.pessoa}"
+                                                        tamanho="G"
+                                                        tipoAtividade="#{atividadeGrupo}"
+                                                        />
+                                                </h:form>
+                                            </div>
+                                        </ui:fragment>
+                                        <ui:fragment rendered="#{empty atividadeGrupo.relacionamentoGerado.atividadesExecutivas}">
+                                            <p class="AtvDispVazio">Esta mudança não libera atividades para executar.</p>
+                                        </ui:fragment>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </ui:repeat>
+                    </ui:fragment>
+
+                </div>
+
+                <!-- ===================== RODAPE DE METAS =====================
+                     Igual ao desktop, inclusive nas classes: regride na ponta
+                     esquerda, avanca na direita. Abaixo de 560px o proprio CSS
+                     do rodape empilha os dois em faixas de largura inteira, que
+                     e o caso normal aqui. -->
+                <ui:fragment rendered="#{(not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor) or (not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor)}">
+                    <div class="AtvDispMetas OrganizadorContainerExpandido"
+                         role="group"
+                         aria-label="Mover #{cc.attrs.pessoa.nome} de meta no funil">
+
+                        <span class="AtvDispMetaLado AtvDispMetaLado--regride">
+                            <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesDownGradeMeta').valor}">
+                                <CRMAtividade:btAtividadesMetaDowngrade empresa="#{cc.attrs.pessoa}" />
+                            </ui:fragment>
+                        </span>
+
+                        <span class="AtvDispMetaLado AtvDispMetaLado--avanca">
+                            <ui:fragment rendered="#{not empty cc.attrs.pessoa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor}">
+                                <CRMAtividade:btAtividadesMetaUpgrade empresa="#{cc.attrs.pessoa}" />
+                            </ui:fragment>
+                        </span>
+
+                    </div>
+                </ui:fragment>
+
+            </div>
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

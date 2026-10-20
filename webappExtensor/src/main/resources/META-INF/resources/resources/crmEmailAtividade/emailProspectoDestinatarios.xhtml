@@ -1,0 +1,169 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBCRMMAIL="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+        <cc:attribute name="email"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail" required="true"/>
+        <cc:attribute name="metodoAposAtualizarEmail" type="javax.el.MethodExpression"  required="false" />
+        <cc:attribute name="mostarContato" default="true" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!-- O componente carrega o proprio estilo: assim ele nao depende de a
+             pagina que o inclui ja ter declarado a folha. JSF entrega o recurso
+             uma vez so, entao declarar aqui nao duplica nada onde ela ja vem. -->
+        <h:outputStylesheet name="emailAtividade.css" library="crmEmail" />
+        <sb:parametroMetodo nome="metodoAposContato" valor="#{cc.attrs.metodoAposAtualizarEmail}" />
+        <h:panelGroup styleClass="Container12 Atv-exec-email-seletor-contatos" layout="block" id="resumoDestino"  >
+            <h:panelGroup styleClass="Container12 Atv-exec-email-corpo" layout="block"  >
+
+                <!-- Destinatarios ja escolhidos + regra de copia para os colaboradores.
+                     Os dois formularios sao irmaos em fluxo de bloco, e nao itens flex:
+                     o inputEnvioEmailCampoPara e um componente reusado que se dimensiona
+                     sozinho a partir da largura do pai. -->
+                <h:panelGroup id="contatosProsp" layout="block"   styleClass="Container12 Atv-exec-email-destinatarios" >
+
+                    <h:panelGroup styleClass="Atv-exec-email-para" layout="block">
+                        <h:form>
+                            <SBCRMMAIL:inputEnvioEmailCampoPara
+                                email="#{cc.attrs.email}"
+                                />
+                        </h:form>
+                    </h:panelGroup>
+
+                    <h:form styleClass="Atv-exec-email-copia">
+
+                        <p:selectBooleanButton
+                            id="value2" value="#{cc.attrs.email.enviarCopiaColaboradores}"
+                            onLabel="Os colaboradores serão adicionados em cópia"
+                            offLabel="Não adicionar os colaboradores em cópia"
+                            onIcon="fa fa-check"
+                            offIcon="fa fa-times"
+                            styleClass="Atv-exec-email-copiaBotao #{cc.attrs.email.enviarCopiaColaboradores?'botaoVerde':'botaoLaranjas'}"
+                            >
+                            <p:ajax event="change" process="@this" update="@this"  />
+
+                        </p:selectBooleanButton>
+                    </h:form>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="Container12 Atv-exec-email-vazio"
+                              rendered="#{cc.attrs.empresa.contatosComEmail.size()==0}" >
+                    <h:panelGroup styleClass="fa fa-address-book Atv-exec-email-vazioIcone" />
+                    <h:outputText styleClass="Atv-exec-email-vazioTexto"
+                                  value="Nenhum contato foi encontrado, neste prospecto" />
+                </h:panelGroup>
+
+                <p:fieldset
+                    id="contatosRapidoAdd"
+                    rendered="#{cc.attrs.email!=null}" styleClass="Container12 Atv-exec-email-rapido"  >
+                    <f:facet name="legend" >
+                        <h:panelGroup styleClass="Atv-exec-email-rapidoLegenda">
+                            <h:panelGroup styleClass="fa fa-bolt Atv-exec-email-rapidoLegendaIcone" />
+                            <h:outputText value="Seleção de contato com um click" />
+                        </h:panelGroup>
+                    </f:facet>
+                    <h:panelGroup styleClass="Container12 Atv-exec-email-chips" layout="block" >
+                        <h:form styleClass="Atv-exec-email-chipsForm">
+                            <h:outputText styleClass="Atv-exec-email-rapidoDica"
+                                          value="Clique em um cartão para adicioná-lo aos destinatários." />
+
+                            <!-- Um grupo por origem: o rotulo diz de onde vem o contato, o
+                                 que o "+" sozinho nao consegue dizer. Grupo sem nenhum
+                                 cartao visivel (todos ja adicionados) se esconde pelo
+                                 :has do CSS, e nao por condicao de rendered (a lista
+                                 nao sabe quem ja esta no e-mail). -->
+                            <!-- Sem rendered por lista vazia: e justamente o prospecto sem
+                                 contato que mais precisa do botao de cadastrar um. -->
+                            <h:panelGroup layout="block" styleClass="Atv-exec-email-grupo Atv-exec-email-grupo--contato" >
+                                <h:panelGroup layout="block" styleClass="Atv-exec-email-grupoRotulo">
+                                    <h:panelGroup styleClass="fa fa-address-book Atv-exec-email-grupoRotuloIcone" />
+                                    <h:outputText value="Contatos do prospecto" />
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" styleClass="OrganizadorContainerEsquerda Atv-exec-email-chipsLista">
+                                    <c:forEach var="contatoLead" items="#{cc.attrs.empresa.contatosComEmail}" >
+                                        <p:commandLink rendered="#{!cc.attrs.email.contatos.contains(contatoLead)}"
+                                                       actionListener="#{cc.attrs.email.adicionarContato(contatoLead)}"
+                                                       styleClass="Atv-exec-email-chip Atv-exec-email-chip--contato"
+                                                       title="Adicionar #{contatoLead.nome} aos destinatários"
+                                                       update="@form #{pgUtil.gerarCaminhoCompletoID('contatosProsp')}">
+                                            <h:panelGroup styleClass="Atv-exec-email-chipAcao">
+                                                <h:panelGroup styleClass=" Atv-exec-email-chipIcone" >
+                                                    <CRM:avatarContato mostrarNome="false"  contato="#{contatoLead}" somenteLeitura="true"  altura="50" />
+                                                </h:panelGroup>
+                                            </h:panelGroup>
+                                            <h:panelGroup styleClass="Atv-exec-email-chipTexto">
+                                                <h:outputText styleClass="Atv-exec-email-chipNome" value="#{contatoLead.nome}" />
+                                                <h:outputText styleClass="Atv-exec-email-chipEmail" value="#{contatoLead.email}" />
+                                            </h:panelGroup>
+                                        </p:commandLink>
+                                    </c:forEach>
+
+                                    <!-- Nao submete nada: so aciona o commandModalNovoContato
+                                         que abre o cadastro. Por isso e um link comum com
+                                         onclick, e nao um p:commandLink. -->
+                                    <h:outputLink value="#"
+                                                  styleClass="Atv-exec-email-chip Atv-exec-email-chip--novo"
+                                                  title="Cadastrar um novo contato para #{cc.attrs.empresa.nome}"
+                                                  onclick="$(PrimeFaces.escapeClientId(PF('commandModalNovoContato').id)).click(); return false;">
+                                        <h:panelGroup styleClass="Atv-exec-email-chipAcao">
+                                            <h:panelGroup styleClass="fa fa-plus Atv-exec-email-chipIcone" />
+                                        </h:panelGroup>
+                                        <h:panelGroup styleClass="Atv-exec-email-chipTexto">
+                                            <h:outputText styleClass="Atv-exec-email-chipNome" value="Novo contato" />
+                                            <h:outputText styleClass="Atv-exec-email-chipEmail" value="para #{cc.attrs.empresa.nome}" />
+                                        </h:panelGroup>
+                                    </h:outputLink>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="Atv-exec-email-grupo Atv-exec-email-grupo--colaborador"
+                                          rendered="#{cc.attrs.empresa.usuariosResponsaveis.size()>0}" >
+                                <h:panelGroup layout="block" styleClass="Atv-exec-email-grupoRotulo">
+                                    <h:panelGroup styleClass="fa fa-user-tie Atv-exec-email-grupoRotuloIcone" />
+                                    <h:outputText value="Responsáveis internos" />
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" styleClass="OrganizadorContainerEsquerda Atv-exec-email-chipsLista">
+                                    <c:forEach var="usuarioResp" items="#{cc.attrs.empresa.usuariosResponsaveis}" >
+                                        <p:commandLink rendered="#{!cc.attrs.email.contatos.contains(usuarioResp.contatoVinculado)}"
+                                                       actionListener="#{cc.attrs.email.adicionarContato(usuarioResp.contatoVinculado)}"
+                                                       styleClass="Atv-exec-email-chip Atv-exec-email-chip--colaborador"
+                                                       title="Adicionar o responsável #{usuarioResp.nome} aos destinatários"
+                                                       update="@form #{pgUtil.gerarCaminhoCompletoID('contatosProsp')}">
+                                            <h:panelGroup styleClass="Atv-exec-email-chipAcao">
+                                                <h:panelGroup styleClass=" Atv-exec-email-chipIcone" >
+
+                                                    <CRM:avatar mostrarNome="false"  usuario="#{usuarioResp}" somenteLeitura="true" />
+                                                </h:panelGroup>
+
+                                            </h:panelGroup>
+                                            <h:panelGroup styleClass="Atv-exec-email-chipTexto">
+                                                <h:outputText styleClass="Atv-exec-email-chipNome" value="#{usuarioResp.nome}" />
+                                                <h:outputText styleClass="Atv-exec-email-chipEmail" value="#{usuarioResp.email}" />
+                                            </h:panelGroup>
+                                        </p:commandLink>
+                                    </c:forEach>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </h:form>
+                    </h:panelGroup>
+                </p:fieldset>
+            </h:panelGroup>
+        </h:panelGroup>
+
+
+
+    </cc:implementation>
+</ui:composition>

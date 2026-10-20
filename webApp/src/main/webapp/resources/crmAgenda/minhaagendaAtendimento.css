@@ -1,0 +1,505 @@
+/* Minha agenda - p:schedule de reservas de atendimento */
+
+/* Paleta compartilhada (agenda + detalhes da reserva): segue a cor primária do tema PrimeFaces */
+.comp-crc-MinhaAgendaReservas,
+.formularioDetalhesResevaAtendimento,
+.crc-comp-definirUrlReuniao {
+    --magenda-destaque: var(--primary-color, #2196f3);
+    --magenda-destaque-escuro: #1769aa;
+    --magenda-hover-bg: #e3f2fd;
+    --magenda-foco-bg: #bbdefb;
+    --magenda-sombra: rgba(33, 150, 243, 0.25);
+    --magenda-texto: #2b2f36;
+    --magenda-texto-suave: #6b7280;
+    --magenda-borda: #e5e7eb;
+}
+
+/* Navegadores com color-mix: tons derivados da cor primária real do tema */
+@supports (color: color-mix(in srgb, red, blue)) {
+    .comp-crc-MinhaAgendaReservas,
+    .formularioDetalhesResevaAtendimento,
+    .crc-comp-definirUrlReuniao {
+        --magenda-destaque-escuro: color-mix(in srgb, var(--magenda-destaque) 70%, #000000);
+        --magenda-hover-bg: color-mix(in srgb, var(--magenda-destaque) 10%, #ffffff);
+        --magenda-foco-bg: color-mix(in srgb, var(--magenda-destaque) 22%, #ffffff);
+        --magenda-sombra: color-mix(in srgb, var(--magenda-destaque) 25%, transparent);
+    }
+}
+
+.comp-crc-MinhaAgendaReservas {
+    width: 100%;
+}
+
+/* ===== Conteúdo do evento (gerado pelo extender) ===== */
+
+.comp-crc-MinhaAgendaReservas .MAgendaEvento {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    width: 100%;
+    color: var(--magenda-texto);
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoFotos {
+    position: relative;
+    flex: 0 0 auto;
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+}
+
+/* Logo da empresa: quadrado arredondado */
+.comp-crc-MinhaAgendaReservas .MAgendaEventoLogoEmpresa {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border: 1px solid var(--magenda-borda);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Avatar do usuário: círculo sobreposto no canto inferior direito da logo */
+.comp-crc-MinhaAgendaReservas .MAgendaEventoAvatarUsuario {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 1px var(--magenda-destaque);
+    background-color: #ffffff;
+}
+
+/* Sem logo: avatar ocupa o lugar principal */
+.comp-crc-MinhaAgendaReservas .MAgendaEventoAvatarUsuario:only-child {
+    position: static;
+    width: 34px;
+    height: 34px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoTextos {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoHora {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--magenda-destaque-escuro);
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoTitulo {
+    font-weight: 500;
+    color: var(--magenda-texto);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoLista .MAgendaEventoTitulo {
+    white-space: normal;
+}
+
+/* Grade (mês / dia): versão compacta */
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade {
+    gap: 0.35rem;
+    padding: 2px 4px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade .MAgendaEventoFotos {
+    width: 26px;
+    height: 26px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade .MAgendaEventoLogoEmpresa {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade .MAgendaEventoAvatarUsuario {
+    width: 14px;
+    height: 14px;
+    border-width: 1px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade .MAgendaEventoAvatarUsuario:only-child {
+    width: 22px;
+    height: 22px;
+}
+
+.comp-crc-MinhaAgendaReservas .MAgendaEventoGrade .MAgendaEventoTitulo {
+    white-space: nowrap;
+    font-size: 0.8rem;
+}
+
+/* ===== Eventos na grade (dayGridMonth / timeGridDay) ===== */
+
+.comp-crc-MinhaAgendaReservas .fc .fc-daygrid-event,
+.comp-crc-MinhaAgendaReservas .fc .fc-timegrid-event {
+    background-color: #ffffff;
+    border: 1px solid var(--magenda-borda);
+    border-left: 4px solid var(--magenda-destaque);
+    border-radius: 6px;
+    color: var(--magenda-texto);
+    text-decoration: none;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-timegrid-event .fc-event-main {
+    color: var(--magenda-texto);
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-daygrid-event:hover,
+.comp-crc-MinhaAgendaReservas .fc .fc-timegrid-event:hover {
+    background-color: var(--magenda-hover-bg);
+    color: var(--magenda-texto);
+    box-shadow: 0 2px 6px var(--magenda-sombra);
+}
+
+/* Foco: remove o véu escuro padrão do FullCalendar e usa contorno visível */
+.comp-crc-MinhaAgendaReservas .fc .fc-event:focus::after,
+.comp-crc-MinhaAgendaReservas .fc .fc-event-selected::after {
+    background: transparent;
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-event:focus,
+.comp-crc-MinhaAgendaReservas .fc .fc-event:focus-visible,
+.comp-crc-MinhaAgendaReservas .fc .fc-event-selected {
+    background-color: var(--magenda-foco-bg);
+    color: var(--magenda-texto);
+    outline: 2px solid var(--magenda-destaque);
+    outline-offset: 1px;
+    box-shadow: none;
+}
+
+/* ===== Eventos na lista (listMonth) ===== */
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event td {
+    vertical-align: middle;
+    color: var(--magenda-texto);
+    transition: background-color 0.15s ease;
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-time {
+    color: var(--magenda-texto-suave);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-dot {
+    border-color: var(--magenda-destaque);
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-title a {
+    display: block;
+    color: var(--magenda-texto);
+    text-decoration: none;
+}
+
+/* Link do evento na lista mantém o layout lado a lado (fotos + texto) */
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-title a.MAgendaEvento {
+    display: flex;
+    cursor: pointer;
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event:hover td,
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event:focus-within td {
+    background-color: var(--magenda-hover-bg);
+    color: var(--magenda-texto);
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event:hover .fc-list-event-title a,
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event:hover .MAgendaEventoTitulo {
+    color: var(--magenda-texto);
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event:focus-within td {
+    background-color: var(--magenda-foco-bg);
+}
+
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-title a:focus,
+.comp-crc-MinhaAgendaReservas .fc .fc-list-event-title a:focus-visible {
+    outline: 2px solid var(--magenda-destaque);
+    outline-offset: 2px;
+    border-radius: 4px;
+    color: var(--magenda-texto);
+}
+
+/* Cabeçalho do dia na lista */
+.comp-crc-MinhaAgendaReservas .fc .fc-list-day-cushion {
+    background-color: #f8f9fb;
+    color: var(--magenda-texto);
+}
+
+/* =====================================================================
+   Formulário de detalhes da reserva (minha_agenda_ver_reserva.xhtml)
+   e definição do link da reunião (minha_agenda_definir_url_reuniao.xhtml)
+   ===================================================================== */
+
+.formularioDetalhesResevaAtendimento,
+.crc-comp-definirUrlReuniao {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem;
+    color: var(--magenda-texto);
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinha,
+.crc-comp-definirUrlReuniao .FDRLinha {
+    margin-top: 1rem;
+}
+
+/* ----- Cabeçalho ----- */
+
+.formularioDetalhesResevaAtendimento .FDRCabecalho,
+.crc-comp-definirUrlReuniao .FDRCabecalho {
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--magenda-hover-bg) 0%, #ffffff 70%);
+    border: 1px solid var(--magenda-borda);
+    border-left: 5px solid var(--magenda-destaque);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formularioDetalhesResevaAtendimento .FDRCabecalhoLogo,
+.crc-comp-definirUrlReuniao .FDRCabecalhoLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinkEmpresa,
+.crc-comp-definirUrlReuniao .FDRLinkEmpresa {
+    display: inline-flex;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    border: 1px solid var(--magenda-borda);
+    border-radius: 10px;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinkEmpresa:hover,
+.formularioDetalhesResevaAtendimento .FDRLinkEmpresa:focus-visible {
+    border-color: var(--magenda-destaque);
+    box-shadow: 0 0 0 3px var(--magenda-sombra);
+    outline: none;
+}
+
+.formularioDetalhesResevaAtendimento .FDRLogoEmpresa,
+.crc-comp-definirUrlReuniao .FDRLogoEmpresa {
+    display: block;
+    max-width: 100%;
+    max-height: 90px;
+    object-fit: contain;
+}
+
+.formularioDetalhesResevaAtendimento .FDRCabecalhoInfo,
+.crc-comp-definirUrlReuniao .FDRCabecalhoInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.formularioDetalhesResevaAtendimento .FDRTipoAgendamento,
+.crc-comp-definirUrlReuniao .FDRTipoAgendamento {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--magenda-destaque-escuro);
+    background-color: #ffffff;
+    border: 1px solid var(--magenda-destaque);
+    border-radius: 999px;
+}
+
+.formularioDetalhesResevaAtendimento .FDRTitulo,
+.crc-comp-definirUrlReuniao .FDRTitulo {
+    margin: 0.25rem 0 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--magenda-texto);
+    overflow-wrap: anywhere;
+}
+
+.formularioDetalhesResevaAtendimento .FDRSubtitulo,
+.crc-comp-definirUrlReuniao .FDRSubtitulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--magenda-texto-suave);
+}
+
+/* ----- Data ----- */
+
+.formularioDetalhesResevaAtendimento .FDRBlocoData,
+.crc-comp-definirUrlReuniao .FDRBlocoData {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* ----- Fieldsets ----- */
+
+.formularioDetalhesResevaAtendimento .FDRFieldset.ui-fieldset,
+.crc-comp-definirUrlReuniao .FDRFieldset.ui-fieldset {
+    width: 100%;
+    margin: 0;
+    background-color: #ffffff;
+    border: 1px solid var(--magenda-borda);
+    border-radius: 10px;
+}
+
+.formularioDetalhesResevaAtendimento .FDRFieldset .ui-fieldset-legend,
+.crc-comp-definirUrlReuniao .FDRFieldset .ui-fieldset-legend {
+    padding: 0.2rem 0.75rem;
+    font-weight: 600;
+    color: var(--magenda-destaque-escuro);
+    background-color: var(--magenda-hover-bg);
+    border: 1px solid var(--magenda-destaque);
+    border-radius: 6px;
+}
+
+.formularioDetalhesResevaAtendimento .FDRContatoContexto:empty,
+.crc-comp-definirUrlReuniao .FDRContatoContexto:empty {
+    display: none;
+}
+
+.formularioDetalhesResevaAtendimento .FDRContatoContexto,
+.crc-comp-definirUrlReuniao .FDRContatoContexto {
+    margin-bottom: 0.5rem;
+    color: var(--magenda-texto-suave);
+    font-size: 0.85rem;
+}
+
+.formularioDetalhesResevaAtendimento .FDRListaContato,
+.crc-comp-definirUrlReuniao .FDRListaContato {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.formularioDetalhesResevaAtendimento .FDRListaContato li,
+.crc-comp-definirUrlReuniao .FDRListaContato li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--magenda-borda);
+}
+
+.formularioDetalhesResevaAtendimento .FDRListaContato li:last-child,
+.crc-comp-definirUrlReuniao .FDRListaContato li:last-child {
+    border-bottom: none;
+}
+
+.formularioDetalhesResevaAtendimento .FDRListaContato i,
+.crc-comp-definirUrlReuniao .FDRListaContato i {
+    width: 1.25rem;
+    text-align: center;
+    color: var(--magenda-destaque);
+}
+
+.formularioDetalhesResevaAtendimento .FDRRotulo,
+.crc-comp-definirUrlReuniao .FDRRotulo {
+    flex: 0 0 4.5rem;
+    font-size: 0.8rem;
+    color: var(--magenda-texto-suave);
+}
+
+.formularioDetalhesResevaAtendimento .FDRValor,
+.crc-comp-definirUrlReuniao .FDRValor {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.formularioDetalhesResevaAtendimento .FDRDescricao .ui-fieldset-content,
+.crc-comp-definirUrlReuniao .FDRDescricao .ui-fieldset-content {
+    white-space: pre-line;
+    line-height: 1.5;
+}
+
+/* ----- Opções ----- */
+
+.formularioDetalhesResevaAtendimento .FDRLinkConferencia,
+.crc-comp-definirUrlReuniao .FDRLinkConferencia {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    background-color: var(--magenda-hover-bg);
+    border-radius: 8px;
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinkConferencia i,
+.crc-comp-definirUrlReuniao .FDRLinkConferencia i {
+    color: var(--magenda-destaque);
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinkConferencia a,
+.crc-comp-definirUrlReuniao .FDRLinkConferencia a {
+    color: var(--magenda-destaque-escuro);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.formularioDetalhesResevaAtendimento .FDRLinkConferencia a:hover,
+.crc-comp-definirUrlReuniao .FDRLinkConferencia a:hover,
+.formularioDetalhesResevaAtendimento .FDRLinkConferencia a:focus-visible,
+.crc-comp-definirUrlReuniao .FDRLinkConferencia a:focus-visible {
+    color: var(--magenda-texto);
+}
+
+.formularioDetalhesResevaAtendimento .FDRAcoes,
+.crc-comp-definirUrlReuniao .FDRAcoes {
+    gap: 0.5rem;
+}
+
+/* ----- Responsivo ----- */
+
+@media (max-width: 768px) {
+    .formularioDetalhesResevaAtendimento .FDRCabecalhoInfo,
+    .crc-comp-definirUrlReuniao .FDRCabecalhoInfo {
+        align-items: center;
+        text-align: center;
+    }
+
+    .formularioDetalhesResevaAtendimento .FDRTipoAgendamento,
+    .crc-comp-definirUrlReuniao .FDRTipoAgendamento {
+        align-self: center;
+    }
+
+    .formularioDetalhesResevaAtendimento .FDRBlocoData,
+    .crc-comp-definirUrlReuniao .FDRBlocoData {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ----- Definir link da reunião ----- */
+
+.crc-comp-definirUrlReuniao .FDRBarraTopo {
+    margin-bottom: 1rem;
+}
+
+.crc-comp-definirUrlReuniao .botaoLinkReuniao {
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+
+.crc-comp-definirUrlReuniao .FDRAcoes {
+    margin-top: 0.5rem;
+}

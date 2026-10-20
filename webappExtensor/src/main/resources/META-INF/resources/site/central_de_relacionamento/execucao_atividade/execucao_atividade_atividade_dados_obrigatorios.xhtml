@@ -7,10 +7,10 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
-
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <CRM:cabecalhoAtividade
+    <CRMAtividade:cabecalhoAtividade
         atividade="#{pgExecutarAtividade.atividade}">
         <f:facet name="opcoesCabecalhoAtividade">
             <p:fieldset rendered="#{pgExecutarAtividade.atividade.dadosNaoColetados.size()>0}"  >
@@ -43,7 +43,7 @@
                 </div>
             </p:fieldset>
         </f:facet>
-    </CRM:cabecalhoAtividade>
+    </CRMAtividade:cabecalhoAtividade>
 
 
 
@@ -51,57 +51,92 @@
 
 
 
-    <p:fieldset legend="Os seguintes dados são nescesssários para o relacionamento: #{pgExecutarAtividade.atividade.tipoAtividade.relacionamentoGerado.nome}"
-                styleClass="Container12"
-                id="dadosNaoCadastrados"
-                >
+    <!-- Coleta dos dados obrigatorios para gerar o proximo relacionamento -->
+    <h:panelGroup layout="block" styleClass="crc-comp-dadosObrigatorios Container12">
+        <p:fieldset styleClass="Container12 FornAtividadeColetaDeDAdos DadosObrig"
+                    id="dadosNaoCadastrados"
+                    >
+            <f:facet name="legend">
+                <span class="DadosObrigLegenda">
+                    <i class="fa-solid fa-clipboard-list DadosObrigLegendaIcone" />
+                    <span class="DadosObrigLegendaTexto">Dados necessários para o relacionamento</span>
+                    <span class="DadosObrigSelo">#{pgExecutarAtividade.atividade.tipoAtividade.relacionamentoGerado.nome}</span>
+                </span>
+            </f:facet>
 
-
-        <p:outputLabel value="Nenhuma informação obrigatória está pendente para proseguir para o pŕoximo relacionamento"
-                       rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}" />
-
-
-
-
-        <h:panelGroup   rendered="#{!pgExecutarAtividade.atividade.permitidoConcluir}" >
-
-            <h:panelGroup rendered="#{pgExecutarAtividade.atividade.dadosNaoColetados.size()==0}" >
-
-                <div class="alert alert-info" >
-                    <strong>Restam atividaes para #{pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividade}:</strong>
-                    #{pgExecutarAtividade.atividade.tipoBloqueioTexto}
-                </div>
-
-
-
+            <!-- Nada pendente -->
+            <h:panelGroup layout="block" styleClass="DadosObrigAviso DadosObrigAviso--ok"
+                          rendered="#{pgExecutarAtividade.atividade.permitidoConcluir}">
+                <i class="fa-solid fa-circle-check DadosObrigAvisoIcone" />
+                <span>Nenhuma informação obrigatória está pendente para prosseguir para o próximo relacionamento.</span>
             </h:panelGroup>
-            <h:form>
-                <h:panelGroup styleClass="Container12" >
 
-                    <c:forEach items="#{pgExecutarAtividade.dadosDaAtividade}"  var="dado" varStatus="recNum">
-                        <h:panelGroup  styleClass="Container3" style="padding: 10px;">
-                            <c:catch var="erro">
+            <h:panelGroup layout="block" rendered="#{!pgExecutarAtividade.atividade.permitidoConcluir}" >
 
-                                <SBInput:input  registro="#{dado.campoInstanciado}"
-                                                layout="#{layoutsComponenteSB.layoutCampo.superior}"
-                                                />
-
-                            </c:catch>
-                            <c:if test="#{erro!=null}" >
-                                #{erro}
-                            </c:if>
-                        </h:panelGroup>
-                    </c:forEach>>
-
+                <!-- Dados coletados, mas restam outras pendencias -->
+                <h:panelGroup layout="block" styleClass="DadosObrigAviso DadosObrigAviso--info"
+                              rendered="#{pgExecutarAtividade.atividade.dadosNaoColetados.size()==0}" >
+                    <i class="fa-solid fa-circle-info DadosObrigAvisoIcone" />
+                    <span>
+                        <strong>Restam atividades para #{pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividade}:</strong>
+                        #{pgExecutarAtividade.atividade.tipoBloqueioTexto}
+                    </span>
                 </h:panelGroup>
 
+                <h:form>
+                    <!-- Grade dos campos: colunas se ajustam a largura disponivel -->
+                    <h:panelGroup layout="block" styleClass="DadosObrigGrade" >
+                        <c:forEach items="#{pgExecutarAtividade.dadosDaAtividade}"  var="dado" varStatus="recNum">
+                            <h:panelGroup layout="block" styleClass="DadosObrigCampo">
+                                <c:catch var="erro">
 
-                <CRM:opcoesAtividadeDadosDinamicos atividade="#{pgExecutarAtividade.atividade}"  />
-            </h:form>
-        </h:panelGroup>
+                                    <SBInput:input  registro="#{dado.campoInstanciado}"
+                                                    layout="#{layoutsComponenteSB.layoutCampo.superior}"
+                                                    />
 
+                                </c:catch>
+                                <c:if test="#{erro!=null}" >
+                                    <span class="DadosObrigErro">#{erro}</span>
+                                </c:if>
+                            </h:panelGroup>
+                        </c:forEach>
+                    </h:panelGroup>
 
-    </p:fieldset >
+                    <CRMAtividade:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" >
+                        <f:facet name="extra">
+                            <CRMAtividade:botaoAcaoAtividade
+                                titulo="Próxima Etapa"
+                                icone="fa fa-arrow-circle-right"
+                                rendered="#{!pgExecutarAtividade.ultimoBloqueio}"
+                                atualizar="@form"
+                                metodo="#{pgExecutarAtividade.salvarDadosDinamicos()}"
+                                />
+
+                            <CRMAtividade:botaoAcaoAtividade
+                                titulo="Salvar dados"
+                                icone="fa fa-arrow-circle-right"
+                                rendered="#{pgExecutarAtividade.ultimoBloqueio}"
+                                atualizar="@form"
+                                metodo="#{pgExecutarAtividade.salvarDadosDinamicos()}"
+                                />
+
+                            <CRMAtividade:botaoAcaoAtividade
+                                titulo="#{pgExecutarAtividade.vaiEditarDados?'Salvar e continuar':pgExecutarAtividade.atividade.tipoAtividade.nomeFimAtividade}"
+                                cor="#{pgExecutarAtividade.atividade.tipoAtividade.cor}"
+                                icone="fa fa-check-circle"
+                                rendered="#{pgExecutarAtividade.ultimoBloqueio and !pgExecutarAtividade.vaiAgendar }"
+                                atualizar="@form"
+                                metodo="#{pgExecutarAtividade.salvareConcluirDadosDinamicos()}"
+                                />
+                        </f:facet>
+
+                    </CRMAtividade:opcoesAtividade>
+                    <CRM:opcoesAtividadeDadosDinamicos atividade="#{pgExecutarAtividade.atividade}"   rendered="false"/>
+                </h:form>
+            </h:panelGroup>
+
+        </p:fieldset >
+    </h:panelGroup>
 
 
 

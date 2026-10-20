@@ -10,7 +10,7 @@ import br.org.carameloCode.erp.modulo.crm.util.UtilModulosCRM;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.CentralDadosJPAPadrao;
 
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ConfiguradorCoreDeProjetoJarPersistenciaAbstrato;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
 
 /**
  *
@@ -47,13 +47,13 @@ public class ConfiguradorCoreCRMTestes extends ConfiguradorCoreDeProjetoJarPersi
      * @param pConfig Objeto Com informações de configuração do sistema
      */
     @Override
-    public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
+    public void defineFabricasDeACao(ComoContextoExecCustomizavel pConfig) {
         pConfig.setClasseConfigPermissao(ConfigPermissaoCRMCarameloCodePadrao.class);
         pConfig.setFabricaDeAcoes(UtilModulosCRM.pAcoesDoSistema());
     }
 
     @Override
-    public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
+    public void defineClassesBasicas(ComoContextoExecCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao);
         pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
         pConfiguracao.setCentralComunicacao(ServicoComunicacaoCRMTestes.class);

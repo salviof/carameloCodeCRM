@@ -7,6 +7,8 @@ package br.org.carameloCode.erp.crm.paginas.notificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
 import br.org.carameloCode.erp.modulo.notificacao.api.InfoAcaoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 import javax.faces.view.ViewScoped;
@@ -21,5 +23,10 @@ import javax.inject.Named;
 @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_MB_GESTAO)
 @InfoPagina(nomeCurto = "ntfr", tags = "Notificação registrada")
 public class PgNotificacaoRegistrada extends MB_paginaCadastroEntidades<NotificacaoSB> {
+
+    @Override
+    public void executarAcao(NotificacaoSB pEntidadeSelecionada) {
+        super.executarAcao(pEntidadeSelecionada); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 
 }

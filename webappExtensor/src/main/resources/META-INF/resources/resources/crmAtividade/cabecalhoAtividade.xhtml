@@ -1,0 +1,172 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+
+        <cc:attribute name="atividade"   type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM" required="true"/>
+        <!-- Area livre no cabecalho (mensagem, p:fieldset compacto...): coluna propria,
+             sem aumentar a altura do cabecalho no desktop -->
+        <cc:facet name="opcoesCabecalhoAtividade"/>
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <ui:param name="cabAtvTipo"      value="#{cc.attrs.atividade.tipoAtividade}" />
+        <ui:param name="cabAtvRelNovo"   value="#{cc.attrs.atividade.relacionamentoGerado}" />
+        <ui:param name="cabAtvRelAtual"  value="#{cc.attrs.atividade.prospectoEmpresa.relacionamento}" />
+        <ui:param name="cabAtvPodeEditar" value="#{sessaoAtualSBWP.isAcessoPermitido(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar)}" />
+        <ui:param name="cabAtvTemColeta"    value="#{cc.attrs.atividade.getCampoInstanciadoByNomeOuAnotacao('posssuiColetaDado').valorComoBoolean}" />
+        <ui:param name="cabAtvTemWhatsapp"    value="#{cc.attrs.atividade.tipoAtividade.tipoMensagemWtzap!=null}" />
+        <ui:param name="cabAtvTemDocumento" value="#{cabAtvTipo.modelosDocumentoVinculados.size() gt 0}" />
+        <ui:param name="cabAtvTemEmail"     value="#{cabAtvTipo.temModeloEmail}" />
+        <ui:param name="cabAtvTemOpcoes"    value="#{not empty cc.facets.opcoesCabecalhoAtividade}" />
+
+        <!-- Cor do tipo de atividade e do novo relacionamento: so custom properties
+             inline; o desenho todo fica em atividade.css -->
+        <h:panelGroup layout="block" styleClass="crc-comp-cabecalho-atividade Container12 #{cabAtvTemOpcoes ? 'CabAtv--comOpcoes' : ''}"
+                      style="--cabAtv-cor: #{(empty cabAtvTipo.cor or cabAtvTipo.cor.startsWith('#')) ? '' : '#'}#{cabAtvTipo.cor}; --cabAtv-rel-cor: #{(empty cabAtvRelNovo.cor or cabAtvRelNovo.cor.startsWith('#')) ? '' : '#'}#{cabAtvRelNovo.cor};">
+
+            <!-- Identidade da atividade: icone, nome, descricao e mudanca de relacionamento -->
+            <h:panelGroup layout="block" styleClass="CabAtvIdentidade">
+
+                <span class="CabAtvIcone" aria-hidden="true">
+                    <i class="#{cabAtvTipo.iconeAcao}"></i>
+                </span>
+
+                <h:panelGroup layout="block" styleClass="CabAtvTexto">
+
+                    <span class="CabAtvRotulo">Executando atividade</span>
+
+                    <!-- Administrador: o nome vira link de edicao, com sinal explicito -->
+                    <p:link id="tipoAtividade" rendered="#{cabAtvPodeEditar}"
+                            styleClass="CabAtvNome CabAtvNome--editavel"
+                            href="#{infoWebApp.getUrlDaAcao(acoesAdminCrm_TipoAtividadeMbGerenciar.tipoAtividadeFrmEditar,cabAtvTipo)}" >
+                        <span class="CabAtvNomeTexto">#{cabAtvTipo.nomeAcao}</span>
+                        <span class="CabAtvEditarSelo">
+                            <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                            Personalizar
+                        </span>
+                    </p:link>
+
+                    <p:tooltip for="tipoAtividade" rendered="#{cabAtvPodeEditar}"
+                               position="bottom" styleClass="CabAtvTooltip">
+                        <strong>Você pode personalizar este tipo de atividade</strong>
+                        <br/>
+                        Seu perfil tem permissão de administrador: clique para abrir a edição de
+                        "#{cabAtvTipo.nomeAcao}" (nome, cor, ícone, descrição e relacionamento gerado).
+                        A mudança vale para todos os usuários.
+                    </p:tooltip>
+
+                    <h:panelGroup styleClass="CabAtvNome" rendered="#{not cabAtvPodeEditar}">
+                        <span class="CabAtvNomeTexto">#{cabAtvTipo.nomeAcao}</span>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="CabAtvLinhaApoio">
+
+                        <!-- Mudanca de relacionamento: selo compacto (mesma estetica e altura
+                             de .CabDetalhe), icone + texto para nao depender so de cor; a frase
+                             completa fica no title (span simples: h:panelGroup nao tem title) -->
+                        <ui:fragment rendered="#{cabAtvRelNovo != null and cabAtvRelAtual != null and cabAtvRelNovo.peso gt cabAtvRelAtual.peso}">
+                            <span class="CabAtvRelMuda CabAtvRelMuda--avanca"
+                                  title="Ao concluir esta atividade, o relacionamento avança para #{cabAtvRelNovo.nome}">
+                                <i class="fa-solid fa-arrow-trend-up CabAtvRelMudaIcone" aria-hidden="true"></i>
+                                <span class="CabAtvRelMudaSentido">Avança para</span>
+                                <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{cabAtvRelNovo != null and cabAtvRelAtual != null and cabAtvRelNovo.peso lt cabAtvRelAtual.peso}">
+                            <span class="CabAtvRelMuda CabAtvRelMuda--regride"
+                                  title="Ao concluir esta atividade, o relacionamento recua para #{cabAtvRelNovo.nome}">
+                                <i class="fa-solid fa-arrow-trend-down CabAtvRelMudaIcone" aria-hidden="true"></i>
+                                <span class="CabAtvRelMudaSentido">Recua para</span>
+                                <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{cabAtvRelNovo != null and (cabAtvRelAtual == null or cabAtvRelNovo.peso == cabAtvRelAtual.peso)}">
+                            <span class="CabAtvRelMuda CabAtvRelMuda--mantem"
+                                  title="Ao concluir esta atividade, o relacionamento muda para #{cabAtvRelNovo.nome}">
+                                <i class="fa-solid fa-right-left CabAtvRelMudaIcone" aria-hidden="true"></i>
+                                <span class="CabAtvRelMudaSentido">Muda para</span>
+                                <span class="CabAtvRelMudaNome">#{cabAtvRelNovo.nome}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{not empty cabAtvTipo.descricao}">
+                            <span class="CabAtvDescricao" title="#{cabAtvTipo.descricao}">#{cabAtvTipo.descricao}</span>
+                        </ui:fragment>
+                    </h:panelGroup>
+
+                    <!-- Camada inferior: etapas que a atividade exige (coleta, documentos, e-mail).
+                         Linha propria abaixo do nome e da linha de apoio, para nao disputar
+                         largura com o nome da atividade. O icone de estado (check / relogio)
+                         diz se a etapa ja foi feita; o texto completo fica no title e no
+                         texto oculto para leitor de tela. -->
+                    <h:panelGroup layout="block" styleClass="CabDetalhesDaAtividade"
+                                  rendered="#{cabAtvTemColeta or cabAtvTemDocumento or cabAtvTemEmail or cabAtvTemWhatsapp}">
+
+                        <ui:fragment rendered="#{cabAtvTemColeta}">
+                            <span class="CabDetalhe #{cc.attrs.atividade.dadosRevisados ? 'CabDetalhe--feito' : 'CabDetalhe--pendente'}"
+                                  title="Esta atividade possui coleta de dados — #{cc.attrs.atividade.dadosRevisados ? 'os dados foram coletados' : 'coleta pendente'}">
+                                <i class="fa-solid fa-clipboard-list CabDetalheIcone" aria-hidden="true"></i>
+                                <span class="CabDetalheNome">Coleta de dados</span>
+                                <i class="#{cc.attrs.atividade.dadosRevisados ? 'fa-solid fa-circle-check' : 'fa-regular fa-clock'} CabDetalheEstado" aria-hidden="true"></i>
+                                <span class="visually-hidden">#{cc.attrs.atividade.dadosRevisados ? ': dados coletados' : ': pendente'}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{cabAtvTemDocumento}">
+                            <span class="CabDetalhe #{cc.attrs.atividade.documentoGerado ? 'CabDetalhe--feito' : 'CabDetalhe--pendente'}"
+                                  title="Esta atividade gera documentos — #{cc.attrs.atividade.documentoGerado ? 'os documentos foram gerados' : 'geração pendente'}">
+                                <i class="fa-solid fa-file-lines CabDetalheIcone" aria-hidden="true"></i>
+                                <span class="CabDetalheNome">Documentos</span>
+                                <i class="#{cc.attrs.atividade.documentoGerado ? 'fa-solid fa-circle-check' : 'fa-regular fa-clock'} CabDetalheEstado" aria-hidden="true"></i>
+                                <span class="visually-hidden">#{cc.attrs.atividade.documentoGerado ? ': documentos gerados' : ': pendente'}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{cabAtvTemEmail}">
+                            <span class="CabDetalhe #{cc.attrs.atividade.foiAtividadeFinalizada ? 'CabDetalhe--feito' : 'CabDetalhe--pendente'}"
+                                  title="Esta atividade gera e-mail — #{cc.attrs.atividade.foiAtividadeFinalizada ? 'o e-mail foi enviado' : 'envio pendente'}">
+                                <i class="fa-solid fa-envelope CabDetalheIcone" aria-hidden="true"></i>
+                                <span class="CabDetalheNome">E-mail</span>
+                                <i class="#{cc.attrs.atividade.foiAtividadeFinalizada ? 'fa-solid fa-circle-check' : 'fa-regular fa-clock'} CabDetalheEstado" aria-hidden="true"></i>
+                                <span class="visually-hidden">#{cc.attrs.atividade.foiAtividadeFinalizada ? ': e-mail enviado' : ': pendente'}</span>
+                            </span>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{cabAtvTemWhatsapp}">
+                            <span class="CabDetalhe #{cc.attrs.atividade.foiAtividadeFinalizada ? 'CabDetalhe--feito' : 'CabDetalhe--pendente'}"
+                                  title="Esta atividade possui mensagem de Whatsapp">
+                                <i class="fa-brands fa-whatsapp CabDetalheIcone" aria-hidden="true"></i>
+                                <span class="CabDetalheNome">Mensagem Whatsapp</span>
+                                <i class="#{cc.attrs.atividade.foiAtividadeFinalizada ? 'fa-solid fa-circle-check' : 'fa-regular fa-clock'} CabDetalheEstado" aria-hidden="true"></i>
+                                <span class="visually-hidden">#{cc.attrs.atividade.foiAtividadeFinalizada ? ': Mensagem enviada' : ': pendente'}</span>
+                            </span>
+                        </ui:fragment>
+
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <!-- Opcoes do cabecalho (facet): coluna do meio, esticada ate a altura do
+                 relacionamento; o que passar dessa altura rola, nunca cresce o bloco -->
+            <h:panelGroup layout="block" styleClass="CabAtvOpcoes" rendered="#{cabAtvTemOpcoes}">
+                <cc:renderFacet name="opcoesCabecalhoAtividade"/>
+            </h:panelGroup>
+
+            <!-- Relacionamento atual do cliente: define a altura maxima do cabecalho -->
+            <h:panelGroup layout="block" styleClass="CabAtvRelacionamento">
+                <CRM:relacionamentoFull  pessoa="#{cc.attrs.atividade.prospectoEmpresa}" />
+            </h:panelGroup>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

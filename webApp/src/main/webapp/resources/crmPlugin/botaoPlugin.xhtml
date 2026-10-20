@@ -11,6 +11,7 @@
                       type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema" required="true"/>
         <cc:attribute name="javascriptOnComplete" default="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('atividadePlugin')}')"
                       />
+        <cc:attribute name="label" default="#{cc.attrs.acao.nomeAcao}" />
         <cc:attribute name="metodo" />
     </cc:interface>
     <cc:implementation>
@@ -21,9 +22,9 @@
             icon="#{cc.attrs.acao.iconeAcao}"
             action="#{prMetodo}"
             update="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
-            value="#{cc.attrs.acao.nomeAcao}"
+            value="#{cc.attrs.label}"
 
-            oncomplete="#{javaScriptOncomplete}"
+            oncomplete="#{cc.attrs.javaScriptOncomplete}"
             onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('atividadePlugin')}')"
             >
             <f:setPropertyActionListener target="#{destino}"

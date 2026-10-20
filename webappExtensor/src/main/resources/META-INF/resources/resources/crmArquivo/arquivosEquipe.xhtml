@@ -16,9 +16,11 @@
     <cc:implementation>
 
 
-        <crmArquivo:listaDiretorios pastas="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('docEquipeCategorias').valor}" pessoa="#{cc.attrs.pessoa}" pstCliente="false"
-                                    tipoOrganizacao="OrganizadorContainerEsquerda"
-                                    />
+        <crmArquivo:listaDiretorios
+            pastas="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('docEquipeCategorias').valor}" pessoa="#{cc.attrs.pessoa}"
+            pstCliente="false"
+            tipoOrganizacao="OrganizadorContainerEsquerda"
+            />
 
 
     </cc:implementation>

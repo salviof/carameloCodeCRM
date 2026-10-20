@@ -1,0 +1,156 @@
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="arquivo"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.arquivos.arquivoCliente.ArquivoCliente" required="true"/>
+        <cc:attribute name="somenteLeitura" type="java.lang.Boolean" default="false" />
+    </cc:interface>
+    <cc:implementation>
+
+        <h:outputStylesheet library="crmArquivo" name="arquivoDetalhe.css" />
+
+        <h:form styleClass="CardArquivoForm">
+            <p:confirmDialog global="true">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+            <p:fieldset id="arquivos" styleClass=" PainelDetalhesArquivo CardArquivo" style="">
+
+                <!-- Botão kebab (sempre visível; o hover apenas realça) + menu suspenso -->
+                <h:panelGroup layout="block" styleClass="CardArquivoMenu">
+                    <p:commandButton id="btnMenuArquivo"
+                                     type="button"
+                                     icon="fa-solid fa-ellipsis-vertical"
+                                     styleClass="CardArquivoMenuBotao ui-button-flat"
+                                     title="Mais opções"/>
+
+                    <p:menu overlay="true" trigger="btnMenuArquivo" my="right top" at="right bottom"
+                            styleClass="CardArquivoMenuLista">
+                        <p:menuitem value="Baixar"
+                                    icon="#{iconeIconeFontAwesome.REG_BAIXAR.tagHtml}"
+                                    onclick="window.open('#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkBaixarArquivo}', '_blank'); return false;"/>
+
+                        <p:menuitem value="Visualizar"
+                                    icon="#{iconeIconeFontAwesome.REG_VISUALIZAR.tagHtml}"
+                                    onclick="PF('dlgVisualizar_#{fn:replace(cc.clientId, ':', '_')}').show(); return false;"/>
+
+                        <!-- "Atualizar" tem forma de chamada própria (modal de envio de arquivo +
+                             dialogReturn), por isso o item do menu apenas dispara o commandButton
+                             oculto declarado logo abaixo, preservando os listeners originais -->
+                        <p:menuitem value="Atualizar"
+                                    icon="#{iconeIconeFontAwesome.REG_ATUALIZAR.tagHtml}"
+                                    onclick="PF('btnAtualizarArquivo_#{fn:replace(cc.clientId, ':', '_')}').jq.trigger('click'); return false;"/>
+
+
+                        <p:menuitem value="Excluir"
+                                    rendered="#{cc.attrs.somenteLeitura}"
+                                    icon="#{iconeIconeFontAwesome.REG_REMOVER.tagHtml}"
+                                    styleClass="CardArquivoMenuItemPerigo"
+                                    ajax="true"
+                                    actionListener="#{servicosCRM.excluirArquivoAnexoPessoa(cc.attrs.arquivo)}"
+                                    oncomplete="atualizarVisaoArquivosPessoa();">
+                            <p:confirm header="Confirmação"
+                                       message="Deseja excluir #{cc.attrs.arquivo.nome} de forma irreversível?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:menuitem>
+
+
+
+                    </p:menu>
+                    <p:commandButton id="btnAtualizarArquivo"
+                                     widgetVar="btnAtualizarArquivo_#{fn:replace(cc.clientId, ':', '_')}"
+                                     value="Atualizar"
+                                     styleClass="CardArquivoBotaoOculto"
+                                     actionListener="#{pgUtil.exibirModalEnvioArquivo()}"
+                                     partialSubmit="true"
+                                     process="#{pgUtil.getNomeIdPainelDoComponente(component)}"
+                                     icon="#{iconeIconeFontAwesome.REG_ATUALIZAR.tagHtml}"
+                                     >
+                        <f:setPropertyActionListener target="#{paginaAtual.infoPagina.comoPaginaDeGestao.campoInstSelecionado}"
+                                                     value="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo')}" />
+                        <p:ajax event="dialogReturn"
+                                listener="#{pgUtil.atualizaTelaPorID(pgUtil.getNomeIdPFieldSetPai(component))}"
+                                update="#{pgUtil.getNomeIdPFieldSetPai(component)}"/>
+
+
+                    </p:commandButton>
+
+                </h:panelGroup>
+
+                <!-- Corpo do card: ícone + metadados numa linha só, ao estilo Drive -->
+                <h:panelGroup layout="block" styleClass="CardArquivoCorpo">
+
+                    <h:panelGroup layout="block" styleClass="CardArquivoIcone">
+                        <i class="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.iconeTipoArquivo}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="CardArquivoInfo">
+
+                        <h:panelGroup layout="block" styleClass="CardArquivoMeta">
+                            <crm:avatar classeEstilo="CardArquivoAvatar" id="criado_por"
+                                        usuario="#{cc.attrs.arquivo.usuarioCriou}" somenteLeitura="true"
+                                        mostrarNome="false" altura="22"/>
+                            <p:outputLabel id="dataHoraCriou" styleClass="CardArquivoData"
+                                           value="#{pgUtil.gerarDataHoraTexto(cc.attrs.arquivo.dataHoraCriacao)}"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="CardArquivoAlterado"
+                                      rendered="arquivo.dataHoraAlteracao!=null">
+                            <h:outputText value="Alterado dia #{pgUtil.gerarHoraTexto(arquivo.dataHoraAlteracao)} por"/>
+                            <crm:avatar classeEstilo="CardArquivoAvatar" usuario="#{cc.attrs.arquivo.usuarioAlteracao}"
+                                        somenteLeitura="true" altura="22"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+                <!-- Nome do arquivo: faixa própria no rodapé, de ponta a ponta do card,
+                     com espaço para até 2 linhas e longe do botão de ações -->
+                <h:panelGroup layout="block" styleClass="CardArquivoRodape">
+                    <p:outputLabel styleClass="CardArquivoNome FontAdamantiumBold"
+                                   value="#{cc.attrs.arquivo.arquivo}"
+                                   title="#{cc.attrs.arquivo.arquivo}"/>
+                </h:panelGroup>
+
+                <!-- Modal de visualização do arquivo -->
+                <p:dialog id="dlgVisualizar"
+                          header="#{cc.attrs.arquivo.arquivo}"
+                          widgetVar="dlgVisualizar_#{fn:replace(cc.clientId, ':', '_')}"
+                          modal="true"
+                          dynamic="true"
+                          resizable="false"
+                          draggable="false"
+                          closeOnEscape="true"
+                          appendTo="@(body)"
+                          styleClass="ArquivoDialogVisualizar"
+                          width="900">
+
+                    <h:panelGroup layout="block" styleClass="ArquivoDialogVisualizarBody" rendered="#{cc.attrs.arquivo.icone eq 'fa fa-file-pdf-o'}">
+                        <p:media value="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}" player="pdf" cache="false"
+                                 width="100%" height="90%"/>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="ArquivoDialogVisualizarBody" rendered="#{cc.attrs.arquivo.icone eq 'fa fa-file-image-o'}">
+                        <iframe src="#{cc.attrs.arquivo.getCampoInstanciadoByNomeOuAnotacao('arquivo').comoArquivoDeEntidade.linkAbrirArquivo}"
+                                class="ArquivoDialogVisualizarIframe"
+                                title="#{cc.attrs.arquivo.arquivo}">
+                        </iframe>
+                    </h:panelGroup>
+                </p:dialog>
+
+            </p:fieldset>
+        </h:form>
+
+    </cc:implementation>
+</ui:composition>

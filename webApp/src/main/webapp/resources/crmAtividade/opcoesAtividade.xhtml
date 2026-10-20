@@ -22,15 +22,16 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:outputStylesheet library="crmAtividade" name="atividade.css" />
-        <!-- Comportamento do painel (cabecalho, Escape, clique fora): bloco "Painel de acoes" do atividade.js -->
+        <!-- Comportamento do painel (cabecalho, Escape, clique fora, trava durante o ajax): bloco "Painel de acoes" do atividade.js -->
         <h:outputScript library="crmAtividade" name="atividade.js" />
 
         <!-- Bloco fixo no canto inferior direito: rail de 50px recolhido, desliza para a
              esquerda no hover/foco. Nao e overlay: nao ha backdrop nem trava de rolagem. -->
         <h:panelGroup id="opcoesEdicaoAtividade" layout="block" styleClass="crc-comp-opcoesAtividade" >
 
+            <!-- Durante o ajax de uma acao o painel recebe a classe de carregando (trava os itens)
+                 e o item clicado a sua (spinner no rail). Ver bloco "Painel de acoes" do atividade.js. -->
             <aside class="AcoesAtv" aria-label="Ações da atividade">
-
                 <!-- 1. Cabecalho/indicador: alterna .aberto (caminho do toque) -->
                 <button type="button" class="AcoesAtvCabecalho" aria-expanded="false">
                     <span class="AcoesAtvCabecalhoIcone" aria-hidden="true">
@@ -57,6 +58,7 @@
                             titulo="#{pgExecutarAtividade.acaoContinuarMaisTarde.nome}"
                             descricao="Continua pendente"
                             icone="fa-regular fa-clock"
+
                             rendered="#{!pgExecutarAtividade.vaiAgendar}"
                             atualizar="@form"
                             metodo="#{pgExecutarAtividade.salvarMaisTarde()}"
@@ -67,6 +69,7 @@
                         <crmAtividade:botaoAcaoAtividade
                             titulo="#{cc.attrs.atividade.tipoAtividade.nomeFimAtividaed}"
                             descricao="Finaliza e registra a atividade"
+
                             icone="fa-solid fa-check"
                             styleClasses="botaoAcaoAtv--principal"
                             rendered="#{!pgExecutarAtividade.vaiAgendar and cc.attrs.atividade.permitidoConcluir}"

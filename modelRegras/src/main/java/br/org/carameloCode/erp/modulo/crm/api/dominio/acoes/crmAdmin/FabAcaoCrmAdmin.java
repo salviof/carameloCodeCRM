@@ -1,13 +1,13 @@
 package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 
 import br.org.carameloCode.erp.modulo.crm.api.model.disparoemmassa.CPDisparoEmMassa;
-import br.org.carameloCode.erp.modulo.crm.api.model.persona.CPPersona;
+
 import br.org.carameloCode.erp.modulo.crm.api.model.telefone.CPTelefone;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.*;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
+
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.StatusIntegracao;
@@ -51,6 +51,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivocliente.CPCa
 import br.org.carameloCode.erp.modulo.crm.api.model.categoriaarquivoequipe.CPCategoriaArquivoEquipe;
 import br.org.carameloCode.erp.modulo.crm.api.model.metarelacionamento.CPMetaRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.api.model.modelodocumentocrm.CPModeloDocumentoCRM;
+import br.org.carameloCode.erp.modulo.crm.api.model.modeloemail.CPModeloEmail;
 import br.org.carameloCode.erp.modulo.crm.api.model.origemprospecto.CPOrigemProspecto;
 import br.org.carameloCode.erp.modulo.crm.api.model.parametromensagemwtzap.CPParametroMensagemWtzap;
 import br.org.carameloCode.erp.modulo.crm.api.model.respostaformulario.CPRespostaFormulario;
@@ -70,10 +71,10 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tiporelacionamento.CPTipoRel
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervico.CPTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicorecorrente.CPTipoServicoRecorrente;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicosazonal.CPTipoServicoSazonal;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.templates.ModeloEmailMarketing;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
-import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.tiponotificacao.CPTipoNotificacao;
 
 /**
@@ -809,23 +810,6 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
             respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
     )
     DISPARO_EM_MASSA_CTR_REMOVER,
-    @InfoTipoAcaoGestaoEntidade(icone = "fa fa-android", nomeAcao = "Personas IA", entidade = Persona.class)
-    PERSONA_IA_MB_GESTAO,
-    @InfoTipoAcaoFormulario(icone = "fa fa-android", nomeAcao = "Listar Personas IA", campos = {CPPersona.id, CPPersona.nome, CPPersona.descricao, CPPersona.publicoalvo, CPPersona.status})
-    PERSONA_IA_FRM_LISTAR,
-    @InfoTipoAcaoFormulario(nomeAcao = "Ver mais detalhes", campos = {"[separador: Informacoes Basicas da Persona]", CPPersona.id, CPPersona.nome, CPPersona.descricao, "[separador: Informacoes tecnicas da Persona]", CPPersona.publicoalvo, CPPersona.status, CPPersona.contexto, CPPersona.idioma, CPPersona.objetivo, CPPersona.palavrasproibidas, CPPersona.limitepalavras, CPPersona.instrucoesadicionais, CPPersona.tiporespostaspadrao, CPPersona.tonalidade, CPPersona.regrasresposta})
-    PERSONA_IA_FRM_VISUALIZAR,
-    @InfoTipoAcaoFormulario(nomeAcao = "Criar Persona IA", campos = {"[separador: Informacoes Basicas da Persona]", CPPersona.nome, CPPersona.descricao, "[separador: Informacoes tecnicas da Persona]", CPPersona.publicoalvo, CPPersona.status, CPPersona.contexto, CPPersona.idioma, CPPersona.objetivo, CPPersona.palavrasproibidas, CPPersona.limitepalavras, CPPersona.instrucoesadicionais, CPPersona.tiporespostaspadrao, CPPersona.tonalidade, CPPersona.regrasresposta})
-    PERSONA_IA_FRM_NOVO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Editar Persona IA", campos = {"[separador: Informacoes Basicas da Persona]", CPPersona.nome, CPPersona.descricao, "[separador: Informacoes tecnicas da Persona]", CPPersona.publicoalvo, CPPersona.status, CPPersona.contexto, CPPersona.idioma, CPPersona.objetivo, CPPersona.palavrasproibidas, CPPersona.limitepalavras, CPPersona.instrucoesadicionais, CPPersona.tiporespostaspadrao, CPPersona.tonalidade, CPPersona.regrasresposta})
-    PERSONA_IA_FRM_EDITAR,
-    @InfoTipoAcaoController(nomeAcao = "Salvar", iconeFonteAnsowame = FabIconeFontAwesome.REG_SALVAR)
-    PERSONA_IA_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoController(nomeAcao = "Excluir", exibirModalConfirmacao = true,
-            fraseComunicação = "Deseja excluir a persona?",
-            respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
-    )
-    PERSONA_IA_CTR_REMOVER,
     @InfoTipoAcaoGestaoEntidade(entidade = TipoEmpresa.class, icone = "fa fa-pie-chart", nomeAcao = "Tipo de Lead")
     TIPO_EMPRESA_MB,
     @InfoTipoAcaoFormulario(campos = {CPTipoEmpresa.nome})
@@ -851,11 +835,13 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(entidade = TipoNotificacaoUsrComUsr.class, campos = {CPTipoEmpresa.id, CPTipoEmpresa.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.nomeentidadereferencia}, nomeAcao = "Notificações entre usuários")
     TIPO_NOTIFICACAO_FRM_LISTAR_NOTIFICACOES_ENTRE_USUARIOS,
-    @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
-        "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
-        "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog, CPTiponotificacaoCRM.tipomensagem,
-        "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
-        "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura})
+    @InfoTipoAcaoFormulario(
+            nomeAcao = "Editar Notificação",
+            campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+                "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
+                "[separador: Configuração de Recibos ] ", CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, CPTipoNotificacao.notificacaounica, CPTipoNotificacao.minutosrenotificacao, CPTipoNotificacao.diaslog, CPTiponotificacaoCRM.tipomensagem,
+                "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
+                "[separador: Gatilhos de interação]", CPTipoNotificacao.acaoautoexecucaoleitura})
     TIPO_NOTIFICACAO_FRM_EDITAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados básicos]", CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
         "[separador: Mídias de Entrega]", CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviaapipersonalizada, "notificarViaMenu",
@@ -867,5 +853,26 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_NOTIFICACAO_CTR_SALVAR_MERGE,
     @InfoTipoAcaoController(nomeAcao = "Restaurar mensagem padrão", icone = "fa fa-solid fa-clock-rotate-left")
     TIPO_NOTIFICACAO_CTR_RESTAURAR,
+    @InfoTipoAcaoGestaoEntidade(entidade = ModeloEmailMarketing.class, nomeAcao = "Email marketing", icone = "fa-solid fa-tower-broadcast")
+    MODELO_EMAIL_MARKETING_MB_GESTAO,
+    @InfoTipoAcaoFormulario(campos = {CPModeloDocumentoCRM.id, CPModeloEmail.assunto, CPModeloEmail.descricao, CPModeloEmail.personacoautoria})
+    MODELO_EMAIL_MARKETING_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(
+            campos = {"[separador: Descrição do e-mail]", CPModeloEmail.nome, CPModeloEmail.descricao, CPModeloEmail.personacoautoria, "[separador: Dados Básicos]",
+                CPModeloEmail.descricao, "[separador: Conteúdo]", CPModeloEmail.assunto, CPModeloEmail.textomodelo})
+    MODELO_EMAIL_MARKETING_FRM_NOVO,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Descrição do e-mail]", CPModeloEmail.nome, CPModeloEmail.descricao, CPModeloEmail.personacoautoria, "[separador: Dados Básicos]",
+        CPModeloEmail.descricao, "[separador: Conteúdo]", CPModeloEmail.assunto, CPModeloEmail.textomodelo}
+    )
+    MODELO_EMAIL_MARKETING_FRM_EDITAR,
+    @InfoTipoAcaoFormulario(
+            nomeAcao = "Editar com IA",
+            campos = {"[separador: Modelo]",
+                CPModeloEmail.assunto, CPModeloEmail.textomodelo}, icone = "fa fa-regular fa-lightbulb")
+    MODELO_EMAIL_MARKETING_FRM_EDITAR_COM_IA,
+    @InfoTipoAcaoController()
+    MODELO_EMAIL_MARKETING_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoController(nomeAcao = "Gerar com IA", icone = "fa-solid fa-hat-wizard")
+    MODELO_EMAIL_MARKETING_CTR_ATUALIZAR_COM_IA,
 
 }

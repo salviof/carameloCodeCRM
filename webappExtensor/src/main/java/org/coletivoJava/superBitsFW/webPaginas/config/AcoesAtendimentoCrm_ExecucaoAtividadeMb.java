@@ -132,11 +132,6 @@ public class AcoesAtendimentoCrm_ExecucaoAtividadeMb implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_ENVIAR_CONVITE");
 	}
 
-	public ComoAcaoControllerEntidade getExecucaoAtividadeCtrAutoexecucao() {
-		return (ComoAcaoControllerEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_CTR_AUTOEXECUCAO");
-	}
-
 	public ItfAcaoFormularioEntidade getExecucaoAtividadeFrmAtividadeSimples() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_FRM_ATIVIDADE_SIMPLES");

@@ -42,4 +42,8 @@ public class PgIntegracaoERP extends MB_paginaCadastroEntidades<SistemaERPConfia
     public ItfSistemaERP getSistema() {
         return sistemaAtual;
     }
+
+    public void conectarUsuario() {
+
+    }
 }

@@ -7,7 +7,11 @@ package br.org.carameloCode.erp.crm.config;
 
 import br.org.caramelo.web.testesFW.webApp.testes.RelatorioTesteWebPaginas;
 import br.org.carameloCode.erp.modulo.agenda.implemetation.model.contato.ContatoAnonimoDadoTansitorio;
+
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPersistenciaCrmCarameloCode;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.persona.Persona;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.persona.CPPersona;
+
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.SBWebPaginas;
@@ -33,7 +37,8 @@ public class TesteConformidadeTest extends RelatorioTesteWebPaginas {
 
             gerarMangedBeansAcessoAcoes();
             exibirRelatorioCompleto();
-
+            Persona persona = new Persona();
+            persona.getCPinst(CPPersona.textomodelfileia).getValor();
             String teste = FabConfigModuloWebAppGenerico.TEMA.getCaminhoArquivoVariaveisAmbiente();
             System.out.println(teste);
             SBCore.getServicoMensagens().enviarMsgAlertaAoDesenvolvedor("Teste");

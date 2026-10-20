@@ -5,6 +5,7 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
@@ -19,7 +20,7 @@
         }
     </script>
 
-    <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+    <CRMAtividade:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
         <f:facet name="opcoesCabecalhoAtividade">
             <h:panelGroup styleClass="Container12 OrganizadorContainerEsquerda" >
                 <p:fieldset legend="Olá, esta atividade irá gerar os seguintes documentos" id="formGerador">
@@ -40,41 +41,46 @@
                         </c:forEach>
 
                     </h:panelGroup>
-                    <div class="Container5"  >
-                        <h:form >
 
-                            <CRM:botaoPersonalizadoComTarget metodo="#{pgExecutarAtividade.gerarDocumentos()}"
-                                                             icone="fa fa-magic "
-                                                             onStart="statusGeracaoDocumento();"
-
-                                                             titulo="Gerar pdf"
-                                                             atualizar="@form"
-                                                             target="#{pgExecutarAtividade.acaoSelecionada}"
-                                                             varlorTarget="#{acoesCRM_Execucao_de_Atividades.execucao_atividade_frm_documento_gerar}"
-                                                             />
-
-
-                        </h:form>
-                    </div>
-
-
-                    <p:blockUI block="formGerador" widgetVar="blokGerador" >
-                        <i class="fa fa-magic fa-spin fa-3x fa-fw" ></i> Gerando documento, convertendo em PDF
-
-
-                    </p:blockUI>
 
 
 
                 </p:fieldset>
             </h:panelGroup>
         </f:facet>
-    </CRM:cabecalhoAtividade>
+    </CRMAtividade:cabecalhoAtividade>
+
+    <p:fieldset id="painelGerador" styleClass="Container12">
+        <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block" >
+            <h:panelGroup styleClass="Container3 OrganizadorContainer" style="margin:60px" layout="block" >
+                <h:form >
+
+                    <CRM:botaoPersonalizadoComTarget metodo="#{pgExecutarAtividade.gerarDocumentos()}"
+                                                     icone="fa fa-magic "
+                                                     onStart="statusGeracaoDocumento();"
+
+                                                     titulo="Gerar pdf"
+                                                     atualizar="@form"
+                                                     target="#{pgExecutarAtividade.acaoSelecionada}"
+                                                     varlorTarget="#{acoesCRM_Execucao_de_Atividades.execucao_atividade_frm_documento_gerar}"
+                                                     />
+
+
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+        <p:blockUI block="painelGerador" widgetVar="blokGerador" >
+            <i class="fa fa-magic fa-spin fa-3x fa-fw" ></i> Gerando documento, convertendo em PDF
+
+
+        </p:blockUI>
+    </p:fieldset>
+
 
 
     <h:panelGroup styleClass="quebraBlocoComEspacoVertical10" />
     <h:form>
-        <CRM:opcoesAtividadeResumido  atividade="#{pgExecutarAtividade.atividade}"/>
+        <CRMAtividade:opcoesAtividade  atividade="#{pgExecutarAtividade.atividade}"/>
 
     </h:form>
 

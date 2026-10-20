@@ -6,7 +6,8 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo" >
 
 
@@ -39,6 +40,16 @@
                                         <p:outputLabel value="#{prop.parteValor}" />
                                         <p:outputLabel value="" />
                                     </c:forEach>
+                                    <h:form >
+                                        <p:commandButton value="Concetar como Sistema" action="#{pgIntegracoes.conectarComSistema()}">
+                                            <f:setPropertyActionListener target="#{pgIntegracoes.entidadeSelecionada}" value="#{integracao}" />
+                                        </p:commandButton>
+
+                                        <p:commandButton value="Concetar como usuário" action="#{pgIntegracoes.conectarComUsuario()}">
+                                            <f:setPropertyActionListener target="#{pgIntegracoes.entidadeSelecionada}" value="#{integracao}" />
+                                        </p:commandButton>
+                                    </h:form>
+
 
                                 </p:panelGrid>
                             </p>

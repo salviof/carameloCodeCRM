@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.faces.view.ViewScoped;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoSessao;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
+import br.org.coletivoJava.fw.erp.implementacao.chat.atendente.RepositorioJanelasChatAtendimento;
 
 /**
  *
@@ -43,18 +44,8 @@ public class ServicoChatView implements Serializable {
 
     @PostConstruct
     public void inicio() {
-        if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
-            urlClientChat = "https://chat.casanovadigital.com.br";
-            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CLIENTE.getRegistro().getId())) {
-                urlClientChat = "https://chatatendimento.casanovadigital.com.br";
-            }
-            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_ATENDIMENTO.getRegistro().getId())) {
-                urlClientChat = "https://chat.casanovadigital.com.br";
-            }
-            if (SBCore.getUsuarioLogado().getGrupo().getId().equals(FabGruposCRMCaramelo.CRM_CONVIDADO.getRegistro().getId())) {
-                urlClientChat = "https://chatcomunidade.casanovadigital.com.br";
-            }
-        }
+
+        urlClientChat = RepositorioJanelasChatAtendimento.getServico().getServicoUrlCliente().getUrlChatBaseUsuario(sessao.getUsuario());
 
     }
 
@@ -131,9 +122,10 @@ public class ServicoChatView implements Serializable {
             return null;
         }
         StringBuilder salaUrlPatchBuilder = new StringBuilder();
-        salaUrlPatchBuilder.append("?salaConversa=");
+        salaUrlPatchBuilder.append("&salaConversa=");
         try {
             salaUrlPatchBuilder.append(URLEncoder.encode(sala.getApelido(), StandardCharsets.UTF_8.toString()));
+
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(ServicoChatView.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+      xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions"
       xmlns:p="http://primefaces.org/ui">
@@ -32,24 +33,18 @@
         <ui:include src="/resources/SBComp/template/basico/folhasDeEstiloBasicas.xhtml"  />
         <ui:include src="/resources/SBComp/template/basico/cabecalhoInicialDoBody.xhtml" />
         <ui:include src="scriptsDeAtividade.xhtml" />
-        <CRM:menuProspecto
-            pessoaJuridica="#{pgExecutarAtividade.prospecto}"
-            rendered="#{pgExecutarAtividade.prospecto!=null}"
-            />
+
 
 
 
 
 
         <h:panelGroup rendered="#{sessaoAtualSBWP.identificado}"  id="#{layoutIdsAreasConhecidas.AREA_TOPO_ITERNFACES}">
-            <div class="ManterNoTopo">
-                <h:outputScript name="js/layout.js" library="primefaces-adamantium" />
-                <ui:include src="/site/topo.xhtml"/>
-            </div>
 
         </h:panelGroup>
 
         <pe:layout maskPanesEarly="true"   style="margin-top: 300px;" >
+
             <pe:layoutPane position="center" maskContents="true"  >
 
                 <h:panelGroup id="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}" layout="block" style="margin-top: 100px;"  >
@@ -58,8 +53,8 @@
                         style="height:  550px; padding-right: 40px; padding-left: 0px;"
                         rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('noEstadoInteracaoPlugin').valor}"
                         >
-
-
+                        <CRMAtividade:cabecalhoAtividade atividade="#{pgExecutarAtividade.atividade}" />
+                        #{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}
                         <iframe id="iframeCenter"
                                 style="webkit-scrollbar:"
                                 src="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"
@@ -70,7 +65,7 @@
                         <h:form>
                             <h:outputText value="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"
                                           rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" />
-                            <CRM:opcoesAtividade
+                            <CRMAtividade:opcoesAtividade
                                 atividade="#{pgExecutarAtividade.atividade}"
                                 />
                         </h:form>

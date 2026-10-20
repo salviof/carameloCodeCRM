@@ -3,7 +3,6 @@ package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.disparoEmMassa.DisparoEmMassa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRealizada;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.pabx.TipoAtvChamadaRecebida;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.telefone.Telefone;
 import br.org.coletivoJava.fw.erp.implementacao.erpintegracao.model.SistemaERPConfiavel;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
@@ -39,6 +38,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.util.UtilGeradorDocumentoCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmMauticInt.ModuloCRMMauticSync;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
 import com.super_bits.modulos.SBAcessosModel.model.PermissaoSB;
@@ -79,7 +79,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNo
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.importacao.ImportacaoExcel;
@@ -650,7 +649,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
                     try {
 
                         if (prosp.getOrigem() != null && !UtilCRCStringValidador.isNuloOuEmbranco((prosp.getEmail()))) {
-                            ModuloCRMAtendimento.prospectoAtualizarMautic(prosp);
+                            ModuloCRMMauticSync.prospectoAtualizarMautic(prosp);
 
                         }
 
@@ -1203,26 +1202,6 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         };
     }
 
-    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_CTR_SALVAR_MERGE)
-    public static ItfRespostaAcaoDoSistema personaIaAtualizar(Persona pPersonaIA) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPersonaIA), pPersonaIA) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                atualizarEntidade(pPersonaIA);
-            }
-        };
-    }
-
-    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_CTR_REMOVER)
-    public static ItfRespostaAcaoDoSistema personaIaRemover(Persona pPersonaIA) {
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pPersonaIA), pPersonaIA) {
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-                removerEntidade(pPersonaIA);
-            }
-        };
-    }
-
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_CTR_SALVAR_MERGE)
     public static ItfRespostaAcaoDoSistema tipoDadoIASalvar(TipoDadoIA pTipoDadoIA) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoDadoIA), pTipoDadoIA) {
@@ -1271,6 +1250,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
                 tipo.setNomeFabricaAcaoRespostaPersonalizada(tipoFabrica.getNomeFabricaAcaoRespostaPersonalizada());
                 // Entidade com operação em banco iniciada, provavelmente não precisa de update, mas ao atualizar, a data e o ultimo usuário q alterou também serão atualizadaas
                 atualizarEntidade(tipo);
+
             }
         };
     }

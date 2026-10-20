@@ -6,18 +6,89 @@
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
     xmlns:p="http://primefaces.org/ui">
     <ui:define name="conteudo">
-        <h:form>
-            <p:schedule id="reservas"
-                        locale="pt_BR"
-                        view="listWeek"
-                        minTime="06:00"
+        <h:outputStylesheet name="minhaagendaAtendimento.css" library="crmAgenda" />
+        <!-- Renderiza logo da empresa e avatar do usuário (dynamicProperty fotoEmpresa / fotoUsuarioCliente) em cada evento -->
+        <script type="text/javascript">
+            //<![CDATA[
+            function crmMinhaAgendaCriarImagem(url, classe) {
+                if (!url) {
+                    return null;
+                }
+                var img = document.createElement('img');
+                img.className = classe;
+                img.src = url;
+                img.alt = '';
+                img.loading = 'lazy';
+                img.onerror = function () {
+                    this.style.display = 'none';
+                };
+                return img;
+            }
 
-                        maxTime="21:00"
-                        rightHeaderTemplate="listWeek,timeGridDay"
-                        initialDate="#{pgMinhasReservas.hojeDataLocal}"
-                        value="#{pgMinhasReservas.agendaReservas}"
-                        widgetVar="reservasWidget">
-            </p:schedule>
+            function crmMinhaAgendaExtender() {
+                this.cfg.options.eventContent = function (arg) {
+                    var props = arg.event.extendedProps || {};
+                    var visaoLista = arg.view.type.indexOf('list') === 0;
+
+                    // Na lista o FullCalendar navega pelo <a href> do título; na grade o próprio evento já é um <a>
+                    var conteudo;
+                    if (visaoLista && arg.event.url) {
+                        conteudo = document.createElement('a');
+                        conteudo.href = arg.event.url;
+                    } else {
+                        conteudo = document.createElement('div');
+                    }
+                    conteudo.className = 'MAgendaEvento' + (visaoLista ? ' MAgendaEventoLista' : ' MAgendaEventoGrade');
+
+                    var fotos = document.createElement('span');
+                    fotos.className = 'MAgendaEventoFotos';
+                    var logo = crmMinhaAgendaCriarImagem(props.fotoEmpresa, 'MAgendaEventoLogoEmpresa');
+                    var avatar = crmMinhaAgendaCriarImagem(props.fotoUsuarioCliente, 'MAgendaEventoAvatarUsuario');
+                    if (logo) {
+                        fotos.appendChild(logo);
+                    }
+                    if (avatar) {
+                        fotos.appendChild(avatar);
+                    }
+                    if (logo || avatar) {
+                        conteudo.appendChild(fotos);
+                    }
+
+                    var textos = document.createElement('span');
+                    textos.className = 'MAgendaEventoTextos';
+                    if (!visaoLista && arg.timeText) {
+                        var hora = document.createElement('span');
+                        hora.className = 'MAgendaEventoHora';
+                        hora.textContent = arg.timeText;
+                        textos.appendChild(hora);
+                    }
+                    var titulo = document.createElement('span');
+                    titulo.className = 'MAgendaEventoTitulo';
+                    titulo.textContent = arg.event.title;
+                    titulo.title = arg.event.title;
+                    textos.appendChild(titulo);
+                    conteudo.appendChild(textos);
+
+                    return {domNodes: [conteudo]};
+                };
+            }
+            //]]>
+        </script>
+        <h:form>
+            <h:panelGroup layout="block" styleClass="comp-crc-MinhaAgendaReservas" >
+                <p:schedule id="reservas"
+                            locale="pt_BR"
+                            view="listMonth"
+                            minTime="06:00"
+                            styleClass="MAgendaAtendimento"
+                            maxTime="21:00"
+                            rightHeaderTemplate="listMonth,timeGridDay,dayGridMonth"
+                            initialDate="#{pgMinhasReservas.hojeDataLocal}"
+                            value="#{pgMinhasReservas.agendaReservas}"
+                            extender="crmMinhaAgendaExtender"
+                            widgetVar="reservasWidget">
+                </p:schedule>
+            </h:panelGroup>
 
         </h:form>
     </ui:define>

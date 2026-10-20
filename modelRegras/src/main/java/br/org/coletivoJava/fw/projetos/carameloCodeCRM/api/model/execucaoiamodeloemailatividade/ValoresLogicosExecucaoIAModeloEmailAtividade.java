@@ -1,0 +1,9 @@
+package br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.execucaoiamodeloemailatividade;
+
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAModeloEmailAtividade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoReferenciaEntidade;
+
+@InfoReferenciaEntidade(tipoObjeto = ExecucaoIAModeloEmailAtividade.class)
+public enum ValoresLogicosExecucaoIAModeloEmailAtividade {
+	PERSONA, ENTIDADEVINCULADA, DIALOGOJSON, SYSTEMPROMPTMD, VALORGASTO
+}

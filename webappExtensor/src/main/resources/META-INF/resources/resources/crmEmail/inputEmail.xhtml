@@ -22,39 +22,43 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <h:outputStylesheet library="qlEditorEmail" name="qlEditorEmail.css"  />
+        <!-- Quill vem do PrimeFaces (texteditor): importado aqui para existir mesmo sem outro p:textEditor na pagina -->
+        <h:outputStylesheet library="primefaces" name="texteditor/texteditor.css" />
+        <h:outputScript library="primefaces" name="texteditor/texteditor.js" target="head" />
+        <h:outputStylesheet library="qlEditorEmail" name="qlEditorEmail.css" />
+        <!-- A inicializacao do editor mora em qlEditorEmail.js: roda na carga da pagina e apos cada update ajax, sem script inline aqui -->
         <h:outputScript library="qlEditorEmail" name="qlEditorEmail.js" target="head" />
 
+        <h:panelGroup layout="block" styleClass="crc-comp-inputEmail" >
 
+            <p:remoteCommand actionListener="#{pgExecutarAtividade.emailsalvarRascunho()}"
+                             name="executarAutosave" />
 
+            <h:panelGroup layout="block" id="formularioEdicaoEmail" styleClass="formularioEdicaoEmail" >
 
-        <p:remoteCommand actionListener="#{pgExecutarAtividade.emailsalvarRascunho()}"
-                         name="executarAutosave"
+                <!-- Campo enviado ao servidor: fica oculto e recebe o HTML do editor -->
+                <p:inputTextarea id="textoEmail"
+                                 widgetVar="editorAssinatura"
+                                 styleClass="invisivel crm-mail-texto"
+                                 value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
+                                 placeholder="Escreva seu e-mail aqui"
+                                 required="true" >
+                    <p:ajax
+                        event="blur"
+                        onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                        oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
+                        process="@this"
+                        listener="#{pgUtil.enviaMensagem('Autosave')}"
+                        />
+                    <f:passThroughAttribute name="caminhoCampo" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeCompostoIdentificador}" />
+                    <f:passThroughAttribute name="dominio" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeClasseOrigemAtributo}" />
+                    <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto')}" />
+                </p:inputTextarea>
 
-                         />
+                <!-- Editor Quill, criado pelo qlEditorEmail.js -->
+                <h:panelGroup layout="block" styleClass="crm-mail-editor" />
 
-        <h:panelGroup layout="block" id="formularioEdicaoEmail" style="width: 100%;height: 100%;" >
-
-            <p:inputTextarea id="textoEmail"  style="width: 100%;height: 400px;"
-                             widgetVar="editorAssinatura"
-                             styleClass="invisivel"
-
-                             value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
-                             placeholder="Escreva seu e-mail aqui"
-                             required="true"
-                             >
-                <p:ajax
-                    event="blur"
-                    onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
-                    oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID('textoEmail')}')"
-                    process="@this"
-                    listener="#{pgUtil.enviaMensagem('Autosave')}"
-                    />
-                <f:passThroughAttribute name="caminhoCampo" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeCompostoIdentificador}" />
-                <f:passThroughAttribute name="dominio" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').nomeClasseOrigemAtributo}" />
-                <f:passThroughAttribute name="campoInstanciado" value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto')}" />
-            </p:inputTextarea>
-            <div id="crm-mail-editor"></div>
+            </h:panelGroup>
         </h:panelGroup>
     </cc:implementation>
 </ui:composition>

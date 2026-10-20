@@ -77,18 +77,17 @@ public class ServicoNotificacao {
             if (!contatos.contains(p.getContatoPrincipal())) {
                 contatos.add(p.getContatoPrincipal());
             }
-            for (ContatoProspecto usuario : p.getContatosProspecto()) {
-                NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, usuario.getUsuarioVinculado(), pReserva);
-                notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
-                return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
-            }
+
+            NotificacaoSB notificacao = NOTIFICACAO_SRV.gerarNotificacao((TipoNotificacao) tipoNotificacao, pReserva.getAtendenteResponsavel(), pReserva);
+            notificacao.setCodigoEntidadeRelacionada(reserva.getId().toString());
+            return ModuloNotificacao.notificacaoRegistrar(notificacao).isSucesso();
 
         } catch (Throwable t) {
             return false;
         } finally {
             UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);
         }
-        return true;
+
     }
 
     public static boolean notificarChamadoAtendente(FabTipoNotificacao pTipo, ChamadoCliente pChamado) {

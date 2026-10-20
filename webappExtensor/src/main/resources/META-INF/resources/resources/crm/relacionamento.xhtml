@@ -3,7 +3,7 @@
     xmlns:cc="http://java.sun.com/jsf/composite"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
@@ -11,28 +11,56 @@
     <cc:interface>
         <cc:attribute name="tipoRelacionamento"
                       type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento" required="true"/>
+        <cc:attribute name="styleClass" type="java.lang.String" required="false"
+                      shortDescription="Classes adicionais aplicadas no container do componente."/>
+        <cc:attribute name="compacto" type="java.lang.Boolean" default="false" required="false"
+                      shortDescription="Layout reduzido, para uso em tabelas, cards e colunas estreitas."/>
 
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <h:outputStylesheet library="crm" name="relacionamento.css" />
+        <h:panelGroup layout="block"
 
 
-        <p:progressBar value="#{cc.attrs.tipoRelacionamento.peso*10}"
-                       labelTemplate="#{cc.attrs.tipoRelacionamento.metaRelacionamento.nome} - #{cc.attrs.tipoRelacionamento.nome}"
-                       displayOnly="true"
-                       styleClass="barraRelacionamento"
-                       style=""
-                       />
+                      styleClass="pessoaRelacionamentoAtual
+                      #{(cc.attrs.tipoRelacionamento.peso * 10) lt 30 ? 'relacionamentoNivelInicial' : ((cc.attrs.tipoRelacionamento.peso * 10) lt 70 ? 'relacionamentoNivelMedio' : ((cc.attrs.tipoRelacionamento.peso * 10) lt 100 ? 'relacionamentoNivelAlto' : 'relacionamentoNivelCompleto'))}
+                      #{cc.attrs.compacto ? 'pessoaRelacionamentoCompacto' : ''}
+                      #{cc.attrs.styleClass}">
+
+            <!-- Meta do relacionamento + posição da etapa na escala -->
+            <h:panelGroup layout="block" styleClass="relacionamentoCabecalho">
+                <h:panelGroup layout="block" styleClass="relacionamentoMeta"
+                              rendered="#{not empty cc.attrs.tipoRelacionamento.metaRelacionamento}">
+                    <i class="fa fa-bullseye relacionamentoMetaIcone" aria-hidden="true"></i>
+                    <h:outputText styleClass="relacionamentoMetaNome"
+                                  value="#{cc.attrs.tipoRelacionamento.metaRelacionamento.nome}"/>
+                </h:panelGroup>
+                <h:outputText styleClass="relacionamentoEtapaIndice"
+                              value="etapa #{cc.attrs.tipoRelacionamento.peso gt 10 ? 10 : cc.attrs.tipoRelacionamento.peso} de 10"/>
+            </h:panelGroup>
+
+            <!-- Nome da etapa atual + percentual de evolução -->
+            <h:panelGroup layout="block" styleClass="relacionamentoEtapa">
+                <h:outputText styleClass="relacionamentoEtapaNome"
+                              value="#{cc.attrs.tipoRelacionamento.nome}"/>
+                <h:panelGroup layout="block" styleClass="relacionamentoPercentual">
+                    <h:outputText value="#{(cc.attrs.tipoRelacionamento.peso * 10) gt 100 ? 100 : ((cc.attrs.tipoRelacionamento.peso * 10) lt 0 ? 0 : (cc.attrs.tipoRelacionamento.peso * 10))}">
+                        <f:convertNumber maxFractionDigits="0"/>
+                    </h:outputText>%
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <!-- Barra de evolução com marcas das 10 etapas -->
+            <h:panelGroup layout="block" styleClass="relacionamentoBarraWrapper">
+                <p:progressBar value="#{(cc.attrs.tipoRelacionamento.peso * 10) gt 100 ? 100 : ((cc.attrs.tipoRelacionamento.peso * 10) lt 0 ? 0 : (cc.attrs.tipoRelacionamento.peso * 10))}"
+                               labelTemplate="{value}%"
+                               displayOnly="true"
+                               styleClass="barraRelacionamento"
+                               />
+            </h:panelGroup>
+
+        </h:panelGroup>
 
     </cc:implementation>
 </ui:composition>
-
-
-
-
-
-
-
-
-
-

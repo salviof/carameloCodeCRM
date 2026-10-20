@@ -1,0 +1,209 @@
+/* ===== crc-comp-modalContatos ===== */
+
+.crc-comp-modalContatos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 4px;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+.crc-comp-modalContatos-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.crc-comp-modalContatos-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.crc-comp-modalContatos-tituloIcone {
+    color: #6b7280;
+}
+
+.crc-comp-modalContatos-contador {
+    min-width: 26px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Corpo: lista + editor */
+/* Grid se adapta à largura do modal (não da tela): lado a lado quando cabe, empilhado quando estreito */
+.crc-comp-modalContatos-corpo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.crc-comp-modalContatos-lista,
+.crc-comp-modalContatos-editor {
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Tabela */
+.crc-comp-modalContatos .TabelaModalContatos .ui-datatable-data > tr {
+    cursor: pointer;
+    transition: background-color .15s ease;
+}
+
+.crc-comp-modalContatos .TabelaModalContatos .ui-datatable-data > tr > td {
+    height: 44px;
+    padding: 8px 12px;
+}
+
+.crc-comp-modalContatos .TabelaModalContatos .ui-column-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.crc-comp-modalContatos-colunaId {
+    width: 60px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+.crc-comp-modalContatos-colunaNome {
+    font-weight: 600;
+}
+
+.crc-comp-modalContatos-estrela {
+    margin-left: 8px;
+    color: #f59e0b;
+}
+
+/* Estado vazio do editor */
+.crc-comp-modalContatos-vazio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 220px;
+    padding: 24px;
+    border: 2px dashed #e5e7eb;
+    border-radius: 10px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+.crc-comp-modalContatos-vazioIcone {
+    font-size: 2rem;
+}
+
+/* Cartão de edição */
+.crc-comp-modalContatos-cartao {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+    overflow: hidden;
+}
+
+.crc-comp-modalContatos-cartaoCabecalho {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+}
+
+.crc-comp-modalContatos-cartaoTitulo {
+    flex: 1;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.crc-comp-modalContatos-selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #b45309;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.crc-comp-modalContatos-campos {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+}
+
+.crc-comp-modalContatos-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.crc-comp-modalContatos-atualizar {
+    align-self: flex-end;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .crc-comp-modalContatos {
+        padding: 4px 0;
+        gap: 12px;
+    }
+
+    .crc-comp-modalContatos-cabecalho .ui-button {
+        width: 100%;
+    }
+
+    .crc-comp-modalContatos-corpo {
+        grid-template-columns: 1fr;
+    }
+
+    .crc-comp-modalContatos-vazio {
+        min-height: 120px;
+        padding: 16px;
+    }
+
+    .crc-comp-modalContatos-campos {
+        padding: 12px;
+    }
+
+    .crc-comp-modalContatos-acoes {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .crc-comp-modalContatos-acoes .ui-button {
+        width: 100%;
+    }
+}

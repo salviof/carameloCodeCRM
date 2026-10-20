@@ -321,6 +321,15 @@
  vence :hover e :focus-within ate sairem do painel
  - .AcoesAtv--semEntrada    -> a entrada (espiar/cutucar) roda so no primeiro
  render; o @form das acoes re-renderiza o painel
+ - clique numa acao         -> recolhe o painel e trava os itens ate o ajax
+ terminar (.AcoesAtv--carregando no painel,
+ .botaoAcaoAtv--carregando no item, que mostra o
+ spinner no rail). Vale para todos os itens
+ (Resumido e facet extra inclusive), sem depender
+ do onStart/onComplete de cada botaoAcaoAtividade
+ - clique com o painel travado -> descartado antes de chegar ao botao
+ - fim do ajax com a fila vazia -> destrava; se o update re-renderiza o
+ painel, ele ja volta sem as classes
 
  Ouvintes delegados ao document, como o bloco acima, para sobreviver a
  qualquer update ajax.
@@ -432,6 +441,174 @@
             painel.classList.remove(RECOLHIDO);
         }
     });
+
+    /* ----- Trava durante o ajax de uma acao ----- */
+    var CARREGANDO = 'AcoesAtv--carregando';
+    var ITEM_CARREGANDO = 'botaoAcaoAtv--carregando';
+    /* rede de seguranca: request perdido nao deixa o menu travado para sempre */
+    var LIMITE_MS = 120000;
+    var limite = null;
+
+    function destravar() {
+        clearTimeout(limite);
+        var travados = document.querySelectorAll('.AcoesAtv.' + CARREGANDO);
+        for (var i = 0; i < travados.length; i++) {
+            travados[i].classList.remove(CARREGANDO);
+            travados[i].removeAttribute('aria-busy');
+            var itens = travados[i].querySelectorAll('.' + ITEM_CARREGANDO);
+            for (var j = 0; j < itens.length; j++) {
+                itens[j].classList.remove(ITEM_CARREGANDO);
+            }
+        }
+    }
+
+    function filaOcupada() {
+        var fila = window.PrimeFaces && PrimeFaces.ajax && PrimeFaces.ajax.Queue;
+        if (!fila) {
+            return false;
+        }
+        return (fila.requests && fila.requests.length > 0)
+                || (fila.xhrs && fila.xhrs.length > 0);
+    }
+
+    /* Captura: roda antes do onclick do botao, para o clique repetido (mouse
+     ou Enter/espaco) ser descartado antes de disparar outro remoteCommand */
+    document.addEventListener('click', function (e) {
+        var botao = maisProximo(e.target, '.AcoesAtv .botaoAcaoAtvBotao');
+        if (!botao) {
+            return;
+        }
+        var painel = botao.closest('.AcoesAtv');
+        if (painel.classList.contains(CARREGANDO)) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+        painel.classList.add(CARREGANDO);
+        painel.setAttribute('aria-busy', 'true');
+        var item = botao.closest('.comp-crc-botaoAcaoAtividade');
+        if (item) {
+            item.classList.add(ITEM_CARREGANDO);
+        }
+        /* Recolhe: o spinner do item fica no rail, visivel. O RECOLHIDO vence
+         o :hover e o :focus-within do botao que acabou de receber o clique */
+        definirAberto(painel, false);
+        painel.classList.add(RECOLHIDO);
+        clearTimeout(limite);
+        limite = setTimeout(destravar, LIMITE_MS);
+    }, true);
+
+    if (window.jQuery) {
+        /* o setTimeout deixa o PrimeFaces tirar o request da fila antes da conferencia */
+        jQuery(document).on('pfAjaxComplete', function () {
+            setTimeout(function () {
+                if (!filaOcupada()) {
+                    destravar();
+                }
+            }, 0);
+        });
+    }
+})();
+
+
+/* ==========================================================================
+ Revisao do e-mail antes do envio (crmEmailAtividade/emailRevisao).
+
+ A etapa fica marcada em azul enquanto o modal dela esta aberto: e o que
+ responde "estou editando esta". A marca e uma classe, e nao :hover nem
+ :focus, de proposito -- o modal abre por cima do ponteiro e o mouseleave
+ nunca chega, entao hover/foco travariam acesos. Quem liga e o clique, quem
+ desliga e o onHide do proprio modal: a marca acompanha o modal, nao o
+ ponteiro.
+
+ Marcacao (sobrevive a qualquer update ajax, pois o ouvinte e delegado ao
+ document e nao depende de script inline no componente):
+ .crc-comp-emailRevisao          raiz de cada instancia do componente
+ [data-revisao-modal="WV"]       link que abre o modal de widgetVar WV
+ .Atv-exec-email-revisaoEtapa    faixa que recebe a marca de edicao
+
+ Antes o script ficava inline num h:outputScript target="head": num update
+ ajax o head nao e re-renderizado, a funcao nunca era definida e o clique
+ falhava (o destaque de foco, CSS puro, continuava funcionando).
+ ========================================================================== */
+
+(function () {
+    if (window.EmailRevisaoIniciado) {
+        return;
+    }
+    window.EmailRevisaoIniciado = true;
+
+    var SEL_RAIZ = '.crc-comp-emailRevisao';
+    var EM_EDICAO = 'Atv-exec-email-revisaoEtapaEmEdicao';
+    var MODAL_ABERTO = 'Atv-exec-email-revisaoModalAberto';
+
+    function maisProximo(el, seletor) {
+        return el && el.closest ? el.closest(seletor) : null;
+    }
+
+    function limparEtapas() {
+        document.body.classList.remove(MODAL_ABERTO);
+        Array.prototype.forEach.call(document.querySelectorAll('.' + EM_EDICAO), function (etapa) {
+            etapa.classList.remove(EM_EDICAO);
+        });
+    }
+
+    function abrirEtapa(link, modal) {
+        limparEtapas();
+        var etapa = maisProximo(link, '.Atv-exec-email-revisaoEtapa');
+        if (etapa) {
+            etapa.classList.add(EM_EDICAO);
+        }
+        /* marca no body: e ela que suspende o hover das outras etapas
+         enquanto o modal cobre a tela. Nao da para usar a mascara do
+         PrimeFaces (.ui-widget-overlay) como sinal: confirmDialog e
+         BlockUI deixam mascaras no DOM o tempo todo, e o hover ficaria
+         suspenso para sempre. */
+        document.body.classList.add(MODAL_ABERTO);
+        var widget = window.PF ? PF(modal) : null;
+        if (widget) {
+            widget.show();
+        } else {
+            limparEtapas();
+        }
+    }
+
+    /* Inicializacao de cada instancia renderizada (carga da pagina ou
+     update ajax). Um componente re-renderizado recria os modais fechados,
+     e o onHide do modal antigo nao chega a disparar: sem isso a marca de
+     edicao e a do body ficariam presas. */
+    function iniciarNovos() {
+        var novos = document.querySelectorAll(SEL_RAIZ + ':not([data-revisao-iniciado])');
+        if (!novos.length) {
+            return;
+        }
+        for (var i = 0; i < novos.length; i++) {
+            novos[i].setAttribute('data-revisao-iniciado', '');
+        }
+        limparEtapas();
+    }
+
+    document.addEventListener('click', function (e) {
+        var link = maisProximo(e.target, SEL_RAIZ + ' [data-revisao-modal]');
+        if (!link) {
+            return;
+        }
+        e.preventDefault();
+        abrirEtapa(link, link.getAttribute('data-revisao-modal'));
+    });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarNovos);
+    } else {
+        iniciarNovos();
+    }
+    if (window.jQuery) {
+        jQuery(document).on('pfAjaxComplete', iniciarNovos);
+    }
+
+    /* Nomes globais mantidos para o onHide dos modais e chamadas antigas */
+    window.revisaoAbrirEtapa = abrirEtapa;
+    window.revisaoLimparEtapas = limparEtapas;
 })();
 
 

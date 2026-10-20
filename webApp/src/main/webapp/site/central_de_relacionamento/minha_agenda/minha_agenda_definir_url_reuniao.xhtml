@@ -8,31 +8,77 @@
     xmlns:Scp="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
     xmlns:p="http://primefaces.org/ui">
     <ui:define name="conteudo">
-        <h:form>
-            <h:panelGroup styleClass="Container3 Fleft" layout="block" >
+        <h:outputStylesheet name="minhaagendaAtendimento.css" library="crmAgenda" />
+        <h:panelGroup layout="block" styleClass="crc-comp-definirUrlReuniao" >
+            <h:form>
 
-
-                <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVerReserva}" label="Voltar e ver reserva"  />
-            </h:panelGroup>
-            <p:fieldset  legend=" #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}">
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.email}<br/>
-
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}<br/>
-
-            </p:fieldset>
-            <h:panelGroup layout="block" >
-                <h:panelGroup styleClass="botaoLinkReuniao" layout="block">
-                    <Sci:input
-                        label="Insira o Link para reunião, que será enviada por e-mail e sms"
-                        registro="#{pgMinhasReservas.entidadeSelecionada.getCampoByNomeOuAnotacao('linkConferencia')}"  layout="#{layoutsComponenteSB.layoutCampo.resumido}"
-                        />
+                <!-- Voltar para a reserva -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerEsquerda FDRBarraTopo" >
+                    <h:panelGroup styleClass="Container3" layout="block" >
+                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmVerReserva}" label="Voltar e ver reserva"  />
+                    </h:panelGroup>
                 </h:panelGroup>
-                <h:panelGroup styleClass="Container3 Fright" layout="block">
-                    <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrEnviarLinkReuniao}" classeEstilo="botaoVerde" />
+
+                <!-- Cabeçalho: logo da empresa + contato + horário da reserva -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRCabecalho" >
+                    <h:panelGroup layout="block" styleClass="Container3 FDRCabecalhoLogo" >
+                        <span class="FDRLinkEmpresa">
+                            <img class="FDRLogoEmpresa" alt=""
+                                 src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto.imgPequena}" />
+                        </span>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="Container9 FDRCabecalhoInfo" >
+                        <span class="FDRTipoAgendamento">
+                            <i class="fa-solid fa-video"></i>
+                            Link da reunião
+                        </span>
+                        <h2 class="FDRTitulo">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}</h2>
+                        <span class="FDRSubtitulo">
+                            <i class="fa-regular fa-clock"></i>
+                            #{pgUtilDataHoraFormato.getDiaDaSemana(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)},
+                            #{pgUtilDataHoraFormato.getDiaDoMes(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}
+                            #{pgUtilDataHoraFormato.getMesExtenso(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}
+                            · #{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}-#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.finalReservaAtendente)}
+                        </span>
+                    </h:panelGroup>
                 </h:panelGroup>
-            </h:panelGroup>
 
+                <!-- Dados do contato que receberá o link -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRLinha" >
+                    <p:fieldset legend="Quem receberá o link" styleClass="FDRFieldset">
+                        <ul class="FDRListaContato">
+                            <li>
+                                <i class="fa-solid fa-envelope"></i>
+                                <span class="FDRRotulo">E-mail</span>
+                                <span class="FDRValor">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.email}</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                <span class="FDRRotulo">Celular</span>
+                                <span class="FDRValor">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}</span>
+                            </li>
+                        </ul>
+                    </p:fieldset>
+                </h:panelGroup>
 
-        </h:form>
+                <!-- Link da reunião + envio -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRLinha" >
+                    <p:fieldset legend="Link da reunião" styleClass="FDRFieldset">
+                        <h:panelGroup styleClass="botaoLinkReuniao" layout="block">
+                            <Sci:input
+                                label="Insira o Link para reunião, que será enviada por e-mail e sms"
+                                registro="#{pgMinhasReservas.entidadeSelecionada.getCampoByNomeOuAnotacao('linkConferencia')}"  layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerDireita FDRAcoes" >
+                            <h:panelGroup styleClass="Container3" layout="block">
+                                <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrEnviarLinkReuniao}" classeEstilo="botaoVerde" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </h:panelGroup>
+
+            </h:form>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

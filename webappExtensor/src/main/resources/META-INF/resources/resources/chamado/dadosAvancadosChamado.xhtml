@@ -4,6 +4,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crmEmail"
+    xmlns:SBCRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
     xmlns:SBAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -94,7 +96,7 @@
                                 E-mail
                             </h:panelGroup>
                             <h:panelGroup layout="block" styleClass="ChamadoAvancadoValor ChamadoAvancadoValorAcoes">
-                                <SBCRM:emailAcoesAtendente
+                                <crmEmail:emailAcoesAtendente
                                     email="#{cc.attrs.chamado.usuarioCliente.getCampoInstanciadoByNomeOuAnotacao('contatoClienteVinculado').valor.email}"
                                     contato='#{cc.attrs.chamado.usuarioCliente.contatoClienteVinculado}'
                                     />

@@ -27,6 +27,11 @@ public class AcoesAdminCrm_TipoNotificacaoMb implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_NOTIFICACAO_FRM_LISTAR");
 	}
 
+	public ItfAcaoFormularioEntidade getTipoNotificacaoFrmListarNotificacoesEntreUsuarios() {
+		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_NOTIFICACAO_FRM_LISTAR_NOTIFICACOES_ENTRE_USUARIOS");
+	}
+
 	public ItfAcaoFormularioEntidade getTipoNotificacaoFrmEditar() {
 		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_NOTIFICACAO_FRM_EDITAR");
@@ -40,5 +45,10 @@ public class AcoesAdminCrm_TipoNotificacaoMb implements Serializable {
 	public ComoAcaoControllerEntidade getTipoNotificacaoCtrSalvarMerge() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_NOTIFICACAO_CTR_SALVAR_MERGE");
+	}
+
+	public ComoAcaoControllerEntidade getTipoNotificacaoCtrRestaurar() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_NOTIFICACAO_CTR_RESTAURAR");
 	}
 }

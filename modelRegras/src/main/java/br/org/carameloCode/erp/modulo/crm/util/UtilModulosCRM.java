@@ -15,6 +15,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCR
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaAcoes;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.disponibilidades.FabAcaoAgendaMentoPublico;
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
 import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabAcaoAgendamentoPublicoCRMPlugin;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.FabAcaoOrcamento;
@@ -31,7 +32,7 @@ public abstract class UtilModulosCRM {
             //FabAcaoAgencia.class,
             FabAcaoAgendaMentoPublico.class, FabAcaoAgendamentoPublicoCRMPlugin.class,
             FabAcaoCrmAtendimentoAgenda.class, FabAcaoCRMCliente.class, FabAcaoAcessoAnonimoIntranet.class, FabAcaoCRMConvidado.class,
-            FabAcaoNotificacaoPadraoSB.class, FabAcaoCRMIA.class
+            FabAcaoNotificacaoPadraoSB.class, FabAcaoCRMIA.class, FabAcaoIAExecucao.class
 
         };
     }

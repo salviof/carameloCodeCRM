@@ -1,0 +1,154 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="areaAtualizacao" />
+        <cc:attribute name="acaoCriarDialogo"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+
+        <cc:attribute name="acaoAtualizarDados"
+                      type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet library="iaDialogos" name="iaDialogos.css" />
+
+        <h:panelGroup id="painelIA" layout="block" styleClass="crc-ia-inline-editor Container12">
+
+            <!-- Sem entidade selecionada: nada para editar -->
+            <p:staticMessage severity="error" summary="Objeto editável não informado"
+                             styleClass="crc-ia-inline-editor__alerta"
+                             rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada==null}" />
+
+            <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__card animate__animated animate__fadeIn"
+                          rendered="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada!=null}">
+
+                <!-- Cabeçalho: persona, tipo de execução e atalhos -->
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__header">
+                    <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__avatar">
+                        <h:graphicImage value="#{servicoIA.dialogoIA.persona.imgPequena}"
+                                        alt="#{servicoIA.dialogoIA.persona.nome}"
+                                        styleClass="crc-ia-inline-editor__avatar-img"
+                                        rendered="#{not empty servicoIA.dialogoIA.persona.imgPequena}" />
+                        <h:outputText styleClass="fa-solid fa-robot crc-ia-inline-editor__avatar-icone"
+                                      rendered="#{empty servicoIA.dialogoIA.persona.imgPequena}" />
+                        <h:outputText styleClass="crc-ia-inline-editor__status" rendered="#{servicoIA.temDialogo}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__identidade">
+                        <h:outputText styleClass="crc-ia-inline-editor__nome"
+                                      value="#{empty servicoIA.dialogoIA.persona.nome ? 'Assistente IA' : servicoIA.dialogoIA.persona.nome}" />
+                        <h:outputText styleClass="crc-ia-inline-editor__descricao"
+                                      value="#{servicoIA.dialogoIA.persona.descricao}"
+                                      rendered="#{not empty servicoIA.dialogoIA.persona.descricao}" />
+                        <h:panelGroup styleClass="crc-ia-inline-editor__tipo"
+                                      rendered="#{not empty servicoIA.dialogoIA.tipoExecucao.nome}">
+                            <h:outputText styleClass="#{empty servicoIA.dialogoIA.tipoExecucao.icone ? 'fa-solid fa-wand-magic-sparkles' : servicoIA.dialogoIA.tipoExecucao.icone}" />
+                            <h:outputText value="#{servicoIA.dialogoIA.tipoExecucao.nome}" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__atalhos" rendered="#{servicoIA.temDialogo}">
+                        <p:commandButton type="button" icon="fa-solid fa-list-check"
+                                         styleClass="rounded-button ui-button-flat crc-ia-inline-editor__atalho"
+                                         title="Ver instruções"
+                                         onclick="PF('verInstrucoes').show()" />
+                        <p:commandButton type="button" icon="fa-solid fa-file-lines"
+                                         styleClass="rounded-button ui-button-flat crc-ia-inline-editor__atalho"
+                                         title="Ver System Prompt"
+                                         onclick="PF('verSystemPrompt').show()" />
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!-- Sem diálogo: convite para iniciar -->
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__vazio" rendered="#{!servicoIA.temDialogo}">
+                    <h:outputText styleClass="fa-solid fa-wand-magic-sparkles crc-ia-inline-editor__vazio-icone" />
+                    <h:outputText styleClass="crc-ia-inline-editor__vazio-titulo" value="Edite com ajuda da IA" />
+                    <h:outputText styleClass="crc-ia-inline-editor__vazio-texto"
+                                  value="Inicie um diálogo para que a IA sugira e preencha os dados deste registro." />
+                    <p:commandButton value="Iniciar diálogo" icon="fa-solid fa-play"
+                                     styleClass="crc-ia-inline-editor__btn-iniciar"
+                                     actionListener="#{servicoIA.criarDialogoIAParaEntidade(cc.attrs.acaoCriarDialogo)}"
+                                     process="@this"
+                                     update="painelIA #{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}" />
+                </h:panelGroup>
+
+                <!-- Com diálogo: caixa de nova instrução -->
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__composer" rendered="#{servicoIA.temDialogo}">
+                    <p:inputTextarea id="txtNovaMensagem"
+                                     value="#{servicoIA.dialogoIA.novaMensagem}"
+                                     rows="2" autoResize="true"
+                                     styleClass="crc-ia-inline-editor__mensagem"
+                                     placeholder="Descreva novas instruções para #{empty servicoIA.dialogoIA.persona.nome ? 'a IA' : servicoIA.dialogoIA.persona.nome}..." />
+                    <p:commandButton icon="fa-solid fa-paper-plane"
+                                     title="Enviar instruções"
+                                     styleClass="rounded-button crc-ia-inline-editor__btn-enviar"
+                                     actionListener="#{servicoIA.atualizarDialogoIAParaEntidade(cc.attrs.acaoAtualizarDados)}"
+                                     process="@this txtNovaMensagem"
+                                     update="painelIA #{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}" />
+                </h:panelGroup>
+
+                <!-- Rodapé: consumo da última execução -->
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__consumo" rendered="#{servicoIA.temDialogo}">
+                    <span class="crc-ia-inline-editor__chip" title="Tokens de entrada">
+                        <h:outputText styleClass="fa-solid fa-arrow-up" />
+                        <h:outputText value="#{servicoIA.dialogoIA.tokensInput}" />
+                    </span>
+                    <span class="crc-ia-inline-editor__chip" title="Tokens de saída">
+                        <h:outputText styleClass="fa-solid fa-arrow-down" />
+                        <h:outputText value="#{servicoIA.dialogoIA.tokensOutput}" />
+                    </span>
+                    <span class="crc-ia-inline-editor__chip" title="Valor gasto">
+                        <h:outputText styleClass="fa-solid fa-coins" />
+                        <h:outputText value="#{servicoIA.dialogoIA.valorGasto}">
+                            <f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+                        </h:outputText>
+                    </span>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <!-- Diálogo: system prompt renderizado (markdown → HTML) -->
+            <p:dialog header="System Prompt" widgetVar="verSystemPrompt" width="640" responsive="true"
+                      modal="true" showEffect="fade" dynamic="true" closeOnEscape="true"
+                      styleClass="crc-ia-inline-editor__dialog" rendered="#{servicoIA.temDialogo}">
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__markdown">
+                    <h:outputText value="#{servicoIA.instrucoesIA}" escape="false" />
+                </h:panelGroup>
+            </p:dialog>
+
+            <!-- Diálogo: instruções enviadas à IA -->
+            <p:dialog header="Instruções" widgetVar="verInstrucoes" width="640" responsive="true"
+                      modal="true" showEffect="fade" dynamic="true" closeOnEscape="true"
+                      styleClass="crc-ia-inline-editor__dialog" rendered="#{servicoIA.temDialogo}">
+
+                <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__instrucao-principal"
+                              rendered="#{not empty servicoIA.dialogoIA.tipoExecucao.instrucaoPrincipal}">
+                    <h:outputText styleClass="crc-ia-inline-editor__instrucao-titulo" value="Instrução principal" />
+                    <h:outputText styleClass="crc-ia-inline-editor__instrucao-texto"
+                                  value="#{servicoIA.dialogoIA.tipoExecucao.instrucaoPrincipal}" />
+                </h:panelGroup>
+
+                <p:accordionPanel value="#{servicoIA.dialogoIA.instrucoes}" var="instrucao"
+                                  activeIndex="-1" multiple="true"
+                                  styleClass="crc-ia-inline-editor__instrucoes"
+                                  rendered="#{not empty servicoIA.dialogoIA.instrucoes}">
+                    <p:tab title="#{instrucao.nome} · #{instrucao.tipoInstrucao.nome}">
+                        <h:outputText styleClass="crc-ia-inline-editor__instrucao-texto" value="#{instrucao.conteudo}" />
+                    </p:tab>
+                </p:accordionPanel>
+            </p:dialog>
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

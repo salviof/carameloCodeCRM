@@ -8,6 +8,466 @@
 .CardAtividade i{
     margin-top:  10px;
 }
+/* ==========================================================================
+   Cabecalho da execucao de atividade (crmAtividade/cabecalhoAtividade).
+   Base de seletor: .crc-comp-cabecalho-atividade
+
+     [ icone ] ROTULO                       | [ crm/relacionamentoFull ]
+               Nome do tipo  [Personalizar] |
+               [^ Avanca para X] descricao  |
+               [Coleta] [Documentos] [E-mail]|
+
+   Altura: o maior entre o relacionamentoFull (logo de 56px + legenda) e a
+   coluna de identidade, que tem no maximo quatro linhas de altura fixa
+   (rotulo, nome, linha de apoio, etapas) e nunca quebra: a descricao corta
+   com reticencias e as etapas ficam numa linha so.
+   Abaixo de 760px as colunas empilham e essa regra deixa de valer.
+
+   Cores entram inline como custom property:
+     --cabAtv-cor      -> tipoAtividade.cor (icone, acento lateral, nome)
+     --cabAtv-rel-cor  -> relacionamentoGerado.cor (selo de mudanca)
+   Textos usam a cor misturada com o quase-preto, porque cor de cadastro
+   pode vir clara demais para ler sobre branco.
+   ========================================================================== */
+@property --cabAtv-cor{
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #57534E;
+}
+@property --cabAtv-rel-cor{
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #1D4ED8;
+}
+
+.crc-comp-cabecalho-atividade{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 10px 16px 10px 14px;
+    border: 1px solid #E7E5E4;
+    border-left: 4px solid var(--cabAtv-cor);
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    background-image: linear-gradient(90deg, color-mix(in srgb, var(--cabAtv-cor) 7%, #fff) 0, #FFFFFF 45%);
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+    color: #1C1917;
+}
+
+/* ----- Coluna de identidade -----
+   Sem contain:size: com as etapas na camada inferior a coluna tem quatro
+   linhas, e cortar a ultima esconderia as etapas. Como toda linha tem altura
+   fixa e nao quebra, a coluna mede no maximo ~88px e o cabecalho so cresce
+   esses poucos pixels alem do relacionamentoFull, nunca mais que isso. */
+.CabAtvIdentidade{
+    flex: 1 1 55%;
+    min-width: 0;
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    align-items: safe center;
+    gap: 12px;
+}
+.CabAtvIcone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cabAtv-cor);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--cabAtv-cor) 30%, transparent);
+}
+.CabAtvIcone i{
+    margin: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: #FFFFFF;
+}
+.CabAtvTexto{
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.CabAtvRotulo{
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: #78716C;
+}
+
+/* ----- Nome do tipo de atividade ----- */
+.crc-comp-cabecalho-atividade .CabAtvNome{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    min-width: 0;
+    align-self: flex-start;
+}
+.CabAtvNomeTexto{
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.015em;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--cabAtv-cor) 55%, #1C1917);
+}
+
+/* Versao de administrador: sublinhado pontilhado + selo "Personalizar",
+   para o clique nao ser uma surpresa. O selo fica discreto em repouso e
+   ganha cor no hover/foco. */
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel,
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:hover,
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:focus,
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:active{
+    text-decoration: none;
+    cursor: pointer;
+}
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel .CabAtvNomeTexto{
+    border-bottom: 1px dashed color-mix(in srgb, var(--cabAtv-cor) 45%, #fff);
+    transition: border-color .15s ease, color .15s ease;
+}
+.CabAtvEditarSelo{
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border: 1px solid #E7E5E4;
+    border-radius: 999px;
+    background-color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: nowrap;
+    color: #78716C;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.CabAtvEditarSelo i{
+    margin: 0;
+    font-size: 10px;
+}
+@media (hover: hover) and (pointer: fine){
+    .crc-comp-cabecalho-atividade a.CabAtvNome--editavel:hover .CabAtvNomeTexto{
+        border-bottom-color: var(--cabAtv-cor);
+        color: color-mix(in srgb, var(--cabAtv-cor) 70%, #1C1917);
+    }
+    .crc-comp-cabecalho-atividade a.CabAtvNome--editavel:hover .CabAtvEditarSelo{
+        border-color: var(--cabAtv-cor);
+        background-color: var(--cabAtv-cor);
+        color: #FFFFFF;
+    }
+}
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:focus{
+    outline: none;
+}
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:focus-visible{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+.crc-comp-cabecalho-atividade a.CabAtvNome--editavel:focus-visible .CabAtvEditarSelo{
+    border-color: var(--cabAtv-cor);
+    background-color: var(--cabAtv-cor);
+    color: #FFFFFF;
+}
+.CabAtvTooltip.ui-tooltip .ui-tooltip-text{
+    max-width: 300px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: #1C1917;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #E7E5E4;
+}
+.CabAtvTooltip.ui-tooltip .ui-tooltip-text strong{
+    color: #FFFFFF;
+}
+
+/* ----- Linha de apoio: mudanca de relacionamento + descricao -----
+   Mesma estetica e mesma altura dos selos de .CabDetalhe: pill de 20px,
+   fonte 11px, icone solto (sem disco). A linha fica sempre numa linha so
+   (nowrap), entao nunca soma altura ao cabecalho; quem cede espaco e a
+   descricao, que corta com reticencias. */
+.CabAtvLinhaApoio{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    height: 20px;
+    margin-top: 2px;
+}
+.CabAtvRelMuda{
+    flex: 0 1 auto;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    max-width: 60%;
+    height: 20px;
+    padding: 0 7px 0 6px;
+    border: 1px solid color-mix(in srgb, var(--cabAtv-rel-cor) 30%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--cabAtv-rel-cor) 7%, #fff);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--cabAtv-rel-cor) 70%, #1C1917);
+    cursor: help;
+}
+/* O icone leva a cor do novo relacionamento; o desenho da seta (sobe,
+   desce, lateral) e quem diz o sentido. */
+.CabAtvRelMudaIcone{
+    flex: 0 0 auto;
+    margin: 0;
+    font-size: 10.5px;
+    line-height: 1;
+    color: color-mix(in srgb, var(--cabAtv-rel-cor) 80%, #1C1917);
+}
+.CabAtvRelMudaSentido{
+    flex: 0 0 auto;
+    font-weight: 600;
+}
+.CabAtvRelMudaNome{
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 700;
+}
+/* Recuo: borda tracejada como segundo sinal, alem da seta para baixo */
+.CabAtvRelMuda--regride{
+    border-style: dashed;
+}
+.CabAtvDescricao{
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11.5px;
+    line-height: 20px;
+    color: #78716C;
+}
+
+/* ----- Etapas da atividade (coleta, documentos, e-mail) -----
+   Camada inferior da coluna de texto: linha propria de 20px abaixo da linha
+   de apoio, alinhada ao nome, para nao tirar largura do nome da atividade.
+   Fica numa linha so (nowrap); se faltar largura o excedente e cortado.
+   Estado com dois sinais: cor e o icone final (check = feito, relogio =
+   pendente). */
+.CabDetalhesDaAtividade{
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    height: 20px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+.CabDetalhe{
+    flex: 0 0 auto;
+}
+.CabDetalhe{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    padding: 0 7px 0 6px;
+    border: 1px solid #E7E5E4;
+    border-radius: 999px;
+    background-color: #FAFAF9;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    color: #57534E;
+    cursor: help;
+}
+.CabDetalhe i{
+    margin: 0;
+    line-height: 1;
+}
+.CabDetalheIcone{
+    font-size: 10.5px;
+    color: #78716C;
+}
+.CabDetalheEstado{
+    font-size: 10.5px;
+}
+.CabDetalhe--feito{
+    border-color: color-mix(in srgb, #047857 30%, #fff);
+    background-color: color-mix(in srgb, #047857 7%, #fff);
+    color: #065F46;
+}
+.CabDetalhe--feito .CabDetalheIcone,
+.CabDetalhe--feito .CabDetalheEstado{
+    color: #047857;
+}
+.CabDetalhe--pendente{
+    border-style: dashed;
+}
+.CabDetalhe--pendente .CabDetalheEstado{
+    color: #B45309;
+}
+/* Largura media: no selo de relacionamento a seta ja diz o sentido e o
+   title explica; o nome do novo relacionamento continua visivel. */
+@media (min-width: 761px) and (max-width: 1280px){
+    .CabAtvRelMudaSentido{
+        display: none;
+    }
+}
+/* Largura media estreita: a linha de etapas tem a largura toda da coluna de
+   texto, mas abaixo disso quatro selos com nome nao cabem; ficam so os
+   icones (o title segue explicando). */
+@media (min-width: 761px) and (max-width: 1100px){
+    .CabDetalheNome{
+        display: none;
+    }
+    .CabDetalhe{
+        padding: 0 6px;
+    }
+}
+
+/* ----- Coluna do relacionamento atual ----- */
+.CabAtvRelacionamento{
+    flex: 1 1 45%;
+    min-width: 0;
+    padding-left: 20px;
+    border-left: 1px solid #E7E5E4;
+}
+
+/* ----- Coluna de opcoes (facet opcoesCabecalhoAtividade) -----
+   Entre a identidade e o relacionamento. Mesmo truque da identidade:
+   contain:size tira o conteudo do calculo de altura e o stretch a estica
+   ate a altura do relacionamentoFull (~80px uteis). Cabe uma mensagem ou
+   um fieldset compacto; se o conteudo passar disso, a coluna rola em vez
+   de crescer o cabecalho. So existe quando o facet e informado
+   (.CabAtv--comOpcoes na raiz). */
+.CabAtvOpcoes{
+    flex: 1 1 30%;
+    min-width: 0;
+    align-self: stretch;
+    contain: size;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: safe center;
+    gap: 4px;
+    padding-left: 20px;
+    border-left: 1px solid #E7E5E4;
+}
+/* Com a terceira coluna, identidade e relacionamento cedem largura */
+.CabAtv--comOpcoes .CabAtvIdentidade{
+    flex-basis: 38%;
+}
+.CabAtv--comOpcoes .CabAtvRelacionamento{
+    flex-basis: 32%;
+}
+/* Mensagens e fieldset do PrimeFaces sem as margens padrao, que sozinhas
+   ja comeriam boa parte da altura disponivel */
+.CabAtvOpcoes .ui-messages,
+.CabAtvOpcoes .ui-message,
+.CabAtvOpcoes .ui-fieldset{
+    margin: 0;
+}
+.CabAtvOpcoes .ui-messages > div{
+    margin: 0;
+    padding: 6px 10px;
+}
+.CabAtvOpcoes .ui-fieldset{
+    padding: 2px 10px 6px 10px;
+}
+.CabAtvOpcoes .ui-fieldset .ui-fieldset-legend{
+    padding: 0 6px;
+    font-size: 11.5px;
+}
+.CabAtvOpcoes .ui-fieldset .ui-fieldset-content{
+    padding: 0;
+}
+
+/* ----- Telas estreitas: as duas colunas empilham ----- */
+@media (max-width: 760px){
+    .crc-comp-cabecalho-atividade{
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .CabAtvIdentidade,
+    .CabAtvOpcoes,
+    .CabAtvRelacionamento,
+    .CabAtv--comOpcoes .CabAtvIdentidade,
+    .CabAtv--comOpcoes .CabAtvRelacionamento{
+        flex: 1 1 100%;
+    }
+    /* Empilhada, a coluna de opcoes mede o proprio conteudo */
+    .CabAtvOpcoes{
+        align-self: auto;
+        contain: none;
+        overflow: visible;
+        padding: 10px 0 0 0;
+        border-left: 0;
+        border-top: 1px solid #E7E5E4;
+    }
+    /* Empilhado, cada coluna fica numa linha propria: o relacionamento nao
+       divide mais a altura com a identidade, entao ela volta a medir o
+       proprio conteudo. */
+    .CabAtvIdentidade{
+        align-self: auto;
+        overflow: visible;
+    }
+    /* Empilhado nao ha teto de altura: as etapas podem quebrar linha */
+    .CabDetalhesDaAtividade{
+        flex-wrap: wrap;
+        height: auto;
+        overflow: visible;
+    }
+    .CabAtvTexto{
+        max-height: none;
+        overflow: visible;
+    }
+    .CabAtvRelacionamento{
+        padding: 10px 0 0 0;
+        border-left: 0;
+        border-top: 1px solid #E7E5E4;
+    }
+    .CabAtvRelMuda{
+        max-width: 70%;
+    }
+    .CabAtvNomeTexto{
+        font-size: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .crc-comp-cabecalho-atividade a.CabAtvNome--editavel .CabAtvNomeTexto,
+    .CabAtvEditarSelo{
+        transition: none;
+    }
+}
+
 .iconeMaisSobreAtividadesDisponiveis i{
     color: #898d8e;
 }
@@ -18,4 +478,2186 @@
     transition: .1s all ease-in-out;
     box-shadow: 0px 0px 40px #898d8e;
 
+}
+
+/* ==========================================================================
+   Modulo compacto de botoes de atividade (quadrados + ajuda em CSS puro).
+   Base de seletor: .botaoAtvDisponivelPessoa
+
+   Cada atividade vira um .SbAtvQuadItem (wrapper) contendo:
+     - checkbox invisivel .SbAtvQuad-ttToggle  -> gatilho da ajuda por toque
+     - o proprio botao (a.SbAtvQuad)
+     - label .SbAtvQuad-ttBotao ("?")          -> abre/fecha a ajuda no mobile
+     - label .SbAtvQuad-ttFundo                -> fecha ao tocar fora
+     - .SbAtvQuad-tooltip                      -> a descricao
+
+   A ajuda abre de tres formas, sem nenhum JavaScript:
+     1. hover, so em dispositivos com mouse;
+     2. foco de teclado no botao (:focus-visible);
+     3. toque/clique no "?" (checkbox :checked) -> unico caminho no mobile.
+
+   A cor da atividade chega pela custom property --act-color, aplicada inline
+   no wrapper. Todo o resto (tintas, hover, bolinha do tooltip) deriva dela
+   via color-mix.
+   ========================================================================== */
+
+/* Registrar a propriedade faz o browser descartar cor invalida e cair no
+   valor inicial, atendendo ao fallback exigido (#57534E). */
+@property --act-color {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #57534E;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuadLista{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    overflow: visible;
+    margin-left: 10px;
+    padding: 4px 0;
+}
+
+/* ----- Wrapper de cada atividade (ancora do tooltip e da cor) -----
+   Cor e escala saem daqui: quem declara os dois e a camada de tokens
+   P/M/G, logo abaixo, que vale em qualquer ancestral. */
+.botaoAtvDisponivelPessoa .SbAtvQuadItem{
+    position: relative;
+    flex: 0 0 auto;
+}
+
+/* ----- Botao ----- */
+.botaoAtvDisponivelPessoa a.SbAtvQuad{
+    position: relative;
+    box-sizing: border-box;
+    width: var(--atv-lado);
+    height: var(--atv-lado);
+    padding: 10px 8px;
+    border: 1px solid #E7E5E4;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.botaoAtvDisponivelPessoa a.SbAtvQuad:hover,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active{
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   Tamanhos P / M / G -- camada de tokens, de proposito sem ancestral.
+
+   O btAtividadeAgrupamento renderiza .SbAtvQuadItem-<T> e .SbAtvQuad-<T>
+   soltos (no topo do painel, por exemplo), sem .botaoAtvDisponivelPessoa em
+   volta. Enquanto os tokens moravam dentro daquele ancestral, o valor de
+   tamanho="P|M|G" simplesmente nao chegava nele: a pill do topo ficava
+   sempre no mesmo tamanho, qualquer que fosse o atributo.
+
+   Aqui so se declara a escala. Quem consome os tokens e que decide o
+   desenho: quadrado na lista de atividades, pill em .AtvDispPainelTopoAcao,
+   linha em .AtvDispPainelLista.
+
+   Cada modificador e declarado no wrapper E no link, porque ha componente
+   que poe o sufixo nos dois. O padrao M, nao: fica so no wrapper, senao o
+   link sem sufixo dentro de um wrapper -G voltaria a M por ter declaracao
+   propria em vez de herdar.
+
+   Ordem importa mais que especificidade neste bloco: o padrao M e os tres
+   modificadores pesam o mesmo (uma classe), entao o modificador precisa vir
+   depois para ganhar do padrao.
+   ========================================================================== */
+.SbAtvQuadItem{
+    /* fallback de cor: vale quando o inline nao vier ou for invalido */
+    --act-color: #57534E;
+    /* padrao = M */
+    --atv-lado: 104px;
+    --atv-icone: 44px;
+    --atv-icone-fs: 22px;
+    --atv-nome-fs: 12.5px;
+    --atv-ajuda: 20px;
+}
+
+/* P: icone e nome maiores que o desenho original, que ficava apertado de
+   ler. O lado cresce um pouco e o padding encolhe, para as duas linhas do
+   nome continuarem caindo dentro do quadrado. */
+.SbAtvQuadItem-P,
+a.SbAtvQuad-P{
+    --atv-lado: 96px;
+    --atv-icone: 40px;
+    --atv-icone-fs: 20px;
+    --atv-nome-fs: 12px;
+    --atv-ajuda: 20px;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad-P{
+    padding: 8px 6px;
+    gap: 6px;
+}
+.SbAtvQuadItem-M,
+a.SbAtvQuad-M{
+    --atv-lado: 104px;
+    --atv-icone: 44px;
+    --atv-icone-fs: 22px;
+    --atv-nome-fs: 12.5px;
+    --atv-ajuda: 20px;
+}
+.SbAtvQuadItem-G,
+a.SbAtvQuad-G{
+    --atv-lado: 120px;
+    --atv-icone: 52px;
+    --atv-icone-fs: 26px;
+    --atv-nome-fs: 14px;
+    --atv-ajuda: 22px;
+}
+
+/* ----- Icone ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-icone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: var(--atv-icone);
+    height: var(--atv-icone);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--act-color) 10%, #fff);
+    transition: background-color .15s ease;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-i{
+    font-size: var(--atv-icone-fs);
+    line-height: 1;
+    color: var(--act-color);
+    transition: color .15s ease;
+}
+
+/* ----- Nome ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-nome{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    font-size: var(--atv-nome-fs);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    color: #1C1917;
+    overflow-wrap: anywhere;
+}
+
+/* ----- Estado ativo do botao -----
+   O translate fica so em quem tem mouse, para nao "grudar" o hover no touch. */
+@media (hover: hover) and (pointer: fine){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover a.SbAtvQuad{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(28,25,23,.10);
+        border-color: var(--act-color);
+        background-color: color-mix(in srgb, var(--act-color) 6%, #fff);
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-icone{
+        background-color: var(--act-color);
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-i{
+        color: #FFFFFF;
+    }
+    /* o badge acompanha o botao para nao se soltar do canto */
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-ttBotao{
+        transform: translateY(-2px);
+    }
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(28,25,23,.10);
+    border-color: var(--act-color);
+    background-color: color-mix(in srgb, var(--act-color) 6%, #fff);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible .SbAtvQuad-icone,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active .SbAtvQuad-icone{
+    background-color: var(--act-color);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible .SbAtvQuad-i,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active .SbAtvQuad-i{
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+.botaoAtvDisponivelPessoa a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+    transform: translateY(-2px);
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus{
+    outline: none;
+}
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+}
+
+/* ----- Gatilho da ajuda -----
+   Checkbox invisivel mas focavel: e ele que guarda o estado aberto/fechado. */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 3;
+    box-sizing: border-box;
+    width: var(--atv-ajuda);
+    height: var(--atv-ajuda);
+    border: 1px solid #E7E5E4;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.10);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--atv-ajuda) * .52);
+    line-height: 1;
+    color: color-mix(in srgb, var(--act-color) 75%, #000);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttBotao{
+    background-color: var(--act-color);
+    border-color: var(--act-color);
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:focus-visible ~ .SbAtvQuad-ttBotao{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+}
+
+/* Area de toque folgada no dedo, sem inflar o desenho do badge. */
+@media (hover: none), (pointer: coarse){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem{
+        --atv-ajuda: 24px;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao::after{
+        content: '';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        bottom: -5px;
+        left: -5px;
+    }
+}
+
+/* Fecha a ajuda ao tocar em qualquer lugar fora dela. */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttFundo{
+    display: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttFundo{
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 998;
+    background-color: transparent;
+    cursor: default;
+}
+
+/* ----- Tooltip (descricao) ----- */
+.botaoAtvDisponivelPessoa .SbAtvQuad-tooltip{
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    width: 232px;
+    z-index: 1000;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #1C1917;
+    box-shadow: 0 10px 24px rgba(28,25,23,.22);
+    text-align: left;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .12s ease, visibility .12s ease;
+}
+
+/* 1. mouse */
+@media (hover: hover) and (pointer: fine){
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-tooltip{
+        opacity: 1;
+        visibility: visible;
+    }
+}
+/* 2. teclado (so o botao; o foco do checkbox nao abre, senao nao fecharia) */
+.botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-tooltip{
+    opacity: 1;
+    visibility: visible;
+}
+/* 3. toque/clique no "?" - caminho do mobile */
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-tooltip{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttSeta{
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: #1C1917;
+    transform: rotate(45deg);
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttTitulo{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttPonto{
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--act-color) 60%, #fff);
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttNome{
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #FFFFFF;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuad-ttDesc{
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #E7E5E4;
+}
+
+/* Primeiro e ultimo item: encosta o tooltip na borda para nao sair da tela */
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-tooltip{
+    left: 0;
+    right: auto;
+    transform: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-ttSeta{
+    left: 44px;
+    right: auto;
+    margin-left: 0;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-tooltip{
+    left: auto;
+    right: 0;
+    transform: none;
+}
+.botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-ttSeta{
+    left: auto;
+    right: 44px;
+    margin-left: 0;
+}
+
+/* ----- Telas estreitas -----
+   Em vez de tentar encaixar 232px ao lado do botao, a ajuda vira uma faixa
+   fixa no rodape: sempre cabe, independente de qual botao foi tocado. */
+@media (max-width: 600px){
+    .botaoAtvDisponivelPessoa .SbAtvQuadLista{
+        justify-content: center;
+        margin-left: 0;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-tooltip,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem-primeiro .SbAtvQuad-tooltip,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem-ultimo:not(.SbAtvQuadItem-primeiro) .SbAtvQuad-tooltip{
+        position: fixed;
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        transform: none;
+        padding: 14px 16px;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttSeta{
+        display: none;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttToggle:checked ~ .SbAtvQuad-ttFundo{
+        background-color: rgba(28,25,23,.28);
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .botaoAtvDisponivelPessoa a.SbAtvQuad,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-icone,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-i,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa .SbAtvQuad-tooltip{
+        transition: none;
+    }
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover a.SbAtvQuad,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:active,
+    .botaoAtvDisponivelPessoa .SbAtvQuadItem:hover .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+    .botaoAtvDisponivelPessoa a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Bloco desktop de atividades disponiveis (atividadesDisponiveisDesktop).
+   Base de seletor: .AtividadesDisponiveis / .AtividadesDisponiveisDesktop
+
+   Duas colunas embutidas na pagina, sem modal e sem sobreposicao:
+     - .AtvDispMenu      -> menu de relacionamentos (largura fixa, rola sozinho)
+     - .AtvDispConteudo  -> um painel por vez (rola sozinho)
+     - .AtvDispMetas     -> rodape de metas, largura inteira
+
+   A previa por hover/foco e a fixacao por clique so trocam qual
+   .AtvDispPainel--ativo esta visivel; quem controla isso e o script do
+   componente. Aqui ficam apenas os estados.
+   ========================================================================== */
+
+/* Cor de acento da linha selecionada. Cada linha do grupo "Mudar para"
+   declara a sua inline, a partir de tipoAtividade.cor; a linha do
+   relacionamento atual nao declara nada e fica no initial-value.
+
+   Registrar e o que faz o fallback funcionar: cor ausente, vazia ou invalida
+   nao casa com <color>, e o browser cai no initial-value em vez de invalidar
+   toda a declaracao que usa a property. O initial-value repete o valor de
+   --atvDisp-cor-destaque porque @property so aceita literal -- se mudar o
+   azul do bloco, mude aqui tambem. */
+@property --atvDisp-rel-cor{
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #1D4ED8;
+}
+
+/* Os tokens vao nas duas raizes porque as duas existem soltas: o desktop
+   embrulha tudo em .AtividadesDisponiveis, e o mobile entra direto num painel
+   .AtividadesDisponiveisDesktop (a classe e a mesma de proposito -- e a raiz
+   de bloco que o atividade.js procura). Declarar so na primeira deixaria o
+   mobile sem cor, sem borda e sem o lado da logo. No desktop as duas casam no
+   mesmo valor, entao a repeticao nao muda nada. */
+.AtividadesDisponiveis,
+.AtividadesDisponiveisDesktop{
+    /* tokens do bloco: ajuste os valores, os nomes sao usados pelo restante */
+    --atvDisp-menu-lar: 260px;
+    --atvDisp-altura-max: 500px;
+    --atvDisp-altura-min: 260px;
+    /* lado do quadro quadrado da logo no cabecalho: a imagem se ajusta dentro
+       dele sem distorcer nem cortar, em qualquer proporcao de arquivo */
+    --atvDisp-logo-lado: 56px;
+    --atvDisp-cor-destaque: #1D4ED8;
+    --atvDisp-cor-atual: #047857;
+    /* recuo de meta: ambar em vez de vermelho -- e uma correcao de rota
+       prevista no funil, nao erro nem acao destrutiva */
+    --atvDisp-cor-regride: #B45309;
+    --atvDisp-cor-borda: #E7E5E4;
+    --atvDisp-cor-texto: #1C1917;
+    --atvDisp-cor-apoio: #78716C;
+}
+
+.AtividadesDisponiveisDesktop{
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--atvDisp-cor-texto);
+}
+
+/* Linha de contexto herdada do cabecalho da pagina: nao e barra de titulo.
+   O conteudo e o componente crm/relacionamentoFull; aqui so o respiro e o
+   gatilho de previa (mais abaixo). */
+.AtvDispCabecalho{
+    padding: 0 0 10px 0;
+}
+
+/* ----- crm/relacionamentoFull -----
+   Componente independente: roda dentro do .AtvDispCabecalho e em qualquer
+   outro host. Por isso todo token usado daqui ate o fim do bloco tem valor
+   padrao no var(): fora do .AtividadesDisponiveis os --atvDisp-* nao existem,
+   e dentro dele o host continua podendo ajusta-los.
+
+   Grade de duas colunas e duas linhas:
+
+     [ logo ] [ barra de relacionamento ]
+     [ nome da empresa esta aqui ...... ]
+
+   A legenda ocupa as duas colunas, entao comeca na borda esquerda da logo e
+   passa por baixo da barra quando o nome e longo. Em flex isso nao sai: o
+   nome ficaria preso a largura de uma coluna, ou empurraria a barra.
+
+   O respiro entre logo e barra e margem da logo, e nao column-gap: sem foto
+   cadastrada a coluna 1 some inteira, e um column-gap ainda deixaria a barra
+   recuada em relacao a legenda. */
+.crc-comp-relacionamento-full{
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    row-gap: 6px;
+    width: 100%;
+    font-size: 13px;
+    color: var(--atvDisp-cor-apoio, #78716C);
+}
+
+/* ----- Logo do prospecto -----
+   Quadro de lado fixo com a imagem contida: logo vem em qualquer proporcao, e
+   o que nao pode e a linha do cabecalho mudar de altura conforme o arquivo.
+   Sem imagem cadastrada o bloco nao renderiza -- quem cuida disso e o
+   rendered no XHTML, para nao sobrar coluna vazia com borda. */
+/* Quadro quadrado, centrado na altura da barra ao lado: o lado nao muda com a
+   altura da barra nem com a proporcao do arquivo. */
+.AtvDispCabecalhoLogo{
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+.AtvDispCabecalhoLogoLink{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--atvDisp-logo-lado, 56px);
+    height: var(--atvDisp-logo-lado, 56px);
+    flex: 0 0 auto;
+    padding: 3px;
+    border: 1px solid var(--atvDisp-cor-borda, #E7E5E4);
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.AtvDispCabecalhoLogoLink:hover,
+.AtvDispCabecalhoLogoLink:focus,
+.AtvDispCabecalhoLogoLink:active{
+    text-decoration: none;
+}
+.AtvDispCabecalhoLogoImg{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispCabecalhoLogoLink:hover{
+        border-color: var(--atvDisp-cor-apoio, #78716C);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+    }
+}
+.AtvDispCabecalhoLogoLink:focus{
+    outline: none;
+}
+.AtvDispCabecalhoLogoLink:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto, #1C1917);
+    outline-offset: 2px;
+}
+
+/* ----- Bloco de texto: nome, dica e o componente de relacionamento -----
+   Fluxo normal de bloco, de proposito.
+
+   O relacionamento (crm/relacionamento.xhtml) e reusado em varios
+   componentes, e a raiz dele -- .pessoaRelacionamentoAtual, em
+   crm/relacionamento.css -- e block, width:100%, min-width:0 e
+   container-type:inline-size. Ou seja: ele so quer uma div que diga a largura
+   disponivel, e a partir dai se adapta sozinho, por container query.
+
+   Qualquer flex, inline-flex ou largura de conteudo aqui volta a quebra-lo:
+   como item flex o width:100% dele resolve para a largura do conteudo, a
+   container query passa a medir a caixa errada e o layout interno desaba. E o
+   mesmo motivo de ele quebrar cercado por um form estreito. Nenhuma regra
+   deste arquivo pode alcancar o interior dele. */
+/* Legenda: as duas colunas da grade, para o nome longo seguir por baixo da
+   barra. Nome e dica ficam em linha (span, sem display:block) e quebram como
+   uma frase so. */
+.AtvDispCabecalhoTexto{
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+}
+.AtvDispCabecalhoNome{
+    font-weight: 700;
+    color: var(--atvDisp-cor-texto, #1C1917);
+    overflow-wrap: anywhere;
+}
+.AtvDispCabecalhoDica{
+    color: var(--atvDisp-cor-apoio, #78716C);
+}
+/* A seta aponta para a barra, logo acima. Menor que o texto e sem margem a
+   esquerda: o espaco entre o "aqui" e ela ja vem da quebra de linha do
+   markup, e somar margem separaria a seta da frase que ela completa. */
+.AtvDispCabecalhoSeta{
+    font-size: .85em;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio, #78716C);
+}
+/* A unica coisa que esta div impoe e ate onde o componente pode crescer: a
+   coluna do cabecalho chega a ocupar a pagina inteira, e a barra esticada
+   nessa largura nao comunica mais nada. O font-size volta ao padrao porque o
+   componente e dimensionado em em e o cabecalho roda em 13px -- herdar isso o
+   deixaria miniaturizado aqui e diferente de onde mais ele aparece. */
+.AtvDispCabecalhoRel{
+    grid-column: 2;
+    grid-row: 1;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+/* Como gatilho de previa do estagio atual, o cabecalho precisa dar sinal de
+   que responde ao mouse -- sem virar botao, porque clicar nele nao faz nada. */
+.AtvDispCabecalho[data-atvdisp-previa]{
+    margin-left: -6px;
+    padding: 4px 6px 10px 6px;
+    border-radius: 8px;
+    transition: background-color .15s ease, color .15s ease;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispCabecalho[data-atvdisp-previa]:hover{
+        background-color: color-mix(in srgb, var(--atvDisp-cor-destaque) 6%, #fff);
+        color: var(--atvDisp-cor-texto);
+    }
+    /* o relacionamentoFull declara a propria cor na raiz, entao a troca do
+       hover precisa ser repassada a ele explicitamente */
+    .AtvDispCabecalho[data-atvdisp-previa]:hover > .crc-comp-relacionamento-full{
+        color: var(--atvDisp-cor-texto);
+    }
+}
+@media (prefers-reduced-motion: reduce){
+    .AtvDispCabecalho[data-atvdisp-previa],
+    .AtvDispCabecalhoLogoLink{
+        transition: none;
+    }
+}
+
+/* ----- Corpo: menu fixo a esquerda, conteudo ocupando o resto -----
+   Seletor com dois niveis de propósito: .AtvDispCorpo tambem carrega
+   OrganizadorContainerEsquerda, e o flex-wrap do CRC tem a mesma
+   especificidade; o nivel extra garante a ordem independente de qual
+   folha for carregada depois. */
+.AtividadesDisponiveisDesktop .AtvDispCorpo{
+    align-items: stretch;
+    flex-wrap: nowrap;
+    min-height: var(--atvDisp-altura-min);
+    border-top: 1px solid var(--atvDisp-cor-borda);
+}
+
+.AtvDispMenu{
+    box-sizing: border-box;
+    flex: 0 0 var(--atvDisp-menu-lar);
+    width: var(--atvDisp-menu-lar);
+    max-height: var(--atvDisp-altura-max);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 12px 12px 0;
+}
+
+.AtvDispMenuGrupo + .AtvDispMenuGrupo{
+    margin-top: 14px;
+}
+.AtvDispMenuRotulo{
+    display: block;
+    margin: 0 0 6px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* ----- Linha de relacionamento -----
+   Nome longo quebra em duas linhas; o contador nunca sai da linha. */
+.AtvDispRelLinha{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 4px 0;
+    padding: 8px 10px;
+    border: 0;
+    border-left: 3px solid transparent;
+    border-radius: 8px;
+    background-color: transparent;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.AtvDispRelLinha:hover{
+    background-color: rgba(28,25,23,.04);
+}
+.AtvDispRelLinha:focus{
+    outline: none;
+}
+.AtvDispRelLinha:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+
+.AtvDispRelIconeArea{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(28,25,23,.05);
+}
+.AtvDispRelIcone{
+    font-size: 14px;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio);
+}
+
+.AtvDispRelTexto{
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.AtvDispRelNome{
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+.AtvDispRelContador{
+    display: block;
+    margin-top: 2px;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* Marca do relacionamento vigente: barra lateral + selo em texto, para a
+   informacao nao depender so de cor. */
+.AtvDispRelLinha--atual{
+    border-left-color: var(--atvDisp-cor-atual);
+}
+.AtvDispRelSelo{
+    flex: 0 0 auto;
+    align-self: center;
+    padding: 2px 6px;
+    border: 1px solid color-mix(in srgb, var(--atvDisp-cor-atual) 35%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--atvDisp-cor-atual) 8%, #fff);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--atvDisp-cor-atual);
+}
+
+/* Linha exibida no momento (fixada ou em previa).
+   O acento vem de --atvDisp-rel-cor, que cada agrupadora declara inline com a
+   propria cor: passar o mouse tinge a linha da cor daquele relacionamento, em
+   vez do azul do bloco.
+
+   Nome e glifo nao usam a cor pura, e sim misturada com o quase-preto do
+   texto: cor de cadastro pode vir clara (amarelo, lima), e ai o rotulo
+   desapareceria no branco. A mistura preserva a identidade da cor e garante
+   leitura em qualquer uma -- mesmo tratamento que .AtvDispPainelTopoAcao da
+   ao nome do botao. Borda e fundos ficam com a cor pura, que ali e area
+   cheia ou tinta leve e nao depende de contraste de texto. */
+.AtvDispRelLinha--ativa{
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 8%, #fff);
+    border-left-color: var(--atvDisp-rel-cor);
+}
+.AtvDispRelLinha--ativa .AtvDispRelNome{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+.AtvDispRelLinha--ativa .AtvDispRelIconeArea{
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 12%, #fff);
+}
+.AtvDispRelLinha--ativa .AtvDispRelIcone{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+
+/* ----- Area de conteudo ----- */
+.AtvDispConteudo{
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-height: var(--atvDisp-altura-max);
+    overflow-y: auto;
+    padding: 12px 0 12px 16px;
+    border-left: 1px solid var(--atvDisp-cor-borda);
+}
+
+/* Um relacionamento por vez, nunca dois. */
+.AtvDispPainel{
+    display: none;
+}
+.AtvDispPainel--ativo{
+    display: block;
+}
+
+.AtvDispPainelTopo{
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.AtvDispPainelNome{
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.AtvDispPainelSelo{
+    padding: 3px 8px;
+    border: 1px solid color-mix(in srgb, var(--atvDisp-cor-atual) 35%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--atvDisp-cor-atual) 8%, #fff);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--atvDisp-cor-atual);
+}
+
+/* ----- Acao isolada de mudanca de relacionamento -----
+   btAtividadeAgrupamento renderiza .SbAtvQuadItem FORA de
+   .botaoAtvDisponivelPessoa, e toda a base dos botoes quadrados esta
+   escopada naquele ancestral. Logo, aqui nao ha base nenhuma para
+   sobrescrever: a pill precisa ser descrita por inteiro, inclusive o
+   display:flex do proprio link -- sem ele o rotulo quebrava no meio,
+   metade acima e metade abaixo do icone.
+
+   A cor sai de --act-color, que o componente aplica inline a partir de
+   tipoAtividade.cor; o fallback do @property cobre cor ausente ou invalida.
+
+   A escala, ao contrario da base visual, chega: os tokens P/M/G sao
+   declarados sem ancestral, e a pill os consome nas medidas abaixo. */
+.AtvDispPainelTopoAcao{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.AtvDispPainelTopoDica{
+    flex: 0 0 auto;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--atvDisp-cor-apoio);
+}
+.AtvDispPainelTopoAcao .SbAtvQuadItem,
+.AtvDispPainelTopoAcao .BotaoTipoAtividadeGrupoAcoes{
+    position: relative;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad{
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+
+    width: auto;
+    height: auto;
+    /* P/M/G entram por aqui: a pill nao tem lado fixo como o quadrado, entao
+       o tamanho pedido vira altura do disco + largura maxima do rotulo. Os
+       fatores sao calibrados em M (44px -> disco 26px, altura 36px), que era
+       o valor cravado antes. O segundo argumento de cada var() e o fallback
+       de M, para o caso de a pill aparecer sem wrapper de tamanho. */
+    min-height: calc(var(--atv-icone, 44px) * .6 + 10px);
+    max-width: calc(var(--atv-lado, 104px) * 2.7);
+    padding: 5px 14px 5px 6px;
+
+    border: 1px solid color-mix(in srgb, var(--act-color) 45%, #fff);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--act-color) 8%, #fff);
+    box-shadow: 0 1px 2px rgba(28,25,23,.06);
+
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:hover,
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus,
+.AtvDispPainelTopoAcao a.SbAtvQuad:active{
+    text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine){
+    .AtvDispPainelTopoAcao a.SbAtvQuad:hover{
+        border-color: var(--act-color);
+        background-color: color-mix(in srgb, var(--act-color) 16%, #fff);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+    }
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus{
+    outline: none;
+}
+.AtvDispPainelTopoAcao a.SbAtvQuad:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+/* Icone em disco cheio: e o que da a leitura imediata de botao. */
+.AtvDispPainelTopoAcao .SbAtvQuad-icone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: calc(var(--atv-icone, 44px) * .6);
+    height: calc(var(--atv-icone, 44px) * .6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--act-color);
+}
+.AtvDispPainelTopoAcao .SbAtvQuad-i{
+    font-size: calc(var(--atv-icone-fs, 22px) * .6);
+    line-height: 1;
+    color: #FFFFFF;
+}
+.AtvDispPainelTopoAcao .SbAtvQuad-nome{
+    display: block;          /* item flex: nao gera quebra de linha */
+    flex: 0 1 auto;
+    min-width: 0;
+    width: auto;
+    font-size: calc(var(--atv-nome-fs, 12.5px) + .5px);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: color-mix(in srgb, var(--act-color) 70%, #1C1917);
+}
+
+.AtvDispPainelRotulo{
+    display: block;
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--atvDisp-cor-apoio);
+}
+
+.AtvDispVazio{
+    margin: 0;
+    padding: 12px 0;
+    font-size: 13px;
+    color: var(--atvDisp-cor-apoio);
+}
+
+/* ----- Lista de atividades: coluna alinhada, nao grade -----
+   Os botoes vem dos componentes btAtividadeExecutiva/Dupla como quadrados;
+   dentro do painel eles viram linhas de largura inteira, que sao mais faceis
+   de varrer quando os nomes tem comprimentos bem diferentes. */
+.AtvDispPainelLista .SbAtvQuadLista{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-left: 0;
+}
+.AtvDispPainelLista .SbAtvQuadItem{
+    width: 100%;
+}
+/* O tamanho pedido (P/M/G) chega pelos tokens --atv-* que o wrapper do botao
+   declara. Aqui eles sao reaproveitados em vez de px fixo: com valor fixo, o
+   tamanho do componente nao mudava nada na lista empilhada. O fator reduz o
+   disco em relacao ao desenho quadrado, que e alto demais para uma linha.
+   O segundo argumento de cada var() e o fallback do tamanho M. */
+.AtvDispPainelLista a.SbAtvQuad{
+    width: 100%;
+    height: auto;
+    min-height: calc(var(--atv-icone, 44px) * .8 + 20px);
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 8px 40px 8px 12px;
+    border-radius: 10px;
+}
+.AtvDispPainelLista .SbAtvQuad-icone{
+    width: calc(var(--atv-icone, 44px) * .8);
+    height: calc(var(--atv-icone, 44px) * .8);
+    border-radius: 10px;
+}
+.AtvDispPainelLista .SbAtvQuad-i{
+    font-size: calc(var(--atv-icone-fs, 22px) * .9);
+}
+.AtvDispPainelLista .SbAtvQuad-nome{
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    font-size: calc(var(--atv-nome-fs, 12.5px) + 1px);
+    text-align: left;
+    overflow: visible;
+    text-overflow: clip;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+}
+/* O "?" acompanha a linha: centralizado a direita, sem o salto vertical
+   que o tratamento quadrado aplica no hover. */
+.AtvDispPainelLista .SbAtvQuad-ttBotao,
+.AtvDispPainelLista .SbAtvQuadItem:hover .SbAtvQuad-ttBotao,
+.AtvDispPainelLista a.SbAtvQuad:focus-visible ~ .SbAtvQuad-ttBotao,
+.AtvDispPainelLista a.SbAtvQuad:active ~ .SbAtvQuad-ttBotao{
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+.AtvDispPainelLista .SbAtvQuad-tooltip{
+    left: 12px;
+    right: auto;
+    transform: none;
+}
+.AtvDispPainelLista .SbAtvQuad-ttSeta{
+    left: 24px;
+    margin-left: 0;
+}
+
+/* Botao em execucao: sinaliza o andamento; os cliques repetidos sao
+   descartados pelo script, nao pelo CSS. */
+.AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando,
+.AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando{
+    pointer-events: none;
+    opacity: .7;
+}
+.AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i,
+.AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i{
+    animation: AtvDispPulsar 1s ease-in-out infinite;
+}
+@keyframes AtvDispPulsar{
+    0%, 100% {
+        opacity: 1;
+    }
+    50%      {
+        opacity: .35;
+    }
+}
+
+/* O seletor de atividades de outro relacionamento traz um separador e o seu
+   proprio bloco de metas; aqui o rodape de metas e unico e fica embaixo do
+   bloco, entao o interno e neutralizado. */
+.AtvDispPainelLista > .botaoAtvDisponivelPessoa > .OrganizadorContainerExpandido,
+.AtvDispPainelLista .ui-separator{
+    display: none;
+}
+
+/* ----- Rodape de metas -----
+   Peso visual proprio, menor que o das linhas do menu: regride na ponta
+   esquerda, avanca na direita, seta apontando para o lado de cada um.
+
+   Os dois botoes usam o mesmo vocabulario da pill "so mudar"
+   (.AtvDispPainelTopoAcao): icone em disco cheio + pill de borda tingida.
+   Assim o rodape se le como irmao daquela acao, e nao como um terceiro
+   desenho de botao no mesmo componente.
+
+   A cor de cada lado entra por --atvDisp-meta-cor, declarada no lado e
+   consumida pelo botao: um unico token troca borda, fundo, disco e texto. */
+.AtvDispMetas{
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+    padding: 12px 0 2px 0;
+    border-top: 1px solid var(--atvDisp-cor-borda);
+}
+/* O span sustenta a ponta da linha mesmo vazio, quando so um dos lados
+   renderiza botao -- por isso ele nao pode colapsar de altura. */
+.AtvDispMetaLado{
+    /* fallback: um lado sem a classe de direcao ainda desenha a pill, em
+       cinza de apoio, em vez de perder borda, fundo e disco de uma vez */
+    --atvDisp-meta-cor: var(--atvDisp-cor-apoio);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-size: 12.5px;
+    color: var(--atvDisp-cor-apoio);
+}
+.AtvDispMetaLado--regride{
+    --atvDisp-meta-cor: var(--atvDisp-cor-regride);
+}
+.AtvDispMetaLado--avanca{
+    --atvDisp-meta-cor: var(--atvDisp-cor-destaque);
+    margin-left: auto;
+}
+
+/* Os btAtividadesMeta* sao p:commandButton (.ui-button) dentro do proprio
+   h:form, nao botoes quadrados. Todo seletor daqui e de filho direto: o
+   p:dialog de cada um fica no mesmo span e carrega dentro dele outro form,
+   outros .ui-button e a lista de atividades quadradas -- que precisam seguir
+   com a aparencia padrao. */
+.AtvDispMetaLado > form{
+    display: inline-flex;
+    margin: 0;
+}
+/* As classes de estado entram na lista porque o PrimeFaces as aplica por
+   JavaScript no proprio botao; sem elas o tema volta com gradiente e borda
+   no primeiro hover. */
+.AtvDispMetaLado > form > .ui-button,
+.AtvDispMetaLado > form > .ui-button.ui-state-default,
+.AtvDispMetaLado > form > .ui-button.ui-state-hover,
+.AtvDispMetaLado > form > .ui-button.ui-state-focus,
+.AtvDispMetaLado > form > .ui-button.ui-state-active{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: auto;
+    min-width: 0;
+    min-height: 34px;
+    margin: 0;
+
+    border: 1px solid color-mix(in srgb, var(--atvDisp-meta-cor) 45%, #fff);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 8%, #fff);
+    background-image: none;
+    box-shadow: 0 1px 2px rgba(28,25,23,.06);
+
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+    color: color-mix(in srgb, var(--atvDisp-meta-cor) 70%, #1C1917);
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+/* O padding e assimetrico: folga do lado do texto, aperto do lado do disco.
+   No lado que avanca a seta vai para a direita (row-reverse), entao o
+   aperto acompanha e troca de lado. */
+.AtvDispMetaLado--regride > form > .ui-button{
+    padding: 4px 14px 4px 5px;
+}
+.AtvDispMetaLado--avanca > form > .ui-button{
+    flex-direction: row-reverse;
+    padding: 4px 5px 4px 14px;
+}
+
+/* O icone do p:commandButton vem posicionado em absoluto e com a heranca de
+   .ui-icon (sprite de fundo, text-indent negativo, 16px fixos) -- tudo isso
+   esconderia o glifo do Font Awesome dentro do disco. Daqui ele sai como
+   item flex normal.
+
+   A seta usa a cor do texto (color: inherit) sobre disco em tinta clara: o
+   disco cheio deixava branco sobre ambar medio, que e o par de menor
+   contraste do rodape. Como o disco acompanha a cor do lado, a leitura de
+   direcao continua vindo da cor, nao so do desenho da seta. */
+.AtvDispMetaLado > form > .ui-button .ui-button-icon-left,
+.AtvDispMetaLado > form > .ui-button .ui-button-icon-right,
+.AtvDispMetaLado > form > .ui-button .ui-icon{
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-radius: 50%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    text-indent: 0;
+
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 20%, #fff);
+    background-image: none;
+    font-size: 11px;
+    line-height: 1;
+    color: inherit;
+    transition: transform .15s ease, background-color .15s ease;
+}
+.AtvDispMetaLado > form > .ui-button .ui-button-text{
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hover so em quem tem mouse; a seta anda para o lado do movimento, o que
+   deixa a direcao evidente sem depender de ler o rotulo. */
+@media (hover: hover) and (pointer: fine){
+    .AtvDispMetaLado > form > .ui-button:hover,
+    .AtvDispMetaLado > form > .ui-button.ui-state-hover{
+        border-color: var(--atvDisp-meta-cor);
+        background: color-mix(in srgb, var(--atvDisp-meta-cor) 16%, #fff);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+        color: color-mix(in srgb, var(--atvDisp-meta-cor) 85%, #1C1917);
+    }
+    /* O disco sobe de tinta junto com o fundo do botao (8% -> 16%); sem isso
+       ele empataria com a pill e a seta pareceria solta no meio dela. */
+    .AtvDispMetaLado > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado > form > .ui-button:hover .ui-icon{
+        background: color-mix(in srgb, var(--atvDisp-meta-cor) 34%, #fff);
+    }
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-icon{
+        transform: translateX(-3px);
+    }
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-icon{
+        transform: translateX(3px);
+    }
+}
+.AtvDispMetaLado > form > .ui-button:active,
+.AtvDispMetaLado > form > .ui-button.ui-state-active{
+    background: color-mix(in srgb, var(--atvDisp-meta-cor) 22%, #fff);
+    border-color: var(--atvDisp-meta-cor);
+    box-shadow: none;
+}
+.AtvDispMetaLado > form > .ui-button:focus,
+.AtvDispMetaLado > form > .ui-button.ui-state-focus{
+    outline: none;
+}
+.AtvDispMetaLado > form > .ui-button:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: 2px;
+}
+
+/* ----- Telas estreitas -----
+   O componente e o desktop (existe um irmao mobile), mas abaixo da largura
+   em que as duas colunas param de caber o menu passa para cima do conteudo,
+   em vez de comprimir os dois. */
+@media (max-width: 760px){
+    .AtividadesDisponiveisDesktop .AtvDispCorpo{
+        flex-wrap: wrap;
+    }
+    .AtvDispMenu{
+        flex: 1 1 100%;
+        width: 100%;
+        max-height: none;
+        padding-right: 0;
+    }
+    .AtvDispConteudo{
+        flex: 1 1 100%;
+        max-height: none;
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid var(--atvDisp-cor-borda);
+    }
+}
+
+/* Abaixo da largura em que os dois rotulos param de caber lado a lado, as
+   pontas viram duas faixas empilhadas: regride embaixo, avanca em cima, para
+   o botao de avancar ficar na frente da leitura. Cada um ocupa a largura
+   inteira, o que tambem devolve area de toque. */
+@media (max-width: 560px){
+    .AtividadesDisponiveisDesktop .AtvDispMetas{
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .AtvDispMetaLado{
+        flex: 1 1 100%;
+    }
+    .AtvDispMetaLado--regride{
+        order: 2;
+    }
+    .AtvDispMetaLado--avanca{
+        order: 1;
+        margin-left: 0;
+    }
+    .AtvDispMetaLado > form{
+        width: 100%;
+    }
+    .AtvDispMetaLado > form > .ui-button,
+    .AtvDispMetaLado--regride > form > .ui-button,
+    .AtvDispMetaLado--avanca > form > .ui-button{
+        width: 100%;
+        min-height: 40px;
+        padding: 6px 14px;
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .AtvDispRelLinha,
+    .AtvDispMetaLado > form > .ui-button,
+    .AtvDispMetaLado > form > .ui-button .ui-button-icon-left,
+    .AtvDispMetaLado > form > .ui-button .ui-icon{
+        transition: none;
+    }
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--regride > form > .ui-button:hover .ui-icon,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-button-icon-left,
+    .AtvDispMetaLado--avanca > form > .ui-button:hover .ui-icon{
+        transform: none;
+    }
+    .AtvDispPainelLista a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i,
+    .AtvDispPainelTopoAcao a.SbAtvQuad.AtvDispExecutando .SbAtvQuad-i{
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Sanfona de relacionamentos (atividadesDisponiveisMobile).
+   Base de seletor: .AtividadesDisponiveisMobile / .AtvDispSanfona
+
+   No lugar das duas colunas do desktop, uma aba por relacionamento, aberta
+   uma de cada vez, com a do relacionamento atual aberta de saida.
+
+   Abrir e fechar e o collapse do Bootstrap 5.0.2, que o template basico ja
+   carrega em toda pagina da aplicacao -- nao ha nada de sanfona no
+   atividade.js. O que este bloco faz e vestir as classes do Bootstrap com os
+   tokens do componente: o desenho padrao dele (azul #0c63e4, fundo #e7f1ff,
+   anel de foco azul, raio de 0.25rem) nao conversa com o resto da tela.
+
+   O conteudo dos paineis nao tem regra propria aqui: e o mesmo do desktop,
+   pelas mesmas classes (.AtvDispPainelLista, .AtvDispPainelTopoAcao,
+   .AtvDispMetas, .AtvDispRel*), de proposito.
+   ========================================================================== */
+
+.AtividadesDisponiveisMobile{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.AtvDispSanfona{
+    margin: 0;
+}
+
+/* ----- Caixa de cada aba ----- */
+.AtvDispSanfona .accordion-item{
+    border: 1px solid var(--atvDisp-cor-borda);
+    background-color: #FFFFFF;
+    color: var(--atvDisp-cor-texto);
+}
+.AtvDispSanfona .accordion-item:first-of-type,
+.AtvDispSanfona .accordion-item:first-of-type .accordion-button{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.AtvDispSanfona .accordion-item:last-of-type,
+.AtvDispSanfona .accordion-item:last-of-type .accordion-collapse,
+.AtvDispSanfona .accordion-item:last-of-type .accordion-button.collapsed{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* A aba do relacionamento atual usa o verde do bloco; as agrupadoras trazem a
+   propria cor inline, no mesmo --atvDisp-rel-cor do menu do desktop. */
+.AtvDispSanfItem--atual{
+    --atvDisp-rel-cor: var(--atvDisp-cor-atual);
+}
+
+/* ----- Cabecalho clicavel ----- */
+.AtvDispSanfCabecalho{
+    margin: 0;
+}
+.AtvDispSanfona .accordion-button{
+    gap: 10px;
+    padding: 11px 12px;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--atvDisp-cor-texto);
+    transition: background-color .15s ease;
+}
+/* A barra de cor do lado esquerdo e pseudo-elemento, e nao border-left, por
+   um motivo pratico: o :focus do Bootstrap pinta border-color de azul, e a
+   barra viraria azul justamente ao ser tocada. */
+.AtvDispSanfona .accordion-button::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: transparent;
+    transition: background-color .15s ease;
+}
+/* A seta do Bootstrap e imagem de fundo com a cor cravada no proprio SVG:
+   nao da para recolorir por CSS. Some, e quem indica o estado e o chevron do
+   Font Awesome que o markup traz. */
+.AtvDispSanfona .accordion-button::after{
+    display: none;
+}
+.AtvDispSanfSeta{
+    flex: 0 0 auto;
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--atvDisp-cor-apoio);
+    transition: transform .2s ease;
+}
+
+/* ----- Aba aberta ----- */
+.AtvDispSanfona .accordion-button:not(.collapsed){
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 8%, #fff);
+    box-shadow: none;
+    color: var(--atvDisp-cor-texto);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed)::before{
+    background-color: var(--atvDisp-rel-cor);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelNome{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelIconeArea{
+    background-color: color-mix(in srgb, var(--atvDisp-rel-cor) 12%, #fff);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispRelIcone{
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+.AtvDispSanfona .accordion-button:not(.collapsed) .AtvDispSanfSeta{
+    transform: rotate(180deg);
+    color: color-mix(in srgb, var(--atvDisp-rel-cor) 75%, #1C1917);
+}
+
+/* ----- Foco -----
+   O anel azul padrao do Bootstrap sai; entra o mesmo contorno do resto do
+   componente, e so para quem navega por teclado. */
+.AtvDispSanfona .accordion-button:focus{
+    box-shadow: none;
+    outline: none;
+}
+.AtvDispSanfona .accordion-button:focus-visible{
+    outline: 3px solid var(--atvDisp-cor-texto);
+    outline-offset: -3px;
+}
+
+/* ----- Corpo da aba ----- */
+.AtvDispSanfona .accordion-body{
+    padding: 12px;
+}
+/* O primeiro rotulo do corpo nao precisa de respiro extra: o padding do corpo
+   ja separa do cabecalho. */
+.AtvDispSanfCorpo > .AtvDispPainelRotulo:first-child{
+    margin-top: 0;
+}
+
+/* ----- Rodape de metas: respiro em relacao a sanfona ----- */
+.AtividadesDisponiveisMobile .AtvDispMetas{
+    margin-top: 12px;
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .AtvDispSanfona .accordion-button,
+    .AtvDispSanfona .accordion-button::before,
+    .AtvDispSanfSeta{
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Botao de acao da atividade (crmAtividade/botaoAcaoAtividade).
+   Base de seletor: .comp-crc-botaoAcaoAtividade
+
+     [ icone ] Titulo
+               descricao (opcional)
+
+   E um <button> nativo; o ajax sai de um p:remoteCommand ao lado dele.
+   A cor chega por --botaoAcaoAtv-cor, declarada inline SO quando o atributo
+   cor vem preenchido. De proposito a property nao e registrada com @property:
+   registrada ela sempre teria valor, e o fallback do var() nunca entraria --
+   e e o fallback que muda de contexto (azul solto na pagina, cor do texto
+   dentro do painel de acoes).
+
+   Variantes (atributo styleClasses):
+     .botaoAcaoAtv--principal  -> Concluir: faixa verde cheia
+     .botaoAcaoAtv--conclusao  -> parente do Concluir: so o icone verde
+   ========================================================================== */
+.comp-crc-botaoAcaoAtividade{
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: top;
+}
+.comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal,
+.comp-crc-botaoAcaoAtividade.botaoAcaoAtv--conclusao{
+    --botaoAcaoAtv-cor: #2e9e5b;
+}
+
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao{
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: 6px 14px 6px 6px;
+    border: 1px solid #E7E5E4;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.25;
+    text-align: left;
+    color: #1C1917;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvIcone{
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--botaoAcaoAtv-cor, #0091EA);
+    font-size: 15px;
+    line-height: 1;
+    color: #FFFFFF;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvIcone i{
+    margin: 0;
+    line-height: 1;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvTexto{
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvTitulo{
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvDescricao{
+    font-size: 12px;
+    font-weight: 400;
+    color: #78716C;
+}
+@media (hover: hover) and (pointer: fine){
+    .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:hover{
+        border-color: var(--botaoAcaoAtv-cor, #0091EA);
+        box-shadow: 0 4px 12px rgba(28,25,23,.10);
+    }
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:focus{
+    outline: none;
+}
+.comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:focus-visible{
+    outline: 3px solid #1C1917;
+    outline-offset: 2px;
+}
+
+/* Lista de gestao solta na pagina (fora do painel): botoes em linha */
+.crc-comp-opcoesAtividadeResumido{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ==========================================================================
+   Painel de acoes da atividade (crmAtividade/opcoesAtividade).
+   Base de seletor: .crc-comp-opcoesAtividade / .AcoesAtv
+
+   Bloco fixo no canto inferior direito, da altura dos itens. Recolhido,
+   mostra so os 50px da esquerda (a coluna de icones); no hover/foco desliza
+   para a esquerda e revela os rotulos.
+
+     [ < ] Acoes da atividade          <- cabecalho, alterna .aberto
+     ------------------------------
+           GESTAO DA ATIVIDADE         <- legend, so expandido
+     [ i ] Agendar / Revisar / ...     <- opcoesAtividadeResumido
+     ------------------------------    <- divisoria entre grupos
+           CONCLUSAO
+     [ i ] Salvar para depois
+     [ i ] (facet extra)
+     [ v ] CONCLUIR                    <- faixa verde, canto de baixo
+
+   Anima so transform: a largura e constante e o painel apenas desliza.
+   Nao e offcanvas nem p:sidebar: sem backdrop e sem cobrir a pagina.
+   ========================================================================== */
+.crc-comp-opcoesAtividade{
+    --cc-acoes-fundo: #1f2330;
+    --cc-acoes-texto: #e8eaf0;
+    --cc-acoes-hover: #2d3344;
+    --cc-acoes-acento: #f0a830;
+    --cc-acoes-principal: #2e9e5b;
+    --cc-acoes-principal-hover: #278a4f;
+    --cc-acoes-divisoria: #333a4d;
+    --cc-acoes-rail: 50px;
+    --cc-acoes-recolhido: translateX(calc(100% - var(--cc-acoes-rail)));
+}
+
+/* A pagina reserva a faixa do rail (50px + respiro) e um fim folgado, para
+   o bloco recolhido nunca cobrir conteudo. Os valores sao literais porque as
+   variaveis acima vivem no componente, abaixo do body. */
+body:has(.crc-comp-opcoesAtividade .AcoesAtv){
+    padding-right: calc(50px + 16px);
+    padding-bottom: 24px;
+}
+
+.AcoesAtv{
+    position: fixed;
+    right: 0;
+    bottom: 24px;
+    z-index: 1000;
+    box-sizing: border-box;
+    width: min(400px, calc(100vw - 48px));
+    max-height: calc(100vh - 48px);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    border-radius: 12px 0 0 12px;
+    background-color: var(--cc-acoes-fundo);
+    box-shadow: -3px 3px 14px rgba(0,0,0,.28);
+    font-size: 14px;
+    line-height: 1.3;
+    text-align: left;
+    color: var(--cc-acoes-texto);
+
+    transform: var(--cc-acoes-recolhido);
+    /* recolher espera 300ms: o mouse pode escapar um instante sem fechar */
+    transition: transform .3s ease .3s;
+    /* backwards e nao forwards/both: estado final travado anularia o :hover */
+    animation: AcoesAtvEspiar 1.8s ease .3s backwards;
+}
+
+/* ----- 1. Cabecalho/indicador ----- */
+.AcoesAtv .AcoesAtvCabecalho{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 46px;
+    margin: 0;
+    padding: 0 12px 0 0;
+    border: 0;
+    border-bottom: 1px solid var(--cc-acoes-divisoria);
+    border-radius: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 700;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.AcoesAtvCabecalhoIcone{
+    flex: 0 0 var(--cc-acoes-rail);
+    width: var(--cc-acoes-rail);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--cc-acoes-acento);
+    /* o cutucar anima o wrapper; o giro fica no <i>, para os dois transforms nao brigarem */
+    animation: AcoesAtvCutucar 1.2s ease 2.2s 2;
+}
+.AcoesAtvChevron{
+    margin: 0;
+    line-height: 1;
+    transition: transform .3s ease .3s;
+}
+.AcoesAtvCabecalhoTitulo{
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ----- Grupos (fieldset + legend) ----- */
+.AcoesAtv .AcoesAtvGrupo{
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+/* Divisoria obrigatoria: recolhido o usuario so ve icones empilhados, e sem
+   ela os dois grupos se leriam como uma lista unica. */
+.AcoesAtv .AcoesAtvGrupo + .AcoesAtvGrupo{
+    padding-top: 4px;
+    border-top: 1px solid var(--cc-acoes-divisoria);
+}
+/* O legend ignora o alinhamento normal: float + width 100% faz ele respeitar
+   o recuo de 50px e alinhar com os rotulos dos itens. Escondido por
+   opacity/height (nao display), para aparecer sem solavanco. */
+.AcoesAtv .AcoesAtvGrupoRotulo{
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    height: 0;
+    margin: 0;
+    padding: 0 12px 0 var(--cc-acoes-rail);
+    overflow: hidden;
+    opacity: 0;
+    font-size: .68rem;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: inherit;
+    transition: opacity .3s ease .3s, height .3s ease .3s, padding-top .3s ease .3s;
+}
+.AcoesAtv .AcoesAtvLista{
+    clear: both;
+}
+/* O Resumido traz Container12 e o flex de linha da versao solta: aqui vira pilha */
+.AcoesAtv .crc-comp-opcoesAtividadeResumido{
+    display: block;
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----- Itens: coluna de icone de 50px + rotulo ----- */
+.AcoesAtv .comp-crc-botaoAcaoAtividade{
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao{
+    display: flex;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    height: 50px;
+    min-height: 0;
+    padding: 0 12px 0 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font-size: .9rem;
+    color: inherit;
+    transition: background-color .15s ease;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvIcone{
+    flex: 0 0 var(--cc-acoes-rail);
+    width: var(--cc-acoes-rail);
+    height: 100%;
+    border-radius: 0;
+    background-color: transparent;
+    font-size: 17px;
+    /* sem cor informada o icone acompanha o texto; Cancelar mantem o vermelho */
+    color: var(--botaoAcaoAtv-cor, var(--cc-acoes-texto));
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvTitulo,
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvDescricao{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: normal;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvDescricao{
+    font-size: .74rem;
+    color: inherit;
+    opacity: .6;
+}
+
+/* Parente do Concluir: fundo normal, so o icone verde -- um segundo botao
+   verde cheio competiria pelo clique. */
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--conclusao .botaoAcaoAtvIcone{
+    color: var(--cc-acoes-principal);
+}
+
+/* Concluir: ultimo item, canto de baixo, visivel mesmo recolhido */
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal .botaoAcaoAtvBotao{
+    height: 58px;
+    background-color: var(--cc-acoes-principal);
+    font-weight: 700;
+    color: #FFFFFF;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal .botaoAcaoAtvIcone{
+    font-size: 19px;
+    color: #FFFFFF;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal .botaoAcaoAtvTitulo{
+    font-weight: 700;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal .botaoAcaoAtvDescricao{
+    opacity: .85;
+}
+
+/* ----- Hover dos itens, so com mouse ----- */
+@media (hover: hover){
+    .AcoesAtv .AcoesAtvCabecalho:hover,
+    .AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:hover{
+        background-color: var(--cc-acoes-hover);
+    }
+    .AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal .botaoAcaoAtvBotao:hover{
+        background-color: var(--cc-acoes-principal-hover);
+    }
+}
+
+/* ----- Foco visivel ----- */
+.AcoesAtv .AcoesAtvCabecalho:focus,
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:focus{
+    outline: none;
+}
+.AcoesAtv .AcoesAtvCabecalho:focus-visible,
+.AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao:focus-visible{
+    outline: 2px solid var(--cc-acoes-acento);
+    outline-offset: -2px;
+}
+
+/* ----- Expandido -----
+   Intencao de hover em CSS puro: abrir espera 150ms, fechar espera 300ms
+   (o delay de fechar esta na regra base). O hover so vale com mouse, para
+   nao grudar no toque; la o caminho e o .aberto do cabecalho. */
+@media (hover: hover){
+    .AcoesAtv:hover{
+        transform: translateX(0);
+        transition-delay: .15s;
+    }
+    .AcoesAtv:hover .AcoesAtvChevron{
+        transform: rotate(180deg);
+        transition-delay: .15s;
+    }
+    .AcoesAtv:hover .AcoesAtvGrupoRotulo{
+        height: 26px;
+        padding-top: 10px;
+        opacity: .45;
+        transition-delay: .15s;
+    }
+}
+.AcoesAtv:focus-within{
+    transform: translateX(0);
+    transition-delay: .15s;
+}
+.AcoesAtv:focus-within .AcoesAtvChevron{
+    transform: rotate(180deg);
+    transition-delay: .15s;
+}
+.AcoesAtv:focus-within .AcoesAtvGrupoRotulo{
+    height: 26px;
+    padding-top: 10px;
+    opacity: .45;
+    transition-delay: .15s;
+}
+/* Clique/toque no cabecalho: abre sem espera */
+.AcoesAtv.aberto{
+    transform: translateX(0);
+    transition-delay: 0s;
+}
+.AcoesAtv.aberto .AcoesAtvChevron{
+    transform: rotate(180deg);
+    transition-delay: 0s;
+}
+.AcoesAtv.aberto .AcoesAtvGrupoRotulo{
+    height: 26px;
+    padding-top: 10px;
+    opacity: .45;
+    transition-delay: 0s;
+}
+
+/* Fechado pelo cabecalho ou pelo Escape com o mouse/foco ainda dentro: vence
+   o :hover e o :focus-within ate o script tirar a classe. Vem depois deles
+   de proposito, com a mesma especificidade. */
+.AcoesAtv.AcoesAtv--recolhido{
+    transform: var(--cc-acoes-recolhido);
+    transition-delay: 0s;
+}
+.AcoesAtv.AcoesAtv--recolhido .AcoesAtvChevron{
+    transform: none;
+    transition-delay: 0s;
+}
+.AcoesAtv.AcoesAtv--recolhido .AcoesAtvGrupoRotulo{
+    height: 0;
+    padding-top: 0;
+    opacity: 0;
+    transition-delay: 0s;
+}
+
+/* ----- Entrada: mostra que o menu existe -----
+   So no primeiro render; re-render por ajax recebe .AcoesAtv--semEntrada. */
+.AcoesAtv.AcoesAtv--semEntrada,
+.AcoesAtv.AcoesAtv--semEntrada .AcoesAtvCabecalhoIcone{
+    animation: none;
+}
+@keyframes AcoesAtvEspiar{
+    0%{
+        transform: translateX(calc(100% - 50px));
+    }
+    25%, 65%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(calc(100% - 50px));
+    }
+}
+@keyframes AcoesAtvCutucar{
+    0%, 100%{
+        transform: translateX(0);
+    }
+    50%{
+        transform: translateX(-5px);
+    }
+}
+
+/* ----- Carregando: trava durante o ajax de uma acao -----
+   Classes postas pelo script do opcoesAtividade.xhtml. O painel inteiro fica
+   inerte (o cabecalho continua abrindo/fechando); o item clicado troca o
+   icone por um spinner no rail, visivel mesmo recolhido. O clique repetido
+   tambem e descartado no script, para o teclado nao escapar da trava. */
+.AcoesAtv.AcoesAtv--carregando{
+    cursor: progress;
+}
+.AcoesAtv.AcoesAtv--carregando .AcoesAtvLista{
+    pointer-events: none;
+}
+.AcoesAtv.AcoesAtv--carregando .comp-crc-botaoAcaoAtividade:not(.botaoAcaoAtv--carregando) .botaoAcaoAtvBotao{
+    opacity: .45;
+    transition: opacity .15s ease;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvBotao{
+    background-color: var(--cc-acoes-hover);
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal.botaoAcaoAtv--carregando .botaoAcaoAtvBotao{
+    background-color: var(--cc-acoes-principal-hover);
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvIcone i{
+    display: none;
+}
+/* fa-circle-notch (\f1ce) do Font Awesome 6, solid = peso 900 */
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvIcone::before{
+    content: "\f1ce";
+    display: inline-block;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    line-height: 1;
+    color: var(--cc-acoes-acento);
+    animation: AcoesAtvGirar .8s linear infinite;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal.botaoAcaoAtv--carregando .botaoAcaoAtvIcone::before{
+    color: #FFFFFF;
+}
+@keyframes AcoesAtvGirar{
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+/* ----- Acessibilidade: movimento reduzido ----- */
+@media (prefers-reduced-motion: reduce){
+    .AcoesAtv,
+    .AcoesAtvCabecalhoIcone,
+    .AcoesAtvChevron,
+    .AcoesAtv .AcoesAtvGrupoRotulo,
+    .AcoesAtv .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao,
+    .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao{
+        animation: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Dados obrigatorios da execucao de atividade
+   (execucao_atividade_atividade_dados_obrigatorios.xhtml).
+   Base de seletor: .crc-comp-dadosObrigatorios
+
+     [icone] DADOS NECESSARIOS PARA O RELACIONAMENTO  [Selo relacionamento]
+     [aviso ok | aviso info]
+     [campo] [campo] [campo] [campo]   <- grade auto-fill, minimo 220px
+   ========================================================================== */
+.crc-comp-dadosObrigatorios{
+    box-sizing: border-box;
+    padding: 8px 0;
+}
+
+/* ----- Cartao (p:fieldset) ----- */
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #E7E5E4;
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+    color: #1C1917;
+}
+/* Legend vira faixa de titulo do cartao, sem o recorte na borda */
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-legend{
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px;
+    border: 0;
+    border-bottom: 1px solid #F0EFEE;
+    border-radius: 12px 12px 0 0;
+    background: #FAFAF9;
+    color: inherit;
+}
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-content{
+    clear: both;
+    padding: 16px;
+}
+
+.crc-comp-dadosObrigatorios .DadosObrigLegenda{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigLegendaIcone{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #EEF2FF;
+    color: #1D4ED8;
+    font-size: 14px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigLegendaTexto{
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #57534E;
+}
+.crc-comp-dadosObrigatorios .DadosObrigSelo{
+    display: inline-block;
+    max-width: 100%;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #1D4ED8;
+    color: #FFFFFF;
+    font-size: .8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.crc-comp-dadosObrigatorios .DadosObrigSelo:empty{
+    display: none;
+}
+
+/* ----- Avisos ----- */
+.crc-comp-dadosObrigatorios .DadosObrigAviso{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    border-radius: 8px;
+    font-size: .92rem;
+    line-height: 1.45;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso:last-child{
+    margin-bottom: 0;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAvisoIcone{
+    flex: 0 0 auto;
+    margin-top: 2px;
+    font-size: 1.05rem;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--ok{
+    border-color: #BBF7D0;
+    border-left-color: #16A34A;
+    background: #F0FDF4;
+    color: #14532D;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--ok .DadosObrigAvisoIcone{
+    color: #16A34A;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--info{
+    border-color: #BFDBFE;
+    border-left-color: #2563EB;
+    background: #EFF6FF;
+    color: #1E3A8A;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--info .DadosObrigAvisoIcone{
+    color: #2563EB;
+}
+
+/* ----- Grade dos campos ----- */
+.crc-comp-dadosObrigatorios .DadosObrigGrade{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px 16px;
+    margin-bottom: 16px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigGrade:empty{
+    display: none;
+}
+.crc-comp-dadosObrigatorios .DadosObrigCampo{
+    min-width: 0;
+}
+.crc-comp-dadosObrigatorios .DadosObrigCampo input,
+.crc-comp-dadosObrigatorios .DadosObrigCampo textarea,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-selectonemenu,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-autocomplete,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-calendar,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-datepicker-trigger{
+    max-width: 100%;
+}
+.crc-comp-dadosObrigatorios .DadosObrigErro{
+    display: block;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #FEF2F2;
+    color: #991B1B;
+    font-size: .8rem;
+    word-break: break-word;
+}
+
+@media (max-width: 600px){
+    .crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-legend,
+    .crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-content{
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .crc-comp-dadosObrigatorios .DadosObrigGrade{
+        grid-template-columns: 1fr;
+    }
 }

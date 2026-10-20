@@ -27,6 +27,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.gestaoToken.GestaoTokenOath2;
+import com.super_bits.modulosSB.webPaginas.util.UtilSBWP_JSFTools;
 
 /**
  *
@@ -47,6 +50,25 @@ public class PgIntegracoes extends MB_PaginaConversation implements ItfPaginaGer
 
         listarDados();
 
+    }
+
+    public void conectarComSistema() {
+        if (!getStatusSelecionado().getIntegracao().getGestaoToken().isTemTokemAtivo()) {
+            getStatusSelecionado().getIntegracao().getGestaoToken().gerarNovoToken();
+        }
+    }
+
+    public void conectarComUsuario() {
+        if (!getStatusSelecionado().getIntegracao().getGestaoToken(CarameloCode.getUsuarioLogado()).isTemTokemAtivo()) {
+            if (getStatusSelecionado().getIntegracao().getGestaoToken(CarameloCode.getUsuarioLogado()) instanceof GestaoTokenOath2) {
+                if (((GestaoTokenOath2) getStatusSelecionado().getIntegracao().getGestaoToken(CarameloCode.getUsuarioLogado())).getCodigoSolicitacao() == null) {
+                    String url = ((GestaoTokenOath2) getStatusSelecionado().getIntegracao().getGestaoToken(CarameloCode.getUsuarioLogado())).getUrlObterCodigoSolicitacao();
+                    UtilSBWP_JSFTools.vaParaPagina(url);
+                }
+            } else {
+                getStatusSelecionado().getIntegracao().getGestaoToken(CarameloCode.getUsuarioLogado()).gerarNovoToken();
+            }
+        }
     }
 
     @Override

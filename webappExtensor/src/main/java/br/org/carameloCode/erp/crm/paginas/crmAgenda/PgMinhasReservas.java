@@ -43,6 +43,7 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.tipoAgendamentoPublico
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraPresencial;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGravatar;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.declarados.Paginas.PgAcessoViaTokenDinamico;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
@@ -197,7 +198,7 @@ public class PgMinhasReservas
             consulta.addCondicaoManyToOneIgualA(CPReservaHorario.atendenteresponsavel, getUsuario());
             consulta.addCondicaoDataHoraMaiorOuIgualA(CPReservaHorario.inicioreservaatendente, UtilCRCDataHora.decrementarDias(new Date(), 1));
 
-            List<ReservaHorarioCRM> reservas = consulta.resultadoRegistros();
+            List<ReservaHorarioCRM> reservas = consulta.gerarResultados();
 
             reservas.stream().forEach(reserva -> {
 
@@ -205,7 +206,8 @@ public class PgMinhasReservas
                         .title(reserva.getPessoaRelacionada().getNome()
                                 + " com " + reserva.getAtendidoResponsavel().getNome()
                                 + " Tipo:" + reserva.getTipoAgendamento().getNome()
-                        )
+                        ).dynamicProperty("fotoUsuarioCliente", UtilCRCGravatar.getGravatarUrl(reserva.getAtendidoResponsavel().getEmail(), 40))
+                        .dynamicProperty("fotoEmpresa", reserva.getPessoaRelacionada().getImgPequena())
                         .startDate(LocalDateTime.ofInstant(reserva.getInicioReservaAtendente().toInstant(),
                                 ZoneId.systemDefault()))
                         .endDate(LocalDateTime.ofInstant(reserva.getFinalReservaAtendente().toInstant(),

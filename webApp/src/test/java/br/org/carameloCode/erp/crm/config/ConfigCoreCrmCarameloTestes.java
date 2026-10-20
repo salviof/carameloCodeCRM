@@ -22,12 +22,12 @@ import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSoci
 import com.super_bits.integracoes.modelController.socialAutenticador.TipoCredencialSocial;
 import com.super_bits.modulos.SBAcessosModel.fabricas.FabAcaoProjetoSB;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.webPaginas.ConfigGeral.ConfiguradorCoreDeProjetoWebWarAbstrato;
 import javax.servlet.ServletContext;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabAcaoAgendamentoPublicoCRMPlugin;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.FabAcaoOrcamento;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
 
 /**
  *
@@ -44,14 +44,14 @@ public class ConfigCoreCrmCarameloTestes extends ConfiguradorCoreDeProjetoWebWar
     }
 
     @Override
-    public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
+    public void defineClassesBasicas(ComoContextoExecCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao);
         pConfiguracao.setCentralComunicacao(ConfigClasseComunicacaoCRM.class);
 
     }
 
     @Override
-    public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
+    public void defineFabricasDeACao(ComoContextoExecCustomizavel pConfig) {
         pConfig.setClasseConfigPermissao(ConfigPermissaoCRMWeb.class);
         pConfig.setCentralDeArquivos(ServicoDeArquivosWebAppS3.class);
         pConfig.setFabricaDeAcoes(new Class[]{

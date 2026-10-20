@@ -11,125 +11,132 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-
-
-
-
     <h:form>
+        <h:outputStylesheet name="modalContato.css" library="crmContato"/>
         <p:focus for="@form"/>
 
-        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+        <h:panelGroup layout="block" styleClass="crc-comp-modalContatos">
 
+            <!-- Cabeçalho: título, total de contatos e ação de novo contato -->
+            <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-cabecalho">
+                <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-titulo">
+                    <h:panelGroup styleClass="fa-solid fa-address-book crc-comp-modalContatos-tituloIcone"/>
+                    <h:outputText value="Contatos"/>
+                    <h:outputText styleClass="crc-comp-modalContatos-contador"
+                                  value="#{pgModalProspecto.prospectoSelecionado.contatosProspecto.size()}"/>
+                </h:panelGroup>
 
+                <p:commandButton
+                    icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatoNovo.icone}"
+                    value="Novo contato"
+                    actionListener="#{pgModalProspecto.novoContatoFormulario()}"
+                    update="@form"
+                    styleClass="botaoVerde"
+                    />
+            </h:panelGroup>
 
-            <p:commandButton
-                icon="#{acoesAtendimentoCrm_ModalCrmMbProspectos.modalCrmFrmContatoNovo.icone}"
-                value="* NOVO CONTATO"
-                actionListener="#{pgModalProspecto.novoContatoFormulario()}"
-                update="@form"
-                styleClass="botaoVerde"
-                >
-            </p:commandButton>
+            <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-corpo">
 
+                <!-- Lista de contatos do prospecto -->
+                <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-lista">
+                    <p:dataTable id="products" var="contato" styleClass="TabelaModalContatos"
+                                 value="#{pgModalProspecto.prospectoSelecionado.contatosProspecto}"
+                                 rowKey="#{contato.id}" paginatorPosition="bottom"
+                                 selection="#{pgModalProspecto.contatoSelecionado}" selectionMode="single"
+                                 rows="#{sessaoAtualSBWP.telaUsuario.umMobile?1:5}" paginator="true"
+                                 paginatorAlwaysVisible="false"
+                                 emptyMessage="Nenhum contato cadastrado">
+                        <p:column headerText="#" styleClass="crc-comp-modalContatos-colunaId">
+                            <h:outputText value="#{contato.id}"/>
+                        </p:column>
 
-        </h:panelGroup>
-        <h:panelGroup layout="block" styleClass="Container12">
-            <p:fieldset  rendered="#{pgModalProspecto.contatoSelecionado!=null}" styleClass="Container12" >
+                        <p:column headerText="Clique em um contato para editar" styleClass="crc-comp-modalContatos-colunaNome">
+                            <h:outputText value="#{contato.nome}"/>
+                            <h:panelGroup styleClass="fa-solid fa-star crc-comp-modalContatos-estrela" 
+                                          rendered="#{contato eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}"/>
+                        </p:column>
 
-                <f:facet name="legend">
-                    Editando #{pgModalProspecto.contatoSelecionado.nome} <h:panelGroup styleClass="fa fa-star Fs20" style="margin-right: 20px;"
-                                                                                       rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}" />
-                </f:facet>
-                <p:fragment>
+                        <p:ajax event="rowSelect" update="@form"/>
+                    </p:dataTable>
+                </h:panelGroup>
 
-                    <SBInput:input
-                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('nome')}"
-                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
-                        idAtualizarOnChange="@this"
-                        />
-                    <p:separator/>
-                    <SBInput:input
-                        idAtualizarOnChange="@this"
-                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('email')}"
-                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
-                        />
-                    <p:separator/>
+                <!-- Edição do contato selecionado -->
+                <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-editor">
 
-
-
-                    <SBInput:input
-                        idAtualizarOnChange="@this"
-                        registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('celular')}"
-                        layout="#{layoutsComponenteSB.layoutCampo.resumido}"
-                        />
-
-
-
-                    <p:separator/>
-                    <h:panelGroup styleClass="Container6 Fright">
-                        <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoes()}"
-                                               acao="#{pgModalProspecto.acaoSalvarAlteracoes}"
-                                               label="Salvar contatos"
-                                               classeEstilo="botaoVerde"
-                                               update="@form"
-                                               tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
-                                               />
+                    <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-vazio"
+                                  rendered="#{pgModalProspecto.contatoSelecionado==null}">
+                        <h:panelGroup styleClass="fa-regular fa-hand-pointer crc-comp-modalContatos-vazioIcone"/>
+                        <h:outputText value="Selecione um contato na lista ou clique em Novo contato"/>
                     </h:panelGroup>
 
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="100%">
-                        <p:commandButton value="Não" label="Sim" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
-                        <p:commandButton value="Sim"  label="Não" type="button" styleClass="ui-confirmdialog-yes" />
-                    </p:confirmDialog>
-                </p:fragment>
-            </p:fieldset>
+                    <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-cartao"
+                                  rendered="#{pgModalProspecto.contatoSelecionado!=null}">
+
+                        <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-cartaoCabecalho">
+                            <h:panelGroup styleClass="fa-solid fa-user-pen"/>
+                            <h:outputText styleClass="crc-comp-modalContatos-cartaoTitulo"
+                                          value="Editando #{pgModalProspecto.contatoSelecionado.nome}"/>
+                            <h:panelGroup styleClass="crc-comp-modalContatos-selo"
+                                          rendered="#{pgModalProspecto.contatoSelecionado eq pgModalProspecto.prospectoSelecionado.contatoPrincipal}">
+                                <h:panelGroup styleClass="fa-solid fa-star"/>
+                                <h:outputText value="Principal"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:fragment>
+                            <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-campos">
+                                <SBInput:input
+                                    registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('nome')}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                    idAtualizarOnChange="@this"
+                                    />
+                                <SBInput:input
+                                    idAtualizarOnChange="@this"
+                                    registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('email')}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                    />
+                                <SBInput:input
+                                    idAtualizarOnChange="@this"
+                                    registro="#{pgModalProspecto.contatoSelecionado.getCampoInstanciadoByNomeOuAnotacao('celular')}"
+                                    layout="#{layoutsComponenteSB.layoutCampo.resumido}"
+                                    />
+                            </h:panelGroup>
+
+                            <!-- Ações: excluir à esquerda, salvar à direita -->
+                            <h:panelGroup layout="block" styleClass="crc-comp-modalContatos-acoes">
+                                <p:commandButton
+                                    value="Excluir"
+                                    icon="fa-solid fa-trash"
+                                    actionListener="#{pgModalProspecto.excluirContato()}"
+                                    update="@form"
+                                    styleClass="botaoVermelho"
+                                    >
+                                    <p:confirm header="Confirma a exclusão?" message="Confirma a exclusão do contato #{pgModalProspecto.contatoSelecionado.nome}?" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+
+                                <SBAcaoNav:botaoDeAcao metodo="#{pgModalProspecto.salvarAlteracoes()}"
+                                                       acao="#{pgModalProspecto.acaoSalvarAlteracoes}"
+                                                       label="Salvar contato"
+                                                       classeEstilo="botaoVerde"
+                                                       update="@form"
+                                                       tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                                       />
+                            </h:panelGroup>
+                        </p:fragment>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="100%">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"/>
+            </p:confirmDialog>
+
+            <p:fragment>
+                <p:commandButton update="@form" value="Atualizar" rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}"
+                                 styleClass="ui-button-flat crc-comp-modalContatos-atualizar"/>
+            </p:fragment>
         </h:panelGroup>
-        <p:separator/>
-        <p:fragment >
-            <p:commandButton
-                rendered="#{pgModalProspecto.contatoSelecionado!=null}"
-                value="Excluir #{pgModalProspecto.contatoSelecionado.nome}"
-                actionListener="#{pgModalProspecto.excluirContato()}"
-                update="@form"
-                styleClass="botaoVermelho"
-                >
-                <p:confirm header="Confirma a exclusão?" message="Confirma a exclusão do contato #{pgModalProspecto.contatoSelecionado.nome} "  icon="pi pi-info-circle" />
-            </p:commandButton>
-        </p:fragment>
-        <p:dataTable id="products" var="contato" styleClass="TabelaModalContatos" value="#{pgModalProspecto.prospectoSelecionado.contatosProspecto}"
-
-                     rowKey="#{contato.id}" paginatorPosition="top"
-                     selection="#{pgModalProspecto.contatoSelecionado}" selectionMode="single" rows="#{sessaoAtualSBWP.telaUsuario.umMobile?1:5}" paginator="true" >
-
-            <p:column headerText=""
-                      styleClass="FontAdamantiumBold Fs14 " style="text-align: center;" width="90" >
-
-                <h:outputText value="#{contato.id}" styleClass="FontAdamantiumBold" />
-            </p:column>
-            <p:column headerText="(#{pgModalProspecto.prospectoSelecionado.contatosProspecto.size()}) contatos econtrados Clique abaixo para editar"
-                      styleClass="FontAdamantiumBold Fs14 " style="height: 40px;">
-
-                <h:outputText value="#{contato.nome}" styleClass="FontAdamantiumBold" />
-            </p:column>
-            <p:ajax event="rowSelect" update="@form" />
-
-        </p:dataTable>
-
-
-        <p:fragment>
-            <p:commandButton update="@form" value="Atualizar" rendered="#{infoWebApp.emModoDesenvolvimentoHomologacao}" />
-        </p:fragment>
     </h:form>
 
-
 </ui:composition>
-
-
-
-
-
-
-
-
-
-
-

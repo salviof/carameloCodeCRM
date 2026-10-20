@@ -84,6 +84,8 @@ public enum FabMenuCRMCaramelo implements ComoFabricaMenu {
         switch (this) {
             case CRM_ADMIN:
 
+                menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.COMUNICACAO_EM_MASSA.getRegistro());
+
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.CONTATO_METADADOS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.META_DADOS_LOGICOS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.SERVICOS.getRegistro());
@@ -93,7 +95,7 @@ public enum FabMenuCRMCaramelo implements ComoFabricaMenu {
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.RESERVAS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.CHAMADOS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.COLABORADORES.getRegistro());
-                menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.PERSONAS_IA.getRegistro());
+                menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.IA.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.ADMINISTRATIVO_CONFIGURACOES_GERAIS.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.INTEGRACOES.getRegistro());
                 menu.addSessao(FabMenuSessoesMenuCrmCarameloExtendido.CADASTRO_CONTATO.getRegistro());

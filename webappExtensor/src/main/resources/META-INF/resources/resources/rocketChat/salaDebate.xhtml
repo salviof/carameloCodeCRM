@@ -19,8 +19,8 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer" style="height: 80vh;" id="matrixChat" >
-            <h:panelGroup layout="block"  styleClass="Container12 OrganizadorContainer" style="height: 100%;" rendered="#{cc.attrs.canal!=null}" >
+        <h:panelGroup layout="block"  styleClass="OrganizadorContainer" style="width: 100%; height: 60vh;" id="matrixChat" >
+            <h:panelGroup layout="block"  styleClass="OrganizadorContainer" style="width: 100%; height: 100%;" rendered="#{cc.attrs.canal!=null}" >
                 <iframe id="canalRC"
                         src="#{servicoChatView.urlSala}"
                         style="width: #{paginaAtual.sessao.telaUsuario.umMobile?'100%':'90%'};opacity: 1;background-color: #ffffff;" height="#{cc.attrs.altura}" />

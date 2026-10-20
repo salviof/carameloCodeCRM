@@ -15,11 +15,12 @@
      [ icone ] ROTULO                       | [ crm/relacionamentoFull ]
                Nome do tipo  [Personalizar] |
                [^ Avanca para X] descricao  |
+               [Coleta] [Documentos] [E-mail]|
 
-   Altura: definida SO pelo relacionamentoFull (logo de 56px + legenda). A
-   coluna de identidade usa contain:size e se estica ate essa altura, sem
-   participar do calculo (ver .CabAtvIdentidade). Ela tem tres linhas curtas
-   e a descricao nunca passa de uma linha (reticencias), para caber no teto.
+   Altura: o maior entre o relacionamentoFull (logo de 56px + legenda) e a
+   coluna de identidade, que tem no maximo quatro linhas de altura fixa
+   (rotulo, nome, linha de apoio, etapas) e nunca quebra: a descricao corta
+   com reticencias e as etapas ficam numa linha so.
    Abaixo de 760px as colunas empilham e essa regra deixa de valer.
 
    Cores entram inline como custom property:
@@ -56,16 +57,14 @@
 }
 
 /* ----- Coluna de identidade -----
-   Quem manda na altura do cabecalho e o crm/relacionamentoFull. O
-   contain:size tira o conteudo desta coluna do calculo de altura da linha
-   flex (ela conta como vazia), e o align-self:stretch a estica ate a altura
-   que a coluna do relacionamento definiu. O que nao couber e cortado, nunca
-   empurra o bloco. A largura continua vindo do flex-basis. */
+   Sem contain:size: com as etapas na camada inferior a coluna tem quatro
+   linhas, e cortar a ultima esconderia as etapas. Como toda linha tem altura
+   fixa e nao quebra, a coluna mede no maximo ~88px e o cabecalho so cresce
+   esses poucos pixels alem do relacionamentoFull, nunca mais que isso. */
 .CabAtvIdentidade{
     flex: 1 1 55%;
     min-width: 0;
     align-self: stretch;
-    contain: size;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -270,17 +269,24 @@
 }
 
 /* ----- Etapas da atividade (coleta, documentos, e-mail) -----
-   Moram na linha de apoio, ao lado do selo de relacionamento: altura de no
-   maximo 20px, a mesma do disco de .CabAtvRelMudaIcone, entao a linha nao
-   cresce. Quem cede espaco e a descricao, que ja corta com reticencias.
+   Camada inferior da coluna de texto: linha propria de 20px abaixo da linha
+   de apoio, alinhada ao nome, para nao tirar largura do nome da atividade.
+   Fica numa linha so (nowrap); se faltar largura o excedente e cortado.
    Estado com dois sinais: cor e o icone final (check = feito, relogio =
    pendente). */
 .CabDetalhesDaAtividade{
     flex: 0 0 auto;
-    display: inline-flex;
+    display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 4px;
     min-width: 0;
+    height: 20px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+.CabDetalhe{
+    flex: 0 0 auto;
 }
 .CabDetalhe{
     box-sizing: border-box;
@@ -325,19 +331,22 @@
 .CabDetalhe--pendente .CabDetalheEstado{
     color: #B45309;
 }
-/* Largura media: os selos ficam so com os icones (o title segue explicando),
-   para a descricao nao sumir de vez. */
+/* Largura media: no selo de relacionamento a seta ja diz o sentido e o
+   title explica; o nome do novo relacionamento continua visivel. */
 @media (min-width: 761px) and (max-width: 1280px){
+    .CabAtvRelMudaSentido{
+        display: none;
+    }
+}
+/* Largura media estreita: a linha de etapas tem a largura toda da coluna de
+   texto, mas abaixo disso quatro selos com nome nao cabem; ficam so os
+   icones (o title segue explicando). */
+@media (min-width: 761px) and (max-width: 1100px){
     .CabDetalheNome{
         display: none;
     }
     .CabDetalhe{
         padding: 0 6px;
-    }
-    /* Idem no selo de relacionamento: a seta ja diz o sentido e o title
-       explica; o nome do novo relacionamento continua visivel. */
-    .CabAtvRelMudaSentido{
-        display: none;
     }
 }
 
@@ -349,6 +358,57 @@
     border-left: 1px solid #E7E5E4;
 }
 
+/* ----- Coluna de opcoes (facet opcoesCabecalhoAtividade) -----
+   Entre a identidade e o relacionamento. Mesmo truque da identidade:
+   contain:size tira o conteudo do calculo de altura e o stretch a estica
+   ate a altura do relacionamentoFull (~80px uteis). Cabe uma mensagem ou
+   um fieldset compacto; se o conteudo passar disso, a coluna rola em vez
+   de crescer o cabecalho. So existe quando o facet e informado
+   (.CabAtv--comOpcoes na raiz). */
+.CabAtvOpcoes{
+    flex: 1 1 30%;
+    min-width: 0;
+    align-self: stretch;
+    contain: size;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: safe center;
+    gap: 4px;
+    padding-left: 20px;
+    border-left: 1px solid #E7E5E4;
+}
+/* Com a terceira coluna, identidade e relacionamento cedem largura */
+.CabAtv--comOpcoes .CabAtvIdentidade{
+    flex-basis: 38%;
+}
+.CabAtv--comOpcoes .CabAtvRelacionamento{
+    flex-basis: 32%;
+}
+/* Mensagens e fieldset do PrimeFaces sem as margens padrao, que sozinhas
+   ja comeriam boa parte da altura disponivel */
+.CabAtvOpcoes .ui-messages,
+.CabAtvOpcoes .ui-message,
+.CabAtvOpcoes .ui-fieldset{
+    margin: 0;
+}
+.CabAtvOpcoes .ui-messages > div{
+    margin: 0;
+    padding: 6px 10px;
+}
+.CabAtvOpcoes .ui-fieldset{
+    padding: 2px 10px 6px 10px;
+}
+.CabAtvOpcoes .ui-fieldset .ui-fieldset-legend{
+    padding: 0 6px;
+    font-size: 11.5px;
+}
+.CabAtvOpcoes .ui-fieldset .ui-fieldset-content{
+    padding: 0;
+}
+
 /* ----- Telas estreitas: as duas colunas empilham ----- */
 @media (max-width: 760px){
     .crc-comp-cabecalho-atividade{
@@ -356,15 +416,32 @@
         gap: 12px;
     }
     .CabAtvIdentidade,
-    .CabAtvRelacionamento{
+    .CabAtvOpcoes,
+    .CabAtvRelacionamento,
+    .CabAtv--comOpcoes .CabAtvIdentidade,
+    .CabAtv--comOpcoes .CabAtvRelacionamento{
         flex: 1 1 100%;
+    }
+    /* Empilhada, a coluna de opcoes mede o proprio conteudo */
+    .CabAtvOpcoes{
+        align-self: auto;
+        contain: none;
+        overflow: visible;
+        padding: 10px 0 0 0;
+        border-left: 0;
+        border-top: 1px solid #E7E5E4;
     }
     /* Empilhado, cada coluna fica numa linha propria: o relacionamento nao
        divide mais a altura com a identidade, entao ela volta a medir o
        proprio conteudo. */
     .CabAtvIdentidade{
         align-self: auto;
-        contain: none;
+        overflow: visible;
+    }
+    /* Empilhado nao ha teto de altura: as etapas podem quebrar linha */
+    .CabDetalhesDaAtividade{
+        flex-wrap: wrap;
+        height: auto;
         overflow: visible;
     }
     .CabAtvTexto{
@@ -2363,6 +2440,49 @@ body:has(.crc-comp-opcoesAtividade .AcoesAtv){
     }
 }
 
+/* ----- Carregando: trava durante o ajax de uma acao -----
+   Classes postas pelo script do opcoesAtividade.xhtml. O painel inteiro fica
+   inerte (o cabecalho continua abrindo/fechando); o item clicado troca o
+   icone por um spinner no rail, visivel mesmo recolhido. O clique repetido
+   tambem e descartado no script, para o teclado nao escapar da trava. */
+.AcoesAtv.AcoesAtv--carregando{
+    cursor: progress;
+}
+.AcoesAtv.AcoesAtv--carregando .AcoesAtvLista{
+    pointer-events: none;
+}
+.AcoesAtv.AcoesAtv--carregando .comp-crc-botaoAcaoAtividade:not(.botaoAcaoAtv--carregando) .botaoAcaoAtvBotao{
+    opacity: .45;
+    transition: opacity .15s ease;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvBotao{
+    background-color: var(--cc-acoes-hover);
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal.botaoAcaoAtv--carregando .botaoAcaoAtvBotao{
+    background-color: var(--cc-acoes-principal-hover);
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvIcone i{
+    display: none;
+}
+/* fa-circle-notch (\f1ce) do Font Awesome 6, solid = peso 900 */
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--carregando .botaoAcaoAtvIcone::before{
+    content: "\f1ce";
+    display: inline-block;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    line-height: 1;
+    color: var(--cc-acoes-acento);
+    animation: AcoesAtvGirar .8s linear infinite;
+}
+.AcoesAtv .comp-crc-botaoAcaoAtividade.botaoAcaoAtv--principal.botaoAcaoAtv--carregando .botaoAcaoAtvIcone::before{
+    color: #FFFFFF;
+}
+@keyframes AcoesAtvGirar{
+    to{
+        transform: rotate(360deg);
+    }
+}
+
 /* ----- Acessibilidade: movimento reduzido ----- */
 @media (prefers-reduced-motion: reduce){
     .AcoesAtv,
@@ -2373,5 +2493,171 @@ body:has(.crc-comp-opcoesAtividade .AcoesAtv){
     .comp-crc-botaoAcaoAtividade .botaoAcaoAtvBotao{
         animation: none;
         transition: none;
+    }
+}
+
+/* ==========================================================================
+   Dados obrigatorios da execucao de atividade
+   (execucao_atividade_atividade_dados_obrigatorios.xhtml).
+   Base de seletor: .crc-comp-dadosObrigatorios
+
+     [icone] DADOS NECESSARIOS PARA O RELACIONAMENTO  [Selo relacionamento]
+     [aviso ok | aviso info]
+     [campo] [campo] [campo] [campo]   <- grade auto-fill, minimo 220px
+   ========================================================================== */
+.crc-comp-dadosObrigatorios{
+    box-sizing: border-box;
+    padding: 8px 0;
+}
+
+/* ----- Cartao (p:fieldset) ----- */
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #E7E5E4;
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(28,25,23,.05);
+    color: #1C1917;
+}
+/* Legend vira faixa de titulo do cartao, sem o recorte na borda */
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-legend{
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 12px 16px;
+    border: 0;
+    border-bottom: 1px solid #F0EFEE;
+    border-radius: 12px 12px 0 0;
+    background: #FAFAF9;
+    color: inherit;
+}
+.crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-content{
+    clear: both;
+    padding: 16px;
+}
+
+.crc-comp-dadosObrigatorios .DadosObrigLegenda{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigLegendaIcone{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #EEF2FF;
+    color: #1D4ED8;
+    font-size: 14px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigLegendaTexto{
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #57534E;
+}
+.crc-comp-dadosObrigatorios .DadosObrigSelo{
+    display: inline-block;
+    max-width: 100%;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #1D4ED8;
+    color: #FFFFFF;
+    font-size: .8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.crc-comp-dadosObrigatorios .DadosObrigSelo:empty{
+    display: none;
+}
+
+/* ----- Avisos ----- */
+.crc-comp-dadosObrigatorios .DadosObrigAviso{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    border-radius: 8px;
+    font-size: .92rem;
+    line-height: 1.45;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso:last-child{
+    margin-bottom: 0;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAvisoIcone{
+    flex: 0 0 auto;
+    margin-top: 2px;
+    font-size: 1.05rem;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--ok{
+    border-color: #BBF7D0;
+    border-left-color: #16A34A;
+    background: #F0FDF4;
+    color: #14532D;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--ok .DadosObrigAvisoIcone{
+    color: #16A34A;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--info{
+    border-color: #BFDBFE;
+    border-left-color: #2563EB;
+    background: #EFF6FF;
+    color: #1E3A8A;
+}
+.crc-comp-dadosObrigatorios .DadosObrigAviso--info .DadosObrigAvisoIcone{
+    color: #2563EB;
+}
+
+/* ----- Grade dos campos ----- */
+.crc-comp-dadosObrigatorios .DadosObrigGrade{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px 16px;
+    margin-bottom: 16px;
+}
+.crc-comp-dadosObrigatorios .DadosObrigGrade:empty{
+    display: none;
+}
+.crc-comp-dadosObrigatorios .DadosObrigCampo{
+    min-width: 0;
+}
+.crc-comp-dadosObrigatorios .DadosObrigCampo input,
+.crc-comp-dadosObrigatorios .DadosObrigCampo textarea,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-selectonemenu,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-autocomplete,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-calendar,
+.crc-comp-dadosObrigatorios .DadosObrigCampo .ui-datepicker-trigger{
+    max-width: 100%;
+}
+.crc-comp-dadosObrigatorios .DadosObrigErro{
+    display: block;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #FEF2F2;
+    color: #991B1B;
+    font-size: .8rem;
+    word-break: break-word;
+}
+
+@media (max-width: 600px){
+    .crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-legend,
+    .crc-comp-dadosObrigatorios .ui-fieldset.DadosObrig > .ui-fieldset-content{
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .crc-comp-dadosObrigatorios .DadosObrigGrade{
+        grid-template-columns: 1fr;
     }
 }

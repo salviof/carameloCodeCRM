@@ -22,6 +22,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuari
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimentoSolicitacoes;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
@@ -173,6 +174,42 @@ public class ServicosCRM implements Serializable {
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao iniciar ", t);
             SBCore.enviarMensagemUsuario("Não foi possível iniciar a atividade :(", FabMensagens.AVISO);
+        }
+    }
+
+    public void iniciarAtividadeApartirDeAtividadeDoGrupo(Pessoa pEmpresa, TipoAtividadeCRM atividadeGrupo, TipoAtividadeCRM pTipoAtividadeExecucao) {
+        String urlAtividade = null;
+        try {
+            if (atividadeGrupo == null) {
+                throw new UnsupportedOperationException("O tipo de atividade agrupadora não foi enviada");
+            }
+            if (tipoAtividadeSelecionada == null) {
+                throw new UnsupportedOperationException("O tipo de atividade não foi enviado");
+            }
+            if (pEmpresa == null) {
+                throw new UnsupportedOperationException("O prospecto não foi enviado");
+            }
+            //Url padrão é a atividade grupo
+            urlAtividade = MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro(), pTipoAtividadeExecucao, pEmpresa);
+            ItfRespostaAcaoDoSistema resposta = ModuloCRMEmail.iniciarAtendimento(atividadeGrupo, pEmpresa, false);
+            if (resposta.isSucesso()) {
+                if (resposta.getRetorno() != null) {
+                    if (((AtividadeCRM) resposta.getRetorno()).isFoiAtividadeFinalizada()) {
+                        urlAtividade = MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro(), pTipoAtividadeExecucao, pEmpresa);
+                    } else {
+                        //atividade grupo não foi finalizada, exibir tela para usuário finalizar
+                        urlAtividade = MapaDeFormularios.getUrlFormulario(FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_MB.getRegistro(), atividadeGrupo, pEmpresa);
+                    }
+
+                }
+            }
+            UtilSBWP_JSFTools.vaParaPagina(urlAtividade);
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao iniciar ", t);
+            SBCore.enviarMensagemUsuario("Não foi possível iniciar a atividade :(", FabMensagens.AVISO);
+        }
+        if (urlAtividade != null) {
+            UtilSBWP_JSFTools.vaParaPagina(urlAtividade);
         }
     }
 
@@ -586,6 +623,7 @@ public class ServicosCRM implements Serializable {
                 UtilSBPersistencia.iniciarTransacao(em);
 
                 pArquivo.getCPinst("arquivo").getComoArquivoDeEntidade().excluirArquivo();
+                UtilSBPersistencia.executaSQL(em, "delete from envioEmail_arquivoAnexado where arquivoAnexado_id = " + pArquivo.getId());
                 UtilSBPersistencia.exluirRegistro(pArquivo, em);
             } finally {
                 UtilSBPersistencia.finzalizaTransacaoEFechaEM(em);

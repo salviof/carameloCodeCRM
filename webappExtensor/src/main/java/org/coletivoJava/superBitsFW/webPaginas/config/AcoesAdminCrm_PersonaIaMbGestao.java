@@ -1,5 +1,6 @@
 package org.coletivoJava.superBitsFW.webPaginas.config;
 
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
 import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class AcoesAdminCrm_PersonaIaMbGestao implements Serializable {
 
 	public ItfAcaoFormulario getPersonaIaMbGestao() {
 		return (ItfAcaoFormulario) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.PERSONA_IA_MB_GESTAO");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoIAExecucao.PERSONA_IA_MB_GESTAO");
 	}
 
 	public ItfAcaoFormularioEntidade getPersonaIaFrmListar() {

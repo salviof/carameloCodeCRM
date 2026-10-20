@@ -19,7 +19,9 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRM
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmMauticInt.ModuloCRMMauticSync;
 import br.org.carameloCode.erp.modulo.crm.config.ConfigPermissaoCRMCarameloCodePadrao;
+import br.org.carameloCode.erp.modulo.ia.controller.ModuloExecucaoAcao;
 import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.ModuloAgendamentoPublicoPluginCRM;
 import org.coletivoJava.fw.projetos.crm.plugin.orcamento.ModuloPluginCrmOrcamento;
@@ -38,8 +40,8 @@ public class ConfigPermissaoCRMWeb extends ConfigPermissaoCRMCarameloCodePadrao 
             ModuloCrmAgenda.class,
             ModuloCRMCliente.class, ModuloCRMEmail.class, ModuloCRMAtendimentoChamado.class,
             ModuloNotificacao.class, ModuloCRM_IA.class, ModuloCRMAtendimentoSolicitacoes.class, ModuloAcoesWebCRM.class,
-            ModuloCRMContatos.class, ModuloCRMAgendaPublica.class
-
+            ModuloCRMContatos.class, ModuloCRMAgendaPublica.class, ModuloCRMMauticSync.class,
+            ModuloExecucaoAcao.class
         });
     }
 

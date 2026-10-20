@@ -61,7 +61,6 @@ import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendiment
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMEmail.iniciarAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmEmail.ModuloCRMAtendimentoEmail.ASSUNTO_PADRAO;
-import com.super_bits.Super_Bits.mktMauticIntegracao.regras_de_negocio_e_controller.FabMauticContatoRest;
 import com.super_bits.editorImagem.util.UtilSBImagemEdicao;
 import com.super_bits.marketing.Util.UtilCRCEmailAvancado;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
@@ -70,7 +69,6 @@ import com.super_bits.modulos.SBAcessosModel.model.tokens.tokenLoginDinamico.Tok
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.Persistencia.dao.RespostaComGestaoEntityManager;
-import com.super_bits.modulosSB.Persistencia.dao.RespostaComGestaoEntityManagerSomenteLeitura;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -82,8 +80,6 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringNomeArquivosEDiret
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringTelefone;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.oauth.FabStatusToken;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.token.ItfTokenAcessoDinamico;
@@ -111,16 +107,11 @@ import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoPr
 import br.org.carameloCode.erp.modulo.crm.api.model.mensagemmktwhatsapp.CPMensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
 import br.org.carameloCode.erp.modulo.crm.api.model.solicitacao.CPSolicitacao;
-import br.org.carameloCode.erp.modulo.crm.api.model.usuariocrmcliente.CPUsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.FabStatusPedidoAcesso;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.autorizacao.PedidoAcessoPessoa;
-import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmContato.ModuloCRMContatos;
-import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.DADOS_NAO_REVISADOS;
-import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.PRECISA_ENVIAR_EMAIL;
-import static br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio.PRECISA_GERAR_DOCUMENTO;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmMauticInt.ModuloCRMMauticSync;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.ChamadoCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.EventoChamado;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.chamado.NotificacaoResponsaveisChamado;
@@ -135,7 +126,6 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.R
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilCRCPersistenciaJDBC;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import java.sql.Connection;
@@ -1039,185 +1029,6 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
         }.dispararMensagens();
     }
 
-    @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_ATUALIZAR_MAUTIC)
-
-    public static ItfRespostaAcaoDoSistema prospectoAtualizarMautic(final Pessoa pPessoaJuridica) {
-        return new RespostaComGestaoEntityManagerSomenteLeitura(getNovaRespostaAutorizaChecaNulo(pPessoaJuridica)) {
-            private String zeraNulo(String pValor) {
-                if (pValor == null) {
-                    return "";
-                } else {
-                    return pValor;
-                }
-            }
-
-            @Override
-            public void executarAcoesFinais() throws ErroEmBancoDeDados {
-                super.executarAcoesFinais();
-                if (isSucesso()) {
-                    System.out.println(pPessoaJuridica.getNome() + " sincronizada com sucesso no mautic");
-                }
-            }
-
-            @Override
-            public void regraDeNegocio() throws ErroRegraDeNegocio {
-
-                if (!FabMauticContatoRest.CONTATO_LISTAR_COM_FILTRO.getGestaoToken().isTemTokemAtivo()) {
-                    FabMauticContatoRest.CONTATO_LISTAR_COM_FILTRO.getGestaoToken().gerarNovoToken();
-                    if (!FabMauticContatoRest.CONTATO_LISTAR_COM_FILTRO.getGestaoToken().isTemTokemAtivo()) {
-                        throw new ErroRegraDeNegocio("O mautic não está conectado, impossível atualizar o Leed no maútic");
-                    }
-                }
-
-                String observacao = null;
-                String relatorio = new String();
-                Pessoa pessoaJuridicaAtualizada = loadEntidade(pPessoaJuridica);
-                if (pessoaJuridicaAtualizada.getObservacao() != null) {
-                    observacao = pessoaJuridicaAtualizada.getObservacao();
-                }
-                if (pessoaJuridicaAtualizada.getOrigem() != null) {
-                    observacao += "[" + pessoaJuridicaAtualizada.getOrigem().getNome() + "]";
-                } else {
-                    observacao += "[Sem_Origem_Definida]";
-                }
-                if (pessoaJuridicaAtualizada.getCPinst("porte").getValor() != null) {
-                    observacao += "[" + pessoaJuridicaAtualizada.getCPinst("porte").getValorComoEntidadeSimples().getNome() + "]";
-                } else {
-                    observacao += "[Sem_Porte_Definido]";
-                }
-                String email = pessoaJuridicaAtualizada.getEmail();
-                String site = pessoaJuridicaAtualizada.getComoPessoaJuridica().getSite();
-                String telolofone = pessoaJuridicaAtualizada.getTelefonePrincipal();
-                observacao += "[codigoIntra:" + String.valueOf(pessoaJuridicaAtualizada.getId()) + "]";
-                observacao += "[" + pessoaJuridicaAtualizada.getRelacionamento().getNome() + "]";
-                if (pessoaJuridicaAtualizada.getRelacionamento().getMetaRelacionamento() != null) {
-                    observacao += "[" + pessoaJuridicaAtualizada.getRelacionamento().getMetaRelacionamento().getNome() + "]";
-                } else {
-                    observacao += "[Sem Meta Definida]";
-                }
-                StringBuilder tags = new StringBuilder();
-                pessoaJuridicaAtualizada.getTagsAtendimento().forEach(tg -> {
-                    tags.append("[").append(tg.getNome()).append("]");
-                });
-                if (!tags.toString().isEmpty()) {
-                    observacao += tags.toString();
-                }
-                if (!FabMauticContatoRest.LISTAREMPRESA_COM_FILTRO.getGestaoToken().getStatusToken().equals(FabStatusToken.ATIVO)) {
-                    FabMauticContatoRest.LISTAREMPRESA_COM_FILTRO.getGestaoToken().getComoGestaoOauth().validarToken();
-                }
-                if (UtilCRCStringValidador.isNAO_NuloNemBranco(pessoaJuridicaAtualizada.getEmail())
-                        && !pessoaJuridicaAtualizada.getEmail().contains("informado")) {
-                    String idEmpresa = "0";
-                    try {
-                        ItfAcaoApiRest registroUnico = FabMauticContatoRest.LISTAREMPRESA_COM_FILTRO.getAcao(pessoaJuridicaAtualizada.getEmail());
-                        if (registroUnico.getResposta().getCodigoResposta() != 404) {
-                            try {
-                                JsonObject empresas = registroUnico.getResposta().getRespostaComoObjetoJson().getJsonObject("companies");
-                                for (Object codEmpresa : empresas.keySet()) {
-                                    idEmpresa = codEmpresa.toString();
-                                }
-                            } catch (Throwable t) {
-                                //PessoaJuridica não existe
-                            }
-                        }
-                    } catch (Throwable t) {
-                        throw new UnsupportedOperationException("Falha conectando com Mautic");
-                    }
-                    ItfAcaoApiRest conexaoAtualizarEmpresa = null;
-                    if (idEmpresa == null || Integer.valueOf(idEmpresa) != 0) {
-                        conexaoAtualizarEmpresa = FabMauticContatoRest.EMPRESA_CTR_SALVAR_EDITAR_EMPRESA.getAcao(idEmpresa,
-                                pessoaJuridicaAtualizada.getNome(),
-                                zeraNulo(email),
-                                zeraNulo(site),
-                                zeraNulo(telolofone),
-                                zeraNulo(observacao)
-                        );
-                    } else {
-                        conexaoAtualizarEmpresa = FabMauticContatoRest.EMPRESA_CTR_SALVAR_NOVA_EMPRESA.getAcao(
-                                pessoaJuridicaAtualizada.getNome(),
-                                zeraNulo(email),
-                                zeraNulo(site),
-                                zeraNulo(telolofone),
-                                zeraNulo(observacao)
-                        );
-                    }
-
-                    if (conexaoAtualizarEmpresa == null) {
-                        System.out.println("Falha enviando comando para " + FabMauticContatoRest.EMPRESA_CTR_SALVAR_EDITAR_EMPRESA);
-                    } else {
-                        ItfRespostaWebServiceSimples respAtualizacaoEmpresa = conexaoAtualizarEmpresa.getResposta();
-                        if (respAtualizacaoEmpresa != null) {
-                            if (!respAtualizacaoEmpresa.isSucesso()) {
-                                relatorio += "\n Erro enviando" + pessoaJuridicaAtualizada.getNome() + respAtualizacaoEmpresa.getMensagens();
-
-                            } else {
-                                idEmpresa = String.valueOf(respAtualizacaoEmpresa.getRespostaComoObjetoJson().getJsonObject("company").getInt("id"));
-                                final String empresaAtualizada = idEmpresa;
-                                pessoaJuridicaAtualizada.getContatosProspecto().forEach(ct -> {
-                                    String idContato = null;
-                                    if (!UtilCRCStringValidador.isNuloOuEmbranco(ct.getEmail())
-                                            && !UtilCRCStringValidador.isNuloOuEmbranco(ct.getNome())) {
-                                        String contatoPrimeiroNome = zeraNulo(ct.getPrimeiroNome());
-                                        String contatoSobrenove = "";
-                                        if (!UtilCRCStringValidador.isNuloOuEmbranco(ct.getPrimeiroNome())) {
-                                            contatoSobrenove = zeraNulo(ct.getNome().replace(ct.getPrimeiroNome(), ""));
-                                        }
-
-                                        String contatoEmail = zeraNulo(ct.getEmail());
-                                        String contatoMobile = zeraNulo(ct.getCelular());
-
-                                        try {
-                                            ItfAcaoApiRest registroContato = FabMauticContatoRest.CONTATO_LISTAR_COM_FILTRO.getAcao(ct.getEmail());
-                                            JsonObject contatosEncontrados = registroContato.getResposta().getRespostaComoObjetoJson();
-                                            if (contatosEncontrados != null) {
-                                                Iterator<String> codigosContatoEncontradas = contatosEncontrados.get("contacts").asJsonObject().keySet().iterator();
-                                                if (codigosContatoEncontradas.hasNext()) {
-                                                    idContato = contatosEncontrados.get("contacts").asJsonObject().keySet().iterator().next();
-                                                }
-                                            }
-                                        } catch (Throwable t) {
-
-                                        }
-
-                                        if (idContato == null) {
-                                            idContato = "0";
-                                        }
-
-                                        List<String> tagsString = ct.getProspecto().getComoPessoaJuridica().getTagsAtendimento().stream().map(tag -> tag.getNome()).collect(Collectors.toList());
-                                        ItfAcaoApiRest conexaoEditar = FabMauticContatoRest.CONTATO_CTR_SALVAR_EDITAR_CONTATO.
-                                                getAcao(idContato, contatoEmail, contatoPrimeiroNome,
-                                                        contatoSobrenove, contatoMobile, tagsString
-                                                );
-
-                                        JsonObject jsonContatoAtualizado = conexaoEditar.getResposta().getRespostaComoObjetoJson();
-                                        idContato = String.valueOf(jsonContatoAtualizado.getJsonObject("contact").getInt("id"));
-
-                                        //UtilCRCJson.getValorApartirDoCaminho("contact.id", jsonContatoAtualizado);
-                                        try {
-                                            System.out.println("Vinculando contato" + idContato + " com empresa " + empresaAtualizada);
-                                            ItfAcaoApiRest adicionarContato = FabMauticContatoRest.EMPRESA_CTR_SALVAR_ADICIONAR_CONTATO.getAcao(empresaAtualizada, idContato);
-                                            if (!adicionarContato.getResposta().isSucesso()) {
-                                                throw new UnsupportedOperationException("Erro adicionando contato" + empresaAtualizada + "----" + idContato);
-                                            }
-                                        } catch (Throwable t) {
-                                            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro adicionando contato" + t.getMessage(), t);
-                                            throw new UnsupportedOperationException("Erro adicionando contato" + empresaAtualizada + "----" + idContato + " Erro" + t.getMessage());
-                                        }
-
-                                    }
-                                });
-
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-        }.getResposta();
-    }
-
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.PROSPECTO_CTR_SALVAR_MERGE_PESSOA_FISICA)
     public static ItfRespostaAcaoDoSistema prospectoSalvarPessoaFisica(final PessoaFisica pProspecto) {
         return prospectoSalvar(pProspecto);
@@ -1253,7 +1064,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
 
                     if (!SBCore.isEmModoDesenvolvimento()) {
                         if (pProspecto.getId() != null) {
-                            ModuloCRMAtendimento.prospectoAtualizarMautic((Pessoa) pProspecto);
+                            ModuloCRMMauticSync.prospectoAtualizarMautic((Pessoa) pProspecto);
                         }
                     }
 

@@ -1,0 +1,80 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:crmAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:SBCRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="atividade"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM" required="true"/>
+
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet library="crmAtividade" name="atividade.css" />
+
+        <!-- Acoes de gestao: mantem a atividade aberta. A destrutiva (Cancelar) fica por ultimo -->
+        <h:panelGroup id="opcoesEdicaoAtividade" layout="block" styleClass="crc-comp-opcoesAtividadeResumido Container12" >
+
+            <crmAtividade:botaoAcaoAtividade
+                titulo="Agendar Atividade"
+                descricao="Definir data e hora"
+                icone="fa-regular fa-calendar-days"
+                rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                processar="@this"
+                atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                metodo="#{pgExecutarAtividade.alterarHorarioAgendamento()}"
+                />
+
+            <crmAtividade:botaoAcaoAtividade
+                titulo="Revisar Dados Atividade"
+                descricao="Conferir os dados coletados"
+                icone="fa-solid fa-magnifying-glass"
+                rendered="#{!pgExecutarAtividade.vaiEditarDados and !pgExecutarAtividade.emModoColetarDAdos and pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('posssuiColetaDado').valorComoBoolean}"
+                processar="@this"
+                atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                metodo="#{pgExecutarAtividade.alterarDadosAtividade()}"
+                />
+
+            <crmAtividade:botaoAcaoAtividade
+                titulo="Notificar Responsaveis"
+                descricao="Avisa os responsaveis pela atividade"
+                icone="fa-solid fa-bullhorn"
+                rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                atualizar="@form #{layoutIdsAreasConhecidas.AREA_TOPO_ITERNFACES}"
+                processar="@this"
+                metodo="#{servicosCRM.notificarResponsaveis(cc.attrs.atividade)}"
+                />
+
+            <crmAtividade:botaoAcaoAtividade
+                rendered="#{false and !pgExecutarAtividade.vaiAgendar and !pgExecutarAtividade.atividade.temCodigoRemoto}"
+                titulo="Convidar Colaborador "
+                descricao="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeConvite.descricao}"
+                icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeFrmAtividadeConvite.icone}"
+                atualizar="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                processar="@this"
+                metodo="#{pgExecutarAtividade.enviarConvite()}"
+                />
+
+            <crmAtividade:botaoAcaoAtividade
+                titulo="Cancelar Atividade"
+                descricao="Encerra sem concluir"
+                cor="FF4545"
+                icone="fa-solid fa-ban"
+                rendered="#{!pgExecutarAtividade.vaiAgendar}"
+                atualizar="@form #{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+                processar="@this"
+                metodo="#{pgExecutarAtividade.cancelarAtividade()}"
+                />
+
+        </h:panelGroup>
+
+    </cc:implementation>
+</ui:composition>

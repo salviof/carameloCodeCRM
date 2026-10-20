@@ -4,15 +4,14 @@
  */
 package br.org.carameloCode.erp.crm.paginas.crmAdmin;
 
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
+import br.org.carameloCode.erp.modulo.ia.acoes.InfoAcaoIAExecucao;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.persona.Persona;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.InfoPagina;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
 
 /**
  *
@@ -21,7 +20,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRM
 @Named
 @ViewScoped
 @InfoPagina(nomeCurto = "gdpia", tags = {"gestao de personas ia"})
-@InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PERSONA_IA_MB_GESTAO)
+@InfoAcaoIAExecucao(acao = FabAcaoIAExecucao.PERSONA_IA_MB_GESTAO)
 public class PgPersonaIA extends MB_paginaCadastroEntidades<Persona> {
 
 }

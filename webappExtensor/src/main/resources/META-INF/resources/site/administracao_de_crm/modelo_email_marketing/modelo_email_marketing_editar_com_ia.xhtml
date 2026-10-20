@@ -1,0 +1,39 @@
+<!-- template conteúdo com formulario-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:CRMIa="http://xmlns.jcp.org/jsf/composite/iaDialogos"
+    xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:SBPaginaAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
+    template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">
+
+        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"
+                      id="conteudoEMailMarketing" >
+            <SBFormulario:camposDaAcao
+                registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
+                acao="#{acoesAdminCrm_ModeloEmailMarketingMbGestao.modeloEmailMarketingFrmEditarComIa}"
+                tipoVisualizacaoLabel="#{layoutsComponenteSB.layoutCampo.superior}"
+                somenteLeitura="true"
+                />
+        </h:panelGroup>
+        <CRMIa:iaInlineEditor acaoAtualizarDados="#{acoesAdminCrm_ExecucaoIaMbGestao.execucaoIaCtrAtualizarModeloDocumento}"
+                              acaoCriarDialogo="#{acoesAdminCrm_ExecucaoIaMbGestao.execucaoIaCtrCriarDialogoModeloEmail}"
+                              areaAtualizacao="conteudoEMailMarketing" />
+
+    </ui:define>
+    <ui:define name="botoesDeAcao">
+        <h:panelGroup styleClass="Container3 Fright" layout="block" >
+            <h:panelGroup styleClass="Container12" layout="block" >
+                <SBPaginaAtual:botaoAcaoPersonalizada
+                    acao="#{acoesAdminCrm_ModeloEmailMarketingMbGestao.modeloEmailMarketingFrmEditar}"
+                    />
+            </h:panelGroup>
+            <p:separator/>
+
+            <SBPaginaAtual:botaoSalvarAlteracoes/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

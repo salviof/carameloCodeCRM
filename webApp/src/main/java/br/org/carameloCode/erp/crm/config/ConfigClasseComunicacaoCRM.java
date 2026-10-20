@@ -4,7 +4,10 @@
  */
 package br.org.carameloCode.erp.crm.config;
 
+import br.org.coletivoJava.fw.erp.implementacao.chat.atendente.janelaChat.GestaoNotificacaoJanelaChat;
 import br.org.carameloCode.erp.modulo.notificacao.controller.ServicoNotificacaoComPersistencia;
+import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import java.util.List;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
@@ -14,6 +17,8 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicac
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.chat.ComoServicoChatNotificacoes;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.chat.NotificacaoUsuarioJanelaChat;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroDetectandoTelaBloqueio;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
@@ -132,6 +137,11 @@ public class ConfigClasseComunicacaoCRM extends ServicoNotificacaoComPersistenci
     @Override
     public String getTokenDispositivoNotificacao(ComoUsuario pUsuario) {
         return null;
+    }
+
+    @Override
+    public NotificacaoUsuarioJanelaChat gerarGestaoNotificacaoChat(String pEmailAtendimento) {
+        return new GestaoNotificacaoJanelaChat((UsuarioSB) CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), "http://chat.casanovadigital.com.br");
     }
 
 }

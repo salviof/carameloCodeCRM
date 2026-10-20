@@ -37,6 +37,7 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabContextoDeReserva;
 import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.FabStatusReservaHorario;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.FabTipoExecucaoIA;
 import org.coletivoJava.fw.projetos.crm.plugin.agendamentoPublico.FabTipoAgendamentoPublicoCrm;
 
 /**
@@ -109,6 +110,8 @@ public class ConfigPersistCRMDemostracao implements ItfConfigSBPersistencia {
             FabDadosIniciais.class,
             FabUsuarioPadraoMarketingParaWeb.class,
             FabTipoChamado.class,
-            FabStatusNotificacao.class,};
+            FabStatusNotificacao.class,
+            FabTipoExecucaoIA.class
+        };
     }
 }

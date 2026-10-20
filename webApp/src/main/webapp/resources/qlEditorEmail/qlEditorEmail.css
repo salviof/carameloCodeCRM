@@ -1,9 +1,29 @@
-#crm-mail-editor {
+.crc-comp-inputEmail .formularioEdicaoEmail {
+    width: 100%;
+    height: 100%;
+}
+
+/* Textarea oculto que recebe o HTML do editor */
+.crc-comp-inputEmail .crm-mail-texto {
+    width: 100%;
+    height: 400px;
+}
+
+/* Contorno do editor (container do Quill). Sem altura minima e sem padding
+   aqui: o que aceita o clique e o .ql-editor, que precisa ocupar o contorno
+   inteiro */
+.crc-comp-inputEmail .crm-mail-editor {
     height: auto;
-    min-height: 300px; /* Altura do editor */
     border: 1px solid #ccc; /* Borda do editor */
     margin-bottom: 10px; /* Espaço abaixo do editor */
     border-radius: 5px; /* Cantos arredondados */
-    padding: 10px; /* Espaçamento interno */
     background-color: white;
+}
+
+/* Area editavel: a altura minima fica nela. Com o container em height:auto,
+   o height:100% do Quill vira a altura do texto, e so a faixa com texto
+   aceitava o clique. O espacamento interno e o padding do proprio Quill */
+.crc-comp-inputEmail .crm-mail-editor .ql-editor {
+    min-height: 300px; /* Altura do editor */
+    cursor: text;
 }

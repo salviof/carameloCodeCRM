@@ -31,7 +31,12 @@ import br.org.carameloCode.erp.modulo.agenda.entidadesJPA.reserva.ReservaHorario
 import br.org.carameloCode.erp.modulo.crm.api.model.contatoprospecto.CPContatoProspecto;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHoraRemotoVideo;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.agenda.ReservaHorarioCRM;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 
@@ -79,6 +84,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                 if (!UtilCRCStringValidador.isNuloOuEmbranco(reserva.getAtendidoResponsavel().getContatoClienteVinculado().getEmail())) {
                     try {
                         notificacao = ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto().enviarEMailAplicandoModeloAssinatura(SBCore.getUsuarioLogado(), reserva.getAtendidoResponsavel().getContatoClienteVinculado(), "O Link para sua reunião está pronto", conteudoemail);
+                        addAviso("um E-mail foi enviado");
                     } catch (ErroEnvioEmail ex) {
                         addAviso("Falha enviando email" + ex.getMensagemUsuario());
                     }
@@ -87,6 +93,20 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                 if (!notificacao) {
                     throw new ErroRegraDeNegocio(reserva.getAtendidoResponsavel().getContatoClienteVinculado() + " está incontactavel por aqui, houve falha tentando enviar e-mail e sms");
                 }
+
+                NotificacaoSB notificacaoCli;
+                try {
+
+                    notificacaoCli = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto()
+                            .gerarNotificacao((TipoNotificacao) FabTipoNotificacao.NOTIFICAR_CLIENTE_AGENDA_REUNIAO_LINK_REUNIAO.getRegistro(getEm()),
+                                    reserva.getAtendidoResponsavel(),
+                                    reserva);
+                    adicionarNotificacoesSucesso(notificacaoCli);
+
+                } catch (ErroGerandoNotificacao ex) {
+                    addAviso("Falha registrando notificação do atendente");
+                }
+
                 setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MINHA_AGENDA_FRM_VER_RESERVA.getRegistro().getComoFormulario());
 
             }

@@ -61,7 +61,7 @@
                                     <SBLogin:infoLogin  ocultarFormulario="false" />
                                 </div>
                             </div>
-                            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="false"  >
+                            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" rendered="#{not empty loginSocialColetivoJava.credenciais}"  >
                                 <h:panelGroup layout="block" styleClass="Container3 OrganizadorContainerDireita" >
                                     Faça login usando a conta de outra platafoma: <br/>
                                     <h:form>

@@ -37,6 +37,8 @@ import javax.servlet.SessionCookieConfig;
 import br.org.carameloCode.erp.modulo.agenda.regradeNegocio.mapeamentoAgenda.MapaHorariosDisponiveis;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.coletivoJava.fw.erp.implementacao.chat.atendente.RepositorioJanelasChatAtendimento;
+import br.org.coletivoJava.fw.erp.implementacao.chat.atendente.janelaChat.ListenerEscutaSalaJanelaAtendimento;
 
 /**
  *
@@ -60,6 +62,8 @@ public class InicioFimContextoWebPagina implements ItfInicioFimAppWP {
 
                 SBPersistencia.configuraJPA(new ConfigPersistenciaCrmCarameloCode());
                 SBPersistencia.criarRegistrosIniciais();
+                RepositorioJanelasChatAtendimento.getServico().registrarClasseDeEscutaSalas(ListenerEscutaSalaJanelaAtendimento.class);
+                RepositorioJanelasChatAtendimento.getServico().registrarClasseConfigUrlCliente(DefinicaoURLChat.class);
             } catch (Throwable t) {
                 System.out.println("FALHA CRIANDO JPA");
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro configurando JPA", t);

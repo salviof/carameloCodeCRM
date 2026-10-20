@@ -1,0 +1,1 @@
+{"dataHora":"29/09/26","tipo":"AVISO","descricao":"[MTX-ATENDENTE] Carga inicial concluída, salas com atendentes=645"}

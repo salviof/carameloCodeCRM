@@ -5,7 +5,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos;
 
 //import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.persona.Persona;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.persona.Persona;
 import br.org.coletivoJava.fw.api.erp.ia.escopo.ERP_IA;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;

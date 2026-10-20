@@ -4,6 +4,8 @@
  */
 package br.org.carameloCode.erp.modulo.crm.menu;
 
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
+import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
@@ -27,10 +29,11 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
     RESERVAS,
     CHAMADOS,
     COLABORADORES,
-    PERSONAS_IA,
+    IA,
     ADMINISTRATIVO_CONFIGURACOES_GERAIS,
     INTEGRACOES,
-    SEGURANCA;
+    SEGURANCA,
+    COMUNICACAO_EM_MASSA,;
 
     @Override
     public SessaoMenuSB getRegistro() {
@@ -92,10 +95,12 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_FRM_LISTAR);
                 sessao.addAcao(FabAcaoCrmAdmin.DISPARO_EM_MASSA_MB_GESTAO);
                 break;
-            case PERSONAS_IA:
-                sessao = new SessaoMenuSB("Persona IA", "fa fa-user-secret");
-                sessao.addAcao(FabAcaoCrmAdmin.PERSONA_IA_MB_GESTAO);
+            case IA:
+                sessao = new SessaoMenuSB("IA", "fa fa-robot");
+                sessao.addAcao(FabAcaoIAExecucao.PERSONA_IA_MB_GESTAO);
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO);
+                sessao.addAcao(FabAcaoIAExecucao.INSTRUCAO_IA_MB_GESTAO);
+                sessao.addAcao(FabAcaoIAExecucao.TIPO_EXECUCAO_IA_MB_GESTAO);
                 break;
             case META_DADOS_LOGICOS:
                 sessao = new SessaoMenuSB("Metadados Lógicos e IA ", "fa fa-cubes");
@@ -137,6 +142,11 @@ public enum FabMenuSessoesMenuCrmCarameloExtendido implements ComoFabrica {
                 sessao.addAcao(FabAcaoCrmAdmin.FORM_CHAT_MB_GESTAO);
                 sessao.addAcao(FabAcaoCrmAdmin.TIPO_FORMULARIO_TYPEBOT_MB_GESTAO);
 
+                break;
+            case COMUNICACAO_EM_MASSA:
+                sessao = new SessaoMenuSB("Comunicacao Em Massa", "fa fa-clipboard");
+                sessao.addAcao(FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_MB_GESTAO);
+                sessao.addAcao(FabAcaoCrmAdmin.DISPARO_EM_MASSA_MB_GESTAO);
                 break;
 
             default:

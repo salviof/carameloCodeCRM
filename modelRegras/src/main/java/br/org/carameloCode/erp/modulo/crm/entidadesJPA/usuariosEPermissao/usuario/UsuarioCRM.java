@@ -404,6 +404,17 @@ public class UsuarioCRM extends UsuarioSB implements ComoContatoHumano {
 
     }
 
+    public boolean isUmUsuarioAtendimento() {
+        if (isUmUsuarioDoCliente()) {
+            return false;
+
+        }
+        if (isUmUsuarioConvidado()) {
+            return false;
+        }
+        return (this instanceof UsuarioCRM);
+    }
+
     public boolean isUmUsuarioAdmin() {
         if (getGrupo() == null) {
             return false;

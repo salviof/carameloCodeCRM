@@ -628,8 +628,10 @@ public abstract class ModuloCRMCliente extends ControllerAbstratoSBPersistencia 
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais();
                 if (isSucesso()) {
+                    ServicoNotificacao.notificarReservaCliente(FabTipoNotificacao.NOTIFICAR_CLIENTE_AGENDA_REUNIAO, pReserva);
                     ServicoNotificacao.notificarReservaAtendente(FabTipoNotificacao.NOTIFICAR_ATENDENTE_CLIENTE_MARCOU_NA_AGENDA, pReserva);
                     MapaHorariosDisponiveis.adicionarReservaAtendente((ReservaHorario) getRetorno());
+                    MapaHorariosDisponiveis.loadReservasEDisponibilidadesPersistidos();
                 }
             }
 

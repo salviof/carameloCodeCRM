@@ -9,7 +9,7 @@
             <ui:include src="#{paginaAtual.infoPagina.xhtmlAcaoAtual}" />
         </h:panelGroup>
 
-
+        <h:outputStylesheet name="minhaagendaAtendimento.css" library="crmAgenda" />
         <CRM:menuProspecto
             pessoaJuridica="#{pgMinhasReservas.entidadeSelecionada.pessoaRelacionada}"
             rendered="#{pgMinhasReservas.entidadeSelecionada.pessoaRelacionada!=null}"

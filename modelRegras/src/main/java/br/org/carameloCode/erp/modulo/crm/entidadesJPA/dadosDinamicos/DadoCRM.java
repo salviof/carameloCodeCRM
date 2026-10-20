@@ -59,6 +59,7 @@ public class DadoCRM extends EntidadeORMNormal implements ItfDadoDinamico, ItfTD
     private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
+    @InfoCampoValorLogico(nomeCalculo = "Nome")
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Dado a coletar")

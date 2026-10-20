@@ -5,6 +5,7 @@
  */
 package br.org.carameloCode.erp.modulo.crm.menu;
 
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.convidado.FabAcaoCRMConvidado;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.FabAcaoCrmAdmin;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
@@ -200,7 +201,7 @@ public enum FabMenuSessoesMenuCRMCaramelo implements ComoFabrica {
             case PERSONA_IA:
                 SessaoMenuSB personaIA = new SessaoMenuSB("Personas IA", "fa fa-android");
                 personaIA.addAcao(FabAcaoCrmAdmin.TIPO_DADO_DINAMICO_IA_MB_GESTAO.getRegistro());
-                personaIA.addAcao(FabAcaoCrmAdmin.PERSONA_IA_MB_GESTAO.getRegistro());
+                personaIA.addAcao(FabAcaoIAExecucao.PERSONA_IA_MB_GESTAO.getRegistro());
                 return personaIA;
             case MENU_CONVIDADO:
                 SessaoMenuSB meusClientes = new SessaoMenuSB("Meus Clientes", "fa fa-heart");

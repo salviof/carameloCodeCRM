@@ -8,50 +8,99 @@
     xmlns:Scp="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
     <ui:define name="conteudo">
-        <h:form>
-            <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" >
-                <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto)}" >
-                    <h:panelGroup layout="block" styleClass="OrganizadorContainer">
-                        <img class=""  src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto.imgPequena}"
-                             style="
-                             min-height: 170px;
-                             max-width: 70%;
-                             max-height:  90px;
-                             position: relative;
-                             top: 0px;" />
+        <h:outputStylesheet name="minhaagendaAtendimento.css" library="crmAgenda" />
+        <h:panelGroup layout="block" styleClass="formularioDetalhesResevaAtendimento" >
+            <h:form>
+
+                <!-- Cabeçalho: logo da empresa + resumo da reserva -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRCabecalho" >
+                    <h:panelGroup layout="block" styleClass="Container3 FDRCabecalhoLogo" >
+                        <p:link href="#{pgUtilAcoes.getUrlAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto)}"
+                                styleClass="FDRLinkEmpresa"
+                                title="Abrir opções do cliente" >
+                            <img class="FDRLogoEmpresa" alt=""
+                                 src="#{sessaoAtualSBWP.urlHostDaSessao}/proxyImagem/#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.prospecto.imgPequena}" />
+                        </p:link>
                     </h:panelGroup>
-                </p:link>
-            </h:panelGroup>
-            <div class="quebraBlocoComEspacoVertical20"/>
-            <h:panelGroup layout="block" styleClass="Container6 OrganizadorContainer" >
-                <div class="data-como-calendario inline-flex size3x">
-                    <span class="weekday">#{pgUtilDataHoraFormato.getDiaDaSemana(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
-                    <span class="day">#{pgUtilDataHoraFormato.getDiaDoMes(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
-                    <span class="month">#{pgUtilDataHoraFormato.getMesExtenso(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)} #{pgUtilDataHoraFormato.getAnoResumido(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
-                    <span class="year">#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}-#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.finalReservaAtendente)}<br/></span>
-
-                </div>
-
-            </h:panelGroup>
-            <p:fieldset  legend="Dados do contato">
-
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoVinculado}
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.email}<br/>
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}<br/>
-                #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}<br/>
-
-            </p:fieldset>
-            <p:fieldset  legend="Opções">
-                <p:outputLabel value="#{pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia}"  rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto and pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia != null}"/>
-                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer"  >
-                    <h:panelGroup layout="block" styleClass="Container3" >
-                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmDefinirUrlReuniao}" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" styleClass="Container3" >
-                        <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrRemover}" />
+                    <h:panelGroup layout="block" styleClass="Container9 FDRCabecalhoInfo" >
+                        <span class="FDRTipoAgendamento">
+                            <i class="fa-regular fa-calendar-check"></i>
+                            #{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.nome}
+                        </span>
+                        <h2 class="FDRTitulo">#{pgMinhasReservas.entidadeSelecionada.pessoaRelacionada.nome}</h2>
+                        <span class="FDRSubtitulo">
+                            <i class="fa-solid fa-user"></i>
+                            com #{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.nome}
+                        </span>
                     </h:panelGroup>
                 </h:panelGroup>
-            </p:fieldset>
-        </h:form>
+
+                <!-- Data / horário + dados do contato -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRLinha" >
+                    <h:panelGroup layout="block" styleClass="Container4 FDRBlocoData" >
+                        <div class="data-como-calendario inline-flex size3x">
+                            <span class="weekday">#{pgUtilDataHoraFormato.getDiaDaSemana(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                            <span class="day">#{pgUtilDataHoraFormato.getDiaDoMes(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                            <span class="month">#{pgUtilDataHoraFormato.getMesExtenso(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)} #{pgUtilDataHoraFormato.getAnoResumido(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}</span>
+                            <span class="year">#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.inicioReservaAtendente)}-#{pgUtilDataHoraFormato.getHorarioSimples(pgMinhasReservas.entidadeSelecionada.finalReservaAtendente)}</span>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="Container8 FDRBlocoContato" >
+                        <p:fieldset legend="Dados do contato" styleClass="FDRFieldset">
+                            <div class="FDRContatoContexto">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoVinculado}</div>
+                            <ul class="FDRListaContato">
+                                <li>
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <span class="FDRRotulo">Nome</span>
+                                    <span class="FDRValor">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.nome}</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span class="FDRRotulo">E-mail</span>
+                                    <span class="FDRValor">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.email}</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-mobile-screen"></i>
+                                    <span class="FDRRotulo">Celular</span>
+                                    <span class="FDRValor">#{pgMinhasReservas.entidadeSelecionada.atendidoResponsavel.contatoClienteVinculado.celularFormatoInternacional}</span>
+                                </li>
+                            </ul>
+                        </p:fieldset>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <!-- Descrição da reserva (quando houver) -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRLinha"
+                              rendered="#{not empty pgMinhasReservas.entidadeSelecionada.descricao}" >
+                    <p:fieldset legend="Descrição" styleClass="FDRFieldset FDRDescricao">
+                        <h:outputText value="#{pgMinhasReservas.entidadeSelecionada.descricao}" />
+                    </p:fieldset>
+                </h:panelGroup>
+
+                <!-- Opções -->
+                <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRLinha" >
+                    <p:fieldset legend="Opções" styleClass="FDRFieldset FDROpcoes">
+                        <h:panelGroup layout="block" styleClass="FDRLinkConferencia"
+                                      rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto and pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia != null}" >
+                            <i class="fa-solid fa-video"></i>
+                            <h:outputLink value="#{pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia}" target="_blank" >
+                                #{pgMinhasReservas.entidadeSelecionada.comoReservaVideoConferencia.linkConferencia}
+                            </h:outputLink>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer FDRAcoes" >
+                            <h:panelGroup layout="block" styleClass="Container3"
+                                          rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" >
+                                <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaFrmDefinirUrlReuniao}" rendered="#{pgMinhasReservas.entidadeSelecionada.tipoAgendamento.umAtendimentoRemoto}" />
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="Container3" >
+                                <Scp:botaoAcaoPersonalizada acao="#{acoesAtendimentoCrm_MinhaAgendaMbGestao.minhaAgendaCtrRemover}" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </h:panelGroup>
+
+            </h:form>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

@@ -1,0 +1,93 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:crmEmail="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="empresa"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
+
+        <cc:attribute name="tamanho" type="java.lang.String" required="false" default="M"
+                      shortDescription="Tamanho do botao quadrado da atividade: P, M (padrao) ou G."/>
+
+        <cc:attribute name= "tipoAtividadeExecucao" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM" />
+
+        <cc:attribute name= "tipoAtividadeOrigem" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM" />
+
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:outputStylesheet name="atividade.css" library="crmAtividade" />
+
+        <ui:fragment rendered="#{cc.attrs.tipoAtividadeExecucao ne paginaAtual.infoPagina.comoFormularioWeb.acaoSelecionada}">
+            <div class="SbAtvQuadItem SbAtvQuadItem-#{cc.attrs.tamanho} #{rec.first ? 'SbAtvQuadItem-primeiro' : ''} #{rec.last ? 'SbAtvQuadItem-ultimo' : ''}"
+                 style="--act-color: #{pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.cor) or cc.attrs.tipoAtividadeExecucao.cor.startsWith('#') ? '' : '#'}#{pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.cor) ? '#57534E' : cc.attrs.tipoAtividade.cor};">
+
+                <!-- Gatilho da ajuda: funciona por toque no mobile, sem depender de hover.
+                     Sem "name", entao nao vai no submit do formulario. -->
+                <ui:fragment rendered="#{not pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.descricao)}">
+                    <input type="checkbox" class="SbAtvQuad-ttToggle"
+                           id="#{cc.clientId}_atvChk#{rec.index}"
+                           aria-label="Ajuda sobre #{cc.attrs.tipoAtividadeExecucao.nomeAcao}" />
+                </ui:fragment>
+
+                <p:commandLink
+
+                    action="#{servicosCRM.iniciarAtividadeApartirDeAtividadeDoGrupo(cc.attrs.empresa, cc.attrs.tipoAtividadeOrigem, cc.attrs.tipoAtividadeExecucao)}"
+                    styleClass="SbAtvQuad SbAtvQuad-#{cc.attrs.tamanho}"
+                    >
+                    <f:passThroughAttribute name="aria-label" value="#{cc.attrs.tipoAtividadeExecucao.nomeAcao}" />
+                    <f:passThroughAttribute name="aria-describedby"
+                                            value="#{pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividadeExecucao.textoAjuda) ? null : cc.clientId.concat('_atvTt').concat(rec.index)}" />
+
+                    <span class="SbAtvQuad-icone">
+                        <i class="#{cc.attrs.tipoAtividadeExecucao.iconeAcao} fa SbAtvQuad-i" aria-hidden="true"></i>
+                    </span>
+
+                    <span class="SbAtvQuad-nome">#{cc.attrs.tipoAtividadeExecucao.nomeAcao}</span>
+
+                    <f:setPropertyActionListener
+                        target="#{servicosCRM.tipoAtividadeSelecionada}"
+                        value="#{cc.attrs.tipoAtividadeExecucao}"  />
+
+                </p:commandLink>
+
+                <ui:fragment rendered="#{not pgUtil.isNuloOuEmbranco(cc.attrs.tipoAtividade.textoAjuda)}">
+
+                    <label class="SbAtvQuad-ttBotao" for="#{cc.clientId}_atvChk#{rec.index}">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                    </label>
+
+                    <label class="SbAtvQuad-ttFundo" for="#{cc.clientId}_atvChk#{rec.index}" aria-hidden="true"></label>
+
+                    <span class="SbAtvQuad-tooltip" role="tooltip" id="#{cc.clientId}_atvTt#{rec.index}">
+                        <span class="SbAtvQuad-ttTitulo">
+                            <span class="SbAtvQuad-ttPonto" aria-hidden="true"></span>
+                            <span class="SbAtvQuad-ttNome">#{cc.attrs.tipoAtividade.nomeAcao}</span>
+                        </span>
+                        <span class="SbAtvQuad-ttDesc">#{cc.attrs.tipoAtividade.descricao}</span>
+                        <span class="SbAtvQuad-ttSeta" aria-hidden="true"></span>
+                    </span>
+
+                </ui:fragment>
+
+            </div>
+
+        </ui:fragment>
+
+
+
+
+
+
+    </cc:implementation>
+</ui:composition>

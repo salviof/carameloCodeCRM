@@ -32,55 +32,56 @@
                         email="#{cc.attrs.email}"
                         colunasBotaoInsersao="12"
                         colunasLocalizacao="12"
+
                         />
-                </h:form>
-                <p:fieldset
-                    id="arquivoRapidoAdd"
-                    rendered="#{cc.attrs.email!=null}" styleClass="Container12 Atv-exec-anexo-rapido"  >
-                    <f:facet name="legend" >
-                        <h:panelGroup styleClass="Atv-exec-anexo-rapidoLegenda">
-                            <h:panelGroup styleClass="fa fa-bolt Atv-exec-anexo-rapidoLegendaIcone" />
-                            <h:outputText value="Seleção de anexo com um click" />
-                        </h:panelGroup>
-                    </f:facet>
 
-                    <h:outputText styleClass="Atv-exec-anexo-rapidoDica"
-                                  value="Clique no arquivo para anexá-lo ao e-mail. O menu do cartão continua servindo para visualizar e baixar." />
+                    <p:fieldset
+                        id="arquivoRapidoAdd"
+                        rendered="#{cc.attrs.email!=null}" styleClass="Container12 Atv-exec-anexo-rapido"  >
+                        <f:facet name="legend" >
+                            <h:panelGroup styleClass="Atv-exec-anexo-rapidoLegenda">
+                                <h:panelGroup styleClass="fa fa-bolt Atv-exec-anexo-rapidoLegendaIcone" />
+                                <h:outputText value="Seleção de anexo com um click" />
+                            </h:panelGroup>
+                        </f:facet>
 
-                    <h:panelGroup layout="block" styleClass="Atv-exec-anexo-rapidoLista OrganizadorContainerExpandido" >
+                        <h:outputText styleClass="Atv-exec-anexo-rapidoDica"
+                                      value="Clique no arquivo para anexá-lo ao e-mail. O menu do cartão continua servindo para visualizar e baixar." />
 
-                        <!-- Cada item empilha duas coisas independentes: o cartao de detalhes
-                             do arquivo (componente reusado, com menu proprio) e, como IRMAO
-                             dele, o link que anexa. O link e uma camada sobre o item inteiro;
-                             o kebab do cartao ja nasce com z-index maior e continua clicavel.
-                             Por isso o cartao NAO fica dentro do link: aninhado, qualquer
-                             clique (inclusive no menu) viraria "anexar". -->
-                        <c:forEach var="arquivo" items="#{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('ultimosArquivos').valor}"    >
+                        <h:panelGroup layout="block" styleClass="Atv-exec-anexo-rapidoLista OrganizadorContainerExpandido" >
 
-                            <h:panelGroup layout="block"
-                                          rendered="#{!cc.attrs.email.arquivosAnexados.contains(arquivo)}"
-                                          styleClass="Atv-exec-anexo-rapidoItem">
+                            <!-- Cada item empilha duas coisas independentes: o cartao de detalhes
+                                 do arquivo (componente reusado, com menu proprio) e, como IRMAO
+                                 dele, o link que anexa. O link e uma camada sobre o item inteiro;
+                                 o kebab do cartao ja nasce com z-index maior e continua clicavel.
+                                 Por isso o cartao NAO fica dentro do link: aninhado, qualquer
+                                 clique (inclusive no menu) viraria "anexar". -->
+                            <ui:repeat value="#{cc.attrs.empresa.getCampoInstanciadoByNomeOuAnotacao('ultimosArquivos').valor}" var="arquivo"  >
 
-                                <crmArquivo:arquivoDetalhe arquivo="#{arquivo}" />
-                                <h:form>
+                                <h:panelGroup layout="block"
+                                              rendered="#{!cc.attrs.email.arquivosAnexados.contains(arquivo)}"
+                                              styleClass="Atv-exec-anexo-rapidoItem">
+
+                                    <crmArquivo:arquivoDetalhe arquivo="#{arquivo}" />
+
                                     <p:commandLink styleClass="Atv-exec-anexo-rapidoAcao"
                                                    title="Anexar #{arquivo.nome} ao e-mail"
                                                    process="@this"
                                                    actionListener="#{cc.attrs.email.adicionarArquivoAnexado(arquivo)}"
-                                                   update="@form #{pgUtil.gerarCaminhoCompletoID('compEmailAnexos')}">
+                                                   update="@form #{pgUtil.gerarCaminhoCompletoID('arquivoRapidoAdd')} #{pgUtil.gerarCaminhoCompletoID('compEmailAnexos')}">
                                         <h:panelGroup styleClass="Atv-exec-anexo-rapidoSelo">
                                             <h:panelGroup styleClass="fa fa-plus Atv-exec-anexo-rapidoSeloIcone" />
                                         </h:panelGroup>
                                         <h:outputText styleClass="Atv-exec-anexo-rapidoAcaoTexto" value="Anexar ao e-mail" />
                                     </p:commandLink>
-                                </h:form>
-                            </h:panelGroup>
-                        </c:forEach>
 
-                    </h:panelGroup>
+                                </h:panelGroup>
+                            </ui:repeat>
 
-                </p:fieldset>
+                        </h:panelGroup>
 
+                    </p:fieldset>
+                </h:form>
             </p:fieldset>
         </h:panelGroup>
         <h:panelGroup styleClass="Container12" layout="block">

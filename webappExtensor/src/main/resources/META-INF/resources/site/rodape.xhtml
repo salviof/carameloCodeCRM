@@ -1,5 +1,6 @@
 <ui:composition
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:crmChat="http://xmlns.jcp.org/jsf/composite/SBComp/composite/chat"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
@@ -7,6 +8,7 @@
     xmlns:SBDev="http://xmlns.jcp.org/jsf/composite/SBComp/composite/devel"
 
     xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <crmChat:janelasNotificacao id="janelasNotificacao" rendered="#{sessaoAtualSBWP.identificado and paginaAtual.usuarioCrmLogado.umUsuarioAtendimento}" />
     <p:sidebar widgetVar="menuPessoal" dynamic="true" position="left"
                rendered="#{ sessaoAtualSBWP.identificado and !sessaoAtualSBWP.telaUsuario.umMobile
                             and !sessaoAtualSBWP.usuario.umUsuarioDoCliente
