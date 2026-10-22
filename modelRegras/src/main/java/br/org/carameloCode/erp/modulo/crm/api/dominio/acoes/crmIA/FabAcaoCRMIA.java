@@ -6,6 +6,8 @@ package br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA;
 
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAAtividade;
+import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAModeloEmailAtividade;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAModeloEmailMkt;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.FabModulosCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.modulo.InfoModulosCRM;
@@ -37,10 +39,15 @@ public enum FabAcaoCRMIA implements ComoFabricaDeAcoesPersistencia {
     EXECUCAO_IA_MB_GESTAO,
     @InfoTipoAcaoController(entidade = ExecucaoIAModeloEmailMkt.class)
     EXECUCAO_IA_CTR_ATUALIZAR_MODELO_DOCUMENTO,
-    @InfoTipoAcaoController()
+    @InfoTipoAcaoController(entidade = ExecucaoIAAtividade.class)
     EXECUCAO_IA_CTR_CRIAR_DIALOGO_ATIVIDADE,
+    @InfoTipoAcaoController(entidade = ExecucaoIAAtividade.class)
+    EXECUCAO_IA_CTR_ATUALIZAR_EMAIL_ATIVIDADE,
     @InfoTipoAcaoController(entidade = ExecucaoIAModeloEmailMkt.class)
     EXECUCAO_IA_CTR_CRIAR_DIALOGO_MODELO_EMAIL_MARKETING,
-    EXECUCAO_IA_CTR_CRIAR_DIALOGO_MODELO_EMAIL,;
+    @InfoTipoAcaoController(entidade = ExecucaoIAModeloEmailAtividade.class)
+    EXECUCAO_IA_CTR_CRIAR_DIALOGO_MODELO_EMAIL,
+    @InfoTipoAcaoController(entidade = ExecucaoIAModeloEmailAtividade.class)
+    EXECUCAO_IA_CTR_ATUALIZAR_MODELO_EMAIL_TRANSITORIO;
 
 }

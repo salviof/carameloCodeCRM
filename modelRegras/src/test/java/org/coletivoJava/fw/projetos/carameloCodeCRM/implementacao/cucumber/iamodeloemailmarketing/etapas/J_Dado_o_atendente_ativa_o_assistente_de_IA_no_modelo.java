@@ -17,7 +17,7 @@ public class J_Dado_o_atendente_ativa_o_assistente_de_IA_no_modelo {
         FluxoModeloEmailIA.EXECUCAO_IA = new ExecucaoIAModeloEmailMkt();
         FluxoModeloEmailIA.EXECUCAO_IA.setTipoExecucao(FabTipoExecucaoIA.EMAIL_MARKETING.getRegistro());
         FluxoModeloEmailIA.EXECUCAO_IA.setModeloEmailMarketing(FluxoModeloEmailIA.EMAIL_MARKETING);
-        ItfRespostaAcaoDoSistema resp = ModuloCRM_IA.criarDialogoModeloEmail(FluxoModeloEmailIA.EXECUCAO_IA);
+        ItfRespostaAcaoDoSistema resp = ModuloCRM_IA.criarDialogoModeloEmailMarketing(FluxoModeloEmailIA.EXECUCAO_IA);
         Assert.assertTrue("Falha iniciando dialogo", resp.isSucesso());
         FluxoModeloEmailIA.EXECUCAO_IA = (ExecucaoIAModeloEmailMkt) resp.getRetorno();
         Assert.assertNotNull("Persona não vinculada ao dialogo", FluxoModeloEmailIA.EXECUCAO_IA.getPersona());

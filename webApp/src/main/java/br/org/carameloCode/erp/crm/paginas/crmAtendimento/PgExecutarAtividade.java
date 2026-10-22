@@ -96,6 +96,11 @@ public class PgExecutarAtividade extends MB_PaginaDeAtividade implements ItfPagi
         return acoesDeProspecto;
     }
 
+    @Override
+    public AtividadeCRM getEntidadeSelecionada() {
+        return atividade;
+    }
+
     public void setProspecto(Pessoa prospecto) {
         this.prospecto = prospecto;
     }

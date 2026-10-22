@@ -16,6 +16,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAc
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.FabAcaoCRMIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
+import br.org.carameloCode.erp.modulo.ia.acoes.FabAcaoIAExecucao;
 import br.org.carameloCode.erp.modulo.notificacao.api.FabAcaoNotificacaoPadraoSB;
 import br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.ServicoDeArquivosWebAppS3;
 import com.super_bits.integracoes.modelController.socialAutenticador.FabAcaoSocialAutenticador;
@@ -72,7 +73,8 @@ public class ConfigCoreCrmCarameloTestes extends ConfiguradorCoreDeProjetoWebWar
             FabAcaoNotificacaoPadraoSB.class,
             FabAcaoCRMIA.class,
             FabAcaoAdminAgenda.class,
-            FabAcaoNotificacaoPadraoSB.class
+            FabAcaoNotificacaoPadraoSB.class,
+            FabAcaoIAExecucao.class
         });
         MapaObjetosProjetoAtual.adcionarObjeto(TipoCredencialSocial.class);
         MapaObjetosProjetoAtual.adcionarObjeto(IntegracaoLink.class);

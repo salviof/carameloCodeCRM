@@ -42,11 +42,6 @@ public class AcoesAdminCrm_TipoAtividadeMbGerenciar implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_ATIVIDADE_FRM_PERMISSAO");
 	}
 
-	public ItfAcaoFormularioEntidade getTipoAtividadeFrmFormatarEmailVinculado() {
-		return (ItfAcaoFormularioEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_ATIVIDADE_FRM_FORMATAR_EMAIL_VINCULADO");
-	}
-
 	public ComoAcaoControllerEntidade getTipoAtividadeCtrVincularEmail() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL");

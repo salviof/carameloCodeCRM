@@ -1,10 +1,8 @@
 package br.org.carameloCode.erp.crm.paginas.servico;
 
-import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmIA.ModuloCRM_IA;
 import br.org.carameloCode.erp.modulo.crm.api.model.execucaoia.CPExecucaoIA;
 import br.org.carameloCode.erp.modulo.ia.controller.ModuloExecucaoAcao;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucao.ExecucaoIA;
-import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAModeloEmailMkt;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -19,10 +17,13 @@ import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.interface
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.parser.Parser;
@@ -85,29 +86,60 @@ public class ServicoIA implements Serializable {
     }
 
     public void atualizarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoAtualizar) {
+        atualizarDialogoIAParaEntidade(pAcaoAtualizar, true);
+    }
+
+    /**
+     *
+     * @param pAcaoAtualizar ação que executa o diálogo e aplica a resposta na
+     * entidade
+     * @param pRecarregarEntidade false para ações transitórias, que alteram a
+     * entidade em edição sem gravar (recarregar descartaria a alteração)
+     */
+    public void atualizarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoAtualizar, boolean pRecarregarEntidade) {
         ModuloExecucaoAcao.executarDialogo(dialogoIA);
 
         ItfRespostaAcaoDoSistema resposta = null;
         ComoEntidadeSimples entidadeSelecionade = ((ComoEntidadeSimples) paginaAtual.getInfoPagina().getComoPaginaEntidade().getEntidadeSelecionada());
+        //instância em edição, usada pelas ações transitórias
+        dialogoIA.setEntidadeVinculada(entidadeSelecionade);
         try {
             resposta = CarameloCode.getServicoController().getResposta(pAcaoAtualizar.getEnumAcaoDoSistema(), dialogoIA);
-            if (resposta.isSucesso()) {
+            if (resposta.isSucesso() && pRecarregarEntidade) {
                 paginaAtual.getInfoPagina().getComoPaginaEntidade().atualizarEntidadeSelecionada();
             }
         } catch (ErroChamadaController ex) {
             CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Impossível iniciar a execução de " + pAcaoAtualizar.getNomeAcao());
+            return;
         }
         if (!resposta.isSucesso()) {
             resposta.dispararMensagens();
         }
     }
 
-    public void criarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoAtualizar) {
+    public void criarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoCriarDialogo) {
         ItfRespostaAcaoDoSistema resposta = null;
 
         ComoEntidadeSimples entidade = ((ComoEntidadeSimples) paginaAtual.getInfoPagina().getComoPaginaEntidade().getEntidadeSelecionada());
         ComoFabricaExecucaoIA fabrica = SBCore.getServicoIA().getFabricaExecucaoPorEntidade(entidade);
-        resposta = ModuloCRM_IA.criarDialogoModeloEmail((ExecucaoIAModeloEmailMkt) fabrica.getExecucaoIAByEntidade(entidade));
+        ExecucaoIA execucao;
+        try {
+            execucao = fabrica == null ? null : (ExecucaoIA) fabrica.getExecucaoIAByEntidade(entidade);
+            if (execucao == null) {
+                CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Não foi possível preparar o diálogo de IA para este registro");
+                return;
+            }
+        } catch (ErroPreparandoObjeto ex) {
+            CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario(ex.getMessage());
+            return;
+        }
+
+        try {
+            resposta = CarameloCode.getServicoController().getResposta(pAcaoCriarDialogo.getEnumAcaoDoSistema(), execucao);
+        } catch (ErroChamadaController ex) {
+            CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Impossível iniciar a execução de " + pAcaoCriarDialogo.getNomeAcao());
+            return;
+        }
 
         if (!resposta.isSucesso()) {
             resposta.dispararMensagens();

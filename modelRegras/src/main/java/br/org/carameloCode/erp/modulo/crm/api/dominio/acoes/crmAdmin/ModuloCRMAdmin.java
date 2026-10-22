@@ -53,6 +53,7 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.arquivosConfiguracao.ConfigModuloBean;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCBytes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
@@ -79,6 +80,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.FabTipoNo
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.importacao.ImportacaoExcel;
@@ -551,23 +553,72 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
 
     }
 
-    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL)
-    public static ItfRespostaAcaoDoSistema tipoAtividadeVincularEmail(final TipoAtividadeCRM pTipoAtividade) {
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.MODELO_EMAIL_ATIVIDADE_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema modeloEmailAtividadeSalvar(final ModeloEmail pModeloEmail) {
 
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoAtividade), pTipoAtividade) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pModeloEmail), pModeloEmail) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                ModeloEmail email = new ModeloEmail();
-                email = atualizarEntidade(email);
-                TipoAtividadeCRM atividadeAtualizada = (TipoAtividadeCRM) atualizarEntidade(pTipoAtividade);
-                atividadeAtualizada.setModeloEmail(email);
+                setRetorno(atualizarEntidade(pModeloEmail));
+            }
+        }.dispararMensagens();
+    }
 
-                if (atividadeAtualizada == null) {
-                    addErro("Ouve Um Erro Salvando o novo Modelo");
+    /**
+     * Remove o modelo de e-mail de atividade, desvinculando antes os tipos de
+     * atividade que o utilizam. Subclasses de ModeloEmail (ex.: e-mail
+     * marketing) possuem gestão própria e não são removidas por esta ação.
+     */
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.MODELO_EMAIL_ATIVIDADE_CTR_REMOVER)
+    public static ItfRespostaAcaoDoSistema modeloEmailAtividadeRemover(final ModeloEmail pModeloEmail) {
 
-                } else {
-
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pModeloEmail), pModeloEmail) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                if (pModeloEmail.getId() == null) {
+                    throw new ErroRegraDeNegocio("Modelo de e-mail não encontrado");
                 }
+                //carregado do banco para obter a classe real (o objeto recebido pode ser um proxy)
+                ModeloEmail modelo = loadEntidade(pModeloEmail);
+                if (modelo == null) {
+                    throw new ErroRegraDeNegocio("Modelo de e-mail não encontrado");
+                }
+                if (!ModeloEmail.class.equals(UtilCRCReflexaoObjeto.getClassExtraindoProxy(modelo.getClass().getSimpleName()))) {
+                    throw new ErroRegraDeNegocio("Este modelo não é um modelo de e-mail de atividade");
+                }
+                if (!UtilSBPersistencia.executaSQL(getEMResposta(), "update TipoAtividadeCRM set modeloEmail_id = null, temDisparoDeEmail = false where modeloEmail_id = " + modelo.getId())) {
+                    throw new ErroRegraDeNegocio("Erro desvinculando os tipos de atividade do modelo de e-mail");
+                }
+                removerEntidade(modelo);
+            }
+        }.dispararMensagens();
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL)
+    public static ItfRespostaAcaoDoSistema tipoAtividadeVincularEmail(final TipoAtividadeCRM pTipo) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipo), pTipo) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                TipoAtividadeCRM tipo = loadEntidade(pTipo);
+                ModeloEmail modelo = tipo.getModeloEmail();
+                if (modelo == null && tipo.getId() != null) {
+                    //o objeto da página pode estar desatualizado, confere o vínculo gravado
+                    TipoAtividadeCRM tipoAtividadeGravado = loadEntidade(tipo);
+                    if (tipoAtividadeGravado != null) {
+                        modelo = tipoAtividadeGravado.getModeloEmail();
+                    }
+                }
+                //só cria um novo modelo se o tipo de atividade ainda não tiver um vinculado
+                if (modelo == null) {
+                    modelo = atualizarEntidade(new ModeloEmail());
+                }
+                tipo.setModeloEmail(modelo);
+                TipoAtividadeCRM atividadeAtualizada = (TipoAtividadeCRM) atualizarEntidade(tipo);
+                if (atividadeAtualizada == null) {
+                    throw new ErroRegraDeNegocio("Ouve Um Erro Salvando o novo Modelo");
+                }
+                setUrlDestinoSucesso(CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(FabAcaoCrmAdmin.MODELO_EMAIL_ATIVIDADE_FRM_EDITAR, atividadeAtualizada.getModeloEmail()));
 
             }
         }.dispararMensagens();

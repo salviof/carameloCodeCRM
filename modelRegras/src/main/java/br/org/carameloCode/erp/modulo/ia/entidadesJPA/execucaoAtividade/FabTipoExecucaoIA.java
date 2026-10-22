@@ -24,14 +24,15 @@ public enum FabTipoExecucaoIA implements ComoFabricaExecucaoIA {
     EMAIL_MARKETING,
     @InfoObjetoDaFabrica(classeObjeto = TipoExecucaoIA.class, id = 3, icone = "fa fa-chess", nomeObjeto = "Estratégia de marketing")
     ESTRATEGIA_MARKETING,
-    @InfoObjetoDaFabrica(classeObjeto = TipoExecucaoIA.class, id = 5, icone = "fa fa-bullseye", nomeObjeto = "Análise de posicionamento de marketing")
+    @InfoObjetoDaFabrica(classeObjeto = TipoExecucaoIA.class, id = 4, icone = "fa fa-bullseye", nomeObjeto = "Análise de posicionamento de marketing")
     ANALISE_POSICIONAMENTO_MARKETING,
-    @InfoObjetoDaFabrica(classeObjeto = TipoExecucaoIA.class, id = 6, icone = "fa fa-bullseye", nomeObjeto = "Análise de posicionamento de marketing")
+    @InfoObjetoDaFabrica(classeObjeto = TipoExecucaoIA.class, id = 5, icone = "fa fa-bullseye", nomeObjeto = "Análise de posicionamento de marketing")
     EXECUCAO_ATIVIDADE;
 
     @Override
     public TipoExecucaoIA getRegistro() {
         TipoExecucaoIA tipo = (TipoExecucaoIA) ComoFabricaExecucaoIA.super.getRegistro();
+
         switch (this) {
             case EMAIL_TRANSACIONAL:
                 tipo.setDescricao("E-mail de comunicação operacional com o cliente (confirmação, aviso, lembrete), direto e sem apelo comercial.");

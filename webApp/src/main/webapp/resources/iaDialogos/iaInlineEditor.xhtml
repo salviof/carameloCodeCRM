@@ -19,6 +19,9 @@
 
         <cc:attribute name="acaoAtualizarDados"
                       type="com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema"/>
+
+        <!-- false para ações transitórias: a entidade alterada não é recarregada do banco -->
+        <cc:attribute name="recarregarEntidade" type="java.lang.Boolean" default="true"/>
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
@@ -94,7 +97,7 @@
                     <p:commandButton icon="fa-solid fa-paper-plane"
                                      title="Enviar instruções"
                                      styleClass="rounded-button crc-ia-inline-editor__btn-enviar"
-                                     actionListener="#{servicoIA.atualizarDialogoIAParaEntidade(cc.attrs.acaoAtualizarDados)}"
+                                     actionListener="#{servicoIA.atualizarDialogoIAParaEntidade(cc.attrs.acaoAtualizarDados, cc.attrs.recarregarEntidade)}"
                                      process="@this txtNovaMensagem"
                                      update="painelIA #{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}" />
                 </h:panelGroup>

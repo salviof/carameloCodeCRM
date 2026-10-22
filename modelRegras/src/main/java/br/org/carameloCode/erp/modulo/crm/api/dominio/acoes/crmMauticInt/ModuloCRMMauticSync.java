@@ -69,7 +69,7 @@ public class ModuloCRMMauticSync extends ControllerAbstratoSBPersistencia {
 
     }
 
-    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_CTR_ATUALIZAR_COM_IA)
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_CTR_ENVIAR_PARA_MAUTIC)
     public static ItfRespostaAcaoDoSistema enviarModeloEmailMktParaMautic(final ModeloEmailMarketing pModloMkt) {
 
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pModloMkt), pModloMkt) {

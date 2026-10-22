@@ -72,6 +72,7 @@ import br.org.carameloCode.erp.modulo.crm.api.model.tiposervico.CPTipoServico;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicorecorrente.CPTipoServicoRecorrente;
 import br.org.carameloCode.erp.modulo.crm.api.model.tiposervicosazonal.CPTipoServicoSazonal;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.templates.ModeloEmailMarketing;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEmail;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.TipoEmpresa;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.tipoNotificacao.TiponotificacaoCRM;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
@@ -389,9 +390,6 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_ATIVIDADE_FRM_DADOS_COLETAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Limitar Acessos", icone = "fa fa-shield")
     TIPO_ATIVIDADE_FRM_PERMISSAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Vincular a modelo de e-mail", campos = {
-        "[separador: Formatar E-Mail]", "modeloEmail.assunto", "modeloEmail.textoModelo"}, icone = "fa fa-envelope-square")
-    TIPO_ATIVIDADE_FRM_FORMATAR_EMAIL_VINCULADO,
     @InfoTipoAcaoController(nomeAcao = "Vincular E-Mail", icone = "fa fa-envelope-square")
     TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL,
     @InfoTipoAcaoController(nomeAcao = "Desvincular E-Mail", icone = "fa fa-times")
@@ -868,11 +866,27 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(
             nomeAcao = "Editar com IA",
             campos = {"[separador: Modelo]",
-                CPModeloEmail.assunto, CPModeloEmail.textomodelo}, icone = "fa fa-regular fa-lightbulb")
+                CPModeloEmail.assunto, CPModeloEmail.textomodelo}, icone = "fa fa-regular fa-lightbulb", isUmaAcaoDeRegistroExistente = true)
     MODELO_EMAIL_MARKETING_FRM_EDITAR_COM_IA,
     @InfoTipoAcaoController()
     MODELO_EMAIL_MARKETING_CTR_SALVAR_MERGE,
-    @InfoTipoAcaoController(nomeAcao = "Gerar com IA", icone = "fa-solid fa-hat-wizard")
-    MODELO_EMAIL_MARKETING_CTR_ATUALIZAR_COM_IA,
+    @InfoTipoAcaoController(nomeAcao = "Atualizar No Mautic", icone = "ffa-solid fa-envelopes-bulk")
+    MODELO_EMAIL_MARKETING_CTR_ENVIAR_PARA_MAUTIC,
+    @InfoTipoAcaoGestaoEntidade(entidade = ModeloEmail.class, nomeAcao = "E-mail de atividade", icone = "fa-solid fa-envelope")
+    MODELO_EMAIL_ATIVIDADE_MB_GESTAO,
+    @InfoTipoAcaoFormulario(campos = {CPModeloEmail.id, CPModeloEmail.nome, CPModeloEmail.assunto, CPModeloEmail.personacoautoria}, icone = "fa-solid fa-list")
+    MODELO_EMAIL_ATIVIDADE_FRM_LISTAR,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Descrição do e-mail]", CPModeloEmail.nome, CPModeloEmail.descricao, CPModeloEmail.personacoautoria,
+        "[separador: Conteúdo]", CPModeloEmail.assunto, CPModeloEmail.textomodelo}, icone = "fa-solid fa-pen-to-square")
+    MODELO_EMAIL_ATIVIDADE_FRM_EDITAR,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Descrição do e-mail]", CPModeloEmail.nome, CPModeloEmail.descricao, CPModeloEmail.personacoautoria,
+        "[separador: Conteúdo]", CPModeloEmail.assunto, CPModeloEmail.textomodelo}, estadoFormulario = FabEstadoFormulario.VISUALIZAR, icone = "fa-solid fa-eye")
+    MODELO_EMAIL_ATIVIDADE_FRM_VISUALIZAR,
+    @InfoTipoAcaoController(nomeAcao = "Salvar", icone = "fa-solid fa-floppy-disk")
+    MODELO_EMAIL_ATIVIDADE_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoController(nomeAcao = "Remover", iconeFonteAnsowame = FabIconeFontAwesome.REG_REMOVER,
+            exibirModalConfirmacao = true,
+            fraseComunicação = "O modelo de e-mail '[nome]' será excluído e desvinculado dos tipos de atividade, ok? ")
+    MODELO_EMAIL_ATIVIDADE_CTR_REMOVER,
 
 }

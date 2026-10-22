@@ -4,20 +4,22 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.execucaoiaatividade.ValorLogicoExecucaoIAAtividade;
 import br.org.coletivoJava.fw.projetos.carameloCodeCRM.api.model.execucaoiaatividade.ValoresLogicosExecucaoIAAtividade;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAAtividade;
+import br.org.carameloCode.erp.modulo.ia.implemetation.model.execucaoia.ValorLogicoExecucaoIADialogoJson;
+import br.org.coletivoJava.fw.projetos.carameloCodeCRM.implemetation.model.execucaoia.ValorLogicoExtErpcaramExecucaoIADialogoJson;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoExecucaoIAAtividade(calculo = ValoresLogicosExecucaoIAAtividade.DIALOGOJSON)
 public class ValorLogicoExtErpcaramExecucaoIAAtividadeDialogoJson
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoExtErpcaramExecucaoIADialogoJson {
 
-	public ValorLogicoExtErpcaramExecucaoIAAtividadeDialogoJson(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoExtErpcaramExecucaoIAAtividadeDialogoJson(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	@Override
-	public Object getValor(Object... pEntidade) {
-		return super.getValor(pEntidade);
-	}
+    @Override
+    public Object getValor(Object... pEntidade) {
+        return super.getValor(pEntidade);
+    }
 }

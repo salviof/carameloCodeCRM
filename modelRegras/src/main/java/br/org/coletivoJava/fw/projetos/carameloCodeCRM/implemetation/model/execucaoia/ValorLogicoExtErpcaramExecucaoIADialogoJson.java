@@ -8,16 +8,16 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstancia
 
 @ValorLogicoExecucaoIA(calculo = ValoresLogicosExecucaoIA.DIALOGOJSON)
 public class ValorLogicoExtErpcaramExecucaoIADialogoJson
-		extends
-			ValorLogicoExecucaoIADialogoJson {
+        extends
+        ValorLogicoExecucaoIADialogoJson {
 
-	public ValorLogicoExtErpcaramExecucaoIADialogoJson(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoExtErpcaramExecucaoIADialogoJson(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	@Override
-	public Object getValor(Object... pEntidade) {
-		return super.getValor(pEntidade);
-	}
+    @Override
+    public Object getValor(Object... pEntidade) {
+        return super.getValor(pEntidade);
+    }
 }
