@@ -301,7 +301,8 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     @InfoTipoAcaoFormulario(campos = {"[separador: Dados Doc]", "nome", "descricao",
         "documento",
         "[separador: Teste e dados dinâmicos]", "leadParaTestes",
-        "tipoAtividadeVinculada", "[separador: Ao concluir atividade salvar em:]", CPModeloDocumentoCRM.categoriaarquivocliente, CPModeloDocumentoCRM.categoriaarquivoequipe})
+        "tipoAtividadeVinculada", "[separador: Ao concluir atividade salvar em:]",
+        CPModeloDocumentoCRM.categoriaarquivocliente, CPModeloDocumentoCRM.categoriaarquivoequipe})
     MODELOS_DOCUMENTOS_TIPO_ATIVIDADE_FRM_EDITAR,
     @InfoTipoAcaoFormulario(nomeAcao = "Editar dados dinamicos do lead")
     MODELOS_DOCUMENTOS_TIPO_ATIVIDADE_FRM_EDITAR_DADOS_LEAD,
@@ -375,7 +376,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
         "atividadeAgendada", "diasAgendarNovaAtividade"})
     TIPO_ATIVIDADE_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {
-        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade", "textoAjuda",
+        "[separador: Dados Gerais]", "nomeAtividade", "nomeInicioAtivida", "nomeFimAtividade", "textoAjuda", CPTipoAtividadeCRM.persona,
         "[separador: Visualizacao]", "cor", "icone",
         "[separador: Classificação Deste Tipo de atividade", "progresso", "regresso", CPTipoAtividadeCRM.disponivelapenasposvendas,
         "[separador: Condições especiais de execução]", "precisaServicosDefinidos", "precisaTerPreAnalise", "precisaEnviarDocumento",

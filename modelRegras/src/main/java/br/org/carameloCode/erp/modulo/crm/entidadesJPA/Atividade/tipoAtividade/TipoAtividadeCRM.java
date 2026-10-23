@@ -92,7 +92,7 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
     private String tipoEntidade;
 
     @ManyToOne(targetEntity = Persona.class)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Ia coautoria")
     private Persona persona;
 
     //@Transient

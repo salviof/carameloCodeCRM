@@ -79,7 +79,7 @@ public class EmailCrm extends EntidadeORMNormal implements ComoEmailSimples {
 
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEmail;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.HTML, label = "Texto do Email")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.HTML_TEMPLATE, label = "Texto do Email")
     @Column(columnDefinition = "LONGTEXT")
     @InfoCampoValorLogico(nomeCalculo = "Processamento de texto")
     private String texto;

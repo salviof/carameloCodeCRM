@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:CRMIa="http://xmlns.jcp.org/jsf/composite/iaDialogos"
+    xmlns:sb="http://superbitsframework/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="areaAtualizacao" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <CRMIa:iaInlineEditor acaoAtualizarDados="#{acoesAdminCrm_ExecucaoIaMbGestao.execucaoIaCtrAtualizarModeloDocumento}"
+                              acaoCriarDialogo="#{acoesAdminCrm_ExecucaoIaMbGestao.execucaoIaCtrCriarDialogoModeloEmailMarketing}"
+                              areaAtualizacao="#{cc.attrs.areaAtualizacao}" />
+    </cc:implementation>
+</ui:composition>

@@ -14,7 +14,6 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.T
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.codigoAcesso.CodigoConviteAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioDocumentoAtividade.EnvioEmailAtividade;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa;
-import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_FRM_ATIVIDADE_COM_EMAIL;
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.EXECUCAO_ATIVIDADE_FRM_ATIVIDADE_CONVITE;
@@ -28,7 +27,6 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
-import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_PaginaConversation;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.reflexao.anotacoes.beans.InfoMB_Bean;
 import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.siteMap.MapaDeFormularios;
 import com.super_bits.modulos.SBAcessosModel.view.FabAcaoPaginasDoSistema;
@@ -43,12 +41,13 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.primefaces.event.SelectEvent;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import com.super_bits.modulosSB.webPaginas.JSFManagedBeans.formularios.MB_paginaCadastroEntidades;
 
 /**
  *
  * @author sfurbino
  */
-public abstract class MB_PaginaDeAtividade extends MB_PaginaConversation implements ItfPaginaComModalProspecto {
+public abstract class MB_PaginaDeAtividade extends MB_paginaCadastroEntidades<AtividadeCRM> implements ItfPaginaComModalProspecto {
 
     @InfoMB_Bean(descricao = "Teste")
     protected Pessoa prospecto;

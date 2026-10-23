@@ -51,7 +51,6 @@ public class PgTipoAtividade extends MB_paginaCadastroEntidades<TipoAtividadeCRM
     public PgTipoAtividade() {
         super();
 
-        removerAcaoDeEntidade(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_VINCULAR_EMAIL.getRegistro());
         removerAcaoDeEntidade(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_DESVINCULAR_EMAIL.getRegistro());
         removerAcaoDeEntidade(FabAcaoCrmAdmin.TIPO_ATIVIDADE_CTR_REMOVER.getRegistro());
         adicionarAcaoDeEntidade(FabAcaoCrmAdmin.TIPO_ATIVIDADE_FRM_REMOVER.getRegistro());
@@ -62,7 +61,6 @@ public class PgTipoAtividade extends MB_paginaCadastroEntidades<TipoAtividadeCRM
     @PostConstruct
     public void inicio() {
         listarDados();
-        adicionarAcaoDeEntidade(FabAcaoCrmAdmin.TIPO_ATIVIDADE_FRM_FORMATAR_EMAIL_VINCULADO.getRegistro());
 
     }
 

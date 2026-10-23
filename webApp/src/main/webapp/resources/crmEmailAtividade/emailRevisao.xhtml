@@ -5,6 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:crmArquivo="http://xmlns.jcp.org/jsf/composite/crmArquivo"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRCInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -93,15 +94,8 @@
                                          placeholder="Assunto do e-mail"
                                          readonly="true"
                                          value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('assunto').valor}" />
-                            <p:textEditor   styleClass="Atv-exec-email-revisaoCorpo"
-                                            widgetVar="editorRevisaoCorpo"
-                                            secure="false"
-                                            toolbarVisible="false"
-                                            readonly="true"
-                                            height="230px"
-                                            value="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto').valor}"
-                                            placeholder="Escreva seu e-mail aqui"
-                                            />
+                            <CRCInput:input registro="#{cc.attrs.email.getCampoInstanciadoByNomeOuAnotacao('texto')}" desabilitarEdicao="true" layout="#{layoutsComponenteSB.layoutCampo.semLabel}" />
+
                         </h:form>
                     </h:panelGroup>
 

@@ -42,8 +42,8 @@ public class AcoesAdminCrm_ModeloEmailMarketingMbGestao implements Serializable 
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_CTR_SALVAR_MERGE");
 	}
 
-	public ComoAcaoControllerEntidade getModeloEmailMarketingCtrAtualizarComIa() {
+	public ComoAcaoControllerEntidade getModeloEmailMarketingCtrEnviarParaMautic() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_CTR_ATUALIZAR_COM_IA");
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCrmAdmin.MODELO_EMAIL_MARKETING_CTR_ENVIAR_PARA_MAUTIC");
 	}
 }

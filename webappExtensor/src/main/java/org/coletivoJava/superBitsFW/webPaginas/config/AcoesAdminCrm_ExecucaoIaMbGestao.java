@@ -16,11 +16,6 @@ public class AcoesAdminCrm_ExecucaoIaMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_MB_GESTAO");
 	}
 
-	public ComoAcaoControllerEntidade getExecucaoIaCtrExecutarDialogo() {
-		return (ComoAcaoControllerEntidade) MapaAcoesSistema
-				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_EXECUTAR_DIALOGO");
-	}
-
 	public ComoAcaoControllerEntidade getExecucaoIaCtrAtualizarModeloDocumento() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_ATUALIZAR_MODELO_DOCUMENTO");
@@ -31,6 +26,11 @@ public class AcoesAdminCrm_ExecucaoIaMbGestao implements Serializable {
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_CRIAR_DIALOGO_ATIVIDADE");
 	}
 
+	public ComoAcaoControllerEntidade getExecucaoIaCtrAtualizarEmailAtividade() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_ATUALIZAR_EMAIL_ATIVIDADE");
+	}
+
 	public ComoAcaoControllerEntidade getExecucaoIaCtrCriarDialogoModeloEmailMarketing() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_CRIAR_DIALOGO_MODELO_EMAIL_MARKETING");
@@ -39,5 +39,10 @@ public class AcoesAdminCrm_ExecucaoIaMbGestao implements Serializable {
 	public ComoAcaoControllerEntidade getExecucaoIaCtrCriarDialogoModeloEmail() {
 		return (ComoAcaoControllerEntidade) MapaAcoesSistema
 				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_CRIAR_DIALOGO_MODELO_EMAIL");
+	}
+
+	public ComoAcaoControllerEntidade getExecucaoIaCtrAtualizarModeloEmailTransitorio() {
+		return (ComoAcaoControllerEntidade) MapaAcoesSistema
+				.getAcaoDoSistemaByNomeUnico("FabAcaoCRMIA.EXECUCAO_IA_CTR_ATUALIZAR_MODELO_EMAIL_TRANSITORIO");
 	}
 }

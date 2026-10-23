@@ -21,12 +21,16 @@
 
         <h:panelGroup styleClass="Container12 " layout="block">
             <h:panelGroup styleClass="Container12 " layout="block" style="width: 110%;">
-                <CRMAtividade:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}"/>
+                <CRMAtividade:cabecalhoAtividade
+                    atividade="#{pgExecutarAtividade.atividade}"
+                    />
 
 
             </h:panelGroup>
         </h:panelGroup>
-        <CRMEmailAtividade:emailRevisao email="#{pgExecutarAtividade.atividade.emailComoEnvio}" />
+        <CRMEmailAtividade:emailRevisao
+            email="#{pgExecutarAtividade.atividade.emailComoEnvio}"
+            />
         <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
             <h:panelGroup styleClass="Container3" rendered="#{pgExecutarAtividade.atividade.emailVinculado.foiEnviado}">
                 <div class="alert alert-info" >
@@ -59,9 +63,7 @@
             <p:fieldset styleClass="Container12" style="height: 255px;"   >
                 <h:form>
                     <CRMAtividade:opcoesAtividade
-                        atividade="#{pgExecutarAtividade.atividade}"
-
-                        >
+                        atividade="#{pgExecutarAtividade.atividade}" >
                         <f:facet name="extra">
                             <CRMAtividade:botaoAcaoAtividade
                                 titulo="Enviar e Concluir Atividade"
