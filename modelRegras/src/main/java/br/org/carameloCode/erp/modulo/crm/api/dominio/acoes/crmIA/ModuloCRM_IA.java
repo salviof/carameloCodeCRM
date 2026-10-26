@@ -8,6 +8,9 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmMauticInt.ModuloC
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.dadosDinamicos.TipoDadoIA;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.AtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.EmailCrm;
+import javax.persistence.EntityManager;
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.envioEmail.envioEmail.EnvioEmail;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.modeloEmail.ModeloEmail;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAAtividade;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucaoAtividade.ExecucaoIAModeloEmailAtividade;
@@ -20,7 +23,6 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.mail.templates.ModeloEmailMarketing;
 import br.org.carameloCode.erp.modulo.ia.controller.ModuloExecucaoAcao;
-import br.org.coletivoJava.integracoes.claude.api.FabConfigModuloIAClaude;
 import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import jakarta.json.JsonArray;
@@ -135,7 +137,20 @@ public class ModuloCRM_IA extends ControllerAbstratoSBPersistencia {
      */
     @InfoAcaoCRM_IA(acao = FabAcaoCRMIA.EXECUCAO_IA_CTR_ATUALIZAR_EMAIL_ATIVIDADE)
     public static ItfRespostaAcaoDoSistema emailAtividadeAtualizar(ExecucaoIAAtividade pDialogo) {
-
+        String statusEmail = null;
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        try {
+            AtividadeCRM atividadeAtual = UtilSBPersistencia.loadEntidade(pDialogo.getAtividade(), em);
+            if (atividadeAtual != null && atividadeAtual.getEmailVinculado() instanceof EnvioEmail) {
+                statusEmail = UtilCRMIA.getStatusEmailAtual((EnvioEmail) atividadeAtual.getEmailVinculado());
+            }
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
+        if (statusEmail != null && pDialogo.getNovaMensagem() != null && !pDialogo.getNovaMensagem().contains("Execute este pedido: [")) {
+            String mensagemComStatusAtual = "Execute este pedido: [" + pDialogo.getNovaMensagem() + "] sabendo que  o status atual deste email é: " + statusEmail;
+            pDialogo.setNovaMensagem(mensagemComStatusAtual);
+        }
         ItfRespostaAcaoDoSistema respostaConsultaIA = ModuloExecucaoAcao.executarDialogo(pDialogo);
 
         if (!respostaConsultaIA.isSucesso()) {
@@ -193,8 +208,9 @@ public class ModuloCRM_IA extends ControllerAbstratoSBPersistencia {
     /**
      * Executa o diálogo e aplica o assunto e o corpoHtml da última resposta
      * estruturada da IA no modelo de e-mail em edição, sem gravar no banco: o
-     * modelo alterado é o recebido em {@link ExecucaoIAModeloEmailAtividade#getEntidadeVinculada()}
-     * (a instância da página) e o usuário confirma salvando o formulário.
+     * modelo alterado é o recebido em
+     * {@link ExecucaoIAModeloEmailAtividade#getEntidadeVinculada()} (a
+     * instância da página) e o usuário confirma salvando o formulário.
      */
     @InfoAcaoCRM_IA(acao = FabAcaoCRMIA.EXECUCAO_IA_CTR_ATUALIZAR_MODELO_EMAIL_TRANSITORIO)
     public static ItfRespostaAcaoDoSistema modeloEmailTransitorioAtualizar(ExecucaoIAModeloEmailAtividade pDialogo) {

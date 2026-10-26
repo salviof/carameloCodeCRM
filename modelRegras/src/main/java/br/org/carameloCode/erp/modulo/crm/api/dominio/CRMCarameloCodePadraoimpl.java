@@ -51,8 +51,9 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
         implements
         br.org.carameloCode.erp.modulo.crm.api.ItfErpCrm {
 
-    private static final String CSS_REGULADOR = "p {white-space:pre-wrap; word-wrap:break-word;font-family:'Roboto',Verdana,sans-serif;font-size:14px;"
-            + "margin-block-start: 5 px; margin-block-end: 0px; margin-inline-start: 0px;  margin-inline-end: 0px;";
+    private static final String CSS_REGULADOR = "p {white-space:pre-wrap; word-wrap:break-word;"
+            + "font-family:'Roboto',Verdana,sans-serif; font-size:14px;"
+            + "margin:5px 0 0 0;}";
     private static final String ASSINATURA_PADRAO = "";
 
     private static final Map<String, ItfServidorEmailAvancado> servidoresPadrao = new HashMap<>();
@@ -182,18 +183,9 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
         return null;
     }
 
-    @Override
-    public String aplicarAssinaturaEMail(ComoUsuario pUsuario, String pConteudo) {
-        String texto = pConteudo;
+    private String aplicarModeloEmailComAssinatura(String pModeloAssinatura, String pConteudo) {
 
-        String assinatura = getModeloEMail(pUsuario);
-        if (assinatura == null || assinatura.isEmpty()) {
-            assinatura = "[conteudo]";
-        }
-        if (!assinatura.contains("[conteudo]")) {
-            throw new UnsupportedOperationException("Tag: [conteudo] não encontrada");
-        }
-        texto = assinatura.replace("[conteudo]", texto);
+        String texto = pModeloAssinatura.replace("[conteudo]", pConteudo);
 
         texto = UtilCRCEmail.gerarConteudoEmailNormatizado(texto);
         texto = new ProcessadorEmailHtml(texto, CSS_REGULADOR).getHtmlProcessado();
@@ -207,6 +199,36 @@ public class CRMCarameloCodePadraoimpl extends RepositorioLinkEntidadesGenerico
         }
 
         return texto;
+    }
+
+    private String aplicarAssinaturaEmail(String pConteudo, String pAssinatura) {
+        String texto = pConteudo.replace("[assinatura]", pAssinatura);
+
+        try {
+            byte[] bytes = texto.getBytes("UTF-8");
+            texto = new String(bytes, "UTF-8");
+            return texto;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(CRMCarameloCodePadraoimpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return texto;
+    }
+
+    @Override
+    public String aplicarAssinaturaEMail(ComoUsuario pUsuario, String pConteudo) {
+
+        String assinatura = getModeloEMail(pUsuario);
+
+        if (assinatura.contains("[conteudo]")) {
+            return aplicarModeloEmailComAssinatura(assinatura, pConteudo);
+        }
+
+        if (pConteudo.contains("[assinatura]")) {
+            return aplicarAssinaturaEmail(pConteudo, assinatura);
+        }
+        return pConteudo;
+
     }
 
     @Override
