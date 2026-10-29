@@ -2571,6 +2571,63 @@ a.btnCopiarContatoDoLead--copiado:focus {
 }
 
 /* ------------------------------------------------------------
+   ACOES DE ENVIO (WhatsApp Marketing e SMS)
+   Canto superior direito do card de informacoes (pastilha de
+   vidro): terceiro item flex do card, depois da marca e dos
+   textos, empurrado para a direita (margin-left:auto) e preso
+   ao topo (align-self:flex-start). Fica no fluxo, entao o texto
+   nunca passa por baixo dos botoes. Os dois componentes
+   (crmContato:envioMsgModalWtsapp / envioMsgModalSMS) trazem raiz
+   inline-block e botoes com padding proprio; aqui eles viram
+   itens flex de mesma altura, formando um par uniforme.
+   ------------------------------------------------------------ */
+.ChatClienteVisaoEquipe-cabecalho-textos {
+    flex: 1 1 auto;
+}
+
+/* com os botoes o card precisa de mais largura que os 780px padrao,
+   senao a coluna de textos fica espremida */
+.ChatClienteVisaoEquipe-cabecalho-conteudo:has(> .ChatClienteVisaoEquipe-cabecalho-acoes) {
+    max-width: 1040px;
+}
+
+.ChatClienteVisaoEquipe-cabecalho-acoes {
+    align-self: flex-start;
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ChatClienteVisaoEquipe-cabecalho-acoes > .crc-envio-msg-modal-wtsapp,
+.ChatClienteVisaoEquipe-cabecalho-acoes > .crc-envio-msg-modal-sms {
+    display: flex;
+    margin: 0;
+}
+
+.ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-wtsapp__botao,
+.ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-sms__botao {
+    box-sizing: border-box;
+    height: 38px;
+    margin: 0;
+    padding: 0 16px;
+    font-size: .85rem;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+.ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-wtsapp__botao-icone,
+.ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-sms__botao-icone {
+    width: 18px;
+    font-size: 17px;
+    text-align: center;
+}
+
+/* ------------------------------------------------------------
    PAINEL DO CHAT
    Superficie neutra sob o cabecalho. A altura vem do proprio
    RC:salaDebate (altura="600px") — o antigo height:180vh existia
@@ -2684,6 +2741,30 @@ a.btnCopiarContatoDoLead--copiado:focus {
     /* numero em nova linha antes de estourar a pastilha */
     .ChatClienteVisaoEquipe-cabecalho-destino {
         font-size: .8rem;
+    }
+
+    /* telas estreitas: os botoes viram a primeira linha do card,
+       dividindo a largura igualmente */
+    .ChatClienteVisaoEquipe-cabecalho-conteudo {
+        flex-wrap: wrap;
+    }
+
+    .ChatClienteVisaoEquipe-cabecalho-acoes {
+        order: -1;
+        flex: 1 1 100%;
+        margin-left: 0;
+        flex-wrap: nowrap;
+    }
+
+    .ChatClienteVisaoEquipe-cabecalho-acoes > .crc-envio-msg-modal-wtsapp,
+    .ChatClienteVisaoEquipe-cabecalho-acoes > .crc-envio-msg-modal-sms {
+        flex: 1 1 0;
+    }
+
+    .ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-wtsapp__botao,
+    .ChatClienteVisaoEquipe-cabecalho-acoes .crc-envio-msg-modal-sms__botao {
+        width: 100%;
+        justify-content: center;
     }
 }
 

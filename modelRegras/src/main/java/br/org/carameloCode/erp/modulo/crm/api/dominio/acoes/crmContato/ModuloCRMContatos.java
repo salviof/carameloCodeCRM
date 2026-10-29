@@ -12,6 +12,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.implemetation.model.contatoprospecto.ValorLogicoContatoProspectoUsuarioVinculado;
+import br.org.carameloCode.erp.modulo.crm.util.UtilCRMExclusaoRegistros;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
@@ -22,6 +23,8 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -34,34 +37,27 @@ public class ModuloCRMContatos extends ControllerAbstratoSBPersistencia {
     @InfoAcaoCRMAtendimento(acao = FabAcaoCRMAtendimento.CONTATO_CTR_REMOVER)
     public static ItfRespostaAcaoDoSistema contatoRemover(ContatoProspecto pContato) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pContato), pContato) {
-            @Override
-            public void executarAcoesIniciais() throws ErroEmBancoDeDados {
-                super.executarAcoesIniciais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-            }
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 ContatoProspecto contato = loadEntidade(pContato);
-                boolean permissao = false;
-                if (pContato.getProspecto().getContatoPrincipal().equals(pContato)) {
+                Pessoa pessoa = loadEntidade(contato.getProspecto());
+                Long idContato = contato.getId();
+                ContatoProspecto contatoPrincipal = pessoa.getContatoPrincipal();
+                if (contatoPrincipal != null && idContato.equals(contatoPrincipal.getId())) {
                     throw new ErroRegraDeNegocio("o contato principal não pode ser removido");
                 }
-                Pessoa pessoa = loadEntidade(pContato.getProspecto());
                 if (SBCore.isEmModoProducao()) {
+                    boolean permissao = false;
                     try {
                         permissao = pessoa.getCPinst("atendenteLogadoResponsavelPrincipal").getValorComoBoolean();
-                        //pessoa.getContatosProspecto().remove(contato);
-                        if (!permissao) {
-                            throw new ErroRegraDeNegocio("Sem permissão para exclusão");
-                        }
                     } catch (Throwable t) {
-
+                        permissao = false;
+                    }
+                    if (!permissao) {
+                        throw new ErroRegraDeNegocio("Sem permissão para exclusão");
                     }
                 }
-
-                //removerEntidade(contato.getUsuarioVinculado());
-                // removerEntidade(contato);
-                UtilSBPersistencia.executaSQL(getEMResposta(), "delete from envioDocumento_contatos where contatos_id = " + pContato.getId());
 
                 UsuarioCrmCliente usuarioVinculado = contato.getUsuarioVinculado();
                 if (usuarioVinculado == null) {
@@ -70,21 +66,19 @@ public class ModuloCRMContatos extends ControllerAbstratoSBPersistencia {
                         usuarioVinculado = usuarios.get(0);
                     }
                 }
-
-                if (usuarioVinculado != null) {
-                    if (pessoa.getContatoPrincipal().getUsuarioVinculado() != null) {
-                        UtilSBPersistencia.executaSQL(getEMResposta(), "update ChamadoCliente set usuarioCliente_id = " + pessoa.getContatoPrincipal().getUsuarioVinculado().getId() + " where usuarioCliente_id =" + usuarioVinculado.getId());
-                    } else {
-                        UtilSBPersistencia.executaSQL(getEMResposta(), "delete ChamadoCliente  where usuarioCliente_id =" + usuarioVinculado.getId());
-                    }
-                    UtilSBPersistencia.executaSQL(getEMResposta(), "update ContatoProspecto set usuarioVinculado_id = null where usuarioVinculado_id =" + usuarioVinculado.getId());
-                    UtilSBPersistencia.executaSQL(getEMResposta(), "delete from UsuarioSB where id = " + usuarioVinculado.getId());
-
+                Long idUsuario = usuarioVinculado == null ? null : usuarioVinculado.getId();
+                if (idUsuario != null && SBCore.getUsuarioLogado() != null && idUsuario.equals(SBCore.getUsuarioLogado().getId())) {
+                    throw new ErroRegraDeNegocio("O contato está vinculado ao usuário logado");
                 }
 
-                UtilSBPersistencia.executaSQL(getEMResposta(), "delete from ContatoProspecto where id = " + pContato.getId());
-                //atualizarEntidade(pessoa);
-
+                UtilCRMExclusaoRegistros.ExecutorSQL sql = UtilCRMExclusaoRegistros.getExecutor(getEMResposta());
+                if (idUsuario != null) {
+                    UtilCRMExclusaoRegistros.desvincularUsuarioCliente(sql, idUsuario, Collections.singletonList(idContato));
+                }
+                // Histórico (atividades, e-mails, mensagens...) permanece sem o contato; associações são removidas
+                LinkedHashMap<String, List<Long>> exclusoes = new LinkedHashMap<>();
+                exclusoes.put("ContatoProspecto", Collections.singletonList(idContato));
+                UtilCRMExclusaoRegistros.excluirRegistros(sql, exclusoes);
             }
         }.getResposta();
     }

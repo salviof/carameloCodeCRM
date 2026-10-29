@@ -36,9 +36,15 @@
         </h:form>
         <h:panelGroup layout="block" styleClass="Container12" id="areaEdicaoEmail" style="height: auto;">
             <h:panelGroup layout="block" styleClass="Container12" >
-                <h:form>
-                    <CRCCRMIA:iaInlineEditoraAtividadeEmailVinculado areaAtualizacao="areaEdicaoEmail" />
-                </h:form>
+
+                <p:accordionPanel widgetVar="basic"  activeIndex="-1" >
+                    <p:tab title="Editar com IA"  >
+                        <h:form>
+                            <CRCCRMIA:iaInlineEditoraAtividadeEmailVinculado areaAtualizacao="areaEdicaoEmail" />
+                        </h:form>
+                    </p:tab>
+                </p:accordionPanel>
+
                 <p:fieldset id="conteudoEmail" styleClass="Container12 conteudoEmail " rendered="#{pgExecutarAtividade.atividade.emailVinculado!=null}" style="height: 600px;" >
                     <h:form style="height: 100%;">
 

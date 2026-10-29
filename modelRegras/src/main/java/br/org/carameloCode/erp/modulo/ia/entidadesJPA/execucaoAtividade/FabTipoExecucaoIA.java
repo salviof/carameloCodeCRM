@@ -38,6 +38,7 @@ public enum FabTipoExecucaoIA implements ComoFabricaExecucaoIA {
                 tipo.setDescricao("E-mail de comunicação operacional com o cliente (confirmação, aviso, lembrete), direto e sem apelo comercial.");
                 tipo.setStructuredOutputConfig(UtilCRCIAJson.formato(
                         UtilCRCIAJson.texto("assunto"), UtilCRCIAJson.texto("preheader"), UtilCRCIAJson.texto("corpoHtml"), UtilCRCIAJson.texto("corpoTexto")));
+                tipo.setHabilitarPLaceHolders(true);
                 break;
             case EMAIL_MARKETING:
                 tipo.setInstrucaoPrincipal("Assunto :\n"
@@ -59,6 +60,7 @@ public enum FabTipoExecucaoIA implements ComoFabricaExecucaoIA {
                 tipo.setStructuredOutputConfig(UtilCRCIAJson.formato(
                         UtilCRCIAJson.texto("assunto"), UtilCRCIAJson.texto("preheader"), UtilCRCIAJson.texto("corpoHtml"), UtilCRCIAJson.texto("corpoTexto"),
                         UtilCRCIAJson.texto("chamadaParaAcao")));
+                tipo.setHabilitarPLaceHolders(true);
                 break;
             case ESTRATEGIA_MARKETING:
                 tipo.setDescricao("Plano de marketing com objetivos, público, canais, ações e indicadores.");
@@ -73,6 +75,7 @@ public enum FabTipoExecucaoIA implements ComoFabricaExecucaoIA {
                         UtilCRCIAJson.texto("resumo"), UtilCRCIAJson.listaTexto("pontosFortes"), UtilCRCIAJson.listaTexto("pontosFracos"),
                         UtilCRCIAJson.listaTexto("oportunidades"), UtilCRCIAJson.listaTexto("ameacas"), UtilCRCIAJson.listaTexto("diferenciais"),
                         UtilCRCIAJson.listaTexto("recomendacoes")));
+                tipo.setHabilitarPLaceHolders(true);
                 break;
             case EXECUCAO_ATIVIDADE:
                 tipo.setDescricao("Apoio para execução de atividades");
@@ -82,6 +85,7 @@ public enum FabTipoExecucaoIA implements ComoFabricaExecucaoIA {
                         UtilCRCIAJson.texto("corpoHtml"),
                         UtilCRCIAJson.texto("corpoTexto")
                 ));
+                tipo.setHabilitarPLaceHolders(false);
                 break;
             default:
                 throw new AssertionError(this.name());

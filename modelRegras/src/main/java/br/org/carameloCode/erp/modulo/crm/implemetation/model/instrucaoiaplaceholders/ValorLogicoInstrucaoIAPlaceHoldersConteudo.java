@@ -21,7 +21,10 @@ public class ValorLogicoInstrucaoIAPlaceHoldersConteudo
 
         if (!isCacheAtivado()) {
             StringBuilder conteudo = new StringBuilder();
-            conteudo.append("Utilize SOMENTE ESSES  placeholders para acessar dados do usuário, não utilize fisrtname direto, os placeholders que acessam os dados do contato são apenas esses, e serão traduzidos ao enviar para a api, eles vão ser traduzidos, para outras plataformas, e precisam ser gerados desta forma  que iniciam com [contatoPrincipal.] são referente ao contato, [dados.] são dados extras , e direto como [nome] são referente a empresa");
+            conteudo.append("Utilize SOMENTE ESSES  placeholders para referir aos dados do usuário do modelo, não utilize fisrtname direto,"
+                    + " os placeholders que acessam os dados do contato são apenas esses,"
+                    + " e serão transcripts ao serem enviados via api do mautic ou outras plataformas"
+                    + " [contatoPrincipal.] são referente ao contato, [dados.] são dados extras , e direto como [nome] são referente ao nome da empresa cliente");
             UtilMauticSinc.getPlaceHolders().getpalavrasChave().stream().
                     map(cont -> "," + cont).
                     forEach(conteudo::append);

@@ -1,6 +1,7 @@
 package br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade;
 
 import br.org.carameloCode.erp.modulo.crm.api.ERPCrm;
+import br.org.carameloCode.erp.modulo.crm.api.model.atividadecrm.CPAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.api.model.mensagemmktwhatsapp.CPMensagemMktWhatsapp;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoAtividade.TipoAtividadeCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.Atividade.tipoBloqueio.FabTipoBloqueio;
@@ -554,7 +555,13 @@ public class AtividadeCRM extends EntidadeORMNormal implements ItfAtividadeProgr
     }
 
     public String getTipoBloqueioTexto() {
-        return getTipoBloqueio().gerarMensagemPorTipo(this);
+
+        if (tipoBloqueio == null) {
+            return ((FabTipoBloqueio) getCPinst(CPAtividadeCRM.tipobloqueio).getValor()).gerarMensagemPorTipo(this);
+        } else {
+            return tipoBloqueio.gerarMensagemPorTipo(this);
+        }
+
     }
 
     public List<ItfAcaoFormulario> getEtapasRestantes() {
@@ -695,15 +702,17 @@ public class AtividadeCRM extends EntidadeORMNormal implements ItfAtividadeProgr
         return (EnvioEmailAtividade) emailVinculado;
 
     }
+
     public AtividadeCrmLigacaoRealizada getComoChamadaRealizada() {
         return (AtividadeCrmLigacaoRealizada) this;
     }
+
     public AtividadeCrmLigacaoRecebida getComoChamadaRecebida() {
         return (AtividadeCrmLigacaoRecebida) this;
     }
 
     public boolean isUmaAtividadeVoip() {
-        if(this instanceof AtividadeCrmLigacaoRealizada || this instanceof AtividadeCrmLigacaoRecebida){
+        if (this instanceof AtividadeCrmLigacaoRealizada || this instanceof AtividadeCrmLigacaoRecebida) {
             return true;
         }
         return false;

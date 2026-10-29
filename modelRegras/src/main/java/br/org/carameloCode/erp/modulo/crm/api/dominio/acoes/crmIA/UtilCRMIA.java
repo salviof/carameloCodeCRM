@@ -14,10 +14,12 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspect
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.TipoRelacionamento;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.relacionamento.etapaFunil.MetaRelacionamento;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.instrucao.InstrucaoIA;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import java.util.ArrayList;
 import java.util.List;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  * Instruções de IA dinâmicas (nunca persistidas), geradas a partir dos dados do
@@ -37,6 +39,22 @@ public class UtilCRMIA {
         }
     }
 
+    private static void adicionarDado(StringBuilder pTexto, DadoCRM pDado) {
+
+        ItfCampoInstanciado campo = pDado.getCampoInstanciado();
+        String titulo = campo.getLabel();
+        try {
+            String valor = campo.getValorTextoFormatado();
+            if (!temTexto(titulo) || !temTexto(valor)) {
+                return;
+            }
+            adicionarLinha(pTexto, titulo, valor);
+        } catch (Throwable t) {
+            CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha adicionando dado dinamico: " + titulo, t);
+
+        }
+    }
+
     private static void adicionarDados(StringBuilder pTexto, String pTitulo, List<DadoCRM> pDados) {
         if (pDados == null || pDados.isEmpty()) {
             return;
@@ -46,13 +64,8 @@ public class UtilCRMIA {
             if (dado == null || dado.getCampoInstanciado() == null) {
                 continue;
             }
-            ItfCampoInstanciado campo = dado.getCampoInstanciado();
-            String titulo = campo.getLabel();
-            String valor = campo.getValorTextoFormatado();
-            if (!temTexto(titulo) || !temTexto(valor)) {
-                continue;
-            }
-            adicionarLinha(dados, titulo, valor);
+            adicionarDado(pTexto, dado);
+
         }
         if (dados.length() > 0) {
             pTexto.append("\n").append(pTitulo).append(":\n\n").append(dados);
@@ -74,7 +87,7 @@ public class UtilCRMIA {
      * Tipo de atividade, dados coletados durante a atividade e, quando houver,
      * o modelo de e-mail que originou a atividade.
      */
-    public static List<InstrucaoIA> getListaInstrucaoIAAtividade(AtividadeCRM pAtividade) {
+    public static List<InstrucaoIA> getListaInstrucaoIAAtividadeCRM(AtividadeCRM pAtividade) {
         List<InstrucaoIA> instrucoes = new ArrayList<>();
         if (pAtividade == null) {
             return instrucoes;
@@ -107,15 +120,13 @@ public class UtilCRMIA {
                 textoEmail.append("\nTexto do modelo:\n\n").append(modeloEmail.getTextoModelo().trim()).append("\n");
             }
             adicionarInstrucao(instrucoes, "Modelo de e-mail da atividade", textoEmail);
+
         }
         return instrucoes;
     }
 
-    /**
-     * Detalhes sobre o cliente: relacionamento atual com a empresa, estágio
-     * (meta) em que se encontra e dados coletados.
-     */
-    public static List<InstrucaoIA> getListaInstrucaoPessoa(Pessoa pPessoa) {
+    public static List<InstrucaoIA> getListaInstrucaoPessoaDadosBasicos(Pessoa pPessoa) {
+
         List<InstrucaoIA> instrucoes = new ArrayList<>();
         if (pPessoa == null) {
             return instrucoes;
@@ -135,8 +146,21 @@ public class UtilCRMIA {
                 adicionarLinha(textoCliente, "Descrição do estágio", meta.getDescricaoEtapaVisaoPrestador());
             }
         }
-        adicionarDados(textoCliente, "Dados coletados do cliente", pPessoa.getDadosColetados());
-        adicionarInstrucao(instrucoes, "Detalhes sobre o cliente", textoCliente);
+        adicionarLinha(textoCliente, "Atendente Novos contratos", pPessoa.getUsuarioResponsavel() == null ? "Não definido" : pPessoa.getUsuarioResponsavel().getNome());
+        adicionarLinha(textoCliente, "Atendente gestão de projetos do cliente", pPessoa.getUsuarioAtendimento() == null ? "Não definido" : pPessoa.getUsuarioAtendimento().getNome());
+        adicionarInstrucao(instrucoes, "Dados básicos do cliente", textoCliente);
+        return instrucoes;
+    }
+
+    /**
+     * Detalhes sobre o cliente: relacionamento atual com a empresa, estágio
+     * (meta) em que se encontra e dados coletados.
+     */
+    public static List<InstrucaoIA> getListaInstrucaoPessoaTodosDados(Pessoa pPessoa) {
+        List<InstrucaoIA> instrucoes = getListaInstrucaoPessoaDadosBasicos(pPessoa);
+        StringBuilder stringb = new StringBuilder();
+        adicionarDados(stringb, "Dados coletados do cliente", pPessoa.getDadosColetados());
+        adicionarInstrucao(instrucoes, "Detalhes sobre o cliente", stringb);
         return instrucoes;
     }
 

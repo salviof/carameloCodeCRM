@@ -1,0 +1,84 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    >
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="contato"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto" required="true"/>
+        <cc:attribute name="mensagem" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS" />
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet name="envioMsgModalSMS.css" library="crmContato"/>
+        <h:panelGroup layout="block" styleClass="crc-envio-msg-modal-sms" rendered="#{not empty cc.attrs.mensagem}">
+            <!-- BOTAO QUE ABRE O MODAL -->
+            <button type="button"
+                    class="crc-envio-msg-modal-sms__botao"
+                    title="Enviar SMS para #{cc.attrs.contato.nome}"
+                    onclick="PF('dlgEnvioSMS_#{cc.clientId.replaceAll(':', '_')}').show(); return false;">
+                <i class="fa-solid fa-comment-sms crc-envio-msg-modal-sms__botao-icone"></i>
+                <span class="crc-envio-msg-modal-sms__botao-texto">Enviar SMS</span>
+            </button>
+            <!-- MODAL DE ENVIO DE SMS -->
+            <p:dialog widgetVar="dlgEnvioSMS_#{cc.clientId.replaceAll(':', '_')}"
+                      header="Enviar SMS"
+                      modal="true"
+                      appendTo="@(body)"
+                      responsive="true"
+                      resizable="false"
+                      draggable="false"
+                      closeOnEscape="true"
+                      fitViewport="true"
+                      styleClass="crc-envio-msg-modal-sms__dialogo">
+                <h:form id="formEnvioMsgModalSMS">
+                    <p:outputPanel id="painelSMS" layout="block" styleClass="crc-envio-msg-modal-sms__painel">
+
+                        <!-- DESTINATARIO -->
+                        <div class="crc-envio-msg-modal-sms__contato">
+                            <div class="crc-envio-msg-modal-sms__avatar">
+                                #{cc.attrs.contato.nome.substring(0, 1)}
+                            </div>
+                            <div class="crc-envio-msg-modal-sms__contato-dados">
+                                <span class="crc-envio-msg-modal-sms__contato-nome">#{cc.attrs.contato.nome}</span>
+                                <span class="crc-envio-msg-modal-sms__contato-celular">
+                                    <i class="pi pi-phone"></i> #{cc.attrs.contato.celular}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- TEXTO (MAXIMO 160 CARACTERES) -->
+                        <div class="crc-envio-msg-modal-sms__campo">
+                            <label class="crc-envio-msg-modal-sms__label">Mensagem</label>
+                            <p:inputTextarea value="#{cc.attrs.mensagem.texto}"
+                                             rows="5"
+                                             maxlength="160"
+                                             autoResize="false"
+                                             counter="contadorSMS"
+                                             counterTemplate="{0} caracteres restantes"
+                                             placeholder="Digite a mensagem do SMS"
+                                             styleClass="crc-envio-msg-modal-sms__texto" />
+                            <h:outputText id="contadorSMS" styleClass="crc-envio-msg-modal-sms__contador" />
+                        </div>
+                        <!-- ENVIO -->
+                        <div class="crc-envio-msg-modal-sms__botoes">
+                            <SBBotaoDeAcao:botaoDeAcao
+                                metodo="#{servicoCRMContato.enviarMensagemSMS(cc.attrs.mensagem)}"
+                                armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                acao="#{acoesAtendimentoCrm_MeusContatosMbGestao.meusContatosCtrSmsEnviar}"
+                                update="@form"
+                                label="Enviar SMS"
+                                />
+                        </div>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

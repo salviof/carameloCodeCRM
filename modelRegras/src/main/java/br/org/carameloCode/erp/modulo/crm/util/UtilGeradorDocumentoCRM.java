@@ -152,7 +152,7 @@ public class UtilGeradorDocumentoCRM {
 
     public static String gerarDocumentoPastaTemporaria(Pessoa pProspecto, ModeloDocumentoCRM pModelo, String pArquivoTemporario) {
         //Local do modelo
-        String arqquivoModelo = SBCore.getCentralDeArquivos().getEndrLocalArquivoCampoInstanciado(pModelo.getCampoInstanciadoByNomeOuAnotacao("documento"));
+        String arqquivoModelo = SBCore.getServicoArquivosDeEntidade().getEndrLocalArquivoCampoInstanciado(pModelo.getCampoInstanciadoByNomeOuAnotacao("documento"));
         //nome do Arquivo
 
         //Local Temporário arquivo para Edição

@@ -12,6 +12,8 @@
     xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
+    <CRM:menuProspecto pessoaJuridica="#{pgExecutarAtividade.prospecto}" />
+
     <h:panelGroup layout="block" style="margin-top: 0.5%;" id="idSBLayotAreaAcaoSelecionada" styleClass="Container12 OrganizadorContainer"  >
 
         <CRMAtividade:atividadesDisponiveisDesktop pessoa="#{pgExecutarAtividade.prospecto}" rendered="#{!sessaoAtualSBWP.telaUsuario.umMobile}"/>
@@ -19,4 +21,6 @@
         <CRMAtividade:atividadesDisponiveisMobile pessoa="#{pgExecutarAtividade.prospecto}" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}"/>
 
     </h:panelGroup>
+    <p:separator />
+
 </ui:composition>

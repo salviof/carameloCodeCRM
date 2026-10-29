@@ -385,6 +385,7 @@ public class Pessoa extends EntidadeContato implements ComoEntidadeVinculadoChat
 
     @OneToMany(mappedBy = "prospectoEmpresa", targetEntity = AtividadeCRM.class)
     @Where(clause = "statusAtividade_id =  " + FabStatusAtividade.idEmAndamento + " and tipoEntidade='AtividadeCRM'")
+    @OrderBy("dataHoraInicioAtividade ASC")
     private List<AtividadeCRM> atividadesEmAndamento;
 
     @OneToMany(mappedBy = "pessoaRelacionada", targetEntity = ReservaHorarioCRM.class)

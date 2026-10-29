@@ -55,6 +55,7 @@ import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.ch
 import com.super_bits.Casa_Nova.Intranet_Marketing_Digital.regras_de_negocio_e_controller.intranetMarketingDigital.controller.ServicoNotificacao;
 import static com.super_bits.Casa_Nova.Intranet_Marketing_Digital.integracoes.chat.UtilCRMChat.gerarListasUsuariosAtendTimeIntranet;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringBuscaTrecho;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import org.apache.commons.compress.utils.Lists;
 
@@ -123,6 +124,9 @@ public class ModuloCRMAtendimentoChamado extends ControllerAbstratoSBPersistenci
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 ChamadoCliente chamado = loadEntidade(pChamado);
+                if (UtilCRCStringValidador.isNuloOuEmbranco(chamado.getPessoa().getDocumento())) {
+                    throw new ErroRegraDeNegocio("O serviço de chamado precisa do documento da empresa");
+                }
                 if (chamado.getUsuarioCliente() == null) {
                     throw new ErroRegraDeNegocio("O cliente responsável  não foi definido");
                 }

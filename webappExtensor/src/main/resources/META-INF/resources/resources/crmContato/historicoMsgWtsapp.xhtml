@@ -1,0 +1,57 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="contato"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto" required="true"/>
+
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet name="whatsapp.css" library="crmContato"/>
+        <h:panelGroup layout="block" styleClass="Container5" >
+            <!-- =======================================
+                         LADO DIREITO - HISTORICO
+                    ======================================== -->
+            <div class="history-container">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="pi pi-history"></i> Histórico de Mensagens
+                    </div>
+                    <div class="card-body">
+                        <div class="history-list">
+                            <c:choose>
+                                <c:when test="#{not empty pgMeusContatos.mensagemSMS.contato.mensagens}">
+                                    <c:forEach items="#{pgMeusContatos.mensagemSMS.contato.mensagens}" var="msg">
+                                        <div class="history-item">
+                                            <div class="message-info">
+                                                <span class="message-type">#{msg.tipo.nome}</span>
+                                            </div>
+                                            <div class="message-time">
+                                                <i class="pi pi-clock"></i> #{pgUtilDataHoraFormato.getDataHoraSimplificado(msg.dataHora)}
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="empty-history">
+                                        <i class="pi pi-inbox"></i>
+                                        <p>Nenhuma mensagem enviada ainda</p>
+                                        <p class="small-text">As mensagens enviadas aparecerão aqui</p>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

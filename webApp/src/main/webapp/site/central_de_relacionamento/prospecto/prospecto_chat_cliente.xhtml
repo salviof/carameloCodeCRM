@@ -3,8 +3,10 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:SBComp="http://xmlns.jcp.org/jsf/composite/SBComp"
     xmlns:RC="http://xmlns.jcp.org/jsf/composite/rocketChat"
+    xmlns:ctoContato="http://xmlns.jcp.org/jsf/composite/crmContato"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="modeloEdicaoProspecto.xhtml" >
+    template="modeloEdicaoProspecto.xhtml"
+    xmlns:p="http://primefaces.org/ui">
     <ui:define name="conteudo">
 
         <h:outputStylesheet name="opcoes_do_prospecto.css" library="crmPessoa" />
@@ -58,6 +60,18 @@
                             <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                             Conversa com o cliente &#8212; tudo que voce escrever aqui chega a ele
                         </span>
+                    </h:panelGroup>
+
+                    <!-- ACOES DE ENVIO PARA O CONTATO PRINCIPAL: WhatsApp Marketing e SMS (abrem em modal).
+                         Canto superior direito do card de informacoes. -->
+                    <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-acoes"
+                                  rendered="#{not empty pgProspecto.entidadeSelecionada.contatoPrincipal}" >
+
+                        <ctoContato:envioMsgModalWtsapp :envioMsgModalWtsapp contato="#{pgProspecto.entidadeSelecionada.contatoPrincipal}" mensagem="#{pgProspecto.mensagemWhatsapp}" />
+                        <ctoContato:envioMsgModalSMS
+                            contato="#{pgProspecto.entidadeSelecionada.contatoPrincipal}"
+                            mensagem="#{pgProspecto.mensagemSMS}" />
+
                     </h:panelGroup>
 
                 </h:panelGroup>

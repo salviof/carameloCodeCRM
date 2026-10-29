@@ -147,10 +147,8 @@ public class ModuloCRM_IA extends ControllerAbstratoSBPersistencia {
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }
-        if (statusEmail != null && pDialogo.getNovaMensagem() != null && !pDialogo.getNovaMensagem().contains("Execute este pedido: [")) {
-            String mensagemComStatusAtual = "Execute este pedido: [" + pDialogo.getNovaMensagem() + "] sabendo que  o status atual deste email é: " + statusEmail;
-            pDialogo.setNovaMensagem(mensagemComStatusAtual);
-        }
+        //o status vai no rodapé do diálogo, e não na novaMensagem, para não repetir no histórico a cada pedido
+        pDialogo.setComentarioRodaPeDialogo(statusEmail == null ? null : "O status atual deste email é: " + statusEmail);
         ItfRespostaAcaoDoSistema respostaConsultaIA = ModuloExecucaoAcao.executarDialogo(pDialogo);
 
         if (!respostaConsultaIA.isSucesso()) {
@@ -182,6 +180,7 @@ public class ModuloCRM_IA extends ControllerAbstratoSBPersistencia {
                 }
                 atualizarEntidade(email);
                 //retorna a execução atualizada (diálogo com a resposta da IA e tokens)
+                execucao.setNovaMensagem(null);
                 setRetorno(execucao);
             }
         }.getResposta();

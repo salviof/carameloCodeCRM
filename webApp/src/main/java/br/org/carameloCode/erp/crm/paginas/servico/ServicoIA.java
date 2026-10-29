@@ -3,6 +3,7 @@ package br.org.carameloCode.erp.crm.paginas.servico;
 import br.org.carameloCode.erp.modulo.crm.api.model.execucaoia.CPExecucaoIA;
 import br.org.carameloCode.erp.modulo.ia.controller.ModuloExecucaoAcao;
 import br.org.carameloCode.erp.modulo.ia.entidadesJPA.execucao.ExecucaoIA;
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -74,7 +75,10 @@ public class ServicoIA implements Serializable {
         novaConsulta.addcondicaoCampoIgualA(CPExecucaoIA.entidadealvonome, nomeEntidade);
         novaConsulta.addcondicaoCampoIgualA(CPExecucaoIA.entidadealvocodigo, entidadeSelecionade.getId().toString());
         dialogoIA = novaConsulta.getPrimeiroRegistro();
-
+        if (dialogoIA != null) {
+            dialogoIA.getInstrucoes().size();
+            dialogoIA.getPersona().getInstrucoesCompartilhadas().size();
+        }
         return dialogoIA;
     }
 
@@ -97,24 +101,25 @@ public class ServicoIA implements Serializable {
      * entidade em edição sem gravar (recarregar descartaria a alteração)
      */
     public void atualizarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoAtualizar, boolean pRecarregarEntidade) {
-        ModuloExecucaoAcao.executarDialogo(dialogoIA);
 
-        ItfRespostaAcaoDoSistema resposta = null;
         ComoEntidadeSimples entidadeSelecionade = ((ComoEntidadeSimples) paginaAtual.getInfoPagina().getComoPaginaEntidade().getEntidadeSelecionada());
         //instância em edição, usada pelas ações transitórias
         dialogoIA.setEntidadeVinculada(entidadeSelecionade);
         try {
-            resposta = CarameloCode.getServicoController().getResposta(pAcaoAtualizar.getEnumAcaoDoSistema(), dialogoIA);
+            ItfRespostaAcaoDoSistema resposta = CarameloCode.getServicoController().getResposta(pAcaoAtualizar.getEnumAcaoDoSistema(), dialogoIA);
             if (resposta.isSucesso() && pRecarregarEntidade) {
                 paginaAtual.getInfoPagina().getComoPaginaEntidade().atualizarEntidadeSelecionada();
+                dialogoIA = UtilSBPersistencia.loadEntidade(dialogoIA, paginaAtual.getInfoPagina().getComoPaginaComEntityManager().getEMPagina());
+                dialogoIA.getInstrucoes().size();
+            }
+            if (!resposta.isSucesso()) {
+                resposta.dispararMensagens();
             }
         } catch (ErroChamadaController ex) {
             CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Impossível iniciar a execução de " + pAcaoAtualizar.getNomeAcao());
             return;
         }
-        if (!resposta.isSucesso()) {
-            resposta.dispararMensagens();
-        }
+
     }
 
     public void criarDialogoIAParaEntidade(ComoAcaoDoSistema pAcaoCriarDialogo) {
@@ -143,6 +148,9 @@ public class ServicoIA implements Serializable {
 
         if (!resposta.isSucesso()) {
             resposta.dispararMensagens();
+        }
+        if (dialogoIA != null) {
+            dialogoIA = UtilSBPersistencia.loadEntidade(dialogoIA, paginaAtual.getInfoPagina().getComoPaginaComEntityManager().getEMPagina());
         }
 
     }

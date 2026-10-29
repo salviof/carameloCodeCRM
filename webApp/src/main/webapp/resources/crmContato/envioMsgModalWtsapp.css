@@ -1,0 +1,66 @@
+/* === crc-envio-msg-modal-wtsapp === */
+.crc-envio-msg-modal-wtsapp {
+    display: inline-block;
+}
+
+/* botão que abre o modal */
+.crc-envio-msg-modal-wtsapp__botao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid #25D366;
+    border-radius: 22px;
+    background: #25D366;
+    color: #ffffff;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.crc-envio-msg-modal-wtsapp__botao:hover,
+.crc-envio-msg-modal-wtsapp__botao:focus {
+    background: #128C7E;
+    border-color: #128C7E;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    outline: none;
+}
+
+.crc-envio-msg-modal-wtsapp__botao:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+.crc-envio-msg-modal-wtsapp__botao-icone {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* modal (é anexado ao body, por isso o escopo é a classe do próprio diálogo) */
+.crc-envio-msg-modal-wtsapp__dialogo.ui-dialog {
+    width: 720px;
+    max-width: 95vw;
+}
+
+.crc-envio-msg-modal-wtsapp__dialogo .ui-dialog-titlebar {
+    background: #075E54;
+    color: #ffffff;
+}
+
+.crc-envio-msg-modal-wtsapp__dialogo .ui-dialog-titlebar .ui-dialog-title {
+    color: #ffffff;
+}
+
+.crc-envio-msg-modal-wtsapp__dialogo .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+    color: #ffffff;
+}
+
+.crc-envio-msg-modal-wtsapp__dialogo .ui-dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+}

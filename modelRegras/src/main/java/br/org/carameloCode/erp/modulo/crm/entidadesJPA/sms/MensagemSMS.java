@@ -12,6 +12,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -27,6 +29,7 @@ public class MensagemSMS extends EntidadeSimplesORM {
 
     @Id
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, valorMaximo = 160, valorMinimo = 3)
     private String texto;

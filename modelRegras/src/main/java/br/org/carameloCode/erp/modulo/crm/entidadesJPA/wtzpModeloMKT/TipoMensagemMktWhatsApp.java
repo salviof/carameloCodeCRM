@@ -46,6 +46,10 @@ public class TipoMensagemMktWhatsApp extends EntidadeSimplesORM {
     @OrderBy("codigoParametro ASC")
     private List<ParametroMensagemWtzap> parametros;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean ativo = true;
+
     @InfoCampo(tipo = FabTipoAtributoObjeto.URL)
     private String urlMensagemPreview;
 
@@ -104,6 +108,14 @@ public class TipoMensagemMktWhatsApp extends EntidadeSimplesORM {
 
     public void setUrlMensagemPreview(String urlMensagemPreview) {
         this.urlMensagemPreview = urlMensagemPreview;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
 }

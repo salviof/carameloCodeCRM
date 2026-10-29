@@ -20,6 +20,7 @@
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <h:panelGroup layout="block" styleClass="crc-menu-prospecto">
 
 
 
@@ -60,6 +61,9 @@
                    rendered="#{cc.attrs.pessoaJuridica!=null}"
                    styleClass="sidebarProspecto"
                    showCloseIcon="true" style="background-color: #ffffff; width: 300px;" baseZIndex="999999999">
+            <!-- Ações rápidas no topo do sidebar, acima do nome da empresa -->
+            <crmPessoa:acaoRapidaProspectoMin pessoa="#{cc.attrs.pessoaJuridica}" />
+
             <p:link href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}"
                     styleClass="cabecalhoProspecto" title="#{cc.attrs.pessoaJuridica.nome}" >
 
@@ -75,21 +79,29 @@
                     </ui:fragment>
                 </span>
 
-                <h3 class="cabecalhoProspectoNome">
-                    #{cc.attrs.pessoaJuridica.nome}
-                </h3>
+                <!-- Nome da empresa + indicação de que o cabeçalho é clicável -->
+                <span class="cabecalhoProspectoTextos">
+                    <h3 class="cabecalhoProspectoNome">
+                        #{cc.attrs.pessoaJuridica.nome}
+                    </h3>
+                    <span class="cabecalhoProspectoVerDetalhes">
+                        Ver detalhes <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </span>
             </p:link>
 
              <p:fieldset styleClass="fieldsetAcoesProspecto" >
 
                 <div class="gradeAcoesProspecto">
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmOpcoesDoProspecto,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoDetalhes" role="button" title="Detalhes" >
-                        <i class="fa fa-id-card-o botaoAcaoProspectoIcone"></i>
-                        <span class="botaoAcaoProspectoTexto">Detalhes</span>
+                    <!-- Chat de debate interno da equipe -->
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatEquipe,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoChatEquipe" role="button" title="Chat interno da equipe" >
+                        <i class="fa-solid fa-people-group botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Chat equipe</span>
                     </a>
-                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoChat" role="button" title="Chat" >
-                        <i class="fa fa-comments botaoAcaoProspectoIcone"></i>
-                        <span class="botaoAcaoProspectoTexto">Chat</span>
+                    <!-- Chat com o WhatsApp do cliente -->
+                    <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmChatCliente,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoChat" role="button" title="Chat com o cliente" >
+                        <i class="fa-brands fa-whatsapp botaoAcaoProspectoIcone"></i>
+                        <span class="botaoAcaoProspectoTexto">Chat cliente</span>
                     </a>
                     <a href="#{infoWebApp.getUrlDaAcao(acoesAtendimentoCrm_ProspectoMbGerenciar.prospectoFrmArquivos,cc.attrs.pessoaJuridica)}" class="botaoAcaoProspecto botaoAcaoProspectoArquivos" role="button" title="Arquivos" >
                         <i class="fa fa-files-o botaoAcaoProspectoIcone"></i>
@@ -101,13 +113,20 @@
                     </a>
                 </div>
 
-            <crmPessoa:acaoRapidaProspectoMin pessoa="#{cc.attrs.pessoaJuridica}" />
             </p:fieldset>
             <p:tabView styleClass="abasProspecto" >
             <p:tab title="Arquivo" >
                 <crmPessoa:menuPessoaAcoesDisponiveis pessoa="#{cc.attrs.pessoaJuridica}" />
             </p:tab>
             <p:tab title="Atividades" >
+                <!-- Título da aba com badge da quantidade de atividades em aberto -->
+                <f:facet name="title">
+                    <span class="crc-menu-prospecto__aba-titulo">Atividades</span>
+                    <h:outputText value="#{cc.attrs.pessoaJuridica.atividadesEmAndamento.size()}"
+                                  styleClass="crc-menu-prospecto__badge-atividades"
+                                  title="Atividades em aberto"
+                                  rendered="#{not empty cc.attrs.pessoaJuridica.atividadesEmAndamento}" />
+                </f:facet>
                 <h:form styleClass="conteudoAbaProspecto" rendered="#{!cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}" >
                 <h:panelGroup layout="block" styleClass="conteudoAbaProspecto" >
                     <p:selectOneListbox id="selecaoAtividadePessoa" value="#{servicosCRM.tipoAtividadeSelecionada}" converter="conversorGenerico"
@@ -132,20 +151,26 @@
                    </h:panelGroup>
                 </h:form>
 
-                <h:panelGroup styleClass="Container12 " rendered="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}">
-
-                <crm:botaoEditarAtividade  atividade="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor}"/>
-            </h:panelGroup>
+                <!-- Todas as atividades em aberto, com rolagem para comportar vários botões -->
+                <h:panelGroup layout="block" styleClass="Container12 crc-menu-prospecto__lista-atividades" rendered="#{cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('possuiAtividadesEmAndamento').valor}">
+                    <ui:repeat value="#{cc.attrs.pessoaJuridica.atividadesEmAndamento}" var="atividadeEmAberto">
+                        <!-- Destaca a última atividade em andamento -->
+                        <h:panelGroup layout="block" styleClass="crc-menu-prospecto__item-atividade #{atividadeEmAberto.id eq cc.attrs.pessoaJuridica.getCampoInstanciadoByNomeOuAnotacao('ultimaAtividadeEmAndamento').valor.id ? 'crc-menu-prospecto__item-atividade--ultima' : ''}">
+                            <crm:botaoEditarAtividade atividade="#{atividadeEmAberto}"/>
+                        </h:panelGroup>
+                    </ui:repeat>
+                </h:panelGroup>
             </p:tab>
 
             </p:tabView>
 
-            
+
             <p:blockUI block="@parent"
                        widgetVar="empresablkcmd#{cc.attrs.pessoaJuridica.id}"
                        >
                 <i class=" fa fa-spinner fa-spin fa-5x fa-fw"></i>
             </p:blockUI>
         </p:sidebar>
+        </h:panelGroup>
     </cc:implementation>
 </ui:composition>

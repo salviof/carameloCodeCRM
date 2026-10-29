@@ -24,7 +24,7 @@
 
             <!-- Integracoes (mesmo conteudo do antigo facet actions) -->
             <c:forEach
-                items="#{pgProspecto.prospecto.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
+                items="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}"
                 var="integracao">
                 <crm:integracao integracao="#{integracao}" tamanhoPixel="25"/>
             </c:forEach>
@@ -54,7 +54,7 @@
             </p:badge>
 
             <!-- ATIVIDADES (leva para a aba Atividades) -->
-            <p:badge value="#{pgProspecto.somaTotalInteracoes}"
+            <p:badge value="#{cc.attrs.pessoa.atividadesEmAndamento.size()}"
                      severity="success">
                 <p:link href="#"
                         onclick="PF('abasLead').select(3); return false;"

@@ -1,0 +1,212 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:SBBotaoDeAcao="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="contato"
+                      type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto" required="true"/>
+        <cc:attribute name="mensagem" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp" />
+    </cc:interface>
+    <cc:implementation>
+        <h:outputStylesheet name="whatsapp.css" library="crmContato"/>
+        <h:panelGroup layout="block" styleClass="crc-envio-msg-wtsapp">
+
+            <!-- =======================================
+                 CABECALHO DO CONTATO
+            ======================================== -->
+            <div class="crc-envio-msg-wtsapp__contato">
+                <div class="crc-envio-msg-wtsapp__contato-header">
+                    <div class="crc-envio-msg-wtsapp__avatar">
+                        #{cc.attrs.contato.nome.substring(0, 1)}
+                    </div>
+                    <div class="crc-envio-msg-wtsapp__contato-dados">
+                        <h3 class="crc-envio-msg-wtsapp__contato-nome">#{cc.attrs.contato.nome}</h3>
+                        <p class="crc-envio-msg-wtsapp__contato-meta">
+                            <span class="crc-envio-msg-wtsapp__contato-meta-item">
+                                <i class="pi pi-phone"></i> #{cc.attrs.contato.celular}
+                            </span>
+                            <span class="crc-envio-msg-wtsapp__contato-meta-item">
+                                <i class="pi pi-user"></i> #{cc.attrs.contato.prospecto.nome}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <p class="crc-envio-msg-wtsapp__titulo-secao">
+                    <i class="pi pi-comment"></i> Envio de Mensagem de Marketing
+                </p>
+            </div>
+
+            <!-- =======================================
+                 MENSAGEM: SELETOR (SEM TIPO) OU ENVIO (COM TIPO)
+            ======================================== -->
+            <p:outputPanel id="painelMensagemWtsapp" layout="block" styleClass="crc-envio-msg-wtsapp__painel">
+
+                <!-- SELECAO DO TIPO DE MENSAGEM -->
+                <h:panelGroup layout="block" styleClass="crc-envio-msg-wtsapp__card" rendered="#{cc.attrs.mensagem.tipo == null}">
+                    <div class="crc-envio-msg-wtsapp__card-header">
+                        <i class="pi pi-cog"></i> Selecione um tipo de mensagem
+                    </div>
+                    <div class="crc-envio-msg-wtsapp__card-body">
+                        <p:selectOneListbox
+                            value="#{cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('tipo').valor}"
+                            converter="conversorGenerico"
+                            filter="true"
+                            var="tipoMsgem"
+                            filterMatchMode="contains"
+                            styleClass="crc-envio-msg-wtsapp__lista-tipos"
+                            immediate="true"
+                            >
+
+                            <f:selectItems
+                                value="#{cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('tipo').listaDeOpcoes}"
+                                var="tipoMsgem"
+                                itemLabel="#{tipoMsgem.nome}"
+                                itemValue="#{tipoMsgem}" />
+
+                            <p:column headerText="Tipo" styleClass="crc-envio-msg-wtsapp__coluna-tipo">
+                                <h:outputText value="#{tipoMsgem.nome}" />
+                            </p:column>
+
+                            <p:column headerText="Parâmetros" styleClass="crc-envio-msg-wtsapp__coluna-parametros">
+                                <span class="crc-envio-msg-wtsapp__qtd-parametros #{empty tipoMsgem.parametros ? 'crc-envio-msg-wtsapp__qtd-parametros--zero' : ''}">
+                                    #{empty tipoMsgem.parametros ? 0 : tipoMsgem.parametros.size()}
+                                </span>
+                            </p:column>
+
+                            <p:column headerText="Envio Único" styleClass="crc-envio-msg-wtsapp__coluna-envio">
+                                <span class="crc-envio-msg-wtsapp__badge #{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico').valor ? 'crc-envio-msg-wtsapp__badge--unico' : 'crc-envio-msg-wtsapp__badge--multiplo'}">
+                                    #{tipoMsgem.getCampoInstanciadoByNomeOuAnotacao('envioUnico').valor ? 'Apenas um envio' : 'Multiplos envios'}
+                                </span>
+                            </p:column>
+
+                            <p:ajax event="valueChange" update="painelMensagemWtsapp" />
+                        </p:selectOneListbox>
+                    </div>
+                </h:panelGroup>
+
+                <!-- ENVIO (TIPO SELECIONADO) -->
+                <h:panelGroup layout="block" styleClass="crc-envio-msg-wtsapp__card" rendered="#{cc.attrs.mensagem.tipo != null}">
+                    <div class="crc-envio-msg-wtsapp__card-header crc-envio-msg-wtsapp__card-header--acao">
+                        <span class="crc-envio-msg-wtsapp__card-header-titulo">
+                            <i class="pi pi-send"></i> Enviar Mensagem
+                        </span>
+                        <!-- LIMPA O TIPO E VOLTA AO SELETOR -->
+                        <p:commandButton icon="pi pi-times"
+                                         value="Selecionar outro tipo"
+                                         title="Trocar tipo de mensagem"
+                                         action="#{cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('tipo').setValor(null)}"
+                                         process="@this"
+                                         update="painelMensagemWtsapp"
+                                         styleClass="crc-envio-msg-wtsapp__fechar" />
+                    </div>
+                    <div class="crc-envio-msg-wtsapp__card-body crc-envio-msg-wtsapp__acoes">
+
+                        <!-- TEMPLATE SELECIONADO -->
+                        <div class="crc-envio-msg-wtsapp__template">
+                            <span class="crc-envio-msg-wtsapp__template-nome">
+                                <i class="fa-brands fa-whatsapp"></i> #{cc.attrs.mensagem.tipo.nome}
+                            </span>
+                            <span class="crc-envio-msg-wtsapp__badge #{cc.attrs.mensagem.tipo.envioUnico ? 'crc-envio-msg-wtsapp__badge--unico' : 'crc-envio-msg-wtsapp__badge--multiplo'}">
+                                #{cc.attrs.mensagem.tipo.envioUnico ? 'Apenas um envio' : 'Multiplos envios'}
+                            </span>
+                        </div>
+
+                        <!-- PARAMETROS (AO PASSAR O MOUSE) E PREVIEW DO LINK -->
+                        <div class="crc-envio-msg-wtsapp__detalhes">
+                            <h:panelGroup id="infoParametros" styleClass="crc-envio-msg-wtsapp__info">
+                                <i class="pi pi-info-circle"></i> Parâmetros (#{cc.attrs.mensagem.tipo.parametros.size()})
+                            </h:panelGroup>
+                            <p:tooltip for="infoParametros" position="bottom" styleClass="crc-envio-msg-wtsapp__tooltip">
+                                <div class="crc-envio-msg-wtsapp__tooltip-titulo">
+                                    <i class="fa-solid fa-list-ol"></i> Parâmetros enviados
+                                    <span class="crc-envio-msg-wtsapp__tooltip-total">#{cc.attrs.mensagem.tipo.parametros.size()}</span>
+                                </div>
+                                <h:outputText rendered="#{empty cc.attrs.mensagem.tipo.parametros}" value="Este template não possui parâmetros."
+                                              styleClass="crc-envio-msg-wtsapp__parametros-vazio" />
+                                <ui:repeat value="#{cc.attrs.mensagem.tipo.parametros}" var="parametro">
+                                    <div class="crc-envio-msg-wtsapp__parametro">
+                                        <!-- ORDEM (codigoParametro) -->
+                                        <span class="crc-envio-msg-wtsapp__parametro-ordem">#{parametro.codigoParametro}</span>
+                                        <div class="crc-envio-msg-wtsapp__parametro-info">
+                                            <span class="crc-envio-msg-wtsapp__parametro-nome">#{parametro.descricao}</span>
+                                            <span class="crc-envio-msg-wtsapp__parametro-meta">
+                                                <!-- POSICAO: CABECALHO OU CORPO -->
+                                                <span class="crc-envio-msg-wtsapp__parametro-tag #{parametro.cabecalho ? 'crc-envio-msg-wtsapp__parametro-tag--cabecalho' : ''}">
+                                                    <i class="fa-solid #{parametro.cabecalho ? 'fa-heading' : 'fa-align-left'}"></i>
+                                                    #{parametro.cabecalho ? 'Cabeçalho' : 'Corpo'}
+                                                </span>
+                                                <!-- TIPO DO PARAMETRO NO WHATSAPP -->
+                                                <span class="crc-envio-msg-wtsapp__parametro-tag crc-envio-msg-wtsapp__parametro-tag--tipo">
+                                                    <i class="fa-solid #{parametro.tipoParametroWtzap == 'image' ? 'fa-image' : parametro.tipoParametroWtzap == 'document' ? 'fa-file-lines' : parametro.tipoParametroWtzap == 'video' ? 'fa-video' : parametro.tipoParametroWtzap == 'location' ? 'fa-location-dot' : 'fa-font'}"></i>
+                                                    #{empty parametro.tipoParametroWtzap ? 'text' : parametro.tipoParametroWtzap}
+                                                </span>
+                                            </span>
+                                            <span class="crc-envio-msg-wtsapp__parametro-origem">
+                                                <i class="fa-solid fa-database"></i>
+                                                <h:outputText rendered="#{parametro.umaOrigemDadpDinamico}"
+                                                              value="#{empty parametro.tipoDado.label ? parametro.tipoDado.nome : parametro.tipoDado.label}" />
+                                                <h:outputText rendered="#{not parametro.umaOrigemDadpDinamico and parametro.umaOrigemCaminhoRelativo}"
+                                                              value="#{parametro.dadoRelativo}" />
+                                                <h:outputText rendered="#{not parametro.umaOrigemDadpDinamico and not parametro.umaOrigemCaminhoRelativo}"
+                                                              value="sem origem definida"
+                                                              styleClass="crc-envio-msg-wtsapp__parametro-meta--alerta" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ui:repeat>
+                            </p:tooltip>
+
+                            <p:link
+                                rendered="#{!cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('linkPreview').vazio}"
+                                href="#{cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('linkPreview').valor}"
+                                target="cndcrmWtwapPreview"
+                                styleClass="crc-envio-msg-wtsapp__preview-botao">
+                                <i class="fa fa-brands fa-whatsapp crc-envio-msg-wtsapp__preview-icone"></i>
+                                <span>Visualizar no WhatsApp</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square crc-envio-msg-wtsapp__preview-externo"></i>
+                            </p:link>
+                        </div>
+
+                        <!-- TELEFONE PARA ENVIO -->
+                        <div class="crc-envio-msg-wtsapp__campo">
+                            <label class="crc-envio-msg-wtsapp__label">Telefone para envio</label>
+                            <SBInput:input
+                                registro="#{cc.attrs.mensagem.getCampoInstanciadoByNomeOuAnotacao('telefone')}"
+                                desabilitarEdicao="false"
+                                layout="#{layoutsComponenteSB.layoutCampo.semLabel}"
+                                />
+                        </div>
+
+                        <!-- BOTOES DE ACAO -->
+                        <div class="crc-envio-msg-wtsapp__botoes">
+                            <SBBotaoDeAcao:botaoDeAcao
+                                metodo="#{servicoCRMContato.enviarMensagemWtzap(cc.attrs.mensagem)}"
+                                armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviar}"
+                                update="@form"
+                                label="Enviar para este contato"
+                                />
+
+                            <SBBotaoDeAcao:botaoDeAcao
+                                metodo="#{servicoCRMContato.enviarMensagemWtzapParaTodos(cc.attrs.mensagem)}"
+                                armazenamentoAcaoExecutada="#{servicoCRMContato.acaoSelcionada}"
+                                tipoVisualizacao="#{layoutsComponenteSB.layoutBotoes.iconeENome}"
+                                acao="#{acoesAtendimentoCrm_MensagemMktMbGestao.mensagemMktCtrEnviarTodosContatos}"
+                                update="@form"
+                                label="Enviar para todos os contatos"
+                                />
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </p:outputPanel>
+
+        </h:panelGroup>
+    </cc:implementation>
+</ui:composition>

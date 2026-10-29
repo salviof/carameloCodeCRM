@@ -25,6 +25,8 @@ import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendiment
 import static br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.FabAcaoCRMAtendimento.PROSPECTO_FRM_LISTAR;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.InfoAcaoCRMAtendimento;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAtendimento.ModuloCRMAtendimento;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.wtzpModeloMKT.MensagemMktWhatsapp;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
@@ -65,6 +67,8 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoA
 import java.util.ArrayList;
 import java.util.Map;
 import javax.faces.context.FacesContext;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.TabChangeEvent;
 
@@ -91,6 +95,32 @@ public class PgProspecto extends MB_paginaCadastroEntidades<Pessoa> implements I
 
     @InfoParametroURL(nome = "ProspectoPF", tipoParametro = TIPO_PARTE_URL.ENTIDADE, tipoEntidade = Pessoa.class, obrigatorio = false, representaEntidadePrincipalMB = true)
     private ParametroURL prPessoa;
+
+    private MensagemMktWhatsapp mensagemWhatsapp;
+    private MensagemSMS mensagemSMS;
+
+    public MensagemSMS getMensagemSMS() {
+        if (getEntidadeSelecionada().getContatoPrincipal() != null) {
+            if (mensagemSMS == null) {
+                mensagemSMS = new MensagemSMS();
+                mensagemSMS.setContato(getEntidadeSelecionada().getContatoPrincipal());
+            }
+        }
+        return mensagemSMS;
+    }
+
+    public MensagemMktWhatsapp getMensagemWhatsapp() {
+        if (mensagemWhatsapp == null) {
+            mensagemWhatsapp = new MensagemMktWhatsapp();
+            try {
+                mensagemWhatsapp.prepararNovoObjeto(getEntidadeSelecionada().getContatoPrincipal());
+            } catch (ErroPreparandoObjeto ex) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando nova mensagem de Whatsapp", ex);
+                mensagemWhatsapp = null;
+            }
+        }
+        return mensagemWhatsapp;
+    }
 
     @Override
     public void onModalProspectoClose(SelectEvent event) {

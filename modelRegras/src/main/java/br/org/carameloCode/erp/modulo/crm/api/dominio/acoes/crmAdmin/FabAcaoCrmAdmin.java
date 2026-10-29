@@ -455,8 +455,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     MAUTIC_CTR_EXPORTAR_DADOS,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-folder-o", entidade = CategoriaArquivoCliente.class, precisaPermissao = true, nomeAcao = "Diretórios do Cliente")
     CATEGORIA_DOCUMENTO_CLIENTE_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoCliente.pastapai, //CPCategoriaArquivoCliente.subpastas
-})
+    @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoCliente.pastapai,})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"nome", "icone"})
     CATEGORIA_DOCUMENTO_CLIENTE_FRM_NOVO,
@@ -488,7 +487,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     DOCUMENTO_APRESENTACAO_CTR_UPLOAD_APRESENTACOES,
     @InfoTipoAcaoController(nomeAcao = "Excluir", precisaPermissao = true, exibirModalConfirmacao = true,
             fraseComunicação = "Deseja excluir a apresentação [DocumentoApresentacao.nome]? ",
-            respostasComunicacaoPersonalizada = {FabTipoRespostaComunicacao.SIM, FabTipoRespostaComunicacao.NAO}
+            comunicacao = FabTipoComunicacao.PERGUNTAR_SIM_OU_NAO
     )
     DOCUMENTO_APRESENTACAO_CTR_REMOVER,
     @InfoTipoAcaoController(nomeAcao = "Alterar Status", descricao = "Ativar e desativar apresentações", precisaPermissao = true,
@@ -676,7 +675,8 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     INTEGRACAO_ERP_CTR_SALVAR_MERGE,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Mensagens de Marketing do Whatsapp", entidade = TipoMensagemMktWhatsApp.class)
     TIPO_MENSAGEM_MKT_WTZAP_MB_GESTAO,
-    @InfoTipoAcaoFormulario(campos = {CPTipoMensagemMktWhatsApp.id, CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.telefonepadrao, CPTipoMensagemMktWhatsApp.slugtemplate, CPTipoMensagemMktWhatsApp.enviounico})
+    @InfoTipoAcaoFormulario(campos = {CPTipoMensagemMktWhatsApp.id, CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.telefonepadrao, CPTipoMensagemMktWhatsApp.slugtemplate,
+        CPTipoMensagemMktWhatsApp.enviounico, "ativo"})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Tipo de mensagem]", CPTipoMensagemMktWhatsApp.nome, CPTipoMensagemMktWhatsApp.slugtemplate, "telefonePadrao", "[separador: Detalhes ]", CPTipoMensagemMktWhatsApp.enviounico, CPTipoMensagemMktWhatsApp.urlmensagempreview})
     TIPO_MENSAGEM_MKT_WTZAP_FRM_NOVO,
@@ -684,6 +684,16 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     TIPO_MENSAGEM_MKT_WTZAP_FRM_EDITAR,
     @InfoTipoAcaoController()
     TIPO_MENSAGEM_MKT_WTZAP_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoController(nomeAcao = "Remover", iconeFonteAnsowame = FabIconeFontAwesome.REG_REMOVER,
+            exibirModalConfirmacao = true,
+            comunicacao = FabTipoComunicacao.CONFIRMAR_CANCELAR,
+            fraseComunicação = "Deseja remover o tipo de mensagem '[nome]'? Se já existirem mensagens enviadas com ele, o tipo será apenas desativado.")
+    TIPO_MENSAGEM_MKT_WTZAP_CTR_REMOVER,
+    @InfoTipoAcaoController(nomeAcao = "Alterar Status", entidade = TipoMensagemMktWhatsApp.class,
+            comunicacao = FabTipoComunicacao.CONFIRMAR_CANCELAR,
+            descricao = "Ativa ou desativa o tipo de mensagem",
+            fraseComunicação = "Deseja alterar o status do tipo de mensagem '[nome]'? ")
+    TIPO_MENSAGEM_MKT_WTZAP_CTR_ALTERAR_STATUS,
     @InfoTipoAcaoGestaoEntidade(entidade = ParametroMensagemWtzap.class, nomeAcao = "Parametro de mensagem Wtzap")
     PARAMETRO_MSG_WTZAP_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {CPParametroMensagemWtzap.id, CPParametroMensagemWtzap.descricao, CPParametroMensagemWtzap.codigoparametro, CPParametroMensagemWtzap.cabecalho,

@@ -51,6 +51,7 @@ import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuario.UsuarioCRM;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.usuarioCliente.UsuarioCrmCliente;
 import br.org.carameloCode.erp.modulo.crm.util.UtilCRMDadoOrigemCaminhoRelativo;
+import br.org.carameloCode.erp.modulo.crm.util.UtilCRMExclusaoRegistros;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.FabAcaoCrmAtendimentoAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAgenda.InfoAcaoCRMAgenda;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAplicacao.FabAcaoCrmAplicacao;
@@ -92,6 +93,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -526,7 +529,7 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                     if (!UtilCRCStringValidador.isNuloOuEmbranco(dado.getTipoDadoCRM().getCampoProspectoCorrespondente())) {
                         try {
                             if (p.getCampoInstanciadoByNomeOuAnotacao(dado.getTipoDadoCRM().getCampoProspectoCorrespondente()).getFabricaTipoAtributo().equals(dado.getCampoInstanciado().getFabricaTipoAtributo())) {
-                                p.getCampoInstanciadoByNomeOuAnotacao(dado.getTipoDadoCRM().getCampoProspectoCorrespondente()).setValor(dado.getValor());
+                                p.getCampoInstanciadoByNomeOuAnotacao(dado.getTipoDadoCRM().getCampoProspectoCorrespondente()).setValor(dado.getCampoInstanciado().getValor());
                             }
                         } catch (Throwable t) {
                             addAlerta("Erro atualizando campo vinculo  de  campo dinamico com campo da empresa: " + dado.getTipoDadoCRM().getLabel());
@@ -848,181 +851,33 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                     throw new ErroRegraDeNegocio("Somente o responsável [" + p.getUsuarioResponsavel().getNome() + "] pode exluir esse Lead");
                 }
 
-                Long idProspecto = pProspecto.getId();
+                Long idProspecto = p.getId();
 
+                Connection conexao = null;
                 try {
-                    Connection conexao = UtilCRCPersistenciaJDBC.getConnection();
-
+                    conexao = UtilCRCPersistenciaJDBC.getConnection();
                     conexao.setAutoCommit(false);
+                    UtilCRMExclusaoRegistros.ExecutorSQL sql = UtilCRMExclusaoRegistros.getExecutor(conexao);
 
-                    List<Long> atividadeIds = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM AtividadeCRM WHERE prospectoEmpresa_id = " + idProspecto);  // ou prospectoEmpresa_id
+                    UtilCRMExclusaoRegistros.excluirPessoa(sql, idProspecto, SBCore.getUsuarioLogado().getId());
 
-                    List<Long> dadoIds = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM DadoCRM WHERE  prospectoEmpresa_id = " + idProspecto);
-
-                    List<Long> emailIds = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM EmailCrm WHERE prospecto_id =" + idProspecto);
-
-                    List<Long> arquivosAnexadosIDs = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM ArquivoAnexado WHERE prospecto_id  = " + idProspecto);
-
-                    List<Long> contatosID = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM " + ContatoProspecto.class.getSimpleName() + "  WHERE  prospecto_id = " + idProspecto);
-
-                    List<Long> usuarios1 = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT usuarioVinculado_id FROM ContatoProspecto  WHERE  id  in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(contatosID, ","));
-                    List<Long> usuarios2 = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM UsuarioSB  WHERE  representanteLegal_id  = " + idProspecto);
-                    List<Long> usuarios = Stream.concat(usuarios1.stream(), usuarios2.stream())
-                            .distinct() // remove duplicados
-                            .collect(Collectors.toList());
-
-                    boolean usuarioLogadoExclusao = usuarios.stream().filter(u -> u.equals(SBCore.getUsuarioLogado().getId())).findFirst().isPresent();
-                    if (usuarioLogadoExclusao) {
-                        throw new ErroRegraDeNegocio("O usuário logado está vinculado ao usuário da pospecao");
-                    }
-
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "update UsuarioSB set usuarioAlteracao_id = " + SBCore.getUsuarioLogado().getId() + " where id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from prospectos_usuarios_responsaveis where usuarioCRM_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + ServicoOferecido.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + MensagemMktWhatsapp.class.getSimpleName() + " where  pessoa_id=" + idProspecto);
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + MensagemSMS.class.getSimpleName() + " where  contato_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(contatosID, ","));
-
-                    List<Long> chamados = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM " + ChamadoCliente.class.getSimpleName() + "  WHERE  pessoa_id = " + idProspecto + " ");
-                    if (!chamados.isEmpty()) {
-
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from chamado_dadoComplementar where chamado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(chamados, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + NotificacaoResponsaveisChamado.class.getSimpleName() + " where chamado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(chamados, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + EventoChamado.class.getSimpleName() + " where chamado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(chamados, ","));
-                    }
-
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + HistoricoRelacionamento.class.getSimpleName() + " where  prospecto_id=" + idProspecto);
-                    if (!emailIds.isEmpty()) {
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + EnvioEmailRascunhoAutoSave.class.getSimpleName() + " where emailVinculado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from envioEmail_arquivoAnexado where envioEmail_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from envioDocumento_contatos where envioDocumento_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from LogFalhaEnvioEmail where email_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from LogEmailRecebidoLido where email_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE " + AtividadeCRM.class.getSimpleName() + "  SET emailVinculado_id = NULL WHERE emailVinculado_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + EmailCrm.class.getSimpleName() + " where prospecto_id = " + idProspecto);
-                    }
-
-                    if (!dadoIds.isEmpty()) {
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from DadoNaoColetado_Atividade where dado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(dadoIds, ","));
-                        //
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from DadoColetado_Atividade where dado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(dadoIds, ","));
-
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + DadoCRM.class.getSimpleName() + " where prospectoEmpresa_id = " + idProspecto);
-                        //atividadeCRM_id
-
-                    }
-                    if (!arquivosAnexadosIDs.isEmpty()) {
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + ArquivoAnexado.class.getSimpleName() + " where prospecto_id = " + idProspecto);
-                    }
-
-                    if (!atividadeIds.isEmpty()) {
-                        List<Long> ChatBotIDS = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                                "SELECT id FROM ChatBot WHERE atividade_id IN " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(atividadeIds, ","));
-                        if (!ChatBotIDS.isEmpty()) {
-                            UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE " + AtividadeCRM.class.getSimpleName() + "  SET chatBot_id = NULL WHERE chatBot_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(ChatBotIDS, ","));
-                            UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + ChatBot.class.getSimpleName() + " where id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(ChatBotIDS, ","));
-                        }
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE " + AtividadeCRM.class.getSimpleName() + "  SET emailVinculado_id = NULL WHERE emailVinculado_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(emailIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + DadoCRM.class.getSimpleName() + " where atividadeCRM_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(atividadeIds, ","));
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + AtividadeCRM.class.getSimpleName() + " where id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(atividadeIds, ","));
-
-                    }
-
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + ChamadoCliente.class.getSimpleName() + " where pessoa_id = " + idProspecto);
-
-                    List<Long> reservasID = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM " + ReservaHorario.class.getSimpleName() + "  WHERE  pessoaRelacionada_id = " + idProspecto);
-                    //contatosAtendidos_reservas
-                    if (!reservasID.isEmpty()) {
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from reserva_atendidos where reservaHorario_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(reservasID, ","));
-
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from reserva_atendidos where reservaHorario_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(reservasID, ","));
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from contatosAtendidos_reservas where reservaHorario_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(reservasID, ","));
-
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + ReservaHorario.class.getSimpleName() + " where pessoaRelacionada_id = " + idProspecto);
-                    }
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE " + ContatoProspecto.class.getSimpleName() + "   SET usuarioVinculado_id = NULL WHERE prospecto_id = " + idProspecto);
-                    if (!usuarios.isEmpty()) {
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE " + ContatoProspecto.class.getSimpleName() + "   SET usuarioVinculado_id = NULL WHERE "
-                                + " usuarioVinculado_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from relacionamento_usuarios_responsaveis where usuarioCRM_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-
-                        List<Long> notificacoesID = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                                "SELECT id FROM " + NotificacaoSB.class.getSimpleName() + " WHERE  usuario_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-                        if (!notificacoesID.isEmpty()) {
-                            List<Long> logsEntrega = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                                    "SELECT id FROM " + LogDisparoNotificacao.class.getSimpleName() + " WHERE  notificacao_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(notificacoesID, ","));
-
-                            UtilCRCPersistenciaJDBC
-                                    .executarSQL(conexao, "UPDATE  " + ReciboEntrega.class.getSimpleName() + " SET disparo_id = NULL WHERE disparo_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(logsEntrega, ","));
-                            UtilCRCPersistenciaJDBC
-                                    .executarSQL(conexao, "delete from " + ReciboEntrega.class.getSimpleName() + " where disparo_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(logsEntrega, ","));
-                            UtilCRCPersistenciaJDBC
-                                    .executarSQL(conexao, "delete from " + LogDisparoNotificacao.class.getSimpleName() + " where id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(logsEntrega, ","));
-                        }
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from " + NotificacaoSB.class.getSimpleName() + " where usuario_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-                        //origem_id
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from origens_usuarioCRM where usuario_id in  " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-
-                        UtilCRCPersistenciaJDBC.executarSQL(conexao,
-                                "DELETE FROM UsuarioSB "
-                                + "WHERE id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(usuarios, ","));
-
-                    }
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from " + Solicitacao.class.getSimpleName() + " where pessoa_id=" + idProspecto);
-
-                    List<Long> orcamentosID = UtilCRCPersistenciaJDBC.listarIds(conexao,
-                            "SELECT id FROM " + Orcamento.class.getSimpleName() + " WHERE  pessoa_id = " + idProspecto);
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE ProspectoEmpresa set ultimoOrcamento_id = NULL  where id = " + idProspecto);
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao,
-                            "DELETE FROM " + ServicoOferecido.class.getSimpleName() + " "
-                            + "WHERE orcamento_id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(orcamentosID, ","));
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao,
-                            "DELETE FROM " + Orcamento.class.getSimpleName() + " "
-                            + "WHERE id in " + UtilCRCListas.getValoresSeparadoPorCaracterEntreParenteses(orcamentosID, ","));
-
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "UPDATE ProspectoEmpresa set contatoPrincipal_id = NULL  where id = " + idProspecto);
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao,
-                            "DELETE FROM " + ContatoProspecto.class.getSimpleName() + " "
-                            + "WHERE prospecto_id = " + idProspecto);
-
-                    UtilCRCPersistenciaJDBC
-                            .executarSQL(conexao, "delete from prospectos_usuarios_responsaveis where prospecto_id = " + idProspecto);
-                    //
-                    UtilCRCPersistenciaJDBC
-                            .executarSQL(conexao, "delete from SubPastaPrivada where pessoa_id = " + idProspecto);
-                    UtilCRCPersistenciaJDBC
-                            .executarSQL(conexao, "delete from prospeco_usuarioConvidado where prospecto_id = " + idProspecto);
-                    UtilCRCPersistenciaJDBC
-                            .executarSQL(conexao, "delete from tagAtendimento_prospecto where prospecto_id = " + idProspecto);
-
-                    try {
-                        UtilCRCPersistenciaJDBC
-                                .executarSQL(conexao, "delete from PreAnalise where pessoaJuridica_id = " + idProspecto);
-                    } catch (Throwable t) {
-                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "falha excluindo preanalise", t);
-                    }
-
-                    UtilCRCPersistenciaJDBC.executarSQL(conexao, "delete from  ProspectoEmpresa  where id = " + idProspecto);
                     conexao.commit();
-                } catch (SQLException sql) {
-                    throw new ErroRegraDeNegocio(sql.getMessage());
+                } catch (SQLException sqlErro) {
+                    throw new ErroRegraDeNegocio(sqlErro.getMessage());
                 } catch (ErroEmBancoDeDados e) {
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, e.getMensagemProgrador(), e);
                     throw new ErroRegraDeNegocio(e.getMensagemUsuario());
+                } finally {
+                    if (conexao != null) {
+                        try {
+                            if (!conexao.getAutoCommit()) {
+                                conexao.rollback();
+                            }
+                            conexao.close();
+                        } catch (SQLException t) {
+                            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha encerrando conexão da exclusão do prospecto", t);
+                        }
+                    }
                 }
 
             }
@@ -1124,8 +979,18 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                         if (!UtilCRCStringValidador.isNuloOuEmbranco(contato.getEmail())) {
                             try {
                                 contato.getUsuarioVinculado().getCPinst(CPContatoProspecto.email).setValorSeValido(contato.getEmail());
+
                             } catch (ErroValidacao ex) {
-                                throw new ErroRegraDeNegocio(ex.getMensagemAoUsuario());
+                                contato.setEmail(null);
+                                addAviso("O Contato " + contato.getNome() + " tem um email inválido: " + contato.getEmail());
+                            }
+                        } else {
+                            if (contato.getUsuarioVinculado() != null) {
+                                try {
+                                    contato.getCPinst("email").setValorSeValido(contato.getUsuarioVinculado().getEmail());
+                                } catch (ErroValidacao ex) {
+                                    Logger.getLogger(ModuloCRMAtendimento.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                         }
                         contato.getUsuarioVinculado().setNome(contato.getNome());//
@@ -1913,13 +1778,14 @@ public class ModuloCRMAtendimento extends ControllerAbstratoSBPersistencia {
                     throw new ErroRegraDeNegocio("O Celular do contato não foi definido");
                 }
                 pMensagem.setDataHoraEnvio(new Date());
-                MensagemSMS mensagemAtualizada = atualizarEntidade(pMensagem);
+
                 String telefone = (String) pMensagem.getContato().getCampoInstanciadoByNomeOuAnotacao(CPContatoProspecto.celularformatointernacional).getValor();
                 ItfRespostaWebServiceSimples resposta = FabIntegracaoSMS.ENVIAR_MENSAGEM.getAcao(telefone, pMensagem.getTexto()).getResposta();
                 String respostaStr = resposta.getRespostaTexto();
                 if (!resposta.isSucesso()) {
                     throw new ErroRegraDeNegocio("Falha enviando SMS para " + telefone + " - Erro:" + respostaStr);
                 }
+                MensagemSMS mensagemAtualizada = atualizarEntidade(pMensagem);
                 setProximoFormulario(FabAcaoCrmAtendimentoAgenda.MEUS_CONTATOS_FRM_SMS_FORMATAR.getRegistro().getComoFormulario());
 
             }

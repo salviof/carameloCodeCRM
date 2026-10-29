@@ -1002,6 +1002,51 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         };
     }
 
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_CTR_ALTERAR_STATUS)
+    public static ItfRespostaAcaoDoSistema tipoMensagemAlterarStatus(TipoMensagemMktWhatsApp pTipoMensagem) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoMensagem), pTipoMensagem) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                TipoMensagemMktWhatsApp tipoMensagem = loadEntidade(pTipoMensagem);
+                tipoMensagem.setAtivo(!tipoMensagem.isAtivo());
+                setRetorno(atualizarEntidade(tipoMensagem));
+            }
+        }.dispararMensagens();
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.TIPO_MENSAGEM_MKT_WTZAP_CTR_REMOVER)
+    public static ItfRespostaAcaoDoSistema tipoMensagemRemover(TipoMensagemMktWhatsApp pTipoMensagem) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoMensagem), pTipoMensagem) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                TipoMensagemMktWhatsApp tipoMensagem = loadEntidade(pTipoMensagem);
+                Long qtdMensagens = (Long) getEMResposta().createQuery("select count(m.id) from " + MensagemMktWhatsapp.class.getSimpleName()
+                        + " m where m.tipo.id = :idTipo")
+                        .setParameter("idTipo", tipoMensagem.getId())
+                        .getSingleResult();
+                if (qtdMensagens > 0) {
+                    if (!tipoMensagem.isAtivo()) {
+                        throw new ErroRegraDeNegocio("Não é possível excluir o tipo de mensagem " + tipoMensagem.getNome()
+                                + ", pois existem mensagens vinculadas a ele. O tipo de mensagem já está desativado.");
+                    }
+                    tipoMensagem.setAtivo(false);
+                    setRetorno(atualizarEntidade(tipoMensagem));
+                    addAlerta("Não foi possível excluir o tipo de mensagem " + tipoMensagem.getNome()
+                            + ", pois existem mensagens vinculadas a ele. Portanto, ele foi desativado, pois não pode ser excluído.");
+                    return;
+                }
+                if (tipoMensagem.getParametros() != null) {
+                    for (ParametroMensagemWtzap parametro : tipoMensagem.getParametros()) {
+                        removerEntidade(parametro);
+                    }
+                }
+                removerEntidade(tipoMensagem);
+            }
+        }.dispararMensagens();
+    }
+
     @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PARAMETRO_MSG_WTZAP_CTR_SALVAR_MERGE)
     public static ItfRespostaAcaoDoSistema parametroSAlvarAtualizar(ParametroMensagemWtzap pTipoMensagem) {
 

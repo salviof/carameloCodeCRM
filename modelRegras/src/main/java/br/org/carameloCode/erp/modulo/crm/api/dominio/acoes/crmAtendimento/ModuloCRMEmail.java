@@ -410,7 +410,13 @@ public class ModuloCRMEmail extends ControllerAbstratoSBPersistencia {
                     atividadeAplicarModeloEmail(atividadeAtualizada);
                     if (atividadeAtualizada.getTipoAtividade().isExecucaoDiretaSemRelatorio()) {
                         ItfRespostaAcaoDoSistema resp = atividadeConcluir(atividadeAtualizada);
-                        setRetorno(resp.getRetorno());
+                        if (resp.isSucesso()) {
+                            setRetorno(resp.getRetorno());
+                        } else {
+                            setRetorno(atividadeAtualizada);
+                        }
+
+                        //
                         setProximoFormulario(resp.getAcaoProximoFormulario());
                     }
                 }

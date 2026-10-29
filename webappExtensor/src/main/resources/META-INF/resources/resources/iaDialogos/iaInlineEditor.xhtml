@@ -82,6 +82,8 @@
                                   value="Inicie um diálogo para que a IA sugira e preencha os dados deste registro." />
                     <p:commandButton value="Iniciar diálogo" icon="fa-solid fa-play"
                                      styleClass="crc-ia-inline-editor__btn-iniciar"
+                                     onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}')"
+                                     oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}')"
                                      actionListener="#{servicoIA.criarDialogoIAParaEntidade(cc.attrs.acaoCriarDialogo)}"
                                      process="@this"
                                      update="painelIA #{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}" />
@@ -89,6 +91,7 @@
 
                 <!-- Com diálogo: caixa de nova instrução -->
                 <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__composer" rendered="#{servicoIA.temDialogo}">
+
                     <p:inputTextarea id="txtNovaMensagem"
                                      value="#{servicoIA.dialogoIA.novaMensagem}"
                                      rows="2" autoResize="true"
@@ -97,9 +100,12 @@
                     <p:commandButton icon="fa-solid fa-paper-plane"
                                      title="Enviar instruções"
                                      styleClass="rounded-button crc-ia-inline-editor__btn-enviar"
+                                     onstart="bloquearArea('#{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}')"
+                                     oncomplete="desbloquearArea('#{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}')"
                                      actionListener="#{servicoIA.atualizarDialogoIAParaEntidade(cc.attrs.acaoAtualizarDados, cc.attrs.recarregarEntidade)}"
-                                     process="@this txtNovaMensagem"
+
                                      update="painelIA #{pgUtil.gerarCaminhoCompletoID(cc.attrs.areaAtualizacao)}" />
+
                 </h:panelGroup>
 
                 <!-- Rodapé: consumo da última execução -->
@@ -124,6 +130,7 @@
             <!-- Diálogo: system prompt renderizado (markdown → HTML) -->
             <p:dialog header="System Prompt" widgetVar="verSystemPrompt" width="640" responsive="true"
                       modal="true" showEffect="fade" dynamic="true" closeOnEscape="true"
+                      appendTo="@(body)"
                       styleClass="crc-ia-inline-editor__dialog" rendered="#{servicoIA.temDialogo}">
                 <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__markdown">
                     <h:outputText value="#{servicoIA.instrucoesIA}" escape="false" />
@@ -133,6 +140,7 @@
             <!-- Diálogo: instruções enviadas à IA -->
             <p:dialog header="Instruções" widgetVar="verInstrucoes" width="640" responsive="true"
                       modal="true" showEffect="fade" dynamic="true" closeOnEscape="true"
+                      appendTo="@(body)"
                       styleClass="crc-ia-inline-editor__dialog" rendered="#{servicoIA.temDialogo}">
 
                 <h:panelGroup layout="block" styleClass="crc-ia-inline-editor__instrucao-principal"

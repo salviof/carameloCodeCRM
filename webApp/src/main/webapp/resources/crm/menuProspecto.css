@@ -1,3 +1,64 @@
+/* === crc-menu-prospecto === */
+/* raiz do componente: não interfere no posicionamento do botão lateral e do sidebar */
+.crc-menu-prospecto {
+    display: contents;
+}
+
+/* lista rolável com as atividades em aberto na aba Atividades */
+.crc-menu-prospecto__lista-atividades {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 45vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px;
+    scrollbar-width: thin;
+}
+
+.crc-menu-prospecto__lista-atividades::-webkit-scrollbar {
+    width: 6px;
+}
+
+.crc-menu-prospecto__lista-atividades::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+}
+
+.crc-menu-prospecto__item-atividade {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+/* destaque da última atividade em andamento */
+.crc-menu-prospecto__item-atividade--ultima {
+    position: relative;
+    padding: 4px;
+    border: 2px solid #FFB300;
+    border-radius: 12px;
+    background: rgba(255, 179, 0, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.18);
+}
+
+/* badge com a quantidade de atividades em aberto na aba Atividades */
+.crc-menu-prospecto__badge-atividades {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: #E53935;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1;
+    vertical-align: middle;
+}
+
 .botaoLateralMenuPessoaJuridica {
     position: fixed;
     top: 50%;
@@ -530,6 +591,43 @@ body .ui-overlay-badge .ui-badge {
     color: #0288D1;
 }
 
+/* coluna com o nome e o link "Ver detalhes" */
+.cabecalhoProspecto .cabecalhoProspectoTextos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.cabecalhoProspecto .cabecalhoProspectoVerDetalhes {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #0288D1;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.cabecalhoProspecto .cabecalhoProspectoVerDetalhes .fa-chevron-right {
+    font-size: 10px;
+    transition: transform .15s ease;
+}
+
+.cabecalhoProspecto:hover .cabecalhoProspectoVerDetalhes,
+.cabecalhoProspecto:focus .cabecalhoProspectoVerDetalhes {
+    text-decoration: underline;
+}
+
+.cabecalhoProspecto:hover .cabecalhoProspectoVerDetalhes .fa-chevron-right,
+.cabecalhoProspecto:focus .cabecalhoProspectoVerDetalhes .fa-chevron-right {
+    transform: translateX(3px);
+}
+
 @media (max-width: 800px) {
     .cabecalhoProspecto {
         gap: 10px;
@@ -547,6 +645,53 @@ body .ui-overlay-badge .ui-badge {
         font-size: 15px;
         -webkit-line-clamp: 2;
     }
+}
+
+/* ==== Ações rápidas (crmPessoa:acaoRapidaProspectoMin) dentro do sidebar ====
+   O CSS do componente foi feito para a tela de opções do prospecto:
+   a barra flutua em position:absolute com max-width:45%, e as cores vêm de
+   variáveis definidas só em .DashboardVisaoGeralProspecto. No sidebar ela
+   fica no fluxo, na primeira linha, alinhada à direita, com o X de fechar
+   na mesma linha, à esquerda (sobre o espaço reservado à esquerda). */
+.sidebarProspecto.ui-sidebar {
+    padding-top: 10px;
+}
+
+.sidebarProspecto .BarraAcoesRapidasLead {
+    --cor-primaria: #60a36c;
+    --cor-primaria-escura: #406a47;
+    --cor-texto: #2c3e50;
+    --cor-borda-suave: #e9ecef;
+
+    position: static;
+    flex: 0 0 auto;
+    align-self: stretch;      /* ocupa a largura toda da linha */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 40px;
+    justify-content: flex-end; /* botões encostados à direita */
+    flex-wrap: nowrap;
+    gap: 14px;
+    padding: 0 4px 8px 44px; /* espaço à esquerda para o X */
+    z-index: auto;            /* o CSS original usa z-index:100, que cobria o X */
+    background: transparent;
+    border-bottom: none;
+}
+
+/* X de fechar alinhado verticalmente com os botões redondos (40px) */
+.sidebarProspecto.ui-sidebar > .ui-sidebar-close {
+    position: absolute;
+    top: 14px;
+    left: 10px;
+    right: auto;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;             /* sempre acima da barra de ações rápidas */
 }
 
 /* ==== Botões quadrados de ação do prospecto (fieldset final) ==== */
@@ -617,24 +762,24 @@ body .ui-overlay-badge .ui-badge {
 }
 
 /* cor de identidade por ação */
-.gradeAcoesProspecto .botaoAcaoProspectoDetalhes {
-    color: #0277BD;
-    border-color: rgba(2, 119, 189, 0.25);
+.gradeAcoesProspecto .botaoAcaoProspectoChatEquipe {
+    color: #4527A0;
+    border-color: rgba(69, 39, 160, 0.25);
 }
-.gradeAcoesProspecto .botaoAcaoProspectoDetalhes:hover,
-.gradeAcoesProspecto .botaoAcaoProspectoDetalhes:focus {
-    background: #0288D1;
-    border-color: #0288D1;
+.gradeAcoesProspecto .botaoAcaoProspectoChatEquipe:hover,
+.gradeAcoesProspecto .botaoAcaoProspectoChatEquipe:focus {
+    background: #5E35B1;
+    border-color: #5E35B1;
 }
 
 .gradeAcoesProspecto .botaoAcaoProspectoChat {
-    color: #2E7D32;
-    border-color: rgba(46, 125, 50, 0.25);
+    color: #128C7E;
+    border-color: rgba(18, 140, 126, 0.25);
 }
 .gradeAcoesProspecto .botaoAcaoProspectoChat:hover,
 .gradeAcoesProspecto .botaoAcaoProspectoChat:focus {
-    background: #4CAF50;
-    border-color: #4CAF50;
+    background: #25D366;
+    border-color: #25D366;
 }
 
 .gradeAcoesProspecto .botaoAcaoProspectoArquivos {
