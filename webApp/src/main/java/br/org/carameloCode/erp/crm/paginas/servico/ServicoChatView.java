@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.faces.view.ViewScoped;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoSessao;
 import br.org.coletivoJava.fw.api.erp.chat.model.ComoChatSalaBean;
+import br.org.coletivoJava.fw.erp.implementacao.chat.ChatMatrixOrgimpl;
 import br.org.coletivoJava.fw.erp.implementacao.chat.atendente.RepositorioJanelasChatAtendimento;
 
 /**

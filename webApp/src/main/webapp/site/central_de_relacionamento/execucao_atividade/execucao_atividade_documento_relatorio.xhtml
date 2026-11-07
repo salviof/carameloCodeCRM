@@ -35,15 +35,15 @@
             </h:panelGroup>
 
         </f:facet>
-        </CRM:cabecalhoAtividade>
+    </CRMAtividade:cabecalhoAtividade>
 
-        <p:fieldset styleClass="Container12">
+    <p:fieldset styleClass="Container12">
 
-            <h:form>
-                <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
-                <CRMAtividade:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" />
-            </h:form>
-        </p:fieldset>
+        <h:form>
+            <CRM:editarAtividade atividade="#{pgExecutarAtividade.atividade}" />
+            <CRMAtividade:opcoesAtividade atividade="#{pgExecutarAtividade.atividade}" />
+        </h:form>
+    </p:fieldset>
 
 </ui:composition>
 

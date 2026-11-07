@@ -11,13 +11,9 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="divConteudo">
-
         <h:panelGroup  styleClass="Container12" style="" layout="block" rendered="#{sessaoAtualSBWP.telaUsuario.umMobile}" >
-
             <crmDashBoard:meusCompromissosAtendimento dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
-
             <crmDashBoard:meusCompromissosLead dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
-
             <crmDashBoard:minhasOrigens dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
             <crmDashBoard:meusLeadsVisaoGeral dadosDeLead="#{pgAdministrativo.pesquisaLead}" />
         </h:panelGroup>

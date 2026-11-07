@@ -11,6 +11,17 @@
     <!-- template conteúdo com formulario-->
     <ui:composition template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
         <ui:define name="conteudo">
+            <p:fragment >
+
+                <SBAcaoNav:seletorDeAcoes
+                    metodo="#{pgOpcaoDadosCRM.executarAcaoSelecionada()}"
+                    opcoes="#{pgUtil.getAcoesEntidade(pgOpcaoDadosCRM.entidadeSelecionada, pgOpcaoDadosCRM.acoesRegistros)}"
+                    visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                    opcaoSelecionada="#{pgOpcaoDadosCRM.acaoSelecionada}"
+                    update="@this"
+                    />
+            </p:fragment>
+
             <p:commandButton value="Atualizar" update="@form"  process="@this"/>
             <h:panelGroup styleClass="Container12 OrganizadorContainer" layout="block">
                 <SBForm:camposDaAcao

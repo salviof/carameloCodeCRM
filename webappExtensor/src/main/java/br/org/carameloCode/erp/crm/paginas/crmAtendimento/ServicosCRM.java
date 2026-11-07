@@ -27,6 +27,7 @@ import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.FabAcaoCR
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmCliente.ModuloCRMCliente;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.IntegracaoLink;
 import br.org.carameloCode.erp.modulo.crm.entidadesJPA.solicitacao.SolicitacaoArquivoCliente;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.usuariosEPermissao.grupo.FabGruposCRMCaramelo;
 import br.org.coletivoJava.fw.api.erp.chat.ERPChat;
 import br.org.coletivoJava.fw.api.erp.chat.ErroConexaoServicoChat;
 import br.org.coletivoJava.fw.api.erp.chat.ItfErpChatService;
@@ -677,5 +678,9 @@ public class ServicosCRM implements Serializable {
         Pessoa p = UtilSBPersistencia.loadEntidade(pPessoa, em);
         return SBCore.getServicoPermissao().isObjetoPermitidoUsuario(SBCore.getUsuarioLogado(), p);
 
+    }
+
+    public boolean isUmUsuarioAdminLogado() {
+        return CarameloCode.getServicoSessao().getSessaoAtual().getUsuario().getGrupo().equals(FabGruposCRMCaramelo.CRM_ADMIN.getRegistro());
     }
 }

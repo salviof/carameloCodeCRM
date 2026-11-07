@@ -20,7 +20,7 @@
     <cc:implementation>
 
         <h:form>
-            <p:commandButton value="Meta Anterior"
+            <p:commandButton value="Estágio Inferior"
                              icon="fa fa-backward"
                              onclick="PF('acoesMetaAnterior').show()"
                              />
@@ -33,7 +33,7 @@
                     <h:form>
                         <CRMAtividade:seletorAtividades
                             tamanho="M"
-                            empresa="#{cc.attrs.prospecto}"
+                            empresa="#{cc.attrs.empresa}"
                             listaAtividades="#{cc.attrs.empresa.relacionamento.atividadesDownGradeMeta}"
                             />
                     </h:form>

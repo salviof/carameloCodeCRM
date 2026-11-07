@@ -5,12 +5,12 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
     xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
 
     xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <CRM:cabecalhoAtividade
+    <CRMAtividade:cabecalhoAtividade
         atividade="#{pgExecutarAtividade.atividade}">
         <f:facet name="opcoesCabecalhoAtividade">
             <h:form>
@@ -46,7 +46,7 @@
 
             </h:form>
         </f:facet>
-    </CRM:cabecalhoAtividade>
+    </CRMAtividade:cabecalhoAtividade>
 
 
 

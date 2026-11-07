@@ -10,22 +10,18 @@
     <ui:composition template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
         <ui:define name="conteudo">
             <h:form>
-
                 <p:fieldset legend="Prospectos importados" >
-
                     <div class="ContainerIndent" >
                         <p:dataGrid columns="#{sessaoAtualSBWP.telaUsuario.numeroMaximoColunasAteCinco}"
                                     value="#{pgImportarProspectos.prospectosImportado}"
                                     var="empresa"
                                     >
-
-
                             <h:panelGroup class=" "
                                           style="">
                                 <h:form>
 
-                                    <crm:empresa empresa="#{empresa}"
-                                                 tipoVisualizacaoCampo="#{layoutsComponenteSB.layoutCampo.resumido}" />
+                                    <crm:empresaBasico empresa="#{empresa}"
+                                                       />
                                 </h:form>
                             </h:panelGroup>
                         </p:dataGrid>

@@ -14,15 +14,17 @@
 
                 #{pgAgendaResrvaColaboradores.tiposDisponiveis}
 
-                <crmAgenda:escolhaTipoReserva
+                <crmAgenda:escolhaTipoReservaDisponibilidade
                     tiposDisponiveis="#{pgAgendaResrvaColaboradores.tiposDisponiveis}"
                     agenda="#{pgAgendaResrvaColaboradores.agendaDisponivel}"
                     atendente="#{pgAgendaResrvaColaboradores.usuarioAtendimentoAgenda}"
                     metodo="#{pgAgendaResrvaColaboradores.atualizarVisaoAgenda()}"
                     areaAtualizacao="#{layoutIdsAreasConhecidas.AREA_CONTEUDO}"
+
                     />
 
             </p:fieldset>
+
 
 
 

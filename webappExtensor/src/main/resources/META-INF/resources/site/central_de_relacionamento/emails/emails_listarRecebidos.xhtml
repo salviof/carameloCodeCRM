@@ -67,14 +67,14 @@
 
                 </f:facet>
 
-                <CRM:emailListagemRecebidoConhecido lista="#{pgEmails.listaEmails}" />
+                <CRMMail:emailListagemRecebidoConhecido lista="#{pgEmails.listaEmails}" />
             </p:tab>
 
             <p:tab id="listaPessoal" rendered="#{pgEmails.prospectoSelecionado == null }" >
                 <f:facet name="title" >
                     <i class="fa fa-user"/> Pessoal, e Assinaturas (#{pgEmails.caixaPostalDoUsuarioLogado.estatisticas.getCampoInstanciadoByNomeOuAnotacao('quantidadeNaoLidoPessoal').valor})
                 </f:facet>
-                <CRM:emailListagemRecebidoPrivado lista="#{pgEmails.listaEmails}" />
+                <CRMMail:emailListagemRecebidoPrivado lista="#{pgEmails.listaEmails}" />
             </p:tab>
 
             <p:tab id="listaSemCategoria" rendered="#{pgEmails.prospectoSelecionado == null }" >
@@ -86,7 +86,7 @@
                 </f:facet>
 
                 <p:staticMessage severity="info" summary="INFO!" detail="Os e-mails desta pasta serão excluídos 30 dias após o recebimento" />
-                <CRM:emailListagemRecebidoDesconhecido lista="#{pgEmails.listaEmails}" />
+                <CRMMail:emailListagemRecebidoDesconhecido lista="#{pgEmails.listaEmails}" />
             </p:tab>
         </p:tabView>
 

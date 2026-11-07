@@ -10,7 +10,6 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="conteudo">
         <p:fragment >
-
             <SBAcaoNav:seletorDeAcoes
                 metodo="#{pgTipoAtividade.executarAcaoSelecionada()}"
                 opcoes="#{pgUtil.getAcoesEntidade(pgTipoAtividade.entidadeSelecionada, pgTipoAtividade.acoesRegistros)}"
@@ -22,7 +21,7 @@
         <p:fieldset legend="Atividades vinculadas">
             <h:form>
                 <SBCRM:atividadesHistoricoAvancado atividadesRealizadas="#{pgTipoAtividade.atividadesVinculadas}"
-                                                   rendered="#{pgTipoAtividade.atividadesVinculadas.size() >  100 } " />
+                                                   rendered="#{not empty pgTipoAtividade.atividadesVinculadas.size()} " />
             </h:form>
             <h1>#{pgTipoAtividade.atividadesVinculadas.size()}</h1>
         </p:fieldset>

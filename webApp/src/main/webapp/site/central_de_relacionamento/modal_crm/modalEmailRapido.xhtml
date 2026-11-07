@@ -3,6 +3,7 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:CRM="http://xmlns.jcp.org/jsf/composite/crm"
+    xmlns:CRMEmail="http://xmlns.jcp.org/jsf/composite/crmEmailAtividade"
     xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
     xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
     xmlns:SBInput="http://xmlns.jcp.org/jsf/composite/SBComp/composite/input"
@@ -32,9 +33,8 @@
             </p:fieldset>
         </h:form>
         <h:form id="formDisparo" >
-
-            <CRM:emailProspecto empresa="#{pgModalProspecto.prospectoSelecionado}"
-                                email="#{pgModalProspecto.envioEmail}"/>
+            <CRMEmail:emailProspecto empresa="#{pgModalProspecto.prospectoSelecionado}"
+                                     email="#{pgModalProspecto.envioEmail}"/>
             <p:commandButton onmousedown="esconderTooltips();"
                              styleClass="btnIconeENome botao"
                              icon="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.iconeAcao}"

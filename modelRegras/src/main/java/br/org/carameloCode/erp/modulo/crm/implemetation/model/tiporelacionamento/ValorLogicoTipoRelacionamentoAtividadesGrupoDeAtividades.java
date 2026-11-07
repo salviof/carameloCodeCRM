@@ -33,7 +33,9 @@ public class ValorLogicoTipoRelacionamentoAtividadesGrupoDeAtividades
                 //#{.relacionamentoGerado ne null
                 //and cc.attrs.tipoAtividade.relacionamentoGerado ne cc.attrs.empresa.relacionamento)}
                 todosTipos.stream().filter(at -> at.getRelacionamentoGerado() != null
-                        && !at.getRelacionamentoGerado().equals(getTipoRelacionamento()))
+                        && !at.getRelacionamentoGerado().equals(getTipoRelacionamento())
+                        && at.getRelacionamentoGerado().getMetaRelacionamento().equals(getTipoRelacionamento().getMetaRelacionamento())
+                )
                         .forEach(tipos::add);
                 getTipoRelacionamento().setAtividadesGrupoDeAtividades(tipos);
             } finally {

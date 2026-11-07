@@ -1,7 +1,8 @@
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-
+    xmlns:CRMAtividade="http://xmlns.jcp.org/jsf/composite/crmAtividade"
+    xmlns:CRMEmail="http://xmlns.jcp.org/jsf/composite/crmEmail"
     template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:p="http://primefaces.org/ui"
@@ -17,7 +18,7 @@
     <ui:define name="conteudo">
 
 
-        <CRM:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
+        <CRMAtividade:cabecalhoAtividade  atividade="#{pgExecutarAtividade.atividade}">
             <f:facet name="opcoesCabecalhoAtividade">
 
                 <p:fieldset legend="Arquivo Gerado" toggleable="true" collapsed="false" >
@@ -35,60 +36,61 @@
 
 
             </f:facet>
-        </CRM:cabecalhoAtividade>
+        </CRMAtividade:cabecalhoAtividade>
+
+
+
+        <h:panelGroup styleClass="Container12" layout="block">
+
+
+            <h:panelGroup layout="block" styleClass="Container12" >
+                <p:fieldset styleClass="Container12" style="height: 255px;"   >
+                    <h:form>
+                        <CRMAtividade:opcoesAtividade
+                            atividade="#{pgExecutarAtividade.atividade}" >
+
+                        </CRMAtividade:opcoesAtividade>
+                        <CRM:opcoesAtividadeExtra atividade="#{pgExecutarAtividade.atividade}" rendered="false">
+                            <f:facet name="extra">
+
+                                <h:panelGroup  styleClass="Container6" rendered="#{!(pgExecutarAtividade.atividade.emailVinculado.foiEnviado)}">
+                                    <h:panelGroup styleClass="btnSeletor-small btnSeletor-Bkg w3-border w3-btn"
+                                                  rendered="" >
+
+                                        <p:commandLink actionListener="#{pgExecutarAtividade.emailEnviar()}"
+
+
+                                                       update="@this"
+                                                       onstart="PF('blockDisparo').show();"
+                                                       oncomplete="PF('blockDisparo').hide();"
+                                                       disabled="#{pgExecutarAtividade.vaiAgendar}"
+                                                       >
+
+                                            <div class=" TexAlCenter " style="color: orange!important">
+                                                <i class="#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.icone} Fs20 DispBlock MarBot20"></i>
+                                                <span class="FontAdamantiumBold Fs14 DispBlock">#{acoesAtendimentoCrm_EnvioDocumentoMb.envioDocumentoCtrEnviarEmail.nomeAcao} com Relatório</span>
+                                            </div>
+                                        </p:commandLink>
+
+                                    </h:panelGroup>
 
 
 
 
 
-        <h:panelGroup styleClass="Container12" >
-            <h:form>
-                <h:panelGroup styleClass="Container12">
-                    <CRM:emailProspecto email="#{pgExecutarAtividade.atividade.emailVinculado}"
-                                        empresa="#{pgExecutarAtividade.atividade.prospectoEmpresa}"
-                                        mostarContato="false"
-
-                                        />
-                    <p:poll async="true" process="@form"
-                            listener="#{servicosCRM.salvarHistoricoEdicaoEmail(pgExecutarAtividade.atividade.emailVinculado)}"
-                            interval="15" autoStart="true" />
-                </h:panelGroup>
 
 
+                                </h:panelGroup>
+                            </f:facet>
+                        </CRM:opcoesAtividadeExtra>
+                    </h:form>
 
-                <CRM:opcoesAtividadeExtra atividade="#{pgExecutarAtividade.atividade}" >
-
-
-
-                    <f:facet name="extra">
-
-
-
-
-                        <div class="Container4" >
-                            <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.emailsalvarRascunho()}"
-                                                    titulo="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarRascunho.nomeAcao}"
-                                                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarRascunho.icone}"
-                                                    />
-
-                        </div>
-
-                        <div class="Container4" >
-                            <CRM:botaoPersonalizado metodo="#{pgExecutarAtividade.emailSalvarVersaoOficial()}"
-                                                    titulo="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarFormatado.nomeAcao}"
-                                                    icone="#{acoesAtendimentoCrm_ExecucaoAtividadeMb.execucaoAtividadeCtrEmailSalvarFormatado.icone}"
-                                                    />
-
-                        </div>
-
-
-
-
-                    </f:facet>
-
-                </CRM:opcoesAtividadeExtra>
-            </h:form>
+                    <h:outputText value="#{cc.attrs.atividade.listaBloqueios}" rendered="#{!cc.attrs.atividade.getCampoInstanciadoByNomeOuAnotacao('permitidoConcluir').valor
+                                           and infoWebApp.emModoDesenvolvimentoHomologacao}" />
+                </p:fieldset>
+            </h:panelGroup>
         </h:panelGroup>
+
 
 
 

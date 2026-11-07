@@ -17,30 +17,29 @@
                       type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.Pessoa" required="true"/>
 
 
-
     </cc:interface>
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:form>
-            <p:commandButton value="Próxima Meta"
+            <p:commandButton value="Estágio superior"
                              onclick="PF('acoesProximaMeta').show()"
                              icon="fa fa-forward"
                              />
         </h:form>
         <p:dialog header="Ações que levam à nova Meta" widgetVar="acoesProximaMeta" minHeight="40" width="350" showEffect="fade" modal="true" closeOnEscape="true"  >
-            <h:panelGroup  styleClass="semBorda Container12 OrganizadorContainer" rendered="#{cc.attrs.empresa.relacionamento.metaRelacionamento.getCampoInstanciadoByNomeOuAnotacao('tiposAtividadeUpGrade').valor.size()>0}" >
+            <h:panelGroup  styleClass="semBorda Container12 OrganizadorContainer" rendered="#{cc.attrs.empresa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor.size()>0}" >
                 <h:form>
 
-                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerDireita" >
+                    <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainerDireita semBorda" >
                         <CRMAtividade:seletorAtividades
                             tamanho="M"
-                            empresa="#{pgExecutarAtividade.prospecto}"
+                            empresa="#{cc.attrs.empresa}"
                             listaAtividades="#{cc.attrs.empresa.relacionamento.getCampoInstanciadoByNomeOuAnotacao('atividadesUpGradeMeta').valor}"
                             />
                     </h:panelGroup>
                 </h:form>
             </h:panelGroup>
-            <p:separator/>
+
 
         </p:dialog>
 

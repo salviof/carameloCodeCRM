@@ -38,6 +38,7 @@ import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.coletivoJava.integracoes.amazonSMS.FabIntegracaoSMS;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 
 /**
@@ -184,7 +185,7 @@ public class ModuloCrmAgenda extends ControllerAbstratoSBPersistencia {
                             ERPCrm.CARAMELO_CODE_EXTENCAO.getImplementacaoDoContexto()
                                     .enviarEMailAplicandoModeloAssinatura(SBCore.getUsuarioLogado(),
                                             pReserva.getAtendidoResponsavel(),
-                                            SBCore.getUsuarioLogado().getNome() + " agendou uma reunião",
+                                            CarameloCode.getUsuarioLogado().getNome() + " agendou uma reunião",
                                             " Uma reunião sobre <i>'" + pReserva.getTipoAgendamento().getNome() + "'</i> Foi agendada para você <br/>"
                                             + " dia " + UtilCRCDataHora.getDataHoraString(pReserva.getInicioReservaAtendente(), UtilCRCDataHora.FORMATO_TEMPO.DATA_HORA_EXTENSO) + ", <br/>"
                                             + "para confirmar, ou cancelar acesse a nossa "

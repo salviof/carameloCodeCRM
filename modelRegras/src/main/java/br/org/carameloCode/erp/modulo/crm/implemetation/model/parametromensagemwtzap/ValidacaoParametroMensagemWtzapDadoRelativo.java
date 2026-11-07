@@ -28,7 +28,7 @@ public class ValidacaoParametroMensagemWtzapDadoRelativo extends ValidacaoGeneri
         }
 
         if (UtilCRCStringValidador.isNuloOuEmbranco(pValor) && getParametroMensagemWtzap().getTipoDado() == null) {
-            throw new ErroValidacao("Especofique uma origem via dado dinamico ou caminho do atributo");
+            throw new ErroValidacao("Especofique um  dado dinâmico, ou um caminho relativo, exemplo: contatoPrincipal.nome ou nome para nome da empresa");
         }
 
         return FabTipoWidgetFormulario.CAMPO.getCampos(getParametroMensagemWtzap().getCPinst("tipoDado"));

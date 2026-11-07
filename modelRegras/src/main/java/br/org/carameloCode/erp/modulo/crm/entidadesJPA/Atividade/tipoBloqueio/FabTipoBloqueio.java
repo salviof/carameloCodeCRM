@@ -167,42 +167,12 @@ public enum FabTipoBloqueio {
                     if (!pAtividade.getTipoAtividade().isTemModeloDocumentoVinculado()) {
                         return true;
                     }
-                    if (pAtividade.getDocumentosGerados().isEmpty()) {
-                        return false;
-                    }
-                    if (!pAtividade.getTipoAtividade().isPrecisaEnviarDocumento()) {
-                        return true;
-                    } else {
-                        if (pAtividade.getTipoAtividade().isPrecisaEnviarDocumento()) {
-                            if (pAtividade.getEmailVinculado() == null) {
-                                return true;
-                            }
-                            FabStatusEnvioEmail statusMail = FabStatusEnvioEmail.getStatusByRegistro(pAtividade.getEmailComoEnvio().getStatusEnvio());
-                            switch (statusMail) {
-                                case RASCUNHO:
-                                    return false;
 
-                                case FORMATADO:
-                                    return false;
-
-                                case ENVIADO:
-                                    return true;
-
-                                case CONFIRMADO:
-                                    return true;
-
-                                default:
-                                    throw new AssertionError(statusMail.name());
-
-                            }
-                        }
-                    }
-
-                    return (pAtividade.getDocumentosGerados().isEmpty());
+                    return (pAtividade.getDocumentosGerados().size() >= pAtividade.getTipoAtividade().getModelosDocumentoVinculados().size());
 
                 case PRECISA_ENVIAR_EMAIL:
 
-                    if (!pAtividade.getTipoAtividade().isTemDisparoDeEmail()) {
+                    if (!pAtividade.getTipoAtividade().isTemDisparoDeEmail() && !pAtividade.getTipoAtividade().isPrecisaEnviarDocumento()) {
                         return true;
                     }
 

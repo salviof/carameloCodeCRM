@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import br.org.carameloCode.erp.modulo.crm.api.model.pessoa.CPPessoa;
+import br.org.carameloCode.erp.modulo.crm.entidadesJPA.orcamento.Orcamento;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.superBits.utilitario.editorArquivos.office.MapaSubstituicaoWord;
 import org.superBits.utilitario.editorArquivos.util.UtilSBEditorArquivosConversor;
@@ -52,6 +53,11 @@ public class UtilGeradorDocumentoCRM {
             System.out.println("Logo Prospecto=" + CarameloCode.getServicoArquivosDeEntidade().getEndrLocalImagem(pPessoa, FabTipoAtributoObjeto.IMG_PEQUENA));
             adicionarSolucoes(novoMapa, pPessoa);
             adicionarDadosDinamicos(novoMapa, pPessoa);
+            if (pPessoa.getUltimoOrcamento() != null) {
+                Orcamento orcamento = (Orcamento) pPessoa.getCampoInstanciadoByNomeOuAnotacao(CPPessoa.ultimoorcamento).getValor();
+                novoMapa.adicionarPalavrasChaveDoObjeto("orcamento", orcamento);
+            }
+
         } catch (Throwable t) {
             System.out.println("Erro temporario adicionar palavrras chave do o objeto ainda não está homologado");
         }

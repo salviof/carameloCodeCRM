@@ -725,6 +725,7 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pDado), pDado) {
             @Override
             public void regraDeNegocio() {
+
                 removerEntidade(pDado);
             }
         }.getResposta();
@@ -1047,13 +1048,25 @@ public class ModuloCRMAdmin extends ControllerAbstratoSBPersistencia {
         }.dispararMensagens();
     }
 
-    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PARAMETRO_MSG_WTZAP_CTR_SALVAR_MERGE)
-    public static ItfRespostaAcaoDoSistema parametroSAlvarAtualizar(ParametroMensagemWtzap pTipoMensagem) {
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PARAMETRO_MSG_WTZAP_CTR_REMOVER)
+    public static ItfRespostaAcaoDoSistema parametroSAlvarRemover(ParametroMensagemWtzap pParametro) {
 
-        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pTipoMensagem), null) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pParametro), null) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
-                atualizarEntidade(pTipoMensagem);
+                ParametroMensagemWtzap pr = loadEntidade(pParametro);
+                removerEntidade(pr);
+            }
+        };
+    }
+
+    @InfoAcaoCRMAdmin(acao = FabAcaoCrmAdmin.PARAMETRO_MSG_WTZAP_CTR_SALVAR_MERGE)
+    public static ItfRespostaAcaoDoSistema parametroSAlvarAtualizar(ParametroMensagemWtzap pParametro) {
+
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pParametro), null) {
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pParametro);
             }
         };
     }

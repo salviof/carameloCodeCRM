@@ -8,7 +8,6 @@
     xmlns:CRMemail="http://xmlns.jcp.org/jsf/composite/crmEmail"
     xmlns:p="http://primefaces.org/ui">
 
-
     <CRM:menuProspecto pessoaJuridica="#{pgEmails.prospectoSelecionado}" />
     <h:form>
         <CRMMail:menuNavegacaoEmailListado
@@ -18,7 +17,7 @@
     </h:form>
 
     <h:form>
-        <CRM:emailListagem lista="#{pgEmails.listaEmails}" />
+        <CRMemail:emailListagem lista="#{pgEmails.listaEmails}" />
     </h:form>
 
 </ui:composition>

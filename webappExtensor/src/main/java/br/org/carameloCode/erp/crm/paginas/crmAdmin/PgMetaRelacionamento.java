@@ -27,6 +27,7 @@ public class PgMetaRelacionamento extends MB_paginaCadastroEntidades<MetaRelacio
         super(FabAcaoCrmAdmin.META_RELACIONAMENTO_MB.getRegistro().getAcaoDeGestaoEntidade());
         removerAcaoDeEntidade(FabAcaoCrmAdmin.META_RELACIONAMENTO_CTR_CONVERTER.getRegistro());
         adicionarAcaoDeEntidade(FabAcaoCrmAdmin.META_RELACIONAMENTO_FRM_CONVERTER.getRegistro());
+        adicionarAcaoDeEntidade(FabAcaoCrmAdmin.META_RELACIONAMENTO_FRM_ATIVIDADES_VINCULADOS.getRegistro());
     }
 
 }

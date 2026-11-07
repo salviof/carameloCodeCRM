@@ -2,12 +2,23 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-
       xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
-      xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario">
+      xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
+      xmlns:SBForm="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
+      xmlns:p="http://primefaces.org/ui">
     <!-- template conteúdo com formulario-->
     <ui:composition template="#{layoutsPaginas.formularioAcaoAtualDaEntidade.xhtmlVinculado}" >
         <ui:define name="conteudo">
+            <p:fragment >
+
+                <SBAcaoNav:seletorDeAcoes
+                    metodo="#{pgOpcaoDadosCRM.executarAcaoSelecionada()}"
+                    opcoes="#{pgUtil.getAcoesEntidade(pgOpcaoDadosCRM.entidadeSelecionada, pgOpcaoDadosCRM.acoesRegistros)}"
+                    visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                    opcaoSelecionada="#{pgOpcaoDadosCRM.acaoSelecionada}"
+                    update="@this"
+                    />
+            </p:fragment>
             <SBForm:camposDaAcao
                 registro="#{paginaAtual.infoPagina.comoPaginaEntidade.entidadeSelecionada}"
                 acao="#{paginaAtual.infoPagina.acaoSelecionada}"

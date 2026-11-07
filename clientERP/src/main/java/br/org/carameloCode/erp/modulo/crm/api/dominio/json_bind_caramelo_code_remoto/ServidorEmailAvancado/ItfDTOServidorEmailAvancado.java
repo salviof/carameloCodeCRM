@@ -2,6 +2,7 @@ package br.org.carameloCode.erp.modulo.crm.api.dominio.json_bind_caramelo_code_r
 
 import com.super_bits.modulosSB.SBCore.modulos.email.ItfServidorEmailAvancado;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dto.ComoDTOCaramelo;
 import java.util.Date;
 import java.lang.String;
 import java.lang.Long;
@@ -13,7 +14,7 @@ import java.lang.Long;
 @JsonDeserialize(using = JsonBindDTOServidorEmailAvancado.class)
 public interface ItfDTOServidorEmailAvancado
         extends
-        ItfDTOSBJSON,
+        ComoDTOCaramelo,
         ItfServidorEmailAvancado {
 
     @Override

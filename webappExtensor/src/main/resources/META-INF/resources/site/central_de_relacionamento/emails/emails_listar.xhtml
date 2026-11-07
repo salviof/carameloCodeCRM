@@ -11,6 +11,7 @@
     <CRM:menuProspecto pessoaJuridica="#{pgEmails.prospectoSelecionado}"
                        rendered="#{(pgEmails.prospectoSelecionado != null)}"
                        />
+
     <h:form>
         <CRMMail:menuNavegacaoEmailListado
             pessoa="#{pgEmails.prospectoSelecionado}"
@@ -18,7 +19,7 @@
             />
     </h:form>
     <h:form>
-        <CRM:emailListagem lista="#{pgEmails.listaEmails}" />
+        <CRMMail:emailListagem lista="#{pgEmails.listaEmails}" />
     </h:form>
 
 

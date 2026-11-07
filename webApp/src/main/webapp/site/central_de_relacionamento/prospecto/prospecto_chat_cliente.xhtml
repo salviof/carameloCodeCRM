@@ -67,7 +67,7 @@
                     <h:panelGroup layout="block" styleClass="ChatClienteVisaoEquipe-cabecalho-acoes"
                                   rendered="#{not empty pgProspecto.entidadeSelecionada.contatoPrincipal}" >
 
-                        <ctoContato:envioMsgModalWtsapp :envioMsgModalWtsapp contato="#{pgProspecto.entidadeSelecionada.contatoPrincipal}" mensagem="#{pgProspecto.mensagemWhatsapp}" />
+                        <ctoContato:envioMsgModalWtsapp contato="#{pgProspecto.entidadeSelecionada.contatoPrincipal}" mensagem="#{pgProspecto.mensagemWhatsapp}" />
                         <ctoContato:envioMsgModalSMS
                             contato="#{pgProspecto.entidadeSelecionada.contatoPrincipal}"
                             mensagem="#{pgProspecto.mensagemSMS}" />

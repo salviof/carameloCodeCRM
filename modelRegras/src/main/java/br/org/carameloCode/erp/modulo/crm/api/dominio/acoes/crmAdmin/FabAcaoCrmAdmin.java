@@ -420,6 +420,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     META_RELACIONAMENTO_FRM_EDITAR,
     @InfoTipoAcaoFormulario(
             nomeAcao = "Atividades Disponíveis",
+            isUmaAcaoDeRegistroExistente = true,
             campos = {CPMetaRelacionamento.tiposatividadedisponiveis},
             iconeFonteAnsowame = FabIconeFontAwesome.REG_AGRUPAR_REGISTROS)
     META_RELACIONAMENTO_FRM_ATIVIDADES_VINCULADOS,
@@ -719,6 +720,7 @@ public enum FabAcaoCrmAdmin implements ComoFabricaDeAcoesPersistencia {
     PARAMETRO_MSG_WTZAP_FRM_VISUALIZAR,
     @InfoTipoAcaoController()
     PARAMETRO_MSG_WTZAP_CTR_SALVAR_MERGE,
+    PARAMETRO_MSG_WTZAP_CTR_REMOVER,
     @InfoTipoAcaoGestaoEntidade(icone = "fa fa-folder-o", entidade = CategoriaArquivoEquipe.class, precisaPermissao = true, nomeAcao = "Diretórios internos")
     CATEGORIA_DOCUMENTO_EQUIPE_MB_GESTAO,
     @InfoTipoAcaoFormulario(campos = {"id", "nome", "icone", CPCategoriaArquivoEquipe.compartilharcomconvidados})

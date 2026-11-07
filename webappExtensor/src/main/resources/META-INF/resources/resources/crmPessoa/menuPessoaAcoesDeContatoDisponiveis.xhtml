@@ -23,7 +23,6 @@
 
         <!-- SEM CONTATOS: aviso + atalho para cadastrar o primeiro contato,
              para o componente nao ficar vazio quando nao ha nada a listar -->
-
         <h:panelGroup layout="block" styleClass="aviso-sem-contatos"
                       rendered="#{cc.attrs.pessoa.getCampoInstanciadoByNomeOuAnotacao('quantidadeContatos').valor==0}">
             <p:staticMessage summary="Nenhum contato encontrado, que tal dar o próximo passo?

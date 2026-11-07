@@ -255,6 +255,11 @@ public class TipoAtividadeCRM extends EntidadeSimplesORM implements ComoAcaoDoSi
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     private TipoChatBot tipoChatBot;
 
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, label = "Tipo RelacionamentoDestino",
+            entidadeOpcoesDisponiveis = TipoRelacionamento.class)
+    private TipoAtividadeCRM tippAtividadeDestinoExclusao;
+
     public List<AcaoDoSistema> getAcoesDePluginsDisponiveis() {
         return acoesDePluginsDisponiveis;
     }

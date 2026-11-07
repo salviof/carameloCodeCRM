@@ -2,15 +2,27 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:SBAcaoNav="http://xmlns.jcp.org/jsf/composite/SBComp/composite/acoesENavegacao"
       xmlns:SBFormulario="http://xmlns.jcp.org/jsf/composite/SBComp/composite/formulario"
       xmlns:SBAcaoAtual="http://xmlns.jcp.org/jsf/composite/SBComp/composite/paginaAtualDeEntidade"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="#{layoutsPaginas.conteudoEmBranco.xhtmlVinculado}" >
         <ui:define name="conteudo">
 
 
             <h:form>
+                <p:fragment >
+
+                    <SBAcaoNav:seletorDeAcoes
+                        metodo="#{pgOpcaoDadosCRM.executarAcaoSelecionada()}"
+                        opcoes="#{pgUtil.getAcoesEntidade(pgOpcaoDadosCRM.entidadeSelecionada, pgOpcaoDadosCRM.acoesRegistros)}"
+                        visualizacaoBotao="#{layoutsComponenteSB.layoutBotoes.gigante}"
+                        opcaoSelecionada="#{pgOpcaoDadosCRM.acaoSelecionada}"
+                        update="divConteudo"
+                        />
+                </p:fragment>
                 <SBFormulario:subFormulario
                     grupoCampos="#{pgUtil.gerarGrupoCamposEntidade('OpcaoPersonalizada', 'Opções personalizadas', 'nome','descricao')}"
                     registro="#{pgOpcaoDadosCRM.entidadeSelecionada.getCampoInstanciadoByNomeOuAnotacao('opcoesPersonalizada')}" />

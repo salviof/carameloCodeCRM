@@ -10,7 +10,6 @@
     </ui:define>
     <ui:define name="conteudo">
         <h:panelGroup layout="block" styleClass="Container12 OrganizadorContainer" style="margin-top: -80px;"  >
-
             <h:panelGroup rendered="#{notionWidgetPastaEquipe.pessoa.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor.size()>0 and notionWidgetPastaEquipe.pessoa!=null}"
                           style="position: relative; height: 80px; width: 540px;" styleClass="Container12 OrganizadorContainer">
                 <c:forEach items="#{notionWidgetPastaEquipe.pessoa.getCampoInstanciadoByNomeOuAnotacao('integracoesLink').valor}" var="integracao" >

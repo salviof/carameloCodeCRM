@@ -9,11 +9,13 @@
     >
     <!-- INTERFACE -->
     <cc:interface>
+
         <cc:attribute name="contato"
                       type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.prospecto.contatoProspecto.ContatoProspecto" required="true"/>
         <cc:attribute name="mensagem" type="br.org.carameloCode.erp.modulo.crm.entidadesJPA.sms.MensagemSMS" />
     </cc:interface>
     <cc:implementation>
+
         <h:outputStylesheet name="envioMsgModalSMS.css" library="crmContato"/>
         <h:panelGroup layout="block" styleClass="crc-envio-msg-modal-sms" rendered="#{not empty cc.attrs.mensagem}">
             <!-- BOTAO QUE ABRE O MODAL -->

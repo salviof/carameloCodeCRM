@@ -41,6 +41,11 @@
 
         <h:panelGroup rendered="#{sessaoAtualSBWP.identificado}"  id="#{layoutIdsAreasConhecidas.AREA_TOPO_ITERNFACES}">
 
+            <div class="ManterNoTopo">
+
+                <ui:include src="/site/topo.xhtml"/>
+            </div>
+
         </h:panelGroup>
 
         <pe:layout maskPanesEarly="true"   style="margin-top: 300px;" >
@@ -54,7 +59,13 @@
                         rendered="#{pgExecutarAtividade.atividade.getCampoInstanciadoByNomeOuAnotacao('noEstadoInteracaoPlugin').valor}"
                         >
                         <CRMAtividade:cabecalhoAtividade atividade="#{pgExecutarAtividade.atividade}" />
-                        #{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}
+                        <h:panelGroup rendered="#{servicosCRM.umUsuarioAdminLogado and infoWebApp.emModoDesenvolvimentoHomologacao}"   layout="block" styleClass="Container12" >
+                            Xhtml TEmplate: #{pgExecutarAtividade.xhmlTemplateJSFExcucaoAtividade}<br/>
+                            xhtml açao=#{pgExecutarAtividade.xhtmlAcaoAtual}<br/>
+                            #{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}<br/>
+                            #{pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado.comoFormulario.xhtml}
+                        </h:panelGroup>
+
                         <iframe id="iframeCenter"
                                 style="webkit-scrollbar:"
                                 src="#{pgUtilAcoes.getUrlAcao(pgExecutarAtividade.atividade.tipoAtividade.acaoDePLuginVunculado,pgExecutarAtividade.atividade)}"

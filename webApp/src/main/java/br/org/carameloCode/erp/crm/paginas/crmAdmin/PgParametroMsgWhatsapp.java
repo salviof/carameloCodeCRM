@@ -19,6 +19,7 @@ import javax.inject.Named;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.util.List;
 import br.org.carameloCode.erp.modulo.crm.api.dominio.acoes.crmAdmin.InfoAcaoCRMAdmin;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,7 +36,7 @@ public class PgParametroMsgWhatsapp extends MB_paginaCadastroEntidades<Parametro
     private TipoMensagemMktWhatsApp tipoMensagem;
 
     @PostConstruct
-    private void inicio() {
+    public void inicio() {
         if (getParametroInstanciado(prTipoMensagem).isValorDoParametroFoiConfigurado()) {
             tipoMensagem = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) getParametroInstanciado(prTipoMensagem).getValor(), getEMPagina());
         }
@@ -51,30 +52,53 @@ public class PgParametroMsgWhatsapp extends MB_paginaCadastroEntidades<Parametro
         }
     }
 
-    private List<ParametroMensagemWtzap> cabecalho;
+    private List<ParametroMensagemWtzap> cabecalho = new ArrayList();
 
     public List<ParametroMensagemWtzap> getParametrosCabecalho() {
-        if (cabecalho == null || cabecalho.isEmpty()) {
-            getEntidadesListadas().stream().filter(pr -> pr.isCabecalho()).forEach(cabecalho::add);
+        if (getEntidadesListadas() != null) {
+            cabecalho = new ArrayList<>();
+            if (cabecalho == null || cabecalho.isEmpty() || !isListaAtualizada()) {
+                getEntidadesListadas().stream().filter(pr -> pr.isCabecalho()).forEach(cabecalho::add);
+            }
+        } else {
+            cabecalho = new ArrayList<>();
         }
         return cabecalho;
     }
-    private List<ParametroMensagemWtzap> corpo;
+    private List<ParametroMensagemWtzap> corpo = new ArrayList();
 
     public List<ParametroMensagemWtzap> getParametrosCorpo() {
-        if (corpo == null || corpo.isEmpty()) {
-            getEntidadesListadas().stream().filter(pr -> !pr.isCabecalho() && !pr.getTipoParametroWtzap().equals("button")).forEach(corpo::add);
+        if (getEntidadesListadas() != null) {
+            corpo = new ArrayList();
+            if (corpo == null || corpo.isEmpty() || !isListaAtualizada()) {
+                getEntidadesListadas().stream().filter(pr -> !pr.isCabecalho() && !pr.getTipoParametroWtzap().equals("button")).forEach(corpo::add);
+            }
+        } else {
+            corpo = new ArrayList();
         }
         return corpo;
     }
 
-    private List<ParametroMensagemWtzap> botao;
+    private List<ParametroMensagemWtzap> botao = new ArrayList();
 
     public List<ParametroMensagemWtzap> getParametrosBotoes() {
-        if (botao == null || botao.isEmpty()) {
-            getEntidadesListadas().stream().filter(pr -> !pr.isCabecalho() && pr.getTipoParametroWtzap().equals("button")).forEach(botao::add);
+        if (getEntidadesListadas() != null || isListaAtualizada()) {
+            botao = new ArrayList();
+            if (botao == null || botao.isEmpty() || !isListaAtualizada()) {
+                getEntidadesListadas().stream().filter(pr -> !pr.isCabecalho() && pr.getTipoParametroWtzap().equals("button")).forEach(botao::add);
+            }
+        } else {
+            botao = new ArrayList();
         }
         return botao;
+    }
+
+    private boolean isListaAtualizada() {
+        int total = botao.size() + corpo.size() + cabecalho.size();
+        if (total != getEntidadesListadas().size()) {
+            return false;
+        }
+        return true;
     }
 
 }
